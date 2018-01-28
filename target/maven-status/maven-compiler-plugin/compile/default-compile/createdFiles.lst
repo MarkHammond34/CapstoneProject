@@ -1,0 +1,10 @@
+edu\ben\service\UserServiceImpl.class
+edu\ben\dao\UserDAOImpl.class
+edu\ben\config\HibernateConfig.class
+edu\ben\config\WebConfig.class
+edu\ben\config\WebInitializer.class
+edu\ben\controller\HomeController.class
+edu\ben\controller\UserController.class
+edu\ben\model\User.class
+edu\ben\service\UserService.class
+edu\ben\dao\UserDAO.class
