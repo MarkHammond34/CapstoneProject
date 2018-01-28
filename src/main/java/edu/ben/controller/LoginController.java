@@ -13,6 +13,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import edu.ben.dao.UserDAO;
+import edu.ben.dao.UserDAOImpl;
 
 @Controller
 public class LoginController {
@@ -30,7 +31,7 @@ public class LoginController {
 		System.out.println(email);
 		System.out.println(password);
 
-		UserDAO userDAO = new UserDAO();
+		UserDAOImpl userDAO = new UserDAOImpl();
 		User user = userDAO.getUser(email);
 
 		String url = "";
