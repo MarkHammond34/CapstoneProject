@@ -20,7 +20,6 @@
 			<td>Last Name</td>
 			<td>School email</td>
 			<td>Password</td>
-			<td>Entity#</td>
 			<td colspan="2">Action</td>
 		</tr>
 		<c:forEach items="${list}" var="user">
@@ -30,7 +29,6 @@
 				<td>${user.lastName}</td>
 				<td>${user.schoolEmail}</td>
 				<td>${user.password}</td>
-				<td>${user.entityID}</td>
 				<td><spring:url value="/update/${user.userID}" var="updateURL" />
 					<a href="${updateURL}">Update</a></td>
 				<td><spring:url value="/delete/${user.userID}" var="deleteURL" />

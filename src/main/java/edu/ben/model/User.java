@@ -58,10 +58,6 @@ public class User {
     //@Column(name = "security_level")
     private int securityLevel;
 
-    @Column(name = "entity_ID", unique = true)
-    @NotNull
-    private int entityID;
-
     /**
      * @AssertTrue(message = "Passwords Do Not Match")
      * private boolean matchingPassword() {
