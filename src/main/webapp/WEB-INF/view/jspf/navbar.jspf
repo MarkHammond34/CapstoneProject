@@ -7,9 +7,9 @@
 	if (user != null) {
 		name = user.getFirstName();
 	}
-	if (user.isAdmin() == true) {
-		name = "Administrator - " + user.getFirstName();
-	}
+	//if (user.isAdmin() == true) {
+	//	name = "Administrator - " + user.getFirstName();
+	//}
 %>
 
 <div class="navbar navbar-inverse navbar-fixed-top">

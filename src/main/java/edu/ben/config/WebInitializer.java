@@ -6,7 +6,6 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		System.out.println("CONFIG");
 		return new Class[] { WebConfig.class };
 	}
 
@@ -17,7 +16,6 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
 	@Override
 	protected String[] getServletMappings() {
-		System.out.println("MAP");
 		return new String[] { "/" };
 	}
 

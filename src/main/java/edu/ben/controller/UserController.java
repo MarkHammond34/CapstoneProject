@@ -56,4 +56,13 @@ public class UserController {
 
 		return new ModelAndView("redirect:/list");
 	}
+	
+	@RequestMapping(value = "/testing", method = RequestMethod.GET)
+	public ModelAndView testing() {
+		
+		//User user = new User("Corey", "Bill", "ey", "corey@email.com", "password");
+		//userService.createUser(user);
+
+		return new ModelAndView("redirect:/");
+	}
 }
