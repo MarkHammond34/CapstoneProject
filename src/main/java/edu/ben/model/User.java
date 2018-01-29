@@ -5,11 +5,12 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Entity(name = "user")
+@Entity(name="user")
 @Table(name = "user")
 @Transactional
 //@SQLUpdate(sql = "UPDATE user SET ")
