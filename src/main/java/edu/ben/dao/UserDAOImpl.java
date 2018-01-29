@@ -1,5 +1,6 @@
 package edu.ben.dao;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import edu.ben.model.User;
+
+import javax.persistence.TypedQuery;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -53,6 +56,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     public void update(User user) {
+        getSession().update(user);
     }
 
     public void lockByEmail(String email) {
@@ -68,11 +72,15 @@ public class UserDAOImpl implements UserDAO {
     }
 
     public User findByEmail(String email) {
-        return null;
+        Query q = getSession().createQuery("FROM user WHERE email=:email");
+        q.setParameter("email", email);
+        return (User) q.list().get(0);
     }
 
     public User findBySchoolEmail(String email) {
-        return null;
+        Query q = getSession().createQuery("FROM user WHERE school_email=:email");
+        q.setParameter("email", email);
+        return (User) q.list().get(0);
     }
 
     public void deleteUser(int id) {
@@ -80,5 +88,6 @@ public class UserDAOImpl implements UserDAO {
         getSession().delete(user);
 
     }
+
 
 }

@@ -111,7 +111,7 @@ div.container {
 			<div class="form-group">
 				<div class="col-lg-10 col-lg-offset-1.5">
 					<button type="submit" class="btn btn-default">Login</button>
-					<a href="emailReset" class="btn btn-default">Forgot Password</a> <a
+					<a href="/reset" class="btn btn-default">Forgot Password</a> <a
 						href="email" class="btn btn-default">Unlock</a>
 				</div>
 			</div>

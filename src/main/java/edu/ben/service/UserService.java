@@ -19,5 +19,11 @@ public interface UserService {
 	public void lockByUsername(String username);
 
 	public void unlockByUsername(String username);
+
+	public User findByEmail(String email);
+
+	public User findBySchoolEmail(String email);
+
+	public void update(User user);
 }
 

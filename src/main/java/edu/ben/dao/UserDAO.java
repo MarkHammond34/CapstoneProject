@@ -19,4 +19,10 @@ public interface UserDAO {
 	public void unlockByUsername(String username);
 
 	public void lockByUsername(String username);
+
+	public User findByEmail(String email);
+
+	public User findBySchoolEmail(String email);
+
+	public void update(User user);
 }

@@ -35,6 +35,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="form-group">
+                        <button class="btn btn-success btn-block btn-lg">Continue</button>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
