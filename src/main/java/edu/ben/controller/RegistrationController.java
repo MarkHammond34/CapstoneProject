@@ -3,7 +3,10 @@ package edu.ben.controller;
 import edu.ben.dao.UserDAO;
 import edu.ben.dao.UserDAOImpl;
 import edu.ben.model.User;
+import edu.ben.service.UserService;
+import edu.ben.service.UserServiceImpl;
 import edu.ben.util.Email;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,12 +18,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
+import static jdk.nashorn.internal.objects.Global.print;
+
 @Controller
 public class RegistrationController extends BaseController {
 
     /**
      * @Autowired private PasswordEncoder passwordEncoder;
      */
+
+    @Autowired
+    UserService userService;
 
     @PostMapping("/create")
     public String createUser(HttpServletRequest request, Model m, @Valid User user, BindingResult bindingResult) {
@@ -34,6 +42,7 @@ public class RegistrationController extends BaseController {
 
                 List<ObjectError> errors = bindingResult.getAllErrors();
                 for (ObjectError er : errors) {
+                    System.out.println(er);
                     addErrorMessage(er.getDefaultMessage());
                 }
 
@@ -42,9 +51,7 @@ public class RegistrationController extends BaseController {
 
             } else {
 
-                UserDAOImpl dao = new UserDAOImpl();
-                //user.setPassword(passwordEncoder.encode(user.getPassword()));
-                // dao.create(user);
+                userService.create(user);
                 request.getSession().setAttribute("action", "registration");
                 request.getSession().setAttribute("tempUser", user);
                 return "redirect:/validate";
@@ -89,25 +96,24 @@ public class RegistrationController extends BaseController {
         return "registration/registration";
     }
 
-    @PostMapping("/validate")
+    @GetMapping("/validate")
     public String validate(HttpServletRequest req) {
 
         User user = (User) req.getSession().getAttribute("tempUser");
         String action = (String) req.getSession().getAttribute("action");
 
-        // User filled out form with valid data
         if (action.equals("registration")) {
 
-            req.getSession().removeAttribute("action");
+            req.getSession().setAttribute("action", "code");
             req.getSession().setAttribute("code", Email.studentVerification(user.getSchoolEmail()));
             setRequest(req);
-            return "student-validation";
+            return "registration/student-validation";
 
-            // User entered their code on the student-verification page
-        } else {
+        } else if (action.equals("code")){
 
             if (req.getSession().getAttribute("code").equals(req.getParameter("userCode"))) {
 
+                userService.unlockByUsername((String)((User) req.getSession().getAttribute("tempUser")).getUsername());
                 req.getSession().removeAttribute("code");
                 req.getSession().removeAttribute("tempUser");
                 req.getSession().setAttribute("user", user);
@@ -117,10 +123,11 @@ public class RegistrationController extends BaseController {
             } else {
 
                 // error message
-                return "student-verification";
+                return "registration/student-verification";
 
             }
         }
+        return "";
     }
 
     @GetMapping("/reset")

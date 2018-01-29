@@ -1,11 +1,11 @@
-<%@ include file="../header.jsp" %>
+<%@ include file="../jspf/header.jsp" %>
 
 <body>
 <div class="row">
     <div
             class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
 
-        <%@ include file="../messages.jsp" %>
+        <%@ include file="../jspf/messages.jsp" %>
 
         <form role="form" data-toggle="validator"
               method="post" action="/reset">

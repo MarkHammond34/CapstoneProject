@@ -1,24 +1,22 @@
 package edu.ben.model;
 
+import org.hibernate.annotations.SQLUpdate;
+import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Entity
+@Entity(name = "user")
 @Table(name = "user")
 @Transactional
+//@SQLUpdate(sql = "UPDATE user SET ")
 public class User {
 
     @Id
-    @Column(name = "userID")
+    @Column(name = "user_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String userID;
 
@@ -44,7 +42,7 @@ public class User {
 
     @Column(unique = true, name = "school_email")
     @NotNull
-    @Email
+    @Email(message = "Invalid School Email")
     @Size(min = 3, max = 40, message = "Invalid School Email")
     private String schoolEmail;
 
@@ -53,14 +51,14 @@ public class User {
     @Size(min = 3, max = 20, message = "Password Must Be Between 6 and 20 Characters")
     private String password;
 
+    @Transient
     private String passwordConfirm;
 
-    //@Column(name = "security_level")
+    @Transient
     private int securityLevel;
 
-    @Column(name = "entity_ID", unique = true)
-    @NotNull
-    private int entityID;
+    @Column(name = "active")
+    private int active;
 
     /**
      * @AssertTrue(message = "Passwords Do Not Match")
@@ -72,15 +70,13 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String username, String email, String schoolEmail, String password,
-                String passwordConfirm) {
+    public User(String firstName, String lastName, String username, String email, String schoolEmail, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.email = email;
         this.schoolEmail = schoolEmail;
         this.password = password;
-        this.passwordConfirm = passwordConfirm;
     }
 
     public User(String firstName, String lastName, String username, String email, String schoolEmail, String password,
@@ -169,4 +165,19 @@ public class User {
         this.securityLevel = securityLevel;
     }
 
+    public int getSecurityLevel() {
+        return securityLevel;
+    }
+
+    public void setSecurityLevel(int securityLevel) {
+        this.securityLevel = securityLevel;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
 }

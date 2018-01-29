@@ -3,6 +3,7 @@ package edu.ben.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,22 @@ public class UserDAOImpl implements UserDAO {
 
     public void saveOrUpdate(User user) {
         getSession().saveOrUpdate(user);
+    }
+
+    public void create(User user) {
+        getSession().save(user);
+    }
+
+    public void unlockByUsername(String username) {
+        Query q = getSession().createQuery("UPDATE user SET active=1 WHERE username=:username");
+        q.setParameter("username", username);
+        q.executeUpdate();
+    }
+
+    public void lockByUsername(String username) {
+        Query q = getSession().createQuery("UPDATE user SET active=0 WHERE username=:username");
+        q.setParameter("username", username);
+        q.executeUpdate();
     }
 
     public User getUserById(int id) {

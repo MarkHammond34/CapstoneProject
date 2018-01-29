@@ -73,7 +73,7 @@
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="form-group">
                         <div class="input-group" data-validate="email">
-                            <input type="email" name="benEmail" path="benEmail" id="benEmail"
+                            <input type="email" name="schoolEmail" path="schoolEmail" id="schoolEmail"
                                    class="form-control input-lg"
                                    placeholder="Benedictine Email Address" tabindex="4" required>
                             <span class="input-group-addon danger"><span
@@ -96,7 +96,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="form-group">
-                        <div class="input-group" data-validate="password">
+                        <div class="input-group" data-validate="password" data-length="6">
                             <input type="password" name="passwordConfirm"
                                    id="passwordConfirm" class="form-control input-lg"
                                    placeholder="Confirm Password" tabindex="6"

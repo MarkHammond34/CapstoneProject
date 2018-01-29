@@ -13,4 +13,10 @@ public interface UserDAO {
 	public void deleteUser(int id);
 	
 	public void saveOrUpdate(User user);
+
+	public void create(User user);
+
+	public void unlockByUsername(String username);
+
+	public void lockByUsername(String username);
 }

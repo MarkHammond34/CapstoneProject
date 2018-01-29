@@ -37,4 +37,16 @@ public class UserServiceImpl implements UserService {
 		userDAO.saveOrUpdate(user);
 	}
 
+	public void create(User user) {
+		userDAO.create(user);
+	}
+
+	public void lockByUsername(String username) {
+		userDAO.lockByUsername(username);
+	}
+
+	public void unlockByUsername(String username) {
+		userDAO.unlockByUsername(username);
+	}
+
 }
