@@ -7,39 +7,31 @@
 <html>
 <head>
 <jsp:include page="jspf/navbar.jspf"></jsp:include>
+<spring:url value="resources/css/uikit.css" var="uikitCSS" />
+<link href="${uikitCSS}" rel="stylesheet" />
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Community</title>
 </head>
 <body>
 
-	<h1>Latest News</h1>
+	<h1>Welcome to the community!</h1>
 
 	<h2>Come here for news, updates, and more!</h2>
-
-	<h3>Release 0.1.0</h3>
+	
+	<h3>Latest News</h3>
+	
+	<h3>Release Notes</h3>
+	<h4>Release v.0.1.2</h4>
 	<p></p>
+
+	<h4>Release v.0.1.1 (Initial Release)</h4>
+	<p></p>
+
 	<h3>Upcoming Features</h3>
-	<p></p>
-
-	<form method="POST" action="/feedback">
-		<table>
-			<tr>
-				<td><label for="name">Name</label></td>
-				<td><input type="text" name="name" /></td>
-			</tr>
-			<tr>
-				<td><label for="contactEmail">Contact email</label></td>
-				<td><input type="text" name="contactEmail" /></td>
-			</tr>
-			<tr>
-				<td><textarea name="message" rows="5" cols="30">Enter your message here</textarea>
-				</td>
-			</tr>
-			<tr>
-				<td><input type="submit" value="Submit" /></td>
-			</tr>
-		</table>
-	</form>
+	<h4></h4>
+	<p>
+		
+	</p>
 
 </body>
 </html>

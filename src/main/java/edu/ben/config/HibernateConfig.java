@@ -41,7 +41,6 @@ public class HibernateConfig {
 		dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
 		dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
 		dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
-		System.out.println("DATA");
 		return dataSource;
 	}
 
@@ -50,7 +49,6 @@ public class HibernateConfig {
 		properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
 		properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.dialect"));
 		properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.dialect"));
-		System.out.println("HIBERNATE");
 		return properties;
 	}
 
@@ -59,7 +57,6 @@ public class HibernateConfig {
 	public HibernateTransactionManager transactionManager(SessionFactory s) {
 		HibernateTransactionManager txManager = new HibernateTransactionManager();
 		txManager.setSessionFactory(s);
-		System.out.println("TRANSACTION");
 		return txManager;
 	}
 }

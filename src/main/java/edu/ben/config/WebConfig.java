@@ -3,6 +3,8 @@ package edu.ben.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -26,5 +28,15 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		viewResolver.setPrefix("/WEB-INF/view/");
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
+	}
+	
+	@Bean(name = "multipartResolver")
+	public CommonsMultipartResolver createCommonsMultipartResolver() {
+		System.out.println("mULTI");
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+		multipartResolver.setDefaultEncoding("utf-8");
+		multipartResolver.setMaxUploadSize(20971520);	// 20MB
+		multipartResolver.setMaxInMemorySize(1048576);	// 1MB
+		return multipartResolver;
 	}
 }

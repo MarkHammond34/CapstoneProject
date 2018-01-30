@@ -1,9 +1,12 @@
 package edu.ben.model;
 
+import org.hibernate.annotations.SQLUpdate;
+import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

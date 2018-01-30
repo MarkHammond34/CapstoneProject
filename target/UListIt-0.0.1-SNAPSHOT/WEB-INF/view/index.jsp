@@ -1,12 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<spring:url value="resources/css/uikit.css" var="uikitCSS" />
+<link href="${uikitCSS}" rel="stylesheet" />
+
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>U-ListIt</title>
 </head>
 <body>
-eyy
+<h1>Welcome to U-ListIt</h1>
+<p>
+<a href="/testing">click</a>
+</p>
+
 </body>
 </html>
