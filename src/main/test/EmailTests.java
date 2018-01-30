@@ -1,4 +1,4 @@
-package edu.ben.test;
+package test;
 
 import edu.ben.util.Email;
 import org.junit.Test;
