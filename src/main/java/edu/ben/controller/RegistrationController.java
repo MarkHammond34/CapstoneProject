@@ -14,8 +14,10 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Calendar;
 import java.util.List;
 
 import static jdk.nashorn.internal.objects.Global.print;
@@ -42,7 +44,6 @@ public class RegistrationController extends BaseController {
 
                 List<ObjectError> errors = bindingResult.getAllErrors();
                 for (ObjectError er : errors) {
-                    System.out.println(er);
                     addErrorMessage(er.getDefaultMessage());
                 }
 
@@ -50,6 +51,10 @@ public class RegistrationController extends BaseController {
                 return "registration/registration";
 
             } else {
+
+                if (request.getParameter("admin").equals("true")) {
+                    user.setSecurityLevel(3);
+                }
 
                 userService.create(user);
                 request.getSession().setAttribute("action", "registration");
@@ -59,42 +64,20 @@ public class RegistrationController extends BaseController {
         }
     }
 
-    @PostMapping("/admin-create")
-    public String createAdmin(HttpServletRequest request, Model m, @Valid User user, BindingResult bindingResult) {
-
-        if ((User) request.getSession().getAttribute("user") != null) {
-            addWarningMessage("Please Logout Before Registering");
-            return "redirect:/home";
-        } else {
-
-            if (bindingResult.hasErrors()) {
-
-                List<ObjectError> errors = bindingResult.getAllErrors();
-                for (ObjectError er : errors) {
-                    addErrorMessage(er.getDefaultMessage());
-                }
-
-                setRequest(request);
-                return "register";
-
-            } else {
-
-                UserDAOImpl dao = new UserDAOImpl();
-                //user.setPassword(passwordEncoder.encode(user.getPassword()));
-                user.setSecurity_level(3);
-                // dao.create(user);
-                System.out.println("USER CREATED");
-                return "redirect:/home";
-            }
-        }
-    }
-
-
     @GetMapping("/register")
     public String register(HttpServletRequest m) {
+
+        if (m.getParameter("admin") != null) {
+            m.setAttribute("title", "Admin Sign Up");
+            m.setAttribute("admin", true);
+        } else {
+            m.setAttribute("title", "Sign Up");
+        }
+
         setRequest(m);
         return "registration/registration";
     }
+
 
     @GetMapping("/validate")
     public String validate(HttpServletRequest req) {
@@ -138,23 +121,25 @@ public class RegistrationController extends BaseController {
     @PostMapping("/reset")
     public String passwordResetPost(HttpServletRequest req, Model m) {
 
-        UserDAOImpl dao = new UserDAOImpl();
-
         String action = (String) req.getSession().getAttribute("action");
 
-        if (action.equals("reset")) {
+        if (req.getParameter("action") != null) {
 
             String email = req.getParameter("email");
             String emailType = req.getParameter("emailType");
 
+            User user;
+
             if (emailType.equals("personal")) {
-                if (dao.findByEmail(email) == null) {
+                user = userService.findByEmail(email);
+                if (user == null) {
                     addErrorMessage("No Accounts Exists Under The Personal Email " + email);
                     setRequest(req);
                     return "password-reset/password-reset";
                 }
             } else {
-                if (dao.findBySchoolEmail(email) == null) {
+                user = userService.findBySchoolEmail(email);
+                if (user == null) {
                     addErrorMessage("No Accounts Exists Under The School Email " + email);
                     setRequest(req);
                     return "password-reset/password-reset";
@@ -163,17 +148,12 @@ public class RegistrationController extends BaseController {
 
             // send verification email
             req.getSession().setAttribute("code", Email.resetPassword(email));
-            req.getSession().setAttribute("email", email);
-            req.getSession().setAttribute("emailType", emailType);
+            req.getSession().setAttribute("tempUser", user);
             req.getSession().setAttribute("action", "compareCodes");
 
             addSuccessMessage("Check Your Email For Verification Code");
 
-            if (req.getSession().getAttribute("emailType").equals("personal")) {
-                dao.lockByEmail(email);
-            } else {
-                dao.lockBySchoolEmail(email);
-            }
+            userService.lockByUsername(user.getUsername());
 
             setRequest(req);
             return "password-reset/reset-password-enter-code";
@@ -191,12 +171,7 @@ public class RegistrationController extends BaseController {
 
                 addSuccessMessage("Enter Your New Password");
 
-                if (req.getSession().getAttribute("emailType").equals("personal")) {
-                    dao.unlockByEmail((String) req.getSession().getAttribute("email"));
-                } else {
-                    dao.unlockBySchoolEmail((String) req.getSession().getAttribute("email"));
-                }
-
+                userService.unlockByUsername(((User) req.getSession().getAttribute("tempUser")).getUsername());
                 setRequest(req);
                 return "password-reset/reset-password-new-password";
             }
@@ -206,13 +181,16 @@ public class RegistrationController extends BaseController {
             String newPassword = req.getParameter("newPassword");
             String newPasswordConfirm = req.getParameter("newPasswordConfirm");
 
-            if (newPassword.equals(newPasswordConfirm)) {
-
+            if (!newPassword.equals(newPasswordConfirm)) {
+                addErrorMessage("Passwords Do Not Match");
             } else {
-                User u = dao.findByEmail(((String) req.getSession().getAttribute("email")));
-                //u.setPassword(passwordEncoder.encode(newPassword));
-                dao.update(u);
 
+                User user = (User) req.getSession().getAttribute("tempUser");
+                user.setPassword(newPassword);
+                userService.update(user);
+
+                req.getSession().removeAttribute("tempUser");
+                req.getSession().removeAttribute("action");
                 addSuccessMessage("Password Successfully Reset");
                 setRequest(req);
                 return "redirect:/login";

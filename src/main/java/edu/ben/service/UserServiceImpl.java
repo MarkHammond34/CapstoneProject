@@ -50,4 +50,19 @@ public class UserServiceImpl implements UserService {
 		userDAO.unlockByUsername(username);
 	}
 
+	@Override
+	public User findByEmail(String email) {
+		return userDAO.findByEmail(email);
+	}
+
+	@Override
+	public User findBySchoolEmail(String email) {
+		return userDAO.findBySchoolEmail(email);
+	}
+
+	@Override
+	public void update(User user) {
+		userDAO.update(user);
+	}
+
 }

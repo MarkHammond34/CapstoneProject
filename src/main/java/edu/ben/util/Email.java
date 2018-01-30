@@ -20,11 +20,19 @@ public class Email {
         return code;
     }
 
+    public static void sendAdminInvite (String email) {
+
+        sendEmail("You have been invited to register as a U-ListIt administrator. \nClick the link below to register. \n" +
+                        "http://www.u-listit/register",
+                "U-ListIt Invite", email);
+
+    }
+
     public static String resetPassword(String email) {
 
         String code = "";
         for (int i = 0; i < 6; i++) {
-            code += Math.random() * 10;
+            code += (int)(Math.random() * 10);
         }
 
         sendEmail("Enter the following code to verify identity.\nCode: " + code, "Password Reset", email);

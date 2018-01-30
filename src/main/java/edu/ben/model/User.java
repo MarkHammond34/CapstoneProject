@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -13,7 +14,6 @@ import javax.validation.constraints.Size;
 @Entity(name = "user")
 @Table(name = "user")
 @Transactional
-// @SQLUpdate(sql = "UPDATE user SET ")
 public class User {
 
 	@Id
@@ -67,8 +67,14 @@ public class User {
 	 *                     this.password.equals(this.passwordConfirm); }
 	 */
 
+
 	public User() {
 	}
+
+    @AssertTrue(message = "Passwords Must Match")
+    public boolean isMatching() {
+        return this.password.equals(this.passwordConfirm);
+    }
 
 	public User(String firstName, String lastName, String username, String email, String schoolEmail, String password) {
 		this.firstName = firstName;

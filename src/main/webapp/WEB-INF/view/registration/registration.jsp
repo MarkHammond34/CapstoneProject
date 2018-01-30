@@ -9,7 +9,7 @@
 
         <form role="form" id="form" data-toggle="validator" commandName="user"
               method="post" action="create">
-            <h2>Sign Up</h2>
+            <h2>${title}</h2>
             <hr class="colorgraph">
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6">
@@ -127,6 +127,9 @@
                         In</a>
                 </div>
             </div>
+            <C:if test="${admin == true}">
+                <input type="hidden" name="admin" value="true">
+            </C:if>
         </form>
     </div>
 </div>
