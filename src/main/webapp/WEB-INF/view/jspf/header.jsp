@@ -2,6 +2,7 @@
          pageEncoding="ISO-8859-1" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,29 +21,13 @@
             src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
-    <link rel="stylesheet" href="../resources/css/registration.css" type="text/css"/>
+    <spring:url value="resources/css/uikit.css" var="uikitCSS" />
+    <link href="${uikitCSS}" rel="stylesheet" />
 
-    <script type="text/javascript" src="../resources/js/registration.js"></script>
+    <spring:url value="resources/css/registration.css" var="regCSS" />
+    <link href="${regCSS}" rel="stylesheet" />
+
     <style>
-        .status {
-            display: inline;
-            visibility: hidden;
-        }
-
-        #secondstep {
-            visibility: hidden;
-        }
-
-        .IMGself {
-            vertical-align: -10px;
-            width: 45px;
-        }
-
-        .input-group-addon.primary {
-            color: rgb(255, 255, 255);
-            background-color: rgb(50, 118, 177);
-            border-color: rgb(40, 94, 142);
-        }
 
         .input-group-addon.success {
             color: rgb(255, 255, 255);

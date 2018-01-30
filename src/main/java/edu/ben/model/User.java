@@ -1,15 +1,13 @@
 package edu.ben.model;
 
-import org.hibernate.annotations.SQLUpdate;
-import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.sql.Timestamp;
 
 @Entity(name = "user")
 @Table(name = "user")
@@ -19,7 +17,7 @@ public class User {
     @Id
     @Column(name = "user_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String userID;
+    private int userID;
 
     @Column(name = "first_name")
     @NotNull
@@ -55,16 +53,23 @@ public class User {
     @Transient
     private String passwordConfirm;
 
-    @Transient
-    private int securityLevel;
-
     @Column(name = "active")
     private int active;
 
-    @AssertTrue(message = "Passwords Must Match")
-    public boolean isMatching() {
-        return this.password.equals(this.passwordConfirm);
-    }
+    @Column(name = "date_modified")
+    private Timestamp dateModified;
+
+    @Column(name = "date_created")
+    private Timestamp dateCreated;
+
+    @Column(name = "login_attempts")
+    private int loginAttempts;
+
+    @Column(name = "locked")
+    private int locked;
+
+    @Column(name = "admin_level")
+    private int admin;
 
     public User() {
     }
@@ -78,23 +83,11 @@ public class User {
         this.password = password;
     }
 
-    public User(String firstName, String lastName, String username, String email, String schoolEmail, String password,
-                String passwordConfirm, int securityLevel) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.email = email;
-        this.schoolEmail = schoolEmail;
-        this.password = password;
-        this.passwordConfirm = passwordConfirm;
-        this.securityLevel = securityLevel;
-    }
-
-    public String getUserID() {
+    public int getUserID() {
         return userID;
     }
 
-    public void setUserID(String userID) {
+    public void setUserID(int userID) {
         this.userID = userID;
     }
 
@@ -156,27 +149,51 @@ public class User {
 
     // private int phoneNumber;
 
-    public int getSecurity_level() {
-        return securityLevel;
-    }
-
-    public void setSecurity_level(int securityLevel) {
-        this.securityLevel = securityLevel;
-    }
-
-    public int getSecurityLevel() {
-        return securityLevel;
-    }
-
-    public void setSecurityLevel(int securityLevel) {
-        this.securityLevel = securityLevel;
-    }
-
     public int getActive() {
         return active;
     }
 
     public void setActive(int active) {
         this.active = active;
+    }
+
+    public Timestamp getDateModified() {
+        return dateModified;
+    }
+
+    public void setDateModified(Timestamp dateModified) {
+        this.dateModified = dateModified;
+    }
+
+    public Timestamp getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Timestamp dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public int getLoginAttempts() {
+        return loginAttempts;
+    }
+
+    public void setLoginAttempts(int loginAttempts) {
+        this.loginAttempts = loginAttempts;
+    }
+
+    public int getLocked() {
+        return locked;
+    }
+
+    public void setLocked(int locked) {
+        this.locked = locked;
+    }
+
+    public int getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(int admin) {
+        this.admin = admin;
     }
 }

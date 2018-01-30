@@ -39,13 +39,13 @@ public class UserDAOImpl implements UserDAO {
     }
 
     public void unlockByUsername(String username) {
-        Query q = getSession().createQuery("UPDATE user SET active=1 WHERE username=:username");
+        Query q = getSession().createQuery("UPDATE user SET locked=0 WHERE username=:username");
         q.setParameter("username", username);
         q.executeUpdate();
     }
 
     public void lockByUsername(String username) {
-        Query q = getSession().createQuery("UPDATE user SET active=0 WHERE username=:username");
+        Query q = getSession().createQuery("UPDATE user SET locked=1 WHERE username=:username");
         q.setParameter("username", username);
         q.executeUpdate();
     }

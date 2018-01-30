@@ -21,7 +21,6 @@
                             <span class="input-group-addon danger"><span
                                     class="glyphicon glyphicon-remove"></span></span>
                         </div>
-                        <p>${code}</p>
                     </div>
                 </div>
             </div>
@@ -47,7 +46,8 @@
             if (!$group.data('validate')) {
                 state = $(this).val() ? true : false;
             } else if ($group.data('validate') == "code") {
-                state = $(this).val() == ${code}
+                state = $(this).val() ==
+                ${code}
             }
 
             if (state) {

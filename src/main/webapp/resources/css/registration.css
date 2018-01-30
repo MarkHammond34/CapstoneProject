@@ -1,3 +1,47 @@
+.status {
+    display: inline;
+    visibility: hidden;
+}
+
+#secondstep {
+    visibility: hidden;
+}
+
+.IMGself {
+    vertical-align: -10px;
+    width: 45px;
+}
+
+.input-group-addon.primary {
+    color: rgb(255, 255, 255);
+    background-color: rgb(50, 118, 177);
+    border-color: rgb(40, 94, 142);
+}
+
+.input-group-addon.success {
+    color: rgb(255, 255, 255);
+    background-color: rgb(92, 184, 92);
+    border-color: rgb(76, 174, 76);
+}
+
+.input-group-addon.info {
+    color: rgb(255, 255, 255);
+    background-color: rgb(57, 179, 215);
+    border-color: rgb(38, 154, 188);
+}
+
+.input-group-addon.warning {
+    color: rgb(255, 255, 255);
+    background-color: rgb(240, 173, 78);
+    border-color: rgb(238, 162, 54);
+}
+
+.input-group-addon.danger {
+    color: rgb(255, 255, 255);
+    background-color: rgb(217, 83, 79);
+    border-color: rgb(212, 63, 58);
+}
+
 /* Credit to bootsnipp.com for the css for the color graph */
 .colorgraph {
     height: 5px;
@@ -276,6 +320,7 @@
 .btn.active span.glyphicon {
     opacity: 1;
 }
+
 .status {
     display: inline;
     visibility: hidden;

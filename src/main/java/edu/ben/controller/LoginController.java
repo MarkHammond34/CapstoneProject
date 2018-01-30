@@ -20,8 +20,10 @@ public class LoginController {
 	@SuppressWarnings("unused")
 	private static final long serialVersionUID = 1L;
 
+	/**
 	@Autowired
 	ServletContext context;
+	*/
 
 //	@PostMapping("/loginUser")
 //	public String login(HttpServletRequest request) {

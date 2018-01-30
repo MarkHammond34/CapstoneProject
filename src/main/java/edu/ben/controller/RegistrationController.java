@@ -6,6 +6,7 @@ import edu.ben.model.User;
 import edu.ben.service.UserService;
 import edu.ben.service.UserServiceImpl;
 import edu.ben.util.Email;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,32 +36,44 @@ public class RegistrationController extends BaseController {
     @PostMapping("/create")
     public String createUser(HttpServletRequest request, Model m, @Valid User user, BindingResult bindingResult) {
 
-        if ((User) request.getSession().getAttribute("user") != null) {
-            addWarningMessage("Please Logout Before Registering");
-            return "redirect:/home";
-        } else {
-
-            if (bindingResult.hasErrors()) {
-
-                List<ObjectError> errors = bindingResult.getAllErrors();
-                for (ObjectError er : errors) {
-                    addErrorMessage(er.getDefaultMessage());
-                }
-
-                setRequest(request);
-                return "registration/registration";
-
+        try {
+            if ((User) request.getSession().getAttribute("user") != null) {
+                addWarningMessage("Please Logout Before Registering");
+                return "redirect:/home";
             } else {
 
-                if (request.getParameter("admin").equals("true")) {
-                    user.setSecurityLevel(3);
-                }
+                if (bindingResult.hasErrors()) {
 
-                userService.create(user);
-                request.getSession().setAttribute("action", "registration");
-                request.getSession().setAttribute("tempUser", user);
-                return "redirect:/validate";
+                    List<ObjectError> errors = bindingResult.getAllErrors();
+                    for (ObjectError er : errors) {
+                        System.out.println(er);
+                        addErrorMessage(er.getDefaultMessage());
+                    }
+
+                    if (!user.getPassword().equals(user.getPasswordConfirm())) {
+                        addErrorMessage("Passwords Must Match");
+                    }
+
+                    setRequest(request);
+                    return "registration/registration";
+
+                } else {
+
+                    if (request.getParameter("adminRegistration").equals("true")) {
+                        user.setAdmin(3);
+                    }
+
+                    userService.create(user);
+                    userService.lockByUsername(user.getUsername());
+                    request.getSession().setAttribute("action", "registration");
+                    request.getSession().setAttribute("tempUser", user);
+                    return "redirect:/validate";
+                }
             }
+        } catch (ConstraintViolationException e) {
+            addErrorMessage("Account Exists Under That Username or School Email");
+            setRequest(request);
+            return "registration/registration";
         }
     }
 
@@ -69,7 +82,7 @@ public class RegistrationController extends BaseController {
 
         if (m.getParameter("admin") != null) {
             m.setAttribute("title", "Admin Sign Up");
-            m.setAttribute("admin", true);
+            m.setAttribute("adminRegistration", true);
         } else {
             m.setAttribute("title", "Sign Up");
         }
@@ -92,11 +105,11 @@ public class RegistrationController extends BaseController {
             setRequest(req);
             return "registration/student-validation";
 
-        } else if (action.equals("code")){
+        } else if (action.equals("code")) {
 
             if (req.getSession().getAttribute("code").equals(req.getParameter("userCode"))) {
 
-                userService.unlockByUsername((String)((User) req.getSession().getAttribute("tempUser")).getUsername());
+                userService.unlockByUsername((String) ((User) req.getSession().getAttribute("tempUser")).getUsername());
                 req.getSession().removeAttribute("code");
                 req.getSession().removeAttribute("tempUser");
                 req.getSession().setAttribute("user", user);
@@ -110,7 +123,7 @@ public class RegistrationController extends BaseController {
 
             }
         }
-        return "";
+        return "redirect:/home";
     }
 
     @GetMapping("/reset")
