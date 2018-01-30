@@ -15,11 +15,10 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({ "edu.ben" })
+@ComponentScan({ "edu.ben.config" })
 @PropertySource("classpath:config.properties")
 public class HibernateConfig {
 
@@ -42,7 +41,6 @@ public class HibernateConfig {
 		dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
 		dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
 		dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
-		System.out.println("DATA");
 		return dataSource;
 	}
 
@@ -51,7 +49,6 @@ public class HibernateConfig {
 		properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
 		properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.dialect"));
 		properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.dialect"));
-		System.out.println("HIBERNATE");
 		return properties;
 	}
 
@@ -60,8 +57,6 @@ public class HibernateConfig {
 	public HibernateTransactionManager transactionManager(SessionFactory s) {
 		HibernateTransactionManager txManager = new HibernateTransactionManager();
 		txManager.setSessionFactory(s);
-		System.out.println("TRANSACTION");
 		return txManager;
 	}
-	
 }
