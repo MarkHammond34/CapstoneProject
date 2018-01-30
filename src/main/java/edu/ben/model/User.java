@@ -15,6 +15,11 @@ import javax.validation.constraints.Size;
 @Table(name = "user")
 @Transactional
 public class User {
+	
+	private int isActive;
+	private boolean isAdmin;
+	private String unlockCode;
+	private int attemptedLogins;
 
 	@Id
 	@Column(name = "user_ID")
@@ -75,7 +80,16 @@ public class User {
     public boolean isMatching() {
         return this.password.equals(this.passwordConfirm);
     }
-
+	public User(String firstName, String lastName, String email, String password, int attemptedLogins,
+			String unlockCode) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.setAttemptedLogins(attemptedLogins);
+		this.setUnlockCode(unlockCode);
+		this.setIsActive(1);
+	}
 	public User(String firstName, String lastName, String username, String email, String schoolEmail, String password) {
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -198,5 +212,37 @@ public class User {
 
 	public void setActive(int active) {
 		this.active = active;
+	}
+
+	public int getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(int isActive) {
+		this.isActive = isActive;
+	}
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
+	public String getUnlockCode() {
+		return unlockCode;
+	}
+
+	public void setUnlockCode(String unlockCode) {
+		this.unlockCode = unlockCode;
+	}
+
+	public int getAttemptedLogins() {
+		return attemptedLogins;
+	}
+
+	public void setAttemptedLogins(int attemptedLogins) {
+		this.attemptedLogins = attemptedLogins;
 	}
 }
