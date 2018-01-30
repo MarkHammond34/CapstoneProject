@@ -1,4 +1,4 @@
-CREATE TABLE `listing` (
+CREATE TABLE IF NOT EXISTS `ulistit`.`listing` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userID` int(11) NOT NULL,
   `name` varchar(45) NOT NULL DEFAULT 'default',

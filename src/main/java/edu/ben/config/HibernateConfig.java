@@ -15,10 +15,11 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({ "edu.ben.config" })
+@ComponentScan({ "edu.ben" })
 @PropertySource("classpath:config.properties")
 public class HibernateConfig {
 
@@ -62,4 +63,5 @@ public class HibernateConfig {
 		System.out.println("TRANSACTION");
 		return txManager;
 	}
+	
 }
