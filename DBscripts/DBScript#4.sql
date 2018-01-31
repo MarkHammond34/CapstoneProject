@@ -18,6 +18,18 @@ CREATE SCHEMA IF NOT EXISTS `ulistit` DEFAULT CHARACTER SET utf8 ;
 USE `ulistit` ;
 
 -- -----------------------------------------------------
+-- Table 'ulistit'.'security'
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ulistit`.`security` (
+  `security_ID` INT(11) NOT NULL AUTO_INCREMENT,
+  `login_attempts` INT(11) NOT NULL DEFAULT '0',
+  `locked` TINYINT(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`security_ID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 3
+DEFAULT CHARACTER SET = utf8;
+
+-- -----------------------------------------------------
 -- Table `ulistit`.`user`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ulistit`.`user` (
