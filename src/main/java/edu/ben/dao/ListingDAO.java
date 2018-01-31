@@ -1,5 +1,7 @@
 package edu.ben.dao;
 
+import java.util.List;
+
 import edu.ben.model.Listing;
 
 public interface ListingDAO {
@@ -10,4 +12,5 @@ public interface ListingDAO {
 
 	public void create(Listing listing);
 
+	public List<Listing> getRecentListings();
 }

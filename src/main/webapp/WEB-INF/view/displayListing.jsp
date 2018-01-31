@@ -159,5 +159,3 @@ hgroup h2.lead {
 
 </body>
 </html>
-
-</html>

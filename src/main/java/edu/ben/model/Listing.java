@@ -1,23 +1,21 @@
 package edu.ben.model;
 
-import javax.persistence.Column;
+import java.util.Calendar;
 
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 
-@Entity
+@Entity(name = "listing")
 @Table(name = "listing")
 @Transactional
 public class Listing implements java.io.Serializable {
@@ -38,13 +36,16 @@ public class Listing implements java.io.Serializable {
 
 	@Column(name = "description")
 	private String description;
-
-	@Column(name = "price")
-	private double price;
-
+	
 	@Column(name = "category")
 	@NotBlank
 	private String category;
+
+	@Column(name = "price")
+	private double price;
+	
+	@Column(name="date_created")
+	private Calendar dateCreated;
 
 	@Column(name = "image_path")
 	private String image_path;

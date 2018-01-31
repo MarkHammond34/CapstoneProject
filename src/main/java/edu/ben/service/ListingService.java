@@ -1,5 +1,7 @@
 package edu.ben.service;
 
+import java.util.List;
+
 import edu.ben.model.Listing;
 
 public interface ListingService {
@@ -9,4 +11,6 @@ public interface ListingService {
 	public void saveOrUpdate(Listing listing);
 
 	public void create(Listing listing);
+	
+	public List<Listing> getRecentListings();
 }
