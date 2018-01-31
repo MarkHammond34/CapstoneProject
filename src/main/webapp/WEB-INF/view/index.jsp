@@ -177,7 +177,7 @@ hgroup h2.lead {
 				<a href="#" title="">Name of Product</a>
 			</h3>
 			<p>Description</p>
-			<span class="plus"><a href="#" title="Lorem ipsum"><i
+			<span class="plus"><a href="/checkout" title="Lorem ipsum"><i
 					class="glyphicon glyphicon-plus"></i></a></span>
 		</div>
 		<span class="clearfix borda"></span> </article> </section>
