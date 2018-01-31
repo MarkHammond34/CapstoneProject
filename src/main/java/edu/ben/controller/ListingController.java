@@ -104,13 +104,6 @@ public class ListingController {
 
 	@RequestMapping("/createListing")
 	public String listingPage(HttpServletRequest request) {
-		User u = new User (1,"Steven", "Schultz", "Schultz28", "steveschultz73@gmail.com", "b2273469@ben.edu", "cooperstown19", "cooperstown19", 1);
-
-		request.getSession().setAttribute("u", u);
-		
-		User user2 = (User) request.getSession().getAttribute("u");
-		System.out.println("SessionID: " + user2.getUserID());
-
 		return "createListing";
 	}
 
@@ -127,7 +120,7 @@ public class ListingController {
 		List<Listing> listings = listingService.getAllListingsByCategory(category);
 		System.out.println("List size = " + listings.size());
 
-		User user = (User) request.getSession().getAttribute("u");
+		User user = (User) request.getSession().getAttribute("user");
 
 		System.out.println("User attribute: " + user.getUsername());
 		model.addAttribute("user", user);

@@ -5,6 +5,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<style>
+.uk-margin {
+	padding-top: 20px;
+}
+</style>
 <spring:url value="resources/css/uikit.css" var="uikitCSS" />
 <spring:url value="resources/js/uikit.js" var="uikitJS" />
 <spring:url value="resources/js/jquery.js" var="jquery" />
@@ -18,11 +23,10 @@
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
 	crossorigin="anonymous">
 
-
-
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>CreateListing</title>
 </head>
+
 <body>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
@@ -44,9 +48,13 @@
 					<li><a href="${pageContext.request.contextPath}/createListing">Create
 							Listing</a></li>
 					<li>
-						<form class="uk-search" data-uk-search>
-							<input class="uk-search-field" type="search" placeholder="">
-						</form>
+						<div class="uk-margin">
+							<form class="uk-search uk-search-default" method="POST"
+								action="searchResults">
+								<span uk-search-icon></span> <input class="uk-search-input"
+									type="search" placeholder="Search...">
+							</form>
+						</div>
 					</li>
 				</ul>
 			</div>
