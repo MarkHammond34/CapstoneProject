@@ -1,20 +1,19 @@
 package edu.ben.model;
 
-import javax.persistence.Column;
+import java.util.Calendar;
+import java.util.Date;
 
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 
 @Entity(name = "listing")
@@ -28,31 +27,41 @@ public class Listing implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "id")
+	@Column(name="id")
     @GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-
-	@Column(name = "name")
-	@NotBlank
-	private String name;
-
-	@Column(name = "description")
-	private String description;
-
-	@Column(name = "price")
-	private double price;
-
-	@Column(name = "category")
-	@NotBlank
-	private String category;
-
-	@Column(name = "image_path")
-	private String image_path;
 	
 	@OneToOne
 	@JoinColumn(name="userID")
 	private User user;
+
+	@Column(name="name")
+	@NotBlank
+	private String name;
+
+	@Column(name="description")
+	private String description;
 	
+	@Column(name="category")
+	@NotBlank
+	private String category;
+
+	@Column(name="price")
+	private double price;
+	
+	@Column(name="date_created")
+	private Date dateCreated;
+
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	@Column(name="image_path")
+	private String image_path;
 	
 	public String getImage_path() {
 		return image_path;
@@ -140,6 +149,13 @@ public class Listing implements java.io.Serializable {
 
 	public void setImagePath(String imagePath) {
 		this.image_path = imagePath;
+	}
+
+	@Override
+	public String toString() {
+		return "Listing [id=" + id + ", name=" + name + ", description=" + description + ", category=" + category
+				+ ", price=" + price + ", dateCreated=" + dateCreated + ", image_path=" + image_path + ", user=" + user
+				+ "]";
 	}
 
 }

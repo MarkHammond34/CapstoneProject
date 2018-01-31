@@ -39,19 +39,20 @@ public class ListingDAOImpl implements ListingDAO {
         getSession().delete(listing);
 
     }
-    
-    @SuppressWarnings("unchecked")
+
+	@SuppressWarnings("unchecked")
 	public List<Listing> getAllListingsByCategory(String category) {
     	Query q = getSession().createQuery("FROM listing WHERE category=:category");
     	q.setParameter("category", category);
     	return (List<Listing>) q.list();
-    }
+    }	
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Listing> getRecentListings() {
 		Query q = getSession().createQuery("FROM listing ORDER BY date_created DESC");
-		List<Listing> list = q.list();
-		System.out.println(list.get(0));
+		System.out.println(q.getQueryString());
+		List<Listing> list = (List<Listing>) q.list();
 		Iterator<Listing> it = list.iterator();
 		List<Listing> recentListings = new ArrayList<Listing>();
 		
@@ -64,5 +65,4 @@ public class ListingDAOImpl implements ListingDAO {
 		
         return recentListings;
 	}
-
 }
