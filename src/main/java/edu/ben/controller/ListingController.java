@@ -3,6 +3,7 @@ package edu.ben.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -28,94 +29,100 @@ import edu.ben.util.ImagePath;
 @Controller
 public class ListingController {
 
-    @Autowired
-    ListingService listingService;
+	@Autowired
+	ListingService listingService;
 
-    /**
-     * Upload single file using Spring Controller
-     */
-    @RequestMapping(value = "/uploadListing", method = RequestMethod.POST)
-    public String uploadFileHandler(@RequestParam("title") String name, @RequestParam("category") String category,
-                                    @RequestParam("price") double price, @RequestParam("description") String description,
-                                    @RequestParam("file") MultipartFile file, Model model, HttpServletRequest request) {
+	/**
+	 * Upload single file using Spring Controller
+	 */
+	@RequestMapping(value = "/uploadListing", method = RequestMethod.POST)
+	public String uploadFileHandler(@RequestParam("title") String name, @RequestParam("category") String category,
+			@RequestParam("price") double price, @RequestParam("description") String description,
+			@RequestParam("file") MultipartFile file, Model model, HttpServletRequest request) {
 
-        System.out.println("Hit UploadListing Controller");
+		System.out.println("Hit UploadListing Controller");
 
-        String message = "";
-        String error = "";
+		String message = "";
+		String error = "";
 
-        User u = (User) request.getSession().getAttribute("u");
+		User u = (User) request.getSession().getAttribute("u");
 
+		if (!file.isEmpty()) {
+			try {
+				String extension = FilenameUtils.getExtension(file.getOriginalFilename());
 
-        if (!file.isEmpty()) {
-            try {
-                String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+				System.out.println(extension);
 
-                System.out.println(extension);
+				if (!extension.equals("jpg") && !extension.equals("png") && !extension.equals("jpeg")) {
+					error = "Listing failed. You did not upload an image.";
+					model.addAttribute("error", error);
+					return "createListing";
+				} else if (price < 0) {
+					error = "Cannot have a negative price.";
+					model.addAttribute("error", error);
+					return "createListing";
+				}
 
-                if (!extension.equals("jpg") && !extension.equals("png") && !extension.equals("jpeg")) {
-                    error = "Listing failed. You did not upload an image.";
-                    model.addAttribute("error", error);
-                    return "createListing";
-                } else if (price < 0) {
-                    error = "Cannot have a negative price.";
-                    model.addAttribute("error", error);
-                    return "createListing";
-                }
+				byte[] bytes = file.getBytes();
 
-                byte[] bytes = file.getBytes();
+				// Creating the directory to store file
+				File dir = new File(ImagePath.url + File.separator + "listings");
+				if (!dir.exists())
+					dir.mkdirs();
 
-                // Creating the directory to store file
-                File dir = new File(ImagePath.url + File.separator + "listings");
-                if (!dir.exists())
-                    dir.mkdirs();
+				// Create the file on server
 
-                // Create the file on server
+				System.out.println("Hit Controller 2");
+				File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
+				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+				stream.write(bytes);
 
-                System.out.println("Hit Controller 2");
-                File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-                stream.write(bytes);
+				System.out.println("File Uploaded");
+				Listing listing = new Listing(name, description, price, category, file.getOriginalFilename());
 
-                System.out.println("File Uploaded");
-                Listing listing = new Listing(name, description, price, category, file.getOriginalFilename());
+				listing.setUser(u);
+				listingService.create(listing);
 
-                listing.setUser(u);
-                listingService.create(listing);
+				message = "Listing Uploaded Successfully";
+				model.addAttribute("message", message);
+				stream.close();
 
-                message = "Listing Uploaded Successfully";
-                model.addAttribute("message", message);
-                stream.close();
+				// Listing l = new Listing(name, description, price, category, file );
+				// ld.create(l);
 
-                // Listing l = new Listing(name, description, price, category, file );
-//				 ld.create(l);
+				return "createListing";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "You failed to upload " + name + " => " + e.getMessage();
 
-                return "createListing";
-            } catch (Exception e) {
-                e.printStackTrace();
-                return "You failed to upload " + name + " => " + e.getMessage();
+			}
+		} else {
+			return "You failed to upload " + name + " because the file was empty.";
+		}
 
-            }
-        } else {
-            return "You failed to upload " + name + " because the file was empty.";
-        }
+	}
 
-    }
+	@RequestMapping("/createListing")
+	public String listingPage(HttpServletRequest request) {
+		User user2 = (User) request.getSession().getAttribute("u");
+		System.out.println("SessionID: " + user2.getUserID());
 
-    @RequestMapping("/createListing")
-    public String listingPage(HttpServletRequest request) {
-        //User u = new User (1, "Steve", "Schultz", "Schultz28", "steveschultz73@gmail.com", "b2273469@ben.edu", "cooperstown19", "cooperstown19", 1);
-        //request.getSession().setAttribute("u", u);
+		return "createListing";
+	}
 
-        User user2 = (User) request.getSession().getAttribute("u");
-        System.out.println("SessionID: " + user2.getUserID());
+	@RequestMapping("/displayListing")
+	public String displayListing(@RequestParam("category") String category, HttpServletRequest request, Model model) {
 
-        return "createListing";
-    }
+		List<Listing> listings = listingService.getAllListingsByCategory(category);
+		System.out.println("List size = " + listings.size());
 
-    @RequestMapping("/displayListing")
-    public String displayListing() {
-        return "displayListing";
-    }
+		User user = (User) request.getSession().getAttribute("u");
+
+		model.addAttribute("user", user);
+		model.addAttribute("category", category);
+		model.addAttribute("listings", listings);
+
+		return "displayListing";
+	}
 
 }

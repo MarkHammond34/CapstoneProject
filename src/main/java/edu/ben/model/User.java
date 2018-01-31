@@ -10,193 +10,193 @@ import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.sql.Timestamp;
 
 @Entity(name = "user")
 @Table(name = "user")
 @Transactional
 public class User {
 
-    @Id
-    @Column(name = "user_ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userID;
+	@Id
+	@Column(name = "user_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int userID;
 
-    @Column(name = "first_name")
-    @NotNull
-    @Size(min = 2, max = 30, message = "First Name Must Be Between 2 and 30 Characters")
-    private String firstName;
+	@Column(name = "first_name")
+	@NotNull
+	@Size(min = 2, max = 30, message = "First Name Must Be Between 2 and 30 Characters")
+	private String firstName;
 
-    @Column(name = "last_name")
-    @NotNull
-    @Size(min = 2, max = 30, message = "Last Name Must Be Between 2 and 30 Characters")
-    private String lastName;
+	@Column(name = "last_name")
+	@NotNull
+	@Size(min = 2, max = 30, message = "Last Name Must Be Between 2 and 30 Characters")
+	private String lastName;
 
-    @Column(unique = true, name = "username")
-    @NotNull
-    @Size(min = 6, max = 20, message = "First Name Must Be Between 6 and 20 Characters")
-    private String username;
+	@Column(unique = true, name = "username")
+	@NotNull
+	@Size(min = 6, max = 20, message = "First Name Must Be Between 6 and 20 Characters")
+	private String username;
 
-    @Column(name = "email")
-    @Email
-    @Size(max = 40, message = "Invalid Email")
-    private String email;
+	@Column(name = "email")
+	@Email
+	@Size(max = 40, message = "Invalid Email")
+	private String email;
 
-    @Column(unique = true, name = "school_email")
-    @NotNull
-    @Email(message = "Invalid School Email")
-    @Size(min = 3, max = 40, message = "Invalid School Email")
-    private String schoolEmail;
+	@Column(unique = true, name = "school_email")
+	@NotNull
+	@Email(message = "Invalid School Email")
+	@Size(min = 3, max = 40, message = "Invalid School Email")
+	private String schoolEmail;
 
-    @Column(name = "password")
-    @NotNull
-    @Size(min = 3, max = 20, message = "Password Must Be Between 6 and 20 Characters")
-    private String password;
+	@Column(name = "password")
+	@NotNull
+	@Size(min = 3, max = 20, message = "Password Must Be Between 6 and 20 Characters")
+	private String password;
 
-    @Transient
-    private String passwordConfirm;
+	@Transient
+	private String passwordConfirm;
 
-    @Column(name = "active")
-    private int active;
+	@Transient
+	private int securityLevel;
 
-    @Column(name = "date_modified")
-    private Timestamp dateModified;
+	@Column(name = "active")
+	private int active;
+	
+	/**
+	 * @AssertTrue(message = "Passwords Do Not Match") private boolean
+	 *                     matchingPassword() { return
+	 *                     this.password.equals(this.passwordConfirm); }
+	 */
 
-    @Column(name = "date_created")
-    private Timestamp dateCreated;
 
-    @Column(name = "login_attempts")
-    private int loginAttempts;
+	public User() {
+	}
 
-    @Column(name = "locked")
-    private int locked;
-
-    @Column(name = "admin_level")
-    private int admin;
-
-    public User() {
+    @AssertTrue(message = "Passwords Must Match")
+    public boolean isMatching() {
+        return this.password.equals(this.passwordConfirm);
     }
 
-    public User(String firstName, String lastName, String username, String email, String schoolEmail, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.email = email;
-        this.schoolEmail = schoolEmail;
-        this.password = password;
-    }
+	public User(String firstName, String lastName, String username, String email, String schoolEmail, String password) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.email = email;
+		this.schoolEmail = schoolEmail;
+		this.password = password;
+	}
 
-    public int getUserID() {
-        return userID;
-    }
+	public User(String firstName, String lastName, String username, String email, String schoolEmail, String password,
+			String passwordConfirm, int securityLevel) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.email = email;
+		this.schoolEmail = schoolEmail;
+		this.password = password;
+		this.passwordConfirm = passwordConfirm;
+		this.securityLevel = securityLevel;
+	}
 
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
+	public User(int userID, String firstName, String lastName, String username, String email, String schoolEmail,
+			String password, String passwordConfirm, int securityLevel) {
+		this.userID = userID;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.email = email;
+		this.schoolEmail = schoolEmail;
+		this.password = password;
+		this.passwordConfirm = passwordConfirm;
+		this.securityLevel = securityLevel;
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public int getUserID() {
+		return userID;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public void setUserID(int userID) {
+		this.userID = userID;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public String getLastName() {
+		return lastName;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public String getSchoolEmail() {
-        return schoolEmail;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setSchoolEmail(String schoolEmail) {
-        this.schoolEmail = schoolEmail;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getSchoolEmail() {
+		return schoolEmail;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setSchoolEmail(String schoolEmail) {
+		this.schoolEmail = schoolEmail;
+	}
 
-    public String getPasswordConfirm() {
-        return passwordConfirm;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    // private int phoneNumber;
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
 
-    public int getActive() {
-        return active;
-    }
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
+	}
 
-    public void setActive(int active) {
-        this.active = active;
-    }
+	// private int phoneNumber;
 
-    public Timestamp getDateModified() {
-        return dateModified;
-    }
+	public int getSecurity_level() {
+		return securityLevel;
+	}
 
-    public void setDateModified(Timestamp dateModified) {
-        this.dateModified = dateModified;
-    }
+	public void setSecurity_level(int securityLevel) {
+		this.securityLevel = securityLevel;
+	}
 
-    public Timestamp getDateCreated() {
-        return dateCreated;
-    }
+	public int getSecurityLevel() {
+		return securityLevel;
+	}
 
-    public void setDateCreated(Timestamp dateCreated) {
-        this.dateCreated = dateCreated;
-    }
+	public void setSecurityLevel(int securityLevel) {
+		this.securityLevel = securityLevel;
+	}
 
-    public int getLoginAttempts() {
-        return loginAttempts;
-    }
+	public int getActive() {
+		return active;
+	}
 
-    public void setLoginAttempts(int loginAttempts) {
-        this.loginAttempts = loginAttempts;
-    }
-
-    public int getLocked() {
-        return locked;
-    }
-
-    public void setLocked(int locked) {
-        this.locked = locked;
-    }
-
-    public int getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(int admin) {
-        this.admin = admin;
-    }
+	public void setActive(int active) {
+		this.active = active;
+	}
 }

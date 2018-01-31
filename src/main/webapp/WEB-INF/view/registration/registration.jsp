@@ -127,8 +127,8 @@
                         In</a>
                 </div>
             </div>
-            <C:if test="${adminRegistration == true}">
-                <input type="hidden" name="adminRegistration" value="true">
+            <C:if test="${admin == true}">
+                <input type="hidden" name="admin" value="true">
             </C:if>
         </form>
     </div>
