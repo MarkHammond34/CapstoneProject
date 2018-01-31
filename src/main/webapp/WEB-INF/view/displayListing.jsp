@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -116,48 +117,59 @@ hgroup h2.lead {
 <title>Listing Results</title>
 </head>
 <body>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+	<select name="state" class="ddList">
+		<option value="">All Channels</option>
+		<option class="lt" value="--">none</option>
+		<option class="lt" value="AL">Alabama</option>
+		<option class="lt" value="AK">Alaska</option>
+		<option class="lt" value="AZ">Arizona</option>
+		<option class="lt" value="AR">Arkansas</option>
+		<option class="lt" value="CA">California</option>
+		<option class="lt" value="CO">Colorado</option>
+	</select>
 
 	<div class="container">
 
+		
 		<hgroup class="mb20">
 		<h1>Results</h1>
 		<h2 class="lead">
-			<strong class="text-danger">#</strong> results were found for the
-			search for <strong class="text-danger">Result</strong>
+			<strong class="text-danger">${listings.size()}</strong> results were
+			found for the search for <strong class="text-danger">${category}</strong>
 		</h2>
 		</hgroup>
 
-		<section class="col-xs-12 col-sm-6 col-md-12"> <article
-			class="search-result row">
-		<div class="col-xs-12 col-sm-12 col-md-3">
-			<a href="#" title="Lorem ipsum" class="thumbnail"><img
-				src="<%=request.getContextPath()%>/resources/img/listings/custom_headphone.jpg"
-				alt="Listing" /></a>
-		</div>
-		<div class="col-xs-12 col-sm-12 col-md-2">
-			<ul class="meta-search">
-				<li><i class="glyphicon glyphicon-user"></i> <span>User
-						Name</span></li>
-				<li><i class="glyphicon glyphicon-usd"></i> <span>Price
-				</span></li>
-				<li><i class="glyphicon glyphicon-map-marker"></i> <span>Location</span></li>
-			</ul>
-		</div>
-		<div class="col-xs-12 col-sm-12 col-md-7 excerpet">
-			<h3>
-				<a href="#" title="">Name of Product</a>
-			</h3>
-			<p>Description</p>
-			<span class="plus"><a href="#" title="Lorem ipsum"><i
-					class="glyphicon glyphicon-plus"></i></a></span>
-		</div>
-		<span class="clearfix borda"></span> </article> </section>
+		<c:forEach var="listings" items="${listings}">
+
+			<section class="col-xs-12 col-sm-6 col-md-12"> <article
+				class="search-result row">
+			<div class="col-xs-12 col-sm-12 col-md-3">
+				<a href="#" title="Lorem ipsum" class="thumbnail"><img
+					src="<%=request.getContextPath()%>/resources/img/listings/custom_headphone.jpg"
+					alt="Listing" /></a>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-2">
+				<ul class="meta-search">
+					<li><i class="glyphicon glyphicon-user"></i> <span>${user.username}</span></li>
+					<li><i class="glyphicon glyphicon-usd"></i> <span>Price
+					</span></li>
+					<li><i class="glyphicon glyphicon-map-marker"></i> <span>Insert
+							Location Here</span></li>
+				</ul>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-7 excerpet">
+				<h3>
+					<a href="#" title="">${listings.name}</a>
+				</h3>
+				<p>${listings.description}</p>
+				<span class="plus"><a href="#" title="Lorem ipsum"><i
+						class="glyphicon glyphicon-plus"></i></a></span>
+
+			</div>
+			<span class="clearfix borda"></span> </article> </section>
+		</c:forEach>
 	</div>
 
-
 </body>
-</html>
-
 </html>
