@@ -14,4 +14,5 @@ public interface ListingDAO {
 	
 	public List<Listing> getAllListingsByCategory(String category);
 
+	public List<Listing> getRecentListings();
 }
