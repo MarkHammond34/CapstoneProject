@@ -29,56 +29,56 @@ public class LoginController {
 	@Autowired
 	UserService userService;
 
-//	@PostMapping("/loginUser")
-//	public String login(HttpServletRequest request) {
-//		String email = request.getParameter("email");
-//		String password = request.getParameter("password");
-//
-//		System.out.println(email);
-//		System.out.println(password);
-//
-//		User user = userService.findByEmail(email);
-//
-//		String url = "";
-//		String message = "";
-//
-//		if (user != null) {
-//			if (user.getActive() > 0) {
-//				if (user.getPassword() != null && user.getPassword().equals(password)) {
-//					HttpSession session = request.getSession(true);
-//					session.setAttribute("user", user);
-//					userService.updateAttemptedLogins(0, email);
-//					System.out.println("pass match");
-//					return "homepage2";
-//
-//				} else {
-//					request.setAttribute("email", email);
-//					int loginAttempts = user.getLoginAttempts() + 1;
-//					System.out.println(loginAttempts);
-//					userService.updateAttemptedLogins(loginAttempts, email);
-//					if (loginAttempts >= 5) {
-//						userService.updateIsActive(0, email);
-//						message = "invalid username and password - login limit exceeded, your account has been locked out";
-//					} else {
-//						message = "invalid password - you have " + (5 - loginAttempts) + " remaining";
-//					}
-//					url = "login";
-//				}
-//			} else {
-//				message = "Your account is locked out, click unlock to active your account";
-//				url = "login";
-//			}
-//		} else {
-//			message = "We didn't find your email linked to an account in our Database";
-//			url = "login";
-//		}
-//
-//		request.setAttribute("email", email);
-//		request.setAttribute("message", message);
-//
-//		return url;
-//
-//	}
+	@PostMapping("/loginUser")
+	public String login(HttpServletRequest request) {
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+
+		System.out.println(email);
+		System.out.println(password);
+
+		User user = userService.findByEmail(email);
+
+		String url = "";
+		String message = "";
+
+		if (user != null) {
+			if (user.getActive() > 0) {
+				if (user.getPassword() != null && user.getPassword().equals(password)) {
+					HttpSession session = request.getSession(true);
+					session.setAttribute("user", user);
+					userService.updateAttemptedLogins(0, email);
+					System.out.println("pass match");
+					return "homepage2";
+
+				} else {
+					request.setAttribute("email", email);
+					int loginAttempts = user.getLoginAttempts() + 1;
+					System.out.println(loginAttempts);
+					userService.updateAttemptedLogins(loginAttempts, email);
+					if (loginAttempts >= 5) {
+						userService.updateIsActive(0, email);
+						message = "invalid username and password - login limit exceeded, your account has been locked out";
+					} else {
+						message = "invalid password - you have " + (5 - loginAttempts) + " remaining";
+					}
+					url = "login";
+				}
+			} else {
+				message = "Your account is locked out, click unlock to active your account";
+				url = "login";
+			}
+		} else {
+			message = "We didn't find your email linked to an account in our Database";
+			url = "login";
+		}
+
+		request.setAttribute("email", email);
+		request.setAttribute("message", message);
+
+		return url;
+
+	}
 
 	@GetMapping("/login")
 	public String login() {
