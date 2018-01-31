@@ -2,6 +2,7 @@ package edu.ben.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import edu.ben.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,9 @@ public class LoginController {
 	ServletContext context;
 	*/
 
+	@Autowired
+	UserService userService;
+
 	@PostMapping("/loginUser")
 	public String login(HttpServletRequest request) {
 		String email = request.getParameter("email");
@@ -33,29 +37,27 @@ public class LoginController {
 		System.out.println(email);
 		System.out.println(password);
 
-		UserDAOImpl userDAO = new UserDAOImpl();
-		User user = userDAO.findByEmail(email);
+		User user = userService.findByEmail(email);
 
 		String url = "";
 		String message = "";
 
 		if (user != null) {
-			if (user.getIsActive() > 0) {
+			if (user.getActive() > 0) {
 				if (user.getPassword() != null && user.getPassword().equals(password)) {
 					HttpSession session = request.getSession(true);
 					session.setAttribute("user", user);
-					userDAO.updateAttemptedLogins(0, email);
+					userService.updateAttemptedLogins(0, email);
 					System.out.println("pass match");
 					return "homepage2";
 
 				} else {
 					request.setAttribute("email", email);
-					System.out.println(user.getAttemptedLogins());
-					int loginAttempts = user.getAttemptedLogins() + 1;
+					int loginAttempts = user.getLoginAttempts() + 1;
 					System.out.println(loginAttempts);
-					userDAO.updateAttemptedLogins(loginAttempts, email);
+					userService.updateAttemptedLogins(loginAttempts, email);
 					if (loginAttempts >= 5) {
-						userDAO.updateIsActive(0, email);
+						userService.updateIsActive(0, email);
 						message = "invalid username and password - login limit exceeded, your account has been locked out";
 					} else {
 						message = "invalid password - you have " + (5 - loginAttempts) + " remaining";

@@ -25,5 +25,9 @@ public interface UserService {
 	public User findBySchoolEmail(String email);
 
 	public void update(User user);
+
+	public void updateAttemptedLogins(int loginAttempts, String email);
+
+	public void updateIsActive(int isActive, String email);
 }
 

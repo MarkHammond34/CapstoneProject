@@ -65,4 +65,14 @@ public class UserServiceImpl implements UserService {
 		userDAO.update(user);
 	}
 
+	@Override
+	public void updateAttemptedLogins(int loginAttempts, String email) {
+		userDAO.updateAttemptedLogins(loginAttempts, email);
+	}
+
+	@Override
+	public void updateIsActive(int isActive, String email) {
+		userDAO.updateIsActive(isActive, email);
+	}
+
 }
