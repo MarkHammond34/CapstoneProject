@@ -167,23 +167,23 @@ hgroup h2.lead {
 					class="search-result row">
 				<div class="col-xs-12 col-sm-12 col-md-3">
 					<a href="#" title="Lorem ipsum" class="thumbnail"><img
-						src="<%=request.getContextPath()%>/resources/img/listings/custom_headphone.jpg"
+						src="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
 						alt="Listing" /></a>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-2">
 					<ul class="meta-search">
 						<li><i class="glyphicon glyphicon-user"></i> <span>User
 								Name</span></li>
-						<li><i class="glyphicon glyphicon-usd"></i> <span>Price
+						<li><i class="glyphicon glyphicon-usd"></i> <span>${listing.price}
 						</span></li>
 						<li><i class="glyphicon glyphicon-map-marker"></i> <span>Location</span></li>
 					</ul>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-7 excerpet">
 					<h3>
-						<a href="#" title="">Name of Product</a>
+						<a href="#" title="">${listing.name}</a>
 					</h3>
-					<p>Description</p>
+					<p>${listing.description}</p>
 					<span class="plus"><a
 						href="${pageContext.request.contextPath}/checkoutPage"
 						title="Lorem ipsum"><i class="glyphicon glyphicon-plus"></i></a></span>

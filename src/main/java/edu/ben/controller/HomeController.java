@@ -12,7 +12,7 @@ import edu.ben.model.Listing;
 import edu.ben.service.ListingService;
 
 @Controller
-public class HomeController {
+public class HomeController extends BaseController {
 	
 	@Autowired
 	ListingService listingService;

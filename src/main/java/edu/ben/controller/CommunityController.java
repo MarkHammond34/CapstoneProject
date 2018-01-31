@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class CommunityController {
+public class CommunityController extends BaseController {
 
 	@RequestMapping(value = "/communityPage", method = RequestMethod.POST)
 	public ModelAndView community() {
