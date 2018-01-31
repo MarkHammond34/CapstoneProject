@@ -143,4 +143,11 @@ public class Listing implements java.io.Serializable {
 		this.image_path = imagePath;
 	}
 
+	@Override
+	public String toString() {
+		return "Listing [id=" + id + ", name=" + name + ", description=" + description + ", category=" + category
+				+ ", price=" + price + ", dateCreated=" + dateCreated + ", image_path=" + image_path + ", user=" + user
+				+ "]";
+	}
+
 }

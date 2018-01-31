@@ -14,29 +14,32 @@
     <script type="text/javascript" src="${uikitJS}"></script>
     <script type="text/javascript" src="${jquery}"></script>
     <script type="text/javascript" src="${uikiticons}"></script>
-<%--Nav Bar--%>
+
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Community</title>
+
+</head>
+<body>
+	<%--Nav Bar--%>
     <div class="uk-position-relative">
         <div class="uk-position-relativetop">
             <nav class="uk-navbar-container uk-navbar-dark" uk-navbar>
-                <div class="uk-navbar-center">
+                <div class="uk-navbar-left">
                     <ul class="uk-navbar-nav">
-                        <li><a href="#">Dashboard</a></li>
-                        <li class="uk-active"><a href="#">Manage Users</a></li>
+                        <li><a href="#"></a></li>
+                        <li><a href="#"></a></li>
+                        <li><a href="#"></a></li>
                     </ul>
                 </div>
                 <div class="uk-navbar-right">
                     <ul class="uk-navbar-nav">
-                        <li><a>Welcome Admin</a></li>
+                        <li><a>Welcome user</a></li>
                         <li><a href="#">Logout</a></li>
                     </ul>
                 </div>
             </nav>
         </div>
     </div>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Community</title>
-</head>
-<body>
 	<div class="uk-section uk-primary">
 		<div class="uk-container">
 

@@ -13,25 +13,6 @@
     <script type="text/javascript" src="${uikitJS}"></script>
     <script type="text/javascript" src="${jquery}"></script>
     <script type="text/javascript" src="${uikiticons}"></script>
-<%--Nav Bar--%>
-    <div class="uk-position-relative">
-        <div class="uk-position-relativetop">
-            <nav class="uk-navbar-container uk-navbar-dark" uk-navbar>
-                <div class="uk-navbar-center">
-                    <ul class="uk-navbar-nav">
-                        <li><a href="#">Dashboard</a></li>
-                        <li class="uk-active"><a href="#">Manage Users</a></li>
-                    </ul>
-                </div>
-                <div class="uk-navbar-right">
-                    <ul class="uk-navbar-nav">
-                        <li><a>Welcome Admin</a></li>
-                        <li><a href="#">Logout</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </div>
 <style>
 @import "http://fonts.googleapis.com/css?family=Roboto:300,400,500,700";
 
@@ -145,6 +126,27 @@ hgroup h2.lead {
 <title>U-ListIt</title>
 </head>
 <body>
+
+	<%--Nav Bar--%>
+    <div class="uk-position-relative">
+        <div class="uk-position-relativetop">
+            <nav class="uk-navbar-container uk-navbar-dark" uk-navbar>
+                <div class="uk-navbar-left">
+                    <ul class="uk-navbar-nav">
+                        <li><a href="#"></a></li>
+                        <li><a href="#"></a></li>
+                        <li><a href="#"></a></li>
+                    </ul>
+                </div>
+                <div class="uk-navbar-right">
+                    <ul class="uk-navbar-nav">
+                        <li><a>Welcome user</a></li>
+                        <li><a href="#">Logout</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
 
 	<h1>Welcome to U-ListIt</h1>
 
