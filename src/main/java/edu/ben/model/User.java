@@ -10,6 +10,7 @@ import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.sql.Timestamp;
 
 @Entity(name = "user")
 @Table(name = "user")
@@ -67,6 +68,20 @@ public class User {
 	 *                     this.password.equals(this.passwordConfirm); }
 	 */
 
+	@Column(name = "login_attempts")
+	private int loginAttempts;
+
+	@Column(name = "date_modified")
+	private Timestamp dateModified;
+
+	@Column(name = "date_created")
+	private Timestamp dateCreated;
+
+	@Column(name = "locked")
+	private int locked;
+
+	@Column(name = "admin_level")
+	private int adminLevel;
 
 	public User() {
 	}
@@ -198,5 +213,13 @@ public class User {
 
 	public void setActive(int active) {
 		this.active = active;
+	}
+
+	public int getLoginAttempts() {
+		return loginAttempts;
+	}
+
+	public void setLoginAttempts(int loginAttempts) {
+		this.loginAttempts = loginAttempts;
 	}
 }
