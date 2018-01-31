@@ -37,7 +37,7 @@ public class LoginController {
 		System.out.println(email);
 		System.out.println(password);
 
-		User user = userService.findByEmail(email);
+		User user = userService.findBySchoolEmail(email);
 
 		String url = "";
 		String message = "";
