@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.ben.dao.ListingDAO;
-import edu.ben.dao.UserDAO;
 import edu.ben.model.Listing;
 
 @Service
@@ -40,7 +39,10 @@ public class ListingServiceImpl implements ListingService {
 	@Override
 	public List<Listing> getAllListingsByCategory(String category) {
 		return ld.getAllListingsByCategory(category);
+	}
 		
+	public List<Listing> getRecentListings() {
+		return ld.getRecentListings();
 	}
 
 }

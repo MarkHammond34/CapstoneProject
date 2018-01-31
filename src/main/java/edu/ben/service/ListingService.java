@@ -13,4 +13,6 @@ public interface ListingService {
 	public void create(Listing listing);
 	
 	public List<Listing> getAllListingsByCategory(String category);
+	
+	public List<Listing> getRecentListings();
 }

@@ -104,10 +104,6 @@ public class ListingController {
 
 	@RequestMapping("/createListing")
 	public String listingPage(HttpServletRequest request) {
-		User u = new User(1, "Steve", "Schultz", "Schultz28", "steveschultz73@gmail.com", "b2273469@ben.edu",
-				"cooperstown19", "cooperstown19", 1);
-		request.getSession().setAttribute("u", u);
-
 		User user2 = (User) request.getSession().getAttribute("u");
 		System.out.println("SessionID: " + user2.getUserID());
 

@@ -1,6 +1,8 @@
 package edu.ben.dao;
 
 import java.util.ArrayList;
+
+import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -45,5 +47,22 @@ public class ListingDAOImpl implements ListingDAO {
     	return (List<Listing>) q.list();
     }
 
+	@Override
+	public List<Listing> getRecentListings() {
+		Query q = getSession().createQuery("FROM listing ORDER BY date_created DESC");
+		List<Listing> list = q.list();
+		System.out.println(list.get(0));
+		Iterator<Listing> it = list.iterator();
+		List<Listing> recentListings = new ArrayList<Listing>();
+		
+		while (it.hasNext()) {
+			
+			Listing listing = it.next();
+			recentListings.add(listing);
+			
+		} 
+		
+        return recentListings;
+	}
 
 }
