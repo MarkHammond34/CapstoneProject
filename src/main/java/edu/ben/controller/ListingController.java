@@ -45,7 +45,7 @@ public class ListingController {
 		String message = "";
 		String error = "";
 
-		User u = (User) request.getSession().getAttribute("u");
+		User u = (User) request.getSession().getAttribute("user");
 
 		if (!file.isEmpty()) {
 			try {
@@ -81,6 +81,7 @@ public class ListingController {
 				Listing listing = new Listing(name, description, price, category, file.getOriginalFilename());
 
 				listing.setUser(u);
+				System.out.println("Check to see if session exists: " + u.getUserID());
 				listingService.create(listing);
 
 				message = "Listing Uploaded Successfully";

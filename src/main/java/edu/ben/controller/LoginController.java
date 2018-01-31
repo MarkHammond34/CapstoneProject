@@ -45,11 +45,10 @@ public class LoginController {
 		if (user != null) {
 			if (user.getActive() > 0) {
 				if (user.getPassword() != null && user.getPassword().equals(password)) {
-					HttpSession session = request.getSession(true);
-					session.setAttribute("user", user);
+					request.getSession().setAttribute("user", user);
 					userService.updateAttemptedLogins(0, email);
 					System.out.println("pass match");
-					return "homepage2";
+					return "createListing";
 
 				} else {
 					request.setAttribute("email", email);
