@@ -8,9 +8,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class TransactionController {
 
-	@RequestMapping(value="/checkout", method=RequestMethod.POST)
+	@RequestMapping(value="/checkoutPage", method=RequestMethod.GET)
 	public ModelAndView checkoutPage() {
-		
+		System.out.println("test");
 		return new ModelAndView("checkout");
 	}
 	

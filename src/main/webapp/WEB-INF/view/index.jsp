@@ -8,7 +8,7 @@
 <spring:url value="resources/css/uikit.css" var="uikitCSS" />
 <spring:url value="resources/js/uikit.js" var="uikitJS" />
 <spring:url value="resources/js/jquery.js" var="jquery" />
-<spring:url value="resources/js/uikiticons.js" var="uikiticons" />
+<spring:url value="resources/js/uikit-icons.js" var="uikiticons" />
 <link href="${uikitCSS}" rel="stylesheet" />
 <script type="text/javascript" src="${uikitJS}"></script>
 <script type="text/javascript" src="${jquery}"></script>
@@ -128,60 +128,69 @@ hgroup h2.lead {
 <body>
 
 	<%--Nav Bar--%>
-    <div class="uk-position-relative">
-        <div class="uk-position-relativetop">
-            <nav class="uk-navbar-container uk-navbar-dark" uk-navbar>
-                <div class="uk-navbar-left">
-                    <ul class="uk-navbar-nav">
-                        <li><a href="#">Dashboard</a></li>
-                        <li><a href="#">Manage Users</a></li>
-                        <li><a href="#">Dashboard</a></li>
-                    </ul>
-                </div>
-                <div class="uk-navbar-right">
-                    <ul class="uk-navbar-nav">
-                        <li><a>Welcome user</a></li>
-                        <li><a href="#">Logout</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </div>
-
-	<h1>Welcome to U-ListIt</h1>
-
-	<div class="container">
-
-		<hgroup class="mb20">
-		<h2>Most recent listings</h2>
-		</hgroup>
-
-		<section class="col-xs-12 col-sm-6 col-md-12"> <article
-			class="search-result row">
-		<div class="col-xs-12 col-sm-12 col-md-3">
-			<a href="#" title="Lorem ipsum" class="thumbnail"><img
-				src="<%=request.getContextPath()%>/resources/img/listings/custom_headphone.jpg"
-				alt="Listing" /></a>
+	<div class="uk-position-relative">
+		<div class="uk-position-relativetop">
+			<nav class="uk-navbar-container uk-navbar-dark" uk-navbar>
+			<div class="uk-navbar-left">
+				<ul class="uk-navbar-nav">
+					<li><a href="#">Dashboard</a></li>
+					<li><a href="#">Manage Users</a></li>
+					<li><a href="#">Dashboard</a></li>
+				</ul>
+			</div>
+			<div class="uk-navbar-right">
+				<ul class="uk-navbar-nav">
+					<li><a>Welcome user</a></li>
+					<li><a href="#">Logout</a></li>
+				</ul>
+			</div>
+			</nav>
 		</div>
-		<div class="col-xs-12 col-sm-12 col-md-2">
-			<ul class="meta-search">
-				<li><i class="glyphicon glyphicon-user"></i> <span>User
-						Name</span></li>
-				<li><i class="glyphicon glyphicon-usd"></i> <span>Price
-				</span></li>
-				<li><i class="glyphicon glyphicon-map-marker"></i> <span>Location</span></li>
-			</ul>
-		</div>
-		<div class="col-xs-12 col-sm-12 col-md-7 excerpet">
-			<h3>
-				<a href="#" title="">Name of Product</a>
-			</h3>
-			<p>Description</p>
-			<span class="plus"><a href="/checkout" title="Lorem ipsum"><i
-					class="glyphicon glyphicon-plus"></i></a></span>
-		</div>
-		<span class="clearfix borda"></span> </article> </section>
 	</div>
 
+	<div class="uk-section uk-section-primary">
+		<div class="uk-container">
+			<h1>Welcome to U-ListIt</h1>
+		</div>
+	</div>
+
+	<div class="uk-section uk-section-secondary">
+
+		<div class="uk-container">
+
+			<hgroup class="mb20">
+			<h2>Most recent listings</h2>
+			</hgroup>
+
+			<c:forEach var="listing" items="listings">
+				<section class="col-xs-12 col-sm-6 col-md-12"> <article
+					class="search-result row">
+				<div class="col-xs-12 col-sm-12 col-md-3">
+					<a href="#" title="Lorem ipsum" class="thumbnail"><img
+						src="<%=request.getContextPath()%>/resources/img/listings/custom_headphone.jpg"
+						alt="Listing" /></a>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-2">
+					<ul class="meta-search">
+						<li><i class="glyphicon glyphicon-user"></i> <span>User
+								Name</span></li>
+						<li><i class="glyphicon glyphicon-usd"></i> <span>Price
+						</span></li>
+						<li><i class="glyphicon glyphicon-map-marker"></i> <span>Location</span></li>
+					</ul>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-7 excerpet">
+					<h3>
+						<a href="#" title="">Name of Product</a>
+					</h3>
+					<p>Description</p>
+					<span class="plus"><a
+						href="${pageContext.request.contextPath}/checkoutPage"
+						title="Lorem ipsum"><i class="glyphicon glyphicon-plus"></i></a></span>
+				</div>
+				<span class="clearfix borda"></span> </article> </section>
+			</c:forEach>
+		</div>
+	</div>
 </body>
 </html>
