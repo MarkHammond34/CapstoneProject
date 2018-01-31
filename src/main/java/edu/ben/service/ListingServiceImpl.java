@@ -36,7 +36,7 @@ public class ListingServiceImpl implements ListingService {
 		ld.create(listing);
 	}
 
-	@Override
+	
 	public List<Listing> getAllListingsByCategory(String category) {
 		return ld.getAllListingsByCategory(category);
 	}

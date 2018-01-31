@@ -45,24 +45,30 @@ public class ListingDAOImpl implements ListingDAO {
     	Query q = getSession().createQuery("FROM listing WHERE category=:category");
     	q.setParameter("category", category);
     	return (List<Listing>) q.list();
-    }	
+    }
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Listing> getRecentListings() {
-		Query q = getSession().createQuery("FROM listing ORDER BY date_created DESC");
-		System.out.println(q.getQueryString());
-		List<Listing> list = (List<Listing>) q.list();
-		Iterator<Listing> it = list.iterator();
-		List<Listing> recentListings = new ArrayList<Listing>();
-		
-		while (it.hasNext()) {
-			
-			Listing listing = it.next();
-			recentListings.add(listing);
-			
-		} 
-		
-        return recentListings;
-	}
+		// TODO Auto-generated method stub
+		return null;
+	}	
+
+//	@SuppressWarnings("unchecked")
+//	@Override
+//	public List<Listing> getRecentListings() {
+//		Query q = getSession().createQuery("FROM listing ORDER BY date_created DESC");
+//		System.out.println(q.getQueryString());
+//		List<Listing> list = (List<Listing>) q.list();
+//		Iterator<Listing> it = list.iterator();
+//		List<Listing> recentListings = new ArrayList<Listing>();
+//		
+//		while (it.hasNext()) {
+//			
+//			Listing listing = it.next();
+//			recentListings.add(listing);
+//			
+//		} 
+//		
+//        return recentListings;
+//	}
 }

@@ -61,7 +61,7 @@ public class User {
 
 	@Column(name = "active")
 	private int active;
-	
+
 	/**
 	 * @AssertTrue(message = "Passwords Do Not Match") private boolean
 	 *                     matchingPassword() { return
@@ -86,10 +86,10 @@ public class User {
 	public User() {
 	}
 
-    @AssertTrue(message = "Passwords Must Match")
-    public boolean isMatching() {
-        return this.password.equals(this.passwordConfirm);
-    }
+	@AssertTrue(message = "Passwords Must Match")
+	public boolean isMatching() {
+		return this.password.equals(this.passwordConfirm);
+	}
 
 	public User(String firstName, String lastName, String username, String email, String schoolEmail, String password) {
 		this.firstName = firstName;
@@ -221,5 +221,9 @@ public class User {
 
 	public void setLoginAttempts(int loginAttempts) {
 		this.loginAttempts = loginAttempts;
+	}
+
+	public void setAdmin(int i) {
+		this.adminLevel = i;
 	}
 }

@@ -1,9 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<spring:url value="resources/css/uikit.css" var="uikitCSS" />
+<spring:url value="resources/js/uikit.js" var="uikitJS" />
+<spring:url value="resources/js/jquery.js" var="jquery" />
+<spring:url value="resources/js/uikit-icons.js" var="uikiticons" />
+<link href="${uikitCSS}" rel="stylesheet" />
+<script type="text/javascript" src="${uikitJS}"></script>
+<script type="text/javascript" src="${jquery}"></script>
+<script type="text/javascript" src="${uikiticons}"></script>
 <style>
 @import "http://fonts.googleapis.com/css?family=Roboto:300,400,500,700";
 
@@ -117,59 +127,100 @@ hgroup h2.lead {
 <title>Listing Results</title>
 </head>
 <body>
-
-	<select name="state" class="ddList">
-		<option value="">All Channels</option>
-		<option class="lt" value="--">none</option>
-		<option class="lt" value="AL">Alabama</option>
-		<option class="lt" value="AK">Alaska</option>
-		<option class="lt" value="AZ">Arizona</option>
-		<option class="lt" value="AR">Arkansas</option>
-		<option class="lt" value="CA">California</option>
-		<option class="lt" value="CO">Colorado</option>
-	</select>
-
-	<div class="container">
-
-		
-		<hgroup class="mb20">
-		<h1>Results</h1>
-		<h2 class="lead">
-			<strong class="text-danger">${listings.size()}</strong> results were
-			found for the search for <strong class="text-danger">${category}</strong>
-		</h2>
-		</hgroup>
-
-		<c:forEach var="listings" items="${listings}">
-
-			<section class="col-xs-12 col-sm-6 col-md-12"> <article
-				class="search-result row">
-			<div class="col-xs-12 col-sm-12 col-md-3">
-				<a href="#" title="Lorem ipsum" class="thumbnail"><img
-					src="<%=request.getContextPath()%>/resources/img/listings/custom_headphone.jpg"
-					alt="Listing" /></a>
-			</div>
-			<div class="col-xs-12 col-sm-12 col-md-2">
-				<ul class="meta-search">
-					<li><i class="glyphicon glyphicon-user"></i> <span>${user.username}</span></li>
-					<li><i class="glyphicon glyphicon-usd"></i> <span>Price
-					</span></li>
-					<li><i class="glyphicon glyphicon-map-marker"></i> <span>Insert
-							Location Here</span></li>
+	<%--Nav Bar--%>
+	<div class="uk-position-relative">
+		<div class="uk-position-relativetop">
+			<nav class="uk-navbar-container uk-navbar-dark" uk-navbar>
+			<div class="uk-navbar-left">
+				<ul class="uk-navbar-nav">
+					<li><a href="/">Home</a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/displayListing">View
+							Listings</a></li>
+					<li><a href="${pageContext.request.contextPath}/createListing">Create
+							Listing</a></li>
 				</ul>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-7 excerpet">
-				<h3>
-					<a href="#" title="">${listings.name}</a>
-				</h3>
-				<p>${listings.description}</p>
-				<span class="plus"><a href="#" title="Lorem ipsum"><i
-						class="glyphicon glyphicon-plus"></i></a></span>
-
+			<div class="uk-navbar-right">
+				<ul class="uk-navbar-nav">
+					<li><a>Welcome user</a></li>
+					<li><a href="#">Logout</a></li>
+				</ul>
 			</div>
-			<span class="clearfix borda"></span> </article> </section>
-		</c:forEach>
+			</nav>
+		</div>
 	</div>
+	<div class="container">
+		<form method="POST" action="displayListingByCategory">
+			<div class="row">
+				<div class="col-xs-6">
+					<div class="input-group">
+						<span class="input-group-addon">Category </span> <select
+							class="form-control" id="categorytype" name="category">
+							<option value="" disabled selected>Select Category</option>
+							<option value="apparel">Apparel</option>
+							<option value="books">Books</option>
+							<option value="furnature">Furnature</option>
+							<option value="supplies">School Supplies</option>
+							<option value="technology">Technology</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class="row">
+						<h2>
+							<button type="submit" class="btn btn-labeled btn-success">
+								<span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Submit
+							</button>
+							<br />
+						</h2>
+					</div>
+				</div>
+			</div>
+		</form>
+		<c:if test="${listings != null}">
+			<div class="container">
 
+
+				<hgroup class="mb20">
+				<h1>Results</h1>
+				<h2 class="lead">
+					<strong class="text-danger">${listings.size()}</strong> results
+					were found for the search for <strong class="text-danger">${category}</strong>
+				</h2>
+				</hgroup>
+
+				<c:forEach var="listings" items="${listings}">
+
+					<section class="col-xs-12 col-sm-6 col-md-12"> <article
+						class="search-result row">
+					<div class="col-xs-12 col-sm-12 col-md-3">
+						<a href="#" title="Lorem ipsum" class="thumbnail"><img
+							src="<%=request.getContextPath()%>/resources/img/listings/${listings.image_path}"
+							alt="Listing" height="140" width="250" /></a>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-2">
+						<ul class="meta-search">
+							<li><i class="glyphicon glyphicon-user"></i> <span>${user.username}</span></li>
+							<li><i class="glyphicon glyphicon-usd"></i> <span>${listings.price}
+							</span></li>
+							<li><i class="glyphicon glyphicon-map-marker"></i> <span>Insert
+									Location Here</span></li>
+						</ul>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-7 excerpet">
+						<h3>
+							<a href="#" title="">${listings.name}</a>
+						</h3>
+						<p>${listings.description}</p>
+						<span class="plus"><a href="#" title="Lorem ipsum"><i
+								class="glyphicon glyphicon-plus"></i></a></span>
+
+					</div>
+					<span class="clearfix borda"></span> </article> </section>
+				</c:forEach>
+			</div>
+		</c:if>
+	</div>
 </body>
 </html>

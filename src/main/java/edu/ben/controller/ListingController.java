@@ -104,6 +104,10 @@ public class ListingController {
 
 	@RequestMapping("/createListing")
 	public String listingPage(HttpServletRequest request) {
+		User u = new User (1,"Steven", "Schultz", "Schultz28", "steveschultz73@gmail.com", "b2273469@ben.edu", "cooperstown19", "cooperstown19", 1);
+
+		request.getSession().setAttribute("u", u);
+		
 		User user2 = (User) request.getSession().getAttribute("u");
 		System.out.println("SessionID: " + user2.getUserID());
 
@@ -111,13 +115,21 @@ public class ListingController {
 	}
 
 	@RequestMapping("/displayListing")
-	public String displayListing(@RequestParam("category") String category, HttpServletRequest request, Model model) {
+	public String displayListing() {
 
+		return "displayListing";
+	}
+	
+	@RequestMapping("/displayListingByCategory")
+	public String displayListingByCategory(@RequestParam("category") String category, HttpServletRequest request, Model model) {
+
+		System.out.println("Listing Category for display: "+category);
 		List<Listing> listings = listingService.getAllListingsByCategory(category);
 		System.out.println("List size = " + listings.size());
 
 		User user = (User) request.getSession().getAttribute("u");
 
+		System.out.println("User attribute: " + user.getUsername());
 		model.addAttribute("user", user);
 		model.addAttribute("category", category);
 		model.addAttribute("listings", listings);
