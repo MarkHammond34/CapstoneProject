@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 
-@Entity
+@Entity(name = "listing")
 @Table(name = "listing")
 @Transactional
 public class Listing implements java.io.Serializable {

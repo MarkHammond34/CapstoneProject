@@ -3,6 +3,7 @@ package edu.ben.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -38,15 +39,13 @@ public class ListingController {
 	public String uploadFileHandler(@RequestParam("title") String name, @RequestParam("category") String category,
 			@RequestParam("price") double price, @RequestParam("description") String description,
 			@RequestParam("file") MultipartFile file, Model model, HttpServletRequest request) {
-		
+
 		System.out.println("Hit UploadListing Controller");
 
 		String message = "";
 		String error = "";
-		
-		User u = (User) request.getSession().getAttribute("u");
 
-		
+		User u = (User) request.getSession().getAttribute("u");
 
 		if (!file.isEmpty()) {
 			try {
@@ -72,15 +71,15 @@ public class ListingController {
 					dir.mkdirs();
 
 				// Create the file on server
-				
+
 				System.out.println("Hit Controller 2");
 				File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
 				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 				stream.write(bytes);
-				
+
 				System.out.println("File Uploaded");
 				Listing listing = new Listing(name, description, price, category, file.getOriginalFilename());
-			
+
 				listing.setUser(u);
 				listingService.create(listing);
 
@@ -89,7 +88,7 @@ public class ListingController {
 				stream.close();
 
 				// Listing l = new Listing(name, description, price, category, file );
-//				 ld.create(l);
+				// ld.create(l);
 
 				return "createListing";
 			} catch (Exception e) {
@@ -105,17 +104,28 @@ public class ListingController {
 
 	@RequestMapping("/createListing")
 	public String listingPage(HttpServletRequest request) {
-		User u = new User (1, "Steve", "Schultz", "Schultz28", "steveschultz73@gmail.com", "b2273469@ben.edu", "cooperstown19", "cooperstown19", 1);
+		User u = new User(1, "Steve", "Schultz", "Schultz28", "steveschultz73@gmail.com", "b2273469@ben.edu",
+				"cooperstown19", "cooperstown19", 1);
 		request.getSession().setAttribute("u", u);
-		
+
 		User user2 = (User) request.getSession().getAttribute("u");
 		System.out.println("SessionID: " + user2.getUserID());
-		
+
 		return "createListing";
 	}
 
 	@RequestMapping("/displayListing")
-	public String displayListing() {
+	public String displayListing(@RequestParam("category") String category, HttpServletRequest request, Model model) {
+
+		List<Listing> listings = listingService.getAllListingsByCategory(category);
+		System.out.println("List size = " + listings.size());
+
+		User user = (User) request.getSession().getAttribute("u");
+
+		model.addAttribute("user", user);
+		model.addAttribute("category", category);
+		model.addAttribute("listings", listings);
+
 		return "displayListing";
 	}
 

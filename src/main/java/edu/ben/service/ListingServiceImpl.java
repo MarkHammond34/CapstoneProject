@@ -1,5 +1,7 @@
 package edu.ben.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,12 @@ public class ListingServiceImpl implements ListingService {
 	@Override
 	public void create(Listing listing) {
 		ld.create(listing);
+	}
+
+	@Override
+	public List<Listing> getAllListingsByCategory(String category) {
+		return ld.getAllListingsByCategory(category);
+		
 	}
 
 }

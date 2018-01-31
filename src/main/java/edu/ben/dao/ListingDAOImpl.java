@@ -1,5 +1,9 @@
 package edu.ben.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +36,13 @@ public class ListingDAOImpl implements ListingDAO {
         Listing listing = (Listing) getSession().get(Listing.class, id);
         getSession().delete(listing);
 
+    }
+    
+    @SuppressWarnings("unchecked")
+	public List<Listing> getAllListingsByCategory(String category) {
+    	Query q = getSession().createQuery("FROM listing WHERE category=:category");
+    	q.setParameter("category", category);
+    	return (List<Listing>) q.list();
     }
 
 
