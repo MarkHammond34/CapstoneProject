@@ -162,7 +162,7 @@ hgroup h2.lead {
 			<h2>Most recent listings</h2>
 			</hgroup>
 
-			<c:forEach var="listing" items="listings">
+			<c:forEach var="listing" items="${listings}">
 				<section class="col-xs-12 col-sm-6 col-md-12"> <article
 					class="search-result row">
 				<div class="col-xs-12 col-sm-12 col-md-3">
