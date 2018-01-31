@@ -43,6 +43,11 @@
 							Listings</a></li>
 					<li><a href="${pageContext.request.contextPath}/createListing">Create
 							Listing</a></li>
+					<li>
+						<form class="uk-search" data-uk-search>
+							<input class="uk-search-field" type="search" placeholder="">
+						</form>
+					</li>
 				</ul>
 			</div>
 			<div class="uk-navbar-right">
