@@ -1,8 +1,24 @@
+package edu.ben.controller;
+
 import edu.ben.model.Listing;
 import edu.ben.model.User;
 import edu.ben.service.ListingService;
 import edu.ben.service.UserService;
 import edu.ben.util.ImagePath;
+import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.List;
 
 @Controller
 public class ListingController {
@@ -15,8 +31,8 @@ public class ListingController {
 	 */
 	@RequestMapping(value = "/uploadListing", method = RequestMethod.POST)
 	public String uploadFileHandler(@RequestParam("title") String name, @RequestParam("category") String category,
-			@RequestParam("price") double price, @RequestParam("description") String description,
-			@RequestParam("file") MultipartFile file, Model model, HttpServletRequest request) {
+									@RequestParam("price") double price, @RequestParam("description") String description,
+									@RequestParam("file") MultipartFile file, Model model, HttpServletRequest request) {
 
 		System.out.println("Hit UploadListing Controller");
 
