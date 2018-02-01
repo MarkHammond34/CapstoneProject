@@ -26,8 +26,6 @@
 
 <body>
 
-	<div class="uk-background-muted">
-
 		<%--Nav Bar--%>
 		<div class="uk-position-relative">
 			<div class="uk-position-relativetop">
@@ -62,7 +60,7 @@
 			</div>
 		</div>
 
-
+		<div class="uk-background-muted">
 
 		<button class="uk-button uk-button-default demo uk-position-center"
 			type="button"
@@ -76,8 +74,6 @@
 
 			</div>
 		</div>
-
-
 
 		<script>
 			paypal.Button
