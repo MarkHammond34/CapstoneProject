@@ -1,8 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<spring:url value="resources/css/uikit.css" var="uikitCSS" />
+<spring:url value="resources/js/uikit.js" var="uikitJS" />
+<spring:url value="resources/js/jquery.js" var="jquery" />
+<spring:url value="resources/js/uikit-icons.js" var="uikiticons" />
+<link href="${uikitCSS}" rel="stylesheet" />
+<script type="text/javascript" src="${uikitJS}"></script>
+<script type="text/javascript" src="${jquery}"></script>
+<script type="text/javascript" src="${uikiticons}"></script>
 <style>
 @import "http://fonts.googleapis.com/css?family=Roboto:300,400,500,700";
 
@@ -116,48 +127,164 @@ hgroup h2.lead {
 <title>Listing Results</title>
 </head>
 <body>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-
-	<div class="container">
-
-		<hgroup class="mb20">
-		<h1>Results</h1>
-		<h2 class="lead">
-			<strong class="text-danger">#</strong> results were found for the
-			search for <strong class="text-danger">Result</strong>
-		</h2>
-		</hgroup>
-
-		<section class="col-xs-12 col-sm-6 col-md-12"> <article
-			class="search-result row">
-		<div class="col-xs-12 col-sm-12 col-md-3">
-			<a href="#" title="Lorem ipsum" class="thumbnail"><img
-				src="<%=request.getContextPath()%>/resources/img/listings/custom_headphone.jpg"
-				alt="Listing" /></a>
+	<%--Nav Bar--%>
+	<div class="uk-position-relative">
+		<div class="uk-position-relativetop">
+			<nav class="uk-navbar-container uk-navbar-dark" uk-navbar>
+			<div class="uk-navbar-left">
+				<ul class="uk-navbar-nav">
+					<li><a href="/">Home</a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/displayListing">View
+							Listings</a></li>
+					<li><a href="${pageContext.request.contextPath}/createListing">Create
+							Listing</a></li>
+					<li>
+						<div class="uk-margin">
+							<form class="uk-search uk-search-default" method="POST"
+								action="search">
+								<span uk-search-icon></span> <input class="uk-search-input"
+									type="search" placeholder="Search..." name="search">
+							</form>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="uk-navbar-right">
+				<ul class="uk-navbar-nav">
+					<li><a>Welcome user</a></li>
+					<li><a href="#">Logout</a></li>
+				</ul>
+			</div>
+			</nav>
 		</div>
-		<div class="col-xs-12 col-sm-12 col-md-2">
-			<ul class="meta-search">
-				<li><i class="glyphicon glyphicon-user"></i> <span>User
-						Name</span></li>
-				<li><i class="glyphicon glyphicon-usd"></i> <span>Price
-				</span></li>
-				<li><i class="glyphicon glyphicon-map-marker"></i> <span>Location</span></li>
-			</ul>
-		</div>
-		<div class="col-xs-12 col-sm-12 col-md-7 excerpet">
-			<h3>
-				<a href="#" title="">Name of Product</a>
-			</h3>
-			<p>Description</p>
-			<span class="plus"><a href="#" title="Lorem ipsum"><i
-					class="glyphicon glyphicon-plus"></i></a></span>
-		</div>
-		<span class="clearfix borda"></span> </article> </section>
 	</div>
+	<div class="container">
+		<form method="POST" action="displayListingByCategory">
+			<div class="row">
+				<div class="col-xs-6 col-xs-offset-2">
+					<div class="input-group">
+						<span class="input-group-addon">Category </span> <select
+							class="form-control" id="categorytype" name="category">
+							<option value="" disabled selected>Select Category</option>
+							<option value="apparel">Apparel</option>
+							<option value="books">Books</option>
+							<option value="furnature">Furnature</option>
+							<option value="supplies">School Supplies</option>
+							<option value="technology">Technology</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<div class="row">
+						<h2>
+							<button type="submit" class="btn btn-labeled btn-success">
+								<span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Submit
+							</button>
+							<br/>
+						</h2>
+					</div>
+				</div>
+			</div>
+		</form>
+		<c:if test="${listings != null}">
+			<div class="container">
 
 
+				<hgroup class="mb20">
+				<h1>Results</h1>
+				<h2 class="lead">
+					<strong class="text-danger">${listings.size()}</strong> results
+					were found for the search for <strong class="text-danger">${category}</strong>
+				</h2>
+				</hgroup>
+
+				<c:forEach var="listings" items="${listings}">
+
+					<section class="col-xs-12 col-sm-6 col-md-12"> <article
+						class="search-result row">
+					<div class="col-xs-12 col-sm-12 col-md-3">
+						<a href="#" title="Lorem ipsum" class="thumbnail"><img
+							src="<%=request.getContextPath()%>/resources/img/listings/${listings.image_path}"
+							alt="Listing" height="140" width="250" /></a>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-2">
+						<ul class="meta-search">
+							<li><i class="glyphicon glyphicon-user"></i> <span>${user.username}</span></li>
+							<li><i class="glyphicon glyphicon-usd"></i> <span>${listings.price}
+							</span></li>
+							<li><i class="glyphicon glyphicon-map-marker"></i> <span>Insert
+									Location Here</span></li>
+						</ul>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-7 excerpet">
+						<h3>
+							<a href="#" title="">${listings.name}</a>
+						</h3>
+						<p>${listings.description}</p>
+						<div class="row">
+							<div class="col-xs-6">
+
+								<span class="plus"><a href="#" title="Lorem ipsum"><i
+										class="glyphicon glyphicon-plus"></i></a></span> <span class="plus"></span>
+							</div>
+							<div class="col-xs-6">
+								<a href="#editCategoryModal${listings.id}" data-toggle="modal"
+									data-target="#editCategoryModal${listings.id}"><span
+									class="glyphicon glyphicon-edit" data-toggle="tooltip"
+									data-placement="right" title="Edit ${listings.name}!"></span></a>
+							</div>
+						</div>
+					</div>
+					<span class="clearfix borda"></span> </article> </section>
+
+					<div id="editListingModal${listings.id}" class="modal fade"
+						role="dialog" style="margin-top: 15%;">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">x</button>
+									<h3 class="modal-title">Edit ${listings.name}</h3>
+								</div>
+								<div class="modal-body">
+									<form method="post" action="editCategory" name="edit_category">
+										<input type="hidden" name="${tempCategory2.name}">
+										<p>
+											<label>Current Name:</label> <input type="text" class="span3"
+												name=oldCategory value="${listing.name}" readonly>
+										</p>
+
+										<p>
+											<label>New Name:</label> <input type="text" class="span3"
+												name=newCategory placeholder="Category_Name">
+										</p>
+
+										<div class="form-group"></div>
+
+										<div class="checkbox">
+											<label><input type="checkbox" name="private-checkbox"
+												<c:if test="${tempCategory2.visibility == 0}">checked</c:if>>Private</label>
+										</div>
+										<p>
+											<button type="submit" class="btn btn-primary">Update</button>
+										</p>
+									</form>
+									<form method="post" action="removeCategory"
+										name="remove_category">
+										<input type="hidden" name=categoryID value="${listings.id}"
+											readonly> <input type="hidden" name=category
+											value="${tempCategory2.name}" readonly>
+										<p>
+											<button type="submit" class="btn btn-primary">Remove</button>
+										</p>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+			</div>
+		</c:if>
+	</div>
 </body>
-</html>
-
 </html>

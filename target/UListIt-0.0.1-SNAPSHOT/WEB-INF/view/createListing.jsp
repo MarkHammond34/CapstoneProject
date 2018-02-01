@@ -1,18 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<style>
+.uk-margin {
+	padding-top: 20px;
+}
+</style>
+<spring:url value="resources/css/uikit.css" var="uikitCSS" />
+<spring:url value="resources/js/uikit.js" var="uikitJS" />
+<spring:url value="resources/js/jquery.js" var="jquery" />
+<spring:url value="resources/js/uikit-icons.js" var="uikiticons" />
+<link href="${uikitCSS}" rel="stylesheet" />
+<script type="text/javascript" src="${uikitJS}"></script>
+<script type="text/javascript" src="${jquery}"></script>
+<script type="text/javascript" src="${uikiticons}"></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
 	crossorigin="anonymous">
 
-
-
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>CreateListing</title>
 </head>
+
 <body>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
@@ -20,6 +34,39 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+	<%--Nav Bar--%>
+	<div class="uk-position-relative">
+		<div class="uk-position-relativetop">
+			<nav class="uk-navbar-container uk-navbar-dark" uk-navbar>
+			<div class="uk-navbar-left">
+				<ul class="uk-navbar-nav">
+					<li><a href="${pageContext.request.contextPath}/">Home</a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/displayListing">View
+							Listings</a></li>
+					<li><a href="${pageContext.request.contextPath}/createListing">Create
+							Listing</a></li>
+					<li>
+						<div class="uk-margin">
+							<form class="uk-search uk-search-default" method="POST"
+								action="search">
+								<span uk-search-icon></span> <input class="uk-search-input"
+									type="search" placeholder="Search..." name = "search">
+							</form>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="uk-navbar-right">
+				<ul class="uk-navbar-nav">
+					<li><a>Welcome user</a></li>
+					<li><a href="#">Logout</a></li>
+				</ul>
+			</div>
+			</nav>
+		</div>
+	</div>
 
 	<div class="container">
 		<c:if test="${message != null}">
@@ -54,9 +101,12 @@
 					<div class="form-group">
 						<strong>Category</strong><select id="category" name="category"
 							class="form-control" required>
-							<option value="furnature">Furnature</option>
+							<option value="" disabled selected>Select Category</option>
+							<option value="apparel">Apparel</option>
 							<option value="books">Books</option>
-							<option value="supplies">School Supples</option>
+							<option value="furnature">Furnature</option>
+							<option value="supplies">School Supplies</option>
+							<option value="technology">Technology</option>
 						</select>
 					</div>
 					<div class="form-group">
@@ -78,6 +128,7 @@
 			</div>
 		</div>
 	</div>
+	<br>
 
 </body>
 <script type="text/javascript">
