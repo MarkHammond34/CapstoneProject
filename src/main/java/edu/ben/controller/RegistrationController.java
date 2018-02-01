@@ -56,6 +56,7 @@ public class RegistrationController extends BaseController {
 					user.setSecurityLevel(3);
 				}
 
+				user.setActive(1);
 				userService.create(user);
 				userService.lockByUsername(user.getUsername());
 				request.getSession().setAttribute("action", "registration");
