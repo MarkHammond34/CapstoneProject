@@ -1,8 +1,6 @@
 package edu.ben.dao;
 
-import java.sql.ResultSet;
-import java.util.List;
-
+import edu.ben.model.User;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -10,9 +8,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import edu.ben.model.User;
-
-import javax.persistence.TypedQuery;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -89,19 +87,37 @@ public class UserDAOImpl implements UserDAO {
 
     }
 
-	public void updateAttemptedLogins(int attemptedLogins, String email) {
+    public void updateAttemptedLogins(int attemptedLogins, String email) {
 
-		Query q = getSession().createQuery("UPDATE user SET login_attempts=:attemptedLogins + 1 WHERE email=:email");
-		q.setParameter("attemptedLogins", attemptedLogins);
-		q.setParameter("email", email);
-		q.executeUpdate();
-	}
-
-	public void updateIsActive(int isActive, String email) {
-
-		Query q = getSession().createQuery("UPDATE user SET active=:isActive WHERE email=:email");
-		q.setParameter("isActive", isActive);
+        Query q = getSession().createQuery("UPDATE user SET login_attempts=:attemptedLogins + 1 WHERE email=:email");
+        q.setParameter("attemptedLogins", attemptedLogins);
         q.setParameter("email", email);
-		q.executeUpdate();
-	}
+        q.executeUpdate();
+    }
+
+    public void updateIsActive(int isActive, String email) {
+
+        Query q = getSession().createQuery("UPDATE user SET active=:isActive WHERE email=:email");
+        q.setParameter("isActive", isActive);
+        q.setParameter("email", email);
+        q.executeUpdate();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<User> getRecentUsers() {
+        Query q = getSession().createQuery("FROM user ORDER BY date_created DESC");
+        List<User> list = (List<User>) q.list();
+        Iterator<User> it = list.iterator();
+        List<User> recentListings = new ArrayList<User>();
+
+        while (it.hasNext()) {
+
+            User usr = it.next();
+            recentListings.add(usr);
+
+        }
+
+        return recentListings;
+    }
 }

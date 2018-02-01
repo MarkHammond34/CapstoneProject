@@ -29,5 +29,7 @@ public interface UserService {
 	public void updateAttemptedLogins(int loginAttempts, String email);
 
 	public void updateIsActive(int isActive, String email);
+
+	public List<User> getRecentUsers();
 }
 
