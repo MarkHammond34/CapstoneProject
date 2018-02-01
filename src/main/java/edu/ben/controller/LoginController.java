@@ -56,7 +56,7 @@ public class LoginController {
 					System.out.println(loginAttempts);
 					userService.updateAttemptedLogins(loginAttempts, email);
 					if (loginAttempts >= 5) {
-						userService.updateIsActive(0, email);
+						userService.lockByUsername(user.getUsername());
 						message = "invalid username and password - login limit exceeded, your account has been locked out";
 					} else {
 						message = "invalid password - you have " + (5 - loginAttempts) + " remaining";

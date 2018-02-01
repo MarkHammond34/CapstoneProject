@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class CommunityController extends BaseController {
 
-	@RequestMapping(value = "/communityPage", method = RequestMethod.POST)
+	@RequestMapping(value = "/communityPage", method = RequestMethod.GET)
 	public ModelAndView community() {
 		ModelAndView model = new ModelAndView("/community");
 		//List<User> list = userService.getAllUsers();

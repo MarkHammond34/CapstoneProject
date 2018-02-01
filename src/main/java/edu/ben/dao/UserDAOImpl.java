@@ -89,7 +89,7 @@ public class UserDAOImpl implements UserDAO {
 
 	public void updateAttemptedLogins(int attemptedLogins, String email) {
 
-		Query q = getSession().createQuery("UPDATE user SET login_attempts=:attemptedLogins + 1 WHERE email=:email");
+		Query q = getSession().createQuery("UPDATE user SET login_attempts=:attemptedLogins WHERE email=:email");
 		q.setParameter("attemptedLogins", attemptedLogins);
 		q.setParameter("email", email);
 		q.executeUpdate();
