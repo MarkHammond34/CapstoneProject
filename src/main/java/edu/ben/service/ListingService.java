@@ -15,4 +15,6 @@ public interface ListingService {
 	public List<Listing> getAllListingsByCategory(String category);
 	
 	public List<Listing> getRecentListings();
+	
+	public List<Listing> getAllListingsByUserID(int userID);
 }

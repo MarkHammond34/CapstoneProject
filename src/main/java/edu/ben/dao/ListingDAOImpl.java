@@ -18,34 +18,34 @@ import edu.ben.model.User;
 @Transactional
 @Repository
 public class ListingDAOImpl implements ListingDAO {
-	
+
 	@Autowired
-    private SessionFactory sessionFactory;
+	private SessionFactory sessionFactory;
 
-    private Session getSession() {
-        return sessionFactory.getCurrentSession();
-    }
-    
-    public void create(Listing listing) {
-        getSession().save(listing);
-    }
-    
-    public void saveOrUpdate(Listing listing) {
-        getSession().saveOrUpdate(listing);
-    }
-    
-    public void deleteListing(int id) {
-        Listing listing = (Listing) getSession().get(Listing.class, id);
-        getSession().delete(listing);
+	private Session getSession() {
+		return sessionFactory.getCurrentSession();
+	}
 
-    }
+	public void create(Listing listing) {
+		getSession().save(listing);
+	}
+
+	public void saveOrUpdate(Listing listing) {
+		getSession().saveOrUpdate(listing);
+	}
+
+	public void deleteListing(int id) {
+		Listing listing = (Listing) getSession().get(Listing.class, id);
+		getSession().delete(listing);
+
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<Listing> getAllListingsByCategory(String category) {
-    	Query q = getSession().createQuery("FROM listing WHERE category=:category");
-    	q.setParameter("category", category);
-    	return (List<Listing>) q.list();
-    }
+		Query q = getSession().createQuery("FROM listing WHERE category=:category");
+		q.setParameter("category", category);
+		return (List<Listing>) q.list();
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -54,14 +54,30 @@ public class ListingDAOImpl implements ListingDAO {
 		List<Listing> list = (List<Listing>) q.list();
 		Iterator<Listing> it = list.iterator();
 		List<Listing> recentListings = new ArrayList<Listing>();
-		
+
 		while (it.hasNext()) {
-			
+
 			Listing listing = it.next();
 			recentListings.add(listing);
-			
-		} 
-		
-        return recentListings;
+
+		}
+
+		return recentListings;
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Listing> getAllListingsByUserID(int userID) {
+		Query q = getSession().createSQLQuery("select * from ulistit.listing where userID = " + userID + ";");
+		return ((List<Listing>) q.list());
+
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Listing> searchCategory(String category) {
+		Query q = getSession()
+				.createSQLQuery("SELECT * FROM ulistit.listing WHERE SOUNDEX(category)=soundex('" + category + "');");
+		return (List<Listing>) q.list();
+	}
+
 }

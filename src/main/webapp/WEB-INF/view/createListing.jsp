@@ -41,7 +41,7 @@
 			<nav class="uk-navbar-container uk-navbar-dark" uk-navbar>
 			<div class="uk-navbar-left">
 				<ul class="uk-navbar-nav">
-					<li><a href="/">Home</a></li>
+					<li><a href="${pageContext.request.contextPath}/">Home</a></li>
 					<li><a
 						href="${pageContext.request.contextPath}/displayListing">View
 							Listings</a></li>
@@ -52,7 +52,7 @@
 							<form class="uk-search uk-search-default" method="POST"
 								action="searchResults">
 								<span uk-search-icon></span> <input class="uk-search-input"
-									type="search" placeholder="Search...">
+									type="search" placeholder="Search..." name = "search">
 							</form>
 						</div>
 					</li>
