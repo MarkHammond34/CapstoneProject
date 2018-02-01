@@ -127,15 +127,27 @@ hgroup h2.lead {
 </head>
 <body>
 
-	<%--Nav Bar--%>
+		<%--Nav Bar--%>
 	<div class="uk-position-relative">
 		<div class="uk-position-relativetop">
 			<nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
 			<div class="uk-navbar-left">
 				<ul class="uk-navbar-nav">
-					<li><a href="#">Dashboard</a></li>
-					<li><a href="#">Manage Users</a></li>
-					<li><a href="#">Dashboard</a></li>
+					<li><a href="${pageContext.request.contextPath}/">Home</a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/displayListing">View
+							Listings</a></li>
+					<li><a href="${pageContext.request.contextPath}/createListing">Create
+							Listing</a></li>
+					<li>
+						<div class="uk-margin">
+							<form class="uk-search uk-search-default" method="POST"
+								action="searchResults">
+								<span uk-search-icon></span> <input class="uk-search-input"
+									type="search" placeholder="Search...">
+							</form>
+						</div>
+					</li>
 				</ul>
 			</div>
 			<div class="uk-navbar-right">
