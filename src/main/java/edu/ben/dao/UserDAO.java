@@ -29,4 +29,8 @@ public interface UserDAO {
 	public void updateAttemptedLogins(int attemptedLogins, String email);
 
 	public void updateIsActive(int isActive, String email);
+
+	public List<User> getRecentUsers();
+	
+	public List<User> soundexResults();
 }
