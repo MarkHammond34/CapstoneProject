@@ -50,4 +50,9 @@ public class ListingServiceImpl implements ListingService {
 		return ld.getAllListingsByUserID(userID);
 	}
 
+	@Override
+	public void updateListingActiveStatusByID(int active, int id) {
+		ld.updateListingActiveStatusByID(active, id);
+	}
+
 }

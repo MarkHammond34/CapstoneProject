@@ -1,6 +1,5 @@
 package edu.ben.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.ben.model.Listing;
@@ -21,5 +20,5 @@ public interface ListingDAO {
 	
 	public List<Listing> searchCategory(String category);
 	
-	
+	public void updateListingActiveStatusByID(int active, int id);
 }

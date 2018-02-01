@@ -7,72 +7,111 @@
 <html>
 <head>
 <spring:url value="resources/css/uikit.css" var="uikitCSS" />
-    <spring:url value="resources/js/uikit.js" var="uikitJS"/>
-    <spring:url value="resources/js/jquery.js" var="jquery"/>
-    <spring:url value="resources/js/uikiticons.js" var="uikiticons"/>
+<spring:url value="resources/js/uikit.js" var="uikitJS" />
+<spring:url value="resources/js/jquery.js" var="jquery" />
+<spring:url value="resources/js/uikit-icons.js" var="uikiticons" />
 <link href="${uikitCSS}" rel="stylesheet" />
-    <script type="text/javascript" src="${uikitJS}"></script>
-    <script type="text/javascript" src="${jquery}"></script>
-    <script type="text/javascript" src="${uikiticons}"></script>
+<script type="text/javascript" src="${uikitJS}"></script>
+<script type="text/javascript" src="${jquery}"></script>
+<script type="text/javascript" src="${uikiticons}"></script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Community</title>
 
 </head>
 <body>
-	<%--Nav Bar--%>
-    <div class="uk-position-relative">
-        <div class="uk-position-relativetop">
-            <nav class="uk-navbar-container uk-navbar-dark" uk-navbar>
-                <div class="uk-navbar-left">
-                    <ul class="uk-navbar-nav">
-                        <li><a href="#">Dashboard</a></li>
-                        <li><a href="#">Manage Users</a></li>
-                        <li><a href="#">Dashboard</a></li>
-                    </ul>
-                </div>
-                <div class="uk-navbar-right">
-                    <ul class="uk-navbar-nav">
-                        <li><a>Welcome user</a></li>
-                        <li><a href="#">Logout</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </div>
-	<div class="uk-section uk-primary">
-		<div class="uk-container">
 
-			<h1>Welcome to the community!</h1>
-
-			<h2>Come here for news, updates, and more!</h2>
-
-			<div class="uk-section">
-				<div class="uk-container uk-container-small ">
-					<div>
-						<h3>Latest News</h3>
-					</div>
-					<div>
-						<h3>Release Notes</h3>
-					</div>
-					<div>
-						<h4>Release v.0.1.2</h4>
-						<p></p>
-
-						<h4>Release v.0.1.1 (Initial Release)</h4>
-						<p></p>
-					</div>
-					<div>
-						<h3>Upcoming Features</h3>
-					</div>
-					<div>
-						<h4></h4>
-						<p></p>
-					</div>
-				</div>
+			<%--Nav Bar--%>
+	<div class="uk-position-relative">
+		<div class="uk-position-relativetop">
+			<nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+			<div class="uk-navbar-left">
+				<ul class="uk-navbar-nav">
+					<li><a href="/">Home</a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/displayListing">View
+							Listings</a></li>
+					<li><a href="${pageContext.request.contextPath}/createListing">Create
+							Listing</a></li>
+					<li>
+						<div class="uk-margin">
+							<form class="uk-search uk-search-default" method="POST"
+								action="searchResults">
+								<span uk-search-icon></span> <input class="uk-search-input"
+									type="search" placeholder="Search...">
+							</form>
+						</div>
+					</li>
+				</ul>
 			</div>
+			<div class="uk-navbar-right">
+				<ul class="uk-navbar-nav">
+					<li><a>Welcome user</a></li>
+					<li><a href="#">Logout</a></li>
+				</ul>
+			</div>
+			</nav>
 		</div>
 	</div>
 
+	<div class="uk-background-muted">
+
+		<div class="uk-section">
+
+			<div class="uk-container">
+				<h2 class="uk-heading-line uk-text-center">
+					<span>News, updates, and more!</span>
+				</h2>
+			</div>
+
+			<div class="uk-section">
+
+				<div class="uk-container">
+					<div>
+						<h3>Latest News</h3>
+					</div>
+					<div class="uk-section">
+						<div class="uk-container uk-container-small">
+							<p>This is some text about the latest news...</p>
+						</div>
+					</div>
+					<hr>
+					<div>
+						<h3>Release Notes</h3>
+					</div>
+					<div class="uk-section">
+						<div class="uk-container uk-container-small">
+							<ul uk-accordion="multiple: true">
+								<li class="uk-open"><a class="uk-accordion-title" href="#">Release
+										v.0.1.2</a>
+									<div class="uk-accordion-content">
+										<p>This update contained...</p>
+									</div></li>
+								<li><a class="uk-accordion-title" href="#">Release
+										v.0.1.1 (Initial Release)</a>
+									<div class="uk-accordion-content">
+										<p>This update contained...</p>
+									</div></li>
+							</ul>
+						</div>
+					</div>
+					<hr>
+					<div>
+						<h3>Upcoming Features</h3>
+					</div>
+					<div class="uk-section">
+						<div class="uk-container uk-container-small">
+							<ul class="uk-list uk-list-bullet">
+								<li>Date in future</li>
+								<li>Date in future</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
 </body>
 </html>
