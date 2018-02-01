@@ -30,10 +30,9 @@ public interface UserService {
 
 	public void updateIsActive(int isActive, String email);
 
-	public List<User> searchByFirstName(String firstName);
+	public List<User> getRecentUsers();
 
-	public List<User> searchByLastName(String lastName);
-
+	public List<User> soundexSearch(String search);
 	public List<User> searchByUsername(String username);
 
 	public List<User> searchBySchoolEmail(String schoolEmail);

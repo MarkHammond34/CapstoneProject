@@ -45,4 +45,9 @@ public class ListingServiceImpl implements ListingService {
 		return ld.getRecentListings();
 	}
 
+	@Override
+	public List<Listing> getAllListingsByUserID(int userID) {
+		return ld.getAllListingsByUserID(userID);
+	}
+
 }

@@ -31,4 +31,6 @@ public interface UserDAO {
 	public void updateIsActive(int isActive, String email);
 
 	public List<User> getRecentUsers();
+
+	public List<User> soundexResults();
 }

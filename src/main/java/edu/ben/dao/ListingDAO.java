@@ -18,4 +18,8 @@ public interface ListingDAO {
 	public List<Listing> getRecentListings();
 	
 	public List<Listing> getAllListingsByUserID(int userID);
+	
+	public List<Listing> searchCategory(String category);
+	
+	
 }
