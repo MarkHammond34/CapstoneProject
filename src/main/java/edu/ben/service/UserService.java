@@ -11,7 +11,7 @@ public interface UserService {
 	public User getUserById(int id);
 
 	public void deleteUser(int id);
-	
+
 	public void saveOrUpdate(User user);
 
 	public void create(User user);
@@ -29,5 +29,12 @@ public interface UserService {
 	public void updateAttemptedLogins(int loginAttempts, String email);
 
 	public void updateIsActive(int isActive, String email);
-}
 
+	public List<User> searchByFirstName(String firstName);
+
+	public List<User> searchByLastName(String lastName);
+
+	public List<User> searchByUsername(String username);
+
+	public List<User> searchBySchoolEmail(String schoolEmail);
+}

@@ -104,4 +104,30 @@ public class UserDAOImpl implements UserDAO {
         q.setParameter("email", email);
 		q.executeUpdate();
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> searchByFirstName(String firstName) {
+		Query q = getSession().createQuery("FROM user WHERE SOUNDEX(first_name)=SOUNDEX('%firstName%')");
+        q.setParameter("firstName", firstName);
+        return (List<User>) q.list();
+	}
+
+	@Override
+	public List<User> searchByLastName(String lastName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<User> searchByUsername(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<User> searchBySchoolEmail(String schoolEmail) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
