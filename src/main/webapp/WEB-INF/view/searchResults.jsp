@@ -157,19 +157,17 @@ hgroup h2.lead {
 			</nav>
 		</div>
 	</div>
-		<c:if test="${category != null}">
+		<c:if test="${categoryListing != null}">
 			<div class="container">
-
-
 				<hgroup class="mb20">
 				<h1>Results</h1>
 				<h2 class="lead">
-					<strong class="text-danger">${category.size()}</strong> results
-					were found for the search for <strong class="text-danger">${category.category}</strong>
+					<strong class="text-danger">${categoryListing.size()}</strong> results
+					were found for the search for <strong class="text-danger">${search}</strong>
 				</h2>
 				</hgroup>
 
-				<c:forEach var="listings" items="${category}">
+				<c:forEach var="listings" items="${categoryListing}">
 
 					<section class="col-xs-12 col-sm-6 col-md-12"> <article
 						class="search-result row">
