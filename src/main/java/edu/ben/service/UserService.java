@@ -37,4 +37,6 @@ public interface UserService {
 	public List<User> searchByUsername(String username);
 
 	public List<User> searchBySchoolEmail(String schoolEmail);
+
+	public List<User> getRecentUsers();
 }
