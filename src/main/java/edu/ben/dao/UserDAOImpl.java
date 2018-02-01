@@ -1,6 +1,8 @@
 package edu.ben.dao;
 
-import edu.ben.model.User;
+import java.sql.ResultSet;
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -8,9 +10,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import edu.ben.model.User;
+
+import javax.persistence.TypedQuery;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -100,24 +102,32 @@ public class UserDAOImpl implements UserDAO {
 		Query q = getSession().createQuery("UPDATE user SET active=:isActive WHERE email=:email");
 		q.setParameter("isActive", isActive);
         q.setParameter("email", email);
-        q.executeUpdate();
-    }
+		q.executeUpdate();
+	}
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<User> getRecentUsers() {
-        Query q = getSession().createQuery("FROM user ORDER BY date_created DESC");
-        List<User> list = (List<User>) q.list();
-        Iterator<User> it = list.iterator();
-        List<User> recentListings = new ArrayList<User>();
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> searchByFirstName(String firstName) {
+		Query q = getSession().createQuery("FROM user WHERE SOUNDEX(first_name)=SOUNDEX('%firstName%')");
+        q.setParameter("firstName", firstName);
+        return (List<User>) q.list();
+	}
 
-        while (it.hasNext()) {
+	@Override
+	public List<User> searchByLastName(String lastName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-            User usr = it.next();
-            recentListings.add(usr);
+	@Override
+	public List<User> searchByUsername(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-        }
-
-        return recentListings;
-    }
+	@Override
+	public List<User> searchBySchoolEmail(String schoolEmail) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

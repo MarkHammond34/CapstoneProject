@@ -41,7 +41,7 @@
 			<nav class="uk-navbar-container uk-navbar-dark" uk-navbar>
 			<div class="uk-navbar-left">
 				<ul class="uk-navbar-nav">
-					<li><a href="${pageContext.request.contextPath}/">Home</a></li>
+					<li><a href="/">Home</a></li>
 					<li><a
 						href="${pageContext.request.contextPath}/displayListing">View
 							Listings</a></li>

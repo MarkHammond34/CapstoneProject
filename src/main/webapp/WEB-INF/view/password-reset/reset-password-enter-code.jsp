@@ -21,6 +21,7 @@
                             <span class="input-group-addon danger"><span
                                     class="glyphicon glyphicon-remove"></span></span>
                         </div>
+                        <p>${code}</p>
                     </div>
                 </div>
             </div>
