@@ -50,7 +50,7 @@
 					<li>
 						<div class="uk-margin">
 							<form class="uk-search uk-search-default" method="POST"
-								action="searchResults">
+								action="search">
 								<span uk-search-icon></span> <input class="uk-search-input"
 									type="search" placeholder="Search..." name = "search">
 							</form>
