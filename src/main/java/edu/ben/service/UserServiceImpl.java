@@ -76,25 +76,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> searchByFirstName(String firstName) {
-		return userDAO.searchByFirstName(firstName);
-	}
-
-	@Override
-	public List<User> searchByLastName(String lastName) {
-		return userDAO.searchByLastName(lastName);
-	}
-
-	@Override
-	public List<User> searchByUsername(String username) {
-		return userDAO.searchByUsername(username);
-	}
-
-	@Override
-	public List<User> searchBySchoolEmail(String schoolEmail) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+	public List<User> soundexSearch(String search) {
+		return userDAO.soundexSearch(search);
+	}	
 
 }

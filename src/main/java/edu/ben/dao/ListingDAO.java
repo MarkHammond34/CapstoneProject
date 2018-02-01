@@ -1,5 +1,6 @@
 package edu.ben.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.ben.model.Listing;
@@ -15,4 +16,6 @@ public interface ListingDAO {
 	public List<Listing> getAllListingsByCategory(String category);
 
 	public List<Listing> getRecentListings();
+	
+	public List<Listing> getAllListingsByUserID(int userID);
 }
