@@ -15,6 +15,7 @@
     <spring:url value="resources/js/uikit.js" var="uikitJS"/>
     <spring:url value="resources/js/jquery.js" var="jquery"/>
     <spring:url value="resources/js/uikit-icons.js" var="uikiticons"/>
+    <spring:url value="resources/img/server.jpg" var="background"/>
     <link href="${uikitCSS}" rel="stylesheet"/>
     <script type="text/javascript" src="${uikitJS}"></script>
     <script type="text/javascript" src="${jquery}"></script>
@@ -26,10 +27,10 @@
                 <div class="uk-navbar-center">
                     <ul class="uk-navbar-nav">
                         <li class="uk-active">
-                            <a href="#">Dashboard</a>
+                            <a href="${pageContext.request.contextPath}/AdminDashboard"">Dashboard</a>
                         </li>
                         <li>
-                            <a href="#">Manage Users</a>
+                            <a href="${pageContext.request.contextPath}/AdminUsers"">Manage Users</a>
                         </li>
                     </ul>
                 </div>
@@ -57,7 +58,7 @@
     //List<Listing> recentListings = (List<Listing>) request.getSession().getAttribute("listing");
 %>
 <div class="uk-cover-container uk-height-viewport">
-    <img src="assets/server.jpg" alt="" uk-cover>
+    <img src="${background}" alt="" uk-cover>
     <div class="uk-flex uk-flex-column">
         <ul uk-switcher hidden>
             <li>

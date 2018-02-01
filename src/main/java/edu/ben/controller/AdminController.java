@@ -53,12 +53,11 @@ public class AdminController extends BaseController {
             model = new ModelAndView("index");
             return model;
         }else{
-            model = new ModelAndView("admin/adminDashboard");
+            model = new ModelAndView("admin/adminUsers");
             List<User> allUsers = userService.getAllUsers();
             req.getSession().setAttribute("allUsers",allUsers);
             return model;
         }
     }
-
 
 }

@@ -26,4 +26,10 @@ public class HomeController extends BaseController {
 		
 		return model;
 	}
+
+	@RequestMapping(value="/contact", method=RequestMethod.GET)
+	public ModelAndView contactUs(){
+		ModelAndView model = new ModelAndView("contactUs");
+		return model;
+	}
 }

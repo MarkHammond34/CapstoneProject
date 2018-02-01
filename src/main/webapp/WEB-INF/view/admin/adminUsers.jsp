@@ -16,6 +16,7 @@
     <spring:url value="resources/js/uikit.js" var="uikitJS"/>
     <spring:url value="resources/js/jquery.js" var="jquery"/>
     <spring:url value="resources/js/uikit-icons.js" var="uikiticons"/>
+    <spring:url value="resources/img/user.jpg" var="background"/>
     <link href="${uikitCSS}" rel="stylesheet"/>
     <script type="text/javascript" src="${uikitJS}"></script>
     <script type="text/javascript" src="${jquery}"></script>
@@ -27,17 +28,17 @@
                 <div class="uk-navbar-center">
                     <ul class="uk-navbar-nav">
                         <li>
-                            <a href="#">Dashboard</a>
+                            <a href="${pageContext.request.contextPath}/AdminDashboard">Dashboard</a>
                         </li>
                         <li class="uk-active">
-                            <a href="#">Manage Users</a>
+                            <a href="${pageContext.request.contextPath}/AdminUsers">Manage Users</a>
                         </li>
                     </ul>
                 </div>
                 <div class="uk-navbar-right">
                     <ul class="uk-navbar-nav">
                         <li>
-                            <a>Welcome Admin</a>
+                            <a>Welcome ${user.firstName}</a>
                         </li>
                         <li>
                             <a href="#">Logout</a>
@@ -56,7 +57,7 @@
     List<User> allUsers = (List<User>) request.getSession().getAttribute("allUsers");
 %>
 <div class="uk-cover-container uk-height-viewport">
-    <img src="assets/user.jpg" alt="" uk-cover>
+    <img src="${background}" alt="" uk-cover>
     <div class="uk-flex uk-flex-column">
         <ul uk-switcher>
             <li>
