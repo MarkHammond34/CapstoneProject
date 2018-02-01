@@ -1,11 +1,10 @@
 package edu.ben.controller;
 
-import edu.ben.dao.UserDAO;
-import edu.ben.dao.UserDAOImpl;
-import edu.ben.model.User;
-import edu.ben.service.UserService;
-import edu.ben.service.UserServiceImpl;
-import edu.ben.util.Email;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,13 +13,9 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.util.Calendar;
-import java.util.List;
-
-import static jdk.nashorn.internal.objects.Global.print;
+import edu.ben.model.User;
+import edu.ben.service.UserService;
+import edu.ben.util.Email;
 
 @Controller
 public class RegistrationController extends BaseController {
@@ -125,6 +120,7 @@ public class RegistrationController extends BaseController {
 		String action = (String) req.getSession().getAttribute("action");
 
 		if (req.getParameter("action") != null) {
+			System.out.println("made it here");
 
 			String email = req.getParameter("email");
 			String emailType = req.getParameter("emailType");
@@ -197,9 +193,10 @@ public class RegistrationController extends BaseController {
 				return "redirect:/login";
 			}
 		} else {
-			return "redirect:/home";
+			System.out.println("PRE END");
+			return "redirect:/";
 		}
-
+		System.out.println("END");
 		return "password-reset/password-reset";
 	}
 }
