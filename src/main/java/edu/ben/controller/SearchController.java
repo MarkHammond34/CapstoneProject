@@ -29,7 +29,8 @@ public class SearchController {
 	public String searchCategory(@RequestParam("search") String search, HttpServletRequest request, Model model) {
 
 		System.out.println("Hit search Controller");
-		List<User> users = userService.searchByFirstName(search);
+		//List<User> users = userService.searchByFirstName(search);
+		List<User> users = userService.getAllUsers();
 
 		System.out.println("Users first name size: " + users.size());
 		
