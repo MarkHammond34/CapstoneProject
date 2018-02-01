@@ -168,8 +168,7 @@ hgroup h2.lead {
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-2">
 						<ul class="meta-search">
-							<li><i class="glyphicon glyphicon-user"></i> <span>User
-									Name</span></li>
+							<li><i class="glyphicon glyphicon-user"></i> <span>${listing.user.username}</span></li>
 							<li><i class="glyphicon glyphicon-usd"></i> <span>${listing.price}
 							</span></li>
 							<li><i class="glyphicon glyphicon-map-marker"></i> <span>Location</span></li>

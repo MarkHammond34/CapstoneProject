@@ -8,7 +8,7 @@
         <%@ include file="../jspf/messages.jsp" %>
 
         <form role="form" data-toggle="validator"
-              method="post" action="/reset">
+              method="post" action="reset">
             <h2>Reset Password</h2>
             <hr class="colorgraph">
             <div class="row">

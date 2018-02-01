@@ -49,7 +49,7 @@
 			<div class="uk-container">
 				<h2>News, updates, and more!</h2>
 			</div>
-
+			
 			<div class="uk-section">
 				<div class="uk-container">
 					<div>
@@ -60,6 +60,7 @@
 							<p>This is some text about the latest news...</p>
 						</div>
 					</div>
+					<hr>
 					<div>
 						<h3>Release Notes</h3>
 					</div>
@@ -79,6 +80,7 @@
 							</ul>
 						</div>
 					</div>
+					<hr>
 					<div>
 						<h3>Upcoming Features</h3>
 					</div>

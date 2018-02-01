@@ -13,17 +13,18 @@ import edu.ben.service.ListingService;
 
 @Controller
 public class HomeController extends BaseController {
-	
+
 	@Autowired
 	ListingService listingService;
 
-	@RequestMapping(value="/", method=RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home() {
 		ModelAndView model = new ModelAndView("index");
-		
+
 		List<Listing> listings = listingService.getRecentListings();
-		model.addObject("listings", listings);
 		
+		model.addObject("listings", listings);
+
 		return model;
 	}
 }

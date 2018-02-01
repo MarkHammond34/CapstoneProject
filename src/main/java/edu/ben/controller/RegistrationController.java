@@ -115,14 +115,13 @@ public class RegistrationController extends BaseController {
         return "";
     }
 
-    @GetMapping("/reset")
+    @GetMapping("/resetPage")
     public String passwordResetGet() {
         return "password-reset/password-reset";
     }
 
     @PostMapping("/reset")
     public String passwordResetPost(HttpServletRequest req, Model m) {
-
         String action = (String) req.getSession().getAttribute("action");
 
         if (req.getParameter("action") != null) {
