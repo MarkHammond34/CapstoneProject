@@ -162,7 +162,7 @@ hgroup h2.lead {
 	<div class="container">
 		<form method="POST" action="displayListingByCategory">
 			<div class="row">
-				<div class="col-xs-6">
+				<div class="col-xs-6 col-xs-offset-2">
 					<div class="input-group">
 						<span class="input-group-addon">Category </span> <select
 							class="form-control" id="categorytype" name="category">
@@ -175,13 +175,13 @@ hgroup h2.lead {
 						</select>
 					</div>
 				</div>
-				<div class="col-xs-6">
+				<div class="col-xs-4">
 					<div class="row">
 						<h2>
 							<button type="submit" class="btn btn-labeled btn-success">
 								<span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Submit
 							</button>
-							<br />
+							<br/>
 						</h2>
 					</div>
 				</div>
@@ -222,11 +222,66 @@ hgroup h2.lead {
 							<a href="#" title="">${listings.name}</a>
 						</h3>
 						<p>${listings.description}</p>
-						<span class="plus"><a href="#" title="Lorem ipsum"><i
-								class="glyphicon glyphicon-plus"></i></a></span>
+						<div class="row">
+							<div class="col-xs-6">
 
+								<span class="plus"><a href="#" title="Lorem ipsum"><i
+										class="glyphicon glyphicon-plus"></i></a></span> <span class="plus"></span>
+							</div>
+							<div class="col-xs-6">
+								<a href="#editCategoryModal${listings.id}" data-toggle="modal"
+									data-target="#editCategoryModal${listings.id}"><span
+									class="glyphicon glyphicon-edit" data-toggle="tooltip"
+									data-placement="right" title="Edit ${listings.name}!"></span></a>
+							</div>
+						</div>
 					</div>
 					<span class="clearfix borda"></span> </article> </section>
+
+					<div id="editListingModal${listings.id}" class="modal fade"
+						role="dialog" style="margin-top: 15%;">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">x</button>
+									<h3 class="modal-title">Edit ${listings.name}</h3>
+								</div>
+								<div class="modal-body">
+									<form method="post" action="editCategory" name="edit_category">
+										<input type="hidden" name="${tempCategory2.name}">
+										<p>
+											<label>Current Name:</label> <input type="text" class="span3"
+												name=oldCategory value="${listing.name}" readonly>
+										</p>
+
+										<p>
+											<label>New Name:</label> <input type="text" class="span3"
+												name=newCategory placeholder="Category_Name">
+										</p>
+
+										<div class="form-group"></div>
+
+										<div class="checkbox">
+											<label><input type="checkbox" name="private-checkbox"
+												<c:if test="${tempCategory2.visibility == 0}">checked</c:if>>Private</label>
+										</div>
+										<p>
+											<button type="submit" class="btn btn-primary">Update</button>
+										</p>
+									</form>
+									<form method="post" action="removeCategory"
+										name="remove_category">
+										<input type="hidden" name=categoryID value="${listings.id}"
+											readonly> <input type="hidden" name=category
+											value="${tempCategory2.name}" readonly>
+										<p>
+											<button type="submit" class="btn btn-primary">Remove</button>
+										</p>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
 				</c:forEach>
 			</div>
 		</c:if>
