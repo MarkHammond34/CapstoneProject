@@ -17,6 +17,11 @@
 <script type="text/javascript" src="${uikitJS}"></script>
 <script type="text/javascript" src="${jquery}"></script>
 <script type="text/javascript" src="${uikiticons}"></script>
+<style type="text/css">
+#search {
+	padding-top: 2cm;
+}
+</style>
 </head>
 
 <body>
@@ -24,12 +29,24 @@
 	<%--Nav Bar--%>
 	<div class="uk-position-relative">
 		<div class="uk-position-relativetop">
-			<nav class="uk-navbar-container uk-navbar-dark" uk-navbar>
+			<nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
 			<div class="uk-navbar-left">
 				<ul class="uk-navbar-nav">
-					<li><a href="#">Dashboard</a></li>
-					<li><a href="#">Manage Users</a></li>
-					<li><a href="#">Dashboard</a></li>
+					<li><a href="${pageContext.request.contextPath}/">Home</a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/displayListing">View
+							Listings</a></li>
+					<li><a href="${pageContext.request.contextPath}/createListing">Create
+							Listing</a></li>
+					<li>
+						<div class="uk-margin">
+							<form class="uk-search uk-search-default" method="POST"
+								action="searchResults">
+								<span uk-search-icon></span> <input id="search"
+									class="uk-search-input" type="search" placeholder="Search...">
+							</form>
+						</div>
+					</li>
 				</ul>
 			</div>
 			<div class="uk-navbar-right">
@@ -42,12 +59,16 @@
 		</div>
 	</div>
 
-	<div class="uk-section">
-		<div class="uk-container">
+	<div class="uk-background-muted">
 
-			<div class="uk-position-center" id="paypal-button"></div>
+		<div class="uk-section">
+			<div class="uk-container">
 
+				<div class="uk-position-center" id="paypal-button"></div>
+
+			</div>
 		</div>
+
 	</div>
 
 	<script>
