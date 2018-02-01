@@ -6,6 +6,7 @@ import edu.ben.model.User;
 import edu.ben.service.UserService;
 import edu.ben.service.UserServiceImpl;
 import edu.ben.util.Email;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,181 +26,193 @@ import static jdk.nashorn.internal.objects.Global.print;
 @Controller
 public class RegistrationController extends BaseController {
 
-	/**
-	 * @Autowired private PasswordEncoder passwordEncoder;
-	 */
+    /**
+     * @Autowired private PasswordEncoder passwordEncoder;
+     */
 
-	@Autowired
-	UserService userService;
+    @Autowired
+    UserService userService;
 
-	@PostMapping("/create")
-	public String createUser(HttpServletRequest request, Model m, @Valid User user, BindingResult bindingResult) {
+    @PostMapping("/create")
+    public String createUser(HttpServletRequest request, Model m, @Valid User user, BindingResult bindingResult) {
 
-		if ((User) request.getSession().getAttribute("user") != null) {
-			addWarningMessage("Please Logout Before Registering");
-			return "redirect:/home";
-		} else {
+        if ((User) request.getSession().getAttribute("user") != null) {
+            addWarningMessage("Please Logout Before Registering");
+            return "redirect:/home";
+        } else {
 
-			if (bindingResult.hasErrors()) {
+            if (bindingResult.hasErrors()) {
 
-				List<ObjectError> errors = bindingResult.getAllErrors();
-				for (ObjectError er : errors) {
-					addErrorMessage(er.getDefaultMessage());
-				}
+                List<ObjectError> errors = bindingResult.getAllErrors();
+                for (ObjectError er : errors) {
+                    addErrorMessage(er.getDefaultMessage());
+                }
 
-				setRequest(request);
-				return "registration/registration";
+                setRequest(request);
+                return "registration/registration";
 
-			} else {
+            } else {
 
-				if (request.getParameter("adminRegistration") != null) {
-					user.setSecurityLevel(3);
-				}
+                if (request.getParameter("adminRegistration") != null) {
+                    user.setSecurityLevel(3);
+                }
 
-				user.setActive(1);
-				userService.create(user);
-				userService.lockByUsername(user.getUsername());
-				request.getSession().setAttribute("action", "registration");
-				request.getSession().setAttribute("tempUser", user);
-				return "redirect:/validate";
-			}
-		}
-	}
+                user.setActive(1);
+                userService.create(user);
+                userService.lockByUsername(user.getUsername());
+                request.getSession().setAttribute("action", "registration");
+                request.getSession().setAttribute("tempUser", user);
+                return "redirect:/validate";
+            }
+        }
+    }
 
-	@GetMapping("/register")
-	public String register(HttpServletRequest m) {
+    @GetMapping("/register")
+    public String register(HttpServletRequest m) {
 
-		if (m.getParameter("admin") != null) {
-			m.setAttribute("title", "Admin Sign Up");
-			m.setAttribute("admin", true);
-		} else {
-			m.setAttribute("title", "Sign Up");
-		}
+        if (m.getParameter("admin") != null) {
+            m.setAttribute("title", "Admin Sign Up");
+            m.setAttribute("admin", true);
+        } else {
+            m.setAttribute("title", "Sign Up");
+        }
 
-		setRequest(m);
-		return "registration/registration";
-	}
+        setRequest(m);
+        return "registration/registration";
+    }
 
-	@GetMapping("/validate")
-	public String validate(HttpServletRequest req) {
+    @GetMapping("/validate")
+    public String validate(HttpServletRequest req) {
 
-		User user = (User) req.getSession().getAttribute("tempUser");
-		String action = (String) req.getSession().getAttribute("action");
+        User user = (User) req.getSession().getAttribute("tempUser");
+        String action = (String) req.getSession().getAttribute("action");
 
-		if (action.equals("registration")) {
+        if (action.equals("registration")) {
 
-			req.getSession().setAttribute("action", "code");
-			req.getSession().setAttribute("code", Email.studentVerification(user.getSchoolEmail()));
-			setRequest(req);
-			return "registration/student-validation";
+            req.getSession().setAttribute("action", "code");
+            req.getSession().setAttribute("code", Email.studentVerification(user.getSchoolEmail()));
+            setRequest(req);
+            return "registration/student-validation";
 
-		} else if (action.equals("code")) {
+        } else if (action.equals("code")) {
 
-			if (req.getSession().getAttribute("code").equals(req.getParameter("userCode"))) {
+            if (req.getSession().getAttribute("code").equals(req.getParameter("userCode"))) {
 
-				userService.unlockByUsername((String) ((User) req.getSession().getAttribute("tempUser")).getUsername());
-				req.getSession().removeAttribute("code");
-				req.getSession().removeAttribute("tempUser");
-				req.getSession().setAttribute("user", user);
-				setRequest(req);
-				return "redirect:/home";
+                userService.unlockByUsername((String) ((User) req.getSession().getAttribute("tempUser")).getUsername());
+                req.getSession().removeAttribute("code");
+                req.getSession().removeAttribute("tempUser");
+                req.getSession().setAttribute("user", user);
+                setRequest(req);
+                return "redirect:/home";
 
-			} else {
+            } else {
 
-				// error message
-				return "registration/student-verification";
+                // error message
+                return "registration/student-verification";
 
-			}
-		}
-		return "";
-	}
+            }
+        }
+        return "";
+    }
 
-	@GetMapping("/reset")
-	public String passwordResetGet() {
-		return "password-reset/password-reset";
-	}
+    @GetMapping("/reset")
+    public String passwordResetGet() {
+        return "password-reset/password-reset";
+    }
 
-	@PostMapping("/reset")
-	public String passwordResetPost(HttpServletRequest req, Model m) {
+    @PostMapping("/reset")
+    public String passwordResetPost(HttpServletRequest req, Model m) {
 
-		String action = (String) req.getSession().getAttribute("action");
+        String action = (String) req.getSession().getAttribute("action");
 
-		if (req.getParameter("action") != null) {
+        if (req.getParameter("action") != null) {
 
-			String email = req.getParameter("email");
-			String emailType = req.getParameter("emailType");
+            String email = req.getParameter("email");
+            String emailType = req.getParameter("emailType");
 
-			User user;
+            User user;
 
-			if (emailType.equals("personal")) {
-				user = userService.findByEmail(email);
-				if (user == null) {
-					addErrorMessage("No Accounts Exists Under The Personal Email " + email);
-					setRequest(req);
-					return "password-reset/password-reset";
-				}
-			} else {
-				user = userService.findBySchoolEmail(email);
-				if (user == null) {
-					addErrorMessage("No Accounts Exists Under The School Email " + email);
-					setRequest(req);
-					return "password-reset/password-reset";
-				}
-			}
+            if (emailType.equals("personal")) {
+                user = userService.findByEmail(email);
+                if (user == null) {
+                    addErrorMessage("No Accounts Exists Under The Personal Email " + email);
+                    setRequest(req);
+                    return "password-reset/password-reset";
+                }
+            } else {
+                user = userService.findBySchoolEmail(email);
+                if (user == null) {
+                    addErrorMessage("No Accounts Exists Under The School Email " + email);
+                    setRequest(req);
+                    return "password-reset/password-reset";
+                }
+            }
 
-			// send verification email
-			req.getSession().setAttribute("code", Email.resetPassword(email));
-			req.getSession().setAttribute("tempUser", user);
-			req.getSession().setAttribute("action", "compareCodes");
+            // send verification email
+            req.getSession().setAttribute("code", Email.resetPassword(email));
+            req.getSession().setAttribute("tempUser", user);
+            req.getSession().setAttribute("action", "compareCodes");
 
-			addSuccessMessage("Check Your Email For Verification Code");
+            addSuccessMessage("Check Your Email For Verification Code");
 
-			userService.lockByUsername(user.getUsername());
+            userService.lockByUsername(user.getUsername());
 
-			setRequest(req);
-			return "password-reset/reset-password-enter-code";
+            setRequest(req);
+            return "password-reset/reset-password-enter-code";
 
-		} else if (action.equals("compareCodes")) {
+        } else if (action.equals("compareCodes")) {
 
-			String userCode = req.getParameter("userCode");
+            String userCode = req.getParameter("userCode");
 
-			// check if code matches
-			if (!userCode.equals(req.getSession().getAttribute("code"))) {
-				addErrorMessage("Code Entered Does Not Match");
-			} else {
-				req.getSession().removeAttribute("code");
-				req.getSession().setAttribute("action", "setNewPassword");
+            // check if code matches
+            if (!userCode.equals(req.getSession().getAttribute("code"))) {
+                addErrorMessage("Code Entered Does Not Match");
+                setRequest(req);
+                return "password-reset/reset-password-enter-code";
+            } else {
 
-				addSuccessMessage("Enter Your New Password");
+                req.getSession().removeAttribute("code");
+                req.getSession().setAttribute("action", "setNewPassword");
 
-				userService.unlockByUsername(((User) req.getSession().getAttribute("tempUser")).getUsername());
-				setRequest(req);
-				return "password-reset/reset-password-new-password";
-			}
+                addSuccessMessage("Enter Your New Password");
 
-		} else if (action.equals("setNewPassword")) {
+                userService.unlockByUsername(((User) req.getSession().getAttribute("tempUser")).getUsername());
+                setRequest(req);
+                return "password-reset/reset-password-new-password";
+            }
 
-			String newPassword = req.getParameter("newPassword");
-			String newPasswordConfirm = req.getParameter("newPasswordConfirm");
+        } else if (action.equals("setNewPassword")) {
 
-			if (!newPassword.equals(newPasswordConfirm)) {
-				addErrorMessage("Passwords Do Not Match");
-			} else {
+            String newPassword = req.getParameter("newPassword");
+            String newPasswordConfirm = req.getParameter("newPasswordConfirm");
 
-				User user = (User) req.getSession().getAttribute("tempUser");
-				user.setPassword(newPassword);
-				userService.update(user);
+            if (!newPassword.equals(newPasswordConfirm)) {
 
-				req.getSession().removeAttribute("tempUser");
-				req.getSession().removeAttribute("action");
-				addSuccessMessage("Password Successfully Reset");
-				setRequest(req);
-				return "redirect:/login";
-			}
-		} else {
-			return "redirect:/home";
-		}
+                addErrorMessage("Passwords Do Not Match");
+                setRequest(req);
+                return "password-reset/reset-password-new-password";
 
-		return "password-reset/password-reset";
-	}
+            } else {
+
+                User user = (User) req.getSession().getAttribute("tempUser");
+                user.setPassword(newPassword);
+
+                try {
+                    userService.update(user);
+                } catch (ConstraintViolationException e) {
+                    addErrorMessage("Passwords Do No Match");
+                    setRequest(req);
+                    return "password-reset/reset-password-new-password";
+                }
+
+                req.getSession().removeAttribute("tempUser");
+                req.getSession().removeAttribute("action");
+                addSuccessMessage("Password Successfully Reset");
+                setRequest(req);
+                return "redirect:/login";
+            }
+        } else {
+            return "redirect:/home";
+        }
+    }
 }
