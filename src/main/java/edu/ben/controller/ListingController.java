@@ -3,7 +3,6 @@ package edu.ben.controller;
 import edu.ben.model.Listing;
 import edu.ben.model.User;
 import edu.ben.service.ListingService;
-import edu.ben.service.UserService;
 import edu.ben.util.ImagePath;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
