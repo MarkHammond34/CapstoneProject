@@ -221,4 +221,8 @@ public class User {
 	public void setAdmin(int i) {
 		this.adminLevel = i;
 	}
+
+	public int getAdminLevel(){return this.adminLevel;}
+
+	public void setAdminLevel(int i){this.adminLevel = i;}
 }

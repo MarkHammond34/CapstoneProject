@@ -37,7 +37,7 @@ public class LoginController {
 		System.out.println(email);
 		System.out.println(password);
 
-		User user = userService.findBySchoolEmail(email);
+		User user = (User) userService.findBySchoolEmail(email);
 
 		String url = "";
 		String message = "";
@@ -48,7 +48,11 @@ public class LoginController {
 					request.getSession().setAttribute("user", user);
 					userService.updateAttemptedLogins(0, email);
 					System.out.println("pass match");
-					return "createListing";
+					if(user.getAdminLevel() == 3){
+						return "redirect:/AdminDashboard";
+					}else {
+						return "createListing";
+					}
 
 				} else {
 					request.setAttribute("email", email);
