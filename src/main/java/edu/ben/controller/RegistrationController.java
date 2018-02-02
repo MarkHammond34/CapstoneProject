@@ -1,11 +1,10 @@
 package edu.ben.controller;
 
-import edu.ben.dao.UserDAO;
-import edu.ben.dao.UserDAOImpl;
-import edu.ben.model.User;
-import edu.ben.service.UserService;
-import edu.ben.service.UserServiceImpl;
-import edu.ben.util.Email;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,13 +14,9 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.util.Calendar;
-import java.util.List;
-
-import static jdk.nashorn.internal.objects.Global.print;
+import edu.ben.model.User;
+import edu.ben.service.UserService;
+import edu.ben.util.Email;
 
 @Controller
 public class RegistrationController extends BaseController {
@@ -115,7 +110,7 @@ public class RegistrationController extends BaseController {
         return "";
     }
 
-    @GetMapping("/reset")
+    @GetMapping("/resetPage")
     public String passwordResetGet() {
         return "password-reset/password-reset";
     }
