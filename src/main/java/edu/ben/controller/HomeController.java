@@ -21,8 +21,16 @@ public class HomeController extends BaseController {
 	public ModelAndView home() {
 		ModelAndView model = new ModelAndView("index");
 		
-		List<Listing> listings = listingService.getRecentListings();
-		model.addObject("listings", listings);
+		List<Listing> recent = listingService.getRecentListings();
+		model.addObject("recentListings", recent);
+
+		List<Listing> endingSoon = listingService.getRecentListings();
+		endingSoon.remove(0);
+		model.addObject("endingSoonListings", endingSoon);
+
+		List<Listing> trending = listingService.getRecentListings();
+		trending.remove(1);
+		model.addObject("trendingListings", trending);
 		
 		return model;
 	}

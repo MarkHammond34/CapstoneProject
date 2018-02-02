@@ -378,3 +378,14 @@ hgroup h2.lead {
 
 .uk-background-muted {
 }
+
+.create-listing-button {
+    background-color: #ff695c;
+    color: white;
+    border-radius: 5px;
+    padding: 18%;
+    margin-top: 18%;
+    border: none;
+    text-align: center;
+    white-space: nowrap;
+}

@@ -31,33 +31,39 @@ public class RegistrationController extends BaseController {
     @PostMapping("/create")
     public String createUser(HttpServletRequest request, Model m, @Valid User user, BindingResult bindingResult) {
 
-        if ((User) request.getSession().getAttribute("user") != null) {
-            addWarningMessage("Please Logout Before Registering");
-            return "redirect:/home";
-        } else {
-
-            if (bindingResult.hasErrors()) {
-
-                List<ObjectError> errors = bindingResult.getAllErrors();
-                for (ObjectError er : errors) {
-                    addErrorMessage(er.getDefaultMessage());
-                }
-
-                setRequest(request);
-                return "registration/registration";
-
+        try {
+            if ((User) request.getSession().getAttribute("user") != null) {
+                addWarningMessage("Please Logout Before Registering");
+                return "redirect:/home";
             } else {
 
-                if (request.getParameter("adminRegistration") != null) {
-                    user.setSecurityLevel(3);
-                }
+                if (bindingResult.hasErrors()) {
 
-                userService.create(user);
-                userService.lockByUsername(user.getUsername());
-                request.getSession().setAttribute("action", "registration");
-                request.getSession().setAttribute("tempUser", user);
-                return "redirect:/validate";
+                    List<ObjectError> errors = bindingResult.getAllErrors();
+                    for (ObjectError er : errors) {
+                        addErrorMessage(er.getDefaultMessage());
+                    }
+
+                    setRequest(request);
+                    return "registration/registration";
+
+                } else {
+
+                    if (request.getParameter("adminRegistration") != null) {
+                        user.setSecurityLevel(3);
+                    }
+
+                    userService.create(user);
+                    userService.lockByUsername(user.getUsername());
+                    request.getSession().setAttribute("action", "registration");
+                    request.getSession().setAttribute("tempUser", user);
+                    return "redirect:/validate";
+                }
             }
+        } catch (ConstraintViolationException e) {
+            addErrorMessage(e.getMessage());
+            setRequest(request);
+            return "registration/registration";
         }
     }
 
