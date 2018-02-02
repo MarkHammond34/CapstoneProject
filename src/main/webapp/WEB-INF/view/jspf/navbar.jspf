@@ -1,61 +1,69 @@
 <%--Nav Bar--%>
 <div class="uk-position-relative">
-    <div class="uk-position-relativetop">
-        <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
-            <div class="uk-navbar-left">
-                <ul class="uk-navbar-nav">
-                    <li><a href="/">Home</a></li>
-                    <li><a
-                            href="${pageContext.request.contextPath}/displayListing">View
-                        Listings</a></li>
-                    <li><a href="${pageContext.request.contextPath}/createListing">Create
-                        Listing</a></li>
-                    <li>
-                        <div class="uk-margin">
-                            <form class="uk-search uk-search-default" method="POST"
-                                  action="searchResults">
-                                <span uk-search-icon></span> <input class="uk-search-input"
-                                                                    type="search" placeholder="Search...">
-                            </form>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="uk-navbar-center">
-                <a class="uk-navbar-item uk-logo uk-align-center"><img
-                        src="${pageContext.request.contextPath}/resources/img/logo.png"></a>
-            </div>
-            <div class="uk-navbar-right">
-                <ul class="uk-navbar-nav">
-                    <li>
-                        <a href="" uk-icon="icon: bell"></a>
-                        <div uk-drop="mode: click">
-                            <div class="uk-card uk-card-body uk-card-default">
-                                <c:if test="${notifications != null}">
-                                    <ul class="uk-list uk-list-large uk-list-divider">
-                                        <c:forEach items="${notifications}" var="notification">
-                                            <c:if test="${notification.type == 'high'}">
-                                                <li style="color: red;">${notification.text}</li>
-                                            </c:if>
-                                            <c:if test="${notification.type == 'medium'}">
-                                                <li style="color: yellow;">${notification.text}</li>
-                                            </c:if>
-                                            <c:if test="${notification.type == 'low'}">
-                                                <li style="color: green;">${notification.text}</li>
-                                            </c:if>
-                                        </c:forEach>
-                                    </ul>
-                                </c:if>
-                                <c:if test="${notifications == null}">
-                                    <p>Nothing To See Here</p>
-                                </c:if>
-                            </div>
-                        </div>
-                    </li>
-                    <li><a>Welcome ${user.firstName}</a></li>
-                    <li><a href="#">Logout</a></li>
-                </ul>
-            </div>
-        </nav>
-    </div>
+	<div class="uk-position-relativetop">
+		<nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+			<div class="uk-navbar-left">
+				<ul class="uk-navbar-nav">
+					<li><a href="${pageContext.request.contextPath}/">Home</a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/displayListing">View
+							Listings</a></li>
+					<li><a href="${pageContext.request.contextPath}/createListing">Create
+							Listing</a></li>
+					<li>
+						<div class="uk-margin">
+							<form class="uk-search uk-search-default" method="POST"
+								action="searchResults">
+								<span uk-search-icon></span> <input class="uk-search-input"
+									type="search" placeholder="Search...">
+							</form>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="uk-navbar-center">
+				<a class="uk-navbar-item uk-logo uk-align-center"><img
+					src="${pageContext.request.contextPath}/resources/img/logo.png"></a>
+			</div>
+			<div class="uk-navbar-right">
+				<ul class="uk-navbar-nav">
+					<li><a href="" uk-icon="icon: bell"></a>
+						<div uk-drop="mode: click">
+							<div class="uk-card uk-card-body uk-card-default">
+								<c:if test="${notifications != null}">
+									<ul class="uk-list uk-list-large uk-list-divider">
+										<c:forEach items="${notifications}" var="notification">
+											<c:if test="${notification.type == 'high'}">
+												<li style="color: red;">${notification.text}</li>
+											</c:if>
+											<c:if test="${notification.type == 'medium'}">
+												<li style="color: yellow;">${notification.text}</li>
+											</c:if>
+											<c:if test="${notification.type == 'low'}">
+												<li style="color: green;">${notification.text}</li>
+											</c:if>
+										</c:forEach>
+									</ul>
+								</c:if>
+								<c:if test="${notifications == null}">
+									<p>Nothing To See Here</p>
+								</c:if>
+							</div>
+						</div></li>
+					<c:choose>
+						<c:when test="${user != null }">
+							<li><a>Welcome ${user.firstName}</a></li>
+							<li><a href="${pageContext.request.contextPath}/viewProfile">View
+									Profile Page</a>
+							<li><a href="#">Logout</a></li>
+						</c:when>
+						<c:otherwise>
+							<li><a href="${pageContext.request.contextPath}/login">
+									Login/Register </a></li>
+						</c:otherwise>
+					</c:choose>
+				</ul>
+			</div>
+		</nav>
+	</div>
 </div>

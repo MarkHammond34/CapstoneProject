@@ -48,7 +48,7 @@ public class LoginController {
 					request.getSession().setAttribute("user", user);
 					userService.updateAttemptedLogins(0, email);
 					System.out.println("pass match");
-					return "createListing";
+					return "viewProfile";
 
 				} else {
 					request.setAttribute("email", email);
