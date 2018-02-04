@@ -69,10 +69,16 @@
                     </li>
                     <c:choose>
                         <c:when test="${user != null }">
-                            <li><a>Welcome ${user.firstName}</a></li>
-                            <li><a href="${pageContext.request.contextPath}/viewProfile">View
-                                Profile Page</a>
-                            <li><a href="#">Logout</a></li>
+                            <li><a>Welcome ${user.firstName}</a>
+                                <div uk-dropdown>
+                                    <ul class="uk-nav uk-dropdown-nav">
+                                        <li><a href="${pageContext.request.contextPath}/viewProfile">View
+                                            Profile Page</a></li>
+                                        <li class="uk-nav-divider"></li>
+                                        <li><a href="#">Logout</a></li>
+                                    </ul>
+                                </div>
+                            </li>
                         </c:when>
                         <c:otherwise>
                             <li><a href="${pageContext.request.contextPath}/login">

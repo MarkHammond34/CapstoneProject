@@ -1,5 +1,6 @@
 package edu.ben.model;
 
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -13,6 +14,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.sun.istack.internal.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -52,16 +54,30 @@ public class Listing implements java.io.Serializable {
 	@Column(name="date_created")
 	private Date dateCreated;
 
-	public Date getDateCreated() {
-		return dateCreated;
-	}
-
-	public void setDateCreated(Date dateCreated) {
-		this.dateCreated = dateCreated;
-	}
+	@Column(name = "type")
+	public String type;
 
 	@Column(name="image_path")
 	private String image_path;
+
+	@Column(name="highest_bid_userID")
+	@Nullable
+	private int highestBidUserID;
+
+	@Column(name="highest_bid")
+	@Nullable
+	private Double highestBid;
+
+	@Column(name="bid_count")
+	@Nullable
+	private int bidCount;
+
+	@Column(name="start_timestamp")
+	private Timestamp startTimestamp;
+
+	@Column(name="end_timestamp")
+	private Timestamp endTimestamp;
+
 	
 	public String getImage_path() {
 		return image_path;
@@ -158,4 +174,59 @@ public class Listing implements java.io.Serializable {
 				+ "]";
 	}
 
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public int getHighestBidUserID() {
+		return highestBidUserID;
+	}
+
+	public void setHighestBidUserID(int highestBidUserID) {
+		this.highestBidUserID = highestBidUserID;
+	}
+
+	public Double getHighestBid() {
+		return highestBid;
+	}
+
+	public void setHighestBid(Double highestBid) {
+		this.highestBid = highestBid;
+	}
+
+	public int getBidCount() {
+		return bidCount;
+	}
+
+	public void setBidCount(int bidCount) {
+		this.bidCount = bidCount;
+	}
+
+	public Timestamp getStartTimestamp() {
+		return startTimestamp;
+	}
+
+	public void setStartTimestamp(Timestamp startTimestamp) {
+		this.startTimestamp = startTimestamp;
+	}
+
+	public Timestamp getEndTimestamp() {
+		return endTimestamp;
+	}
+
+	public void setEndTimestamp(Timestamp endTimestamp) {
+		this.endTimestamp = endTimestamp;
+	}
 }

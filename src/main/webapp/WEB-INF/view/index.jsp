@@ -4,8 +4,7 @@
 
 <%@include file="jspf/navbar.jspf" %>
 
-<div class="uk-background-muted">
-
+<div style="background-color: #C2CAD0;">
     <div class="uk-section">
         <div class="uk-position-relative uk-visible-toggle uk-light"
              uk-slideshow="max-height: 300; ratio: 10:3">
@@ -33,9 +32,9 @@
         <div class="uk-child-width-expand@s uk-text-center" uk-grid>
             <div class="uk-width-1-4">
                 <div class="uk-card uk-card-default uk-card-body uk-grid-margin">Item 1</div>
-                <div class="uk-card uk-card-default uk-card-body uk-grid-margin">Item 1</div>
-                <div class="uk-card uk-card-default uk-card-body uk-grid-margin">Item 1</div>
-                <div class="uk-card uk-card-default uk-card-body uk-grid-margin">Item 1</div>
+                <div class="uk-card uk-card-default uk-card-body uk-grid-margin">Item 2</div>
+                <div class="uk-card uk-card-default uk-card-body uk-grid-margin">Item 3</div>
+                <div class="uk-card uk-card-default uk-card-body uk-grid-margin">Item 4</div>
             </div>
             <div class="uk-width-3-4">
                 <ul uk-tab>

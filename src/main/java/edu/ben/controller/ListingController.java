@@ -8,121 +8,170 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
-public class ListingController {
+public class ListingController extends BaseController {
 
-	@Autowired
-	ListingService listingService;
+    @Autowired
+    ListingService listingService;
 
-	/**
-	 * Upload single file using Spring Controller
-	 */
-	@RequestMapping(value = "/uploadListing", method = RequestMethod.POST)
-	public String uploadFileHandler(@RequestParam("title") String name, @RequestParam("category") String category,
-									@RequestParam("price") double price, @RequestParam("description") String description,
-									@RequestParam("file") MultipartFile file, Model model, HttpServletRequest request) {
+    /**
+     * Upload single file using Spring Controller
+     */
+    @RequestMapping(value = "/uploadListing", method = RequestMethod.POST)
+    public String uploadFileHandler(@RequestParam("title") String name, @RequestParam("category") String category,
+                                    @RequestParam("price") double price, @RequestParam("description") String description,
+                                    @RequestParam("file") MultipartFile file, @RequestParam("type") String type,
+                                     Model model, HttpServletRequest request) {
 
-		System.out.println("Hit UploadListing Controller");
+        System.out.println("Hit UploadListing Controller");
 
-		String message = "";
-		String error = "";
+        String message = "";
+        String error = "";
 
-		User u = (User) request.getSession().getAttribute("user");
+        User u = (User) request.getSession().getAttribute("user");
 
-		if (!file.isEmpty()) {
-			try {
-				String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+        if (u == null) {
+            addErrorMessage("Login To Create A Listing");
+            setRequest(request);
+            return "login";
+        }
 
-				System.out.println(extension);
+        // This is a dirty fix
+        Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
 
-				if (!extension.equals("jpg") && !extension.equals("png") && !extension.equals("jpeg")) {
-					error = "Listing failed. You did not upload an image.";
-					model.addAttribute("error", error);
-					return "createListing";
-				} else if (price < 0) {
-					error = "Cannot have a negative price.";
-					model.addAttribute("error", error);
-					return "createListing";
-				}
+        // Checks to make sure listing is for at least one hour
+        if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
+            addErrorMessage("Listings Must Be Last At Least One Hour");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
 
-				byte[] bytes = file.getBytes();
+        if (!file.isEmpty()) {
+            try {
+                String extension = FilenameUtils.getExtension(file.getOriginalFilename());
 
-				// Creating the directory to store file
-				File dir = new File(ImagePath.url + File.separator + "listings");
-				if (!dir.exists())
-					dir.mkdirs();
+                System.out.println(extension);
 
-				// Create the file on server
+                if (!extension.equals("jpg") && !extension.equals("png") && !extension.equals("jpeg")) {
+                    addErrorMessage("Listing failed. You did not upload an image.");
+                    setRequest(request);
+                    return "createListing";
+                } else if (price < 0) {
+                    addErrorMessage("Cannot have a negative price.");
+                    setRequest(request);
+                    return "createListing";
+                }
 
-				System.out.println("Hit Controller 2");
-				File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
-				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-				stream.write(bytes);
+                byte[] bytes = file.getBytes();
 
-				System.out.println("File Uploaded");
-				Listing listing = new Listing(name, description, price, category, file.getOriginalFilename());
+                // Creating the directory to store file
+                File dir = new File(ImagePath.url + File.separator + "listings");
+                if (!dir.exists())
+                    dir.mkdirs();
 
-				listing.setUser(u);
-				System.out.println("Check to see if session exists: " + u.getUserID());
-				listingService.create(listing);
+                // Create the file on server
 
-				message = "Listing Uploaded Successfully";
-				model.addAttribute("message", message);
-				stream.close();
+                System.out.println("Hit Controller 2");
+                File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+                stream.write(bytes);
 
-				// Listing l = new Listing(name, description, price, category, file );
-				// ld.create(l);
+                System.out.println("File Uploaded");
+                Listing listing = new Listing(name, description, price, category, file.getOriginalFilename());
 
-				return "createListing";
-			} catch (Exception e) {
-				e.printStackTrace();
-				return "You failed to upload " + name + " => " + e.getMessage();
+                if (type.equals("auction")) {
+                    listing.setType("auction");
+                    listing.setHighestBid(0.0);
+                }
 
-			}
-		} else {
-			return "You failed to upload " + name + " because the file was empty.";
-		}
+                listing.setUser(u);
+                System.out.println("Check to see if session exists: " + u.getUserID());
+                listingService.create(listing);
 
-	}
+                message = "Listing Uploaded Successfully";
+                model.addAttribute("message", message);
+                stream.close();
 
-	@RequestMapping("/createListing")
-	public String listingPage(HttpServletRequest request) {
-		return "createListing";
-	}
+                // Listing l = new Listing(name, description, price, category, file );
+                // ld.create(l);
 
-	@RequestMapping("/displayListing")
-	public String displayListing() {
+                return "createListing";
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "You failed to upload " + name + " => " + e.getMessage();
 
-		return "displayListing";
-	}
-	
-	@RequestMapping("/displayListingByCategory")
-	public String displayListingByCategory(@RequestParam("category") String category, HttpServletRequest request, Model model) {
+            }
+        } else {
+            return "You failed to upload " + name + " because the file was empty.";
+        }
 
-		System.out.println("Listing Category for display: "+category);
-		List<Listing> listings = listingService.getAllListingsByCategory(category);
-		System.out.println("List size = " + listings.size());
+    }
 
-		User user = (User) request.getSession().getAttribute("user");
+    @RequestMapping("/createListing")
+    public String listingPage(HttpServletRequest request) {
+        setRequest(request);
+        return "createListing";
+    }
 
-		System.out.println("User attribute: " + user.getUsername());
-		model.addAttribute("user", user);
-		model.addAttribute("category", category);
-		model.addAttribute("listings", listings);
+    @RequestMapping("/displayListing")
+    public String displayListing(HttpServletRequest request) {
+        setRequest(request);
+        return "displayListing";
+    }
 
-		return "displayListing";
-	}
+    @RequestMapping("/displayListingByCategory")
+    public String displayListingByCategory(@RequestParam("category") String category, HttpServletRequest request, Model model) {
+
+        System.out.println("Listing Category for display: " + category);
+        List<Listing> listings = listingService.getAllListingsByCategory(category);
+        System.out.println("List size = " + listings.size());
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        System.out.println("User attribute: " + user.getUsername());
+        model.addAttribute("user", user);
+        model.addAttribute("category", category);
+        model.addAttribute("listings", listings);
+
+        return "displayListing";
+    }
+
+    @PostMapping("/bid")
+    public String bid(@RequestParam("bidValue") double bidValue, @RequestParam int listingID, HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            addWarningMessage("Login To Place A Bid");
+            setRequest(request);
+            return "login";
+        }
+
+        int results = listingService.placeBid(user.getUserID(), bidValue, listingService.getByListingID(listingID));
+
+        if (results == -2) {
+            addErrorMessage("Bid Most Be Larger Than Highest Bid");
+        } else if (results == -1) {
+            addErrorMessage("Sorry, you didn't get your bid in on time!");
+        } else {
+            addSuccessMessage("Congrats! You're the highest bidder!");
+        }
+
+        setRequest(request);
+        return "redirect:" + request.getHeader("Referer");
+    }
 
 }
 

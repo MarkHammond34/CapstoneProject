@@ -4,6 +4,8 @@
     
     <%@include file="jspf/navbar.jspf"%>
 
+	<%@include file="jspf/messages.jsp"%>
+
 	<div style="margin: 2% 33% 5% 33%">
 		<form class="form-horizontal blacktext" action="loginUser"
 			method="post">

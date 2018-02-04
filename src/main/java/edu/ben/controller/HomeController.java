@@ -25,11 +25,9 @@ public class HomeController extends BaseController {
 		model.addObject("recentListings", recent);
 
 		List<Listing> endingSoon = listingService.getRecentListings();
-		endingSoon.remove(0);
 		model.addObject("endingSoonListings", endingSoon);
 
-		List<Listing> trending = listingService.getRecentListings();
-		trending.remove(1);
+		List<Listing> trending = listingService.getListingsByBidCount();
 		model.addObject("trendingListings", trending);
 		
 		return model;

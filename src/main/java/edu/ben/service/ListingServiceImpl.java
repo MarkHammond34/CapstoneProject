@@ -46,6 +46,30 @@ public class ListingServiceImpl implements ListingService {
 	}
 
 	@Override
+	public List<Listing> getListingsByBidCount() {
+		return ld.getListingsByBidCount();
+	}
+
+	@Override
+	public Listing getByListingID(int listingID) {
+		return ld.getByListingID(listingID);
+	}
+
+	@Override
+	public int placeBid(int biddingUserID, double bidValue, Listing listing) {
+		if (System.currentTimeMillis() > listing.getEndTimestamp().getTime()) {
+			return -1;
+		} else if (bidValue <= listing.getHighestBid()) {
+			return -2;
+		}
+
+		listing.setHighestBid(bidValue);
+		listing.setHighestBidUserID(biddingUserID);
+		ld.saveOrUpdate(listing);
+		return 1;
+	}
+
+	@Override
 	public List<Listing> getAllListingsByUserID(int userID) {
 		return ld.getAllListingsByUserID(userID);
 	}

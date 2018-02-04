@@ -15,7 +15,11 @@ public interface ListingDAO {
 	public List<Listing> getAllListingsByCategory(String category);
 
 	public List<Listing> getRecentListings();
-	
+
+	public List<Listing> getListingsByBidCount();
+
+	public Listing getByListingID(int listingID);
+
 	public List<Listing> getAllListingsByUserID(int userID);
 	
 	public List<Listing> searchCategory(String category);

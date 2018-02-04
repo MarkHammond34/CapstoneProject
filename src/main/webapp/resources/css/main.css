@@ -383,9 +383,13 @@ hgroup h2.lead {
     background-color: #ff695c;
     color: white;
     border-radius: 5px;
-    padding: 18%;
+    padding: 15%;
     margin-top: 18%;
     border: none;
     text-align: center;
     white-space: nowrap;
+}
+
+.body {
+    background-color: #C2CAD0;
 }

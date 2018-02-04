@@ -63,7 +63,20 @@ public class ListingDAOImpl implements ListingDAO {
         return recentListings;
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
+	public List<Listing> getListingsByBidCount() {
+		Query q = getSession().createQuery("FROM listing WHERE bid_count > 0 ORDER BY bid_count");
+		return (List<Listing>) q.list();
+	}
+
+	@Override
+	public Listing getByListingID(int listingID) {
+		Query q = getSession().createQuery("FROM listing WHERE id=:listingID;");
+		q.setParameter("listingID", listingID);
+		return (Listing) q.list().get(0);
+	}
+
+    @SuppressWarnings("unchecked")
 	public List<Listing> getAllListingsByUserID(int userID) {
 		Query q = getSession().createSQLQuery("select * from ulistit.listing where userID = " + userID + ";");
 		return ((List<Listing>) q.list());

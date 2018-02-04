@@ -1,14 +1,14 @@
 <%@ page import="java.util.ArrayList" %>
 <c:if test="${not empty successMessages}">
     <%
-        String message = "";
+        String successMessage = "";
         ArrayList<String> successes = (ArrayList<String>) request.getAttribute("successMessages");
         for (String s : successes) {
-            message += s + "\n";
+            successMessage += s + "\n";
     %>
     <div class="uk-alert-success" style="text-align: center" uk-alert>
         <a class="uk-alert-close" uk-close></a>
-        <p><%=message%>
+        <p><%=successMessage%>
         </p>
     </div>
     <% }
@@ -17,14 +17,14 @@
 </c:if>
 <c:if test="${not empty warningMessages}">
     <%
-        String message = "";
+        String warningMessage = "";
         ArrayList<String> warnings = (ArrayList<String>) request.getAttribute("warningMessages");
         for (String w : warnings) {
-            message += w + "\n";
+            warningMessage += w + "\n";
     %>
     <div class="uk-alert-warning" style="text-align: center" uk-alert>
         <a class="uk-alert-close" uk-close></a>
-        <p><%=message%>
+        <p><%=warningMessage%>
         </p>
     </div>
     <% }
@@ -33,14 +33,14 @@
 </c:if>
 <c:if test="${not empty errorMessages}">
     <%
-        String message = "";
+        String errorMessage = "";
         ArrayList<String> errors = (ArrayList<String>) request.getAttribute("errorMessages");
         for (String e : errors) {
-            message += e + "\n";
+            errorMessage += e + "\n";
     %>
     <div class="uk-alert-danger" style="text-align: center" uk-alert>
         <a class="uk-alert-close" uk-close></a>
-        <p><%=message%>
+        <p><%=errorMessage%>
         </p>
     </div>
     <% }

@@ -26,10 +26,12 @@
     <spring:url value="resources/js/jquery.js" var="jquery" />
     <spring:url value="resources/js/uikit-icons.js" var="uikiticons" />
     <spring:url value="resources/css/main.css" var="mainCSS" />
+    <spring:url value="resources/css/index-listing.css" var="indexListingCSS" />
     <spring:url value="resources/css/registration.css" var="regCSS" />
     <link href="${uikitCSS}" rel="stylesheet" />
     <link href="${mainCSS}" rel="stylesheet" />
     <link href="${regCSS}" rel="stylesheet" />
+    <link href="${indexListingCSS}" rel="stylesheet" />
     <script type="text/javascript" src="${uikitJS}"></script>
     <script type="text/javascript" src="${jquery}"></script>
     <script type="text/javascript" src="${uikiticons}"></script>

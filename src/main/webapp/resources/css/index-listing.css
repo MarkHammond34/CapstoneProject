@@ -1,0 +1,26 @@
+.uk-card-media-left img {
+    max-width: 50%;
+    max-height: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.listing-title {
+    font-size: 25px;
+    float: left;
+}
+
+.listing-user {
+    font-size: 20px;
+    float: left;
+}
+
+.listing-price {
+    font-size: 20px;
+    float: left;
+}
+
+.watch-item {
+    margin: 5%;
+}
