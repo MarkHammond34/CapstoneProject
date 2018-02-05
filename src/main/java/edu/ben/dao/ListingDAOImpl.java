@@ -76,10 +76,12 @@ public class ListingDAOImpl implements ListingDAO {
 		return (Listing) q.list().get(0);
 	}
 
-    @SuppressWarnings("unchecked")
 	public List<Listing> getAllListingsByUserID(int userID) {
-		Query q = getSession().createSQLQuery("select * from ulistit.listing where userID = " + userID + ";");
-		return ((List<Listing>) q.list());
+		Query q = getSession().createQuery("from listing where userID=:userID");
+		q.setParameter("userID", userID);
+		List<Listing> list = q.list();
+		return list;
+		
 
 	}
 

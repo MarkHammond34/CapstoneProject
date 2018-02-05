@@ -1,85 +1,105 @@
-<%@include file="jspf/header.jsp" %>
+<%@include file="jspf/header.jsp"%>
 
 <body>
 
-<%@include file="jspf/navbar.jspf" %>
+	<%@include file="jspf/navbar.jspf"%>
 
-<div style="background-color: #C2CAD0;">
-    <div class="uk-section">
-        <div class="uk-position-relative uk-visible-toggle uk-light"
-             uk-slideshow="max-height: 300; ratio: 10:3">
+	<div style="background-color: #C2CAD0;">
+		<div class="uk-section">
+			<div class="uk-position-relative uk-visible-toggle uk-light"
+				uk-slideshow="max-height: 300; ratio: 10:3">
 
-            <ul class="uk-slideshow-items">
-                <li>
-                    <img src="${pageContext.request.contextPath}/resources/img/sunset.jpg" alt="" width="566"
-                         uk-cover>
-                </li>
-                <li>
-                    <img src="${pageContext.request.contextPath}/resources/img/sunset.jpg" alt="" uk-cover>
-                </li>
-                <li>
-                    <img src="${pageContext.request.contextPath}/resources/img/sunset.jpg" alt="" uk-cover>
-                </li>
-            </ul>
+				<ul class="uk-slideshow-items">
+					<li><img
+						src="${pageContext.request.contextPath}/resources/img/sunset.jpg"
+						alt="" width="566" uk-cover></li>
+					<li><img
+						src="${pageContext.request.contextPath}/resources/img/sunset.jpg"
+						alt="" uk-cover></li>
+					<li><img
+						src="${pageContext.request.contextPath}/resources/img/sunset.jpg"
+						alt="" uk-cover></li>
+				</ul>
 
-            <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous
-               uk-slideshow-item="previous"></a>
-            <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next
-               uk-slideshow-item="next"></a>
+				<a class="uk-position-center-left uk-position-small uk-hidden-hover"
+					href="#" uk-slidenav-previous uk-slideshow-item="previous"></a> <a
+					class="uk-position-center-right uk-position-small uk-hidden-hover"
+					href="#" uk-slidenav-next uk-slideshow-item="next"></a>
 
-        </div>
-        <br>
-        <div class="uk-child-width-expand@s uk-text-center" uk-grid>
-            <div class="uk-width-1-4">
-                <div class="uk-card uk-card-default uk-card-body uk-grid-margin">Item 1</div>
-                <div class="uk-card uk-card-default uk-card-body uk-grid-margin">Item 2</div>
-                <div class="uk-card uk-card-default uk-card-body uk-grid-margin">Item 3</div>
-                <div class="uk-card uk-card-default uk-card-body uk-grid-margin">Item 4</div>
-            </div>
-            <div class="uk-width-3-4">
-                <ul uk-tab>
-                    <li class="uk-active"><a onclick="trendingClicked()">Trending</a></li>
-                    <li><a onclick="endingSoonClicked()">Ending Soon</a></li>
-                    <li><a onclick="recentlyAddedClicked()">Recently Added</a></li>
-                </ul>
-                <div id="trending-listings" style="display: inline">
-                    <c:forEach var="listing" items="${trendingListings}">
-                        <%@include file="jspf/index-listing.jsp" %>
-                    </c:forEach>
-                </div>
-                <div id="ending-soon-listings" style="display: none">
-                    <c:forEach var="listing" items="${endingSoonListings}">
-                        <%@include file="jspf/index-listing.jsp" %>
-                    </c:forEach>
-                </div>
-                <div id="recently-added-listings" style="display: none">
-                    <c:forEach var="listing" items="${recentListings}">
-                        <%@include file="jspf/index-listing.jsp" %>
-                    </c:forEach>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-<script>
-    function trendingClicked() {
-        document.getElementById('trending-listings').style.display = 'inline';
-        document.getElementById('ending-soon-listings').style.display = 'none';
-        document.getElementById('recently-added-listings').style.display = 'none';
-    }
+			</div>
+			<br>
+			<div class="uk-child-width-expand@s uk-text-center" uk-grid>
+				<div class="uk-width-1-4">
+					<div class="uk-card uk-card-default uk-card-body uk-grid-margin">Item
+						1</div>
+					<div class="uk-card uk-card-default uk-card-body uk-grid-margin">Item
+						2</div>
+					<div class="uk-card uk-card-default uk-card-body uk-grid-margin">Item
+						3</div>
+					<div class="uk-card uk-card-default uk-card-body uk-grid-margin">Item
+						4</div>
+				</div>
+				<div class="uk-width-3-4">
+					<ul uk-tab>
+						<li class="uk-active"><a onclick="trendingClicked()">Trending</a></li>
+						<li><a onclick="endingSoonClicked()">Ending Soon</a></li>
+						<li><a onclick="recentlyAddedClicked()">Recently Added</a></li>
+					</ul>
+					<div id="trending-listings" style="display: inline">
+						<c:forEach var="listing" items="${trendingListings}">
+							<%@include file="jspf/index-listing.jsp"%>
+						</c:forEach>
+					</div>
+					<div id="ending-soon-listings" style="display: none">
+						<c:forEach var="listing" items="${endingSoonListings}">
+							<%@include file="jspf/index-listing.jsp"%>
+						</c:forEach>
+					</div>
+					<div id="recently-added-listings" style="display: none">
+						<c:forEach var="listing" items="${recentListings}">
+							<%@include file="jspf/index-listing.jsp"%>
+						</c:forEach>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	<script>
+		function trendingClicked() {
+			document.getElementById('trending-listings').style.display = 'inline';
+			document.getElementById('ending-soon-listings').style.display = 'none';
+			document.getElementById('recently-added-listings').style.display = 'none';
+		}
 
-    function endingSoonClicked() {
-        document.getElementById('trending-listings').style.display = 'none';
-        document.getElementById('ending-soon-listings').style.display = 'inline';
-        document.getElementById('recently-added-listings').style.display = 'none';
-    }
+		function endingSoonClicked() {
+			document.getElementById('trending-listings').style.display = 'none';
+			document.getElementById('ending-soon-listings').style.display = 'inline';
+			document.getElementById('recently-added-listings').style.display = 'none';
+		}
 
-    function recentlyAddedClicked() {
-        document.getElementById('trending-listings').style.display = 'none';
-        document.getElementById('ending-soon-listings').style.display = 'none';
-        document.getElementById('recently-added-listings').style.display = 'inline';
-    }
-</script>
+		function recentlyAddedClicked() {
+			document.getElementById('trending-listings').style.display = 'none';
+			document.getElementById('ending-soon-listings').style.display = 'none';
+			document.getElementById('recently-added-listings').style.display = 'inline';
+		}
+
+		$(".watch-item").click(function() {
+			var id = $(this).attr('id')
+			$(this).toggleClass('watch-item');
+			console.log('itemid', id)
+			$.ajax({
+				type : "POST",
+				url : "watchListing",
+				data : {
+					listingID : id
+				},
+				success : function() {
+					console.log("Complete")
+				},
+
+			});
+		})
+	</script>
 </body>
 </html>
