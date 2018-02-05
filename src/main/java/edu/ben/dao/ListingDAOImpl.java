@@ -71,7 +71,7 @@ public class ListingDAOImpl implements ListingDAO {
 
 	@Override
 	public Listing getByListingID(int listingID) {
-		Query q = getSession().createQuery("FROM listing WHERE id=:listingID;");
+		Query q = getSession().createQuery("FROM listing WHERE id=:listingID");
 		q.setParameter("listingID", listingID);
 		return (Listing) q.list().get(0);
 	}
@@ -93,7 +93,6 @@ public class ListingDAOImpl implements ListingDAO {
 	
 	@Override
 	public void updateListingActiveStatusByID(int active, int id) {
-		
 		Query q = getSession().createQuery("UPDATE listing SET active=:active WHERE id=:id");
 		q.setParameter("active", active);
 		q.setParameter("id", id);
