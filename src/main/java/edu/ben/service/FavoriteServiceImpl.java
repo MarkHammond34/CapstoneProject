@@ -35,8 +35,8 @@ public class FavoriteServiceImpl implements FavoriteService {
 	}
 
 	@Override
-	public List<Listing> isWatched(int listingID, int userID) {
-		return fd.isWatched(listingID, userID);
+	public List isWatched(int listingID, int userID) {
+		return (List) fd.isWatched(listingID, userID);
 		
 	}
 

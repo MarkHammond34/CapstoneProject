@@ -1,17 +1,27 @@
 package edu.ben.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.ben.model.Listing;
 import edu.ben.model.User;
 import edu.ben.service.UserService;
+import edu.ben.util.ImagePath;
 
 @Controller
 public class UserController {
@@ -23,46 +33,84 @@ public class UserController {
 	public ModelAndView list() {
 		ModelAndView model = new ModelAndView("/list");
 		List<User> list = userService.getAllUsers();
-		
+
 		model.addObject("list", list);
 
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/update{id}", method = RequestMethod.GET)
 	public ModelAndView update(@PathVariable("id") int id) {
 		ModelAndView model = new ModelAndView("/form");
 		User user = userService.getUserById(id);
-		
+
 		model.addObject("userForm", user);
 
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView add() {
 		ModelAndView model = new ModelAndView("/form");
 		User user = new User();
-		
+
 		model.addObject("userForm", user);
 
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public ModelAndView save(@ModelAttribute("userForm") User user) {
-		
+
 		userService.saveOrUpdate(user);
 
 		return new ModelAndView("redirect:/list");
 	}
-	
+
 	@RequestMapping(value = "/testing", method = RequestMethod.GET)
 	public ModelAndView testing() {
-		
-		//User user = new User("Corey", "Bill", "ey", "corey@email.com", "password");
-		//userService.createUser(user);
+
+		// User user = new User("Corey", "Bill", "ey", "corey@email.com", "password");
+		// userService.createUser(user);
 
 		return new ModelAndView("redirect:/");
+	}
+
+	@RequestMapping(value= "/uploadProfilePic", method = RequestMethod.POST)
+	public String uploadProfilePic(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute("user");
+		
+		if (!file.isEmpty()) {
+			try {
+
+				byte[] bytes = file.getBytes();
+
+				// Creating the directory to store file
+				File dir = new File(ImagePath.url + File.separator + "profile-pic");
+				if (!dir.exists())
+					dir.mkdirs();
+
+				// Create the file on server
+
+				File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
+				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+				stream.write(bytes);
+				
+				user.setImage_path(file.getOriginalFilename());
+				userService.saveOrUpdate(user);
+				stream.close();
+
+				// Listing l = new Listing(name, description, price, category, file );
+				// ld.create(l);
+
+				return "createListing";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "You failed to upload profile pic  => " + e.getMessage();
+
+			}
+		} else {
+			return "You failed to upload profile pic because the file was empty.";
+		}
 	}
 }

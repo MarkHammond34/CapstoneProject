@@ -150,6 +150,28 @@ public class ListingController extends BaseController {
         return "displayListing";
     }
 
+	@RequestMapping(value = "/watchListing", method = RequestMethod.POST)
+	public String updateListing(HttpServletRequest request) {
+		String listingIDString = request.getParameter("listingID");
+		int listingID = Integer.parseInt(listingIDString);
+
+		User user = (User) request.getSession().getAttribute("user");
+		Listing listing = listingService.getByListingID(listingID);
+
+		Favorite f = new Favorite();
+		f.setListing(listing);
+		f.setUser(user);
+
+		if (favoriteService.isWatched(listingID, user.getUserID()) == null) {
+			System.out.println("pass if check");
+			favoriteService.unwatchListing(listingID, user.getUserID());
+		} else {
+			favoriteService.watchListing(listingID, user.getUserID());
+		}
+
+		return "profilePage2";
+	}
+
     @PostMapping("/bid")
     public String bid(@RequestParam("bidValue") double bidValue, @RequestParam int listingID, HttpServletRequest request) {
 

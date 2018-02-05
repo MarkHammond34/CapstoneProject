@@ -28,9 +28,7 @@ public class ProfileController {
 		User session = (User) request.getSession().getAttribute("user");
 		
 		List<Listing> userListings = listingService.getAllListingsByUserID(session.getUserID());
-		
-		System.out.println(userListings.get(0).getImage_path());
-		
+				
 		request.setAttribute("user", session);
 		request.setAttribute("userListings", userListings);
 		
