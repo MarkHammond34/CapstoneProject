@@ -15,9 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -94,6 +92,8 @@ public class ListingController extends BaseController {
                 if (type.equals("auction")) {
                     listing.setType("auction");
                     listing.setHighestBid(0.0);
+                } else {
+                    listing.setType("fixed");
                 }
 
                 listing.setUser(u);

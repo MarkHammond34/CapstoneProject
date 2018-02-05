@@ -1,26 +1,31 @@
-.uk-card-media-left img {
-    max-width: 50%;
-    max-height: 50%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+.bg {
+    background-color: #dfdfdf;
 }
 
-.listing-title {
-    font-size: 25px;
-    float: left;
+.rwrapper {
+    padding: 5px;
 }
 
-.listing-user {
-    font-size: 20px;
-    float: left;
+.rlisting {
+    background-color: #fff;
+    overflow: hidden;
 }
 
-.listing-price {
-    font-size: 20px;
-    float: left;
+.rlisting img {
+    width: 100%
 }
 
-.watch-item {
-    margin: 5%;
+.nopad {
+    padding: 0;
+}
+
+.rfooter {
+    background: #f1f3f5;
+    border-top: 1px #ebebeb solid;
+    width: 100%;
+    padding: 10px 15px
+}
+
+.rlisting h5, .rlisting p {
+    padding: 0 15px;
 }

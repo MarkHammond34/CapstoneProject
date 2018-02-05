@@ -16,88 +16,88 @@ import edu.ben.model.Listing;
 @Transactional
 @Repository
 public class ListingDAOImpl implements ListingDAO {
-	
-	@Autowired
+
+    @Autowired
     private SessionFactory sessionFactory;
 
     private Session getSession() {
         return sessionFactory.getCurrentSession();
     }
-    
+
     public void create(Listing listing) {
         getSession().save(listing);
     }
-    
+
     public void saveOrUpdate(Listing listing) {
         getSession().saveOrUpdate(listing);
     }
-    
+
     public void deleteListing(int id) {
         Listing listing = (Listing) getSession().get(Listing.class, id);
         getSession().delete(listing);
 
     }
 
-	@SuppressWarnings("unchecked")
-	public List<Listing> getAllListingsByCategory(String category) {
-    	Query q = getSession().createQuery("FROM listing WHERE category=:category");
-    	q.setParameter("category", category);
-    	return (List<Listing>) q.list();
+    @SuppressWarnings("unchecked")
+    public List<Listing> getAllListingsByCategory(String category) {
+        Query q = getSession().createQuery("FROM listing WHERE category=:category");
+        q.setParameter("category", category);
+        return (List<Listing>) q.list();
     }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Listing> getRecentListings() {
-		Query q = getSession().createQuery("FROM listing ORDER BY date_created DESC");
-		List<Listing> list = (List<Listing>) q.list();
-		Iterator<Listing> it = list.iterator();
-		List<Listing> recentListings = new ArrayList<Listing>();
-		
-		while (it.hasNext()) {
-			
-			Listing listing = it.next();
-			recentListings.add(listing);
-			
-		} 
-		
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Listing> getRecentListings() {
+        Query q = getSession().createQuery("FROM listing ORDER BY date_created DESC");
+        List<Listing> list = (List<Listing>) q.list();
+        Iterator<Listing> it = list.iterator();
+        List<Listing> recentListings = new ArrayList<Listing>();
+
+        while (it.hasNext()) {
+
+            Listing listing = it.next();
+            recentListings.add(listing);
+
+        }
+
         return recentListings;
-	}
+    }
 
-	@Override
-	public List<Listing> getListingsByBidCount() {
-		Query q = getSession().createQuery("FROM listing WHERE bid_count > 0 ORDER BY bid_count");
-		return (List<Listing>) q.list();
-	}
+    @Override
+    public List<Listing> getListingsByBidCount() {
+        Query q = getSession().createQuery("FROM listing WHERE bid_count > 0 ORDER BY bid_count");
+        return (List<Listing>) q.list();
+    }
 
-	@Override
-	public Listing getByListingID(int listingID) {
-		Query q = getSession().createQuery("FROM listing WHERE id=:listingID;");
-		q.setParameter("listingID", listingID);
-		return (Listing) q.list().get(0);
-	}
+    @Override
+    public Listing getByListingID(int listingID) {
+        Query q = getSession().createQuery("FROM listing WHERE id=:listingID");
+        q.setParameter("listingID", listingID);
+        return (Listing) q.list().get(0);
+    }
 
     @SuppressWarnings("unchecked")
-	public List<Listing> getAllListingsByUserID(int userID) {
-		Query q = getSession().createSQLQuery("select * from ulistit.listing where userID = " + userID + ";");
-		return ((List<Listing>) q.list());
+    public List<Listing> getAllListingsByUserID(int userID) {
+        Query q = getSession().createSQLQuery("select * from ulistit.listing where userID = " + userID + ";");
+        return ((List<Listing>) q.list());
 
-	}
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Listing> searchCategory(String category) {
-		Query q = getSession()
-				.createSQLQuery("SELECT * FROM ulistit.listing WHERE SOUNDEX(category)=soundex('" + category + "');");
-		return (List<Listing>) q.list();
-	}
-	
-	@Override
-	public void updateListingActiveStatusByID(int active, int id) {
-		
-		Query q = getSession().createQuery("UPDATE listing SET active=:active WHERE id=:id");
-		q.setParameter("active", active);
-		q.setParameter("id", id);
-		q.executeUpdate();
-		
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Listing> searchCategory(String category) {
+        Query q = getSession()
+                .createSQLQuery("SELECT * FROM ulistit.listing WHERE SOUNDEX(category)=soundex('" + category + "');");
+        return (List<Listing>) q.list();
+    }
+
+    @Override
+    public void updateListingActiveStatusByID(int active, int id) {
+
+        Query q = getSession().createQuery("UPDATE listing SET active=:active WHERE id=:id");
+        q.setParameter("active", active);
+        q.setParameter("id", id);
+        q.executeUpdate();
+
+    }
 }

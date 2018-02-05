@@ -1,5 +1,9 @@
 <%@include file="jspf/header.jsp" %>
-
+<style>
+    .card img {
+        width: 10%;
+    }
+</style>
 <body>
 
 <%@include file="jspf/navbar.jspf" %>
@@ -31,10 +35,9 @@
         <br>
         <div class="uk-child-width-expand@s uk-text-center" uk-grid>
             <div class="uk-width-1-4">
-                <div class="uk-card uk-card-default uk-card-body uk-grid-margin">Item 1</div>
-                <div class="uk-card uk-card-default uk-card-body uk-grid-margin">Item 2</div>
-                <div class="uk-card uk-card-default uk-card-body uk-grid-margin">Item 3</div>
-                <div class="uk-card uk-card-default uk-card-body uk-grid-margin">Item 4</div>
+                <div class="uk-card uk-card-default uk-card-body uk-grid-margin">
+                    Item 1
+                </div>
             </div>
             <div class="uk-width-3-4">
                 <ul uk-tab>
@@ -42,17 +45,17 @@
                     <li><a onclick="endingSoonClicked()">Ending Soon</a></li>
                     <li><a onclick="recentlyAddedClicked()">Recently Added</a></li>
                 </ul>
-                <div id="trending-listings" style="display: inline">
+                <div id="trending-listings" style="display: inline" class="row">
                     <c:forEach var="listing" items="${trendingListings}">
                         <%@include file="jspf/index-listing.jsp" %>
                     </c:forEach>
                 </div>
-                <div id="ending-soon-listings" style="display: none">
+                <div id="ending-soon-listings" style="display: none" class="row">
                     <c:forEach var="listing" items="${endingSoonListings}">
                         <%@include file="jspf/index-listing.jsp" %>
                     </c:forEach>
                 </div>
-                <div id="recently-added-listings" style="display: none">
+                <div id="recently-added-listings" style="display: none" class="row">
                     <c:forEach var="listing" items="${recentListings}">
                         <%@include file="jspf/index-listing.jsp" %>
                     </c:forEach>
