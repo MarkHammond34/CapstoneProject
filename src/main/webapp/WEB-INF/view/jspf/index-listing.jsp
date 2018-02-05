@@ -1,6 +1,6 @@
-<div class="col-xs-12 col-sm-6 col-md-3 rwrapper">
-    <div class="rlisting">
-        <div class="col-md-12 nopad">
+<div class="uk-width-1-2">
+    <div class="uk-card uk-card-default uk-grid-collapse" uk-grid>
+        <div class="uk-card-media-left uk-cover-container uk-width-1-3">
             <div uk-lightbox>
                 <a href="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
                    title="Image" class="thumbnail"><img
@@ -8,35 +8,33 @@
                         alt="Listing"/></a>
             </div>
         </div>
-        <div class="col-md-12 nopad">
-            <a uk-icon="icon: star; ratio: 2"></a>
-            <h5>${listing.name}</h5>
+        <div class="uk-card-body uk-width-2-3">
+            <a class="uk-position-right" uk-icon="icon: star; ratio: 1.5"></a>
+            <h3 class="uk-card-title uk-position-top">${listing.name}</h3>
+            <br>
             <c:choose>
                 <c:when test="${listing.type == 'auction'}">
-                    <p>$${listing.highestBid}</p>
-                    <div class="uk-grid-small uk-child-width-auto" uk-grid
+                    <p>Current Bid - $${listing.highestBid}</p>
+                    <div style="text-align: center; float: right" id="countdown" class="uk-grid-small countdown" uk-grid
                          uk-countdown="date: ${listing.endTimestamp}">
                         <div>
                             <div class="uk-countdown-number uk-countdown-days"></div>
-                            <div class="uk-countdown-label uk-margin-small uk-text-center uk-visible@s">Days</div>
+                            <div class="uk-countdown-label uk-text-center uk-visible@s">Days</div>
                         </div>
-                        <div class="uk-countdown-separator">:</div>
                         <div>
                             <div class="uk-countdown-number uk-countdown-hours"></div>
-                            <div class="uk-countdown-label uk-margin-small uk-text-center uk-visible@s">Hours</div>
+                            <div class="uk-countdown-label uk-text-center uk-visible@s">Hours</div>
                         </div>
-                        <div class="uk-countdown-separator">:</div>
                         <div>
                             <div class="uk-countdown-number uk-countdown-minutes"></div>
-                            <div class="uk-countdown-label uk-margin-small uk-text-center uk-visible@s">Minutes</div>
+                            <div class="uk-countdown-label uk-text-center uk-visible@s">Minutes</div>
                         </div>
-                        <div class="uk-countdown-separator">:</div>
                         <div>
                             <div class="uk-countdown-number uk-countdown-seconds"></div>
-                            <div class="uk-countdown-label uk-margin-small uk-text-center uk-visible@s">Seconds</div>
+                            <div class="uk-countdown-label uk-text-center uk-visible@s">Seconds</div>
                         </div>
                     </div>
-                    <div class="rfooter">
+                    <div class="uk-position-bottom-right">
                         <button>See More</button>
                         <button type="button"
                                 uk-toggle="target: #placeBidModal">Place Bid
@@ -44,8 +42,8 @@
                     </div>
                 </c:when>
                 <c:when test="${listing.type == 'fixed'}">
-                    <p>$${listing.price}</p>
-                    <div class="rfooter">
+                    <p>List Price - $${listing.price}</p>
+                    <div class="uk-position-bottom-right">
                         <button>See More</button>
                         <button type="button"
                                 uk-toggle="target: #buyItNowModal">Buy It Now
@@ -99,5 +97,3 @@
         </form>
     </div>
 </div>
-<script>
-</script>

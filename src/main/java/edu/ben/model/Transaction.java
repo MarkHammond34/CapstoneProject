@@ -40,7 +40,7 @@ public class Transaction {
 	
 	@OneToOne
 	@JoinColumn(name="user_ID")
-	private int userID; // Maybe change to User object
+	private User user; // Maybe change to User object
 	
 	@Column(name="")
 	@NotBlank
@@ -88,12 +88,12 @@ public class Transaction {
 		this.transactionType = transactionType;
 	}
 
-	public int getUserID() {
-		return userID;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserID(int userID) {
-		this.userID = userID;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public int getCompleted() {

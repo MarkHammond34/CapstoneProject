@@ -33,7 +33,7 @@ public class ListingController extends BaseController {
     public String uploadFileHandler(@RequestParam("title") String name, @RequestParam("category") String category,
                                     @RequestParam("price") double price, @RequestParam("description") String description,
                                     @RequestParam("file") MultipartFile file, @RequestParam("type") String type,
-                                     Model model, HttpServletRequest request) {
+                                    Model model, HttpServletRequest request) {
 
         System.out.println("Hit UploadListing Controller");
 
@@ -172,6 +172,7 @@ public class ListingController extends BaseController {
         }
 
         setRequest(request);
+        System.out.println("redirect:" + request.getHeader(" Referer "));
         return "redirect:" + request.getHeader("Referer");
     }
 
