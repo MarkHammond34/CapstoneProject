@@ -40,8 +40,6 @@ public class ListingController extends BaseController {
 			@RequestParam("file") MultipartFile file, @RequestParam("type") String type, Model model,
 			HttpServletRequest request) {
 
-		System.out.println("Hit UploadListing Controller");
-
 		String message = "";
 		String error = "";
 
@@ -168,13 +166,11 @@ public class ListingController extends BaseController {
 		f.setListing(listing);
 		f.setUser(user);
 
-		System.out.println("Favorite Size " + favoriteService.isWatched(listingID, user.getUserID()).size());
-
 		if (favoriteService.isWatched(listingID, user.getUserID()) == null) {
 			System.out.println("pass if check");
-			favoriteService.watchListing(listingID, user.getUserID());
-		} else {
 			favoriteService.unwatchListing(listingID, user.getUserID());
+		} else {
+			favoriteService.watchListing(listingID, user.getUserID());
 		}
 
 		return "profilePage2";

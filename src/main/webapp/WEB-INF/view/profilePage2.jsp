@@ -11,17 +11,22 @@
 		<div class="card hovercard">
 			<div class="card-background">
 				<img class="card-bkimg" alt=""
-					src="http://lorempixel.com/100/100/people/9/">
+					src="<%=request.getContextPath()%>/resources/img/profile-pic/${user.image_path}">
 				<!-- http://lorempixel.com/850/280/people/9/ -->
 			</div>
 			<div class="useravatar">
-				<img alt="" src="http://lorempixel.com/100/100/people/9/">
+				<a href="#editProfilePic${user.userID}" data-toggle="modal"
+					data-target="#editProfilePic${user.userID}"><span
+					data-toggle="tooltip" data-placement="right"> <img alt=""
+						src="<%=request.getContextPath()%>/resources/img/profile-pic/${user.image_path}"></span></a>
 			</div>
 			<div class="card-info">
 				<span class="card-title">${user.username}</span>
 
 			</div>
 		</div>
+		<%@include file="jspf/editProfilePic.jspf"%>
+
 		<div class="btn-pref btn-group btn-group-justified btn-group-lg"
 			role="group" aria-label="...">
 			<div class="btn-group" role="group">
@@ -55,32 +60,19 @@
 							<div class="col-sm-5">
 								<c:forEach var="listing" items="${userListings}">
 
-									<!-- Begin Listing: 609 W GRAVERS LN-->
 									<div
-										class="brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing">
-										<div class="media">
-											<a class="pull-left" href="#" target="_parent"> <img
-												alt="image" class="img-responsive"
-												src="<%=request.getContextPath()%>/resources/img/listings/${listing.image_path}"></a>
-
-											<div class="clearfix visible-sm"></div>
-
-											<div class="media-body fnt-smaller">
-												<a href="#" target="_parent"></a>
-
-												<h4 class="media-heading">
-													<a href="#editListingModal${listing.id}"
-														data-toggle="modal"
-														data-target="#editListingModal${listing.id}"
-														style="color: black;"><span data-toggle="tooltip"
-														data-placement="right"> <small
-															class="pull-right glyphicon glyphicon-edit"></small>
-													</span></a>
-												</h4>
-
-
-												<p class="hidden-xs">${listing.description}</p>
-
+										class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin"
+										uk-grid>
+										<div class="uk-card-media-left uk-cover-container">
+											<img
+												src="<%=request.getContextPath()%>/resources/img/listings/${listing.image_path}"
+												alt="" uk-cover>
+											<canvas width="600" height="400"></canvas>
+										</div>
+										<div>
+											<div class="uk-card-body">
+												<h3 class="uk-card-title">${listing.name}</h3>
+												<p>${listing.description}</p>
 											</div>
 										</div>
 									</div>

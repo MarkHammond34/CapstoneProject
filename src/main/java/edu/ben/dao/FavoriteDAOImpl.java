@@ -40,15 +40,15 @@ public class FavoriteDAOImpl implements FavoriteDAO {
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<Listing> isWatched(int listingID, int userID) {
+	public List isWatched(int listingID, int userID) {
 		Query query = getSession().createQuery("from favorite where userID=:userID AND listingID=:listingID");
 		query.setParameter("userID", userID);
 		query.setParameter("listingID", listingID);
-		return (List<Listing>) query.list();
-		
-	
+		List list = query.list();
+
+		return list;
+
 	}
 
 }
