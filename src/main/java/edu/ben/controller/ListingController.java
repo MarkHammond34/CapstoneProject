@@ -1,7 +1,9 @@
 package edu.ben.controller;
 
+import edu.ben.model.Favorite;
 import edu.ben.model.Listing;
 import edu.ben.model.User;
+import edu.ben.service.FavoriteService;
 import edu.ben.service.ListingService;
 import edu.ben.util.ImagePath;
 import org.apache.commons.io.FilenameUtils;

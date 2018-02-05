@@ -1,53 +1,94 @@
-<%@ page import="edu.ben.model.User"%>
-<%@ page session="true"%>
-
-<%
-	User user = (User) request.getSession().getAttribute("user");
-	String name = "Guest";
-	if (user != null) {
-		name = user.getFirstName();
-	}
-	//if (user.isAdmin() == true) {
-	//	name = "Administrator - " + user.getFirstName();
-	//}
-%>
-
-<div class="navbar navbar-inverse navbar-fixed-top">
-	<div class="container">
-		<div class="navbar-header">
-			<img src="" width="50" height="50" alt=""> <a href="index.jsp"
-				class="navbar-brand">U-List It!</a>
-			<button class="navbar-toggle collapsed" type="button"
-				data-toggle="collapse" data-target="#navbar-main"
-				aria-expanded="false">
-				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
-			</button>
-		</div>
-		<div class="navbar-collapse collapse" id="navbar-main"
-			aria-expanded="false" style="height: 0.909091px;">
-			<ul class="nav navbar-nav">
-				<li><a href="#"></a></li>
-				<li><a href="#"></a></li>
-				<li><a href="#"></a></li>
-				<li><a href="#"></a></li>
-				<li><a href="#"></a></li>
-			</ul>
-			<input type="text" placeholder="Search..">
-			<ul class="nav navbar-nav navbar-right">
-				<li><p style="padding: 15px 15px 0px 15px">
-						Welcome,
-						<%=name%>!
-					</p></li>
-				<li><a href="">Login</a></li>
-				<li><a href="">Logout</a></li>
-
-			</ul>
-			<div class="topnav">
-				<a class="active" href="#">Home</a> <a href="#about">About</a> <a
-					href="#contact">Contact</a> <input type="text"
-					placeholder="Search..">
-			</div>
-		</div>
-	</div>
+<%--Nav Bar--%>
+<div class="uk-position-relative">
+    <div class="uk-position-relativetop">
+        <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+            <div class="uk-navbar-left">
+                <ul class="uk-navbar-nav">
+                    <li><a href="${pageContext.request.contextPath}/">Home</a></li>
+                    <li><a
+                            href="${pageContext.request.contextPath}/displayListing">View
+                        Listings</a></li>
+                    <li>
+                        <form method="get" action="/createListing">
+                            <button type="submit" class="create-listing-button">Create
+                                Listing
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+            <div class="uk-navbar-center">
+                <a class="uk-navbar-item uk-logo uk-align-center"><img
+                        src="${pageContext.request.contextPath}/resources/img/logo.png"></a>
+            </div>
+            <div class="uk-navbar-right">
+                <div>
+                    <a class="uk-navbar-toggle" uk-search-icon href="#"></a>
+                    <div class="uk-drop" uk-drop="mode: click; pos: left-center; offset: 0">
+                        <form class="uk-search uk-search-navbar uk-width-1-1" method="POST"
+                              action="searchResults">
+                            <input class="uk-search-input" type="search" placeholder="Search..." autofocus>
+                        </form>
+                    </div>
+                </div>
+                <ul class="uk-navbar-nav">
+                    <li><a href="" uk-icon="icon: bell"></a>
+                        <div uk-drop="mode: click">
+                            <div class="uk-card uk-card-body uk-card-default">
+                                <c:choose>
+                                    <c:when test="${notifications != null}">
+                                        <ul class="uk-list uk-list-large uk-list-divider">
+                                            <c:forEach items="${notifications}" var="notification">
+                                                <c:if test="${notification.type == 'high'}">
+                                                    <li style="color: red;">${notification.text}</li>
+                                                </c:if>
+                                                <c:if test="${notification.type == 'medium'}">
+                                                    <li style="color: yellow;">${notification.text}</li>
+                                                </c:if>
+                                                <c:if test="${notification.type == 'low'}">
+                                                    <li style="color: green;">${notification.text}</li>
+                                                </c:if>
+                                            </c:forEach>
+                                        </ul>
+                                    </c:when>
+                                    <c:when test="${notifications == null}">
+                                        <c:choose>
+                                            <c:when test="${user != null}">
+                                                <p uk-icon="icon: happy" style="text-align: center">Nothing To See
+                                                    Here</p>
+                                            </c:when>
+                                            <c:when test="${user == null}">
+                                                <a uk-icon="icon: sign-in" href="/login" style="text-align: center">Login
+                                                    To See Notifications</a>
+                                            </c:when>
+                                        </c:choose>
+                                    </c:when>
+                                </c:choose>
+                            </div>
+                        </div>
+                    </li>
+                    <c:choose>
+                        <c:when test="${user != null }">
+                            <li><a>Welcome ${user.firstName}</a>
+                                <div uk-dropdown>
+                                    <ul class="uk-nav uk-dropdown-nav">
+                                        <li><a href="${pageContext.request.contextPath}/viewProfile">View
+                                            Profile Page</a></li>
+                                        <li class="uk-nav-divider"></li>
+                                        <li><a href="#">Logout</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li><a href="${pageContext.request.contextPath}/login">
+                                Login</a></li>
+                            <li><a href="${pageContext.request.contextPath}/register">
+                                Register</a></li>
+                        </c:otherwise>
+                    </c:choose>
+                </ul>
+            </div>
+        </nav>
+    </div>
 </div>

@@ -14,7 +14,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-import com.sun.istack.internal.Nullable;
+import edu.ben.model.User;
+
+//import com.sun.istack.internal.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -61,15 +63,15 @@ public class Listing implements java.io.Serializable {
 	private String image_path;
 
 	@Column(name="highest_bid_userID")
-	@Nullable
+//	@Nullable
 	private int highestBidUserID;
 
 	@Column(name="highest_bid")
-	@Nullable
+//	@Nullable
 	private Double highestBid;
 
 	@Column(name="bid_count")
-	@Nullable
+//	@Nullable
 	private int bidCount;
 
 	@Column(name="start_timestamp")

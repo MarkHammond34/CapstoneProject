@@ -1,57 +1,49 @@
-<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.ArrayList" %>
 <c:if test="${not empty successMessages}">
-    <div class="alert alert-success panel-body" style="margin-top: 5%;">
-        <a class="close" data-dismiss="alert" href="#">x</a>
-        <div style="text-align: center;">
-            <h3>Success</h3>
-        </div>
-        <ul>
-            <%
-                ArrayList<String> successes = (ArrayList<String>) request.getAttribute("successMessages");
-                for (String s : successes) {
-            %>
-                <li><h4><%=s%></h4></li>
-            <%  }
-                successes.clear();
-            %>
-        </ul>
+    <%
+        String successMessage = "";
+        ArrayList<String> successes = (ArrayList<String>) request.getAttribute("successMessages");
+        for (String s : successes) {
+            successMessage += s + "\n";
+    %>
+    <div class="uk-alert-success" style="text-align: center" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <p><%=successMessage%>
+        </p>
     </div>
+    <% }
+        successes.clear();
+    %>
 </c:if>
 <c:if test="${not empty warningMessages}">
-    <div class="alert alert-warning panel-body" style="margin-top: 5%;>
-        <a class=">
-    <a class="close" data-dismiss="alert" href="#">x</a>
-        <div style="text-align: center;">
-            <h3>Warning</h3>
-        </div>
-    <ul>
-        <%
-            ArrayList<String> warnings = (ArrayList<String>) request.getAttribute("warningMessages");
-            for (String w : warnings) {
-        %>
-        <li><h4><%=w%></h4></li>
-        <%  }
-            warnings.clear();
-        %>
-    </ul>
+    <%
+        String warningMessage = "";
+        ArrayList<String> warnings = (ArrayList<String>) request.getAttribute("warningMessages");
+        for (String w : warnings) {
+            warningMessage += w + "\n";
+    %>
+    <div class="uk-alert-warning" style="text-align: center" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <p><%=warningMessage%>
+        </p>
     </div>
+    <% }
+        warnings.clear();
+    %>
 </c:if>
 <c:if test="${not empty errorMessages}">
-    <div class="alert alert-danger panel-body" style="margin-top: 5%;>
-        <a class=">
-        <a class="close" data-dismiss="alert" href="#">x</a>
-        <div style="text-align: center;">
-            <h3>Error</h3>
-        </div>
-    <ul>
-        <%
-            ArrayList<String> errors = (ArrayList<String>) request.getAttribute("errorMessages");
-            for (String e : errors) {
-        %>
-        <li><h4><%=e%></h4></li>
-        <%  }
-            errors.clear();
-        %>
-    </ul>
+    <%
+        String errorMessage = "";
+        ArrayList<String> errors = (ArrayList<String>) request.getAttribute("errorMessages");
+        for (String e : errors) {
+            errorMessage += e + "\n";
+    %>
+    <div class="uk-alert-danger" style="text-align: center" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <p><%=errorMessage%>
+        </p>
     </div>
+    <% }
+        errors.clear();
+    %>
 </c:if>

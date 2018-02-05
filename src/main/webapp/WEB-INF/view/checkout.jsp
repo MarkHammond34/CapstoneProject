@@ -69,7 +69,8 @@
 
 		<div class="uk-section">
 			<div class="uk-container">
-
+	
+				<label id="price">3.00</label>
 				<div class="uk-position-center" id="paypal-button"></div>
 
 			</div>
@@ -101,7 +102,7 @@
 										payment : {
 											transactions : [ {
 												amount : {
-													total : '1.00',
+													total : $("#price"),
 													currency : 'USD'
 												}
 											} ]
@@ -118,6 +119,7 @@
 
 												// The payment is complete!
 												// You can now show a confirmation message to the customer
+												window.alert('Payment Complete!');
 											});
 								},
 

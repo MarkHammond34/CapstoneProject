@@ -10,7 +10,6 @@ public class TransactionController extends BaseController {
 
 	@RequestMapping(value="/checkoutPage", method=RequestMethod.GET)
 	public ModelAndView checkoutPage() {
-		System.out.println("test");
 		return new ModelAndView("checkout");
 	}
 	
