@@ -9,7 +9,7 @@
                             href="${pageContext.request.contextPath}/displayListing">View
                         Listings</a></li>
                     <li>
-                        <form method="get" action="/createListing">
+                        <form method="get" action="${pageContext.request.contextPath}/createListing">
                             <button type="submit" class="create-listing-button">Create
                                 Listing
                             </button>

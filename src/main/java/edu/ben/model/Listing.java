@@ -69,23 +69,10 @@ public class Listing implements java.io.Serializable {
 
     @Column(name="end_timestamp")
     private Timestamp endTimestamp;
+    
+    @Column(name="active")
+    private int active;
 
-
-    public String getImage_path() {
-        return image_path;
-    }
-
-    public void setImage_path(String image_path) {
-        this.image_path = image_path;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public Listing() {
 
@@ -221,4 +208,31 @@ public class Listing implements java.io.Serializable {
     public void setEndTimestamp(Timestamp endTimestamp) {
         this.endTimestamp = endTimestamp;
     }
+    
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
+
+    public String getImage_path() {
+        return image_path;
+    }
+
+    public void setImage_path(String image_path) {
+        this.image_path = image_path;
+    }
+
+	public int getActive() {
+		return active;
+	}
+
+	public void setActive(int active) {
+		this.active = active;
+	}
+
+
 }
