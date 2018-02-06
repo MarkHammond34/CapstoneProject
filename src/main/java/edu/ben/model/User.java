@@ -61,10 +61,10 @@ public class User {
 
     @Column(name = "active")
     private int active;
-    
+    /*
     @Column(name = "image_path")
     private String image_path;
-
+*/
   
 
 	/**
@@ -226,7 +226,7 @@ public class User {
     public void setAdmin(int i) {
         this.adminLevel = i;
     }
-    
+    /*
     public String getImage_path() {
   		return image_path;
   	}
@@ -234,7 +234,7 @@ public class User {
   	public void setImage_path(String image_path) {
   		this.image_path = image_path;
   	}
-
+    */
   	public Timestamp getDateModified() {
   		return dateModified;
   	}

@@ -48,8 +48,7 @@ public class LoginController {
 					request.getSession().setAttribute("user", user);
 					userService.updateAttemptedLogins(0, email);
 					System.out.println("pass match");
-					request.getSession().setAttribute("user", user);
-					return "redirect:/";
+					return "index";
 
 				} else {
 					request.setAttribute("email", email);

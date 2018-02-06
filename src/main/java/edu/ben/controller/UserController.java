@@ -73,7 +73,7 @@ public class UserController {
 
 		return new ModelAndView("redirect:/");
 	}
-
+/*
 	@RequestMapping(value= "/uploadProfilePic", method = RequestMethod.POST)
 	public String uploadProfilePic(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
@@ -111,4 +111,5 @@ public class UserController {
 			return "You failed to upload profile pic because the file was empty.";
 		}
 	}
+	*/
 }
