@@ -25,43 +25,54 @@
 </head>
 
 <body>
-
-		<%--Nav Bar--%>
-		<div class="uk-position-relative">
-			<div class="uk-position-relativetop">
-				<nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
-				<div class="uk-navbar-left">
-					<ul class="uk-navbar-nav">
-						<li><a href="${pageContext.request.contextPath}/">Home</a></li>
-						<li><a
-							href="${pageContext.request.contextPath}/displayListing">View
-								Listings</a></li>
-						<li><a
-							href="${pageContext.request.contextPath}/createListing">Create
-								Listing</a></li>
-						<li>
-							<div class="uk-margin">
-								<form class="uk-search uk-search-default" method="POST"
-									action="searchResults">
-									<span uk-search-icon></span> <input id="search"
-										class="uk-search-input" type="search" placeholder="Search...">
-								</form>
-							</div>
-						</li>
-					</ul>
-				</div>
-				<div class="uk-navbar-right">
-					<ul class="uk-navbar-nav">
-						<li><a>Welcome user</a></li>
-						<li><a href="#">Logout</a></li>
-					</ul>
-				</div>
-				</nav>
+	<script async src="https://platform.twitter.com/widgets.js"
+		charset="utf-8"></script>
+	<div id="fb-root"></div>
+	<script>
+		(function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id))
+				return;
+			js = d.createElement(s);
+			js.id = id;
+			js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.12';
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
+	<%--Nav Bar--%>
+	<div class="uk-position-relative">
+		<div class="uk-position-relativetop">
+			<nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+			<div class="uk-navbar-left">
+				<ul class="uk-navbar-nav">
+					<li><a href="${pageContext.request.contextPath}/">Home</a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/displayListing">View
+							Listings</a></li>
+					<li><a href="${pageContext.request.contextPath}/createListing">Create
+							Listing</a></li>
+					<li>
+						<div class="uk-margin">
+							<form class="uk-search uk-search-default" method="POST"
+								action="searchResults">
+								<span uk-search-icon></span> <input id="search"
+									class="uk-search-input" type="search" placeholder="Search...">
+							</form>
+						</div>
+					</li>
+				</ul>
 			</div>
+			<div class="uk-navbar-right">
+				<ul class="uk-navbar-nav">
+					<li><a>Welcome user</a></li>
+					<li><a href="#">Logout</a></li>
+				</ul>
+			</div>
+			</nav>
 		</div>
+	</div>
 
-		<div class="uk-background-muted">
-
+	<div class="uk-background-muted">
 		<button class="uk-button uk-button-default demo uk-position-center"
 			type="button"
 			onclick="UIkit.notification({message: 'Item Successfully purchased!', status: 'success'})">Complete
@@ -69,73 +80,88 @@
 
 		<div class="uk-section">
 			<div class="uk-container">
-	
+
 				<label id="price">3.00</label>
 				<div class="uk-position-center" id="paypal-button"></div>
 
 			</div>
 		</div>
+	</div>
+	<div class="uk-position-bottom">
+		<a class="twitter-share-button"
+			href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+			data-size="large"
+			data-text="Check out my cool new listing via U-ListIt!"
+			data-hashtags="ulistit, benu" data-via="ulistit"
+			data-related="twitterapi,twitter"> Tweet </a>
+		<div class="fb-share-button"
+			data-href="http://www.localhost:8080/checkoutPage/"
+			data-layout="button_count" data-size="large"
+			data-mobile-iframe="true">
+			<a class="fb-xfbml-parse-ignore" target="_blank"
+				href="http://www.localhost:8080/checkoutPage/">Share</a>
+		</div>
+	</div>
+	<script>
+		paypal.Button
+				.render(
+						{
+							env : 'sandbox', // Or 'production',
 
-		<script>
-			paypal.Button
-					.render(
-							{
-								env : 'sandbox', // Or 'production',
+							client : {
+								sandbox : 'AVGW1RKTj5gyUclN5wBmPk97pGaiTCsnR4AHZZ6QHsjDgraupasf1V8YbxMbKZLiBAJ-BwtkoUmIsfdf',
+								production : 'AUTi02B9WEFnsmjxP3XY2p2IljLU5HATmVK5yynF22kD3myoQhcQ7bKx2QF8CjiQRQ8-qyDJfgLwRd1u'
+							},
 
-								client : {
-									sandbox : 'AVGW1RKTj5gyUclN5wBmPk97pGaiTCsnR4AHZZ6QHsjDgraupasf1V8YbxMbKZLiBAJ-BwtkoUmIsfdf',
-									production : 'AUTi02B9WEFnsmjxP3XY2p2IljLU5HATmVK5yynF22kD3myoQhcQ7bKx2QF8CjiQRQ8-qyDJfgLwRd1u'
-								},
+							commit : true, // Show a 'Pay Now' button
 
-								commit : true, // Show a 'Pay Now' button
+							style : {
+								color : 'gold',
+								size : 'small'
+							},
 
-								style : {
-									color : 'gold',
-									size : 'small'
-								},
+							payment : function(data, actions) {
+								/* 
+								 * Set up the payment here 
+								 */
+								return actions.payment.create({
+									payment : {
+										transactions : [ {
+											amount : {
+												total : $("#price"),
+												currency : 'USD'
+											}
+										} ]
+									}
+								});
+							},
 
-								payment : function(data, actions) {
-									/* 
-									 * Set up the payment here 
-									 */
-									return actions.payment.create({
-										payment : {
-											transactions : [ {
-												amount : {
-													total : $("#price"),
-													currency : 'USD'
-												}
-											} ]
-										}
-									});
-								},
+							onAuthorize : function(data, actions) {
+								/* 
+								 * Execute the payment here 
+								 */
+								return actions.payment.execute().then(
+										function(payment) {
 
-								onAuthorize : function(data, actions) {
-									/* 
-									 * Execute the payment here 
-									 */
-									return actions.payment.execute().then(
-											function(payment) {
+											// The payment is complete!
+											// You can now show a confirmation message to the customer
+											window.alert('Payment Complete!');
+										});
+							},
 
-												// The payment is complete!
-												// You can now show a confirmation message to the customer
-												window.alert('Payment Complete!');
-											});
-								},
+							onCancel : function(data, actions) {
+								/* 
+								 * Buyer cancelled the payment 
+								 */
+							},
 
-								onCancel : function(data, actions) {
-									/* 
-									 * Buyer cancelled the payment 
-									 */
-								},
-
-								onError : function(err) {
-									/* 
-									 * An error occurred during the transaction 
-									 */
-								}
-							}, '#paypal-button');
-		</script>
+							onError : function(err) {
+								/* 
+								 * An error occurred during the transaction 
+								 */
+							}
+						}, '#paypal-button');
+	</script>
 
 	</div>
 </body>
