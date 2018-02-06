@@ -18,7 +18,7 @@
 
 <%@include file="jspf/navbar.jspf" %>
 
-<div style="background-color: #C2CAD0;">
+<div style="background-color: #f2f2f2;">
 
     <%@include file="jspf/messages.jsp" %>
 

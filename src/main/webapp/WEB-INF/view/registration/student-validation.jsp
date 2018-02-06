@@ -55,8 +55,6 @@
                 state = $(this).val() ? true : false;
             } else if ($group.data('validate') == "length") {
                 state = $(this).val().length >= $group.data('length') ? true : false;
-            } else if ($group.data('validate') == "code") {
-                state = $(this).val() == ${code};
             }
 
 

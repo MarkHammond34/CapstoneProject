@@ -1,7 +1,6 @@
 package edu.ben.dao;
 
 import edu.ben.model.Conversation;
-import edu.ben.model.Listing;
 import edu.ben.model.Message;
 import edu.ben.model.User;
 import org.hibernate.Query;

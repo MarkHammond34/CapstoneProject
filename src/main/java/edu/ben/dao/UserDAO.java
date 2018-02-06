@@ -33,4 +33,5 @@ public interface UserDAO {
 	public List<User> getRecentUsers();
 
 	public List<User> soundexResults();
+
 }

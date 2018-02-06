@@ -39,15 +39,9 @@
                                     <c:when test="${notifications != null}">
                                         <ul class="uk-list uk-list-large uk-list-divider">
                                             <c:forEach items="${notifications}" var="notification">
-                                                <c:if test="${notification.type == 'high'}">
-                                                    <li style="color: red;">${notification.text}</li>
-                                                </c:if>
-                                                <c:if test="${notification.type == 'medium'}">
-                                                    <li style="color: yellow;">${notification.text}</li>
-                                                </c:if>
-                                                <c:if test="${notification.type == 'low'}">
-                                                    <li style="color: green;">${notification.text}</li>
-                                                </c:if>
+                                                <li class="uk-align-center">${notification.message} <a
+                                                        href="dismiss?n=${notification.notificationID}"
+                                                        uk-icon="icon: trash"></a></li>
                                             </c:forEach>
                                         </ul>
                                     </c:when>

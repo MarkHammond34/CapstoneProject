@@ -45,9 +45,6 @@
 
             if (!$group.data('validate')) {
                 state = $(this).val() ? true : false;
-            } else if ($group.data('validate') == "code") {
-                state = $(this).val() ==
-                ${code}
             }
 
             if (state) {

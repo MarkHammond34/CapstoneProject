@@ -1,17 +1,24 @@
 package edu.ben.dao;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import edu.ben.model.Listing;
+import edu.ben.model.ListingBid;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.CriteriaQuery;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Subqueries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.ben.model.Listing;
+import javax.persistence.criteria.CriteriaBuilder;
 
 @Transactional
 @Repository
@@ -79,7 +86,7 @@ public class ListingDAOImpl implements ListingDAO {
     @SuppressWarnings("unchecked")
     public List<Listing> getAllListingsByUserID(int userID) {
         Query q = getSession().createSQLQuery("select * from ulistit.listing where userID = " + userID + ";");
-        return ((List<Listing>) q.list());
+        return q.list();
 
     }
 
@@ -99,5 +106,34 @@ public class ListingDAOImpl implements ListingDAO {
         q.setParameter("id", id);
         q.executeUpdate();
 
+    }
+
+    @Override
+    public List<Listing> getActiveListingsUserBidOn(int userID) {
+        Query q = getSession().createSQLQuery("SELECT * FROM listing AS l WHERE l.active=1 AND l.id IN (SELECT lb.listing_id FROM listing_bid AS lb WHERE userID=:userID)").addEntity(Listing.class);
+        q.setParameter("userID", userID);
+        return (List<Listing>) q.list();
+    }
+
+    @Override
+    public List<Listing> getListingsLost(int userID) {
+        Query q = getSession().createSQLQuery("SELECT * FROM listing AS l WHERE l.active=0 AND l.highest_bid_userID!=:userID AND l.id IN (SELECT lb.listing_id FROM listing_bid AS lb WHERE userID=:userID)").addEntity(Listing.class);
+        q.setParameter("userID", userID);
+        return (List<Listing>) q.list();
+    }
+
+    @Override
+    public List<Listing> getListingsWon(int userID) {
+        Query q = getSession().createSQLQuery("SELECT * FROM listing WHERE active=0 AND highest_bid_userID=:userID").addEntity(Listing.class);
+        q.setParameter("userID", userID);
+        return (List<Listing>) q.list();
+    }
+
+    @Override
+    public void insertListingBid(int listingID, int userID) {
+        Query q = getSession().createSQLQuery("INSERT INTO listing_bid (listing_id, user_id) VALUES (:listingID, :userID) ON DUPLICATE KEY UPDATE listing_id=:listingID, user_id=:userID");
+        q.setParameter("listingID", listingID);
+        q.setParameter("userID", userID);
+        q.executeUpdate();
     }
 }
