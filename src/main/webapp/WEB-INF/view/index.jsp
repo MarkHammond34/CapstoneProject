@@ -49,7 +49,26 @@
         <div class="uk-child-width-expand@s uk-text-center" uk-grid>
             <div class="uk-width-1-4">
                 <div class="uk-card uk-card-default uk-card-body uk-grid-margin">
-                    Item 1
+                    <div><h3><a class="uk-link-heading" href="">Content Header</a></h3></div>
+                    <hr>
+                    <div><a href="" class="uk-link-reset">content</a></div>
+                    <div><a href="" class="uk-link-reset">content</a></div>
+                    <div><a href="" class="uk-link-reset">content</a></div>
+                    <br>
+
+                    <div><h3><a class="uk-link-heading" href="">Content Header</a></h3></div>
+                    <hr>
+                    <div><a href="" class="uk-link-reset">content</a></div>
+                    <div><a href="" class="uk-link-reset" swe4w property>content</a></div>
+                    <div><a href="" class="uk-link-reset">content</a></div>
+                    <br>
+
+                    <div><h3><a class="uk-link-heading" href="">Content Header</a></h3></div>
+                    <hr>
+                    <div><a href="" class="uk-link-reset">content</a></div>
+                    <div><a href="" class="uk-link-reset">content</a></div>
+                    <div><a href="" class="uk-link-reset"> content</a></div>
+                    <br>
                 </div>
             </div>
             <div class="uk-width-3-4">
@@ -74,6 +93,7 @@
                     </c:forEach>
                 </div>
             </div>
+            6y
         </div>
     </div>
 </div>
