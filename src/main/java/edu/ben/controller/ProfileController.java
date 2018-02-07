@@ -56,10 +56,6 @@ public class ProfileController {
             request.setAttribute("lostCount", 0);
         }
 
-        for (Listing l : listingsActive) {
-            l.getName();
-        }
-
         return "profilePage2";
     }
 

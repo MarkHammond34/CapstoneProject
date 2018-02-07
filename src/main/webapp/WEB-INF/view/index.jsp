@@ -28,7 +28,7 @@
 
             <ul class="uk-slideshow-items">
                 <li>
-                    <img src="${pageContext.request.contextPath}/resources/img/sunset.jpg" alt="" width="566"
+                    <img src="${pageContext.request.contextPath}/resources/img/hp-img1.png" alt="" width="1203"
                          uk-cover>
                 </li>
                 <li>
@@ -48,27 +48,17 @@
         <br>
         <div class="uk-child-width-expand@s uk-text-center" uk-grid>
             <div class="uk-width-1-4">
+                <h2>Categories</h2>
                 <div class="uk-card uk-card-default uk-card-body uk-grid-margin">
-                    <div><h3><a class="uk-link-heading" href="">Content Header</a></h3></div>
-                    <hr>
-                    <div><a href="" class="uk-link-reset">content</a></div>
-                    <div><a href="" class="uk-link-reset">content</a></div>
-                    <div><a href="" class="uk-link-reset">content</a></div>
-                    <br>
-
-                    <div><h3><a class="uk-link-heading" href="">Content Header</a></h3></div>
-                    <hr>
-                    <div><a href="" class="uk-link-reset">content</a></div>
-                    <div><a href="" class="uk-link-reset" swe4w property>content</a></div>
-                    <div><a href="" class="uk-link-reset">content</a></div>
-                    <br>
-
-                    <div><h3><a class="uk-link-heading" href="">Content Header</a></h3></div>
-                    <hr>
-                    <div><a href="" class="uk-link-reset">content</a></div>
-                    <div><a href="" class="uk-link-reset">content</a></div>
-                    <div><a href="" class="uk-link-reset"> content</a></div>
-                    <br>
+                    <c:forEach items="${categories}" var="category">
+                        <c:forEach items="${category.subCategories}" var="sub">
+                            <div><h3><a class="uk-link-heading" href="">${category.name}</a></h3></div>
+                            <hr>
+                            <div><a href="" class="uk-link-reset">${sub.name}</a></div>
+                            <br>
+                        </c:forEach>
+                        <br>
+                    </c:forEach>
                 </div>
             </div>
             <div class="uk-width-3-4">

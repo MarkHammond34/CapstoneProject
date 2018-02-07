@@ -3,7 +3,9 @@ package edu.ben.model;
 import org.hibernate.annotations.SQLUpdate;
 import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.jdo.annotations.Unique;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.validation.constraints.AssertTrue;
@@ -61,13 +63,11 @@ public class User {
 
     @Column(name = "active")
     private int active;
-    /*
+
     @Column(name = "image_path")
     private String image_path;
-*/
-  
 
-	/**
+    /**
      * @AssertTrue(message = "Passwords Do Not Match") private boolean
      * matchingPassword() { return
      * this.password.equals(this.passwordConfirm); }
@@ -226,44 +226,44 @@ public class User {
     public void setAdmin(int i) {
         this.adminLevel = i;
     }
-    /*
+
     public String getImage_path() {
-  		return image_path;
-  	}
+        return image_path;
+    }
 
-  	public void setImage_path(String image_path) {
-  		this.image_path = image_path;
-  	}
-    */
-  	public Timestamp getDateModified() {
-  		return dateModified;
-  	}
+    public void setImage_path(String image_path) {
+        this.image_path = image_path;
+    }
 
-  	public void setDateModified(Timestamp dateModified) {
-  		this.dateModified = dateModified;
-  	}
+    public Timestamp getDateModified() {
+        return dateModified;
+    }
 
-  	public Timestamp getDateCreated() {
-  		return dateCreated;
-  	}
+    public void setDateModified(Timestamp dateModified) {
+        this.dateModified = dateModified;
+    }
 
-  	public void setDateCreated(Timestamp dateCreated) {
-  		this.dateCreated = dateCreated;
-  	}
+    public Timestamp getDateCreated() {
+        return dateCreated;
+    }
 
-  	public int getLocked() {
-  		return locked;
-  	}
+    public void setDateCreated(Timestamp dateCreated) {
+        this.dateCreated = dateCreated;
+    }
 
-  	public void setLocked(int locked) {
-  		this.locked = locked;
-  	}
+    public int getLocked() {
+        return locked;
+    }
 
-  	public int getAdminLevel() {
-  		return adminLevel;
-  	}
+    public void setLocked(int locked) {
+        this.locked = locked;
+    }
 
-  	public void setAdminLevel(int adminLevel) {
-  		this.adminLevel = adminLevel;
-  	}
+    public int getAdminLevel() {
+        return adminLevel;
+    }
+
+    public void setAdminLevel(int adminLevel) {
+        this.adminLevel = adminLevel;
+    }
 }

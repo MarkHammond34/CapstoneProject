@@ -109,24 +109,24 @@ public class ListingDAOImpl implements ListingDAO {
     }
 
     @Override
-    public List<Listing> getActiveListingsUserBidOn(int userID) {
+    public List getActiveListingsUserBidOn(int userID) {
         Query q = getSession().createSQLQuery("SELECT * FROM listing AS l WHERE l.active=1 AND l.id IN (SELECT lb.listing_id FROM listing_bid AS lb WHERE userID=:userID)").addEntity(Listing.class);
         q.setParameter("userID", userID);
-        return (List<Listing>) q.list();
+        return q.list();
     }
 
     @Override
     public List<Listing> getListingsLost(int userID) {
         Query q = getSession().createSQLQuery("SELECT * FROM listing AS l WHERE l.active=0 AND l.highest_bid_userID!=:userID AND l.id IN (SELECT lb.listing_id FROM listing_bid AS lb WHERE userID=:userID)").addEntity(Listing.class);
         q.setParameter("userID", userID);
-        return (List<Listing>) q.list();
+        return q.list();
     }
 
     @Override
     public List<Listing> getListingsWon(int userID) {
         Query q = getSession().createSQLQuery("SELECT * FROM listing WHERE active=0 AND highest_bid_userID=:userID").addEntity(Listing.class);
         q.setParameter("userID", userID);
-        return (List<Listing>) q.list();
+        return q.list();
     }
 
     @Override

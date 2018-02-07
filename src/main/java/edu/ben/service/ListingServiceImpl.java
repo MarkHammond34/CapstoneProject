@@ -85,17 +85,17 @@ public class ListingServiceImpl implements ListingService {
     }
 
     @Override
-    public List<Listing> getActiveListingsUserBidOn(int userID) {
+    public List getActiveListingsUserBidOn(int userID) {
         return ld.getActiveListingsUserBidOn(userID);
     }
 
     @Override
-    public List<Listing> getListingsLost(int userID) {
+    public List getListingsLost(int userID) {
         return ld.getListingsLost(userID);
     }
 
     @Override
-    public List<Listing> getListingsWon(int userID) {
+    public List getListingsWon(int userID) {
         return ld.getListingsWon(userID);
     }
 

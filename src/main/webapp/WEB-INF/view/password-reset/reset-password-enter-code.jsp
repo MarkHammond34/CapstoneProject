@@ -10,7 +10,6 @@
         <form role="form" data-toggle="validator"
               method="post" action="/reset">
             <h2>Enter Your Verification Code</h2>
-            <hr class="colorgraph">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
@@ -24,7 +23,6 @@
                     </div>
                 </div>
             </div>
-            <hr class="colorgraph">
             <div class="row">
                 <div class="col-xs-12 col-md-12">
                     <button class="btn btn-success btn-block btn-lg">Continue</button>

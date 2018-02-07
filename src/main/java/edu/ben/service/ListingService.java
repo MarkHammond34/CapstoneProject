@@ -26,9 +26,9 @@ public interface ListingService {
 
     public void updateListingActiveStatusByID(int active, int id);
 
-    public List<Listing> getActiveListingsUserBidOn(int userID);
+    public List getActiveListingsUserBidOn(int userID);
 
-    public List<Listing> getListingsLost(int userID);
+    public List getListingsLost(int userID);
 
-    public List<Listing> getListingsWon(int userID);
+    public List getListingsWon(int userID);
 }

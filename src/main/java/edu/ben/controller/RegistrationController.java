@@ -61,7 +61,7 @@ public class RegistrationController extends BaseController {
                 }
             }
         } catch (ConstraintViolationException e) {
-            addErrorMessage(e.getMessage());
+            addErrorMessage("Account Already Exists With That Username or School Email");
             setRequest(request);
             return "registration/registration";
         }
