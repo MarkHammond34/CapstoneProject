@@ -12,7 +12,6 @@
 			<div class="card-background">
 				<img class="card-bkimg" alt=""
 					src="<%=request.getContextPath()%>/resources/img/profile-pic/default.jpeg">
-				<!-- http://lorempixel.com/850/280/people/9/ -->
 			</div>
 			<div class="useravatar">
 				<a href="#editProfilePic${user.userID}" data-toggle="modal"

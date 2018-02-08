@@ -72,7 +72,7 @@ public class ProfileController {
 			l.getName();
 		}
 
-		return "user-listing";
+		return "listing-profile";
 	}
 
 }
