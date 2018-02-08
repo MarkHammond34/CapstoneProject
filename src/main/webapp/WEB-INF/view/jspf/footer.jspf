@@ -1,6 +1,8 @@
 <footer>
-    <p>
-        &copy;U-ListIt -<a style="color: #ffffff; text-decoration: none;" href="${pageContext.request.contextPath}/contactUs">
-       Contact Us!</a> - All rights reserved 2018.
-    </p>
+	<p>
+		&copy;U-ListIt -<a
+			style="color: #999999; margin-left: auto; margin-right: auto; left: 0; right: 0; text-decoration: none;"
+			href="${pageContext.request.contextPath}/contactUs"> Questions?
+			Comments? Contact Us</a> - All rights reserved 2018.
+	</p>
 </footer>
