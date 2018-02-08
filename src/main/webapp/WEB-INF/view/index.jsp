@@ -15,6 +15,7 @@
 
 </style>
 <body>
+<%@include file="jspf/footer.jspf" %>
 
 <%@include file="jspf/navbar.jspf" %>
 
