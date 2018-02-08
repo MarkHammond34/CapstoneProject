@@ -16,52 +16,63 @@ import edu.ben.service.UserService;
 
 @Controller
 public class ProfileController {
-    @Autowired
-    UserService userService;
+	@Autowired
+	UserService userService;
 
-    @Autowired
-    ListingService listingService;
+	@Autowired
+	ListingService listingService;
 
-    @RequestMapping(value = "/viewProfile", method = RequestMethod.GET)
-    public String viewProfile(HttpServletRequest request) {
-        User session = (User) request.getSession().getAttribute("user");
+	@RequestMapping(value = "/viewProfile", method = RequestMethod.GET)
+	public String viewProfile(HttpServletRequest request) {
+		User session = (User) request.getSession().getAttribute("user");
 
-        //List<Listing> userListings = listingService.getAllListingsByUserID(session.getUserID());
+		List<Listing> userListings = listingService.getAllListingsByUserID(session.getUserID());
 
-        List<Listing> listingsWon = listingService.getListingsWon(session.getUserID());
-        List<Listing> listingsLost = listingService.getListingsLost(session.getUserID());
-        List<Listing> listingsActive = listingService.getActiveListingsUserBidOn(session.getUserID());
-        
-        request.setAttribute("user", session);
-        //request.setAttribute("userListings", userListings);
+		request.setAttribute("user", session);
+		request.setAttribute("userListings", userListings);
 
-        request.setAttribute("listingsWon", listingsWon);
-        if (listingsWon != null) {
-            request.setAttribute("wonCount", listingsWon.size());
-        } else {
-            request.setAttribute("wonCount", 0);
-        }
+		return "profile-page";
+	}
 
-        request.setAttribute("listingsActive", listingsActive);
-        if (listingsActive != null) {
-            request.setAttribute("activeCount", listingsActive.size());
-        } else {
-            request.setAttribute("activeCount", 0);
-        }
+	@RequestMapping(value = "/viewUserListings", method = RequestMethod.GET)
+	public String viewUserListing(HttpServletRequest request) {
+		User session = (User) request.getSession().getAttribute("user");
 
-        request.setAttribute("listingsLost", listingsLost);
-        if (listingsLost != null) {
-            request.setAttribute("lostCount", listingsLost.size());
-        } else {
-            request.setAttribute("lostCount", 0);
-        }
+		List<Listing> userListings = listingService.getAllListingsByUserID(session.getUserID());
 
-        for (Listing l : listingsActive) {
-            l.getName();
-        }
+		List<Listing> listingsWon = listingService.getListingsWon(session.getUserID());
+		List<Listing> listingsLost = listingService.getListingsLost(session.getUserID());
+		List<Listing> listingsActive = listingService.getActiveListingsUserBidOn(session.getUserID());
 
-        return "profilePage2";
-    }
+		request.setAttribute("user", session);
+		request.setAttribute("userListings", userListings);
 
+		request.setAttribute("listingsWon", listingsWon);
+		if (listingsWon != null) {
+			request.setAttribute("wonCount", listingsWon.size());
+		} else {
+			request.setAttribute("wonCount", 0);
+		}
+
+		request.setAttribute("listingsActive", listingsActive);
+		if (listingsActive != null) {
+			request.setAttribute("activeCount", listingsActive.size());
+		} else {
+			request.setAttribute("activeCount", 0);
+		}
+
+		request.setAttribute("listingsLost", listingsLost);
+		if (listingsLost != null) {
+			request.setAttribute("lostCount", listingsLost.size());
+		} else {
+			request.setAttribute("lostCount", 0);
+		}
+
+		for (Listing l : listingsActive) {
+			l.getName();
+		}
+
+		return "user-listing";
+	}
 
 }

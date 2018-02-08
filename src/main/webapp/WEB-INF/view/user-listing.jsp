@@ -11,14 +11,14 @@
 		<div class="card hovercard">
 			<div class="card-background">
 				<img class="card-bkimg" alt=""
-					src="<%=request.getContextPath()%>/resources/img/profile-pic/${user.image_path}">
+					src="<%=request.getContextPath()%>/resources/img/profile-pic/default.jpeg">
 				<!-- http://lorempixel.com/850/280/people/9/ -->
 			</div>
 			<div class="useravatar">
 				<a href="#editProfilePic${user.userID}" data-toggle="modal"
 					data-target="#editProfilePic${user.userID}"><span
 					data-toggle="tooltip" data-placement="right"> <img alt=""
-						src="<%=request.getContextPath()%>/resources/img/profile-pic/${user.image_path}"></span></a>
+						src="<%=request.getContextPath()%>/resources/img/profile-pic/default.jpeg"></span></a>
 			</div>
 			<div class="card-info">
 				<span class="card-title">${user.username}</span>
@@ -55,59 +55,45 @@
 		<div class="well">
 			<div class="tab-content">
 				<div class="container tab-pane fade in active" id="tab1">
-					<div class="container container-pad" id="property-listings">
-						<div class="row">
-							<div class="col-sm-5">
-								<c:forEach var="listing" items="${userListings}">
-
-									<div class="container">
-										<div class="row">
-											<h4>
-												So I've worked on a new project and came up with this UI.
-												Here you can use it. :) Follow me on twitter: <a
-													href="https://twitter.com/AlexMahrt/">@AlexMahrt</a>
-											</h4>
+					<hr>
+					<div class="row row-margin-bottom">
+						<c:forEach var="listing" items="${userListings}">
+							<div class="col-md-5 no-padding lib-item" data-category="view">
+								<div class="lib-panel">
+									<div class="row box-shadow">
+										<div class="col-md-6">
+											<img class="lib-img-show"
+												src="<%=request.getContextPath()%>/resources/img/listings/DDJSR_2.jpg"
+												style="height: 1200; width: 1200;">
 										</div>
-										<hr>
-										<div class="row row-margin-bottom">
-											<div class="col-md-5 no-padding lib-item"
-												data-category="view">
-												<div class="lib-panel">
-													<div class="row box-shadow">
-														<div class="col-md-6">
-															<img class="lib-img-show"
-																src="http://lorempixel.com/850/850/?random=123">
-														</div>
-														<div class="col-md-6">
-															<div class="lib-row lib-header">
-																Example library
-																<div class="lib-header-seperator"></div>
-															</div>
-															<div class="lib-row lib-desc">Lorem ipsum dolor
-																Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor
-																Lorem ipsum dolor Lorem ipsum dolor</div>
-														</div>
-													</div>
-												</div>
+										<div class="col-md-6">
+											<div class="lib-row lib-header" style="font-size: 14px;">
+												<a href="#"><strong>${listing.name}</strong></a><a
+													href="#editListings${listing.id}" data-toggle="modal"
+													data-target="#editListing${listing.id}"><span
+													class="pull-right glyphicon glyphicon-edit"
+													data-toggle="tooltip" data-placement="right"> </span></a>
 											</div>
+											<div class="lib-row lib-desc" style="font-size: 16px;">
+												<strong>$${listing.price}</strong>
+											</div>
+											<div class="lib-row lib-desc"></div>
 										</div>
 									</div>
-									<%@include file="jspf/editListing.jspf"%>
-								</c:forEach>
-								<!-- End Listing-->
+								</div>
+								<%@include file="jspf/editListing.jspf"%>
 							</div>
-						</div>
-					</div>
+							<div class="col-md-1"></div>
 
-					<!-- End Listing-->
+						</c:forEach>
+					</div>
 				</div>
 				<div class="tab-pane fade in" id="tab2">
 					<%@include file="profile-bid-section.jsp"%>
 				</div>
-				<div class="tab-pane fade in" id="tab3">
-					<h3>These are your watched items</h3>
-				</div>
+				<div class="tab-pane fade in" id="tab3"></div>
 			</div>
+
 		</div>
 	</div>
 </body>

@@ -123,6 +123,8 @@ public class ListingController extends BaseController {
         }
 
     }
+    
+   
 
     @RequestMapping("/createListing")
     public String listingPage(HttpServletRequest request) {
