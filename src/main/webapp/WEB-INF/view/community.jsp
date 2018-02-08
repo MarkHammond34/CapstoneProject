@@ -20,7 +20,7 @@
 
 </head>
 <body>
-
+<%@include file="jspf/footer.jspf" %>
 			<%--Nav Bar--%>
 	<div class="uk-position-relative">
 		<div class="uk-position-relativetop">

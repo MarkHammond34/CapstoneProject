@@ -1,6 +1,7 @@
 <%@include file="jspf/header.jsp"%>
 
 <body>
+	<%@include file="jspf/footer.jspf"%>
 	<%@include file="jspf/navbar.jspf"%>
 
 	<div class="container">

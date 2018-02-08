@@ -5,7 +5,7 @@
 
 <%@include file="jspf/navbar.jspf" %>
 
-
+<%@include file="jspf/footer.jspf" %>
 <%@include file="jspf/messages.jsp" %>
 
 <div class="container">
