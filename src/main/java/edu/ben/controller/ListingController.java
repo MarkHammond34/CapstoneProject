@@ -197,7 +197,6 @@ public class ListingController extends BaseController {
         }
 
         setRequest(request);
-        System.out.println("redirect:" + request.getHeader(" Referer "));
         return "redirect:" + request.getHeader("Referer");
     }
 

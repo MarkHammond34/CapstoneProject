@@ -57,13 +57,7 @@ public class HomeController extends BaseController {
     }
 
     @GetMapping("/dismiss")
-    public String dismiss(int n, HttpServletRequest request) {
-
+    public void dismiss(int n, HttpServletRequest request) {
         notificationService.deactivate(n);
-
-        User user = (User) request.getSession().getAttribute("user");
-
-        setRequest(request);
-        return "redirect:" + request.getHeader("Referer");
     }
 }
