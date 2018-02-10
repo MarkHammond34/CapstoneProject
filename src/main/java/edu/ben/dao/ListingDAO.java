@@ -26,12 +26,14 @@ public interface ListingDAO {
 
     public void updateListingActiveStatusByID(int active, int id);
 
-    public List getActiveListingsUserBidOn(int userID);
+    public List getListingsInProgressUserBidOn(int userID);
 
     public List getListingsLost(int userID);
 
     public List getListingsWon(int userID);
 
     public void insertListingBid(int listingID, int userID);
+
+    public List getActiveListings();
 
 }

@@ -25,7 +25,12 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void save(Notification notification) {
         notificationDAO.save(notification);
-        //NotificationRunner.update(notification.getUser().getUserID());
+        NotificationRunner.run();
+    }
+
+    @Override
+    public void update(Notification notification) {
+        notificationDAO.update(notification);
     }
 
     @Override

@@ -42,7 +42,7 @@ public class ProfileController {
 
         List<Listing> listingsWon = listingService.getListingsWon(session.getUserID());
         List<Listing> listingsLost = listingService.getListingsLost(session.getUserID());
-        List<Listing> listingsActive = listingService.getActiveListingsUserBidOn(session.getUserID());
+        List<Listing> listingsActive = listingService.getListingsInProgressUserBidOn(session.getUserID());
 
         request.setAttribute("user", session);
         request.setAttribute("userListings", userListings);

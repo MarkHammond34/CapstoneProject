@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import edu.ben.dao.UserDAO;
 import edu.ben.model.Listing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,8 @@ import edu.ben.dao.ListingDAO;
 public class ListingServiceImpl implements ListingService {
 
     ListingDAO ld;
+
+    UserDAO ud;
 
     @Autowired
     public void setListingDAO(ListingDAO ld) {
@@ -69,7 +72,7 @@ public class ListingServiceImpl implements ListingService {
         ld.insertListingBid(listing.getId(), biddingUserID);
 
         listing.setHighestBid(bidValue);
-        listing.setHighestBidUserID(biddingUserID);
+        listing.setHighestBidder(ud.getUserById(biddingUserID));
         listing.setBidCount(listing.getBidCount() + 1);
 
         ld.saveOrUpdate(listing);
@@ -87,8 +90,8 @@ public class ListingServiceImpl implements ListingService {
     }
 
     @Override
-    public List getActiveListingsUserBidOn(int userID) {
-        return ld.getActiveListingsUserBidOn(userID);
+    public List getListingsInProgressUserBidOn(int userID) {
+        return ld.getListingsInProgressUserBidOn(userID);
     }
 
     @Override
@@ -99,6 +102,11 @@ public class ListingServiceImpl implements ListingService {
     @Override
     public List getListingsWon(int userID) {
         return ld.getListingsWon(userID);
+    }
+
+    @Override
+    public List getActiveListings() {
+        return ld.getActiveListings();
     }
 
 }
