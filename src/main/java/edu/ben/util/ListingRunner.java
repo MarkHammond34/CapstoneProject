@@ -70,7 +70,7 @@ public class ListingRunner {
                     l.setActive(0);
 
                     // Fail safe
-                } else {
+                } else if (l.getEnded() == 0){
                     // Create notification for buyer
                     notificationService.save(new Notification(l.getHighestBidder(), l.getId(), "You Won!\nListing: " + l.getName(), new Timestamp(System.currentTimeMillis() + 120000), 1));
                     // Create notification for seller
