@@ -1,8 +1,10 @@
 package edu.ben.config;
 
+import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer
+		implements WebApplicationInitializer {
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
@@ -18,5 +20,5 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 	protected String[] getServletMappings() {
 		return new String[] { "/" };
 	}
-
+	
 }

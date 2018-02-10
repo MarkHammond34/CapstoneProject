@@ -1,24 +1,32 @@
 package edu.ben.controller;
 
-import edu.ben.model.Favorite;
-import edu.ben.model.Listing;
-import edu.ben.model.User;
-import edu.ben.service.FavoriteService;
-import edu.ben.service.ListingService;
-import edu.ben.util.ImagePath;
-import org.apache.commons.io.FilenameUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.Timestamp;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
+import edu.ben.model.Favorite;
+import edu.ben.model.Listing;
+import edu.ben.model.User;
+import edu.ben.service.CategoryService;
+import edu.ben.service.FavoriteService;
+import edu.ben.service.ListingService;
+import edu.ben.service.UserService;
+import edu.ben.util.ImagePath;
 
 @Controller
 public class ListingController extends BaseController {
@@ -28,6 +36,12 @@ public class ListingController extends BaseController {
 
     @Autowired
     FavoriteService favoriteService;
+    
+    @Autowired
+    CategoryService categoryService;
+    
+    @Autowired
+    UserService userService;
 
     /**
      * Upload single file using Spring Controller
@@ -92,7 +106,7 @@ public class ListingController extends BaseController {
                 stream.write(bytes);
 
                 System.out.println("File Uploaded");
-                Listing listing = new Listing(name, description, price, category, file.getOriginalFilename());
+                Listing listing = new Listing(name, description, price, /*category,*/ file.getOriginalFilename());// FIX LATER
 
                 if (type.equals("auction")) {
                     listing.setType("auction");
@@ -123,8 +137,7 @@ public class ListingController extends BaseController {
         }
 
     }
-
-
+    
     @RequestMapping("/createListing")
     public String listingPage(HttpServletRequest request) {
         setRequest(request);
@@ -143,10 +156,10 @@ public class ListingController extends BaseController {
         System.out.println("Listing Category for display: " + category);
         List<Listing> listings = listingService.getAllListingsByCategory(category);
         System.out.println("List size = " + listings.size());
-
+        System.out.println(listings.get(0).getImage_path());
         User user = (User) request.getSession().getAttribute("user");
 
-        System.out.println("User attribute: " + user.getUsername());
+      //  System.out.println("User attribute: " + user.getUsername());
         model.addAttribute("user", user);
         model.addAttribute("category", category);
         model.addAttribute("listings", listings);
@@ -193,14 +206,51 @@ public class ListingController extends BaseController {
             addErrorMessage("Bid Most Be Larger Than Highest Bid");
         } else if (results == -1) {
             addErrorMessage("Sorry, you didn't get your bid in on time!");
-        } else if (results == -3) {
-            addErrorMessage("You Can't Bid On Your Own Listing ");
         } else {
             addSuccessMessage("Congrats! You're the highest bidder!");
         }
 
         setRequest(request);
+        System.out.println("redirect:" + request.getHeader(" Referer "));
         return "redirect:" + request.getHeader("Referer");
     }
-}
+    
+    @RequestMapping(value="/edit", method=RequestMethod.POST)
+    public ModelAndView editListing() {
+    	ModelAndView model = new ModelAndView("");
+    	
+    	return model;
+    }
+    
+    @RequestMapping(value="/sub", method=RequestMethod.GET)
+    public ModelAndView viewSubcategories(String category) {
+    	
+    	ModelAndView model = new ModelAndView("sub-categories");
+    	
+    	// get listings
+    	List<Listing> listings = listingService.getAllListingsByCategory("Technology");
+    	// get sub categories
+    	
+    	// pass these to model
+    	//model.addObject(subcategories)
+    	model.addObject("listings", listings);
+    	
+    	return model;
+    }
+    
+    @RequestMapping(value="/listing", method=RequestMethod.GET)
+    public ModelAndView viewSelectedListing() {
+    	
+    	ModelAndView model = new ModelAndView("listing");
+    	
+    	// get listing
+    	Listing listing = listingService.getByListingID(1);
+    	User user = userService.getUserById(1);
+    	// pass these to model
+    	model.addObject("listing", listing);
+    	model.addObject("user", user);
+    	
+    	return model;
+    }
 
+}
