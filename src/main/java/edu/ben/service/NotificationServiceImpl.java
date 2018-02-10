@@ -25,7 +25,12 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void save(Notification notification) {
         notificationDAO.save(notification);
-        NotificationRunner.run(notification.getUser().getUserID());
+        //NotificationRunner.update(notification.getUser().getUserID());
+    }
+
+    @Override
+    public List<Notification> getAllActive() {
+        return notificationDAO.getAllActive();
     }
 
     @Override
@@ -36,5 +41,13 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public List<Notification> getActiveByUserID(int userID) {
         return notificationDAO.getActiveByUserID(userID);
+    }
+
+    @Override
+    public void markAsSent(List<Notification> notifications) {
+        for (Notification n : notifications) {
+            n.setSent(1);
+            notificationDAO.update(n);
+        }
     }
 }

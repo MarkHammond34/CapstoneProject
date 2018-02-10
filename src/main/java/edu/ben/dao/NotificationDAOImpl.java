@@ -44,4 +44,9 @@ public class NotificationDAOImpl implements NotificationDAO {
         q.setParameter("userID", userID);
         return (List<Notification>) q.list();
     }
+
+    @Override
+    public List<Notification> getAllActive() {
+        return (List<Notification>) getSession().createQuery("FROM notification WHERE active=1").list();
+    }
 }

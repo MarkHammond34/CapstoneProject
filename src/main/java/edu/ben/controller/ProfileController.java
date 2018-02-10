@@ -26,14 +26,26 @@ public class ProfileController {
     public String viewProfile(HttpServletRequest request) {
         User session = (User) request.getSession().getAttribute("user");
 
-        //List<Listing> userListings = listingService.getAllListingsByUserID(session.getUserID());
+        List<Listing> userListings = listingService.getAllListingsByUserID(session.getUserID());
+
+        request.setAttribute("user", session);
+        request.setAttribute("userListings", userListings);
+
+        return "profile-page";
+    }
+
+    @RequestMapping(value = "/viewUserListings", method = RequestMethod.GET)
+    public String viewUserListing(HttpServletRequest request) {
+        User session = (User) request.getSession().getAttribute("user");
+
+        List<Listing> userListings = listingService.getAllListingsByUserID(session.getUserID());
 
         List<Listing> listingsWon = listingService.getListingsWon(session.getUserID());
         List<Listing> listingsLost = listingService.getListingsLost(session.getUserID());
         List<Listing> listingsActive = listingService.getActiveListingsUserBidOn(session.getUserID());
 
         request.setAttribute("user", session);
-        //request.setAttribute("userListings", userListings);
+        request.setAttribute("userListings", userListings);
 
         request.setAttribute("listingsWon", listingsWon);
         if (listingsWon != null) {
@@ -56,8 +68,7 @@ public class ProfileController {
             request.setAttribute("lostCount", 0);
         }
 
-        return "profilePage2";
+        return "listing-profile";
     }
-
 
 }

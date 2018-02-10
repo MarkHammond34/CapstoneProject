@@ -124,6 +124,7 @@ public class ListingController extends BaseController {
 
     }
 
+
     @RequestMapping("/createListing")
     public String listingPage(HttpServletRequest request) {
         setRequest(request);
@@ -192,6 +193,8 @@ public class ListingController extends BaseController {
             addErrorMessage("Bid Most Be Larger Than Highest Bid");
         } else if (results == -1) {
             addErrorMessage("Sorry, you didn't get your bid in on time!");
+        } else if (results == -3) {
+            addErrorMessage("You Can't Bid On Your Own Listing ");
         } else {
             addSuccessMessage("Congrats! You're the highest bidder!");
         }
@@ -199,6 +202,5 @@ public class ListingController extends BaseController {
         setRequest(request);
         return "redirect:" + request.getHeader("Referer");
     }
-
 }
 

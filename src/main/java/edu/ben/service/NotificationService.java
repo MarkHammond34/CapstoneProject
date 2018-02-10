@@ -11,4 +11,8 @@ public interface NotificationService {
     public void deactivate(int notificationID);
 
     public List<Notification> getActiveByUserID(int userID);
+
+    public List<Notification> getAllActive();
+
+    public void markAsSent(List<Notification> notifications);
 }

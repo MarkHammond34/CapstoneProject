@@ -97,13 +97,13 @@
         document.getElementById('recently-added-listings').style.display = 'inline';
     }
 
-    function dismiss(notificationID, element) {
+    function dismiss(notificationID) {
         $.ajax({
             type: 'GET',
             url: '/dismiss',
             data: {n: notificationID},
         })
-        $('#notification + notificationID').style.display = "none";
+        document.getElementById('notification' + notificationID).style.display = "none";
     }
 </script>
 </body>

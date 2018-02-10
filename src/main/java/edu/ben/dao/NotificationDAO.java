@@ -13,4 +13,7 @@ public interface NotificationDAO {
     public void deactivate(int notificationID);
 
     public List<Notification> getActiveByUserID(int userID);
+
+    public List<Notification> getAllActive();
+
 }

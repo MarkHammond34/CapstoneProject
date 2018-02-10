@@ -63,6 +63,8 @@ public class ListingServiceImpl implements ListingService {
         } else if (bidValue <= listing.getHighestBid()) {
             ld.insertListingBid(listing.getId(), biddingUserID);
             return -2;
+        } else if (biddingUserID == listing.getUser().getUserID()) {
+            return -3;
         }
         ld.insertListingBid(listing.getId(), biddingUserID);
 

@@ -38,6 +38,9 @@ public class Notification {
     @Column(name = "active")
     private int active;
 
+    @Column(name = "sent")
+    private int sent;
+
     public int getNotificationID() {
         return notificationID;
     }
@@ -100,5 +103,13 @@ public class Notification {
 
     public void setActive(int active) {
         this.active = active;
+    }
+
+    public int getSent() {
+        return sent;
+    }
+
+    public void setSent(int sent) {
+        this.sent = sent;
     }
 }
