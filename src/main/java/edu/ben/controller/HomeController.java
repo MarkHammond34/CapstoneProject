@@ -6,6 +6,8 @@ import edu.ben.model.Listing;
 import edu.ben.model.Notification;
 import edu.ben.model.User;
 import edu.ben.service.NotificationService;
+import edu.ben.util.ListingRunner;
+import edu.ben.util.NotificationRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +42,9 @@ public class HomeController extends BaseController {
         model.addObject("trendingListings", trending);
 
         User user = (User) request.getSession().getAttribute("user");
+
+        ListingRunner.run();
+        NotificationRunner.run();
 
         if (user != null) {
             List<Notification> notifications = notificationService.getActiveByUserID(user.getUserID());

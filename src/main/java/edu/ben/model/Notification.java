@@ -41,11 +41,16 @@ public class Notification {
     @Column(name = "sent")
     private int sent;
 
-    public Notification(User user, int listingID, String message, Timestamp sendTimestamp) {
+    public Notification() {
+
+    }
+
+    public Notification(User user, int listingID, String message, Timestamp sendTimestamp, int active) {
         this.user = user;
         this.listingID = listingID;
         this.message = message;
         this.sendTimestamp = sendTimestamp;
+        this.active = active;
     }
 
     public int getNotificationID() {
