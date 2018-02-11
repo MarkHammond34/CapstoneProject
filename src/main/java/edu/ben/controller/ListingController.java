@@ -223,17 +223,27 @@ public class ListingController extends BaseController {
     }
     
     @RequestMapping(value="/sub", method=RequestMethod.GET)
-    public ModelAndView viewSubcategories(String category) {
+    public ModelAndView viewSubcats() {
+    	
+    	ModelAndView model = new ModelAndView("sub-categories");
+    	
+    	
+    	return model;
+    }
+    
+    @RequestMapping(value="/subPost", method=RequestMethod.POST)
+    public ModelAndView viewSubcategories(@RequestParam("category") String category, HttpServletRequest request) {
     	
     	ModelAndView model = new ModelAndView("sub-categories");
     	
     	// get listings
-    	List<Listing> listings = listingService.getAllListingsByCategory("Technology");
-    	// get sub categories
+    	List<Listing> listings = listingService.getAllListingsByCategory(category);
     	
-    	// pass these to model
-    	//model.addObject(subcategories)
-    	model.addObject("listings", listings);
+    	// get user
+        User user = (User) request.getSession().getAttribute("user");
+
+        model.addObject("user", user);
+        model.addObject("listings", listings);
     	
     	return model;
     }

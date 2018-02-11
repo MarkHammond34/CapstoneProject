@@ -35,6 +35,7 @@
     <script type="text/javascript" src="${uikitJS}"></script>
     <script type="text/javascript" src="${jquery}"></script>
     <script type="text/javascript" src="${uikiticons}"></script>
+    
     <style>.uk-countdown-number {
         font-size: 22px;
     }
