@@ -8,13 +8,13 @@
     <div class="name" style="font-size: 22px;">
         <a href="#"><strong class="uk-text-danger">${listing.name}</strong></a>
     </div>
+    <p>${listing.type}</p>
     <c:choose>
         <c:when test="${listing.type == 'auction'}">
             <div class="price" style="font-size: 16px;">
-                            <span class="uk-badge"
-                                  id="currentBid${listing.id}">Current Bid: $${listing.highestBid}</span>
+                <span class="uk-badge">Current Bid: $${listing.highestBid}</span>
                 <button class="uk-button uk-button-default uk-button-small" style="margin-left: 5px"
-                        uk-toggle="target: #placeBidModal">Place Bid
+                        uk-toggle="target: #placeBidModal${listing.id}">Place Bid
                 </button>
             </div>
             <hr>
@@ -44,7 +44,7 @@
                             <span class="uk-badge"
                                   id="currentBid${listing.id}">Price: $${listing.price}</span>
                 <button class="uk-button uk-button-default uk-button-small" style="margin-left: 5px"
-                        uk-toggle="target: #buyItNowModal">Buy
+                        uk-toggle="target: #buyItNowModal${listing.id}">Buy
                 </button>
             </div>
         </c:when>

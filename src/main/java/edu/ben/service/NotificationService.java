@@ -8,6 +8,8 @@ public interface NotificationService {
 
     public void save(Notification notification);
 
+    public void save(List<Notification> notifications);
+
     public void update(Notification notification);
 
     public void deactivate(int notificationID);

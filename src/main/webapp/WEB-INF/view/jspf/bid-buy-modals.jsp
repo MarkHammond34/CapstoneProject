@@ -1,5 +1,5 @@
 <!-- This is the modal -->
-<div id="buyItNowModal" uk-modal>
+<div id="buyItNowModal${listing.id}" uk-modal>
     <div class="uk-modal-dialog uk-modal-body">
         <h2 class="uk-modal-title">Buy It Now</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
@@ -18,7 +18,7 @@
     </div>
 </div>
 
-<div id="placeBidModal" uk-modal>
+<div id="placeBidModal${listing.id}" uk-modal>
     <div class="uk-modal-dialog uk-modal-body">
         <h2 class="uk-modal-title">Place A Bid</h2>
         <form method="post" action="/bid">

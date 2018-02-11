@@ -107,7 +107,7 @@ public class ListingDAOImpl implements ListingDAO {
     @Override
     public List<Listing> getListingsInProgressUserBidOn(int userID) {
         Query q = getSession().createSQLQuery(
-                "SELECT * FROM listing AS l WHERE l.ended=0 AND active=1 AND l.id IN (SELECT lb.listing_id FROM listing_bid AS lb WHERE userID=:userID)")
+                "SELECT * FROM listing AS l WHERE l.ended=0 AND active=1 AND l.id IN (SELECT lb.listing_id FROM listing_bid AS lb WHERE lb.user_id=:userID)")
                 .addEntity(Listing.class);
         q.setParameter("userID", userID);
         return (List<Listing>) q.list();
@@ -116,7 +116,7 @@ public class ListingDAOImpl implements ListingDAO {
     @Override
     public List<Listing> getListingsLost(int userID) {
         Query q = getSession().createSQLQuery(
-                "SELECT * FROM listing AS l WHERE l.ended=1 AND active=1 AND l.highest_bid_userID!=:userID AND l.id IN (SELECT lb.listing_id FROM listing_bid AS lb WHERE userID=:userID)")
+                "SELECT * FROM listing AS l WHERE l.ended=1 AND active=1 AND l.highest_bid_userID!=:userID AND l.id IN (SELECT lb.listing_id FROM listing_bid AS lb WHERE lb.user_id=:userID)")
                 .addEntity(Listing.class);
         q.setParameter("userID", userID);
         return (List<Listing>) q.list();

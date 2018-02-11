@@ -46,5 +46,10 @@
     .uk-card-media-left img {
         max-height: 100%;
         max-width: 100%;
-    }</style>
+    }
+
+    .body {
+        background-color: #f2f2f2;
+    }
+    </style>
 </head>
