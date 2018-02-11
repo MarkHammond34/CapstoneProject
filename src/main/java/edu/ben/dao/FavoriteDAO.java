@@ -10,4 +10,6 @@ public interface FavoriteDAO  {
 	
 	public List isWatched(int listingID, int userID);
 	
+	
+	
 }

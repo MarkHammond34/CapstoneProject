@@ -41,9 +41,9 @@ public class Listing implements java.io.Serializable {
     @Column(name = "description")
     private String description;
 
-    // @Column(name="category")
-    // @NotBlank
-    // private String category;
+//     @Column(name="category")
+//     @NotBlank
+//     private String category;
 
     @Column(name = "price")
     private double price;
