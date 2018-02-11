@@ -8,18 +8,17 @@
     <div class="name" style="font-size: 22px;">
         <a href="#"><strong class="uk-text-danger">${listing.name}</strong></a>
     </div>
-    <p>${listing.type}</p>
     <c:choose>
         <c:when test="${listing.type == 'auction'}">
             <div class="price" style="font-size: 16px;">
                 <span class="uk-badge">Current Bid: $${listing.highestBid}</span>
                 <button class="uk-button uk-button-default uk-button-small" style="margin-left: 5px"
-                        uk-toggle="target: #placeBidModal${listing.id}">Place Bid
+                        uk-toggle="target: #placeBidModal${listing.id}" id="bidButton${listing.id}">Place Bid
                 </button>
             </div>
             <hr>
             <div style="margin-left: 8%;"
-                 class="uk-grid-small" uk-grid
+                 id="countdown${listing.id}" class="uk-grid-small" uk-grid
                  uk-countdown="date: ${listing.endTimestamp}">
                 <div>
                     <div class="uk-countdown-label uk-text-center uk-visible@s">Days</div>

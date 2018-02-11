@@ -105,6 +105,18 @@
         })
         document.getElementById('notification' + notificationID).style.display = "none";
     }
+
+    // Ignore this for now
+    function bidButtonClicked(listingID, endTimestamp) {
+        var endDate = new Date(endTimestamp);
+
+        if (endDate > Date.now()) {
+            $('#bidButton + listingID').addClass("uk-animation-shake");
+            $('#countdown + listingID').css("color", "red")
+            $('#countdown + listingID').delay(2000).css("color", "black");
+        }
+    }
+
 </script>
 </body>
 </html>
