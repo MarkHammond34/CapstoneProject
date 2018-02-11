@@ -33,4 +33,6 @@ public interface UserService {
 	public List<User> getRecentUsers();
 
 	public List<User> soundexSearch(String search);
+
+	public List<User> getListingLosers(int listingID, int winnerID);
 }

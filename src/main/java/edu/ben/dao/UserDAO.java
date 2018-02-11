@@ -34,4 +34,6 @@ public interface UserDAO {
 
 	public List<User> soundexResults();
 
+	public List<User> getListingLosers(int listingID, int winnerID);
+
 }

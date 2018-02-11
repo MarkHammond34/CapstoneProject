@@ -1,11 +1,13 @@
 package edu.ben.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import edu.ben.dao.UserDAO;
 import edu.ben.model.Listing;
+import edu.ben.model.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,18 @@ public class ListingServiceImpl implements ListingService {
     @Autowired
     public void setListingDAO(ListingDAO ld) {
         this.ld = ld;
+    }
+
+    @Autowired
+    public void setUserDAO(UserDAO ud) {
+        this.ud = ud;
+    }
+
+    NotificationService notificationService;
+
+    @Autowired
+    public void setNotificationService(NotificationService notificationService) {
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -70,6 +84,11 @@ public class ListingServiceImpl implements ListingService {
             return -3;
         }
         ld.insertListingBid(listing.getId(), biddingUserID);
+
+        // If current highest bidder is getting outbid, send notification
+        if (biddingUserID != listing.getHighestBidder().getUserID()) {
+            notificationService.save(new Notification(listing.getHighestBidder(), listing.getId(), "You've Be Outbit! Listing: " + listing.getName(), new Timestamp(System.currentTimeMillis() + 10000), 1));
+        }
 
         listing.setHighestBid(bidValue);
         listing.setHighestBidder(ud.getUserById(biddingUserID));

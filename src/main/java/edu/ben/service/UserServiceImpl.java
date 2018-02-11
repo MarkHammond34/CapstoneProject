@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
     public void updateAttemptedLogins(int loginAttempts, String email) {
         userDAO.updateAttemptedLogins(loginAttempts, email);
     }
-	
+
     @Override
     public void updateIsActive(int isActive, String email) {
         userDAO.updateIsActive(isActive, email);
@@ -80,11 +80,14 @@ public class UserServiceImpl implements UserService {
         return userDAO.getRecentUsers();
     }
 
-	@Override
-	public List<User> soundexSearch(String search) {
-		return  userDAO.soundexResults();
-	}
+    @Override
+    public List<User> soundexSearch(String search) {
+        return userDAO.soundexResults();
+    }
 
-
+    @Override
+    public List<User> getListingLosers(int listingID, int winnerID) {
+        return userDAO.getListingLosers(listingID, winnerID);
+    }
 
 }

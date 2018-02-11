@@ -29,6 +29,14 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    public void save(List<Notification> notifications) {
+        for (Notification n : notifications) {
+            notificationDAO.save(n);
+        }
+        NotificationRunner.run();
+    }
+
+    @Override
     public void update(Notification notification) {
         notificationDAO.update(notification);
     }
