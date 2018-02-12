@@ -18,18 +18,23 @@ public class Conversation implements Serializable{
     @Column(name="conversation_ID")
     private int id;
 
-    @OneToOne
-    @JoinColumn(name="userId _1")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="userId_1")
     private User user1;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="userId_2")
     private User user2;
 
     @Column(name="date_created")
     private Timestamp dateCreated;
 
+    @OneToMany(mappedBy = "conversationId", fetch = FetchType.EAGER)
+    private List<Message> messages;
 
+    public Conversation(){
+
+    }
 
     public Conversation(User user1, User user2){
         this.user1 = user1;
@@ -66,5 +71,13 @@ public class Conversation implements Serializable{
 
     public void setDateCreated(Timestamp dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
     }
 }

@@ -16,7 +16,7 @@ public class Message implements Serializable {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
 
-    @OneToOne
+    @ManyToOne (cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name="conversation_ID")
     private Conversation conversationId;
 

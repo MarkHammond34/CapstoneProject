@@ -92,6 +92,7 @@ public class RegistrationController extends BaseController {
             req.getSession().setAttribute("action", "code");
             req.getSession().setAttribute("code", Email.studentVerification(user.getSchoolEmail()));
             setRequest(req);
+            System.out.println(req.getSession().getAttribute("code"));
             return "registration/student-validation";
 
         } else if (action.equals("code")) {

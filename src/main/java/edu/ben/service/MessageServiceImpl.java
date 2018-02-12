@@ -1,5 +1,6 @@
 package edu.ben.service;
 
+import edu.ben.dao.MessageDAO;
 import edu.ben.dao.MessageDAOImpl;
 import edu.ben.model.Conversation;
 import edu.ben.model.Message;
@@ -14,11 +15,11 @@ import java.util.List;
 @Transactional
 public class MessageServiceImpl implements MessageService {
 
-    MessageDAOImpl msgDAO;
+    MessageDAO msgDAO;
 
-    @Override
-    public void create(Conversation conversation) {
-        msgDAO.create(conversation);
+    @Autowired
+    public void setUserDAO(MessageDAO msgDAO) {
+        this.msgDAO = msgDAO;
     }
 
     @Override
@@ -27,8 +28,8 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<Conversation> getConversation(int user1) {
-        return msgDAO.getConversation(user1);
+    public List<Conversation> getConversation(User user1) {
+        return msgDAO.getConversation(user1.getUserID());
     }
 
     @Override

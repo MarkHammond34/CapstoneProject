@@ -26,6 +26,7 @@
         <div class="uk-child-width-expand\@s" uk-grid>
             <%
                 List<User> users = (List<User>) request.getSession().getAttribute("allUsers");
+                users.remove(request.getSession().getAttribute("user"));
 
                 for(int i = 0; i < users.size(); i++){
             %>
