@@ -245,6 +245,21 @@
 			<version>3.2.0</version>
 			<type>maven-plugin</type>
 		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>webjars-locator</artifactId>
+		</dependency>
+        <!--Web Socket Dependencies-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+            <version>4.2.4.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+            <version>4.2.4.RELEASE</version>
+        </dependency>
 	</dependencies>
 
 	<build>

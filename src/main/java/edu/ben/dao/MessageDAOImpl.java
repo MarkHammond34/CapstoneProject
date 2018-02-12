@@ -21,14 +21,6 @@ public class MessageDAOImpl implements MessageDAO {
         return sessionFactory.getCurrentSession();
     }
 
-    private UserDAOImpl userDao = new UserDAOImpl();
-
-
-    @Override
-    public void create(Conversation conversation) {
-        getSession().save(conversation);
-    }
-
 
     @Override
     public void createConversation(int user1, int user2) {
@@ -42,34 +34,29 @@ public class MessageDAOImpl implements MessageDAO {
     @SuppressWarnings("unchecked")
     @Override
     public List<Conversation> getConversation(int user1) {
-        Query q = getSession().createQuery("FROM ulistit.conversation WHERE userID_1=" + user1);
-        List<Conversation> conversation = (List<Conversation>) q.list();
-        return conversation;
+        Query q = getSession().createQuery("FROM conversation WHERE userID_1=" + user1 + " OR userID_2=" + user1);
+        return (List<Conversation>) q.list();
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public List<Message> getMessages(int user1, int user2) {
-        User mainUser = userDao.getUserById(user1);
-        User secondUser = userDao.getUserById(user2);
 
-        Query q = getSession().createQuery("FROM ulistit.conversation WHERE userID_1=" + mainUser.getUserID() + "AND userID_2=" + secondUser.getUserID());
+        Query q = getSession().createQuery("FROM conversation WHERE userID_1=" + user1 + "AND userID_2=" + user2);
         Conversation conversation = (Conversation) q.list().get(0);
 
-        q = getSession().createQuery("FROM ulistit.message WHERE conversation_ID=" + conversation.getId());
+        q = getSession().createQuery("FROM message WHERE conversation_ID=" + conversation.getId());
         List<Message> msg = (List<Message>) q.list();
         return msg;
     }
 
     @Override
     public void sendMessage(int user1, int user2, String message) {
-        User mainUser = userDao.getUserById(user1);
-        User secondUser = userDao.getUserById(user2);
 
-        Query q = getSession().createQuery("FROM ulistit.conversation WHERE userID_1=" + mainUser.getUserID() + "AND userID_2=" + secondUser.getUserID());
+        Query q = getSession().createQuery("FROM conversation WHERE userID_1=" + user1 + "AND userID_2=" + user2);
         Conversation conversation = (Conversation) q.list().get(0);
 
-        q = getSession().createQuery("INSERT INTO ulistit.message (conversation_ID, userId, message_body) VALUES (" + conversation.getId() + ", " + mainUser.getUserID() + ", " + message + ")");
+        q = getSession().createQuery("INSERT INTO message (conversation_ID, userId, message_body) VALUES (" + conversation.getId() + ", " + user1 + ", " + message + ")");
         q.executeUpdate();
     }
 }

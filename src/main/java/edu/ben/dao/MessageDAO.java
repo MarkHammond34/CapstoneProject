@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface MessageDAO {
 
-    public void create(Conversation conversation);
-
     public void createConversation(int user1 , int user2);
 
     public List<Conversation> getConversation(int user1);
