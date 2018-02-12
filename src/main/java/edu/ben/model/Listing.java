@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -80,13 +81,16 @@ public class Listing implements java.io.Serializable {
 
     @Column(name = "active")
     private int active;
+    
+    @ManyToOne
+    @JoinColumn(name = "category_name")
+    private Category category;
 
     public Listing() {
 
     }
 
-    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price,
-            /* @NotBlank String category, */ String imagePath) {
+    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, String imagePath) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -95,7 +99,15 @@ public class Listing implements java.io.Serializable {
         this.image_path = imagePath;
     }
 
-    public Listing(@NotBlank String name, String description, @NotBlank double price, /* @NotBlank String category, */
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public Listing(@NotBlank String name, String description, @NotBlank double price, /* @NotBlank String category, */
                    String file) {
         super();
         this.name = name;

@@ -262,5 +262,20 @@ public class ListingController extends BaseController {
     	
     	return model;
     }
+    
+    @RequestMapping(value="/testinging", method=RequestMethod.GET)
+    public ModelAndView testinging() {
+    	
+    	ModelAndView model = new ModelAndView("listinged");
+    	
+    	// get listing
+    	List<Listing> listings = listingService.getAllListingsByCategory("technology");
+    	User user = userService.getUserById(1);
+    	// pass these to model
+    	model.addObject("listings", listings);
+    	model.addObject("user", user);
+    	
+    	return model;
+    }
 
 }

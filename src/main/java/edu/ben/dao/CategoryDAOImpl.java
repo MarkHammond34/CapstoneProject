@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.ben.model.Category;
+import edu.ben.service.SubCategoryService;
 
 @Transactional
 @Repository
@@ -17,6 +18,9 @@ public class CategoryDAOImpl implements CategoryDAO {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
+	
+	@Autowired
+	SubCategoryService scs;
 	
 	private Session getSession() {
 		return sessionFactory.getCurrentSession();
@@ -29,29 +33,28 @@ public class CategoryDAOImpl implements CategoryDAO {
 		Query q = getSession().createQuery("FROM category WHERE listing_ID=:id");
 		q.setInteger("id", id);
 		List<Category> categories = q.list();
+		
+//		for (Category category: categories) {
+//			category.setSubCategories(scs.getSubCategoriesByCategoryName(category.getCategory()));
+//		}
+		
 		return categories;
 		
 	}
 
 	@Override
 	public void createCategory(Category category) {
-		
 		getSession().save(category);
-		
 	}
 
 	@Override
 	public void saveOrUpdate(Category category) {
-		
 		getSession().saveOrUpdate(category);
-		
 	}
 
 	@Override
 	public void deleteCategory(String category) {
-		
 		getSession().delete(category);
-		
 	}
 
 }

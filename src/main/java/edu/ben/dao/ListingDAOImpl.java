@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,11 +42,15 @@ public class ListingDAOImpl implements ListingDAO {
 
     @SuppressWarnings("unchecked")
     public List<Listing> getAllListingsByCategory(String category) {
-        Query q = getSession().createSQLQuery(
-                "SELECT * FROM ulistit.listing JOIN ulistit.category ON id=listing_ID WHERE category.category=:category")
-                .addEntity(Listing.class);
-        q.setParameter("category", category);
-        return (List<Listing>) q.list();
+        //Query q = getSession().createQuery("FROM listing WHERE category_name=:category");
+                //.addEntity(Listing.class);
+        
+        //q.setParameter("category", category);
+    	
+    	Criteria cr = getSession().createCriteria(Listing.class);
+    	cr.add(Restrictions.like("category_name", category));
+    	
+        return (List<Listing>) cr.list();
     }
 
     @SuppressWarnings("unchecked")
@@ -90,7 +96,7 @@ public class ListingDAOImpl implements ListingDAO {
     @Override
     public List<Listing> searchCategory(String category) {
         Query q = getSession()
-                .createSQLQuery("SELECT * FROM ulistit.listing WHERE SOUNDEX(category)=soundex('" + category + "');");
+                .createSQLQuery("SELECT * FROM ulistit.listing WHERE SOUNDEX(category_name)=soundex('" + category + "');");
         return (List<Listing>) q.list();
     }
 

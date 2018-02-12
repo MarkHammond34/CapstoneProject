@@ -27,8 +27,7 @@
 		<div class="uk-section">
 			<div class="uk-container">
 
-				<form class="uk-form-stacked" method="POST"
-					action="subPost">
+				<form class="uk-form-stacked" method="POST" action="subPost">
 					<div class="uk-margin">
 						<div class="row">
 							<div class="col-xs-6 col-xs-offset-2">
@@ -53,7 +52,6 @@
 				<c:if test="${listings != null}">
 					<div class="container">
 
-
 						<hgroup class="mb20">
 							<h1>Results</h1>
 							<h2 class="lead">
@@ -73,9 +71,9 @@
 										<a href="listing"><img
 											src="${pageContext.request.contextPath}/resources/img/listings/Wolverine.jpg"
 											alt=""></a>
-										<div class="uk-position-center uk-panel">
-											<!-- Maybe use this area for something later -->
-										</div>
+									</div>
+									<div class="uk-position-center uk-panel">
+										<!-- Maybe use this area for something later -->
 									</div>
 								</li>
 								<li>
@@ -83,69 +81,71 @@
 										<a href="#"><img
 											src="${pageContext.request.contextPath}/resources/img/listings/Cat.jpg"
 											alt=""></a>
-										<div class="uk-position-center uk-panel">
-											<!-- Maybe use this area for something later -->
-										</div>
+									</div>
+									<div class="uk-position-center uk-panel">
+										<!-- Maybe use this area for something later -->
 									</div>
 								</li>
 								<li>
 									<div class="uk-panel">
-										<a href="#"><img
+										<a href="listing"><img
 											src="${pageContext.request.contextPath}/resources/img/listings/Wolverine.jpg"
 											alt=""></a>
-										<div class="uk-position-center uk-panel">
-											<!-- Maybe use this area for something later -->
-										</div>
+									</div>
+									<div class="uk-position-center uk-panel">
+										<!-- Maybe use this area for something later -->
 									</div>
 								</li>
 								<li>
 									<div class="uk-panel">
-										<a href="#"><img
+										<a href="listing"><img
 											src="${pageContext.request.contextPath}/resources/img/listings/Wolverine.jpg"
 											alt=""></a>
-										<div class="uk-position-center uk-panel">
-											<!-- Maybe use this area for something later -->
-										</div>
+									</div>
+									<div class="uk-position-center uk-panel">
+										<!-- Maybe use this area for something later -->
 									</div>
 								</li>
 								<li>
 									<div class="uk-panel">
-										<a href="#"><img
+										<a href="listing"><img
 											src="${pageContext.request.contextPath}/resources/img/listings/Wolverine.jpg"
 											alt=""></a>
-										<div class="uk-position-center uk-panel">
-											<!-- Maybe use this area for something later -->
-										</div>
+									</div>
+									<div class="uk-position-center uk-panel">
+										<!-- Maybe use this area for something later -->
 									</div>
 								</li>
 								<li>
 									<div class="uk-panel">
-										<a href="#"><img
+										<a href="listing"><img
 											src="${pageContext.request.contextPath}/resources/img/listings/Wolverine.jpg"
 											alt=""></a>
-										<div class="uk-position-center uk-panel">
-											<!-- Maybe use this area for something later -->
-										</div>
+									</div>
+									<div class="uk-position-center uk-panel">
+										<!-- Maybe use this area for something later -->
 									</div>
 								</li>
 								<li>
 									<div class="uk-panel">
-										<a href="#"><img
+										<a href="listing"><img
 											src="${pageContext.request.contextPath}/resources/img/listings/Wolverine.jpg"
 											alt=""></a>
-										<div class="uk-position-center uk-panel">
-											<!-- Maybe use this area for something later -->
-										</div>
+									</div>
+									<div class="uk-position-center uk-panel">
+										<!-- Maybe use this area for something later -->
 									</div>
 								</li>
 
 							</ul>
 
+
 							<a
-								class="uk-position-center-left-out uk-position-small uk-hidden-hover"
+								class="uk-position-center-left uk-position-small uk-hidden-hover"
 								href="#" uk-slidenav-previous uk-slider-item="previous"></a> <a
-								class="uk-position-center-right-out uk-position-small uk-hidden-hover"
+								class="uk-position-center-right uk-position-small uk-hidden-hover"
 								href="#" uk-slidenav-next uk-slider-item="next"></a>
+
 
 						</div>
 

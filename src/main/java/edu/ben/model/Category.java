@@ -1,8 +1,12 @@
 package edu.ben.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.transaction.Transactional;
 
@@ -12,19 +16,19 @@ import javax.transaction.Transactional;
 public class Category {
 
 	@Id
-	@Column(name = "category")
+	@Column(name = "category_name")
 	private String category;
+	
+	@OneToMany(targetEntity=SubCategory.class, mappedBy="category", fetch = FetchType.EAGER)
+	private List<SubCategory> subCategories;
+	
+	public Category() {
+		
+	}
 
-	@Column
-	private String subCategory;
-
-	@Column
-	private int listingID;
-
-	public Category(String category, String subCategory, int listingID) {
+	public Category(String category, List<SubCategory> subCategories, int listingID) {
 		this.category = category;
-		this.subCategory = subCategory;
-		this.listingID = listingID;
+		this.subCategories = subCategories;
 	}
 
 	public String getCategory() {
@@ -35,19 +39,12 @@ public class Category {
 		this.category = category;
 	}
 
-	public String getSubCategory() {
-		return subCategory;
+	public List<SubCategory> getSubCategories() {
+		return subCategories;
 	}
 
-	public void setSubCategory(String subCategory) {
-		this.subCategory = subCategory;
+	public void setSubCategories(List<SubCategory> subCategories) {
+		this.subCategories = subCategories;
 	}
-
-	public int getListingID() {
-		return listingID;
-	}
-
-	public void setListingID(int listingID) {
-		this.listingID = listingID;
-	}
+	
 }
