@@ -1,5 +1,6 @@
 package edu.ben.model;
 
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.SQLUpdate;
 import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.annotation.Transactional;

@@ -15,36 +15,31 @@ import javax.transaction.Transactional;
 @Transactional
 public class Category {
 
-	@Id
-	@Column(name = "category_name")
-	private String category;
-	
-	@OneToMany(targetEntity=SubCategory.class, mappedBy="category", fetch = FetchType.EAGER)
-	private List<SubCategory> subCategories;
-	
-	public Category() {
-		
-	}
+    @Id
+    @Column(name = "category")
+    private String category;
 
-	public Category(String category, List<SubCategory> subCategories, int listingID) {
-		this.category = category;
-		this.subCategories = subCategories;
-	}
+    @Column(name = "sub_category")
+    private String subCategories;
 
-	public String getCategory() {
-		return category;
-	}
+    public Category() {
 
-	public void setCategory(String category) {
-		this.category = category;
-	}
+    }
 
-	public List<SubCategory> getSubCategories() {
-		return subCategories;
-	}
+    public String getCategory() {
+        return category;
+    }
 
-	public void setSubCategories(List<SubCategory> subCategories) {
-		this.subCategories = subCategories;
-	}
-	
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getSubCategories() {
+        return subCategories;
+    }
+
+    public void setSubCategories(String subCategories) {
+        this.subCategories = subCategories;
+    }
+
 }

@@ -42,9 +42,9 @@ public class Listing implements java.io.Serializable {
     @Column(name = "description")
     private String description;
 
-//     @Column(name="category")
-//     @NotBlank
-//     private String category;
+    @Column(name = "category")
+    @NotBlank
+    private String category;
 
     @Column(name = "price")
     private double price;
@@ -81,10 +81,6 @@ public class Listing implements java.io.Serializable {
 
     @Column(name = "active")
     private int active;
-    
-    @ManyToOne
-    @JoinColumn(name = "category_name")
-    private Category category;
 
     public Listing() {
 
@@ -99,15 +95,7 @@ public class Listing implements java.io.Serializable {
         this.image_path = imagePath;
     }
 
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
-	public Listing(@NotBlank String name, String description, @NotBlank double price, /* @NotBlank String category, */
+    public Listing(@NotBlank String name, String description, @NotBlank double price, /* @NotBlank String category, */
                    String file) {
         super();
         this.name = name;
@@ -149,13 +137,13 @@ public class Listing implements java.io.Serializable {
         this.price = price;
     }
 
-    // public String getCategory() {
-    // return category;
-    // }
-    //
-    // public void setCategory(String category) {
-    // this.category = category;
-    // }
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     @Override
     public String toString() {

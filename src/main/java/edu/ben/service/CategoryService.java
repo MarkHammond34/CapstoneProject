@@ -6,12 +6,14 @@ import edu.ben.model.Category;
 
 public interface CategoryService {
 
-	public void createCategory(Category category);
+    public void save(Category category);
 
-	public void saveOrUpdate(Category category);
+    public void saveOrUpdate(Category category);
 
-	public void deleteCategory(String category);
+    public void deleteCategory(String category);
 
-	List<Category> getCategoriesByListingId(int id);
+    List getSubCategoriesByListingId(int id);
+
+    List getSubCategoriesByCategory(String cat);
 
 }

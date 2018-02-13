@@ -10,51 +10,48 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.ben.model.Category;
-import edu.ben.service.SubCategoryService;
 
 @Transactional
 @Repository
 public class CategoryDAOImpl implements CategoryDAO {
-	
-	@Autowired
-	private SessionFactory sessionFactory;
-	
-	@Autowired
-	SubCategoryService scs;
-	
-	private Session getSession() {
-		return sessionFactory.getCurrentSession();
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Category> getCategoriesByListingId(int id) {
 
-		Query q = getSession().createQuery("FROM category WHERE listing_ID=:id");
-		q.setInteger("id", id);
-		List<Category> categories = q.list();
-		
-//		for (Category category: categories) {
-//			category.setSubCategories(scs.getSubCategoriesByCategoryName(category.getCategory()));
-//		}
-		
-		return categories;
-		
-	}
+    @Autowired
+    private SessionFactory sessionFactory;
 
-	@Override
-	public void createCategory(Category category) {
-		getSession().save(category);
-	}
+    private Session getSession() {
+        return sessionFactory.getCurrentSession();
+    }
 
-	@Override
-	public void saveOrUpdate(Category category) {
-		getSession().saveOrUpdate(category);
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public List getSubCategoriesByListingId(int id) {
+        Query q = getSession().createSQLQuery("SELECT c.sub_category FROM category as c INNER JOIN ON c.category=l.category listing as l WHERE l.id=:id")
+                .addEntity(String.class);
+        q.setParameter("id", id);
+        return q.list();
+    }
 
-	@Override
-	public void deleteCategory(String category) {
-		getSession().delete(category);
-	}
+    @Override
+    public List getSubCategoriesByCategory(String cat) {
+        Query q = getSession().createSQLQuery("SELECT sub_category FROM category WHERE cat=:cat")
+                .addEntity(String.class);
+        q.setParameter("cat", cat);
+        return q.list();
+    }
+
+    @Override
+    public void save(Category category) {
+        getSession().save(category);
+    }
+
+    @Override
+    public void saveOrUpdate(Category category) {
+        getSession().saveOrUpdate(category);
+    }
+
+    @Override
+    public void deleteCategory(String category) {
+        getSession().delete(category);
+    }
 
 }

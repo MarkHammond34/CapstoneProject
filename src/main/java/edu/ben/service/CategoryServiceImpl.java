@@ -14,31 +14,35 @@ import edu.ben.model.Category;
 @Transactional
 public class CategoryServiceImpl implements CategoryService {
 
-	CategoryDAO categoryDAO;
+    CategoryDAO categoryDAO;
 
-	@Autowired
-	public void setCategoryDAO(CategoryDAO categoryDAO) {
-		this.categoryDAO = categoryDAO;
-	}
+    @Autowired
+    public void setCategoryDAO(CategoryDAO categoryDAO) {
+        this.categoryDAO = categoryDAO;
+    }
 
-	@Override
-	public void createCategory(Category category) {
-		categoryDAO.createCategory(category);
-	}
+    @Override
+    public void save(Category category) {
+        categoryDAO.save(category);
+    }
 
-	@Override
-	public void saveOrUpdate(Category category) {
-		categoryDAO.saveOrUpdate(category);
-	}
+    @Override
+    public void saveOrUpdate(Category category) {
+        categoryDAO.saveOrUpdate(category);
+    }
 
-	@Override
-	public void deleteCategory(String category) {
-		categoryDAO.deleteCategory(category);
-	}
+    @Override
+    public void deleteCategory(String category) {
+        categoryDAO.deleteCategory(category);
+    }
 
-	@Override
-	public List<Category> getCategoriesByListingId(int id) {
-		return categoryDAO.getCategoriesByListingId(id);
-	}
+    @Override
+    public List getSubCategoriesByListingId(int id) {
+        return categoryDAO.getSubCategoriesByListingId(id);
+    }
 
+    @Override
+    public List getSubCategoriesByCategory(String cat) {
+        return categoryDAO.getSubCategoriesByCategory(cat);
+    }
 }
