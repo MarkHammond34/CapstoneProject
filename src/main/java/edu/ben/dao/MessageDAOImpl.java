@@ -54,7 +54,7 @@ public class MessageDAOImpl implements MessageDAO {
     @Override
     public void sendMessage(int user1, int user2, String message) {
 
-        Query q = getSession().createQuery("FROM conversation WHERE userID_1=" + user1 + "AND userID_2=" + user2);
+        Query q = getSession().createQuery("FROM conversation WHERE (userID_1=" + user1 + "AND userID_2=" + user2 + ") OR (userID_1=" + user2 + " AND userID_2=" + user1 + ")");
         Conversation conversation = (Conversation) q.list().get(0);
 
         q = getSession().createQuery("INSERT INTO message (conversation_ID, userId, message_body) VALUES (" + conversation.getId() + ", " + user1 + ", " + message + ")");

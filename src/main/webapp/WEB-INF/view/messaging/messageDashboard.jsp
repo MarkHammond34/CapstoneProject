@@ -33,6 +33,7 @@
                     for (int i = 0; i < conversations.size(); i++) {
             %>
 
+                </html>
                 <form method="post" action="viewConversation">
                     <div class="uk-card uk-card-default uk-card-body">
                         <span uk-icon="icon: user; ratio: 1.5"></span>

@@ -10,15 +10,17 @@
 <%@ page import="edu.ben.model.Conversation" %>
 <%@ page import="java.util.List" %>
 <%@ page import="edu.ben.model.Message" %>
+<%@ page import="edu.ben.model.User" %>
 <body>
 <div class="uk-section uk-section-muted">
     <div class="uk-container">
-        <h1>Chat</h1>
+        <h1>Chat with: ${conversationUser.username}</h1>
         <div class="uk-grid uk-child-width-1-2\@l uk-position-center uk-card">
             <div class="uk-panel uk-panel-scrollable uk-overflow-auto ">
                 <div class="uk-description-list uk-description-list-divider">
                     <%
                         List<Message> msgs = (List<Message>) session.getAttribute("messages");
+                        User sessionUser = (User) session.getAttribute("user");
                         System.out.println(msgs.toString());
                         if (msgs == null || msgs.isEmpty()) {
                     %>
@@ -26,6 +28,7 @@
                     <dd>No messages to show</dd>
                     <%
                         } else {
+
                         for (int i = 0; i < msgs.size(); i++) {
                     %>
                     <dt><%=msgs.get(i).getUser().getUsername()%>
@@ -40,8 +43,8 @@
             </div>
             </br>
             <form method="post" action="sendMessage">
-                <input class="uk-input uk-form-width-large" type="text" placeholder="Send Message">
-                <button class="uk-button uk-button-primary" type="submit" value="">Send</button>
+                <input class="uk-input uk-form-width-large" type="text" placeholder="Send Message" name="stringMessage">
+                <button class="uk-button uk-button-primary" type="submit" value="${conversationUser.schoolEmail}" name="SubmitMessage">Send</button>
             </form>
         </div>
     </div>

@@ -56,6 +56,19 @@ public class MessageController extends BaseController {
         User sendTo = userService.findBySchoolEmail(request.getParameter("UserConversation"));
         List<Message> messages = messageService.getMessages(sendBy, sendTo);
         request.getSession().setAttribute("messages", messages);
+        request.getSession().setAttribute("conversationUser", sendTo);
+        return "messaging/messagePage";
+    }
+
+    @RequestMapping(value = "sendMessage", method = RequestMethod.POST)
+    public String sendMessage(HttpServletRequest request){
+        User sendBy = (User) request.getSession().getAttribute("user");
+        User sendTo = userService.findBySchoolEmail(request.getParameter("SubmitMessage"));
+        String message = request.getParameter("stringMessage");
+        messageService.sendMessage(sendBy, sendTo, message);
+        List<Message> messages = messageService.getMessages(sendBy, sendTo);
+        request.getSession().setAttribute("messages", messages);
+        request.getSession().setAttribute("conversationUser", sendTo);
         return "messaging/messagePage";
     }
 
