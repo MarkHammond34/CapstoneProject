@@ -18,91 +18,90 @@ import edu.ben.dao.UserDAOImpl;
 
 @Controller
 public class LoginController {
-	@SuppressWarnings("unused")
-	private static final long serialVersionUID = 1L;
+    @SuppressWarnings("unused")
+    private static final long serialVersionUID = 1L;
 
-	/**
-	@Autowired
-	ServletContext context;
-	*/
+    /**
+     * @Autowired ServletContext context;
+     */
 
-	@Autowired
-	UserService userService;
+    @Autowired
+    UserService userService;
 
-	@PostMapping("/")
-	public String login(HttpServletRequest request) {
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
+    @PostMapping("/loginUser")
+    public String login(HttpServletRequest request) {
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
 
-		System.out.println(email);
-		System.out.println(password);
+        System.out.println(email);
+        System.out.println(password);
 
-		User user = userService.findBySchoolEmail(email);
+        User user = userService.findBySchoolEmail(email);
 
-		String url = "";
-		String message = "";
+        String url = "";
+        String message = "";
 
-		if (user != null) {
-			if (user.getActive() > 0) {
-				if (user.getPassword() != null && user.getPassword().equals(password)) {
-					request.getSession().setAttribute("user", user);
-					userService.updateAttemptedLogins(0, email);
-					System.out.println("pass match");
-					return "index";
+        if (user != null) {
+            if (user.getActive() > 0) {
+                if (user.getPassword() != null && user.getPassword().equals(password)) {
+                    request.getSession().setAttribute("user", user);
+                    userService.updateAttemptedLogins(0, email);
+                    System.out.println("pass match");
+                    return "redirect:/";
 
-				} else {
-					request.setAttribute("email", email);
-					int loginAttempts = user.getLoginAttempts() + 1;
-					System.out.println(loginAttempts);
-					userService.updateAttemptedLogins(loginAttempts, email);
-					if (loginAttempts >= 5) {
-						userService.lockByUsername(user.getUsername());
-						message = "invalid username and password - login limit exceeded, your account has been locked out";
-					} else {
-						message = "invalid password - you have " + (5 - loginAttempts) + " remaining";
-					}
-					url = "login";
-				}
-			} else {
-				message = "Your account is locked out, click unlock to activate your account";
-				url = "login";
-			}
-		} else {
-			message = "We didn't find your email linked to an account in our Database";
-			url = "login";
-		}
+                } else {
+                    request.setAttribute("email", email);
+                    int loginAttempts = user.getLoginAttempts() + 1;
+                    System.out.println(loginAttempts);
+                    userService.updateAttemptedLogins(loginAttempts, email);
+                    if (loginAttempts >= 5) {
+                        userService.lockByUsername(user.getUsername());
+                        message = "invalid username and password - login limit exceeded, your account has been locked out";
+                    } else {
+                        message = "invalid password - you have " + (5 - loginAttempts) + " remaining";
+                    }
+                    url = "login";
+                }
+            } else {
+                message = "Your account is locked out, click unlock to activate your account";
+                url = "login";
+            }
+        } else {
+            message = "We didn't find your email linked to an account in our Database";
+            url = "login";
+        }
 
-		request.setAttribute("email", email);
-		request.setAttribute("message", message);
+        request.setAttribute("email", email);
+        request.setAttribute("message", message);
 
-		return url;
+        return url;
 
-	}
+    }
 
-	@GetMapping("/login")
-	public String login() {
-		return "login";
-	}
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
 
-	@GetMapping("/unlock")
-	public String unlock() {
-		return "unlock";
-	}
+    @GetMapping("/unlock")
+    public String unlock() {
+        return "unlock";
+    }
 
-	@GetMapping("/reset")
-	public String emailReset() {
-		return "emailReset";
-	}
+    @GetMapping("/reset")
+    public String emailReset() {
+        return "emailReset";
+    }
 
-	@GetMapping("/email")
-	public String email() {
-		return "email";
-	}
-	@GetMapping("/logout")
-	public String logout(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		session.invalidate();
-		return "homepage";
-	}
+    @GetMapping("/email")
+    public String email() {
+        return "email";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        request.removeAttribute("user");
+        return "redirect:/";
+    }
 
 }

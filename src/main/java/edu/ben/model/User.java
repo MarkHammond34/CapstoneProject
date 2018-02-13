@@ -90,8 +90,8 @@ public class User {
     @Column(name = "admin_level")
     private int adminLevel;
     
-    @Formula("(select avg(r.rating) from review as r where r.seller_id=id")
-    private int rating;
+    //@Formula("(select avg(r.rating) from review as r where r.seller_id=id")
+    //private int rating;
 
     public User() {
     }

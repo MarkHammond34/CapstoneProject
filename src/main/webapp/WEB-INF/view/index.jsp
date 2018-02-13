@@ -78,6 +78,7 @@
         </div>
     </div>
 </div>
+<%@include file="jspf/footer.jspf" %>
 <script>
     function trendingClicked() {
         document.getElementById('trending-listings').style.display = 'inline';
@@ -96,6 +97,32 @@
         document.getElementById('ending-soon-listings').style.display = 'none';
         document.getElementById('recently-added-listings').style.display = 'inline';
     }
+    function dismiss(notificationID) {
+        $.ajax({
+            type: 'GET',
+            url: '/dismiss',
+            data: {n: notificationID},
+        })
+        document.getElementById('notification' + notificationID).style.display = "none";
+    }
+
+    $('#notificationDrop').on("hide", function () {
+        $.ajax({
+            type: 'GET',
+            url: '/markAsViewed',
+        })
+
+        document.getElementById('badge1').style.visibility = "hidden";
+
+        var spans = document.getElementsByTagName('span');
+
+        for (var i = 0; i < spans.length; i++) {
+            var spanClass = spans[i].getAttribute("class");
+            if (spans[i].getAttribute("class") === "badge2") {
+                spans[i].style.display = "none";
+            }
+        }
+    })
 </script>
 </body>
 </html>

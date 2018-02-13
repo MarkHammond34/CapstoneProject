@@ -12,7 +12,7 @@ public interface ListingDAO {
 
     public void create(Listing listing);
 
-    public List<Listing> getAllListingsByCategory(String category);
+    public List getAllListingsByCategory(String category);
 
     public List<Listing> getRecentListings();
 

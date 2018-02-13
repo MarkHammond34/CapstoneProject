@@ -40,17 +40,9 @@ public class ListingDAOImpl implements ListingDAO {
 
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Listing> getAllListingsByCategory(String category) {
-        //Query q = getSession().createQuery("FROM listing WHERE category_name=:category");
-                //.addEntity(Listing.class);
-        
-        //q.setParameter("category", category);
-    	
-    	Criteria cr = getSession().createCriteria(Listing.class);
-    	cr.add(Restrictions.like("category_name", category));
-    	
-        return (List<Listing>) cr.list();
+    @Override
+    public List getAllListingsByCategory(String category) {
+        return getSession().createQuery("FROM listing WHERE category=:category").list();
     }
 
     @SuppressWarnings("unchecked")
