@@ -41,7 +41,11 @@ public class NotificationRunner {
                         // If notification needs to be sent in the next 10 seconds and hasn't been sent, send notifications and mark as sent
                         // 30000 == 10 seconds
                         if (n.getDelay() < 30000 && n.getSent() == 0) {
-                            Email.sendEmail(n.getMessage(), "U-ListIt Notification", n.getUser().getSchoolEmail());
+                            if (n.getSubject() != null) {
+                                Email.sendEmail(n.getMessage(), n.getSubject(), n.getUser().getSchoolEmail());
+                            } else {
+                                Email.sendEmail(n.getMessage(), "U-ListIt Notification", n.getUser().getSchoolEmail());
+                            }
                             System.out.println("SENT");
                             n.setSent(1);
                             notificationService.update(n);

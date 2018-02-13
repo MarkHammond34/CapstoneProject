@@ -143,4 +143,9 @@ public class UserDAOImpl implements UserDAO {
         q.setParameter("winnerID", winnerID);
         return q.list();
     }
+
+    @Override
+    public List<User> getDisputeResolvingAdmins() {
+        return getSession().createQuery("FROM user WHERE admin_level = 3").list();
+    }
 }

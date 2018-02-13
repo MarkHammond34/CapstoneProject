@@ -33,7 +33,7 @@ public class NotificationDAOImpl implements NotificationDAO {
 
     @Override
     public void deactivate(int notificationID) {
-        Query q = getSession().createSQLQuery("UPDATE notification SET active=0 WHERE notification_id=:id");
+        Query q = getSession().createSQLQuery("UPDATE notification SET active=0 WHERE notification_id=:id").addEntity(Notification.class);
         q.setParameter("id", notificationID);
         q.executeUpdate();
     }
@@ -43,6 +43,20 @@ public class NotificationDAOImpl implements NotificationDAO {
         Query q = getSession().createQuery("FROM notification WHERE active=1 AND user_id=:userID");
         q.setParameter("userID", userID);
         return (List<Notification>) q.list();
+    }
+
+    @Override
+    public List<Notification> getNotDismissedByUserID(int userID) {
+        Query q = getSession().createQuery("FROM notification WHERE active=1 AND dismissed=0 AND user_id=:userID");
+        q.setParameter("userID", userID);
+        return (List<Notification>) q.list();
+    }
+
+    @Override
+    public void dismiss(int id) {
+        Query q = getSession().createSQLQuery("UPDATE notification SET dismissed=1 WHERE notification_id=:id").addEntity(Notification.class);
+        q.setParameter("id", id);
+        q.executeUpdate();
     }
 
     @Override

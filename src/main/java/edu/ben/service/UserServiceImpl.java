@@ -90,4 +90,10 @@ public class UserServiceImpl implements UserService {
         return userDAO.getListingLosers(listingID, winnerID);
     }
 
+    @Override
+    public List<User> getDisputeResolvingAdmins() {
+        return userDAO.getDisputeResolvingAdmins();
+    }
+
+
 }

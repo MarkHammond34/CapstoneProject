@@ -47,11 +47,20 @@ public class HomeController extends BaseController {
         NotificationRunner.run();
 
         if (user != null) {
-            List<Notification> notifications = notificationService.getActiveByUserID(user.getUserID());
+            List<Notification> notifications = notificationService.getNotDismissedByUserID(user.getUserID());
             if (notifications.size() == 0) {
                 request.getSession().setAttribute("notifications", null);
             } else {
                 request.getSession().setAttribute("notifications", notifications);
+
+                int count = 0;
+                for (Notification n : notifications) {
+                    if (n.getViewed() == 0) {
+                        count++;
+                    }
+                }
+
+                request.getSession().setAttribute("unviewedNotificationCount", count);
             }
         } else {
             request.getSession().setAttribute("notifications", null);
@@ -62,7 +71,37 @@ public class HomeController extends BaseController {
     }
 
     @GetMapping("/dismiss")
-    public void dismiss(int n, HttpServletRequest request) {
-        notificationService.deactivate(n);
+    public void dismiss(int n) {
+        System.out.println("Notification " + n);
+        notificationService.dismiss(n);
     }
+
+    @GetMapping("/markAsViewed")
+    public void markAsViewed(HttpServletRequest request) {
+
+        notificationService.markAsViewed((List<Notification>) request.getSession().getAttribute("notifications"));
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null) {
+            List<Notification> notifications = notificationService.getNotDismissedByUserID(user.getUserID());
+            if (notifications.size() == 0) {
+                request.getSession().setAttribute("notifications", null);
+            } else {
+                request.getSession().setAttribute("notifications", notifications);
+
+                int count = 0;
+                for (Notification n : notifications) {
+                    if (n.getViewed() == 0) {
+                        count++;
+                    }
+                }
+
+                request.getSession().setAttribute("unviewedNotificationCount", count);
+            }
+        } else {
+            request.getSession().setAttribute("notifications", null);
+        }
+    }
+
 }

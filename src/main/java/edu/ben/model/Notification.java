@@ -23,6 +23,9 @@ public class Notification {
     @Column(name = "listing_id")
     private int listingID;
 
+    @Column(name = "subject")
+    private String subject;
+
     @Column(name = "message")
     private String message;
 
@@ -41,6 +44,12 @@ public class Notification {
     @Column(name = "sent")
     private int sent;
 
+    @Column(name = "dismissed")
+    private int dismissed;
+
+    @Column(name = "viewed")
+    private int viewed;
+
     public Notification() {
 
     }
@@ -48,6 +57,15 @@ public class Notification {
     public Notification(User user, int listingID, String message, Timestamp sendTimestamp, int active) {
         this.user = user;
         this.listingID = listingID;
+        this.message = message;
+        this.sendTimestamp = sendTimestamp;
+        this.active = active;
+    }
+
+    public Notification(User user, int listingID, String subject, String message, Timestamp sendTimestamp, int active) {
+        this.user = user;
+        this.listingID = listingID;
+        this.subject = subject;
         this.message = message;
         this.sendTimestamp = sendTimestamp;
         this.active = active;
@@ -123,5 +141,29 @@ public class Notification {
 
     public void setSent(int sent) {
         this.sent = sent;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public int getDismissed() {
+        return dismissed;
+    }
+
+    public void setDismissed(int dismissed) {
+        this.dismissed = dismissed;
+    }
+
+    public int getViewed() {
+        return viewed;
+    }
+
+    public void setViewed(int viewed) {
+        this.viewed = viewed;
     }
 }

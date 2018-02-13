@@ -19,4 +19,10 @@ public interface NotificationService {
     public List<Notification> getAllActive();
 
     public void markAsSent(List<Notification> notifications);
+
+    public List<Notification> getNotDismissedByUserID(int userID);
+
+    public void dismiss(int id);
+
+    public void markAsViewed(List<Notification> notifications);
 }
