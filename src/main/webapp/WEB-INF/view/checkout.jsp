@@ -44,39 +44,6 @@
 			fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
 	</script>
-	<%--Nav Bar--%>
-	<div class="uk-position-relative">
-		<div class="uk-position-relativetop">
-			<nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
-			<div class="uk-navbar-left">
-				<ul class="uk-navbar-nav">
-					<li><a href="${pageContext.request.contextPath}/">Home</a></li>
-					<li><a
-						href="${pageContext.request.contextPath}/displayListing">View
-							Listings</a></li>
-					<li><a href="${pageContext.request.contextPath}/createListing">Create
-							Listing</a></li>
-					<li>
-						<div class="uk-margin">
-							<form class="uk-search uk-search-default" method="POST"
-								action="searchResults">
-								<span uk-search-icon></span> <input id="search"
-									class="uk-search-input" type="search" placeholder="Search...">
-							</form>
-						</div>
-					</li>
-				</ul>
-			</div>
-			<div class="uk-navbar-right">
-				<ul class="uk-navbar-nav">
-					<li><a>Welcome user</a></li>
-					<li><a href="#">Logout</a></li>
-				</ul>
-			</div>
-			</nav>
-		</div>
-	</div>
-
 	<div class="uk-background-muted">
 		<button class="uk-button uk-button-default demo uk-position-center"
 			type="button"
@@ -86,13 +53,12 @@
 		<div class="uk-section">
 			<div class="uk-container">
 
-				<label id="price">3.00</label>
-				<div class="uk-position-center" id="paypal-button"></div>
+				<div class="uk-section" id="paypal-button"></div>
 
 			</div>
 		</div>
 	</div>
-	<div class="uk-position-bottom">
+	<div class="uk-container">
 		<a class="twitter-share-button"
 			href="https://twitter.com/share?ref_src=twsrc%5Etfw"
 			data-size="large"
