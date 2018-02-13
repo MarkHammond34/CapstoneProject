@@ -34,39 +34,39 @@ public class HomeController extends BaseController {
 	public ModelAndView home(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("index");
 
-		List<Listing> recent = listingService.getRecentListings();
-		model.addObject("recentListings", recent);
-
-		List<Listing> endingSoon = listingService.getRecentListings();
-		model.addObject("endingSoonListings", endingSoon);
-
-		List<Listing> trending = listingService.getListingsByBidCount();
-		model.addObject("trendingListings", trending);
-
-		User user = (User) request.getSession().getAttribute("user");
-
-		ListingRunner.run();
-		NotificationRunner.run();
-
-		if (user != null) {
-			List<Notification> notifications = notificationService.getNotDismissedByUserID(user.getUserID());
-			if (notifications.size() == 0) {
-				request.getSession().setAttribute("notifications", null);
-			} else {
-				request.getSession().setAttribute("notifications", notifications);
-
-				int count = 0;
-				for (Notification n : notifications) {
-					if (n.getViewed() == 0) {
-						count++;
-					}
-				}
-
-				request.getSession().setAttribute("unviewedNotificationCount", count);
-			}
-		} else {
-			request.getSession().setAttribute("notifications", null);
-		}
+//		List<Listing> recent = listingService.getRecentListings();
+//		model.addObject("recentListings", recent);
+//
+//		List<Listing> endingSoon = listingService.getRecentListings();
+//		model.addObject("endingSoonListings", endingSoon);
+//
+//		List<Listing> trending = listingService.getListingsByBidCount();
+//		model.addObject("trendingListings", trending);
+//
+//		User user = (User) request.getSession().getAttribute("user");
+//
+//		ListingRunner.run();
+//		NotificationRunner.run();
+//
+//		if (user != null) {
+//			List<Notification> notifications = notificationService.getNotDismissedByUserID(user.getUserID());
+//			if (notifications.size() == 0) {
+//				request.getSession().setAttribute("notifications", null);
+//			} else {
+//				request.getSession().setAttribute("notifications", notifications);
+//
+//				int count = 0;
+//				for (Notification n : notifications) {
+//					if (n.getViewed() == 0) {
+//						count++;
+//					}
+//				}
+//
+//				request.getSession().setAttribute("unviewedNotificationCount", count);
+//			}
+//		} else {
+//			request.getSession().setAttribute("notifications", null);
+//		}
 
 		setRequest(request);
 		return model;
