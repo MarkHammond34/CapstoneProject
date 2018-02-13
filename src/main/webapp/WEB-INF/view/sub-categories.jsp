@@ -50,7 +50,7 @@
 				</form>
 
 				<c:if test="${listings != null}">
-					<div class="container">
+					<div class="container" style="background-color: #f2f2f2;">
 
 						<hgroup class="mb20">
 							<h1>Results</h1>
@@ -60,95 +60,43 @@
 							</h2>
 						</hgroup>
 
-						<!-- NEW TEST -->
-						<div class="uk-position-relative uk-visible-toggle uk-light"
-							uk-slider>
+						<c:forEach begin="1" end="5">
 
-							<ul
-								class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@m uk-grid">
-								<li>
-									<div class="uk-panel">
-										<a href="listing"><img
-											src="${pageContext.request.contextPath}/resources/img/listings/Wolverine.jpg"
-											alt=""></a>
-									</div>
-									<div class="uk-position-center uk-panel">
-										<!-- Maybe use this area for something later -->
-									</div>
-								</li>
-								<li>
-									<div class="uk-panel">
-										<a href="#"><img
-											src="${pageContext.request.contextPath}/resources/img/listings/Cat.jpg"
-											alt=""></a>
-									</div>
-									<div class="uk-position-center uk-panel">
-										<!-- Maybe use this area for something later -->
-									</div>
-								</li>
-								<li>
-									<div class="uk-panel">
-										<a href="listing"><img
-											src="${pageContext.request.contextPath}/resources/img/listings/Wolverine.jpg"
-											alt=""></a>
-									</div>
-									<div class="uk-position-center uk-panel">
-										<!-- Maybe use this area for something later -->
-									</div>
-								</li>
-								<li>
-									<div class="uk-panel">
-										<a href="listing"><img
-											src="${pageContext.request.contextPath}/resources/img/listings/Wolverine.jpg"
-											alt=""></a>
-									</div>
-									<div class="uk-position-center uk-panel">
-										<!-- Maybe use this area for something later -->
-									</div>
-								</li>
-								<li>
-									<div class="uk-panel">
-										<a href="listing"><img
-											src="${pageContext.request.contextPath}/resources/img/listings/Wolverine.jpg"
-											alt=""></a>
-									</div>
-									<div class="uk-position-center uk-panel">
-										<!-- Maybe use this area for something later -->
-									</div>
-								</li>
-								<li>
-									<div class="uk-panel">
-										<a href="listing"><img
-											src="${pageContext.request.contextPath}/resources/img/listings/Wolverine.jpg"
-											alt=""></a>
-									</div>
-									<div class="uk-position-center uk-panel">
-										<!-- Maybe use this area for something later -->
-									</div>
-								</li>
-								<li>
-									<div class="uk-panel">
-										<a href="listing"><img
-											src="${pageContext.request.contextPath}/resources/img/listings/Wolverine.jpg"
-											alt=""></a>
-									</div>
-									<div class="uk-position-center uk-panel">
-										<!-- Maybe use this area for something later -->
-									</div>
-								</li>
+							
+							<h2><strong class="uk-text-danger">SubCategory</strong></h2>
+							
 
-							</ul>
+							<!-- NEW TEST -->
+							<div class="uk-position-relative uk-visible-toggle uk-light"
+								uk-slider>
+
+								<ul
+									class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@m uk-grid">
+
+									<c:forEach begin="1" end="10">
+										<li>
+											<div class="uk-panel">
+												<a href="listing"><img
+													src="${pageContext.request.contextPath}/resources/img/listings/Wolverine.jpg"
+													alt=""></a>
+											</div>
+											<div class="uk-position-center uk-panel">
+												<!-- Maybe use this area for something later -->
+											</div>
+										</li>
+									</c:forEach>
+								</ul>
 
 
-							<a
-								class="uk-position-center-left uk-position-small uk-hidden-hover"
-								href="#" uk-slidenav-previous uk-slider-item="previous"></a> <a
-								class="uk-position-center-right uk-position-small uk-hidden-hover"
-								href="#" uk-slidenav-next uk-slider-item="next"></a>
+								<a
+									class="uk-position-center-left uk-position-small uk-hidden-hover"
+									href="#" uk-slidenav-previous uk-slider-item="previous"></a> <a
+									class="uk-position-center-right uk-position-small uk-hidden-hover"
+									href="#" uk-slidenav-next uk-slider-item="next"></a>
 
 
-						</div>
-
+							</div>
+						</c:forEach>
 					</div>
 				</c:if>
 

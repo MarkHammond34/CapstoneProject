@@ -9,13 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import edu.ben.model.User;
 import edu.ben.service.ListingService;
 import edu.ben.service.UserService;
 
 @Controller
-public class ProfileController {
+public class ProfileController extends BaseController {
     @Autowired
     UserService userService;
 
@@ -69,6 +71,17 @@ public class ProfileController {
         }
 
         return "listing-profile";
+    }
+    
+    @RequestMapping(value="/editListing", method=RequestMethod.POST)
+    public String editListing(@RequestParam("listing") int id, @RequestParam("price") double price) {
+    	
+    	Listing listing = listingService.getByListingID(id);
+    	listing.setPrice(price);
+    	listingService.saveOrUpdate(listing);
+    	addSuccessMessage("Price successfully updated!");
+    	
+    	return "redirect:/viewProfile";
     }
 
 }

@@ -2,7 +2,7 @@
 
 <body>
 	<%@include file="jspf/navbar.jspf"%>
-	<%@include file="jspf/footer.jspf" %>
+
 	<div class="container-fluid">
 		<div class="row">
 			<div class="fb-profile">
@@ -66,7 +66,7 @@
 									<a href="#"><strong class="uk-text-danger">${listing.name}</strong></a>
 								</div>
 								<div class="price" style="font-size: 16px;">
-									<strong>$${listing.price}</strong>
+									<a href="${pageContext.request.contextPath}/editListing"><strong>$${listing.price}</strong></a>
 								</div>
 							</div>
 

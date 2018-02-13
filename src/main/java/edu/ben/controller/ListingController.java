@@ -270,9 +270,11 @@ public class ListingController extends BaseController {
     	
     	// get listing
     	List<Listing> listings = listingService.getAllListingsByCategory("technology");
+    	//List subCategories = categoryService.getSubCategoriesByCategory("technology");
     	User user = userService.getUserById(1);
     	// pass these to model
     	model.addObject("listings", listings);
+    	//model.addObject("subCategories", subCategories);
     	model.addObject("user", user);
     	
     	return model;

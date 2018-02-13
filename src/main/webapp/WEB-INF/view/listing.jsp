@@ -20,7 +20,7 @@
 </style>
 
 <body>
-	<%@include file="jspf/footer.jspf" %>
+
 	<%@include file="jspf/navbar.jspf"%>
 
 	<div style="background-color: #f2f2f2;">
@@ -45,7 +45,7 @@
 										<h1 class="uk-article-title">
 											<a class="uk-link-reset" href="">${listing.name}</a> <a
 												class="uk-button uk-button-text" style="color: green;"
-												href="">Buy Now!</a>
+												href="${pageContext.request.contextPath}/button?listing=${listing.id}">Buy Now!</a>
 										</h1>
 
 										<p class="uk-article-meta">

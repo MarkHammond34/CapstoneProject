@@ -42,7 +42,9 @@ public class ListingDAOImpl implements ListingDAO {
 
     @Override
     public List getAllListingsByCategory(String category) {
-        return getSession().createQuery("FROM listing WHERE category=:category").list();
+    	Query q = getSession().createQuery("FROM listing WHERE category=:category");
+    	q.setParameter("category", category);
+    	return q.list();
     }
 
     @SuppressWarnings("unchecked")
