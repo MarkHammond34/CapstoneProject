@@ -29,7 +29,7 @@ public class LoginController {
 	@Autowired
 	UserService userService;
 
-	@PostMapping("/loginUser")
+	@PostMapping("/")
 	public String login(HttpServletRequest request) {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
@@ -64,7 +64,7 @@ public class LoginController {
 					url = "login";
 				}
 			} else {
-				message = "Your account is locked out, click unlock to active your account";
+				message = "Your account is locked out, click unlock to activate your account";
 				url = "login";
 			}
 		} else {
@@ -89,7 +89,7 @@ public class LoginController {
 		return "unlock";
 	}
 
-	@GetMapping("/emailReset")
+	@GetMapping("/reset")
 	public String emailReset() {
 		return "emailReset";
 	}
