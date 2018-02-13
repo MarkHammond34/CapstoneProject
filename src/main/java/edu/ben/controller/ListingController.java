@@ -215,11 +215,23 @@ public class ListingController extends BaseController {
         return "redirect:" + request.getHeader("Referer");
     }
     
-    @RequestMapping(value="/edit", method=RequestMethod.POST)
-    public ModelAndView editListing() {
-    	ModelAndView model = new ModelAndView("");
+    @RequestMapping(value="/edit", method=RequestMethod.GET)
+    public ModelAndView edit() {
+    	
+    	ModelAndView model = new ModelAndView("/jspf/edit-fixed-listing");
+    	model.addObject("listingID", 1);
     	
     	return model;
+    }
+    
+    @RequestMapping(value="/editTheListing", method=RequestMethod.POST)
+    public String editListing(@RequestParam("listingID") String id, @RequestParam("price") String price) {
+    	   	
+    	Listing listing = listingService.getByListingID(Integer.parseInt(id));
+    	listing.setPrice(Double.parseDouble(price));
+    	listingService.saveOrUpdate(listing);
+    	
+    	return "redirect:/viewProfile";
     }
     
     @RequestMapping(value="/sub", method=RequestMethod.GET)

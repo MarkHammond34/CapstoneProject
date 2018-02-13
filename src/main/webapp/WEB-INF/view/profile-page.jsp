@@ -66,7 +66,7 @@
 									<a href="#"><strong class="uk-text-danger">${listing.name}</strong></a>
 								</div>
 								<div class="price" style="font-size: 16px;">
-									<a href="${pageContext.request.contextPath}/editListing"><strong>$${listing.price}</strong></a>
+									<a href="${pageContext.request.contextPath}/edit"><strong>$${listing.price}</strong></a>
 								</div>
 							</div>
 
