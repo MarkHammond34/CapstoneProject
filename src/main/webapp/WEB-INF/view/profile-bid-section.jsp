@@ -20,7 +20,7 @@
                             <span class="uk-badge"
                                   id="currentBid${listing.id}">Current Bid: $${listing.highestBid}</span>
                             <button class="uk-button uk-button-default uk-button-small" style="margin-left: 5px"
-                                    uk-toggle="target: #placeBidModal">Place Bid
+                                    uk-toggle="target: #placeBidModal${listing.id}">Place Bid
                             </button>
                         </div>
                         <hr>

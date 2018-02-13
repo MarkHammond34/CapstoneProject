@@ -11,8 +11,7 @@
                     <li>
                         <form method="get"
                               action="${pageContext.request.contextPath}/createListing">
-                            <button type="submit" class="create-listing-button">Create
-                                Listing
+                            <button type="submit" class="create-listing-button">CREATE LISTING
                             </button>
                         </form>
                     </li>

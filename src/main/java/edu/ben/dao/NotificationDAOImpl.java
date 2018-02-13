@@ -54,8 +54,8 @@ public class NotificationDAOImpl implements NotificationDAO {
 
     @Override
     public void dismiss(int id) {
-        Query q = getSession().createSQLQuery("UPDATE notification SET dismissed=1 WHERE notification_id=:id").addEntity(Notification.class);
-        q.setParameter("id", id);
+        Query q = getSession().createSQLQuery("UPDATE notification SET dismissed=1 WHERE notification_id=" + id).addEntity(Notification.class);
+        System.out.println(q.getQueryString());
         q.executeUpdate();
     }
 
