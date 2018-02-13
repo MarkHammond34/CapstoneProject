@@ -7,6 +7,9 @@ import edu.ben.model.User;
 import java.util.List;
 
 public interface MessageService {
+
+    public void saveOrUpdate(Conversation conversation);
+
     public void createConversation(User user1, User user2);
 
     public List<Conversation> getConversation(User user1);

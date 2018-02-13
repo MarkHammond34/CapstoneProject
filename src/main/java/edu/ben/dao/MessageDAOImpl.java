@@ -21,14 +21,15 @@ public class MessageDAOImpl implements MessageDAO {
         return sessionFactory.getCurrentSession();
     }
 
+    @Override
+    public void saveOrUpdate(Conversation conversation) {
+        getSession().saveOrUpdate(conversation);
+    }
 
     @Override
     public void createConversation(int user1, int user2) {
-        Query q = getSession().createQuery("INSERT INTO ulistit.conversation (userId_1,userId_2) values (:userId1, :userId2)");
-        q.setParameter("userId1", user1);
-        q.setParameter("userId2", user2);
+        Query q = getSession().createQuery("INSERT INTO conversation (userId_1,userId_2) values (" + user1 + ", "+ user2 + ")");
         q.executeUpdate();
-
     }
 
     @SuppressWarnings("unchecked")
@@ -42,7 +43,7 @@ public class MessageDAOImpl implements MessageDAO {
     @Override
     public List<Message> getMessages(int user1, int user2) {
 
-        Query q = getSession().createQuery("FROM conversation WHERE userID_1=" + user1 + "AND userID_2=" + user2);
+        Query q = getSession().createQuery("FROM conversation WHERE (userID_1=" + user1 + "AND userID_2=" + user2 + ") OR (userID_1=" + user2 + " AND userID_2=" + user1 + ")");
         Conversation conversation = (Conversation) q.list().get(0);
 
         q = getSession().createQuery("FROM message WHERE conversation_ID=" + conversation.getId());

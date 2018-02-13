@@ -30,6 +30,10 @@ public class Message implements Serializable {
     @Column(name="date_sent")
     private Timestamp dateSent;
 
+    public Message(){
+
+    }
+
     public Message(User user, String messageBody){
         this.user = user;
         this.messageBody = messageBody;

@@ -17,6 +17,10 @@ public class MessageServiceImpl implements MessageService {
 
     MessageDAO msgDAO;
 
+    public void saveOrUpdate(Conversation conversation) {
+        msgDAO.saveOrUpdate(conversation);
+    }
+
     @Autowired
     public void setUserDAO(MessageDAO msgDAO) {
         this.msgDAO = msgDAO;

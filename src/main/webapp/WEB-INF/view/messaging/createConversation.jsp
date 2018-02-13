@@ -9,6 +9,7 @@
 <%@include file="../jspf/navbar.jspf" %>
 <%@ page import="edu.ben.model.User" %>
 <%@ page import="java.util.List" %>
+<%@ page import="edu.ben.model.Conversation" %>
 <body>
 <div class="uk-section uk-section-muted">
     <div class="uk-container">
@@ -25,10 +26,12 @@
     <div class="uk-container">
         <div class="uk-child-width-expand\@s" uk-grid>
             <%
-                List<User> users = (List<User>) request.getSession().getAttribute("allUsers");
-                users.remove(request.getSession().getAttribute("user"));
-
+                List<User> users = (List<User>) session.getAttribute("allUsers");
+                User sessionUser = (User) session.getAttribute("user");
+                List<Conversation> conversations = (List<Conversation>)session.getAttribute("userConversations");
                 for(int i = 0; i < users.size(); i++){
+                    Conversation temp = new Conversation(sessionUser, users.get(i));
+                    if(users.get(i).getUserID() != sessionUser.getUserID() && !conversations.contains(temp)){
             %>
             <div>
                 <form method="post" action="addConversation">
@@ -44,6 +47,7 @@
                 </form>
             </div>
             <%
+                    }
                 }
             %>
         </div>

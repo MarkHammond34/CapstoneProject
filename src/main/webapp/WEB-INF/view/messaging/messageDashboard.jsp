@@ -25,13 +25,14 @@
 <div class="uk-section uk-section-muted">
     <div class="uk-container">
         <div class="uk-child-width-expand@s" uk-grid>
+            <div>
             <%
                 List<Conversation> conversations = (List<Conversation>) session.getAttribute("userConversations");
                 User usr = (User) session.getAttribute("user");
                 if (conversations != null && !conversations.isEmpty()) {
                     for (int i = 0; i < conversations.size(); i++) {
             %>
-            <div>
+
                 <form method="post" action="viewConversation">
                     <div class="uk-card uk-card-default uk-card-body">
                         <span uk-icon="icon: user; ratio: 1.5"></span>
@@ -45,11 +46,7 @@
                             Message
                         </button>
                         <%
-                            }
-                        %>
-
-                        <%
-                            if (conversations.get(i).getUser2().getUserID() == usr.getUserID()) {
+                            }else if (conversations.get(i).getUser2().getUserID() == usr.getUserID()) {
                         %>
                         <span><%=conversations.get(i).getUser2().getUsername()%></span>
                         <button class="uk-button uk-button-default uk-position-right"
@@ -62,12 +59,13 @@
                         %>
                     </div>
                 </form>
-            </div>
+
             <%
                     }
 
                 }
             %>
+            </div>
             <div>
                 <div class="uk-card uk-card-default uk-card-body">
                     <button class="uk-button uk-position-center"

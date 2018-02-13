@@ -12,31 +12,31 @@ import java.util.List;
 @Entity(name = "conversation")
 @Table(name = "conversation")
 @Transactional
-public class Conversation implements Serializable{
+public class Conversation implements Serializable {
 
     @Id
-    @Column(name="conversation_ID")
+    @Column(name = "conversation_ID")
     private int id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="userId_1")
+    @JoinColumn(name = "userId_1")
     private User user1;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="userId_2")
+    @JoinColumn(name = "userId_2")
     private User user2;
 
-    @Column(name="date_created")
+    @Column(name = "date_created")
     private Timestamp dateCreated;
 
     @OneToMany(mappedBy = "conversationId", fetch = FetchType.EAGER)
     private List<Message> messages;
 
-    public Conversation(){
+    public Conversation() {
 
     }
 
-    public Conversation(User user1, User user2){
+    public Conversation(User user1, User user2) {
         this.user1 = user1;
         this.user2 = user2;
     }
@@ -79,5 +79,11 @@ public class Conversation implements Serializable{
 
     public void setMessages(List<Message> messages) {
         this.messages = messages;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        Conversation con = (Conversation) o;
+        return con.getUser1().getUserID() == this.getUser1().getUserID() && con.getUser2().getUserID() == this.getUser2().getUserID();
     }
 }
