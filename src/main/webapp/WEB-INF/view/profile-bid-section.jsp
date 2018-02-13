@@ -4,7 +4,7 @@
             <p style="float:left;" class="uk-h4">Active (${activeCount})</p>
         </div>
         <c:if test="${listingsActive != null}">
-            <div class="uk-child-width-1-3@m uk-grid-small uk-grid-match uk-text-center" uk-grid>
+            <div class="uk-child-width-1-3@m uk-grid-small uk-text-center" uk-grid>
                 <c:forEach var="listing" items="${listingsActive}">
                     <div class="uk-card uk-card-muted uk-card-small uk-card-body">
                         <div class="uk-align-center" style="margin-bottom: -5%;" uk-lightbox>
@@ -59,7 +59,7 @@
             <p style="float:left;" class="uk-h4">Won (${wonCount})</p>
         </div>
         <c:if test="${listingsWon != null}">
-            <div class="uk-child-width-1-3@m uk-grid-small uk-grid-match" uk-grid>
+            <div class="uk-child-width-1-3@m uk-grid-small" uk-grid>
                 <c:forEach var="listing" items="${listingsWon}">
                     <div class="uk-card uk-card-muted uk-card-small uk-card-body">
                         <div class="uk-align-center" style="margin-bottom: -5%;" uk-lightbox>
@@ -72,7 +72,7 @@
                             <a href="#"><strong class="uk-text-danger">${listing.name}</strong></a>
                         </div>
                         <div class="price" style="font-size: 16px;">
-                            <span class="uk-badge">Winning Bid: $${listing.price}</span>
+                            <span class="uk-badge">Winning Bid: $${listing.highestBid}</span>
                         </div>
                     </div>
                 </c:forEach>
@@ -88,8 +88,8 @@
             <p style="float:left;" class="uk-h4">Lost (${lostCount})</p>
         </div>
         <c:if test="${listingsLost != null}">
-            <div class="uk-child-width-1-3@m uk-grid-small uk-grid-match" uk-grid>
-                <c:forEach var="listing" items="${listingsWon}">
+            <div class="uk-child-width-1-3@m uk-grid-small" uk-grid>
+                <c:forEach var="listing" items="${listingsLost}">
                     <div class="uk-card uk-card-muted uk-card-small uk-card-body">
                         <div class="uk-align-center" style="margin-bottom: -5%;" uk-lightbox>
                             <a href="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
@@ -101,7 +101,7 @@
                             <a href="#"><strong class="uk-text-danger">${listing.name}</strong></a>
                         </div>
                         <div class="price" style="font-size: 16px;">
-                            <span class="uk-badge">Winning Bid: $${listing.price}</span>
+                            <span class="uk-badge">Winning Bid: $${listing.highestBid}</span>
                         </div>
                     </div>
                 </c:forEach>
@@ -112,12 +112,3 @@
         </c:if>
     </div>
 </div>
-<script>
-    function bid(currentBid, bidValue, listingID) {
-        $.ajax({
-            type: 'POST',
-            url: '/bid',
-            data: {bidValue: bidValue, listingID: listingID},
-        })
-    }
-</script>

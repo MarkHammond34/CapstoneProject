@@ -57,10 +57,30 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    public List<Notification> getNotDismissedByUserID(int userID) {
+        return notificationDAO.getNotDismissedByUserID(userID);
+    }
+
+    @Override
+    public void dismiss(int id) {
+        notificationDAO.dismiss(id);
+    }
+
+    @Override
     public void markAsSent(List<Notification> notifications) {
         for (Notification n : notifications) {
             n.setSent(1);
             notificationDAO.update(n);
+        }
+    }
+
+    @Override
+    public void markAsViewed(List<Notification> notifications) {
+        if (notifications != null) {
+            for (Notification n : notifications) {
+                n.setViewed(1);
+                notificationDAO.update(n);
+            }
         }
     }
 }

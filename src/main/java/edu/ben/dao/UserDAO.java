@@ -6,34 +6,36 @@ import edu.ben.model.User;
 
 public interface UserDAO {
 
-	public List<User> getAllUsers();
-	
-	public User getUserById(int id);
-	
-	public void deleteUser(int id);
-	
-	public void saveOrUpdate(User user);
+    public List<User> getAllUsers();
 
-	public void create(User user);
+    public User getUserById(int id);
 
-	public void unlockByUsername(String username);
+    public void deleteUser(int id);
 
-	public void lockByUsername(String username);
+    public void saveOrUpdate(User user);
 
-	public User findByEmail(String email);
+    public void create(User user);
 
-	public User findBySchoolEmail(String email);
+    public void unlockByUsername(String username);
 
-	public void update(User user);
+    public void lockByUsername(String username);
 
-	public void updateAttemptedLogins(int attemptedLogins, String email);
+    public User findByEmail(String email);
 
-	public void updateIsActive(int isActive, String email);
+    public User findBySchoolEmail(String email);
 
-	public List<User> getRecentUsers();
+    public void update(User user);
 
-	public List<User> soundexResults();
+    public void updateAttemptedLogins(int attemptedLogins, String email);
 
-	public List<User> getListingLosers(int listingID, int winnerID);
+    public void updateIsActive(int isActive, String email);
+
+    public List<User> getRecentUsers();
+
+    public List<User> soundexResults();
+
+    public List<User> getListingLosers(int listingID, int winnerID);
+
+    public List<User> getDisputeResolvingAdmins();
 
 }

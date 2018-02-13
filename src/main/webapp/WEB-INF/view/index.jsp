@@ -1,11 +1,11 @@
 <%@include file="jspf/header.jsp" %>
 <body>
 
+<%@include file="jspf/messages.jsp" %>
+
 <%@include file="jspf/navbar.jspf" %>
 
 <div>
-
-    <%@include file="jspf/messages.jsp" %>
 
     <div class="uk-section">
         <div class="uk-position-relative uk-visible-toggle uk-light"
@@ -96,27 +96,6 @@
         document.getElementById('ending-soon-listings').style.display = 'none';
         document.getElementById('recently-added-listings').style.display = 'inline';
     }
-
-    function dismiss(notificationID) {
-        $.ajax({
-            type: 'GET',
-            url: '/dismiss',
-            data: {n: notificationID},
-        })
-        document.getElementById('notification' + notificationID).style.display = "none";
-    }
-
-    // Ignore this for now
-    function bidButtonClicked(listingID, endTimestamp) {
-        var endDate = new Date(endTimestamp);
-
-        if (endDate > Date.now()) {
-            $('#bidButton + listingID').addClass("uk-animation-shake");
-            $('#countdown + listingID').css("color", "red")
-            $('#countdown + listingID').delay(2000).css("color", "black");
-        }
-    }
-
 </script>
 </body>
 </html>

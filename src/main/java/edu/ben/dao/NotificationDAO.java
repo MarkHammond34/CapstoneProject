@@ -16,4 +16,8 @@ public interface NotificationDAO {
 
     public List<Notification> getAllActive();
 
+    public List<Notification> getNotDismissedByUserID(int userID);
+
+    public void dismiss(int id);
+
 }

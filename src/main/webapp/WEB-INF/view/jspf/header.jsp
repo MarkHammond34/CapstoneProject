@@ -36,7 +36,10 @@
     <script type="text/javascript" src="${uikitJS}"></script>
     <script type="text/javascript" src="${jquery}"></script>
     <script type="text/javascript" src="${uikiticons}"></script>
-    
+
+    <spring:url value="resources/js/main.js" var="mainJS"/>
+    <script type="text/javascript" src="${mainJS}"></script>
+
     <style>.uk-countdown-number {
         font-size: 22px;
     }
@@ -52,6 +55,39 @@
 
     .body {
         background-color: #f2f2f2;
+    }
+
+    .badge1 {
+        position: relative;
+    }
+
+    .badge1[data-badge]:after {
+        content: attr(data-badge);
+        position: absolute;
+        top: -20px;
+        right: -36px;
+        font-size: .7em;
+        background: #ff695c;
+        color: white;
+        width: 18px;
+        height: 18px;
+        text-align: center;
+        line-height: 18px;
+        border-radius: 50%;
+        box-shadow: 0 0 1px #333;
+    }
+
+    .badge2 {
+        content: attr(data-badge);
+        position: absolute;
+        background: #ff695c;
+        left: 5px;
+        bottom: 40px;
+        width: 10px;
+        height: 10px;
+        line-height: 18px;
+        border-radius: 50%;
+        box-shadow: 0 0 1px #333;
     }
     </style>
 </head>
