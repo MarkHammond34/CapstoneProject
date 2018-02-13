@@ -21,38 +21,13 @@
 </head>
 <body>
 
-			<%--Nav Bar--%>
-	<div class="uk-position-relative">
-		<div class="uk-position-relativetop">
-			<nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
-			<div class="uk-navbar-left">
-				<ul class="uk-navbar-nav">
-					<li><a href="/">Home</a></li>
-					<li><a
-						href="${pageContext.request.contextPath}/displayListing">View
-							Listings</a></li>
-					<li><a href="${pageContext.request.contextPath}/createListing">Create
-							Listing</a></li>
-					<li>
-						<div class="uk-margin">
-							<form class="uk-search uk-search-default" method="POST"
-								action="searchResults">
-								<span uk-search-icon></span> <input class="uk-search-input"
-									type="search" placeholder="Search...">
-							</form>
-						</div>
-					</li>
-				</ul>
-			</div>
-			<div class="uk-navbar-right">
-				<ul class="uk-navbar-nav">
-					<li><a>Welcome user</a></li>
-					<li><a href="#">Logout</a></li>
-				</ul>
-			</div>
-			</nav>
-		</div>
-	</div>
+<%@include file="jspf/header.jsp"%>
+<body>
+
+	<%@include file="jspf/messages.jsp"%>
+
+	<%@include file="jspf/navbar.jspf"%>
+	<%@include file="jspf/footer.jspf"%>
 
 	<div class="uk-background-muted">
 

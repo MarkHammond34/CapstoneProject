@@ -20,7 +20,7 @@
 </style>
 
 <body>
-
+	<%@include file="jspf/footer.jspf" %>
 	<%@include file="jspf/navbar.jspf"%>
 
 	<div style="background-color: #f2f2f2;">

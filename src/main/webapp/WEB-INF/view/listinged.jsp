@@ -2,7 +2,7 @@
 <body>
 
 	<%@include file="jspf/navbar.jspf"%>
-
+	<%@include file="jspf/footer.jspf" %>
 	<div style="background-color: #f2f2f2;">
 
 		<div class="uk-section">

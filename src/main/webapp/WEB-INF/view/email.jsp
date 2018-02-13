@@ -14,28 +14,16 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
+<%@include file="jspf/header.jsp"%>
 <body>
-	<nav class="navbar navbar-inverse">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<h1 style="color: white;">
-					<img src=""
-						alt="U-ListIt Logo" style="margin-bottom: 5px">
-					U-ListIt
-				</h1>
-			</div>
 
-			<ul class="nav navbar-inverse">
-				<li class=""><a href="home">Home</a></li>
-				<li class="active"><a href="login">Login</a></li>
-			</ul>
+	<%@include file="jspf/messages.jsp"%>
 
-		</div>
-	</nav>
+	<%@include file="jspf/navbar.jspf"%>
+	<%@include file="jspf/footer.jspf"%>
 
 	<div style="margin: 2% 33% 5% 33%">
-		<form class="form-horizontal blacktext" action="unlock"
-			method="post">
+		<form class="form-horizontal blacktext" action="unlock" method="post">
 			<input type="hidden" name="action" value="email" />
 			<div style="text-align: center">
 				<p class="lead">Enter Your Email to Receive the Unlock Code</p>
