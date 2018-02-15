@@ -1,7 +1,6 @@
 package edu.ben.service;
 
-import edu.ben.dao.FaqDAO;
-import edu.ben.dao.FavoriteDAO;
+import edu.ben.dao.FaqQuestionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,17 +9,17 @@ import java.util.List;
 
 @Service
 @Transactional
-public class FaqServiceImpl implements FaqService {
+public class FaqQuestionServiceImpl implements FaqQuestionService {
 
-    FaqDAO faqDAO;
+    FaqQuestionDAO faqQuestionDAO;
 
     @Autowired
-    public void setFaqDAO(FaqDAO faqDAO) {
-        this.faqDAO = faqDAO;
+    public void setFaqDAO(FaqQuestionDAO faqQuestionDAO) {
+        this.faqQuestionDAO = faqQuestionDAO;
     }
 
     @Override
     public List getAllQuestions() {
-        return faqDAO.getAllQuestions();
+        return faqQuestionDAO.getAllQuestions();
     }
 }

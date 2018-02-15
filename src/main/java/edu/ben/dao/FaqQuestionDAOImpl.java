@@ -12,7 +12,7 @@ import java.util.List;
 
 @Transactional
 @Repository
-public class FaqDAOImpl implements FaqDAO {
+public class FaqQuestionDAOImpl implements FaqQuestionDAO {
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -33,7 +33,7 @@ public class FaqDAOImpl implements FaqDAO {
 
     @Override
     public void saveAnswer(FaqAnswer a) {
-        getSession().save(a);
+
     }
 
     @Override
@@ -43,6 +43,7 @@ public class FaqDAOImpl implements FaqDAO {
 
     @Override
     public void updateAnswer(FaqAnswer a) {
-        getSession().update(a);
+
     }
+
 }

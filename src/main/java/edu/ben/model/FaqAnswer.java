@@ -10,6 +10,8 @@ import java.sql.Timestamp;
 @Transactional
 public class FaqAnswer {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "answer_id")
     private int answerID;
 

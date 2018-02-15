@@ -12,6 +12,8 @@ import java.util.Set;
 @Transactional
 public class FaqQuestion {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "question_id")
     private int questionID;
 

@@ -5,7 +5,7 @@ import edu.ben.model.FaqQuestion;
 
 import java.util.List;
 
-public interface FaqDAO {
+public interface FaqQuestionDAO {
 
     public List getAllQuestions();
 
