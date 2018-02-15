@@ -1,6 +1,6 @@
 package edu.ben.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest; 
 
 import edu.ben.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import edu.ben.dao.UserDAO;
 import edu.ben.dao.UserDAOImpl;
 
 @Controller
-public class LoginController {
+public class LoginController extends BaseController {
     @SuppressWarnings("unused")
     private static final long serialVersionUID = 1L;
 
@@ -56,24 +56,24 @@ public class LoginController {
                     userService.updateAttemptedLogins(loginAttempts, email);
                     if (loginAttempts >= 5) {
                         userService.lockByUsername(user.getUsername());
-                        message = "invalid username and password - login limit exceeded, your account has been locked out";
+                        addErrorMessage("invalid username and password - login limit exceeded, your account has been locked out");
                     } else {
-                        message = "invalid password - you have " + (5 - loginAttempts) + " remaining";
+                       addErrorMessage("invalid password - you have " + (5 - loginAttempts) + " remaining");
                     }
                     url = "login";
                 }
             } else {
-                message = "Your account is locked out, click unlock to activate your account";
+                addErrorMessage("Your account is locked out, click unlock to activate your account");
                 url = "login";
             }
         } else {
-            message = "We didn't find your email linked to an account in our Database";
+           addErrorMessage("We didn't find your email linked to an account in our Database");
             url = "login";
         }
 
         request.setAttribute("email", email);
         request.setAttribute("message", message);
-
+        setRequest(request);
         return url;
 
     }

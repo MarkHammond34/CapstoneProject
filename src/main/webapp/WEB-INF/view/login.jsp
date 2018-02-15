@@ -33,7 +33,7 @@
 				</div>
 			</div>
 			<div class="form-group blacktext">
-				<p style="text-align: center" class="blacktext">${message}</p>
+				<%@include file="jspf/messages.jsp"%>
 			</div>
 		</form>
 	</div>
