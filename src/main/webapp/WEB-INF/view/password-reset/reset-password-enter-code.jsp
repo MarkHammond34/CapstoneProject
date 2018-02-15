@@ -1,6 +1,9 @@
 <%@ include file="../jspf/header.jsp" %>
 
 <body>
+
+<%@ include file="../jspf/navbar.jspf" %>
+
 <div class="row">
     <div
             class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
@@ -8,64 +11,30 @@
         <%@ include file="../jspf/messages.jsp" %>
 
         <form role="form" data-toggle="validator"
-              method="post" action="/reset">
+              method="post" action="/reset" style="margin-top: 40px;">
             <h2>Enter Your Verification Code</h2>
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
-                        <div class="input-group" data-validate="code" data-length="8">
+                        <div class="input-group col-md-12" data-validate="code" data-length="8">
                             <input type="text" name="userCode" id="userCode"
                                    class="form-control input-lg" placeholder="Verification Code"
                                    tabindex="1" data-minlength="6" required>
-                            <span class="input-group-addon danger"><span
-                                    class="glyphicon glyphicon-remove"></span></span>
                         </div>
                     </div>
                 </div>
             </div>
+            <br>
             <div class="row">
-                <div class="col-xs-12 col-md-12">
+                <div class="col-xs-6 col-md-6">
                     <button class="btn btn-success btn-block btn-lg">Continue</button>
+                </div>
+                <div class="col-xs-6 col-md-6">
+                    <a href="resend" class="btn btn-primary btn-block btn-lg">Resend Code</a>
                 </div>
             </div>
         </form>
     </div>
 </div>
-
-<script>
-    $(document).ready(function () {
-        $('.input-group input[required], .input-group textarea[required], .input-group select[required]').on('keyup change', function () {
-            var $form = $(this).closest('form'),
-                $group = $(this).closest('.input-group'),
-                $addon = $group.find('.input-group-addon'),
-                $icon = $addon.find('span'),
-                state = false;
-
-            if (!$group.data('validate')) {
-                state = $(this).val() ? true : false;
-            }
-
-            if (state) {
-                $addon.removeClass('danger');
-                $addon.addClass('success');
-                $icon.attr('class', 'glyphicon glyphicon-ok');
-            } else {
-                $addon.removeClass('success');
-                $addon.addClass('danger');
-                $icon.attr('class', 'glyphicon glyphicon-remove');
-            }
-
-            if ($form.find('.input-group-addon.danger').length == 0) {
-                $form.find('[type="submit"]').prop('disabled', false);
-            } else {
-                $form.find('[type="submit"]').prop('disabled', true);
-            }
-        });
-
-        $('.input-group input[required], .input-group textarea[required], .input-group select[required]').trigger('change');
-
-    });
-</script>
-
 </body>
 </html>

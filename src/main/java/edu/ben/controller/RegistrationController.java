@@ -2,6 +2,7 @@ package edu.ben.controller;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -166,9 +167,16 @@ public class RegistrationController extends BaseController {
 
             String userCode = req.getParameter("userCode");
 
-            // check if code matches
-            if (!userCode.equals(req.getSession().getAttribute("code"))) {
+            if (userCode == null) {
+                addErrorMessage("Error Has Occurred, Try Again");
+                setRequest(req);
+                return "redirect:/login";
+
+            } else if (!userCode.equals(req.getSession().getAttribute("code"))) {
                 addErrorMessage("Code Entered Does Not Match");
+                setRequest(req);
+                return "password-reset/reset-password-enter-code";
+
             } else {
                 req.getSession().removeAttribute("code");
                 req.getSession().setAttribute("action", "setNewPassword");
@@ -185,10 +193,17 @@ public class RegistrationController extends BaseController {
             String newPassword = req.getParameter("newPassword");
             String newPasswordConfirm = req.getParameter("newPasswordConfirm");
 
-            if (!newPassword.equals(newPasswordConfirm)) {
-                addErrorMessage("Passwords Do Not Match");
-            } else {
+            if (newPassword == null || newPasswordConfirm == null) {
+                addErrorMessage("Error Has Occurred, Try Again");
+                setRequest(req);
+                return "redirect:/login";
 
+            } else if (!newPassword.equals(newPasswordConfirm)) {
+                addErrorMessage("Passwords Do Not Match");
+                setRequest(req);
+                return "password-reset/reset-password-new-password";
+
+            } else {
                 try {
                     User user = (User) req.getSession().getAttribute("tempUser");
                     user.setPassword(newPassword);
@@ -208,7 +223,22 @@ public class RegistrationController extends BaseController {
         } else {
             return "redirect:/";
         }
+    }
 
-        return "password-reset/password-reset";
+    @GetMapping("/resend")
+    public String resend(HttpServletRequest request) {
+        User tempUser = (User) request.getSession().getAttribute("tempUser");
+
+        if (tempUser == null) {
+            addErrorMessage("Something Went Wrong, Try Again");
+            setRequest(request);
+            return "redirct:/";
+        }
+
+        request.getSession().setAttribute("code", Email.resetPassword(tempUser.getSchoolEmail()));
+        request.getSession().setAttribute("action", "compareCodes");
+        addWarningMessage("New Code Sent To School Email");
+        setRequest(request);
+        return "password-reset/reset-password-enter-code";
     }
 }

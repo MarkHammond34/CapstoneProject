@@ -1,6 +1,9 @@
 <%@ include file="../jspf/header.jsp" %>
 
 <body>
+
+<%@ include file="../jspf/navbar.jspf" %>
+
 <div class="row">
     <div
             class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
@@ -8,9 +11,8 @@
         <%@ include file="../jspf/messages.jsp" %>
 
         <form role="form" id="form" data-toggle="validator"
-              method="post" action="/reset">
+              method="post" action="/reset" style="margin-top: 40px;">
             <h2>Enter Your New Password</h2>
-            <hr class="colorgraph">
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="form-group">
@@ -35,6 +37,7 @@
                         </div>
                     </div>
                 </div>
+                <br>
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <button class="btn btn-success btn-block btn-lg">Continue</button>
