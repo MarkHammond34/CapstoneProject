@@ -143,4 +143,36 @@ public class ListingDAOImpl implements ListingDAO {
     public List getActiveListings() {
         return getSession().createQuery("FROM listing WHERE active=1").list();
     }
+
+	@Override
+	public List<Listing> getAllWeeklyPlusListings() {
+		Query q = getSession().createSQLQuery("SELECT * FROM listing WHERE listing.end_timestamp > NOW() + INTERVAL 7 DAY;")
+                .addEntity(Listing.class);
+ 
+        return q.list();
+	}
+
+	@Override
+	public List<Listing> getAllFixedListings() {
+		Query q = getSession().createSQLQuery("SELECT * FROM listing WHERE listing.type = 'fixed';")
+                .addEntity(Listing.class);
+ 
+        return q.list();
+	}
+
+	@Override
+	public List<Listing> getAllDailyListings() {
+		Query q = getSession().createSQLQuery("SELECT * FROM listing WHERE listing.end_timestamp >= NOW() - INTERVAL 1 DAY AND listing.end_timestamp < NOW() + INTERVAL 1 DAY;")
+                .addEntity(Listing.class);
+ 
+        return q.list();
+	}
+
+	@Override
+	public List<Listing> getAllWeeklyListings() {
+		Query q = getSession().createSQLQuery("SELECT * FROM listing WHERE listing.end_timestamp >= NOW() - INTERVAL 1 DAY AND listing.end_timestamp < NOW() + INTERVAL 7 DAY;")
+                .addEntity(Listing.class);
+ 
+        return q.list();
+	}
 }
