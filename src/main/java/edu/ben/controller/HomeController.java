@@ -5,6 +5,7 @@ import java.util.List;
 import edu.ben.model.Listing;
 import edu.ben.model.Notification;
 import edu.ben.model.User;
+import edu.ben.service.FaqService;
 import edu.ben.service.NotificationService;
 import edu.ben.util.Email;
 import edu.ben.util.ListingRunner;
@@ -30,6 +31,11 @@ public class HomeController extends BaseController {
     @Autowired
     NotificationService notificationService;
 
+    /*
+    @Autowired
+    FaqService faqService;
+    */
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView home(HttpServletRequest request) {
         ModelAndView model = new ModelAndView("index");
@@ -47,6 +53,8 @@ public class HomeController extends BaseController {
 
         //ListingRunner.run();
         //NotificationRunner.run();
+
+        //faqService.getAllQuestions();
 
         if (user != null) {
             List<Notification> notifications = notificationService.getNotDismissedByUserID(user.getUserID());
