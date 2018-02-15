@@ -281,27 +281,11 @@ public class ListingController extends BaseController {
 		// get listing
 		Listing listing = listingService.getByListingID(1);
 		User user = userService.getUserById(1);
+		String dateCreated = listing.getDateCreated().toString().substring(0, 10);
 		// pass these to model
 		model.addObject("listing", listing);
 		model.addObject("user", user);
-
-		return model;
-	}
-
-	@RequestMapping(value = "/testinging", method = RequestMethod.GET)
-	public ModelAndView testinging() {
-
-		ModelAndView model = new ModelAndView("listinged");
-
-		// get listing
-		List<Listing> listings = listingService.getAllListingsByCategory("technology");
-		// List subCategories =
-		// categoryService.getSubCategoriesByCategory("technology");
-		User user = userService.getUserById(1);
-		// pass these to model
-		model.addObject("listings", listings);
-		// model.addObject("subCategories", subCategories);
-		model.addObject("user", user);
+		model.addObject("date", dateCreated);
 
 		return model;
 	}

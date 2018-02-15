@@ -32,9 +32,6 @@ public class Notification {
     @Column(name = "send_timestamp")
     private Timestamp sendTimestamp;
 
-    @Transient
-    private long delay;
-
     @Column(name = "date_created")
     private Timestamp dateCreated;
 
@@ -113,10 +110,6 @@ public class Notification {
 
     public long getDelay() {
         return sendTimestamp.getTime() - System.currentTimeMillis();
-    }
-
-    public void setDelay(long delay) {
-        this.delay = delay;
     }
 
     public Timestamp getDateCreated() {

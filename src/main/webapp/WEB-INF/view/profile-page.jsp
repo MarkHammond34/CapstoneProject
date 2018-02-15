@@ -24,7 +24,7 @@
 	<div class="uk-section uk-section-muted">
 		<div class="uk-grid">
 
-			<div class="uk-width-1-3 uk-column-divider uk-grid" uk-grid
+			<div class="uk-width-1-4 uk-column-divider uk-grid" uk-grid
 				uk-scrollspy="cls: uk-animation-fade; target: > div > .uk-card; delay: 500; repeat: true">
 				<div class="uk-container uk-container-small">
 					<dl class="uk-description-list uk-description-list-divider">
