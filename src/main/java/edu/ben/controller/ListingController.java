@@ -106,7 +106,7 @@ public class ListingController extends BaseController {
 				stream.write(bytes);
 
 				System.out.println("File Uploaded");
-				Listing listing = new Listing(name, description, price, /* category, */ file.getOriginalFilename());// FIX
+				Listing listing = new Listing(name, description, price, category, file.getOriginalFilename());// FIX
 																													// LATER
 
 				if (type.equals("auction")) {

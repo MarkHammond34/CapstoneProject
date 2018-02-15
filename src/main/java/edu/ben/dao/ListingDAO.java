@@ -35,5 +35,13 @@ public interface ListingDAO {
     public void insertListingBid(int listingID, int userID);
 
     public List getActiveListings();
+    
+    public List<Listing> getAllWeeklyPlusListings();
+
+	public List<Listing> getAllFixedListings();
+
+	public List<Listing> getAllDailyListings();
+
+	public List<Listing> getAllWeeklyListings();
 
 }

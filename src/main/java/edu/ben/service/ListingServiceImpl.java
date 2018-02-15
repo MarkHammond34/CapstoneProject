@@ -130,26 +130,22 @@ public class ListingServiceImpl implements ListingService {
 
 	@Override
 	public List<Listing> getAllWeeklyPlusListings() {
-		// TODO Auto-generated method stub
-		return null;
+		return ld.getAllWeeklyPlusListings();
 	}
 
 	@Override
 	public List<Listing> getAllFixedListings() {
-		// TODO Auto-generated method stub
-		return null;
+		return ld.getAllFixedListings();
 	}
 
 	@Override
 	public List<Listing> getAllDailyListings() {
-		// TODO Auto-generated method stub
-		return null;
+		return ld.getAllDailyListings();
 	}
 
 	@Override
 	public List<Listing> getAllWeeklyListings() {
-		// TODO Auto-generated method stub
-		return null;
+		return ld.getAllWeeklyListings();
 	}
 
 }
