@@ -26,7 +26,7 @@ public interface UserService {
 
 	public void update(User user);
 
-	public void updateAttemptedLogins(int loginAttempts, String email);
+	public void updateAttemptedLogins(int loginAttempts, User user);
 
 	public void updateIsActive(int isActive, String email);
 

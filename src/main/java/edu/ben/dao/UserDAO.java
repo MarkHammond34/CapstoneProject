@@ -26,7 +26,7 @@ public interface UserDAO {
 
     public void update(User user);
 
-    public void updateAttemptedLogins(int attemptedLogins, String email);
+    public void updateAttemptedLogins(int loginAttempts, String email);
 
     public void updateIsActive(int isActive, String email);
 

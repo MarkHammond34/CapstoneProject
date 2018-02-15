@@ -70,8 +70,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateAttemptedLogins(int loginAttempts, String email) {
-		userDAO.updateAttemptedLogins(loginAttempts, email);
+	public void updateAttemptedLogins(int loginAttempts, User user) {
+		user.setLoginAttempts(loginAttempts);
+		userDAO.update(user);
 	}
 
 	@Override
