@@ -24,113 +24,109 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class HomeController extends BaseController {
 
-	@Autowired
-	ListingService listingService;
+    @Autowired
+    ListingService listingService;
 
-	@Autowired
-	NotificationService notificationService;
+    @Autowired
+    NotificationService notificationService;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView home(HttpServletRequest request) {
-		ModelAndView model = new ModelAndView("index");
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ModelAndView home(HttpServletRequest request) {
+        ModelAndView model = new ModelAndView("index");
 
-//		List<Listing> recent = listingService.getRecentListings();
-//		model.addObject("recentListings", recent);
-//
-//		List<Listing> endingSoon = listingService.getRecentListings();
-//		model.addObject("endingSoonListings", endingSoon);
-//
-//		List<Listing> trending = listingService.getListingsByBidCount();
-//		model.addObject("trendingListings", trending);
-//
-//		User user = (User) request.getSession().getAttribute("user");
-//
-//		ListingRunner.run();
-//		NotificationRunner.run();
-//
-//		if (user != null) {
-//			List<Notification> notifications = notificationService.getNotDismissedByUserID(user.getUserID());
-//			if (notifications.size() == 0) {
-//				request.getSession().setAttribute("notifications", null);
-//			} else {
-//				request.getSession().setAttribute("notifications", notifications);
-//
-//				int count = 0;
-//				for (Notification n : notifications) {
-//					if (n.getViewed() == 0) {
-//						count++;
-//					}
-//				}
-//
-//				request.getSession().setAttribute("unviewedNotificationCount", count);
-//			}
-//		} else {
-//			request.getSession().setAttribute("notifications", null);
-//		}
+        List<Listing> recent = listingService.getRecentListings();
+        model.addObject("recentListings", recent);
 
-		setRequest(request);
-		return model;
-	}
+        List<Listing> endingSoon = listingService.getRecentListings();
+        model.addObject("endingSoonListings", endingSoon);
 
-	@GetMapping("/dismiss")
-	public void dismiss(int n) {
-		System.out.println("Notification " + n);
-		notificationService.dismiss(n);
-	}
+        List<Listing> trending = listingService.getListingsByBidCount();
+        model.addObject("trendingListings", trending);
 
-	@GetMapping("/markAsViewed")
-	public void markAsViewed(HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
 
-		notificationService.markAsViewed((List<Notification>) request.getSession().getAttribute("notifications"));
+        //ListingRunner.run();
+        //NotificationRunner.run();
 
-		User user = (User) request.getSession().getAttribute("user");
+        if (user != null) {
+            List<Notification> notifications = notificationService.getNotDismissedByUserID(user.getUserID());
+            if (notifications.size() == 0) {
+                request.getSession().setAttribute("notifications", null);
+            } else {
+                request.getSession().setAttribute("notifications", notifications);
 
-		if (user != null) {
-			List<Notification> notifications = notificationService.getNotDismissedByUserID(user.getUserID());
-			if (notifications.size() == 0) {
-				request.getSession().setAttribute("notifications", null);
-			} else {
-				request.getSession().setAttribute("notifications", notifications);
+                int count = 0;
+                for (Notification n : notifications) {
+                    if (n.getViewed() == 0) {
+                        count++;
+                    }
+                }
 
-				int count = 0;
-				for (Notification n : notifications) {
-					if (n.getViewed() == 0) {
-						count++;
-					}
-				}
+                request.getSession().setAttribute("unviewedNotificationCount", count);
+            }
+        } else {
+            request.getSession().setAttribute("notifications", null);
+        }
 
-				request.getSession().setAttribute("unviewedNotificationCount", count);
-			}
-		} else {
-			request.getSession().setAttribute("notifications", null);
-		}
-	}
+        setRequest(request);
+        return model;
+    }
 
-	@GetMapping("/contactUs")
-	public String contactUs() {
-		return "contactUs";
-	}
+    @GetMapping("/dismiss")
+    public void dismiss(int n) {
+        System.out.println("Notification " + n);
+        notificationService.dismiss(n);
+    }
 
-	@PostMapping("/sendEmail")
-	public String sendEmail(HttpServletRequest request) {
-		String message = "";
-		if (request.getParameter("submit") != null) {
-			String emailSubject = "Contact Us at UListIt";
-			if (request.getParameter("message") != null) {
-				message += "Name:   " + request.getParameter("name") + "\n";
-				message += "Phone:   " + request.getParameter("phone") + "\n";
-				message += "Email:   " + request.getParameter("email") + "\n \n";
-				message += request.getParameter("message");
-			}
-			try {
-				Email.sendEmail(message, emailSubject, "ulistithelp@gmail.com");
-				addSuccessMessage("Email sent successfully!");
-			} catch (Exception me) {
-				addErrorMessage("Error sending email!");
-			}
-		}
-		setRequest(request);
-		return "contactUs";
-	}
+    @GetMapping("/markAsViewed")
+    public void markAsViewed(HttpServletRequest request) {
+
+        notificationService.markAsViewed((List<Notification>) request.getSession().getAttribute("notifications"));
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        List<Notification> notifications = notificationService.getNotDismissedByUserID(user.getUserID());
+        if (notifications.size() == 0) {
+            request.getSession().setAttribute("notifications", null);
+        } else {
+            request.getSession().setAttribute("notifications", notifications);
+
+            int count = 0;
+            for (Notification n : notifications) {
+                if (n.getViewed() == 0) {
+                    count++;
+                }
+            }
+
+            request.getSession().setAttribute("unviewedNotificationCount", count);
+        }
+    }
+
+    @GetMapping("/contactUs")
+    public String contactUs() {
+        return "contactUs";
+    }
+
+    @PostMapping("/sendEmail")
+    public String sendEmail(HttpServletRequest request) {
+        String message = "";
+        if (request.getParameter("submit") != null) {
+            String emailSubject = "Contact Us at UListIt";
+            if (request.getParameter("message") != null) {
+                message += "Name:   " + request.getParameter("name") + "\n";
+                message += "Phone:   " + request.getParameter("phone") + "\n";
+                message += "Email:   " + request.getParameter("email") + "\n \n";
+                message += request.getParameter("message");
+            }
+            try {
+                Email.sendEmail(message, emailSubject, "ulistithelp@gmail.com");
+                addSuccessMessage("Email sent successfully!");
+            } catch (Exception me) {
+                addErrorMessage("Error sending email!");
+            }
+        }
+        setRequest(request);
+        return "contactUs";
+    }
 
 }
