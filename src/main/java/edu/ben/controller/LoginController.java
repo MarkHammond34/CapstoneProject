@@ -83,7 +83,7 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping("/unlock")
+    @PostMapping("/unlock")
     public String unlock() {
         return "unlock";
     }
@@ -100,6 +100,8 @@ public class LoginController {
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
+    	HttpSession session = request.getSession();  
+        session.invalidate();
         request.removeAttribute("user");
         return "redirect:/";
     }
