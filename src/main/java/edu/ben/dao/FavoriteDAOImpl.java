@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.ben.model.Favorite;
+import edu.ben.model.Listing;
+import edu.ben.model.User;
+
 @Transactional
 @Repository
 public class FavoriteDAOImpl implements FavoriteDAO {
@@ -18,6 +22,20 @@ public class FavoriteDAOImpl implements FavoriteDAO {
 
 	private Session getSession() {
 		return sessionFactory.getCurrentSession();
+	}
+
+	public void create(Favorite favorite) {
+		getSession().save(favorite);
+	}
+
+	public void saveOrUpdate(Favorite favorite) {
+		getSession().saveOrUpdate(favorite);
+	}
+
+	public void deleteFavorite(int id) {
+		Listing listing = (Listing) getSession().get(Listing.class, id);
+		getSession().delete(listing);
+
 	}
 
 	@Override
@@ -39,14 +57,30 @@ public class FavoriteDAOImpl implements FavoriteDAO {
 	}
 
 	@Override
-	public List isWatched(int listingID, int userID) {
-		Query query = getSession().createQuery("from favorite where userID=:userID AND listingID=:listingID");
+	public boolean isWatched(int listingID, int userID) {
+		Query query = getSession().createQuery("FROM favorite WHERE userID=:userID AND listingID=:listingID");
 		query.setParameter("userID", userID);
 		query.setParameter("listingID", listingID);
+
 		List list = query.list();
 
-		return list;
+		if (list.size() == 0) {
+			System.out.println("User is not watching");
+			return false;
+		} else {
+			System.out.println("User is watching");
+			return true;
+		}
 
+	}
+
+	@Override
+	public List<Favorite> findAllFavoritesByUser(int userID) {
+		Query query = getSession().createQuery("FROM favorite WHERE userID=:userID");
+		query.setParameter("userID", userID);
+
+		List list = query.list();
+		return list;
 	}
 
 }

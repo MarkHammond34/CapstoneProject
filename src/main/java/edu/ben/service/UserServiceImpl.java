@@ -81,9 +81,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> soundexSearch(String search) {
-        return userDAO.soundexResults();
-    }
+	public List<User> soundexResults(String search) {
+		return userDAO.soundexResults(search);
+	}
+
+	@Override
+	public List<User> wildcardSearchResults(String search) {
+		return userDAO.wildcardSearchResults(search);
+	}
 
     @Override
     public List<User> getListingLosers(int listingID, int winnerID) {

@@ -24,7 +24,8 @@
 	<div class="uk-section uk-section-muted">
 		<div class="uk-grid">
 
-			<div class="uk-width-1-3 uk-column-divider uk-grid" uk-grid uk-scrollspy="cls: uk-animation-fade; target: > div > .uk-card; delay: 500; repeat: true">
+			<div class="uk-width-1-3 uk-column-divider uk-grid" uk-grid
+				uk-scrollspy="cls: uk-animation-fade; target: > div > .uk-card; delay: 500; repeat: true">
 				<div class="uk-container uk-container-small">
 					<dl class="uk-description-list uk-description-list-divider">
 						<dt>
@@ -46,8 +47,7 @@
 					</dl>
 				</div>
 			</div>
-
-			<div class="uk-width-2-3">
+			<div class="uk-width-3-4">
 				<div class="uk-container uk-container-small">
 					<h4>
 						<strong class="uk-text-danger"> ${user.username}</strong> has <strong
@@ -58,18 +58,7 @@
 					<div class="uk-grid-large uk-child-width-1-3 uk-text-center"
 						uk-grid>
 						<c:forEach var="listing" items="${userListings}">
-
-							<div class="uk-card uk-card-muted uk-card-small uk-card-body">
-								<img
-									src="<%=request.getContextPath()%>/resources/img/listings/${listing.image_path}">
-								<div class="name" style="font-size: 20px;">
-									<a href="#"><strong class="uk-text-danger">${listing.name}</strong></a>
-								</div>
-								<div class="price" style="font-size: 16px;">
-									<a href="${pageContext.request.contextPath}/edit"><strong>$${listing.price}</strong></a>
-								</div>
-							</div>
-
+							<%@include file="jspf/index-listing.jsp"%>
 						</c:forEach>
 
 					</div>
@@ -77,5 +66,23 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		$(".watch-item").click(function() {
+			var id = $(this).attr('id')
+			$(this).toggleClass('watch-item');
+			console.log("Hit Ajax")
+			$.ajax({
+				type : "POST",
+				url : "watchListing",
+				data : {
+					listingID : id
+				},
+				success : function() {
+					console.log("Complete")
+				},
+
+			});
+		})
+	</script>
 </body>
 </html>

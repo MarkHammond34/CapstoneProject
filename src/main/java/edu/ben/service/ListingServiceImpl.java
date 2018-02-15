@@ -1,4 +1,4 @@
-package edu.ben.service;
+    package edu.ben.service;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -127,5 +127,29 @@ public class ListingServiceImpl implements ListingService {
     public List getActiveListings() {
         return ld.getActiveListings();
     }
+
+	@Override
+	public List<Listing> getAllWeeklyPlusListings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Listing> getAllFixedListings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Listing> getAllDailyListings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Listing> getAllWeeklyListings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

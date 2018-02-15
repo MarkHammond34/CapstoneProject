@@ -73,11 +73,11 @@ public class UserController {
 
 		return new ModelAndView("redirect:/");
 	}
-/*
-	@RequestMapping(value= "/uploadProfilePic", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/uploadProfilePic", method = RequestMethod.POST)
 	public String uploadProfilePic(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
-		
+
 		if (!file.isEmpty()) {
 			try {
 
@@ -93,7 +93,7 @@ public class UserController {
 				File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
 				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 				stream.write(bytes);
-				
+
 				user.setImage_path(file.getOriginalFilename());
 				userService.saveOrUpdate(user);
 				stream.close();
@@ -111,5 +111,10 @@ public class UserController {
 			return "You failed to upload profile pic because the file was empty.";
 		}
 	}
-	*/
+
+	@RequestMapping(value = "/editUser", method = RequestMethod.GET)
+	public String editUser() {
+
+		return "edit-user";
+	}
 }

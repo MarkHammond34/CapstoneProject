@@ -2,6 +2,8 @@ package edu.ben.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -13,7 +15,34 @@ import org.springframework.transaction.annotation.Transactional;
 @Table(name = "favorite")
 @Transactional
 public class Favorite {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "favoriteID")
+	private int id;
+
+	@OneToOne
+	@JoinColumn(name = "userID")
+	private User user;
+
+	@OneToOne
+	@JoinColumn(name = "listingID")
+	private Listing listing;
 	
+	@Column(name = "userWatching")
+	private int favorited;
+	
+	public Favorite () {
+		this.favorited = 0;
+		
+	}
+
+	public Favorite (int userID, int listingID, int favorited) {
+		user.setUserID(userID);
+		listing.setId(listingID);
+		this.favorited = 0;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -37,17 +66,12 @@ public class Favorite {
 	public void setListing(Listing listing) {
 		this.listing = listing;
 	}
-
-	@Id
-	@Column
-	private int id;
 	
-	@OneToOne
-	@JoinColumn(name="userID")
-	private User user;
-	
-	@OneToOne
-	@JoinColumn(name="listingID")
-	private Listing listing;
+	public int getFavorited() {
+		return favorited;
+	}
+	public void setFavorited(int favorited) {
+		this.favorited = favorited;
+	}
 
 }

@@ -31,265 +31,279 @@ import edu.ben.util.ImagePath;
 @Controller
 public class ListingController extends BaseController {
 
-    @Autowired
-    ListingService listingService;
+	@Autowired
+	ListingService listingService;
 
-    @Autowired
-    FavoriteService favoriteService;
-    
-    @Autowired
-    CategoryService categoryService;
-    
-    @Autowired
-    UserService userService;
+	@Autowired
+	FavoriteService favoriteService;
 
-    /**
-     * Upload single file using Spring Controller
-     */
-    @RequestMapping(value = "/uploadListing", method = RequestMethod.POST)
-    public String uploadFileHandler(@RequestParam("title") String name, @RequestParam("category") String category,
-                                    @RequestParam("price") double price, @RequestParam("description") String description,
-                                    @RequestParam("file") MultipartFile file, @RequestParam("type") String type,
-                                    Model model, HttpServletRequest request) {
+	@Autowired
+	CategoryService categoryService;
 
-        System.out.println("Hit UploadListing Controller");
+	@Autowired
+	UserService userService;
 
-        String message = "";
-        String error = "";
+	/**
+	 * Upload single file using Spring Controller
+	 */
+	@RequestMapping(value = "/uploadListing", method = RequestMethod.POST)
+	public String uploadFileHandler(@RequestParam("title") String name, @RequestParam("category") String category,
+			@RequestParam("price") double price, @RequestParam("description") String description,
+			@RequestParam("file") MultipartFile file, @RequestParam("type") String type, Model model,
+			HttpServletRequest request) {
 
-        User u = (User) request.getSession().getAttribute("user");
+		System.out.println("Hit UploadListing Controller");
 
-        if (u == null) {
-            addErrorMessage("Login To Create A Listing");
-            setRequest(request);
-            return "login";
-        }
+		String message = "";
+		String error = "";
 
-        // This is a dirty fix
-        Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
+		User u = (User) request.getSession().getAttribute("user");
 
-        // Checks to make sure listing is for at least one hour
-        if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
-            addErrorMessage("Listings Must Be Last At Least One Hour");
-            setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
-        }
+		if (u == null) {
+			addErrorMessage("Login To Create A Listing");
+			setRequest(request);
+			return "login";
+		}
 
-        if (!file.isEmpty()) {
-            try {
-                String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+		// This is a dirty fix
+		Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
 
-                System.out.println(extension);
+		// Checks to make sure listing is for at least one hour
+		if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
+			addErrorMessage("Listings Must Be Last At Least One Hour");
+			setRequest(request);
+			return "redirect:" + request.getHeader("Referer");
+		}
 
-                if (!extension.equals("jpg") && !extension.equals("png") && !extension.equals("jpeg")) {
-                    addErrorMessage("Listing failed. You did not upload an image.");
-                    setRequest(request);
-                    return "createListing";
-                } else if (price < 0) {
-                    addErrorMessage("Cannot have a negative price.");
-                    setRequest(request);
-                    return "createListing";
-                }
+		if (!file.isEmpty()) {
+			try {
+				String extension = FilenameUtils.getExtension(file.getOriginalFilename());
 
-                byte[] bytes = file.getBytes();
+				System.out.println(extension);
 
-                // Creating the directory to store file
-                File dir = new File(ImagePath.url + File.separator + "listings");
-                if (!dir.exists())
-                    dir.mkdirs();
+				if (!extension.equals("jpg") && !extension.equals("png") && !extension.equals("jpeg")) {
+					addErrorMessage("Listing failed. You did not upload an image.");
+					setRequest(request);
+					return "createListing";
+				} else if (price < 0) {
+					addErrorMessage("Cannot have a negative price.");
+					setRequest(request);
+					return "createListing";
+				}
 
-                // Create the file on server
+				byte[] bytes = file.getBytes();
 
-                System.out.println("Hit Controller 2");
-                File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-                stream.write(bytes);
+				// Creating the directory to store file
+				File dir = new File(ImagePath.url + File.separator + "listings");
+				if (!dir.exists())
+					dir.mkdirs();
 
-                System.out.println("File Uploaded");
-                Listing listing = new Listing(name, description, price, /*category,*/ file.getOriginalFilename());// FIX LATER
+				// Create the file on server
 
-                if (type.equals("auction")) {
-                    listing.setType("auction");
-                    listing.setHighestBid(0.0);
-                } else {
-                    listing.setType("fixed");
-                }
+				System.out.println("Hit Controller 2");
+				File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
+				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+				stream.write(bytes);
 
-                listing.setUser(u);
-                System.out.println("Check to see if session exists: " + u.getUserID());
-                listingService.create(listing);
+				System.out.println("File Uploaded");
+				Listing listing = new Listing(name, description, price, /* category, */ file.getOriginalFilename());// FIX
+																													// LATER
 
-                message = "Listing Uploaded Successfully";
-                model.addAttribute("message", message);
-                stream.close();
+				if (type.equals("auction")) {
+					listing.setType("auction");
+					listing.setHighestBid(0.0);
+				} else {
+					listing.setType("fixed");
+				}
 
-                // Listing l = new Listing(name, description, price, category, file );
-                // ld.create(l);
+				listing.setUser(u);
+				System.out.println("Check to see if session exists: " + u.getUserID());
+				listingService.create(listing);
 
-                return "createListing";
-            } catch (Exception e) {
-                e.printStackTrace();
-                return "You failed to upload " + name + " => " + e.getMessage();
+				message = "Listing Uploaded Successfully";
+				model.addAttribute("message", message);
+				stream.close();
 
-            }
-        } else {
-            return "You failed to upload " + name + " because the file was empty.";
-        }
+				// Listing l = new Listing(name, description, price, category, file );
+				// ld.create(l);
 
-    }
-    
-    @RequestMapping("/createListing")
-    public String listingPage(HttpServletRequest request) {
-        setRequest(request);
-        return "createListing";
-    }
+				return "createListing";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "You failed to upload " + name + " => " + e.getMessage();
 
-    @RequestMapping("/displayListing")
-    public String displayListing(HttpServletRequest request) {
-        setRequest(request);
-        return "displayListing";
-    }
+			}
+		} else {
+			return "You failed to upload " + name + " because the file was empty.";
+		}
 
-    @RequestMapping("/displayListingByCategory")
-    public String displayListingByCategory(@RequestParam("category") String category, HttpServletRequest request, Model model) {
+	}
 
-        System.out.println("Listing Category for display: " + category);
-        List<Listing> listings = listingService.getAllListingsByCategory(category);
-        System.out.println("List size = " + listings.size());
-        System.out.println(listings.get(0).getImage_path());
-        User user = (User) request.getSession().getAttribute("user");
+	@RequestMapping("/createListing")
+	public String listingPage(HttpServletRequest request) {
+		setRequest(request);
+		return "createListing";
+	}
 
-      //  System.out.println("User attribute: " + user.getUsername());
-        model.addAttribute("user", user);
-        model.addAttribute("category", category);
-        model.addAttribute("listings", listings);
+	@RequestMapping("/displayListing")
+	public String displayListing(HttpServletRequest request) {
+		setRequest(request);
+		return "displayListing";
+	}
 
-        return "displayListing";
-    }
+	@RequestMapping("/displayListingByCategory")
+	public String displayListingByCategory(@RequestParam("category") String category, HttpServletRequest request,
+			Model model) {
 
-    @RequestMapping(value = "/watchListing", method = RequestMethod.POST)
-    public String updateListing(HttpServletRequest request) {
-        String listingIDString = request.getParameter("listingID");
-        int listingID = Integer.parseInt(listingIDString);
+		System.out.println("Listing Category for display: " + category);
+		List<Listing> listings = listingService.getAllListingsByCategory(category);
+		System.out.println("List size = " + listings.size());
+		System.out.println(listings.get(0).getImage_path());
+		User user = (User) request.getSession().getAttribute("user");
 
-        User user = (User) request.getSession().getAttribute("user");
-        Listing listing = listingService.getByListingID(listingID);
+		// System.out.println("User attribute: " + user.getUsername());
+		model.addAttribute("user", user);
+		model.addAttribute("category", category);
+		model.addAttribute("listings", listings);
 
-        Favorite f = new Favorite();
-        f.setListing(listing);
-        f.setUser(user);
+		return "displayListing";
+	}
 
-        if (favoriteService.isWatched(listingID, user.getUserID()) == null) {
-            System.out.println("pass if check");
-            favoriteService.unwatchListing(listingID, user.getUserID());
-        } else {
-            favoriteService.watchListing(listingID, user.getUserID());
-        }
+	@RequestMapping(value = "/watchListing", method = RequestMethod.POST)
+	public String updateListing(HttpServletRequest request, ModelAndView model) {
+		String listingIDString = request.getParameter("listingID");
+		int listingID = Integer.parseInt(listingIDString);
 
-        return "profilePage2";
-    }
+		User user = (User) request.getSession().getAttribute("user");
+		Listing listing = listingService.getByListingID(listingID);
 
-    @PostMapping("/bid")
-    public String bid(@RequestParam("bidValue") double bidValue, @RequestParam int listingID, HttpServletRequest request) {
+		Favorite f = new Favorite();
+		f.setListing(listing);
+		f.setUser(user);
 
-        User user = (User) request.getSession().getAttribute("user");
+		// if it exists. (change name later)
+		if (favoriteService.isWatched(listingID, user.getUserID())) {
+			System.out.println("Unwatching a Listing");
+			favoriteService.unwatchListing(listingID, user.getUserID());
+		} else {
+			System.out.println("Watching a listing");
+			favoriteService.watchListing(listingID, user.getUserID());
+		}
 
-        if (user == null) {
-            addWarningMessage("Login To Place A Bid");
-            setRequest(request);
-            return "login";
-        }
+		List<Listing> recent = listingService.getRecentListings();
+		model.addObject("recentListings", recent);
 
-        int results = listingService.placeBid(user.getUserID(), bidValue, listingService.getByListingID(listingID));
+		List<Listing> endingSoon = listingService.getRecentListings();
+		model.addObject("endingSoonListings", endingSoon);
 
-        if (results == -2) {
-            addErrorMessage("Bid Most Be Larger Than Highest Bid");
-        } else if (results == -1) {
-            addErrorMessage("Sorry, you didn't get your bid in on time!");
-        } else {
-            addSuccessMessage("Congrats! You're the highest bidder!");
-        }
+		List<Listing> trending = listingService.getListingsByBidCount();
+		model.addObject("trendingListings", trending);
 
-        setRequest(request);
-        System.out.println("redirect:" + request.getHeader(" Referer "));
-        return "redirect:" + request.getHeader("Referer");
-    }
-    
-    @RequestMapping(value="/edit", method=RequestMethod.GET)
-    public ModelAndView edit() {
-    	
-    	ModelAndView model = new ModelAndView("/jspf/edit-fixed-listing");
-    	model.addObject("listingID", 1);
-    	
-    	return model;
-    }
-    
-    @RequestMapping(value="/editTheListing", method=RequestMethod.POST)
-    public String editListing(@RequestParam("listingID") String id, @RequestParam("price") String price) {
-    	   	
-    	Listing listing = listingService.getByListingID(Integer.parseInt(id));
-    	listing.setPrice(Double.parseDouble(price));
-    	listingService.saveOrUpdate(listing);
-    	
-    	return "redirect:/viewProfile";
-    }
-    
-    @RequestMapping(value="/sub", method=RequestMethod.GET)
-    public ModelAndView viewSubcats() {
-    	
-    	ModelAndView model = new ModelAndView("sub-categories");
-    	
-    	
-    	return model;
-    }
-    
-    @RequestMapping(value="/subPost", method=RequestMethod.POST)
-    public ModelAndView viewSubcategories(@RequestParam("category") String category, HttpServletRequest request) {
-    	
-    	ModelAndView model = new ModelAndView("sub-categories");
-    	
-    	// get listings
-    	List<Listing> listings = listingService.getAllListingsByCategory(category);
-    	
-    	// get user
-        User user = (User) request.getSession().getAttribute("user");
+		return "redirect:/";
+	}
 
-        model.addObject("user", user);
-        model.addObject("listings", listings);
-    	
-    	return model;
-    }
-    
-    @RequestMapping(value="/listing", method=RequestMethod.GET)
-    public ModelAndView viewSelectedListing() {
-    	
-    	ModelAndView model = new ModelAndView("listing");
-    	
-    	// get listing
-    	Listing listing = listingService.getByListingID(1);
-    	User user = userService.getUserById(1);
-    	// pass these to model
-    	model.addObject("listing", listing);
-    	model.addObject("user", user);
-    	
-    	return model;
-    }
-    
-    @RequestMapping(value="/testinging", method=RequestMethod.GET)
-    public ModelAndView testinging() {
-    	
-    	ModelAndView model = new ModelAndView("listinged");
-    	
-    	// get listing
-    	List<Listing> listings = listingService.getAllListingsByCategory("technology");
-    	//List subCategories = categoryService.getSubCategoriesByCategory("technology");
-    	User user = userService.getUserById(1);
-    	// pass these to model
-    	model.addObject("listings", listings);
-    	//model.addObject("subCategories", subCategories);
-    	model.addObject("user", user);
-    	
-    	return model;
-    }
+	@PostMapping("/bid")
+	public String bid(@RequestParam("bidValue") double bidValue, @RequestParam int listingID,
+			HttpServletRequest request) {
+
+		User user = (User) request.getSession().getAttribute("user");
+
+		if (user == null) {
+			addWarningMessage("Login To Place A Bid");
+			setRequest(request);
+			return "login";
+		}
+
+		int results = listingService.placeBid(user.getUserID(), bidValue, listingService.getByListingID(listingID));
+
+		if (results == -2) {
+			addErrorMessage("Bid Most Be Larger Than Highest Bid");
+		} else if (results == -1) {
+			addErrorMessage("Sorry, you didn't get your bid in on time!");
+		} else {
+			addSuccessMessage("Congrats! You're the highest bidder!");
+		}
+
+		setRequest(request);
+		System.out.println("redirect:" + request.getHeader(" Referer "));
+		return "redirect:" + request.getHeader("Referer");
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit() {
+
+		ModelAndView model = new ModelAndView("/jspf/edit-fixed-listing");
+		model.addObject("listingID", 1);
+
+		return model;
+	}
+
+	@RequestMapping(value = "/editTheListing", method = RequestMethod.POST)
+	public String editListing(@RequestParam("listingID") String id, @RequestParam("price") String price) {
+
+		Listing listing = listingService.getByListingID(Integer.parseInt(id));
+		listing.setPrice(Double.parseDouble(price));
+		listingService.saveOrUpdate(listing);
+
+		return "redirect:/viewProfile";
+	}
+
+	@RequestMapping(value = "/sub", method = RequestMethod.GET)
+	public ModelAndView viewSubcats() {
+
+		ModelAndView model = new ModelAndView("sub-categories");
+
+		return model;
+	}
+
+	@RequestMapping(value = "/subPost", method = RequestMethod.POST)
+	public ModelAndView viewSubcategories(@RequestParam("category") String category, HttpServletRequest request) {
+
+		ModelAndView model = new ModelAndView("sub-categories");
+
+		// get listings
+		List<Listing> listings = listingService.getAllListingsByCategory(category);
+
+		// get user
+		User user = (User) request.getSession().getAttribute("user");
+
+		model.addObject("user", user);
+		model.addObject("listings", listings);
+
+		return model;
+	}
+
+	@RequestMapping(value = "/listing", method = RequestMethod.GET)
+	public ModelAndView viewSelectedListing() {
+
+		ModelAndView model = new ModelAndView("listing");
+
+		// get listing
+		Listing listing = listingService.getByListingID(1);
+		User user = userService.getUserById(1);
+		// pass these to model
+		model.addObject("listing", listing);
+		model.addObject("user", user);
+
+		return model;
+	}
+
+	@RequestMapping(value = "/testinging", method = RequestMethod.GET)
+	public ModelAndView testinging() {
+
+		ModelAndView model = new ModelAndView("listinged");
+
+		// get listing
+		List<Listing> listings = listingService.getAllListingsByCategory("technology");
+		// List subCategories =
+		// categoryService.getSubCategoriesByCategory("technology");
+		User user = userService.getUserById(1);
+		// pass these to model
+		model.addObject("listings", listings);
+		// model.addObject("subCategories", subCategories);
+		model.addObject("user", user);
+
+		return model;
+	}
 
 }

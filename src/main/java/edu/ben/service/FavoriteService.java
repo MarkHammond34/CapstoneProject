@@ -2,12 +2,22 @@ package edu.ben.service;
 
 import java.util.List;
 
+import edu.ben.model.Favorite;
+
 public interface FavoriteService {
 	
 	public int watchListing(int listingID, int userID);
 	
 	public int unwatchListing(int listingID, int userID);
 	
-	public List isWatched(int listingID, int userID);
+	public boolean isWatched(int listingID, int userID);
+	
+	public List<Favorite> findAllFavoritesByUser(int userID);
+	
+	public void deleteFavorite(int id);
+
+	public void saveOrUpdate(Favorite favorite);
+
+	public void create(Favorite favorite);
 
 }
