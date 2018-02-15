@@ -122,18 +122,20 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @SuppressWarnings("unchecked")
-    public List<User> soundexSearch(String search) {
-        Query q = getSession().createSQLQuery("SELECT * FROM ulistit.user WHERE SOUNDEX(first_name)=soundex('" + search
-                + "') OR SOUNDEX(last_name)=soundex('" + search + "') OR SOUNDEX(username)=soundex('" + search
-                + "') OR SOUNDEX(school_email)=soundex('" + search + "');");
-        return (List<User>) q.list();
-    }
+	public List<User> soundexResults(String search) {
+		Query q = getSession().createSQLQuery("SELECT * FROM ulistit.user WHERE SOUNDEX(first_name)=soundex('" + search
+				+ "') OR SOUNDEX(last_name)=soundex('" + search + "') OR SOUNDEX(username)=soundex('" + search
+				+ "') OR SOUNDEX(school_email)=soundex('" + search + "');").addEntity(User.class);
+		List l = q.list();
+		return l;
+	}
 
-    @Override
-    public List<User> soundexResults() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public List<User> wildcardSearchResults(String search) {
+		Query q = getSession().createSQLQuery("SELECT * FROM ulistit.user WHERE first_name LIKE '%" + search + "%' OR last_name LIKE '%" + search + "%' OR username LIKE '%" + search + "%' ;").addEntity(User.class);
+		List l = q.list();
+		return l;
+	}
 
     @Override
     public List<User> getListingLosers(int listingID, int winnerID) {

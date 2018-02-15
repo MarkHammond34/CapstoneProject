@@ -32,7 +32,9 @@ public interface UserDAO {
 
     public List<User> getRecentUsers();
 
-    public List<User> soundexResults();
+    public List<User> soundexResults(String search);
+	
+	public List<User> wildcardSearchResults(String search);
 
     public List<User> getListingLosers(int listingID, int winnerID);
 

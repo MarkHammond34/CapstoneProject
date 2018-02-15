@@ -1,5 +1,6 @@
 package edu.ben.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +26,7 @@ public class SearchController {
 	@Autowired
 	ListingService listingService;
 
-	@RequestMapping(value = "/search", method = RequestMethod.POST)
+	@RequestMapping(value = "/searchResults", method = RequestMethod.POST)
 	public String searchCategory(@RequestParam("search") String search, HttpServletRequest request, Model model) {
 		
 		List<Listing> categoryListing = listingService.getAllListingsByCategory(search);
@@ -51,8 +52,8 @@ public class SearchController {
 //
 
 //		System.out.println("Hit search Controller");
-//		ArrayList<User> soundexResults = (ArrayList<User>) userService.soundexSearch(search);
-//		System.out.println("search result size: " + soundexResults.size());
+		ArrayList<User> soundexResults = (ArrayList<User>) userService.soundexResults(search);
+		System.out.println("search result size: " + soundexResults.size());
 //
 //		ArrayList<User> results = new ArrayList<User>();
 //		ArrayList<Listing> results2 = new ArrayList<Listing>();

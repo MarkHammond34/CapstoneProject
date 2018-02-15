@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.ben.dao.FavoriteDAO;
+import edu.ben.model.Favorite;
 
 @Service
 @Transactional
@@ -33,9 +34,32 @@ public class FavoriteServiceImpl implements FavoriteService {
 	}
 
 	@Override
-	public List isWatched(int listingID, int userID) {
-		return (List) fd.isWatched(listingID, userID);
+	public boolean isWatched(int listingID, int userID) {
+		return fd.isWatched(listingID, userID);
 		
+	}
+
+	@Override
+	public void deleteFavorite(int id) {
+		fd.deleteFavorite(id);
+		
+	}
+
+	@Override
+	public void saveOrUpdate(Favorite favorite) {
+		fd.saveOrUpdate(favorite);
+		
+	}
+
+	@Override
+	public void create(Favorite favorite) {
+		fd.create(favorite);
+		
+	}
+
+	@Override
+	public List<Favorite> findAllFavoritesByUser(int userID) {
+		return fd.findAllFavoritesByUser(userID);
 	}
 
 }

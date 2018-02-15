@@ -2,14 +2,24 @@ package edu.ben.dao;
 
 import java.util.List;
 
-public interface FavoriteDAO  {
-	
+import edu.ben.model.Favorite;
+import edu.ben.model.Listing;
+import edu.ben.model.User;
+
+public interface FavoriteDAO {
+
 	public int watchListing(int listingID, int userID);
-	
+
 	public int unwatchListing(int listingID, int userID);
+
+	public boolean isWatched(int listingID, int userID);
 	
-	public List isWatched(int listingID, int userID);
-	
-	
-	
+	public List<Favorite> findAllFavoritesByUser(int userID);
+
+	public void deleteFavorite(int id);
+
+	public void saveOrUpdate(Favorite favorite);
+
+	public void create(Favorite favorite);
+
 }
