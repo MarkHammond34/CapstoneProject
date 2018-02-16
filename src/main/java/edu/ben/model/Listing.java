@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -20,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Table(name = "listing")
 @Transactional
 public class Listing implements java.io.Serializable {
+	
+	// .toString().subString(0, 10)
 
     /**
      *
@@ -81,8 +84,13 @@ public class Listing implements java.io.Serializable {
 
     @Column(name = "active")
     private int active;
+    
+    @OneToMany
+    @JoinColumn(name="offer_id")
+    private Offer offerID;
 
-    public Listing() {
+
+	public Listing() {
 
     }
 
@@ -239,6 +247,14 @@ public class Listing implements java.io.Serializable {
     public void setEnded(int ended) {
         this.ended = ended;
     }
+    
+    public Offer getOfferID() {
+		return offerID;
+	}
+
+	public void setOfferID(Offer offerID) {
+		this.offerID = offerID;
+	}
 
     public long getDelay() {
         return endTimestamp.getTime() - System.currentTimeMillis();
