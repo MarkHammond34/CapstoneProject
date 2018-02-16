@@ -24,12 +24,3 @@ $('#notificationDrop').on("hide", function () {
         }
     }
 })
-
-
-function bid(currentBid, bidValue, listingID) {
-    $.ajax({
-        type: 'POST',
-        url: '/bid',
-        data: {bidValue: bidValue, listingID: listingID},
-    })
-}

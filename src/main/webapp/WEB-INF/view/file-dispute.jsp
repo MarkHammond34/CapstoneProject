@@ -13,7 +13,6 @@
                 <%@include file="jspf/messages.jsp" %>
 
                 <h1 class="uk-heading-bullet">File A Dispute</h1>
-                <p>Explain how it works</p>
                 <hr>
                 <form action="/dispute" method="post">
                     <span class="uk-badge uk-float-right" id="remainingCharacters">Remaining Characters: 1000</span>

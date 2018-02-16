@@ -15,18 +15,18 @@ import java.util.List;
 
 @Controller
 public class AdminController {
-    @Autowired
-    UserService userService;
+    /**
+     @Autowired UserService userService;
 
-    @Autowired
-    ListingService listingService;
+     @Autowired ListingService listingService;
 
-    @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public String admin(HttpServletRequest request){
-        List<User> recentUsers = userService.getRecentUsers();
-        List<Listing> recentListings = listingService.getRecentListings();
-        request.getSession().setAttribute("recentUsers", recentUsers);
-        request.getSession().setAttribute("recentListings", recentListings);
-        return "admin/adminPage";
-    }
+     @RequestMapping(value = "/admin", method = RequestMethod.GET)
+     public String admin(HttpServletRequest request){
+     List<User> recentUsers = userService.getRecentUsers();
+     List<Listing> recentListings = listingService.getRecentListings();
+     request.getSession().setAttribute("recentUsers", recentUsers);
+     request.getSession().setAttribute("recentListings", recentListings);
+     return "admin/adminPage";
+     }
+     */
 }
