@@ -30,6 +30,11 @@ public class HomeController extends BaseController {
     @Autowired
     NotificationService notificationService;
 
+    /*
+    @Autowired
+    FaqService faqService;
+    */
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView home(HttpServletRequest request) {
         ModelAndView model = new ModelAndView("index");
@@ -68,7 +73,7 @@ public class HomeController extends BaseController {
             request.getSession().setAttribute("notifications", null);
         }
 
-        setRequest(request);
+        setModel(model);
         return model;
     }
 

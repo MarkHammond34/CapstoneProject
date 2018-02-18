@@ -1,9 +1,9 @@
 <%@include file="jspf/header.jsp" %>
 <body>
 
-<%@include file="jspf/messages.jsp" %>
-
 <%@include file="jspf/navbar.jspf" %>
+
+<%@include file="jspf/messages.jsp" %>
 
 <div>
 
@@ -100,11 +100,12 @@
         document.getElementById('recently-added-listings').style.display = 'none';
     }
 
-    function recentlyAddedClicked() {
-        document.getElementById('trending-listings').style.display = 'none';
-        document.getElementById('ending-soon-listings').style.display = 'none';
-        document.getElementById('recently-added-listings').style.display = 'inline';
-    }
+		function recentlyAddedClicked() {
+			document.getElementById('trending-listings').style.display = 'none';
+			document.getElementById('ending-soon-listings').style.display = 'none';
+			document.getElementById('recently-added-listings').style.display = 'inline';
+		}
+
 
     $('#notificationDrop').on("hide", function () {
         $.ajax({
