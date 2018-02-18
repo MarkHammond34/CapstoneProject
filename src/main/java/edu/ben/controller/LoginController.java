@@ -39,7 +39,7 @@ public class LoginController extends BaseController {
 		System.out.println(password);
 
 		User user = userService.findBySchoolEmail(email);
-
+		
 		String url = "";
 		String message = "";
 

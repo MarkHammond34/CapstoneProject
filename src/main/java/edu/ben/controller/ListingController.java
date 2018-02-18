@@ -225,6 +225,7 @@ public class ListingController extends BaseController {
 		}
 
 		setRequest(request);
+		System.out.println("redirect:" + request.getHeader(" Referer "));
 		return "redirect:" + request.getHeader("Referer");
 	}
 
@@ -286,6 +287,76 @@ public class ListingController extends BaseController {
 		model.addObject("user", user);
 		model.addObject("date", dateCreated);
 
+		return model;
+	}
+	
+	@RequestMapping(value = "/listing2", method = RequestMethod.GET)
+	public ModelAndView viewSelectedListing2() {
+
+		ModelAndView model = new ModelAndView("listing2");
+
+		// get listing
+		Listing listing = listingService.getByListingID(1);
+		User user = userService.getUserById(1);
+		String dateCreated = listing.getDateCreated().toString().substring(0, 10);
+		// pass these to model
+		model.addObject("listing", listing);
+		model.addObject("user", user);
+		model.addObject("date", dateCreated);
+
+		return model;
+	}
+	
+	// DELETE BELOW LATER
+	
+	@RequestMapping(value = "/listing3", method = RequestMethod.GET)
+	public ModelAndView viewSelectedListing3() {
+
+		ModelAndView model = new ModelAndView("listing3");
+
+		// get listing
+		Listing listing = listingService.getByListingID(1);
+		User user = userService.getUserById(1);
+		String dateCreated = listing.getDateCreated().toString().substring(0, 10);
+		// pass these to model
+		model.addObject("listing", listing);
+		model.addObject("user", user);
+		model.addObject("date", dateCreated);
+
+		return model;
+	}
+	
+	// DELETE ABOVE LATER
+	
+	@RequestMapping(value = "/cancelAuction", method = RequestMethod.GET)
+	public ModelAndView cancelAuction(@RequestParam("listing") int listingID) {
+
+		ModelAndView model = new ModelAndView("profile?");
+		
+		Listing listing = listingService.getByListingID(listingID);
+		User user = userService.getUserById(listing.getUser().getUserID());
+		
+		// if bidcount is above 0, reject auction cancel with an error message
+		if (listing.getBidCount() > 0) {
+			// error message
+			addErrorMessage("You may not cancel an auction that has already been bid on.");
+		} else {
+			// popup, are you sure you want to cancel?
+			listingService.deleteListing(listingID);
+		}
+		
+		// if bidcount is 0, ask if seller is sure they want to cancel the auction
+		
+		
+		// no? - cancel popup
+		
+		// yes?
+		
+		// delete the listing
+
+		
+		
+		
 		return model;
 	}
 

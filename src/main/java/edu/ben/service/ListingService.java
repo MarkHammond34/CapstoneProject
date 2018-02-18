@@ -1,7 +1,5 @@
 package edu.ben.service;
 
-
-
 import java.util.List;
 
 import edu.ben.model.Listing;

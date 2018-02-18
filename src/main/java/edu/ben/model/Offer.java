@@ -33,6 +33,20 @@ public class Offer {
 	@OneToOne
 	@JoinColumn(name = "user_id")
 	private User userID;
+	
+	public Offer() {
+		
+	}
+	
+	public Offer(int offerAmount, String offerMessage, User userID) {
+		this.offerAmount = offerAmount;
+		this.offerMessage = offerMessage;
+		this.userID = userID;
+	}
+	
+	public Offer(int offerID, int offerAmount, String offerMessage, String imagePath, User userID) {
+		
+	}
 
 	// Getters and setters
 

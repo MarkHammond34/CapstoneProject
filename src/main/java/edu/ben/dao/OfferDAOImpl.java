@@ -2,18 +2,17 @@ package edu.ben.dao;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.ben.model.Offer;
 
-@Repository
 @Transactional
+@Repository
 public class OfferDAOImpl implements OfferDAO {
 	
 	@Autowired

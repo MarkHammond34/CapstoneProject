@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.ben.dao.OfferDAO;
@@ -14,6 +15,11 @@ import edu.ben.model.Offer;
 public class OfferServiceImpl implements OfferService {
 	
 	OfferDAO offerDAO;
+	
+	@Autowired
+	public void setOfferDAO(OfferDAO offerDAO) {
+		this.offerDAO = offerDAO;
+	}
 
 	@Override
 	public void createOffer(Offer offer) {
