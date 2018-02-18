@@ -1,7 +1,6 @@
 package edu.ben.dao;
 
-import edu.ben.model.FaqAnswer;
-import edu.ben.model.FaqQuestion;
+import edu.ben.model.Faq;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,7 @@ import java.util.List;
 
 @Transactional
 @Repository
-public class FaqQuestionDAOImpl implements FaqQuestionDAO {
+public class FaqDAOImpl implements FaqDAO {
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -22,28 +21,17 @@ public class FaqQuestionDAOImpl implements FaqQuestionDAO {
     }
 
     @Override
-    public List getAllQuestions() {
-        return getSession().createQuery("FROM faq_question").list();
+    public void save(Faq faq) {
+        getSession().save(faq);
     }
 
     @Override
-    public void saveQuestion(FaqQuestion q) {
-        getSession().save(q);
+    public void update(Faq faq) {
+        getSession().update(faq);
     }
 
     @Override
-    public void saveAnswer(FaqAnswer a) {
-
+    public List getAllFaqs() {
+        return getSession().createQuery("FROM faq").list();
     }
-
-    @Override
-    public void updateQuestion(FaqQuestion q) {
-        getSession().update(q);
-    }
-
-    @Override
-    public void updateAnswer(FaqAnswer a) {
-
-    }
-
 }

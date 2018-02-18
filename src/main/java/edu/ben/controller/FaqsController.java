@@ -1,5 +1,6 @@
 package edu.ben.controller;
 
+import edu.ben.service.FaqService;
 import edu.ben.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,10 +14,15 @@ public class FaqsController extends BaseController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/faqs")
+    @Autowired
+    FaqService faqService;
+
+    @GetMapping("/faq")
     public String getFaqs(HttpServletRequest request) {
+
+        request.setAttribute("faqs", faqService.getAllFaqs());
         setRequest(request);
-        return "faqs";
+        return "faq";
     }
 
 }

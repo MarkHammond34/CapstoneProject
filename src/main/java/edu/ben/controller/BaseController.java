@@ -1,5 +1,7 @@
 package edu.ben.controller;
 
+import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
@@ -34,6 +36,12 @@ public class BaseController {
         m.setAttribute("errorMessages", errorMessages);
         m.setAttribute("warningMessages", warningMessages);
         m.setAttribute("successMessages", successMessages);
+    }
+
+    public void setModel(ModelAndView mv) {
+        mv.addObject("errorMessages", errorMessages);
+        mv.addObject("warningMessages", warningMessages);
+        mv.addObject("successMessages", successMessages);
     }
 
     public ArrayList<String> getSuccessMessages() {
