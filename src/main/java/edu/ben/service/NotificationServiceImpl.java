@@ -2,7 +2,7 @@ package edu.ben.service;
 
 import edu.ben.dao.NotificationDAO;
 import edu.ben.model.Notification;
-import edu.ben.util.NotificationRunner;
+import edu.ben.util.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,16 +22,28 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void save(Notification notification) {
+        notification.setSent(1);
         notificationDAO.save(notification);
-        NotificationRunner.run();
+
+        if (notification.getSubject() != null) {
+            Email.sendEmail(notification.getMessage(), notification.getSubject(), notification.getUser().getSchoolEmail());
+        } else {
+            Email.sendEmail(notification.getMessage(), "U-ListIt Notification", notification.getUser().getSchoolEmail());
+        }
     }
 
     @Override
     public void save(List<Notification> notifications) {
         for (Notification n : notifications) {
+            n.setSent(1);
             notificationDAO.save(n);
+
+            if (n.getSubject() != null) {
+                Email.sendEmail(n.getMessage(), n.getSubject(), n.getUser().getSchoolEmail());
+            } else {
+                Email.sendEmail(n.getMessage(), "U-ListIt Notification", n.getUser().getSchoolEmail());
+            }
         }
-        NotificationRunner.run();
     }
 
     @Override

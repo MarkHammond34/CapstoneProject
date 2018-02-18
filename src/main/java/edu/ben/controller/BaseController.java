@@ -38,28 +38,7 @@ public class BaseController {
         m.setAttribute("successMessages", successMessages);
     }
 
-    public void setModel(ModelAndView m, HttpServletRequest r) {
-        if (r.getAttribute("errorMessages") != null) {
-            for (String s : (ArrayList<String>) r.getAttribute("errorMessages")) {
-                System.out.println(s);
-                addErrorMessage(s);
-            }
-        }
-
-        if (r.getAttribute("warningMessages") != null) {
-            for (String s : (ArrayList<String>) r.getAttribute("warningMessages")) {
-                System.out.println(s);
-                addWarningMessage(s);
-            }
-        }
-
-        if (r.getAttribute("successMessages") != null) {
-            for (String s : (ArrayList<String>) r.getAttribute("successMessages")) {
-                System.out.println(s);
-                addSuccessMessage(s);
-            }
-        }
-
+    public void setModel(ModelAndView m) {
         m.addObject("errorMessages", errorMessages);
         m.addObject("warningMessages", warningMessages);
         m.addObject("successMessages", successMessages);

@@ -29,9 +29,9 @@ public class OfferController {
 		ModelAndView model = new ModelAndView("offers");
 		
 		Listing listing = listingService.getByListingID(id); 
-		List<Offer> offers = offerService.getOffersById(listing.getOfferID().getOfferID());
+		//List<Offer> offers = offerService.getOffersById(listing.getOfferID().getOfferID());
 		
-		model.addObject("offers", offers);
+		//model.addObject("offers", offers);
 		
 		return model;
 		

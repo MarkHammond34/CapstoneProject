@@ -103,16 +103,15 @@
                         <c:when test="${user != null }">
                             <li><a>Welcome ${user.firstName}</a>
                                 <div uk-dropdown>
-                                    <ul class="uk-nav uk-dropdown-nav">
-                                        <li><a
+                                    <ul class="uk-nav uk-dropdown-nav uk-grid-small" uk-grid>
+                                        <li class="uk-width-1-1"><a
                                                 href="${pageContext.request.contextPath}/viewProfile">
                                             Profile Page</a></li>
-                                        <li class="uk-nav-divider"></li>
-                                        <li><a
+                                        <li class="uk-width-1-1"><a
                                                 href="${pageContext.request.contextPath}/viewUserListings">
                                             Listings</a></li>
-                                        <li class="uk-nav-divider"></li>
-                                        <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
+                                        <li class="uk-width-1-1"><a href="${pageContext.request.contextPath}/logout">Logout</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
