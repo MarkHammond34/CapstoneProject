@@ -121,18 +121,9 @@ public class UserDAOImpl implements UserDAO {
         return recentListings;
     }
 
-    @SuppressWarnings("unchecked")
-	public List<User> soundexResults(String search) {
-		Query q = getSession().createSQLQuery("SELECT * FROM ulistit.user WHERE SOUNDEX(first_name)=soundex('" + search
-				+ "') OR SOUNDEX(last_name)=soundex('" + search + "') OR SOUNDEX(username)=soundex('" + search
-				+ "') OR SOUNDEX(school_email)=soundex('" + search + "');").addEntity(User.class);
-		List l = q.list();
-		return l;
-	}
-
 	@Override
-	public List<User> wildcardSearchResults(String search) {
-		Query q = getSession().createSQLQuery("SELECT * FROM ulistit.user WHERE first_name LIKE '%" + search + "%' OR last_name LIKE '%" + search + "%' OR username LIKE '%" + search + "%' ;").addEntity(User.class);
+	public List<User> searchUser(String search) {
+		Query q = getSession().createSQLQuery("SELECT * FROM ulistit.user WHERE SOUNDEX(first_name)=soundex('" + search + "') OR SOUNDEX(last_name)=soundex('" + search + "') OR SOUNDEX(username)=soundex('" + search + "') OR SOUNDEX(school_email)=soundex('" + search + "') OR first_name LIKE '%" + search + "%' OR last_name LIKE '%" + search + "%' OR username LIKE '%" + search + "%';").addEntity(User.class);
 		List l = q.list();
 		return l;
 	}

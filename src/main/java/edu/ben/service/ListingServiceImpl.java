@@ -148,4 +148,9 @@ public class ListingServiceImpl implements ListingService {
 		return ld.getAllWeeklyListings();
 	}
 
+	@Override
+	public List<Listing> listingSearch(String search) {
+		return ld.listingSearch(search);
+	}
+
 }

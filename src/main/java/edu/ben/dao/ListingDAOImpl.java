@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.ben.model.Listing;
+import edu.ben.model.User;
 
 @Transactional
 @Repository
@@ -40,13 +41,6 @@ public class ListingDAOImpl implements ListingDAO {
 
     }
 
-    @Override
-    public List getAllListingsByCategory(String category) {
-    	Query q = getSession().createQuery("FROM listing WHERE category=:category");
-    	q.setParameter("category", category);
-    	return q.list();
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public List<Listing> getRecentListings() {
@@ -63,6 +57,13 @@ public class ListingDAOImpl implements ListingDAO {
         }
 
         return recentListings;
+    }
+    
+    @Override
+    public List getAllListingsByCategory(String category) {
+    	Query q = getSession().createQuery("FROM listing WHERE category=:category");
+    	q.setParameter("category", category);
+    	return q.list();
     }
 
     @Override
@@ -84,14 +85,6 @@ public class ListingDAOImpl implements ListingDAO {
                 .addEntity(Listing.class);
         return (List<Listing>) q.list();
 
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<Listing> searchCategory(String category) {
-        Query q = getSession()
-                .createSQLQuery("SELECT * FROM ulistit.listing WHERE SOUNDEX(category_name)=soundex('" + category + "');");
-        return (List<Listing>) q.list();
     }
 
     @Override
@@ -175,4 +168,12 @@ public class ListingDAOImpl implements ListingDAO {
  
         return q.list();
 	}
+
+	@Override
+	public List<Listing> listingSearch(String search) {
+		Query q = getSession().createSQLQuery("SELECT * FROM ulistit.listing WHERE SOUNDEX(name)=soundex('" + search + "') OR SOUNDEX(category)=soundex('" + search + "') OR SOUNDEX(username)=soundex('" + search + "') OR SOUNDEX(school_email)=soundex('" + search + "') OR first_name LIKE '%" + search + "%' OR last_name LIKE '%" + search + "%' OR username LIKE '%" + search + "%';").addEntity(Listing.class);
+		List l = q.list();
+		return l;
+	}
+
 }

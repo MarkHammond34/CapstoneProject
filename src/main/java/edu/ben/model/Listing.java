@@ -21,226 +21,226 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class Listing implements java.io.Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+	@Id
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
 
-    @OneToOne
-    @JoinColumn(name = "userID")
-    private User user;
+	@OneToOne
+	@JoinColumn(name = "userID")
+	private User user;
 
-    @Column(name = "name")
-    @NotBlank
-    private String name;
+	@Column(name = "name")
+	@NotBlank
+	private String name;
 
-    @Column(name = "description")
-    private String description;
+	@Column(name = "description")
+	private String description;
 
-    @Column(name = "category")
-    @NotBlank
-    private String category;
+	@Column(name = "category")
+	private String category;
 
-    @Column(name = "price")
-    private double price;
+	@Column(name = "price")
+	private double price;
 
-    @Column(name = "date_created")
-    private Date dateCreated;
+	@Column(name = "date_created")
+	private Date dateCreated;
 
-    @Column(name = "type")
-    public String type;
+	@Column(name = "type")
+	public String type;
 
-    @Column(name = "image_path")
-    private String image_path;
+	@Column(name = "image_path")
+	private String image_path;
 
-    @OneToOne
-    @JoinColumn(name = "highest_bid_userID")
-    private User highestBidder;
+	@OneToOne
+	@JoinColumn(name = "highest_bid_userID")
+	private User highestBidder;
 
-    @Column(name = "highest_bid")
-    // @Nullable
-    private Double highestBid;
+	@Column(name = "highest_bid")
+	// @Nullable
+	private Double highestBid;
 
-    @Column(name = "bid_count")
-    // @Nullable
-    private int bidCount;
+	@Column(name = "bid_count")
+	// @Nullable
+	private int bidCount;
 
-    @Column(name = "start_timestamp")
-    private Timestamp startTimestamp;
+	@Column(name = "start_timestamp")
+	private Timestamp startTimestamp;
 
-    @Column(name = "end_timestamp")
-    private Timestamp endTimestamp;
+	@Column(name = "end_timestamp")
+	private Timestamp endTimestamp;
 
-    @Column(name = "ended")
-    private int ended;
+	@Column(name = "ended")
+	private int ended;
 
-    @Column(name = "active")
-    private int active;
+	@Column(name = "active")
+	private int active;
 
-    public Listing() {
+	public Listing() {
 
-    }
+	}
 
-    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, String imagePath) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        // this.category = category;
-        this.image_path = imagePath;
-    }
+	public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, String category,
+			String imagePath) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.category = category;
+		this.image_path = imagePath;
+	}
 
-    public Listing(@NotBlank String name, String description, @NotBlank double price, /* @NotBlank String category, */
-                   String file) {
-        super();
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        // this.category = category;
-        this.image_path = file;
-    }
+	public Listing(@NotBlank String name, String description, @NotBlank double price, @NotBlank String category,
+			String file) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.category = category;
+		this.image_path = file;
+	}
 
-    public int getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public double getPrice() {
-        return price;
-    }
+	public double getPrice() {
+		return price;
+	}
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
+	public void setPrice(double price) {
+		this.price = price;
+	}
 
-    public String getCategory() {
-        return category;
-    }
+	public String getCategory() {
+		return category;
+	}
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
+	public void setCategory(String category) {
+		this.category = category;
+	}
 
-    @Override
-    public String toString() {
-        return "Listing [id=" + id + ", name=" + name + ", description=" + description + ", category=" /* + category */
-                + ", price=" + price + ", dateCreated=" + dateCreated + ", image_path=" + image_path + ", user=" + user
-                + "]";
-    }
+	@Override
+	public String toString() {
+		return "Listing [id=" + id + ", name=" + name + ", description=" + description + ", category=" /* + category */
+				+ ", price=" + price + ", dateCreated=" + dateCreated + ", image_path=" + image_path + ", user=" + user
+				+ "]";
+	}
 
-    public Date getDateCreated() {
-        return dateCreated;
-    }
+	public Date getDateCreated() {
+		return dateCreated;
+	}
 
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    public User getHighestBidder() {
-        return highestBidder;
-    }
+	public User getHighestBidder() {
+		return highestBidder;
+	}
 
-    public void setHighestBidder(User highestBidder) {
-        this.highestBidder = highestBidder;
-    }
+	public void setHighestBidder(User highestBidder) {
+		this.highestBidder = highestBidder;
+	}
 
-    public Double getHighestBid() {
-        return highestBid;
-    }
+	public Double getHighestBid() {
+		return highestBid;
+	}
 
-    public void setHighestBid(Double highestBid) {
-        this.highestBid = highestBid;
-    }
+	public void setHighestBid(Double highestBid) {
+		this.highestBid = highestBid;
+	}
 
-    public int getBidCount() {
-        return bidCount;
-    }
+	public int getBidCount() {
+		return bidCount;
+	}
 
-    public void setBidCount(int bidCount) {
-        this.bidCount = bidCount;
-    }
+	public void setBidCount(int bidCount) {
+		this.bidCount = bidCount;
+	}
 
-    public Timestamp getStartTimestamp() {
-        return startTimestamp;
-    }
+	public Timestamp getStartTimestamp() {
+		return startTimestamp;
+	}
 
-    public void setStartTimestamp(Timestamp startTimestamp) {
-        this.startTimestamp = startTimestamp;
-    }
+	public void setStartTimestamp(Timestamp startTimestamp) {
+		this.startTimestamp = startTimestamp;
+	}
 
-    public Timestamp getEndTimestamp() {
-        return endTimestamp;
-    }
+	public Timestamp getEndTimestamp() {
+		return endTimestamp;
+	}
 
-    public void setEndTimestamp(Timestamp endTimestamp) {
-        this.endTimestamp = endTimestamp;
-    }
+	public void setEndTimestamp(Timestamp endTimestamp) {
+		this.endTimestamp = endTimestamp;
+	}
 
-    public User getUser() {
-        return user;
-    }
+	public User getUser() {
+		return user;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-    public String getImage_path() {
-        return image_path;
-    }
+	public String getImage_path() {
+		return image_path;
+	}
 
-    public void setImage_path(String image_path) {
-        this.image_path = image_path;
-    }
+	public void setImage_path(String image_path) {
+		this.image_path = image_path;
+	}
 
-    public int getActive() {
-        return active;
-    }
+	public int getActive() {
+		return active;
+	}
 
-    public void setActive(int active) {
-        this.active = active;
-    }
+	public void setActive(int active) {
+		this.active = active;
+	}
 
-    public int getEnded() {
-        return ended;
-    }
+	public int getEnded() {
+		return ended;
+	}
 
-    public void setEnded(int ended) {
-        this.ended = ended;
-    }
+	public void setEnded(int ended) {
+		this.ended = ended;
+	}
 
-    public long getDelay() {
-        return endTimestamp.getTime() - System.currentTimeMillis();
-    }
+	public long getDelay() {
+		return endTimestamp.getTime() - System.currentTimeMillis();
+	}
 }

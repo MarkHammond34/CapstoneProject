@@ -43,4 +43,6 @@ public interface ListingService {
 	public List<Listing> getAllDailyListings();
 
 	public List<Listing> getAllWeeklyListings();
+	
+	public List<Listing> listingSearch(String search);
 }

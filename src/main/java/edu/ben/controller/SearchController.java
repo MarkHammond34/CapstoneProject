@@ -33,43 +33,19 @@ public class SearchController {
 		System.out.println("CategoryListing Size: " + categoryListing.size());
 		System.out.println(search);
 		
+		ArrayList<User> userSearch = (ArrayList<User>) userService.searchUser(search);
+		
+		
+		System.out.println("search result size: " + userSearch.size());
+		request.setAttribute("userSearch", userSearch);
+		
+		
 		User user = (User) request.getSession().getAttribute("user");
 		
 		request.setAttribute("search", search);
 		request.setAttribute("categoryListing", categoryListing);
 		request.setAttribute("user", user);
 		
-
-//
-//		List<Listing> categoryListing = listingService.getAllListingsByCategory(search);
-//		System.out.println("CategoryListing Size: " + categoryListing.size());
-//		System.out.println(search);
-//
-//		User user = (User) request.getSession().getAttribute("user");
-//
-//		request.setAttribute("category", categoryListing);
-//		request.setAttribute("user", user);
-//
-
-//		System.out.println("Hit search Controller");
-		ArrayList<User> soundexResults = (ArrayList<User>) userService.soundexResults(search);
-		System.out.println("search result size: " + soundexResults.size());
-//
-//		ArrayList<User> results = new ArrayList<User>();
-//		ArrayList<Listing> results2 = new ArrayList<Listing>();
-//
-//		results.addAll(soundexResults);
-//		System.out.println("results size = " + results.size());
-//
-//		for (int i = 0; i < results.size(); i++) {
-//			results2 = results.
-//		}
-//		ArrayList<Listing> listings = new ArrayList<Listing>();
-//
-//		System.out.println("Listing size " + listings.size());
-		
-		
-
 		return "searchResults";
 
 		

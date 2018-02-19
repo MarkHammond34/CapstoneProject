@@ -48,7 +48,7 @@ public class ListingController extends BaseController {
 	 */
 	@RequestMapping(value = "/uploadListing", method = RequestMethod.POST)
 	public String uploadFileHandler(@RequestParam("title") String name, @RequestParam("category") String category,
-			@RequestParam("price") double price, @RequestParam("description") String description,
+		@RequestParam("subCategory") String subCategory, @RequestParam("price") double price, @RequestParam("description") String description,
 			@RequestParam("file") MultipartFile file, @RequestParam("type") String type, Model model,
 			HttpServletRequest request) {
 
@@ -56,6 +56,7 @@ public class ListingController extends BaseController {
 
 		String message = "";
 		String error = "";
+		System.out.println(subCategory);
 
 		User u = (User) request.getSession().getAttribute("user");
 

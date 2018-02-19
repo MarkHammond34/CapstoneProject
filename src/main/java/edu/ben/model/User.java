@@ -45,6 +45,9 @@ public class User {
     @Email
     @Size(max = 40, message = "Invalid Email")
     private String email;
+    
+    @Column(unique = true, name = "phone_number")
+    private String phoneNumber;
 
     @Column(unique = true, name = "school_email")
     @NotNull

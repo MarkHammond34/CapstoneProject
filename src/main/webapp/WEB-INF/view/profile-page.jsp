@@ -8,10 +8,12 @@
 			<div class="fb-profile">
 				<img align="left" class="fb-image-lg"
 					src="<%=request.getContextPath()%>/resources/img/background/ulistit_background.jpg"
-					alt="Profile image example" height="250" /> <img align="left"
-					style="border-radius: 50%" class="fb-image-profile thumbnail"
-					src="<%=request.getContextPath()%>/resources/img/profile-pic/default.jpeg"
-					alt="Profile image example" />
+					alt="Profile image example" height="250" /> <a
+					href="${pageContext.request.contextPath}/editUser"><img
+					align="left" style="border-radius: 50%"
+					class="fb-image-profile thumbnail"
+					src="<%=request.getContextPath()%>/resources/img/profile-pic/${user.image_path}"
+					alt="Profile image example" /></a>
 				<div class="fb-profile-text">
 					<h1>
 						<strong class="uk-text-danger">${user.username}</strong>
