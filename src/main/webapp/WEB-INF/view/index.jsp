@@ -100,11 +100,11 @@
         document.getElementById('recently-added-listings').style.display = 'none';
     }
 
-		function recentlyAddedClicked() {
-			document.getElementById('trending-listings').style.display = 'none';
-			document.getElementById('ending-soon-listings').style.display = 'none';
-			document.getElementById('recently-added-listings').style.display = 'inline';
-		}
+    function recentlyAddedClicked() {
+        document.getElementById('trending-listings').style.display = 'none';
+        document.getElementById('ending-soon-listings').style.display = 'none';
+        document.getElementById('recently-added-listings').style.display = 'inline';
+    }
 
 
     $('#notificationDrop').on("hide", function () {
@@ -124,6 +124,17 @@
             }
         }
     })
+
+    function cancelBid(listingID) {
+        $.ajax({
+            type: "GET",
+            url: "/cancelBid",
+            data: {
+                l: listingID
+            },
+        });
+
+    }
 </script>
 </body>
 </html>

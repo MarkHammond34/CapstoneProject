@@ -31,7 +31,7 @@ public class HibernateConfig {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(new String[]{"edu.ben.model", "edu.ben.controller", "edu.ben.util"});
+        sessionFactory.setPackagesToScan(new String[]{"edu.ben.model", "edu.ben.controller", "edu.ben.util", "edu.ben.test"});
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }

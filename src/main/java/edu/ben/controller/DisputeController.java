@@ -64,10 +64,10 @@ public class DisputeController extends BaseController {
                 disputeService.save(dispute);
 
                 // Send notification to accuser
-                notificationService.save(new Notification(user, dispute.getListing().getId(), "Dispute Has Been Filed", "Dispute has been successfully filed.\n\nListing: " + dispute.getListing().getName() + "\nDispute: '" + dispute.getComplaint() + "'\nAn administrator will review the dispute and respond via within 48 hours.", new Timestamp(System.currentTimeMillis() + 120000), 1));
+                notificationService.save(new Notification(user, dispute.getListing().getId(), "Dispute Has Been Filed", "Dispute has been successfully filed.\n\nListing: " + dispute.getListing().getName() + "\nDispute: '" + dispute.getComplaint() + "'\nAn administrator will review the dispute and respond via within 48 hours.", 1));
 
                 // Send notification to defendant
-                notificationService.save(new Notification(dispute.getDefender(), dispute.getListing().getId(), "Dispute Has Been Filed Against You", "Dispute has been filed against you.\n\nListing: " + dispute.getListing().getName() + "\nDispute: '" + dispute.getComplaint() + "'\nAn administrator will review the dispute and respond via within 48 hours.", new Timestamp(System.currentTimeMillis() + 120000), 1));
+                notificationService.save(new Notification(dispute.getDefender(), dispute.getListing().getId(), "Dispute Has Been Filed Against You", "Dispute has been filed against you.\n\nListing: " + dispute.getListing().getName() + "\nDispute: '" + dispute.getComplaint() + "'\nAn administrator will review the dispute and respond via within 48 hours.", 1));
 
                 // Send notification to admins
                 List<User> disputeResolvingAdmins = userService.getDisputeResolvingAdmins();
@@ -75,7 +75,7 @@ public class DisputeController extends BaseController {
 
                 for (User u : disputeResolvingAdmins) {
                     adminNotifications.add(new Notification(u, dispute.getListing().getId(), "New Dispute Has Been Filed", "New Dispute has been filed.\n\nListing: " + dispute.getListing().getName() + "\nAccuser: " + dispute.getAccuser().getFirstName() + " " + dispute.getAccuser().getLastName() +
-                            "\nDispute: '" + dispute.getComplaint(), new Timestamp(System.currentTimeMillis() + 120000), 1));
+                            "\nDispute: '" + dispute.getComplaint(), 1));
                 }
 
                 notificationService.save(adminNotifications);

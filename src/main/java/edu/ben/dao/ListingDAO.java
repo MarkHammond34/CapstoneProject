@@ -32,8 +32,6 @@ public interface ListingDAO {
 
     public List getListingsWon(int userID);
 
-    public void insertListingBid(int listingID, int userID);
-
     public List getActiveListings();
 
 }

@@ -62,18 +62,18 @@ public class ListingRunner {
 
                             if (l.getHighestBidder() == null) {
                                 // Send notification to seller that no one placed a big
-                                newNotifications.add(new Notification(l.getUser(), l.getId(), "Listing: " + l.getName() + " ended without any bids.", new Timestamp(System.currentTimeMillis() + 120000), 1));
+                                newNotifications.add(new Notification(l.getUser(), l.getId(), "Listing: " + l.getName() + " ended without any bids.", 1));
                             } else {
                                 // Create notification for buyer
-                                newNotifications.add(new Notification(l.getHighestBidder(), l.getId(), "You Won! \n Listing: " + l.getName(), new Timestamp(System.currentTimeMillis() + 120000), 1));
+                                newNotifications.add(new Notification(l.getHighestBidder(), l.getId(), "You Won! \n Listing: " + l.getName(), 1));
                                 // Create notification for seller
-                                newNotifications.add(new Notification(l.getUser(), l.getId(), "Sold! \n Listing: " + l.getName(), new Timestamp(System.currentTimeMillis() + 120000), 1));
+                                newNotifications.add(new Notification(l.getUser(), l.getId(), "Sold! \n Listing: " + l.getName(), 1));
 
                                 // Create notifications or losers
                                 List<User> losers = userService.getListingLosers(l.getId(), l.getHighestBidder().getUserID());
                                 for (User u : losers) {
                                     System.out.println("Loser ID: " + u.getUserID());
-                                    newNotifications.add(new Notification(u, l.getId(), "You Lost! \n Listing: " + l.getName(), new Timestamp(System.currentTimeMillis() + 120000), 1));
+                                    newNotifications.add(new Notification(u, l.getId(), "You Lost! \n Listing: " + l.getName(), 1));
                                 }
                             }
 
@@ -105,17 +105,17 @@ public class ListingRunner {
 
                     if (l.getHighestBidder() == null) {
                         // Send notification to seller that no one placed a big
-                        newNotifications.add(new Notification(l.getUser(), l.getId(), "Listing: " + l.getName() + " ended without any bids.", new Timestamp(System.currentTimeMillis() + 120000), 1));
+                        newNotifications.add(new Notification(l.getUser(), l.getId(), "Listing: " + l.getName() + " ended without any bids.", 1));
                     } else {
                         // Create notification for buyer
-                        newNotifications.add(new Notification(l.getHighestBidder(), l.getId(), "You Won! \n Listing: " + l.getName(), new Timestamp(System.currentTimeMillis() + 120000), 1));
+                        newNotifications.add(new Notification(l.getHighestBidder(), l.getId(), "You Won! \n Listing: " + l.getName(), 1));
                         // Create notification for seller
-                        newNotifications.add(new Notification(l.getUser(), l.getId(), "Sold! \n Listing: " + l.getName(), new Timestamp(System.currentTimeMillis() + 120000), 1));
+                        newNotifications.add(new Notification(l.getUser(), l.getId(), "Sold! \n Listing: " + l.getName(), 1));
 
                         // Create notifications or losers
                         List<User> losers = userService.getListingLosers(l.getId(), l.getHighestBidder().getUserID());
                         for (User u : losers) {
-                            newNotifications.add(new Notification(u, l.getId(), "You Lost! \n Listing: " + l.getName(), new Timestamp(System.currentTimeMillis() + 120000), 1));
+                            newNotifications.add(new Notification(u, l.getId(), "You Lost! \n Listing: " + l.getName(), 1));
                         }
                     }
 

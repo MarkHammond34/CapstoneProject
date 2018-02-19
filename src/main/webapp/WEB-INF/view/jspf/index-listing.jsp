@@ -6,23 +6,22 @@
                 alt="Listing"/></a>
     </div>
     <div class="name" style="font-size: 22px;">
-        
+
         <a href="#"><strong class="uk-text-danger">${listing.name}</strong></a>
-        
         <c:if test="${listing.user.getUserID() != sessionScope.user.userID }">
-			<div
-				class="watch-item color1 uk-position-medium uk-position-top-right"
-				id="${listing.id}">
-				<a uk-icon="icon: star; ratio: 1"></a>
-			</div>
-			<div
-				class="watch-item color2 uk-position-medium uk-position-top-right"
-				id="${listing.id}" style="display: none;">
-				<a uk-icon="icon: star; ratio: 2"></a>
-			</div>
-		</c:if>
+            <div
+                    class="watch-item color1 uk-position-medium uk-position-top-right"
+                    id="${listing.id}">
+                <a uk-icon="icon: star; ratio: 1"></a>
+            </div>
+            <div
+                    class="watch-item color2 uk-position-medium uk-position-top-right"
+                    id="${listing.id}" style="display: none;">
+                <a uk-icon="icon: star; ratio: 2"></a>
+            </div>
+        </c:if>
     </div>
-    
+
     <c:choose>
         <c:when test="${listing.type == 'auction'}">
             <div class="price" style="font-size: 16px;">
@@ -30,6 +29,10 @@
                 <a
                         class="uk-button uk-button-text" style="color: cornflowerblue; margin-left: 5px"
                         uk-toggle="target: #placeBidModal${listing.id}" id="bidButton${listing.id}">Place Bid</a>
+                <c:if test="${listing.highestBidder.userID == user.userID}">
+                    <a title="Cancel Bid" uk-icon="icon: ban"
+                       uk-toggle="target: #cancelBidModal${listing.id}" style="margin-left: 10px; color: red;"></a>
+                </c:if>
             </div>
             <hr>
             <div style="margin-left: 8%;"

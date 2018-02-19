@@ -19,8 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Table(name = "listing")
 @Transactional
 public class Listing implements java.io.Serializable {
-	
-	// .toString().subString(0, 10)
 
     /**
      *
@@ -65,7 +63,7 @@ public class Listing implements java.io.Serializable {
 
     @Column(name = "highest_bid")
     // @Nullable
-    private Double highestBid;
+    private int highestBid;
 
     @Column(name = "bid_count")
     // @Nullable
@@ -82,13 +80,13 @@ public class Listing implements java.io.Serializable {
 
     @Column(name = "active")
     private int active;
-    
-    @OneToOne
-    @JoinColumn(name="offer_id")
-    private Offer offerID;
 
+    /**
+     * @OneToOne
+     * @JoinColumn(name="offer_id") private Offer offerID;
+     */
 
-	public Listing() {
+    public Listing() {
 
     }
 
@@ -182,11 +180,11 @@ public class Listing implements java.io.Serializable {
         this.highestBidder = highestBidder;
     }
 
-    public Double getHighestBid() {
+    public int getHighestBid() {
         return highestBid;
     }
 
-    public void setHighestBid(Double highestBid) {
+    public void setHighestBid(int highestBid) {
         this.highestBid = highestBid;
     }
 
@@ -246,15 +244,16 @@ public class Listing implements java.io.Serializable {
         this.ended = ended;
     }
 
-	public Offer getOfferID() {
-		return offerID;
-	}
-
-	public void setOfferID(Offer offerID) {
-		this.offerID = offerID;
-	}
-
-	public long getDelay() {
+    /**
+     * public Offer getOfferID() {
+     * return offerID;
+     * }
+     * <p>
+     * public void setOfferID(Offer offerID) {
+     * this.offerID = offerID;
+     * }
+     */
+    public long getDelay() {
         return endTimestamp.getTime() - System.currentTimeMillis();
     }
 }

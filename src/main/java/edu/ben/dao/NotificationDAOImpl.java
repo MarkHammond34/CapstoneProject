@@ -2,6 +2,7 @@ package edu.ben.dao;
 
 import edu.ben.model.Notification;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class NotificationDAOImpl implements NotificationDAO {
 
     @Override
     public void deactivate(int notificationID) {
-        Query q = getSession().createSQLQuery("UPDATE notification SET active=0 WHERE notification_id=:id").addEntity(Notification.class);
+        SQLQuery q = getSession().createSQLQuery("UPDATE notification SET active=0 WHERE notification_id=:id").addEntity(Notification.class);
         q.setParameter("id", notificationID);
         q.executeUpdate();
     }
@@ -54,8 +55,8 @@ public class NotificationDAOImpl implements NotificationDAO {
 
     @Override
     public void dismiss(int id) {
-        Query q = getSession().createSQLQuery("UPDATE notification SET dismissed=1 WHERE notification_id=" + id).addEntity(Notification.class);
-        System.out.println(q.getQueryString());
+        SQLQuery q = getSession().createSQLQuery("UPDATE notification SET dismissed=1 WHERE notification_id=:id").addEntity(Notification.class);
+        q.setParameter("id", id);
         q.executeUpdate();
     }
 

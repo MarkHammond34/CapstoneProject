@@ -111,7 +111,7 @@ public class ListingController extends BaseController {
 
 				if (type.equals("auction")) {
 					listing.setType("auction");
-					listing.setHighestBid(0.0);
+					listing.setHighestBid(0);
 				} else {
 					listing.setType("fixed");
 				}
@@ -200,33 +200,6 @@ public class ListingController extends BaseController {
 		model.addObject("trendingListings", trending);
 
 		return "redirect:/";
-	}
-
-	@PostMapping("/bid")
-	public String bid(@RequestParam("bidValue") double bidValue, @RequestParam int listingID,
-			HttpServletRequest request) {
-
-		User user = (User) request.getSession().getAttribute("user");
-
-		if (user == null) {
-			addWarningMessage("Login To Place A Bid");
-			setRequest(request);
-			return "login";
-		}
-
-		int results = listingService.placeBid(user.getUserID(), bidValue, listingService.getByListingID(listingID));
-
-		if (results == -2) {
-			addErrorMessage("Bid Most Be Larger Than Highest Bid");
-		} else if (results == -1) {
-			addErrorMessage("Sorry, you didn't get your bid in on time!");
-		} else {
-			addSuccessMessage("Congrats! You're the highest bidder!");
-		}
-
-		setRequest(request);
-		System.out.println("redirect:" + request.getHeader(" Referer "));
-		return "redirect:" + request.getHeader("Referer");
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
