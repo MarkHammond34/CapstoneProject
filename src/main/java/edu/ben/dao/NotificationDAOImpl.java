@@ -40,7 +40,7 @@ public class NotificationDAOImpl implements NotificationDAO {
 
     @Override
     public List<Notification> getActiveByUserID(int userID) {
-        Query q = getSession().createQuery("FROM notification WHERE active=1 AND user_id=:userID");
+        Query q = getSession().createQuery("FROM notification WHERE active=1 AND user_id=:userID ORDER BY date_created");
         q.setParameter("userID", userID);
         return (List<Notification>) q.list();
     }

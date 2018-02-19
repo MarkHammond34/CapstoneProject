@@ -45,9 +45,9 @@ public class OfferController extends BaseController {
 		ModelAndView model = new ModelAndView("offers");
 
 		Listing listing = listingService.getByListingID(id);
-		List<Offer> offers = offerService.getOffersById(listing.getOfferID().getOfferID());
+		///List<Offer> offers = offerService.getOffersById(listing.getOfferID().getOfferID());
 
-		model.addObject("offers", offers);
+	//	model.addObject("offers", offers);
 
 		return model;
 
@@ -152,9 +152,9 @@ public class OfferController extends BaseController {
 		// maybe move offer to current transaction page
 
 		Listing listing = listingService.getByListingID(id);
-		List<Offer> offers = offerService.getOffersById(listing.getOfferID().getOfferID());
+		//List<Offer> offers = offerService.getOffersById(listing.getOfferID().getOfferID());
 
-		model.addObject("offers", offers);
+		//model.addObject("offers", offers);
 
 		return model;
 
@@ -179,9 +179,9 @@ public class OfferController extends BaseController {
 		// possibly in a different controller
 
 		Listing listing = listingService.getByListingID(id);
-		List<Offer> offers = offerService.getOffersById(listing.getOfferID().getOfferID());
+		//List<Offer> offers = offerService.getOffersById(listing.getOfferID().getOfferID());
 
-		model.addObject("offers", offers);
+		//model.addObject("offers", offers);
 
 		return model;
 

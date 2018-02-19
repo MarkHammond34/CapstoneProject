@@ -145,7 +145,6 @@
                                                 List<Listing> recentListings = (List<Listing>) session.getAttribute("recentListings");
                                                 if (recentListings != null || !recentListings.isEmpty()) {
                                                     for (int j = 0; j < recentListings.size(); j++) {
-
                                             %>
                                             </thead>
                                             <tbody>
