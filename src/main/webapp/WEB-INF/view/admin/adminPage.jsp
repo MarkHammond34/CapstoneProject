@@ -5,11 +5,56 @@
   Time: 9:37 AM
   To change this template use File | Settings | File Templates.
 --%>
-<%@include file="../jspf/header.jsp" %>
-<%@include file="../jspf/navbar.jspf" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ page import="edu.ben.model.User" %>
 <%@ page import="java.util.List" %>
 <%@ page import="edu.ben.model.Listing" %>
+
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <spring:url value="resources/css/uikit.css" var="uikitCSS"/>
+    <spring:url value="resources/js/uikit.js" var="uikitJS"/>
+    <spring:url value="resources/js/jquery.js" var="jquery"/>
+    <spring:url value="resources/js/uikit-icons.js" var="uikiticons"/>
+    <link href="${uikitCSS}" rel="stylesheet"/>
+    <script type="text/javascript" src="${uikitJS}"></script>
+    <script type="text/javascript" src="${jquery}"></script>
+    <script type="text/javascript" src="${uikiticons}"></script>
+
+    <div class="uk-position-relative">
+        <div class="uk-position-relativetop">
+            <nav class="uk-navbar-container uk-navbar-dark" uk-navbar>
+                <div class="uk-navbar-center">
+                    <ul class="uk-navbar-nav">
+                        <li class="uk-active">
+                            <a href="${pageContext.request.contextPath}/admin">Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/adminUser">Manage Users</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="uk-navbar-right">
+                    <ul class="uk-navbar-nav">
+                        <li>
+                            <a>Welcome ${user.firstName}</a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/">Home</a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/logout">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</head>
 <body>
 <div class="uk-cover-container uk-height-viewport">
     <img src="assets/server.jpg" alt="" uk-cover>
@@ -136,3 +181,4 @@
     </div>
 </div>
 </body>
+</html>
