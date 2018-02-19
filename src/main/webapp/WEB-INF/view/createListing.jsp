@@ -13,7 +13,8 @@
 		<div class="uk-width-1-2">
 			<div class="uk-card uk-card-default uk-card-large uk-card-body">
 				<h3 class="uk-card-title"
-					style="margin-bottom: 25px; text-align: center;">Settings</h3>
+					style="margin-bottom: 25px; text-align: center;">Create A
+					Listing</h3>
 				<hr>
 				<div class="form-area">
 					<form method="POST" class="uk-grid-large"
@@ -34,7 +35,7 @@
 						<div uk-grid>
 							<div class="uk-width-1-2">
 								<strong>Category</strong><select id="category" name="category"
-									class="uk-select" onchange="getval(this);" required>
+									class="uk-select" onchange="changeCategory(this);" required>
 									<option value="" disabled selected>Select Category</option>
 									<option value="apparel">Apparel</option>
 									<option value="furnature">Furnature</option>
@@ -44,8 +45,7 @@
 							</div>
 							<div class="uk-width-1-2" id="placeholder">
 								<strong>Sub-Category</strong> <input class="uk-input"
-									 placeholder="Please select a Category"
-									required>
+									placeholder="Please select a Category" required>
 							</div>
 
 							<%@include file="jspf/sub-category.jsp"%>
@@ -53,22 +53,23 @@
 						<div uk-grid>
 							<div class="uk-width-1-2">
 								<strong>Type</strong><select id="type" name="type"
-									class="uk-select" required>
+									class="uk-select" onchange="typeChange(this);" required>
 									<option value="" disabled selected>Select Listing Type</option>
 									<option value="auction">Auction</option>
-									<option value="donation" id>Donation</option>
+									<option value="donation">Donation</option>
 									<option value="fixed">Fixed Price</option>
 								</select>
 							</div>
-							<div class="uk-width-1-2">
-								<strong>End Date</strong><input type="datetime-local"
-									class="uk-input" id="endDate" name="endDate"
-									placeholder="End Date" required>
+
+							<div class="uk-width-1-2" id="value">
+								<strong>Price</strong><input type="number" class="uk-input"
+									id="price" name="price" placeholder="Price" disabled required>
 							</div>
 						</div>
-						<div class="uk-width-1-1">
-							<strong>Price</strong><input type="number" class="uk-input"
-								id="price" name="price" placeholder="Price" required>
+						<div class="uk-width-1-1" id="dateEnd">
+							<strong>End Date</strong><input type="datetime-local"
+								class="uk-input" id="endDate" name="endDate"
+								placeholder="End Date" disabled required>
 						</div>
 						<div class="uk-width-1-1">
 							<strong> Description </strong>
@@ -123,7 +124,7 @@
 		}
 
 	}
-	function getval(option) {
+	function changeCategory(option) {
 
 		if (option.value == "apparel") {
 			document.getElementById('apparelSub').style.display = 'inline';
@@ -152,6 +153,19 @@
 			document.getElementById('furnatureSub').style.display = 'none';
 			document.getElementById('suppliesSub').style.display = 'inline';
 			document.getElementById('placeholder').style.display = 'none';
+		}
+	}
+
+	function typeChange(type) {
+		if (type.value == "auction") {
+			document.getElementById("endDate").disabled = false;
+			document.getElementById("price").disabled = true;
+		} else if (type.value == "fixed") {
+			document.getElementById("endDate").disabled = true;
+			document.getElementById("price").disabled = false;
+		} else if (type.value == "donation") {
+			document.getElementById("endDate").disabled = true;
+			document.getElementById("price").disabled = true;
 		}
 	}
 </script>
