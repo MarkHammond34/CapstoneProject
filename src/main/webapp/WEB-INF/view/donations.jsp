@@ -15,87 +15,57 @@
 	</div>
 	<div class="uk-container">
 		<h1 style="text-align: center; padding-top: 20px;">
-			<strong> WELCOME TO U-LISTIT'S DONATION PAGE</strong>
+			<strong>VIEW OUR DONATED ITEMS</strong>
 		</h1>
 		<hr class="colorgraph">
-		<div class="uk-column-1-2 uk-column-divider">
-			<blockquote cite="#" class="uk-column-span">
-				<p>Our Mission:</p>
-			</blockquote>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-				do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-				enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+		<div class="uk-section uk-section-default">
+			<div class="uk-grid" uk-grid>
+				<div class="uk-width-1-4 uk-column-divider">
+					<div class="uk-container uk-container-small">
+						<div class="uk-card uk-card-default">
+							<div class="uk-card-media-top">
+								<img
+									src="${pageContext.request.contextPath}/resources/img/give-and-take-556151_1920.jpg"
+									alt="">
+							</div>
+							<div class="uk-card-body">
+								<h3 class="uk-card-title">
+									<a href="#">Donate </a> an item today!
+								</h3>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="uk-width-3-4">
+					<div class="uk-container uk-container-small">
+						<form ethod="POST" action="donationCategory"
+							name="categorizeDonationForm">
+							<select name='category' onchange='this.form.submit()'>
+								<option selected>Milk</option>
+								<option value="apparel">Apparel</option>
+								<option value="furnature">Furnature</option>
+								<option value="supplies">School Supplies</option>
+								<option value="technology">Technology</option>
+							</select>
+							<noscript>
+								<input type="submit" value="Submit">
+							</noscript>
 
-			<p>Duis aute irure dolor in reprehenderit in voluptate velit esse
-				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-				cupidatat non proident, sunt in culpa qui officia deserunt mollit
-				anim id est laborum.</p>
 
-
-
-			<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco
-				laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-				dolor in reprehenderit in voluptate velit esse cillum dolore eu
-				fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				proident. Duis aute irure dolor in reprehenderit in voluptate velit
-				esse cillum dolore.</p>
+						</form>
+						<div class="uk-container">
+							<div class="uk-grid-large uk-child-width-1-3 uk-text-center"
+								uk-grid>
+								<c:forEach var="listing" items="${donationList}">
+									<%@include file="jspf/index-listing.jsp"%>
+								</c:forEach>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<hr class="colorgraph">
-		<div class="uk-position-relative uk-visible-toggle uk-light"
-			uk-slideshow="max-height: 600; ratio: 10:3">
-
-			<ul class="uk-slideshow-items">
-				<li><img
-					src="${pageContext.request.contextPath}/resources/img/free-donations.png"
-					alt="" heigh="600" uk-cover></li>
-			</ul>
-		</div>
-		<h1 style="text-align: center; padding-top: 20px;">
-			<strong> MAKE A DONATION</strong>
-		</h1>
-
-		<hr class="colorgraph">
-		<div class="uk-column-1-2 uk-column-divider">
-			<blockquote cite="#" class="uk-column-span">
-				<p>CREATE A LISTING:</p>
-			</blockquote>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-				do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-				enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
-
-			<p>Duis aute irure dolor in reprehenderit in voluptate velit esse
-				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-				cupidatat non proident, sunt in culpa qui officia deserunt mollit
-				anim id est laborum.</p>
-
-
-
-			<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco
-				laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-				dolor in reprehenderit in voluptate velit esse cillum dolore eu
-				fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				proident. Duis aute irure dolor in reprehenderit in voluptate velit
-				esse cillum dolore.</p>
-		</div>
-		<hr class="colorgraph">
-		<div class="uk-position-relative uk-visible-toggle uk-light"
-			uk-slideshow="max-height: 600; ratio: 10:3">
-
-			<ul class="uk-slideshow-items">
-				<li><img
-					src="${pageContext.request.contextPath}/resources/img/volunteer-2055015_1920.png"
-					alt="" heigh="600" uk-cover></li>
-			</ul>
-		</div>
-		<h1 style="text-align: center; padding-top: 20px;">
-			<strong>VIEW OUR FREE LISTINGS: </strong>
-
-		</h1>
 		<hr class="colorgraph">
 	</div>
-
-
-
-
 </body>
 </html>

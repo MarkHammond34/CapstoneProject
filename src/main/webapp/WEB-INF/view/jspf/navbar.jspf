@@ -17,7 +17,9 @@
 						</form>
 					</li>
 					<li><a
-						href="${pageContext.request.contextPath}/donationLanding">Donations</a></li>
+						href="${pageContext.request.contextPath}/donationLanding"
+						style="padding-left: 40px;">Donations</a></li>
+
 					<li>
 				</ul>
 			</div>

@@ -45,4 +45,8 @@ public interface ListingService {
 	public List<Listing> getAllWeeklyListings();
 	
 	public List<Listing> listingSearch(String search);
+	
+	public List<Listing> findAllDonatedListings();
+	
+	public List<Listing> findAllDonatedListingsByCategory(String category);
 }
