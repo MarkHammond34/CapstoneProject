@@ -37,13 +37,24 @@ public class OfferServiceImpl implements OfferService {
 	}
 
 	@Override
-	public Offer getOfferByUserId(int id) {
-		return offerDAO.getOfferByUserId(id);
+	public List<Offer> getOffersByUserId(int id) {
+		return offerDAO.getOffersByUserId(id);
 	}
 
 	@Override
-	public List<Offer> getOffersById(int id) {
-		return offerDAO.getOffersById(id);
+	public List<Offer> getOffersByListingId(int id) {
+		return offerDAO.getOffersByListingId(id);
+	}
+
+	@Override
+	public Offer getOfferById(int id) {
+		return offerDAO.getOfferById(id);
+	}
+
+	@Override
+	public Offer getOfferByUserAndListingId(int userID, int listingID) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

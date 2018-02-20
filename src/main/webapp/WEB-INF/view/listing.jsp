@@ -48,9 +48,12 @@
 								<a class="uk-link-reset" href="">${listing.name}</a> <a
 									class="uk-button uk-button-text" style="color: green;"
 									href="${pageContext.request.contextPath}/button?listing=${listing.id}">Buy
-									Now!</a> <a class="uk-button uk-button-text" style="color: green;"
-									href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Make offer</a>
-									
+									Now!</a> <a
+									onclick="return confirm('You have already made an offer for this listing. Making a new one will replace the current one. Is this okay?');"
+									class="uk-button uk-button-text" style="color: green;"
+									href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Make
+									offer</a>
+
 							</h1>
 
 							<p class="uk-text-lead">${listing.description}</p>
@@ -69,5 +72,24 @@
 
 </body>
 <%@include file="jspf/footer.jspf"%>
+<script>
+	UIkit.util
+			.on(
+					'#js-modal-confirm',
+					'click',
+					function(e) {
+						e.preventDefault();
+						e.target.blur();
+						UIkit.modal
+								.confirm(
+										'You have already made an offer for this listing. Making a new one will replace the current one. Is this okay?')
+								.then(function() {
+									console.log('Confirmed.')
+								}, function() {
+									console.log('Rejected.')
+								});
+					});
+</script>
+
 
 </html>

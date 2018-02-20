@@ -34,14 +34,19 @@ public class Offer {
 	@JoinColumn(name = "user_id")
 	private User userID;
 	
+	@OneToOne
+	@JoinColumn(name = "listing_id")
+	private Listing listingID;
+	
 	public Offer() {
 		
 	}
 	
-	public Offer(int offerAmount, String offerMessage, User userID) {
+	public Offer(int offerAmount, String offerMessage, User userID, Listing listingID) {
 		this.offerAmount = offerAmount;
 		this.offerMessage = offerMessage;
 		this.userID = userID;
+		this.listingID = listingID;
 	}
 	
 	public Offer(int offerID, int offerAmount, String offerMessage, String imagePath, User userID) {
@@ -88,6 +93,14 @@ public class Offer {
 
 	public void setUserID(User userID) {
 		this.userID = userID;
+	}
+
+	public Listing getListingID() {
+		return listingID;
+	}
+
+	public void setListingID(Listing listingID) {
+		this.listingID = listingID;
 	}
 
 }

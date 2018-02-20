@@ -342,20 +342,18 @@ public class ListingController extends BaseController {
 			addErrorMessage("You may not cancel an auction that has already been bid on.");
 		} else {
 			// popup, are you sure you want to cancel?
+			
+			// if bidcount is 0, ask if seller is sure they want to cancel the auction
+			
+			
+			// no? - cancel popup
+			
+			// yes?
+			
+			// delete the listing
 			listingService.deleteListing(listingID);
+			
 		}
-		
-		// if bidcount is 0, ask if seller is sure they want to cancel the auction
-		
-		
-		// no? - cancel popup
-		
-		// yes?
-		
-		// delete the listing
-
-		
-		
 		
 		return model;
 	}

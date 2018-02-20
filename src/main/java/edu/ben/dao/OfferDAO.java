@@ -12,8 +12,12 @@ public interface OfferDAO {
 
 	public void deleteOffer(Offer offer);
 
-	public Offer getOfferByUserId(int id);
+	public List<Offer> getOffersByUserId(int id);
 
-	public List<Offer> getOffersById(int id);
+	public List<Offer> getOffersByListingId(int id);
+	
+	public Offer getOfferById(int id);
+	
+	public Offer getOfferByUserAndListingId(int userID, int listingID);
 	
 }
