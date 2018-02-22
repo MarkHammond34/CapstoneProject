@@ -51,37 +51,44 @@
                                     style="text-align: center">
                                 <c:choose>
                                     <c:when test="${notifications != null}">
-                                        <c:forEach items="${notifications}" var="notification">
-                                            <div
-                                                    class="uk-tile uk-tile-muted uk-tile-small uk-margin-small uk-padding-small"
-                                                    id="notification${notification.notificationID}">
-                                                <c:choose>
-                                                    <c:when test="${notification.subject == 'U-ListIt Notification'}">
-                                                        <a class="uk-link-muted" href=""
-                                                           id="notification${notification.notificationID}">${notification.message}
-                                                            <c:if test="${notification.viewed == 0}">
+                                        <c:forEach items="${notifications}" var="notification" varStatus="loop">
+                                            <c:if test="${loop.index < 10}">
+                                                <div
+                                                        class="uk-tile uk-tile-muted uk-tile-small uk-margin-small uk-padding-small"
+                                                        id="notification${notification.notificationID}">
+                                                    <c:choose>
+                                                        <c:when test="${notification.subject == 'U-ListIt Notification'}">
+                                                            <a class="uk-link-muted" href=""
+                                                               id="notification${notification.notificationID}">${notification.message}
+                                                                <c:if test="${notification.viewed == 0}">
                                                                 <span class="badge2"
                                                                       id="badge2"></span>
-                                                            </c:if>
-                                                            <a
-                                                                    onclick="dismiss(${notification.notificationID});"
-                                                                    uk-icon="icon: trash"></a>
-                                                        </a>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <a class="uk-link-muted" href=""
-                                                           id="notification${notification.notificationID}">${notification.subject}
-                                                            <c:if test="${notification.viewed == 0}">
-                                                                <span class="badge2"></span>
-                                                            </c:if>
-                                                            <a
-                                                                    onclick="dismiss(${notification.notificationID});"
-                                                                    uk-icon="icon: trash"></a>
-                                                        </a>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </div>
+                                                                </c:if>
+                                                                <a
+                                                                        onclick="dismiss(${notification.notificationID});"
+                                                                        uk-icon="icon: trash"></a>
+                                                            </a>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <a class="uk-link-muted" href=""
+                                                               id="notification${notification.notificationID}">${notification.subject}
+                                                                <c:if test="${notification.viewed == 0}">
+                                                                    <span class="badge2"></span>
+                                                                </c:if>
+                                                                <a
+                                                                        onclick="dismiss(${notification.notificationID});"
+                                                                        uk-icon="icon: trash"></a>
+                                                            </a>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </div>
+                                            </c:if>
                                         </c:forEach>
+                                        <c:if test="${notificationCount > 10}">
+                                            <a style="color: darkgray;"
+                                               href="${pageContext.request.contextPath}/notifications">
+                                                See More</a>
+                                        </c:if>
                                     </c:when>
                                     <c:when test="${notifications == null}">
                                         <c:choose>
@@ -110,6 +117,9 @@
                                         <li class="uk-width-1-1"><a
                                                 href="${pageContext.request.contextPath}/viewUserListings">
                                             Listings</a></li>
+                                        <li class="uk-width-1-1"><a
+                                                href="${pageContext.request.contextPath}/notifications">
+                                            Notification</a></li>
                                         <li class="uk-width-1-1"><a href="${pageContext.request.contextPath}/logout">Logout</a>
                                         </li>
                                     </ul>

@@ -7,6 +7,15 @@ function dismiss(notificationID) {
     document.getElementById('notification' + notificationID).style.display = "none";
 }
 
+function remove(notificationID) {
+    $.ajax({
+        type: 'GET',
+        url: '/remove',
+        data: {n: notificationID},
+    })
+    document.getElementById('notification' + notificationID).style.display = "none";
+}
+
 $('#notificationDrop').on("hide", function () {
     $.ajax({
         type: 'GET',

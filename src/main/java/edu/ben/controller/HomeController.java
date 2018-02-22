@@ -7,6 +7,7 @@ import edu.ben.model.Notification;
 import edu.ben.model.User;
 import edu.ben.service.NotificationService;
 import edu.ben.util.Email;
+import edu.ben.util.ListingRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,10 +49,11 @@ public class HomeController extends BaseController {
 
         User user = (User) request.getSession().getAttribute("user");
 
-        //ListingRunner.run();
+        ListingRunner.run();
 
         if (user != null) {
             List<Notification> notifications = notificationService.getNotDismissedByUserID(user.getUserID());
+            request.setAttribute("notificationCount", notifications.size());
             if (notifications.size() == 0) {
                 request.getSession().setAttribute("notifications", null);
             } else {
@@ -72,36 +74,6 @@ public class HomeController extends BaseController {
 
         setModel(model);
         return model;
-    }
-
-    @GetMapping("/dismiss")
-    public void dismiss(int n) {
-        System.out.println("Notification " + n);
-        notificationService.dismiss(n);
-    }
-
-    @GetMapping("/markAsViewed")
-    public void markAsViewed(HttpServletRequest request) {
-
-        notificationService.markAsViewed((List<Notification>) request.getSession().getAttribute("notifications"));
-
-        User user = (User) request.getSession().getAttribute("user");
-
-        List<Notification> notifications = notificationService.getNotDismissedByUserID(user.getUserID());
-        if (notifications.size() == 0) {
-            request.getSession().setAttribute("notifications", null);
-        } else {
-            request.getSession().setAttribute("notifications", notifications);
-
-            int count = 0;
-            for (Notification n : notifications) {
-                if (n.getViewed() == 0) {
-                    count++;
-                }
-            }
-
-            request.getSession().setAttribute("unviewedNotificationCount", count);
-        }
     }
 
     @GetMapping("/contactUs")

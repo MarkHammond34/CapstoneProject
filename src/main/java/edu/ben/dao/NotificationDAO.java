@@ -20,4 +20,6 @@ public interface NotificationDAO {
 
     public void dismiss(int id);
 
+    public Notification getByNotificationID(int id);
+
 }

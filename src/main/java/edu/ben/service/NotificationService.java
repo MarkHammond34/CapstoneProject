@@ -22,7 +22,9 @@ public interface NotificationService {
 
     public List<Notification> getNotDismissedByUserID(int userID);
 
-    public void dismiss(int id);
+    public int dismiss(int userID, int id);
+
+    public int remove(int userID, int id);
 
     public void markAsViewed(List<Notification> notifications);
 }

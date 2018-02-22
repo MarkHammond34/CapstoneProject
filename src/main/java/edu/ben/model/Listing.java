@@ -82,6 +82,11 @@ public class Listing implements java.io.Serializable {
 
     @Column(name = "active")
     private int active;
+    
+    @OneToOne
+    @JoinColumn(name="offer_id")
+    private Offer offerID;
+
 
 	public Listing() {
 
@@ -240,6 +245,14 @@ public class Listing implements java.io.Serializable {
     public void setEnded(int ended) {
         this.ended = ended;
     }
+
+	public Offer getOfferID() {
+		return offerID;
+	}
+
+	public void setOfferID(Offer offerID) {
+		this.offerID = offerID;
+	}
 
 	public long getDelay() {
         return endTimestamp.getTime() - System.currentTimeMillis();

@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,29 +39,15 @@ public class OfferController extends BaseController {
 	@Autowired
 	NotificationService notificationService;
 
-	@RequestMapping(value = "/myOffersTest", method = RequestMethod.GET) // An offers page for each listing
-	public ModelAndView showOffersTest(/*@RequestParam("id") int id*/) {
-
-		ModelAndView model = new ModelAndView("offers");
-
-//		Listing listing = listingService.getByListingID(id);
-//		List<Offer> offers = offerService.getOffersById(listing.getOfferID().getOfferID());
-//
-//		model.addObject("offers", offers);
-
-		return model;
-
-	}
-	
 	@RequestMapping(value = "/myOffers", method = RequestMethod.GET) // An offers page for each listing
 	public ModelAndView showOffers(@RequestParam("id") int id) {
 
 		ModelAndView model = new ModelAndView("offers");
 
 		Listing listing = listingService.getByListingID(id);
-		List<Offer> offers = offerService.getOffersByListingId(listing.getId());
+		///List<Offer> offers = offerService.getOffersById(listing.getOfferID().getOfferID());
 
-		model.addObject("offers", offers);
+	//	model.addObject("offers", offers);
 
 		return model;
 
@@ -81,6 +68,7 @@ public class OfferController extends BaseController {
 		// a waiting page for current offers made
 
 		Listing listing;
+		List<Offer> offers = new ArrayList<Offer>();
 
 		try {
 
@@ -88,11 +76,12 @@ public class OfferController extends BaseController {
 			// offers = offerService.getOffersById(listing.getOfferID().getOfferID());
 
 		} catch (Exception e) {
-			System.out.println("Error"); // Do something with error messaging here
+			System.out.println("Error");
 			e.printStackTrace();
 			return model;
 		}
 
+		model.addObject("offers", offers);
 		model.addObject("listing", listing);
 
 		return model;
@@ -120,12 +109,10 @@ public class OfferController extends BaseController {
 
 			listing = listingService.getByListingID(id);
 			User receiver = userService.getUserById(listing.getUser().getUserID());
-			offer = new Offer(price, message, sender, listing);
-			
-			// do an if check here for an existing offer to update
-			
-			//if (offerService.get != null)
-			offerService.saveOrUpdate(offer);
+			offer = new Offer(price, message, sender);
+			System.out.println(offer.getOfferAmount());
+			System.out.println(offer.getUserID().getFirstName());
+			offerService.createOffer(offer);
 
 			// Notify seller
 			String subject = "You have a new offer!";
@@ -150,47 +137,33 @@ public class OfferController extends BaseController {
 	}
 
 	@RequestMapping(value = "/acceptOffer", method = RequestMethod.GET)
-	public ModelAndView acceptOffer(@RequestParam("offererID") int id, @RequestParam("listing") int listingID, HttpServletRequest request) {
+	public ModelAndView acceptOffer(@RequestParam("id") int id) {
 
-		ModelAndView model = new ModelAndView("profile?");
-		
-		User lister = (User) request.getSession().getAttribute("user");
-		Listing listing = listingService.getByListingID(listingID);
-		Offer offer = offerService.getOfferByUserAndListingId(id, listingID);
+		ModelAndView model = new ModelAndView("offers");
 
 		// maybe popup confirming that you want to accept an offer
 
 		// notify offerer
-		String subject = "Congratulations!";
-		String notificationMessage = "Your offer of " + offer.getOfferAmount() + " on " + listing.getName() + " has been accepted by " + lister.getUsername() + "!";
-		Date date = new Date();
-		Timestamp timeSent = new Timestamp(date.getTime());
 
-		// Notification notification = new Notification(receiver, listing.getId(),
-		// subject, notificationMessage, timeSent, 1);
-		// notificationService.save(notification);
-
-		// remove all offers from offer page for this listing
-		List<Offer> offers = offerService.getOffersByListingId(listing.getId()); // do something with these maybe
-		listingService.updateListingActiveStatusByID(0, listingID); // Maybe need to delete offers from this listing at some point/cascade
+		// remove offer from offer page
 
 		// remove listing from selling view
 
-		// maybe move offer/listing to current transaction page
+		// maybe move offer to current transaction page
 
-		
+		Listing listing = listingService.getByListingID(id);
+		//List<Offer> offers = offerService.getOffersById(listing.getOfferID().getOfferID());
+
+		//model.addObject("offers", offers);
+
 		return model;
 
 	}
 
 	@RequestMapping(value = "/rejectOffer", method = RequestMethod.GET)
-	public ModelAndView rejectOffer(@RequestParam("offererID") int id, @RequestParam("listing") int listingID, HttpServletRequest request) {
+	public ModelAndView rejectOffer(@RequestParam("offerID") int id) {
 
 		ModelAndView model = new ModelAndView("offers");
-		
-		User lister = (User) request.getSession().getAttribute("user");
-		Offer offer = offerService.getOfferByUserAndListingId(id, listingID);
-		Listing listing = listingService.getByListingID(listingID);
 
 		// Are you sure you want to reject this?
 
@@ -200,25 +173,15 @@ public class OfferController extends BaseController {
 
 		// send notification to offerer that their offer was rejected
 
-		// Notify seller
-		String subject = "Rejected!";
-		String notificationMessage = "Your offer of " + offer.getOfferAmount() + " on " + listing.getName() + " has been rejected by " + lister.getUsername() + ".";
-		Date date = new Date();
-		Timestamp timeSent = new Timestamp(date.getTime());
-
-		// Notification notification = new Notification(receiver, listing.getId(),
-		// subject, notificationMessage, timeSent, 1);
-		// notificationService.save(notification);
-
 		// remove offer from page and db
-		offerService.deleteOffer(offer);
 
 		// maybe ask offerer when they receive notification if they want to re-offer? -
 		// possibly in a different controller
 
-		List<Offer> offers = offerService.getOffersByListingId(listing.getId());
+		Listing listing = listingService.getByListingID(id);
+		//List<Offer> offers = offerService.getOffersById(listing.getOfferID().getOfferID());
 
-		model.addObject("offers", offers);
+		//model.addObject("offers", offers);
 
 		return model;
 
