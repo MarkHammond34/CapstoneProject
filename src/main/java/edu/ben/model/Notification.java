@@ -2,6 +2,7 @@ package edu.ben.model;
 
 import java.sql.Timestamp;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,7 +31,7 @@ public class Notification {
     @Column(name = "listing_id")
     private int listingID;
 
-    @Column(name = "subject")
+    @Column(name = "subject", nullable = true)
     private String subject;
 
     @Column(name = "message")
@@ -53,6 +54,10 @@ public class Notification {
 
     @Column(name = "viewed")
     private int viewed;
+
+    @Column(name = "type")
+    private int type;
+
 
     public Notification() {
 
@@ -165,5 +170,13 @@ public class Notification {
 
     public void setViewed(int viewed) {
         this.viewed = viewed;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

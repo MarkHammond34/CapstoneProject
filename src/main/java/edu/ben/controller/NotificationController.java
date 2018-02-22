@@ -29,8 +29,8 @@ public class NotificationController extends BaseController {
         }
 
         List<Notification> activeNotifications = notificationService.getActiveByUserID(user.getUserID());
+        request.setAttribute("notifications", activeNotifications);
 
-        request.setAttribute("pageCount", activeNotifications.size() / 15);
 
         ArrayList<Notification> currentPage = new ArrayList<Notification>(15);
         int currentPageCounter = 1;
@@ -48,4 +48,95 @@ public class NotificationController extends BaseController {
         setRequest(request);
         return "notifications";
     }
+
+    @GetMapping("/dismiss")
+    public String dismiss(int n, HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            addWarningMessage("Login To Dismiss Notifications");
+            setRequest(request);
+            return "login";
+        }
+
+        int results = notificationService.dismiss(user.getUserID(), n);
+
+        if (results < 1) {
+            addErrorMessage("Dismissal Error");
+        } else {
+            addSuccessMessage("Dismissed");
+        }
+
+        setRequest(request);
+        return "redirect:" + request.getHeader("Referer");
+
+    }
+
+    @GetMapping("/remove")
+    public String remove(int n, HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            addWarningMessage("Login To Remove Notifications");
+            setRequest(request);
+            return "login";
+        }
+
+        int results = notificationService.remove(user.getUserID(), n);
+
+        if (results < 1) {
+            addErrorMessage("Removal Error");
+        } else {
+            addSuccessMessage("Removed");
+        }
+
+        setRequest(request);
+        return "redirect:" + request.getHeader("Referer");
+    }
+
+    @GetMapping("/removeAll")
+    public String removeAll(List<Notification> n, HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            addWarningMessage("Login To Remove Notifications");
+            setRequest(request);
+            return "login";
+        }
+
+        for (Notification not : n) {
+            notificationService.remove(user.getUserID(), not.getNotificationID());
+        }
+
+        setRequest(request);
+        return "redirect:" + request.getHeader("Referer");
+    }
+
+    @GetMapping("/markAsViewed")
+    public void markAsViewed(HttpServletRequest request) {
+
+        notificationService.markAsViewed((List<Notification>) request.getSession().getAttribute("notifications"));
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        List<Notification> notifications = notificationService.getNotDismissedByUserID(user.getUserID());
+        if (notifications.size() == 0) {
+            request.getSession().setAttribute("notifications", null);
+        } else {
+            request.getSession().setAttribute("notifications", notifications);
+
+            int count = 0;
+            for (Notification n : notifications) {
+                if (n.getViewed() == 0) {
+                    count++;
+                }
+            }
+
+            request.getSession().setAttribute("unviewedNotificationCount", count);
+        }
+    }
+
 }
