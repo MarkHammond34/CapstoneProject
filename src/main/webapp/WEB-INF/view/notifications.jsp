@@ -11,154 +11,52 @@
     <div class="uk-grid-large" uk-grid>
         <div class="uk-width-2-3 uk-align-center">
             <h2 class="uk-heading-primary uk-align-center">Notifications</h2>
+            <hr>
             <ul class="uk-list" id="notificationSection" uk-grid>
                 <c:forEach items="${notifications}" var="notification" varStatus="loop">
-                    <c:choose>
-                        <c:when test="${notification.type == 1}">
+                    <li class="uk-width-1-1 uk-padding-small uk-border-rounded"
+                        id="notification${notification.notificationID}Item"
+                        style="font-size: 16px;"
+                        onmouseover="turnOrange(this);"
+                        onmouseleave="normal(this);">
+                        <div class="uk-grid-small">
+                            <a
+                                    onclick="remove(${notification.notificationID});"
+                                    class="uk-float-right"
+                                    title="Remove"
+                                    style="color: red"
+                                    uk-icon="icon: close; ratio: 1.3"></a>
                             <c:choose>
-                                <c:when test="${notification.viewed == 1}">
-                                    <li class="uk-width-1-1 uk-padding-small uk-border-rounded"
-                                        id="notification${notification.notificationID}"
-                                        style="background-color: lightblue; font-size: 16px;">
-                                        <img
-                                                src="${pageContext.request.contextPath}/resources/img/icons/trophy.png"
-                                                alt="Trophy" width="6%">
-                                        <a href="/viewListing?l=${notification.listingID}"
-                                           uk-icon="icon: link"> ${notification.message}</a>
-                                        <a
-                                                onclick="remove(${notification.notificationID});" class="uk-float-right"
-                                                title="Remove"
-                                                style="color: red"
-                                                uk-icon="icon: close"></a>
-                                    </li>
+                                <c:when test="${notification.type == 1}">
+                                    <img
+                                            src="${pageContext.request.contextPath}/resources/img/icons/trophy.png"
+                                            alt="Trophy" width="8%">
+                                </c:when>
+                                <c:when test="${notification.type == 2}">
+                                    <img
+                                            src="${pageContext.request.contextPath}/resources/img/icons/cash.png"
+                                            alt="Trophy" width="8%">
+                                </c:when>
+                                <c:when test="${notification.type == 3}">
+                                    <img
+                                            src="${pageContext.request.contextPath}/resources/img/icons/cancel.png"
+                                            alt="Trophy" width="8%">
                                 </c:when>
                                 <c:otherwise>
-                                    <li class="uk-width-1-1 uk-padding-small uk-border-rounded"
-                                        id="notification${notification.notificationID}"
-                                        style="font-size: 16px;">
-                                        <img
-                                                src="${pageContext.request.contextPath}/resources/img/icons/trophy.png"
-                                                alt="Trophy" width="6%">
-                                        <a href="/viewListing?l=${notification.listingID}"
-                                           uk-icon="icon: link"> ${notification.message}</a>
-                                        <a
-                                                onclick="remove(${notification.notificationID});" class="uk-float-right"
-                                                title="Remove"
-                                                style="color: red"
-                                                uk-icon="icon: close"></a>
-                                    </li>
+                                    <img
+                                            src="${pageContext.request.contextPath}/resources/img/icons/star.png"
+                                            alt="Trophy" width="8%">
                                 </c:otherwise>
                             </c:choose>
-                        </c:when>
-                        <c:when test="${notification.type == 2}">
-                            <c:choose>
-                                <c:when test="${notification.viewed == 1}">
-                                    <li class="uk-width-1-1 uk-padding-small uk-border-rounded"
-                                        id="notification${notification.notificationID}"
-                                        style="background-color: lightblue; font-size: 16px;">
-                                        <img
-                                                src="${pageContext.request.contextPath}/resources/img/icons/cash.png"
-                                                alt="Cash" width="6%">
-                                        <a href="/viewListing?l=${notification.listingID}"
-                                           uk-icon="icon: link"> ${notification.message}</a>
-                                        <a
-                                                onclick="remove(${notification.notificationID});" class="uk-float-right"
-                                                title="Remove"
-                                                style="color: red"
-                                                uk-icon="icon: close"></a>
-                                    </li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li class="uk-width-1-1 uk-padding-small uk-border-rounded"
-                                        id="notification${notification.notificationID}"
-                                        style="font-size: 16px;">
-                                        <img
-                                                src="${pageContext.request.contextPath}/resources/img/icons/cash.png"
-                                                alt="Trophy" width="6%">
-                                        <a href="/viewListing?l=${notification.listingID}"
-                                           uk-icon="icon: link"> ${notification.message}</a>
-                                        <a
-                                                onclick="remove(${notification.notificationID});" class="uk-float-right"
-                                                title="Remove"
-                                                style="color: red"
-                                                uk-icon="icon: close"></a>
-                                    </li>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:when>
-                        <c:when test="${notification.type == 3}">
-                            <c:choose>
-                                <c:when test="${notification.viewed == 1}">
-                                    <li class="uk-width-1-1 uk-padding-small uk-border-rounded"
-                                        id="notification${notification.notificationID}"
-                                        style="background-color: lightblue; font-size: 16px;">
-                                        <img
-                                                src="${pageContext.request.contextPath}/resources/img/icons/cancel.png"
-                                                alt="Cancel" width="6%">
-                                        <a href="/viewListing?l=${notification.listingID}"
-                                           uk-icon="icon: link"> ${notification.message}</a>
-                                        <a
-                                                onclick="remove(${notification.notificationID});" class="uk-float-right"
-                                                title="Remove"
-                                                style="color: red"
-                                                uk-icon="icon: close"></a>
-                                    </li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li class="uk-width-1-1 uk-padding-small uk-border-rounded"
-                                        id="notification${notification.notificationID}"
-                                        style="font-size: 16px;">
-                                        <img
-                                                src="${pageContext.request.contextPath}/resources/img/icons/cancel.png"
-                                                alt="Cancel" width="6%" uk-cover>
-                                        <a href="/viewListing?l=${notification.listingID}"
-                                           uk-icon="icon: link"> ${notification.message}</a>
-                                        <a
-                                                onclick="remove(${notification.notificationID});" class="uk-float-right"
-                                                title="Remove"
-                                                style="color: red"
-                                                uk-icon="icon: close"></a>
-                                    </li>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:when>
-                        <c:otherwise>
-                            <c:choose>
-                                <c:when test="${notification.viewed == 1}">
-                                    <li class="uk-width-1-1 uk-padding-small uk-border-rounded"
-                                        id="notification${notification.notificationID}"
-                                        style="background-color: lightblue; font-size: 16px;">
-                                        <img
-                                                src="${pageContext.request.contextPath}/resources/img/icons/star.png"
-                                                alt="Star" width="6%">
-                                        <a href="/viewListing?l=${notification.listingID}"
-                                           uk-icon="icon: link"> ${notification.message}</a>
-                                        <a
-                                                onclick="remove(${notification.notificationID});" class="uk-float-right"
-                                                title="Remove"
-                                                style="color: red"
-                                                uk-icon="icon: close"></a>
-                                    </li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li class="uk-width-1-1 uk-padding-small uk-border-rounded"
-                                        id="notification${notification.notificationID}"
-                                        style="font-size: 16px;">
-                                        <img
-                                                src="${pageContext.request.contextPath}/resources/img/icons/star.png"
-                                                alt="Star" width="6%">
-                                        <a href="/viewListing?l=${notification.listingID}"
-                                           uk-icon="icon: link"> ${notification.message}</a>
-                                        <a
-                                                onclick="remove(${notification.notificationID});" class="uk-float-right"
-                                                title="Remove"
-                                                style="color: red"
-                                                uk-icon="icon: close"></a>
-                                    </li>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:otherwise>
-                    </c:choose>
+                            <a href="/viewListing?l=${notification.listingID}"
+                               uk-icon="icon: link"> ${notification.message}</a>
+                            <c:if test="${notification.viewed == 0}">
+                                <span class="uk-badge" style="background-color: #ff695c;">New</span>
+                            </c:if>
+                            <p class="uk-margin-large-left uk-margin-remove-top uk-margin-remove-bottom uk-text-small">
+                                Date: ${notification.dateCreated}</p>
+                        </div>
+                    </li>
                 </c:forEach>
             </ul>
         </div>
@@ -168,23 +66,24 @@
 <%@include file="jspf/footer.jspf" %>
 
 <script>
+
     function remove(notificationID) {
         $.ajax({
             type: 'GET',
             url: '/remove',
             data: {n: notificationID},
         })
-        document.getElementById('notification' + notificationID).style.display = "none";
+        document.getElementById("notification" + notificationID + "Item").style.display = "none";
     }
 
-    function removeAll(notifications) {
-        $.ajax({
-            type: 'GET',
-            url: '/removeAll',
-            data: {n: notifications},
-        })
-        document.getElementById('notificationSection').style.display = "none";
+    function turnOrange(x) {
+        x.style.backgroundColor = "#ffdb99";
     }
+
+    function normal(x) {
+        x.style.backgroundColor = "whitesmoke";
+    }
+
 </script>
 </body>
 </html>
