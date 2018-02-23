@@ -13,7 +13,7 @@ public interface ListingBidDAO {
 
     public List getActiveByListingID(int listingID);
 
-    public User getHighestBidderByListingID(int listingID);
+    public User getHighestBidderByListingID(int listingID, int userID);
 
     public ListingBid getHighestBidByListingID(int listingID);
 

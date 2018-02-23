@@ -90,12 +90,11 @@ public class ListingBidServiceImpl implements ListingBidService {
 
             try {
                 // Set new highest bidder
-                User newHighestBidder = listingBidDAO.getHighestBidderByListingID(listingID);
+                User newHighestBidder = listingBidDAO.getHighestBidderByListingID(listingID, user.getUserID());
                 listing.setHighestBidder(newHighestBidder);
 
                 // Set new highest bid
                 ListingBid newListingBid = listingBidDAO.getHighestBidByListingID(listingID);
-                System.out.println("New Winning Bidder: " + newHighestBidder.getUserID());
                 listing.setHighestBid(newListingBid.getBidValue());
 
                 // Update listing
@@ -114,7 +113,7 @@ public class ListingBidServiceImpl implements ListingBidService {
             }
         }
 
-        notificationService.save(newNotifications);
+        // notificationService.save(newNotifications);
 
         return 1;
     }

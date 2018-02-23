@@ -15,7 +15,7 @@
                         </div>
                         <div class="name" style="font-size: 22px;">
                             <a href="#"><strong class="uk-text-danger">${listing.name}</strong></a>
-                            <a title="Cancel Bid" uk-icon="icon: ban"
+                            <a title="Cancel Bid" uk-icon="icon: ban" style="color: red"
                                uk-toggle="target: #cancelBidModal${listing.id}" class="uk-float-right"></a>
                         </div>
                         <div class="price" style="font-size: 16px;">

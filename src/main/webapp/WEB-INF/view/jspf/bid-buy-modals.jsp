@@ -56,7 +56,7 @@
     </div>
 </div>
 
-<div id="cancelBidModal${listing.id}" uk-modal>
+<div id="cancelBid${listing.id}Modal" uk-modal>
     <div class="uk-modal-dialog uk-modal-body">
         <h3 style="text-align: center;">Are you sure you want to cancel your bid?</h3>
         <hr>
@@ -69,7 +69,10 @@
         </div>
         <p class="uk-text-right">
             <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-            <button class="uk-button uk-button-primary" onclick="cancelBid(${listing.id});" type="button">Yes</button>
+            <a class="uk-button uk-button-primary"
+               href="/cancelBid?l=${listing.id}">
+                Yes
+            </a>
         </p>
     </div>
 </div>

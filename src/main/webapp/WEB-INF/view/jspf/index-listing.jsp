@@ -31,7 +31,7 @@
                         uk-toggle="target: #placeBidModal${listing.id}" id="bidButton${listing.id}">Place Bid</a>
                 <c:if test="${listing.highestBidder.userID == user.userID}">
                     <a title="Cancel Bid" uk-icon="icon: ban"
-                       uk-toggle="target: #cancelBidModal${listing.id}" style="margin-left: 10px; color: red;"></a>
+                       uk-toggle="target: #cancelBid${listing.id}Modal" style="margin-left: 10px; color: red;"></a>
                 </c:if>
             </div>
             <hr>

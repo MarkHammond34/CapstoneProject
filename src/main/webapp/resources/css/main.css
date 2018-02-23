@@ -390,8 +390,8 @@ hgroup h2.lead {
     white-space: nowrap;
 }
 
-.body {
-    background-color: #f2f2f2;
+.u-list-it-background {
+    background-color: ghostwhite;
 }
 
 .glyphicon-star-empty {
