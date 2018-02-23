@@ -1,5 +1,7 @@
 package edu.ben.dao;
 
+import java.util.List;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -40,6 +42,26 @@ public class TransactionDAOImpl implements TransactionDAO {
 	@Override
 	public void deleteTransaction(Transaction transaction) {
 		getSession().delete(transaction);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Transaction> getTransactionsByBuyerID(int buyerID) {
+
+		Query q = getSession().createQuery("FROM transaction WHERE buyer_ID=:buyerID");
+		q.setParameter("buyerID", buyerID);
+		
+		return q.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Transaction> getTransactionsBySellerID(int sellerID) {
+		
+		Query q = getSession().createQuery("FROM transaction WHERE buyer_ID=:sellerID");
+		q.setParameter("sellerID", sellerID);
+		
+		return q.list();
 	}
 
 }

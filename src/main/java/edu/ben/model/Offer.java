@@ -38,6 +38,12 @@ public class Offer {
 	@JoinColumn(name = "listing_id")
 	private Listing listingID;
 	
+	@Column(name = "status")
+	private String status;
+	
+	@Column(name = "active")
+	private int active;
+	
 	public Offer() {
 		
 	}
@@ -49,8 +55,30 @@ public class Offer {
 		this.listingID = listingID;
 	}
 	
-	public Offer(int offerID, int offerAmount, String offerMessage, String imagePath, User userID) {
-		
+	public Offer(int offerAmount, String offerMessage, User userID, Listing listingID, String status) {
+		this.offerAmount = offerAmount;
+		this.offerMessage = offerMessage;
+		this.userID = userID;
+		this.listingID = listingID;
+		this.status = status;
+	}
+	
+	public Offer(int offerAmount, String offerMessage, String imagePath, User userID, Listing listingID, String status) {
+		this.offerAmount = offerAmount;
+		this.offerMessage = offerMessage;
+		this.imagePath = imagePath;
+		this.userID = userID;
+		this.listingID = listingID;
+		this.status = status;
+	}
+	
+	public Offer(int offerID, int offerAmount, String offerMessage, String imagePath, User userID, Listing listingID, String status) {
+		this.offerID = offerID;
+		this.offerAmount = offerAmount;
+		this.offerMessage = offerMessage;
+		this.userID = userID;
+		this.listingID = listingID;
+		this.status = status;
 	}
 
 	// Getters and setters
@@ -103,4 +131,19 @@ public class Offer {
 		this.listingID = listingID;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public int getActive() {
+		return active;
+	}
+
+	public void setActive(int active) {
+		this.active = active;
+	}
 }

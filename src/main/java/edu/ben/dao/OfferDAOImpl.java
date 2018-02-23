@@ -63,13 +63,17 @@ public class OfferDAOImpl implements OfferDAO {
 		Query q = getSession().createQuery("FROM offer WHERE offer_id=:id");
 		q.setParameter("id", id);
 		
-		return null;
+		return (Offer) q.list();
 	}
 
 	@Override
 	public Offer getOfferByUserAndListingId(int userID, int listingID) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Query q = getSession().createQuery("FROM offer WHERE user_id=:userID AND listing_id=:listingID");
+		q.setParameter("userID", userID);
+		q.setParameter("listingID", listingID);
+		
+		return (Offer) q.list().get(0);
 	}
 
 }

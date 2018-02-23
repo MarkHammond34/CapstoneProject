@@ -1,5 +1,7 @@
 package edu.ben.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,16 @@ public class TransactionServiceImpl implements TransactionService {
 	@Override
 	public void deleteTransaction(Transaction transaction) {
 		transactionDAO.deleteTransaction(transaction);
+	}
+
+	@Override
+	public List<Transaction> getTransactionsByBuyerID(int id) {
+		return transactionDAO.getTransactionsByBuyerID(id);
+	}
+
+	@Override
+	public List<Transaction> getTransactionsBySellerID(int id) {
+		return transactionDAO.getTransactionsBySellerID(id);
 	}
 	
 }

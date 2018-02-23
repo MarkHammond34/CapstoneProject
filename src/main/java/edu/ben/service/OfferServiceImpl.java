@@ -53,8 +53,7 @@ public class OfferServiceImpl implements OfferService {
 
 	@Override
 	public Offer getOfferByUserAndListingId(int userID, int listingID) {
-		// TODO Auto-generated method stub
-		return null;
+		return offerDAO.getOfferByUserAndListingId(userID, listingID);
 	}
 
 }

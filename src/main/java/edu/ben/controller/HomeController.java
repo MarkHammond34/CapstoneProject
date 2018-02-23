@@ -51,26 +51,26 @@ public class HomeController extends BaseController {
 
         ListingRunner.run();
 
-        if (user != null) {
-            List<Notification> notifications = notificationService.getNotDismissedByUserID(user.getUserID());
-            request.setAttribute("notificationCount", notifications.size());
-            if (notifications.size() == 0) {
-                request.getSession().setAttribute("notifications", null);
-            } else {
-                request.getSession().setAttribute("notifications", notifications);
-
-                int count = 0;
-                for (Notification n : notifications) {
-                    if (n.getViewed() == 0) {
-                        count++;
-                    }
-                }
-
-                request.getSession().setAttribute("unviewedNotificationCount", count);
-            }
-        } else {
-            request.getSession().setAttribute("notifications", null);
-        }
+//        if (user != null) {
+//            List<Notification> notifications = notificationService.getNotDismissedByUserID(user.getUserID());
+//            request.setAttribute("notificationCount", notifications.size());
+//            if (notifications.size() == 0) {
+//                request.getSession().setAttribute("notifications", null);
+//            } else {
+//                request.getSession().setAttribute("notifications", notifications);
+//
+//                int count = 0;
+//                for (Notification n : notifications) {
+//                    if (n.getViewed() == 0) {
+//                        count++;
+//                    }
+//                }
+//
+//                request.getSession().setAttribute("unviewedNotificationCount", count);
+//            }
+//        } else {
+//            request.getSession().setAttribute("notifications", null);
+//        }
 
         setModel(model);
         return model;

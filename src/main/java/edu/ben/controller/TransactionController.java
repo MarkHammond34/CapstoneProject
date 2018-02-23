@@ -1,5 +1,7 @@
 package edu.ben.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.ben.model.Listing;
+import edu.ben.model.Transaction;
 import edu.ben.model.User;
 import edu.ben.service.ListingService;
+import edu.ben.service.TransactionService;
 import edu.ben.util.Email;
 
 @Controller
@@ -19,6 +23,9 @@ public class TransactionController extends BaseController {
 	
 	@Autowired
 	ListingService listingService;
+	
+	@Autowired
+	TransactionService transactionService;
 
 	@RequestMapping(value="/checkoutPage", method=RequestMethod.GET)
 	public ModelAndView checkoutPage() {
@@ -37,6 +44,30 @@ public class TransactionController extends BaseController {
 		addSuccessMessage("Congratulations, your purchase was a success!");
 		
 		return new ModelAndView("redirect:/");
+	}
+	
+	@RequestMapping(value="buyerTransactions", method=RequestMethod.GET)
+	public ModelAndView currentTransactionsForBuyer() {
+		
+		ModelAndView model = new ModelAndView("transactions");
+		
+		List<Transaction> transactions = transactionService.getTransactionsByBuyerID(1);
+		
+		model.addObject("buyerTransactions", transactions);
+		
+		return model;
+	}
+	
+	@RequestMapping(value="sellerTransactions", method=RequestMethod.GET)
+	public ModelAndView currentTransactionsForSeller() {
+		
+		ModelAndView model = new ModelAndView("transactions");
+		
+		List<Transaction> transactions = transactionService.getTransactionsBySellerID(1);
+		
+		model.addObject("sellerTransactions", transactions);
+		
+		return model;
 	}
 	
 }

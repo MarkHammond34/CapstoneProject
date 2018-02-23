@@ -1,20 +1,19 @@
 package edu.ben.model;
 
-import org.hibernate.annotations.Formula;
-import org.hibernate.annotations.SQLUpdate;
-import org.springframework.context.annotation.Primary;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import java.sql.Timestamp;
 
-import javax.jdo.annotations.Unique;
-import javax.persistence.*;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.validation.constraints.AssertTrue;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.sql.Timestamp;
-import java.util.List;
+
+import org.springframework.transaction.annotation.Transactional;
 
 @Entity(name = "user")
 @Table(name = "user")

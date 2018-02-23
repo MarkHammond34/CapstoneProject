@@ -15,7 +15,7 @@
 							onsubmit="return validateForm()" action="confirmOffer"
 							enctype="multipart/form-data" name="uploadListingForm" uk-grid>
 							<br style="clear: both">
-							<h3 style="margin-bottom: 25px; text-align: center;">Make an
+							<h3 style="margin-bottom: 15px; text-align: center;">Make an
 								offer</h3>
 							<div class="uk-width-1-1">
 								<strong>Price</strong><input type="number" class="uk-input"
