@@ -63,20 +63,21 @@ public class Notification {
 
     }
 
-    public Notification(User user, int listingID, String message, Timestamp sendTimestamp, int active) {
+    public Notification(User user, int listingID, String message, int active) {
         this.user = user;
         this.listingID = listingID;
         this.message = message;
-        this.sendTimestamp = sendTimestamp;
+        this.subject = "U-ListIt Notification";
+        this.sendTimestamp = new Timestamp(System.currentTimeMillis());
         this.active = active;
     }
 
-    public Notification(User user, int listingID, String subject, String message, Timestamp sendTimestamp, int active) {
+    public Notification(User user, int listingID, String subject, String message, int active) {
         this.user = user;
         this.listingID = listingID;
         this.subject = subject;
         this.message = message;
-        this.sendTimestamp = sendTimestamp;
+        this.sendTimestamp = new Timestamp(System.currentTimeMillis());
         this.active = active;
     }
 

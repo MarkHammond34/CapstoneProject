@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +41,9 @@ public class ListingDAOImpl implements ListingDAO {
 
     @Override
     public List getAllListingsByCategory(String category) {
-    	Query q = getSession().createQuery("FROM listing WHERE category=:category");
-    	q.setParameter("category", category);
-    	return q.list();
+        Query q = getSession().createQuery("FROM listing WHERE category=:category");
+        q.setParameter("category", category);
+        return q.list();
     }
 
     @SuppressWarnings("unchecked")
@@ -104,8 +105,8 @@ public class ListingDAOImpl implements ListingDAO {
 
     @Override
     public List getListingsInProgressUserBidOn(int userID) {
-        Query q = getSession().createSQLQuery(
-                "SELECT * FROM listing AS l WHERE l.ended=0 AND active=1 AND l.id IN (SELECT lb.listing_id FROM listing_bid AS lb WHERE lb.user_id=:userID)")
+        SQLQuery q = getSession().createSQLQuery(
+                "SELECT * FROM listing AS l WHERE l.ended=0 AND active=1 AND l.id IN (SELECT lb.listing_id FROM listing_bid AS lb WHERE lb.user_id=:userID AND active=1)")
                 .addEntity(Listing.class);
         q.setParameter("userID", userID);
         return q.list();
@@ -113,7 +114,7 @@ public class ListingDAOImpl implements ListingDAO {
 
     @Override
     public List getListingsLost(int userID) {
-        Query q = getSession().createSQLQuery(
+        SQLQuery q = getSession().createSQLQuery(
                 "SELECT * FROM listing AS l WHERE l.ended=1 AND active=1 AND l.highest_bid_userID!=:userID AND l.id IN (SELECT lb.listing_id FROM listing_bid AS lb WHERE lb.user_id=:userID)")
                 .addEntity(Listing.class);
         q.setParameter("userID", userID);
@@ -122,19 +123,10 @@ public class ListingDAOImpl implements ListingDAO {
 
     @Override
     public List getListingsWon(int userID) {
-        Query q = getSession().createSQLQuery("SELECT * FROM listing WHERE ended=1 AND active=1 AND highest_bid_userID=:userID")
+        SQLQuery q = getSession().createSQLQuery("SELECT * FROM listing WHERE ended=1 AND active=1 AND highest_bid_userID=:userID")
                 .addEntity(Listing.class);
         q.setParameter("userID", userID);
         return q.list();
-    }
-
-    @Override
-    public void insertListingBid(int listingID, int userID) {
-        Query q = getSession().createSQLQuery(
-                "INSERT INTO listing_bid (listing_id, user_id) VALUES (:listingID, :userID) ON DUPLICATE KEY UPDATE listing_id=:listingID, user_id=:userID");
-        q.setParameter("listingID", listingID);
-        q.setParameter("userID", userID);
-        q.executeUpdate();
     }
 
     @Override

@@ -55,3 +55,24 @@
         </form>
     </div>
 </div>
+
+<div id="cancelBid${listing.id}Modal" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h3 style="text-align: center;">Are you sure you want to cancel your bid?</h3>
+        <hr>
+        <div>
+            <h4>Name: ${listing.name}</h4>
+            <h4>Highest Bid: ${listing.highestBid}</h4>
+            <h4>Seller: <a
+                    href="/viewProfile?id=${listing.user.userID}">${listing.user.username}</a>
+            </h4>
+        </div>
+        <p class="uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+            <a class="uk-button uk-button-primary"
+               href="/cancelBid?l=${listing.id}">
+                Yes
+            </a>
+        </p>
+    </div>
+</div>

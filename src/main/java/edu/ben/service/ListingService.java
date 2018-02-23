@@ -20,8 +20,6 @@ public interface ListingService {
 
 	public Listing getByListingID(int listingID);
 
-	public int placeBid(int biddingUserID, double bidValue, Listing listing);
-
 	public List<Listing> getAllListingsByUserID(int userID);
 
 	public void updateListingActiveStatusByID(int active, int id);

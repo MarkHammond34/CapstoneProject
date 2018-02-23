@@ -1,4 +1,4 @@
-    package edu.ben.service;
+package edu.ben.service;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import edu.ben.dao.UserDAO;
 import edu.ben.model.Listing;
+import edu.ben.model.ListingBid;
 import edu.ben.model.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,13 @@ public class ListingServiceImpl implements ListingService {
     @Autowired
     public void setNotificationService(NotificationService notificationService) {
         this.notificationService = notificationService;
+    }
+
+    ListingBidService listingBidService;
+
+    @Autowired
+    public void setListingBidService(ListingBidService listingBidService) {
+        this.listingBidService = listingBidService;
     }
 
     @Override
@@ -73,32 +81,6 @@ public class ListingServiceImpl implements ListingService {
     }
 
     @Override
-    public int placeBid(int biddingUserID, double bidValue, Listing listing) {
-
-        if (System.currentTimeMillis() > listing.getEndTimestamp().getTime()) {
-            return -1;
-        } else if (bidValue <= listing.getHighestBid()) {
-            ld.insertListingBid(listing.getId(), biddingUserID);
-            return -2;
-        } else if (biddingUserID == listing.getUser().getUserID()) {
-            return -3;
-        }
-        ld.insertListingBid(listing.getId(), biddingUserID);
-
-        // If current highest bidder is getting outbid, send notification
-        if (biddingUserID != listing.getHighestBidder().getUserID()) {
-            notificationService.save(new Notification(listing.getHighestBidder(), listing.getId(), "You've Be Outbit! Listing: " + listing.getName(), new Timestamp(System.currentTimeMillis() + 10000), 1));
-        }
-
-        listing.setHighestBid(bidValue);
-        listing.setHighestBidder(ud.getUserById(biddingUserID));
-        listing.setBidCount(listing.getBidCount() + 1);
-
-        ld.saveOrUpdate(listing);
-        return 1;
-    }
-
-    @Override
     public List<Listing> getAllListingsByUserID(int userID) {
         return ld.getAllListingsByUserID(userID);
     }
@@ -128,28 +110,28 @@ public class ListingServiceImpl implements ListingService {
         return ld.getActiveListings();
     }
 
-	@Override
-	public List<Listing> getAllWeeklyPlusListings() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<Listing> getAllWeeklyPlusListings() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public List<Listing> getAllFixedListings() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<Listing> getAllFixedListings() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public List<Listing> getAllDailyListings() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<Listing> getAllDailyListings() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public List<Listing> getAllWeeklyListings() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<Listing> getAllWeeklyListings() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import edu.ben.model.Listing;
 import edu.ben.model.Notification;
 import edu.ben.model.User;
+import edu.ben.service.ListingBidService;
 import edu.ben.service.NotificationService;
 import edu.ben.util.Email;
 import edu.ben.util.ListingRunner;
@@ -25,6 +26,9 @@ public class HomeController extends BaseController {
 
     @Autowired
     ListingService listingService;
+
+    @Autowired
+    ListingBidService listingBidService;
 
     @Autowired
     NotificationService notificationService;
@@ -50,6 +54,8 @@ public class HomeController extends BaseController {
         User user = (User) request.getSession().getAttribute("user");
 
         ListingRunner.run();
+
+
 
 //        if (user != null) {
 //            List<Notification> notifications = notificationService.getNotDismissedByUserID(user.getUserID());
