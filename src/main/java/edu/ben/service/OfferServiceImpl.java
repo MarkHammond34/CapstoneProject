@@ -56,4 +56,14 @@ public class OfferServiceImpl implements OfferService {
 		return offerDAO.getOfferByUserAndListingId(userID, listingID);
 	}
 
+	@Override
+	public List<Offer> getActiveOffersByUserId(int id) {
+		return offerDAO.getActiveOffersByUserId(id);
+	}
+
+	@Override
+	public List<Offer> getActiveOffersByListingId(int id) {
+		return offerDAO.getActiveOffersByListingId(id);
+	}
+
 }

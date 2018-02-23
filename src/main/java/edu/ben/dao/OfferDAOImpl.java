@@ -46,12 +46,32 @@ public class OfferDAOImpl implements OfferDAO {
 		
 		return q.list();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Offer> getActiveOffersByUserId(int id) {
+		
+		Query q = getSession().createQuery("FROM offer WHERE user_id=:id AND active=1");
+		q.setParameter("id", id);
+		
+		return q.list();
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Offer> getOffersByListingId(int id) {
 		
 		Query q = getSession().createQuery("FROM offer WHERE listing_id=:id");
+		q.setParameter("id", id);
+		
+		return q.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Offer> getActiveOffersByListingId(int id) {
+		
+		Query q = getSession().createQuery("FROM offer WHERE listing_id=:id AND active=1");
 		q.setParameter("id", id);
 		
 		return q.list();

@@ -42,14 +42,14 @@ public class HomeController extends BaseController {
     public ModelAndView home(HttpServletRequest request) {
         ModelAndView model = new ModelAndView("index");
 
-        List<Listing> recent = listingService.getRecentListings();
-        model.addObject("recentListings", recent);
+//        List<Listing> recent = listingService.getRecentListings();
+//        model.addObject("recentListings", recent);
 
-        List<Listing> endingSoon = listingService.getRecentListings();
-        model.addObject("endingSoonListings", endingSoon);
-
-        List<Listing> trending = listingService.getListingsByBidCount();
-        model.addObject("trendingListings", trending);
+//        List<Listing> endingSoon = listingService.getRecentListings();
+//        model.addObject("endingSoonListings", endingSoon);
+//
+//        List<Listing> trending = listingService.getListingsByBidCount();
+//        model.addObject("trendingListings", trending);
 
         User user = (User) request.getSession().getAttribute("user");
 

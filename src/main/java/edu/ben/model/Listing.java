@@ -18,12 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Entity(name = "listing")
 @Table(name = "listing")
 @Transactional
-public class Listing implements java.io.Serializable {
-
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+public class Listing {
 
     @Id
     @Column(name = "id")
@@ -63,7 +58,7 @@ public class Listing implements java.io.Serializable {
 
     @Column(name = "highest_bid")
     // @Nullable
-    private int highestBid;
+    private Integer highestBid;
 
     @Column(name = "bid_count")
     // @Nullable
@@ -82,7 +77,7 @@ public class Listing implements java.io.Serializable {
     private int active;
 
     public Listing() {
-
+    	this.highestBid = 0;
     }
 
     public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, String imagePath) {
@@ -92,6 +87,7 @@ public class Listing implements java.io.Serializable {
         this.price = price;
         // this.category = category;
         this.image_path = imagePath;
+        this.highestBid = 0;
     }
 
     public Listing(@NotBlank String name, String description, @NotBlank double price, /* @NotBlank String category, */
@@ -102,6 +98,7 @@ public class Listing implements java.io.Serializable {
         this.price = price;
         // this.category = category;
         this.image_path = file;
+        this.highestBid = 0;
     }
 
     public int getId() {

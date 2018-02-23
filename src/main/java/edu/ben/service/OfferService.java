@@ -13,8 +13,12 @@ public interface OfferService {
 	public void deleteOffer(Offer offer);
 
 	public List<Offer> getOffersByUserId(int id);
+	
+	public List<Offer> getActiveOffersByUserId(int id);
 
 	public List<Offer> getOffersByListingId(int id);
+	
+	public List<Offer> getActiveOffersByListingId(int id);
 	
 	public Offer getOfferById(int id);
 	

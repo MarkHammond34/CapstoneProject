@@ -39,8 +39,9 @@ public class ListingDAOImpl implements ListingDAO {
 
     }
 
-    @Override
-    public List getAllListingsByCategory(String category) {
+    @SuppressWarnings("unchecked")
+	@Override
+    public List<Listing> getAllListingsByCategory(String category) {
         Query q = getSession().createQuery("FROM listing WHERE category=:category");
         q.setParameter("category", category);
         return q.list();
