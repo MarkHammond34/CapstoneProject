@@ -25,6 +25,7 @@ import edu.ben.model.User;
 import edu.ben.service.CategoryService;
 import edu.ben.service.FavoriteService;
 import edu.ben.service.ListingService;
+import edu.ben.service.OfferService;
 import edu.ben.service.UserService;
 import edu.ben.util.ImagePath;
 
@@ -42,6 +43,9 @@ public class ListingController extends BaseController {
 
     @Autowired
     UserService userService;
+    
+    @Autowired
+    OfferService offerService;
 
     /**
      * Upload single file using Spring Controller
@@ -153,6 +157,8 @@ public class ListingController extends BaseController {
         Listing listing = listingService.getByListingID(l);
         // pass these to model
         model.addObject("listing", listing);
+        
+        System.out.println("Being used?");
 
         return model;
     }
@@ -248,29 +254,46 @@ public class ListingController extends BaseController {
 
         // get listings
         List<Listing> listings = listingService.getAllListingsByCategory(category);
+        
+        Listing listing = listings.get(0); // temp
 
         // get user
         User user = (User) request.getSession().getAttribute("user");
 
         model.addObject("user", user);
         model.addObject("listings", listings);
+        
+        model.addObject("listing", listing); // temp
 
         return model;
     }
 
     @RequestMapping(value = "/listing", method = RequestMethod.GET)
-    public ModelAndView viewSelectedListing() {
+    public ModelAndView viewSelectedListing(HttpServletRequest request, @RequestParam("listingId") int listingID) {
 
         ModelAndView model = new ModelAndView("listing");
 
         // get listing
         Listing listing = listingService.getByListingID(1);
-        User user = userService.getUserById(1);
+        User user = (User) request.getSession().getAttribute("user");
         String dateCreated = listing.getDateCreated().toString().substring(0, 10);
         // pass these to model
         model.addObject("listing", listing);
         model.addObject("user", user);
         model.addObject("date", dateCreated);
+        
+        boolean hasOffer;
+        
+        // Checks if the user already made an offer on the listing
+        if (offerService.getOfferByUserAndListingId(user.getUserID(), listingID) != null) {
+        	hasOffer = true;
+        } else {
+        	hasOffer = false;
+        }
+        
+        model.addObject("hasOffer", hasOffer);
+        
+        System.out.println("viewSelected");
 
         return model;
     }

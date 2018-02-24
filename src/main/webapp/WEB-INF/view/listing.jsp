@@ -49,7 +49,7 @@
 									class="uk-button uk-button-text" style="color: green;"
 									href="${pageContext.request.contextPath}/button?listing=${listing.id}">Buy
 									Now!</a> <a
-									onclick="return confirm('You have already made an offer for this listing. Making a new one will replace the current one. Is this okay?');"
+									<c:if test="${hasOffer}">onclick="return confirm('You have already made an offer for this listing. Making a new one will replace the current one. Is this okay?');"</c:if>
 									class="uk-button uk-button-text" style="color: green;"
 									href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Make
 									offer</a>

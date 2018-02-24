@@ -64,7 +64,7 @@ public class OfferController extends BaseController {
 		ModelAndView model = new ModelAndView("offers");
 
 		Listing listing = listingService.getByListingID(/*id*/1);
-		List<Offer> offers = offerService.getOffersByListingId(listing.getId());
+		List<Offer> offers = offerService.getPendingOffersByListingId(listing.getId());
 		
 		model.addObject("offers", offers);
 
@@ -83,15 +83,11 @@ public class OfferController extends BaseController {
 
 		ModelAndView model = new ModelAndView("makeOffer");
 
-		// Maybe some indicator that you already made an offer on a listing. Potentially
-		// a waiting page for current offers made
-
 		Listing listing;
 
 		try {
 
 			listing = listingService.getByListingID(id);
-			// offers = offerService.getOffersById(listing.getOfferID().getOfferID());
 
 		} catch (Exception e) {
 			System.out.println("Error"); // Do something with error messaging here
@@ -121,6 +117,7 @@ public class OfferController extends BaseController {
 		Listing listing;
 		Offer offer = new Offer();
 		User sender = (User) request.getSession().getAttribute("user");
+		model.addObject("listingId", id);
 
 		try {
 
@@ -134,14 +131,16 @@ public class OfferController extends BaseController {
 				
 				// Create a new offer in the database
 				System.out.println("Creating");
+				offer.setStatus("pending");
 				offerService.createOffer(offer);
 				
 			} else {
 				
 				// Replace current offer
 				System.out.println("Updating");
-				offerService.deleteOffer(offerService.getOfferByUserAndListingId(sender.getUserID(), id));
+				offer.setStatus("pending");
 				offerService.saveOrUpdate(offer);
+				offerService.deleteOffer(offerService.getOfferByUserAndListingId(sender.getUserID(), id));
 				
 			}
 

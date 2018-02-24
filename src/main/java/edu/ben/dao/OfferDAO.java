@@ -15,10 +15,14 @@ public interface OfferDAO {
 	public List<Offer> getOffersByUserId(int id);
 	
 	public List<Offer> getActiveOffersByUserId(int id);
+	
+	public List<Offer> getPendingOffersByUserId(int id);
 
 	public List<Offer> getOffersByListingId(int id);
 	
 	public List<Offer> getActiveOffersByListingId(int id);
+	
+	public List<Offer> getPendingOffersByListingId(int id);
 	
 	public Offer getOfferById(int id);
 	

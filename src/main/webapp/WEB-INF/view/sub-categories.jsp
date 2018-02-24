@@ -76,7 +76,7 @@
 									<c:forEach begin="1" end="10">
 										<li>
 											<div class="uk-panel">
-												<a href="listing"><img class="uk-border-rounded uk-box-shadow-hover-large" 
+												<a href="${pageContext.request.contextPath}/listing?listingId=${listing.id}"><img class="uk-border-rounded uk-box-shadow-hover-large" 
 													src="${pageContext.request.contextPath}/resources/img/listings/Wolverine.jpg"
 													alt=""></a>
 											</div>

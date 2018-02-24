@@ -93,7 +93,35 @@ public class OfferDAOImpl implements OfferDAO {
 		q.setParameter("userID", userID);
 		q.setParameter("listingID", listingID);
 		
+		if (q.list().size() == 0) {
+			return null;
+		}
+		
 		return (Offer) q.list().get(0);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Offer> getPendingOffersByUserId(int id) {
+		
+		String status = "pending";
+		Query q = getSession().createQuery("FROM offer WHERE user_id=:id AND status=:status");
+		q.setParameter("id", id);
+		q.setParameter("status", status);
+		
+		return q.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Offer> getPendingOffersByListingId(int id) {
+		
+		String status = "pending";
+		Query q = getSession().createQuery("FROM offer WHERE listing_id=:id AND status=:status");
+		q.setParameter("id", id);
+		q.setParameter("status", status);
+		
+		return q.list();
 	}
 
 }

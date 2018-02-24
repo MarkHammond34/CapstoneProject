@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,7 +56,7 @@ public class Offer {
 		this.listingID = listingID;
 	}
 	
-	public Offer(int offerAmount, String offerMessage, User userID, Listing listingID, String status) {
+	public Offer(int offerAmount, String offerMessage, User userID, Listing listingID, @NotBlank String status) {
 		this.offerAmount = offerAmount;
 		this.offerMessage = offerMessage;
 		this.userID = userID;
@@ -63,7 +64,7 @@ public class Offer {
 		this.status = status;
 	}
 	
-	public Offer(int offerAmount, String offerMessage, String imagePath, User userID, Listing listingID, String status) {
+	public Offer(int offerAmount, String offerMessage, String imagePath, User userID, Listing listingID, @NotBlank String status) {
 		this.offerAmount = offerAmount;
 		this.offerMessage = offerMessage;
 		this.imagePath = imagePath;
@@ -72,7 +73,7 @@ public class Offer {
 		this.status = status;
 	}
 	
-	public Offer(int offerID, int offerAmount, String offerMessage, String imagePath, User userID, Listing listingID, String status) {
+	public Offer(int offerID, int offerAmount, String offerMessage, String imagePath, User userID, Listing listingID, @NotBlank String status) {
 		this.offerID = offerID;
 		this.offerAmount = offerAmount;
 		this.offerMessage = offerMessage;
