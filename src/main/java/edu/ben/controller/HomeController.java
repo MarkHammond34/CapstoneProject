@@ -26,26 +26,29 @@ public class HomeController extends BaseController {
 
 	@Autowired
 	ListingService listingService;
-
+	
 	@Autowired
 	NotificationService notificationService;
+
+	// @Autowired
+	// NotificationService notificationService;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("index");
-		
+
 		List<Listing> dailyBids = listingService.getAllDailyListings();
 		model.addObject("dailyBids", dailyBids);
-		
+
 		List<Listing> weeklyBids = listingService.getAllWeeklyListings();
 		model.addObject("weeklyBids", weeklyBids);
-		
+
 		List<Listing> weeklyPlusBids = listingService.getAllWeeklyPlusListings();
 		model.addObject("weeklyPlusBids", weeklyPlusBids);
-		
+
 		List<Listing> fixedPrice = listingService.getAllFixedListings();
 		model.addObject("fixedPrice", fixedPrice);
-		
+
 		List<Listing> recent = listingService.getRecentListings();
 		model.addObject("recentListings", recent);
 
@@ -57,65 +60,68 @@ public class HomeController extends BaseController {
 
 		User user = (User) request.getSession().getAttribute("user");
 
-		ListingRunner.run();
-		NotificationRunner.run();
-
-		if (user != null) {
-			List<Notification> notifications = notificationService.getNotDismissedByUserID(user.getUserID());
-			if (notifications.size() == 0) {
-				request.getSession().setAttribute("notifications", null);
-			} else {
-				request.getSession().setAttribute("notifications", notifications);
-
-				int count = 0;
-				for (Notification n : notifications) {
-					if (n.getViewed() == 0) {
-						count++;
-					}
-				}
-
-				request.getSession().setAttribute("unviewedNotificationCount", count);
-			}
-		} else {
-			request.getSession().setAttribute("notifications", null);
-		}
-
-		setRequest(request);
+		// ListingRunner.run();
+		// NotificationRunner.run();
+		//
+		// if (user != null) {
+		// List<Notification> notifications =
+		// notificationService.getNotDismissedByUserID(user.getUserID());
+		// if (notifications.size() == 0) {
+		// request.getSession().setAttribute("notifications", null);
+		// } else {
+		// request.getSession().setAttribute("notifications", notifications);
+		//
+		// int count = 0;
+		// for (Notification n : notifications) {
+		// if (n.getViewed() == 0) {
+		// count++;
+		// }
+		// }
+		//
+		// request.getSession().setAttribute("unviewedNotificationCount", count);
+		// }
+		// } else {
+		// request.getSession().setAttribute("notifications", null);
+		// }
+		//
+		// setRequest(request);
 		return model;
 	}
 
 	@GetMapping("/dismiss")
 	public void dismiss(int n) {
-		System.out.println("Notification " + n);
-		notificationService.dismiss(n);
+		// System.out.println("Notification " + n);
+		// notificationService.dismiss(n);
 	}
 
 	@GetMapping("/markAsViewed")
 	public void markAsViewed(HttpServletRequest request) {
 
-		notificationService.markAsViewed((List<Notification>) request.getSession().getAttribute("notifications"));
-
-		User user = (User) request.getSession().getAttribute("user");
-
-		if (user != null) {
-			List<Notification> notifications = notificationService.getNotDismissedByUserID(user.getUserID());
-			if (notifications.size() == 0) {
-				request.getSession().setAttribute("notifications", null);
-			} else {
-				request.getSession().setAttribute("notifications", notifications);
-
-				int count = 0;
-				for (Notification n : notifications) {
-					if (n.getViewed() == 0) {
-						count++;
-					}
-				}
-
-				request.getSession().setAttribute("unviewedNotificationCount", count);
-			}
-		} else {
-			request.getSession().setAttribute("notifications", null);
-		}
+		// notificationService.markAsViewed((List<Notification>)
+		// request.getSession().getAttribute("notifications"));
+		//
+		// User user = (User) request.getSession().getAttribute("user");
+		//
+		// if (user != null) {
+		// List<Notification> notifications =
+		// notificationService.getNotDismissedByUserID(user.getUserID());
+		// if (notifications.size() == 0) {
+		// request.getSession().setAttribute("notifications", null);
+		// } else {
+		// request.getSession().setAttribute("notifications", notifications);
+		//
+		// int count = 0;
+		// for (Notification n : notifications) {
+		// if (n.getViewed() == 0) {
+		// count++;
+		// }
+		// }
+		//
+		// request.getSession().setAttribute("unviewedNotificationCount", count);
+		// }
+		// } else {
+		// request.getSession().setAttribute("notifications", null);
+		// }
 	}
 
 	@GetMapping("/contactUs")

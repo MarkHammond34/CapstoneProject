@@ -164,4 +164,24 @@ public class ListingServiceImpl implements ListingService {
 		return ld.findAllDonatedListingsByCategory(category);
 	}
 
+	@Override
+	public List<Listing> listingsSearchEndingLatest(String search) {
+		return ld.listingsSearchEndingLatest(search);
+	}
+
+	@Override
+	public List<Listing> listingsSearchEndingSoonest(String search) {
+		return ld.listingsSearchEndingSoonest(search);
+	}
+
+	@Override
+	public List<Listing> listingSearchMostExpensive(String search) {
+		return ld.listingSearchMostExpensive(search);
+	}
+
+	@Override
+	public List<Listing> listingSearchLeastExpensive(String search) {
+		return ld.listingSearchLeastExpensive(search);
+	}
+
 }

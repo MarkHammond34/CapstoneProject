@@ -25,8 +25,8 @@
 						<div uk-grid>
 							<div class="uk-width-1-2">
 								<strong>Title of Product</strong> <input type="text"
-									class="uk-input" id="title" name="title" placeholder="Title"
-									required>
+									class="uk-input" id="titleId" name="title" placeholder="Title">
+								<span class="val_error" id="title_error"></span>
 							</div>
 							<div class="uk-width-1-2">
 								<strong>File to upload:</strong> <input type="file" name="file">
@@ -45,7 +45,7 @@
 							</div>
 							<div class="uk-width-1-2" id="placeholder">
 								<strong>Sub-Category</strong> <input class="uk-input"
-									placeholder="Please select a Category" required>
+									placeholder="Please select a Category">
 							</div>
 
 							<%@include file="jspf/sub-category.jsp"%>
@@ -63,13 +63,13 @@
 
 							<div class="uk-width-1-2" id="value">
 								<strong>Price</strong><input type="number" class="uk-input"
-									id="price" name="price" placeholder="Price" disabled required>
+									id="price" name="price" placeholder="Price" disabled>
 							</div>
 						</div>
 						<div class="uk-width-1-1" id="dateEnd">
 							<strong>End Date</strong><input type="datetime-local"
 								class="uk-input" id="endDate" name="endDate"
-								placeholder="End Date" disabled required>
+								placeholder="End Date" disabled>
 						</div>
 						<div class="uk-width-1-1">
 							<strong> Description </strong>
@@ -92,38 +92,54 @@
 </body>
 <script type="text/javascript">
 	function validateForm() {
+		var title = document.forms["uploadListingForm"]["title"].value;
+		var title_error = document.getElementById("title_error");
+		var titleId = document.getElementById("titleId");
+		
 		var file = document.forms["uploadListingForm"]["file"].value;
 		var fileArray = file.split(".");
 		var extension = fileArray[1];
 
 		var priceString = document.forms["uploadListingForm"]["price"].value;
 		var price = parseInt(priceString);
+		
+		titleId.addEventListener("blur", titleVerify, true);
+		
 
-		var errors = false;
-		var errorArray = [];
+		
+
+		console.log("title = " + title);
+		if (title == "" || title == null) {
+			console.log("Hit title validity");
+			titleId.style.border = "1px solid red";
+			title_error.textContent = "*Title is required";
+			title_error.style.color = "red";
+			titleId.focus();
+			return false;
+		}
+
 		if (extension != "jpeg" && extension != "png" && extension != "jpg") {
-			errorArray.push("Upload Fail: You did not select an image file.")
-			errors = true;
+			console.log(extension);
+			window.alert("extension error");
+			return false;
 
 		} else if (price < 0) {
-			errorArray.push("Upload Fail: You cannot have a negative price.")
-			errors = true;
+			window.alert("price error");
+			return false;
 		}
 
-		if (errors == true) {
-			if (errorArray.length == 1) {
-				document.getElementById("error").innerHTML = errorArray[0];
-				$('#failedListingUpload').show();
-				return false;
-			} else if (errorArray.length == 2) {
-				document.getElementById("error").innerHTML = errorArray[0]
-						+ errorArray[1];
-				$('#failedListingUpload').show();
-				return false;
-			}
-		}
+		window.alert("Good shit");
 
 	}
+	
+	function titleVerify() {
+		if (titleId != "") {
+			titleId.style.border = "1px solid black";
+			title_error.innterHTML = "";
+			return true;
+		}
+	}
+
 	function changeCategory(option) {
 
 		if (option.value == "apparel") {

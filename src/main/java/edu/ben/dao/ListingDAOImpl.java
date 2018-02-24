@@ -175,16 +175,15 @@ public class ListingDAOImpl implements ListingDAO {
 
 	@Override
 	public List<Listing> listingSearch(String search) {
-		Query q = getSession()
-				.createSQLQuery("SELECT * FROM ulistit.listing WHERE SOUNDEX(name)=soundex('" + search
-						+ "') OR SOUNDEX(category)=soundex('" + search + "') OR SOUNDEX(username)=soundex('" + search
-						+ "') OR SOUNDEX(school_email)=soundex('" + search + "') OR first_name LIKE '%" + search
-						+ "%' OR last_name LIKE '%" + search + "%' OR username LIKE '%" + search + "%';")
-				.addEntity(Listing.class);
-		List l = q.list();
+		Query q = getSession().createSQLQuery("SELECT * FROM ulistit.listing WHERE SOUNDEX(name)=soundex('" + search
+				+ "') OR SOUNDEX(category)=soundex('" + search + "') OR SOUNDEX(description)=soundex('" + search
+				+ "') OR name LIKE '%" + search + "%' OR category LIKE '%" + search + "%' OR description LIKE '%"
+				+ search + "%';").addEntity(Listing.class);
+		List<Listing> l = q.list();
 		return l;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Listing> findAllDonatedListings() {
 		Query q = getSession().createSQLQuery("select * from ulistit.listing where type = 'donation';")
@@ -193,9 +192,59 @@ public class ListingDAOImpl implements ListingDAO {
 		return (List<Listing>) q.list();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Listing> findAllDonatedListingsByCategory(String category) {
-		Query q = getSession().createSQLQuery("select * from ulistit.listing where type='donation' AND category='" + category + "';")
+		Query q = getSession()
+				.createSQLQuery("select * from ulistit.listing where type='donation' AND category='" + category + "';")
+				.addEntity(Listing.class);
+
+		return (List<Listing>) q.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Listing> listingsSearchEndingLatest(String search) {
+		Query q = getSession().createSQLQuery("SELECT * FROM ulistit.listing WHERE (SOUNDEX(name)=soundex('" + search
+				+ "') OR SOUNDEX(category)=soundex('" + search + "') OR SOUNDEX(description)=soundex('" + search
+				+ "') OR name LIKE '%" + search + "%' OR category LIKE '%" + search + "%' OR description LIKE '%"
+				+ search + "%') AND (type='auction' AND active=0) order by end_timestamp DESC;")
+				.addEntity(Listing.class);
+
+		return (List<Listing>) q.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Listing> listingsSearchEndingSoonest(String search) {
+		Query q = getSession().createSQLQuery("SELECT * FROM ulistit.listing WHERE (SOUNDEX(name)=soundex('" + search
+				+ "') OR SOUNDEX(category)=soundex('" + search + "') OR SOUNDEX(description)=soundex('" + search
+				+ "') OR name LIKE '%" + search + "%' OR category LIKE '%" + search + "%' OR description LIKE '%"
+				+ search + "%') AND (type='auction' AND active=0) order by end_timestamp ASC;")
+				.addEntity(Listing.class);
+
+		return (List<Listing>) q.list();
+	}
+
+	@Override
+	public List<Listing> listingSearchMostExpensive(String search) {
+		Query q = getSession()
+				.createSQLQuery("SELECT * FROM ulistit.listing WHERE (SOUNDEX(name)=soundex('" + search
+						+ "') OR SOUNDEX(category)=soundex('" + search + "') OR SOUNDEX(description)=soundex('" + search
+						+ "') OR name LIKE '%" + search + "%' OR category LIKE '%" + search
+						+ "%' OR description LIKE '%" + search + "%') AND (active=0) order by price DESC;")
+				.addEntity(Listing.class);
+
+		return (List<Listing>) q.list();
+	}
+
+	@Override
+	public List<Listing> listingSearchLeastExpensive(String search) {
+		Query q = getSession()
+				.createSQLQuery("SELECT * FROM ulistit.listing WHERE (SOUNDEX(name)=soundex('" + search
+						+ "') OR SOUNDEX(category)=soundex('" + search + "') OR SOUNDEX(description)=soundex('" + search
+						+ "') OR name LIKE '%" + search + "%' OR category LIKE '%" + search
+						+ "%' OR description LIKE '%" + search + "%') AND (active=0) order by price ASC;")
 				.addEntity(Listing.class);
 
 		return (List<Listing>) q.list();
