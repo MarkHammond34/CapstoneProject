@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,10 +22,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.ben.model.Favorite;
 import edu.ben.model.Listing;
+import edu.ben.model.Notification;
+import edu.ben.model.SavedSearch;
 import edu.ben.model.User;
 import edu.ben.service.CategoryService;
 import edu.ben.service.FavoriteService;
 import edu.ben.service.ListingService;
+import edu.ben.service.NotificationService;
+import edu.ben.service.SavedSearchService;
 import edu.ben.service.UserService;
 import edu.ben.util.ImagePath;
 
@@ -43,16 +48,35 @@ public class ListingController extends BaseController {
 	@Autowired
 	UserService userService;
 
+	@Autowired
+	SavedSearchService savedSearchService;
+
+	@Autowired
+	NotificationService notificationService;
+
 	/**
 	 * Upload single file using Spring Controller
 	 */
 	@RequestMapping(value = "/uploadListing", method = RequestMethod.POST)
 	public String uploadFileHandler(@RequestParam("title") String name, @RequestParam("category") String category,
-		@RequestParam("subCategory") String subCategory, @RequestParam("price") double price, @RequestParam("description") String description,
-			@RequestParam("file") MultipartFile file, @RequestParam("type") String type, Model model,
-			HttpServletRequest request) {
+			@RequestParam("subCategory") String subCategory,
+			@RequestParam(value = "price", required = false) Double price,
+			@RequestParam("description") String description, @RequestParam("file") MultipartFile file,
+			@RequestParam("type") String type, Model model, HttpServletRequest request) {
 
-		System.out.println("Hit UploadListing Controller");
+		if (price == null) {
+			price = (double) 0;
+			// This is a dirty fix
+			Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
+
+			// Checks to make sure listing is for at least one hour
+			if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
+				addErrorMessage("Listings Must Be Last At Least One Hour");
+				setRequest(request);
+				return "redirect:" + request.getHeader("Referer");
+
+			}
+		}
 
 		String message = "";
 		String error = "";
@@ -64,16 +88,6 @@ public class ListingController extends BaseController {
 			addErrorMessage("Login To Create A Listing");
 			setRequest(request);
 			return "login";
-		}
-
-		// This is a dirty fix
-		Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
-
-		// Checks to make sure listing is for at least one hour
-		if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
-			addErrorMessage("Listings Must Be Last At Least One Hour");
-			setRequest(request);
-			return "redirect:" + request.getHeader("Referer");
 		}
 
 		if (!file.isEmpty()) {
@@ -108,7 +122,7 @@ public class ListingController extends BaseController {
 
 				System.out.println("File Uploaded");
 				Listing listing = new Listing(name, description, price, category, file.getOriginalFilename());// FIX
-																													// LATER
+																												// LATER
 
 				if (type.equals("auction")) {
 					listing.setType("auction");
@@ -125,8 +139,27 @@ public class ListingController extends BaseController {
 				model.addAttribute("message", message);
 				stream.close();
 
-				// Listing l = new Listing(name, description, price, category, file );
-				// ld.create(l);
+				// Check for saved searches
+				ArrayList<SavedSearch> allSavedSearches = (ArrayList<SavedSearch>) savedSearchService
+						.getAllSavedSearches();
+
+				System.out.println("Saved Search size: " + allSavedSearches.size());
+
+				if (allSavedSearches != null) {
+					for (int i = 0; i < allSavedSearches.size(); i++) {
+						if (description.toLowerCase().contains(allSavedSearches.get(i).getSearch())
+								|| name.toLowerCase().contains(allSavedSearches.get(i).getSearch())) {
+							if (allSavedSearches.get(i).getUser().getUserID() != u.getUserID()) {
+								notificationService.save(new Notification(
+										userService.getUserById(allSavedSearches.get(i).getUser().getUserID()),
+										listing.getId(), "New Listing Posted",
+										u.getUsername() + " has posting a listing\n\n pertaining to "
+												+ allSavedSearches.get(i).getSearch() + ".",
+										new Timestamp(System.currentTimeMillis() + 120000), 1));
+							}
+						}
+					}
+				}
 
 				return "createListing";
 			} catch (Exception e) {
