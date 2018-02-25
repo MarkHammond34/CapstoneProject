@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import edu.ben.model.Subcategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,21 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public void save(Subcategory subcategory) {
+        categoryDAO.save(subcategory);
+    }
+
+    @Override
+    public List getAllCategories() {
+        return categoryDAO.getAllCategories();
+    }
+
+    @Override
+    public List getAllSubCategories() {
+        return categoryDAO.getAllSubCategories();
+    }
+
+    @Override
     public void saveOrUpdate(Category category) {
         categoryDAO.saveOrUpdate(category);
     }
@@ -34,11 +50,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteCategory(String category) {
         categoryDAO.deleteCategory(category);
-    }
-
-    @Override
-    public List getSubCategoriesByListingId(int id) {
-        return categoryDAO.getSubCategoriesByListingId(id);
     }
 
     @Override

@@ -1,13 +1,9 @@
 package edu.ben.model;
 
+import java.sql.Timestamp;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.transaction.Transactional;
 
 @Entity(name = "category")
@@ -19,11 +15,17 @@ public class Category {
     @Column(name = "category")
     private String category;
 
-    @Column(name = "sub_category")
-    private String subCategories;
+    @OneToOne
+    @JoinColumn(name = "created_by")
+    private User createdBy;
+
+    @Column(name = "date_created")
+    private Timestamp dateCreated;
+
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+    private List<Subcategory> subCategories;
 
     public Category() {
-
     }
 
     public String getCategory() {
@@ -34,12 +36,27 @@ public class Category {
         this.category = category;
     }
 
-    public String getSubCategories() {
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Timestamp getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Timestamp dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public List<Subcategory> getSubCategories() {
         return subCategories;
     }
 
-    public void setSubCategories(String subCategories) {
+    public void setSubCategories(List<Subcategory> subCategories) {
         this.subCategories = subCategories;
     }
-
 }
