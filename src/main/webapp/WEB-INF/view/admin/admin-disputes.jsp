@@ -27,6 +27,9 @@
                         <li class="uk-active">
                             <a href="${pageContext.request.contextPath}/adminUser">Manage Users</a>
                         </li>
+                        <li class="uk-active">
+                            <a href="${pageContext.request.contextPath}/adminDisputes">Manage Disputes</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="uk-navbar-right">
@@ -69,7 +72,7 @@
             <ul id="component-tab-left" class="uk-switcher">
                 <c:forEach var="dispute" items="${disputes}">
                     <li class="uk-grid" uk-grid>
-                        <div class="uk-width-1-2 uk-float-left">
+                        <div class="uk-width-1-3 uk-align-left" style="background-color: deeppink">
                             <ul class="uk-grid uk-width-1-2 uk-align-left" uk-grid>
                                 <li class="uk-width-1-1"><u style="color: red">Listing ID:</u> ${dispute.listing.id}
                                 </li>
@@ -89,19 +92,32 @@
                                 -->
                             </ul>
                         </div>
-                        <div class="uk-width-1-2 uk-float-right">
-                            <img class="uk-align-center" style="max-height: 300px; max-width: 300px;"
+                        <div class="uk-width-1-3 uk-align-center" style="background-color: green">
+                            <img class="uk-align-center" style="max-height: 300p; max-width: 300px"
                                  src="${pageContext.request.contextPath}/resources/img/listings/${dispute.listing.image_path}"
                                  alt="Listing"/>
                         </div>
-                        <hr class="uk-width-1-1">
-                        <h3>Dispute Details</h3>
+                        <div class="uk-width-1-3 uk-align-right" style="background-color: blue"><h3>Dispute
+                            Details</h3>
+                            <ul class="uk-grid uk-width-1-2 uk-align-left" uk-grid>
+                                <li class="uk-width-1-1"><u style="color: red">Dispute ID:</u> ${dispute.disputeID}
+                                </li>
+                                <li class="uk-width-1-1"><u style="color: red">Defending
+                                    User:</u> ${dispute.defender.firstName} ${dispute.defender.lastName}</li>
+                                </li>
+                                <li class="uk-width-1-1"><u
+                                        style="color: red">Name:</u> ${dispute.listing.name}
+                                </li>
+                                <li class="uk-width-1-1"><u
+                                        style="color: red">Description:</u> ${dispute.listing.description}
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                 </c:forEach>
             </ul>
         </div>
     </div>
-
 </div>
 </body>
 </html>
