@@ -34,4 +34,6 @@ public interface ListingDAO {
 
     public List getActiveListings();
 
+    public List getRelevantListingsByUserID(int userID);
+
 }

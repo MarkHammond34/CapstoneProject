@@ -134,4 +134,9 @@ public class ListingServiceImpl implements ListingService {
         return null;
     }
 
+    @Override
+    public List getRelevantListingsByUserID(int userID) {
+        return ld.getRelevantListingsByUserID(userID);
+    }
+
 }

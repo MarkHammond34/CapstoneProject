@@ -1,15 +1,18 @@
 package edu.ben.model;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.*;
 import java.sql.Timestamp;
 
+@Entity(name = "search_history")
+@Table(name = "search_history")
+@Transactional
 public class SearchHistory {
 
     @Id
     @Column(name = "search_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int searchID;
 
     @OneToOne
@@ -24,6 +27,17 @@ public class SearchHistory {
 
     @Column(name = "search_count")
     private int searchCount;
+
+    @OneToOne
+    @JoinColumn(name = "search_category")
+    private Category category;
+
+    @OneToOne
+    @JoinColumn(name = "search_subcategory")
+    private Subcategory subcategory;
+
+    public SearchHistory() {
+    }
 
     public SearchHistory(User user, String search) {
         this.user = user;
@@ -68,5 +82,21 @@ public class SearchHistory {
 
     public void setSearchCount(int searchCount) {
         this.searchCount = searchCount;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Subcategory getSubcategory() {
+        return subcategory;
+    }
+
+    public void setSubcategory(Subcategory subcategory) {
+        this.subcategory = subcategory;
     }
 }

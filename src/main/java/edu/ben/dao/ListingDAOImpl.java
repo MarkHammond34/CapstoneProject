@@ -40,7 +40,7 @@ public class ListingDAOImpl implements ListingDAO {
     }
 
     @SuppressWarnings("unchecked")
-	@Override
+    @Override
     public List<Listing> getAllListingsByCategory(String category) {
         Query q = getSession().createQuery("FROM listing WHERE category=:category");
         q.setParameter("category", category);
@@ -133,5 +133,19 @@ public class ListingDAOImpl implements ListingDAO {
     @Override
     public List getActiveListings() {
         return getSession().createQuery("FROM listing WHERE active=1").list();
+    }
+
+    @Override
+    public List getRelevantListingsByUserID(int userID) {
+        String sql = "SELECT * FROM listing WHERE id IN (SELECT listing.id FROM listing INNER JOIN search_history " +
+                "ON description LIKE CONCAT('%' + search + '%') WHERE search_history.user_id = :userID) OR sub_category " +
+                "IN (SELECT search_subcategory FROM search_history AS s1 WHERE user_id = :userID GROUP BY search_subcategory " +
+                "ORDER BY search_count , date_created , (SELECT COUNT(*) FROM search_history AS s2 WHERE " +
+                "s1.search_subcategory = s2.search_subcategory AND user_id = :userID)) AND active = 1 AND ended = 0 " +
+                "ORDER BY end_timestamp DESC LIMIT 50;";
+        SQLQuery q = getSession().createSQLQuery(sql)
+                .addEntity(Listing.class);
+        q.setParameter("userID", userID);
+        return q.list();
     }
 }

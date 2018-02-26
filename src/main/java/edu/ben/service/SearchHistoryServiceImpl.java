@@ -1,5 +1,6 @@
 package edu.ben.service;
 
+import edu.ben.dao.CategoryDAO;
 import edu.ben.dao.SearchHistoryDAO;
 import edu.ben.model.SearchHistory;
 import edu.ben.model.Subcategory;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,11 +22,11 @@ public class SearchHistoryServiceImpl implements SearchHistoryService {
         this.searchHistoryDAO = searchHistoryDAO;
     }
 
-    SubcategoryDAO subcategoryDAO;
+    CategoryDAO categoryDAO;
 
     @Autowired
-    public void setSubcategoryDAO(SubcategoryDAO subcategoryDAO) {
-        this.subcategoryDAO = subcategoryDAO;
+    public void setCategoryDAO(CategoryDAO categoryDAO) {
+        this.categoryDAO = categoryDAO;
     }
 
     @Override
@@ -37,7 +39,39 @@ public class SearchHistoryServiceImpl implements SearchHistoryService {
             searchHistoryDAO.update(existingSearch);
 
         } catch (IndexOutOfBoundsException e) {
-            // If search does not exist, save
+
+            // Get all words in search
+            char[] searchArray = searchHistory.getSearch().toCharArray();
+            List<String> searchWords = new ArrayList<String>(searchArray.length);
+
+            String currentWord = "";
+            for (int i = 0; i < searchArray.length; i++) {
+                if (searchArray[i] == ' ' && currentWord.length() > 0) {
+                    searchWords.add(currentWord.toUpperCase());
+                    currentWord = "";
+                } else {
+                    currentWord += searchArray[i];
+                }
+
+                if (i == searchArray.length - 1) {
+                    searchWords.add(currentWord.toUpperCase());
+                    currentWord = "";
+                }
+            }
+
+            // BUG: check for more than one word
+            // Check if search contains categories or subcategories
+            List<Subcategory> subs = categoryDAO.getAllSubCategories();
+            for (Subcategory s : subs) {
+                if (searchWords.contains(s.getSubCategory().toUpperCase())) {
+                    searchHistory.setSubcategory(s);
+                }
+
+                if (searchWords.contains(s.getCategory().getCategory().toUpperCase())) {
+                    searchHistory.setCategory(s.getCategory());
+                }
+            }
+
             searchHistoryDAO.save(searchHistory);
         }
     }
