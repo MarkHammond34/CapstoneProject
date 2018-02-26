@@ -15,79 +15,83 @@ import java.util.List;
 @Repository
 public class UserDAOImpl implements UserDAO {
 
-    @Autowired
-    private SessionFactory sessionFactory;
+	@Autowired
+	private SessionFactory sessionFactory;
 
-    private Session getSession() {
-        return sessionFactory.getCurrentSession();
-    }
+	private Session getSession() {
+		return sessionFactory.getCurrentSession();
+	}
 
-    @SuppressWarnings("unchecked")
-    public List<User> getAllUsers() {
-        Criteria criteria = getSession().createCriteria(User.class);
-        return (List<User>) criteria.list();
-    }
+	@SuppressWarnings("unchecked")
+	public List<User> getAllUsers() {
+		Criteria criteria = getSession().createCriteria(User.class);
+		return (List<User>) criteria.list();
+	}
 
-    public void saveOrUpdate(User user) {
-        getSession().saveOrUpdate(user);
-    }
+	public void saveOrUpdate(User user) {
+		getSession().saveOrUpdate(user);
+	}
 
-    public void create(User user) {
-        getSession().save(user);
-    }
+	public void create(User user) {
+		getSession().save(user);
+	}
 
-    public void unlockByUsername(String username) {
-        Query q = getSession().createQuery("UPDATE user SET locked=0 WHERE username=:username");
-        q.setParameter("username", username);
-        q.executeUpdate();
-    }
+	public void unlockByUsername(String username) {
+		Query q = getSession().createQuery("UPDATE user SET locked=0 WHERE username=:username");
+		q.setParameter("username", username);
+		q.executeUpdate();
+	}
 
-    public void lockByUsername(String username) {
-        Query q = getSession().createQuery("UPDATE user SET locked=1 WHERE username=:username");
-        q.setParameter("username", username);
-        q.executeUpdate();
-    }
+	public void lockByUsername(String username) {
+		Query q = getSession().createQuery("UPDATE user SET locked=1 WHERE username=:username");
+		q.setParameter("username", username);
+		q.executeUpdate();
+	}
 
-    public User getUserById(int id) {
-        User user = (User) getSession().get(User.class, id);
-        return user;
-    }
+	public User getUserById(int id) {
+		User user = (User) getSession().get(User.class, id);
+		return user;
+	}
 
-    public void update(User user) {
-        getSession().update(user);
-    }
+	public void update(User user) {
+		getSession().update(user);
+	}
 
-    public void lockByEmail(String email) {
-    }
+	public void lockByEmail(String email) {
+	}
 
-    public void unlockByEmail(String email) {
-    }
+	public void unlockByEmail(String email) {
+	}
 
-    public void lockBySchoolEmail(String email) {
-    }
+	public void lockBySchoolEmail(String email) {
+	}
 
-    public void unlockBySchoolEmail(String email) {
-    }
+	public void unlockBySchoolEmail(String email) {
+	}
 
-    public User findByEmail(String email) {
-        Query q = getSession().createQuery("FROM user WHERE email=:email");
-        q.setParameter("email", email);
-        return (User) q.list().get(0);
-    }
+	public User findByEmail(String email) {
+		Query q = getSession().createQuery("FROM user WHERE email=:email");
+		q.setParameter("email", email);
+		return (User) q.list().get(0);
+	}
 
-    public User findBySchoolEmail(String email) {
-        Query q = getSession().createQuery("FROM user WHERE school_email=:email");
-        q.setParameter("email", email);
-        return (User) q.list().get(0);
-    }
+	public User findBySchoolEmail(String email) {
+		Query q = getSession().createQuery("FROM user WHERE school_email=:email");
+		q.setParameter("email", email);
+		return (User) q.list().get(0);
+	}
 
-    public void deleteUser(int id) {
-        User user = (User) getSession().get(User.class, id);
-        getSession().delete(user);
+	public void deleteUser(int id) {
+		User user = (User) getSession().get(User.class, id);
+		getSession().delete(user);
 
-    }
+	}
+
 
     public void updateAttemptedLogins(int loginAttempts, String email) {
+
+
+
 
         Query q = getSession().createQuery("UPDATE user SET login_attempts=:loginAttempts WHERE email=:email");
         q.setParameter("loginAttempts", loginAttempts);
@@ -95,59 +99,58 @@ public class UserDAOImpl implements UserDAO {
         q.executeUpdate();
     }
 
-    public void updateIsActive(int isActive, String email) {
 
-        Query q = getSession().createQuery("UPDATE user SET active=:isActive WHERE email=:email");
-        q.setParameter("isActive", isActive);
-        q.setParameter("email", email);
-        q.executeUpdate();
-    }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<User> getRecentUsers() {
-        Query q = getSession().createQuery("FROM user ORDER BY date_created DESC");
-        List<User> list = (List<User>) q.list();
-        Iterator<User> it = list.iterator();
-        List<User> recentListings = new ArrayList<User>();
+	public void updateIsActive(int isActive, String email) {
 
-        while (it.hasNext()) {
+		Query q = getSession().createQuery("UPDATE user SET active=:isActive WHERE email=:email");
+		q.setParameter("isActive", isActive);
+		q.setParameter("email", email);
+		q.executeUpdate();
+	}
 
-            User usr = it.next();
-            recentListings.add(usr);
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> getRecentUsers() {
+		Query q = getSession().createQuery("FROM user ORDER BY date_created DESC");
+		List<User> list = (List<User>) q.list();
+		Iterator<User> it = list.iterator();
+		List<User> recentListings = new ArrayList<User>();
 
-        }
+		while (it.hasNext()) {
 
-        return recentListings;
-    }
+			User usr = it.next();
+			recentListings.add(usr);
 
-    @SuppressWarnings("unchecked")
-	public List<User> soundexResults(String search) {
-		Query q = getSession().createSQLQuery("SELECT * FROM ulistit.user WHERE SOUNDEX(first_name)=soundex('" + search
-				+ "') OR SOUNDEX(last_name)=soundex('" + search + "') OR SOUNDEX(username)=soundex('" + search
-				+ "') OR SOUNDEX(school_email)=soundex('" + search + "');").addEntity(User.class);
+		}
+
+		return recentListings;
+	}
+
+	@Override
+	public List<User> searchUser(String search) {
+		Query q = getSession()
+				.createSQLQuery("SELECT * FROM ulistit.user WHERE SOUNDEX(first_name)=soundex('" + search
+						+ "') OR SOUNDEX(last_name)=soundex('" + search + "') OR SOUNDEX(username)=soundex('" + search
+						+ "') OR SOUNDEX(school_email)=soundex('" + search + "') OR first_name LIKE '%" + search
+						+ "%' OR last_name LIKE '%" + search + "%' OR username LIKE '%" + search + "%';")
+				.addEntity(User.class);
 		List l = q.list();
 		return l;
 	}
 
 	@Override
-	public List<User> wildcardSearchResults(String search) {
-		Query q = getSession().createSQLQuery("SELECT * FROM ulistit.user WHERE first_name LIKE '%" + search + "%' OR last_name LIKE '%" + search + "%' OR username LIKE '%" + search + "%' ;").addEntity(User.class);
-		List l = q.list();
-		return l;
+	public List<User> getListingLosers(int listingID, int winnerID) {
+		Query q = getSession().createSQLQuery(
+				"SELECT * FROM user WHERE user_ID IN (SELECT user_id FROM listing_bid WHERE listing_id=:listingID AND user_id !=:winnerID);")
+				.addEntity(User.class);
+		q.setParameter("listingID", listingID);
+		q.setParameter("winnerID", winnerID);
+		return q.list();
 	}
 
-    @Override
-    public List<User> getListingLosers(int listingID, int winnerID) {
-        Query q = getSession().createSQLQuery("SELECT * FROM user WHERE user_ID IN (SELECT user_id FROM listing_bid WHERE listing_id=:listingID AND user_id !=:winnerID);")
-                .addEntity(User.class);
-        q.setParameter("listingID", listingID);
-        q.setParameter("winnerID", winnerID);
-        return q.list();
-    }
-
-    @Override
-    public List<User> getDisputeResolvingAdmins() {
-        return getSession().createQuery("FROM user WHERE admin_level = 3").list();
-    }
+	@Override
+	public List<User> getDisputeResolvingAdmins() {
+		return getSession().createQuery("FROM user WHERE admin_level = 3").list();
+	}
 }

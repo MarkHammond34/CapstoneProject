@@ -22,8 +22,6 @@ public interface ListingDAO {
 
     public List<Listing> getAllListingsByUserID(int userID);
 
-    public List<Listing> searchCategory(String category);
-
     public void updateListingActiveStatusByID(int active, int id);
 
     public List getListingsInProgressUserBidOn(int userID);
@@ -33,5 +31,28 @@ public interface ListingDAO {
     public List getListingsWon(int userID);
 
     public List getActiveListings();
+    
+    public List<Listing> getAllWeeklyPlusListings();
+
+	public List<Listing> getAllFixedListings();
+
+	public List<Listing> getAllDailyListings();
+
+	public List<Listing> getAllWeeklyListings();
+	
+	public List<Listing> listingSearch(String search);
+	
+	public List<Listing> findAllDonatedListings();
+	
+	public List<Listing> findAllDonatedListingsByCategory(String category);
+	
+	public List<Listing> listingsSearchEndingLatest(String search);
+	
+	public List<Listing> listingsSearchEndingSoonest(String search);
+	
+	public List<Listing> listingSearchMostExpensive(String search);
+	
+	public List<Listing> listingSearchLeastExpensive(String search);
+
 
 }

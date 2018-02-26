@@ -93,15 +93,6 @@ public class UserServiceImpl implements UserService {
         return userDAO.getRecentUsers();
     }
 
-    @Override
-    public List<User> soundexResults(String search) {
-        return userDAO.soundexResults(search);
-    }
-
-    @Override
-    public List<User> wildcardSearchResults(String search) {
-        return userDAO.wildcardSearchResults(search);
-    }
 
     @Override
     public List<User> getListingLosers(int listingID, int winnerID) {
@@ -112,5 +103,10 @@ public class UserServiceImpl implements UserService {
     public List<User> getDisputeResolvingAdmins() {
         return userDAO.getDisputeResolvingAdmins();
     }
+
+	@Override
+	public List<User> searchUser(String search) {
+		return userDAO.searchUser(search);
+	}
 
 }
