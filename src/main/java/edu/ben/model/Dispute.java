@@ -45,6 +45,9 @@ public class Dispute {
         this.complaint = complaint;
     }
 
+    public Dispute() {
+    }
+
     public int getDisputeID() {
         return disputeID;
     }
