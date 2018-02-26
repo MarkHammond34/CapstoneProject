@@ -206,7 +206,7 @@ public class ListingDAOImpl implements ListingDAO {
 		Query q = getSession().createSQLQuery("SELECT * FROM ulistit.listing WHERE (SOUNDEX(name)=soundex('" + search
 				+ "') OR SOUNDEX(category)=soundex('" + search + "') OR SOUNDEX(description)=soundex('" + search
 				+ "') OR name LIKE '%" + search + "%' OR category LIKE '%" + search + "%' OR description LIKE '%"
-				+ search + "%') AND (type='auction' AND active=0) order by end_timestamp DESC;")
+				+ search + "%') AND (type='auction' AND active=1) order by end_timestamp DESC;")
 				.addEntity(Listing.class);
 
 		return (List<Listing>) q.list();
@@ -218,7 +218,7 @@ public class ListingDAOImpl implements ListingDAO {
 		Query q = getSession().createSQLQuery("SELECT * FROM ulistit.listing WHERE (SOUNDEX(name)=soundex('" + search
 				+ "') OR SOUNDEX(category)=soundex('" + search + "') OR SOUNDEX(description)=soundex('" + search
 				+ "') OR name LIKE '%" + search + "%' OR category LIKE '%" + search + "%' OR description LIKE '%"
-				+ search + "%') AND (type='auction' AND active=0) order by end_timestamp ASC;")
+				+ search + "%') AND (type='auction' AND active=1) order by end_timestamp ASC;")
 				.addEntity(Listing.class);
 
 		return (List<Listing>) q.list();
@@ -230,7 +230,7 @@ public class ListingDAOImpl implements ListingDAO {
 				.createSQLQuery("SELECT * FROM ulistit.listing WHERE (SOUNDEX(name)=soundex('" + search
 						+ "') OR SOUNDEX(category)=soundex('" + search + "') OR SOUNDEX(description)=soundex('" + search
 						+ "') OR name LIKE '%" + search + "%' OR category LIKE '%" + search
-						+ "%' OR description LIKE '%" + search + "%') AND (active=0) order by price DESC;")
+						+ "%' OR description LIKE '%" + search + "%') AND (active=1) order by price DESC;")
 				.addEntity(Listing.class);
 
 		return (List<Listing>) q.list();
@@ -242,7 +242,7 @@ public class ListingDAOImpl implements ListingDAO {
 				.createSQLQuery("SELECT * FROM ulistit.listing WHERE (SOUNDEX(name)=soundex('" + search
 						+ "') OR SOUNDEX(category)=soundex('" + search + "') OR SOUNDEX(description)=soundex('" + search
 						+ "') OR name LIKE '%" + search + "%' OR category LIKE '%" + search
-						+ "%' OR description LIKE '%" + search + "%') AND (active=0) order by price ASC;")
+						+ "%' OR description LIKE '%" + search + "%') AND (active=1) order by price ASC;")
 				.addEntity(Listing.class);
 
 		return (List<Listing>) q.list();

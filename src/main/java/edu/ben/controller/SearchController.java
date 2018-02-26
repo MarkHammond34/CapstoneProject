@@ -47,11 +47,12 @@ public class SearchController {
 		List<Listing> listingSearch = listingService.listingSearch(search);
 		
 		List<Listing> endingLatest = listingService.listingsSearchEndingLatest(search);
+
 		
 		List<Listing> endingSoonest = listingService.listingsSearchEndingSoonest(search);
 		
 		List<Listing> mostExpensive = listingService.listingSearchMostExpensive(search);
-		
+		System.out.println("Most expensive size: " + mostExpensive.size());
 		List<Listing> leastExpensive = listingService.listingSearchLeastExpensive(search);
 
 		ArrayList<User> userSearch = (ArrayList<User>) userService.searchUser(search);
