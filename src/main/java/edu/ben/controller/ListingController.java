@@ -166,8 +166,8 @@ public class ListingController extends BaseController {
 
 				if (allSavedSearches != null) {
 					for (int i = 0; i < allSavedSearches.size(); i++) {
-						if (description.toLowerCase().contains(allSavedSearches.get(i).getSearch())
-								|| name.toLowerCase().contains(allSavedSearches.get(i).getSearch())) {
+						if (description.toLowerCase().contains(allSavedSearches.get(i).getSearch().toLowerCase())
+								|| name.toLowerCase().contains(allSavedSearches.get(i).getSearch().toLowerCase())) {
 							if (allSavedSearches.get(i).getUser().getUserID() != u.getUserID()) {
 								notificationService.save(new Notification(
 										userService.getUserById(allSavedSearches.get(i).getUser().getUserID()),
