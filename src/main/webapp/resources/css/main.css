@@ -250,18 +250,18 @@ div.navbar-header {
 }
 
 footer {
-    background-color: #000000;
-    position: fixed;
+    background-color: #ff695c;
+    position: static;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 35px;
+    height: 90px;
     text-align: center;
     color: #CCC;
 }
 
 footer p {
-    padding: 10.5px;
+    padding: 8.5px;
     margin: 0px;
     line-height: 100%;
 }
