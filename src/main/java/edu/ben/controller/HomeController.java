@@ -86,6 +86,11 @@ public class HomeController extends BaseController {
     public String contactUs() {
         return "contactUs";
     }
+    
+    @GetMapping("/freshmanChecklist")
+    public String freshmanChecklist() {
+        return "freshmanChecklist";
+    }
 
     @PostMapping("/sendEmail")
     public String sendEmail(HttpServletRequest request) {

@@ -1,6 +1,6 @@
 <footer>
 	<p>
-		New to the UListIt? See our<a href="/freshmanChecklist"
+		New to UListIt? See our<a href="${pageContext.request.contextPath}/freshmanChecklist"
 			style="color: #ffffff; text-decoration: none;"> Freshman
 			Checklist Example</a> or our exclusive <a href="/howToVideo"
 			style="color: #ffffff; text-decoration: none;"> How To Video</a>!
