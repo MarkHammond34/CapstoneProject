@@ -7,7 +7,7 @@
 	<div style="margin: 2% 33% 5% 33%; margin-top: 5%">
 
 		<%@include file="jspf/messages.jsp"%>
-		<%@include file="jspf/footer.jspf"%>
+
 
 		<form class="form-horizontal blacktext" action="loginUser"
 			method="post">
@@ -37,5 +37,7 @@
 			</div>
 		</form>
 	</div>
+
 </body>
+<%@include file="jspf/footer.jspf"%>
 </html>

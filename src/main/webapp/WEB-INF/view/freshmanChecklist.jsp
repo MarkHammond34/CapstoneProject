@@ -97,4 +97,5 @@
 		</ul>
 	</div>
 </body>
+<%@include file="jspf/footer.jspf"%>
 </html>

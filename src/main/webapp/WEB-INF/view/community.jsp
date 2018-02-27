@@ -27,7 +27,7 @@
 	<%@include file="jspf/messages.jsp"%>
 
 	<%@include file="jspf/navbar.jspf"%>
-	<%@include file="jspf/footer.jspf"%>
+
 
 	<div class="uk-background-muted">
 
@@ -89,4 +89,5 @@
 
 	</div>
 </body>
+	<%@include file="jspf/footer.jspf"%>
 </html>

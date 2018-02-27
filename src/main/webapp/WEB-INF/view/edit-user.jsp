@@ -1,7 +1,7 @@
 <%@include file="jspf/header.jsp"%>
 
 <body>
-	<%@include file="jspf/footer.jspf"%>
+
 	<%@include file="jspf/navbar.jspf"%>
 	<div uk-grid>
 		<div class="uk-width-1-4"></div>
@@ -96,4 +96,5 @@
 		}
 	</script>
 </body>
+	<%@include file="jspf/footer.jspf"%>
 </html>

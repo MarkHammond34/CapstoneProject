@@ -22,6 +22,7 @@
         </ul>
     </div>
 </div>
-<%@include file="jspf/footer.jspf" %>
+
 </body>
+<%@include file="jspf/footer.jspf" %>
 </html>
