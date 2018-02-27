@@ -30,11 +30,14 @@
             <nav class="uk-navbar-container uk-navbar-dark" uk-navbar>
                 <div class="uk-navbar-center">
                     <ul class="uk-navbar-nav">
-                        <li class="uk-active">
+                        <li>
                             <a href="${pageContext.request.contextPath}/admin">Dashboard</a>
                         </li>
-                        <li>
+                        <li class="uk-active">
                             <a href="${pageContext.request.contextPath}/adminUser">Manage Users</a>
+                        </li>
+                        <li class="uk-active">
+                            <a href="${pageContext.request.contextPath}/adminDisputes">Manage Disputes</a>
                         </li>
                     </ul>
                 </div>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -31,5 +32,10 @@ public class DisputeServiceImpl implements DisputeService {
     @Override
     public Dispute getByID(int id) {
         return disputeDAO.getByID(id);
+    }
+
+    @Override
+    public List getAllActive() {
+        return disputeDAO.getAllActive();
     }
 }
