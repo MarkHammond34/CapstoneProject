@@ -20,7 +20,7 @@
 	<%@include file="jspf/messages.jsp"%>
 
 	<%@include file="jspf/navbar.jspf"%>
-	<%@include file="jspf/footer.jspf"%>
+
 
 	<div style="margin: 2% 33% 5% 33%">
 		<form class="form-horizontal blacktext" action="unlock" method="post">
@@ -50,4 +50,5 @@
 	</div>
 
 </body>
+	<%@include file="jspf/footer.jspf"%>
 </html>

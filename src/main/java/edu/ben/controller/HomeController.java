@@ -4,16 +4,14 @@ import java.util.List;
 
 import edu.ben.model.Listing;
 import edu.ben.model.Notification;
-import edu.ben.model.SearchHistory;
 import edu.ben.model.User;
+import edu.ben.service.FaqService;
 import edu.ben.service.ListingBidService;
 import edu.ben.service.NotificationService;
-import edu.ben.service.SearchHistoryService;
 import edu.ben.util.Email;
 import edu.ben.util.ListingRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +23,6 @@ import edu.ben.service.ListingService;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@Transactional
 public class HomeController extends BaseController {
 
     @Autowired
@@ -85,6 +82,11 @@ public class HomeController extends BaseController {
     @GetMapping("/contactUs")
     public String contactUs() {
         return "contactUs";
+    }
+
+	@GetMapping("/freshmanChecklist")
+    public String freshmanChecklist() {
+        return "freshmanChecklist";
     }
 
     @PostMapping("/sendEmail")
