@@ -34,6 +34,9 @@
                         <li class="uk-active">
                             <a href="${pageContext.request.contextPath}/adminUser">Manage Users</a>
                         </li>
+                        <li class="uk-active">
+                            <a href="${pageContext.request.contextPath}/adminDisputes">Manage Disputes</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="uk-navbar-right">
@@ -52,7 +55,6 @@
             </nav>
         </div>
     </div>
-
 </head>
 
 <body>
@@ -171,13 +173,16 @@
                             <input name="username" class="uk-input" type="text" placeholder="Username" required>
                         </div>
                         <div class="uk-width-1-2">
-                            <input name="phoneNumber" class="uk-input" type="number" placeholder="Phone Number" required>
+                            <input name="phoneNumber" class="uk-input" type="number" placeholder="Phone Number"
+                                   required>
                         </div>
                         <div class="uk-width-1-1">
-                            <input name="personalEmail" class="uk-input" type="email" placeholder="Personal Email" required>
+                            <input name="personalEmail" class="uk-input" type="email" placeholder="Personal Email"
+                                   required>
                         </div>
                         <div class="uk-width-1-1">
-                            <input name="benedictineEmail" class="uk-input" type="email" placeholder="Benedictine Email" required>
+                            <input name="benedictineEmail" class="uk-input" type="email" placeholder="Benedictine Email"
+                                   required>
                         </div>
                         <div class="uk-width-1-2">
                             <input name="password" class="uk-input" type="password" placeholder="Password" required>

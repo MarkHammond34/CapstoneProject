@@ -120,6 +120,11 @@
                                         <li class="uk-width-1-1"><a
                                                 href="${pageContext.request.contextPath}/notifications">
                                             Notification</a></li>
+                                        <c:if test="${user.adminLevel > 0}">
+                                            <li class="uk-width-1-1"><a
+                                                    href="${pageContext.request.contextPath}/admin">
+                                                Admin</a></li>
+                                        </c:if>
                                         <li class="uk-width-1-1"><a href="${pageContext.request.contextPath}/logout">Logout</a>
                                         </li>
                                     </ul>
