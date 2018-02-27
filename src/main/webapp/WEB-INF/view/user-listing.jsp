@@ -110,4 +110,5 @@
 						});
 			});
 </script>
+<%@include file="jspf/footer.jspf" %>
 </html>
