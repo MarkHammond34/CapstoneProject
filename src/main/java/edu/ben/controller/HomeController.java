@@ -67,6 +67,7 @@ public class HomeController extends BaseController {
         if (user != null) {
 
             List<Listing> relevantListings = listingService.getRelevantListingsByUserID(user.getUserID());
+            System.out.println(relevantListings.size());
             if (relevantListings.size() > 3) {
                 model.addObject("relevantListings", relevantListings);
             } else {

@@ -67,7 +67,7 @@
 										</div>
 									</c:when>
 									<c:otherwise>
-										<div class="uk-clearfix" id="follow" style="display: none;"">
+										<div class="uk-clearfix" id="follow" style="display: none;">
 											<div class="uk-float-left">
 												<input type="hidden" id="followUser" value="${user.userID}">
 												<button class="uk-button uk-button-default uk-width-1-1"

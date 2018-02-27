@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +36,7 @@ import edu.ben.service.UserService;
 import edu.ben.util.ImagePath;
 
 @Controller
+@Transactional
 public class ListingController extends BaseController {
 
     @Autowired
@@ -48,45 +50,45 @@ public class ListingController extends BaseController {
 
     @Autowired
     UserService userService;
-    
+
     @Autowired
     OfferService offerService;
 
-	@Autowired
-	SavedSearchService savedSearchService;
+    @Autowired
+    SavedSearchService savedSearchService;
 
-	@Autowired
-	NotificationService notificationService;
+    @Autowired
+    NotificationService notificationService;
 
-	/**
-	 * Upload single file using Spring Controller
-	 */
-	@RequestMapping(value = "/uploadListing", method = RequestMethod.POST)
-	public String uploadFileHandler(@RequestParam("title") String name, @RequestParam("category") String category,
-			@RequestParam("subCategory") String subCategory,
-			@RequestParam(value = "price", required = false) Double price,
-			@RequestParam("description") String description, @RequestParam("file") MultipartFile file,
-			@RequestParam("type") String type, Model model, HttpServletRequest request) {
+    /**
+     * Upload single file using Spring Controller
+     */
+    @RequestMapping(value = "/uploadListing", method = RequestMethod.POST)
+    public String uploadFileHandler(@RequestParam("title") String name, @RequestParam("category") String category,
+                                    @RequestParam("subCategory") String subCategory,
+                                    @RequestParam(value = "price", required = false) Double price,
+                                    @RequestParam("description") String description, @RequestParam("file") MultipartFile file,
+                                    @RequestParam("type") String type, Model model, HttpServletRequest request) {
 
         System.out.println("Hit UploadListing Controller");
-		if (price == null) {
-			price = (double) 0;
-			// This is a dirty fix
-			Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
+        if (price == null) {
+            price = (double) 0;
+            // This is a dirty fix
+            Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
 
-			// Checks to make sure listing is for at least one hour
-			if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
-				addErrorMessage("Listings Must Be Last At Least One Hour");
-				setRequest(request);
-				return "redirect:" + request.getHeader("Referer");
+            // Checks to make sure listing is for at least one hour
+            if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
+                addErrorMessage("Listings Must Be Last At Least One Hour");
+                setRequest(request);
+                return "redirect:" + request.getHeader("Referer");
 
-			}
-		}
+            }
+        }
 
         String message = "";
         String error = "";
-	
-		System.out.println(subCategory);
+
+        System.out.println(subCategory);
 
         User u = (User) request.getSession().getAttribute("user");
 
@@ -106,9 +108,9 @@ public class ListingController extends BaseController {
             return "redirect:" + request.getHeader("Referer");
         }
 
-		if (!file.isEmpty()) {
-			try {
-				String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+        if (!file.isEmpty()) {
+            try {
+                String extension = FilenameUtils.getExtension(file.getOriginalFilename());
 
                 System.out.println(extension);
 
@@ -136,10 +138,10 @@ public class ListingController extends BaseController {
                 BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
                 stream.write(bytes);
 
-              
-				System.out.println("File Uploaded");
-				Listing listing = new Listing(name, description, price, category, file.getOriginalFilename());// FIX
-																												// LATER
+
+                System.out.println("File Uploaded");
+                Listing listing = new Listing(name, description, price, category, file.getOriginalFilename());// FIX
+                // LATER
 
                 if (type.equals("auction")) {
                     listing.setType("auction");
@@ -158,27 +160,27 @@ public class ListingController extends BaseController {
 
                 // Listing l = new Listing(name, description, price, category, file );
                 // ld.create(l);
-				// Check for saved searches
-				ArrayList<SavedSearch> allSavedSearches = (ArrayList<SavedSearch>) savedSearchService
-						.getAllSavedSearches();
+                // Check for saved searches
+                ArrayList<SavedSearch> allSavedSearches = (ArrayList<SavedSearch>) savedSearchService
+                        .getAllSavedSearches();
 
-				System.out.println("Saved Search size: " + allSavedSearches.size());
+                System.out.println("Saved Search size: " + allSavedSearches.size());
 
-				if (allSavedSearches != null) {
-					for (int i = 0; i < allSavedSearches.size(); i++) {
-						if (description.toLowerCase().contains(allSavedSearches.get(i).getSearch().toLowerCase())
-								|| name.toLowerCase().contains(allSavedSearches.get(i).getSearch().toLowerCase())) {
-							if (allSavedSearches.get(i).getUser().getUserID() != u.getUserID()) {
-								notificationService.save(new Notification(
-										userService.getUserById(allSavedSearches.get(i).getUser().getUserID()),
-										listing.getId(), "New Listing Posted",
-										u.getUsername() + " has posting a listing\n\n pertaining to "
-												+ allSavedSearches.get(i).getSearch() + ".",
-										 1));
-							}
-						}
-					}
-				}
+                if (allSavedSearches != null) {
+                    for (int i = 0; i < allSavedSearches.size(); i++) {
+                        if (description.toLowerCase().contains(allSavedSearches.get(i).getSearch().toLowerCase())
+                                || name.toLowerCase().contains(allSavedSearches.get(i).getSearch().toLowerCase())) {
+                            if (allSavedSearches.get(i).getUser().getUserID() != u.getUserID()) {
+                                notificationService.save(new Notification(
+                                        userService.getUserById(allSavedSearches.get(i).getUser().getUserID()),
+                                        listing.getId(), "New Listing Posted",
+                                        u.getUsername() + " has posting a listing\n\n pertaining to "
+                                                + allSavedSearches.get(i).getSearch() + ".",
+                                        1));
+                            }
+                        }
+                    }
+                }
 
                 return "createListing";
             } catch (Exception e) {
@@ -206,7 +208,7 @@ public class ListingController extends BaseController {
         Listing listing = listingService.getByListingID(l);
         // pass these to model
         model.addObject("listing", listing);
-        
+
         System.out.println("Being used?");
 
         return model;
@@ -269,8 +271,8 @@ public class ListingController extends BaseController {
         return "redirect:/";
     }
 
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit() {
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public ModelAndView edit() {
 
         ModelAndView model = new ModelAndView("/jspf/edit-fixed-listing");
         model.addObject("listingID", 1);
@@ -303,7 +305,7 @@ public class ListingController extends BaseController {
 
         // get listings
         List<Listing> listings = listingService.getAllListingsByCategory(category);
-        
+
         Listing listing = listings.get(0); // temp
 
         // get user
@@ -311,7 +313,7 @@ public class ListingController extends BaseController {
 
         model.addObject("user", user);
         model.addObject("listings", listings);
-        
+
         model.addObject("listing", listing); // temp
 
         return model;
@@ -330,18 +332,18 @@ public class ListingController extends BaseController {
         model.addObject("listing", listing);
         model.addObject("user", user);
         model.addObject("date", dateCreated);
-        
+
         boolean hasOffer;
-        
+
         // Checks if the user already made an offer on the listing
         if (offerService.getOfferByUserAndListingId(user.getUserID(), listingID) != null) {
-        	hasOffer = true;
+            hasOffer = true;
         } else {
-        	hasOffer = false;
+            hasOffer = false;
         }
-        
+
         model.addObject("hasOffer", hasOffer);
-        
+
         System.out.println("viewSelected");
 
         return model;
@@ -388,32 +390,32 @@ public class ListingController extends BaseController {
     @RequestMapping(value = "/cancelAuction", method = RequestMethod.GET)
     public ModelAndView cancelAuction(@RequestParam("listing") int listingID) {
 
-		ModelAndView model = new ModelAndView("profile?");
-		
-		Listing listing = listingService.getByListingID(listingID);
-		User user = userService.getUserById(listing.getUser().getUserID());
-		
-		// if bidcount is above 0, reject auction cancel with an error message
-		if (listing.getBidCount() > 0) {
-			// error message
-			addErrorMessage("You may not cancel an auction that has already been bid on.");
-		} else {
-			// popup, are you sure you want to cancel?
+        ModelAndView model = new ModelAndView("profile?");
+
+        Listing listing = listingService.getByListingID(listingID);
+        User user = userService.getUserById(listing.getUser().getUserID());
+
+        // if bidcount is above 0, reject auction cancel with an error message
+        if (listing.getBidCount() > 0) {
+            // error message
+            addErrorMessage("You may not cancel an auction that has already been bid on.");
+        } else {
+            // popup, are you sure you want to cancel?
 
 
-		// if bidcount is 0, ask if seller is sure they want to cancel the auction
+            // if bidcount is 0, ask if seller is sure they want to cancel the auction
 
 
-		// no? - cancel popup
+            // no? - cancel popup
 
-		// yes?
+            // yes?
 
-		// delete the listing
-listingService.deleteListing(listingID);
+            // delete the listing
+            listingService.deleteListing(listingID);
 
 
-
-		}return model;
-	}
+        }
+        return model;
+    }
 
 }

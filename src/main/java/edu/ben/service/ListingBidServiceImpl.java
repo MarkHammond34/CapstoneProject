@@ -107,13 +107,18 @@ public class ListingBidServiceImpl implements ListingBidService {
                 newNotifications.add(new Notification(listing.getUser(), listingID, "Bid Cancelled On Your Listing", "The highest bid on listing " + listing.getName() + " has been cancelled.\nThe new highest bid has is ", 1));
 
             } catch (IndexOutOfBoundsException e) {
+
+                listing.setHighestBidder(null);
+                listing.setHighestBid(0);
+                listingDAO.saveOrUpdate(listing);
+
                 // No other bidder
                 // Send cancellation notification to seller
                 newNotifications.add(new Notification(listing.getUser(), listingID, "Bid Cancelled On Your Listing", "The highest bid on listing " + listing.getName() + " has been cancelled.\nThere is currently no bids on this listing.\n:(", 1));
             }
         }
 
-        // notificationService.save(newNotifications);
+        notificationService.save(newNotifications);
 
         return 1;
     }

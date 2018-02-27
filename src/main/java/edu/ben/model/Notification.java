@@ -70,6 +70,7 @@ public class Notification {
         this.subject = "U-ListIt Notification";
         this.sendTimestamp = new Timestamp(System.currentTimeMillis());
         this.active = active;
+        this.type = "DEFAULT";
     }
 
     public Notification(User user, int listingID, String subject, String message, int active) {
@@ -79,6 +80,7 @@ public class Notification {
         this.message = message;
         this.sendTimestamp = new Timestamp(System.currentTimeMillis());
         this.active = active;
+        this.type = "DEFAULT";
     }
 
     public Notification(User user, int listingID, String subject, String message, int active, String type) {
