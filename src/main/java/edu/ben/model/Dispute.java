@@ -35,9 +35,6 @@ public class Dispute {
     @Size(max = 200, message = "Complaint must be shorter than 200 characters")
     private String complaint;
 
-    @Column(name = "status")
-    private String status;
-
     @Column(name = "date_created")
     private Timestamp dateCreated;
 
@@ -46,9 +43,6 @@ public class Dispute {
         this.accuser = accuser;
         this.defender = defender;
         this.complaint = complaint;
-    }
-
-    public Dispute() {
     }
 
     public int getDisputeID() {
@@ -97,13 +91,5 @@ public class Dispute {
 
     public void setDefender(User defender) {
         this.defender = defender;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

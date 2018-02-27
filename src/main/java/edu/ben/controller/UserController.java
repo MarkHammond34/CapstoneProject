@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.ben.model.Follow;
 import edu.ben.model.User;
+import edu.ben.service.FollowService;
 import edu.ben.service.UserService;
 import edu.ben.util.ImagePath;
 
@@ -26,6 +28,9 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	FollowService followService;
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
@@ -116,5 +121,31 @@ public class UserController {
 	public String editUser() {
 
 		return "edit-user";
+	}
+
+	@RequestMapping(value = "/followUser", method = RequestMethod.GET)
+	public String follow(HttpServletRequest request, @RequestParam("result") String results,
+			@RequestParam("followerId") int followerId) {
+		System.out.println("Hit Servlet");
+		User session = (User) request.getSession().getAttribute("user");
+		if (results.equals("follow")) {
+			Follow f = new Follow();
+			User user = userService.getUserById(session.getUserID());
+			User follower = userService.getUserById(followerId);
+
+			f.setUser(user);
+			f.setFollower(follower);
+
+			followService.create(f);
+
+
+			System.out.println("following a user");
+		} else if (results.equals("unfollow")) {
+			Follow current = followService.findCurrent(session.getUserID(), followerId);
+			followService.deleteFollower(current.getId());
+
+			System.out.println("Unfollow");
+		}
+		return ":/redirect";
 	}
 }

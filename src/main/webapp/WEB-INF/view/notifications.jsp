@@ -13,7 +13,7 @@
             <h2 class="uk-heading-primary uk-align-center">Notifications</h2>
             <hr>
             <ul class="uk-list" id="notificationSection" uk-grid>
-                <c:forEach items="${active}" var="notification" varStatus="loop">
+                <c:forEach items="${notifications}" var="notification" varStatus="loop">
                     <li class="uk-width-1-1 uk-padding-small uk-border-rounded"
                         id="notification${notification.notificationID}Item"
                         style="font-size: 16px;"

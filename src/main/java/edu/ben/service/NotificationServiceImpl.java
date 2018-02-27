@@ -43,7 +43,7 @@ public class NotificationServiceImpl implements NotificationService {
                     Email.sendEmail(notification.getMessage(), "U-ListIt Notification", notification.getUser().getSchoolEmail());
                 }
             }
-        }, 2000);
+        }, 5000);
         t.cancel();
     }
 
@@ -67,7 +67,7 @@ public class NotificationServiceImpl implements NotificationService {
                     }
                 }
             }
-        }, 2000);
+        }, 5000);
         t.cancel();
     }
 

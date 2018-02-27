@@ -113,7 +113,7 @@ public class ListingBidServiceImpl implements ListingBidService {
             }
         }
 
-        notificationService.save(newNotifications);
+        // notificationService.save(newNotifications);
 
         return 1;
     }

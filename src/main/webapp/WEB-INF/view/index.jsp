@@ -1,5 +1,4 @@
 <%@include file="jspf/header.jsp" %>
-
 <body>
 
 <%@include file="jspf/navbar.jspf" %>
@@ -56,9 +55,6 @@
                 <li class="uk-active"><a onclick="trendingClicked()">Trending</a></li>
                 <li><a onclick="endingSoonClicked()">Ending Soon</a></li>
                 <li><a onclick="recentlyAddedClicked()">Recently Added</a></li>
-                <c:if test="${relevantListings != null}">
-                    <li><a onclick="recommendedClicked()">Recommended</a></li>
-                </c:if>
             </ul>
             <div id="trending-listings" style="display: inline">
                 <div class="uk-child-width-1-3@m uk-grid-small uk-text-center"
@@ -84,16 +80,6 @@
                     </c:forEach>
                 </div>
             </div>
-            <c:if test="${relevantListings != null}">
-                <div id="relevant-listings" style="display: none">
-                    <div class="uk-child-width-1-3@m uk-grid-small uk-text-center"
-                         uk-grid>
-                        <c:forEach var="listing" items="${relevantListings}">
-                            <%@include file="jspf/index-listing.jsp" %>
-                        </c:forEach>
-                    </div>
-                </div>
-            </c:if>
         </div>
         6y
     </div>
@@ -105,47 +91,20 @@
         document.getElementById('trending-listings').style.display = 'inline';
         document.getElementById('ending-soon-listings').style.display = 'none';
         document.getElementById('recently-added-listings').style.display = 'none';
-        document.getElementById('relevant-listings').style.display = 'none';
     }
 
     function endingSoonClicked() {
         document.getElementById('trending-listings').style.display = 'none';
         document.getElementById('ending-soon-listings').style.display = 'inline';
         document.getElementById('recently-added-listings').style.display = 'none';
-        document.getElementById('relevant-listings').style.display = 'none';
     }
 
     function recentlyAddedClicked() {
         document.getElementById('trending-listings').style.display = 'none';
         document.getElementById('ending-soon-listings').style.display = 'none';
         document.getElementById('recently-added-listings').style.display = 'inline';
-        document.getElementById('relevant-listings').style.display = 'none';
     }
 
-    function recommendedClicked() {
-        document.getElementById('trending-listings').style.display = 'none';
-        document.getElementById('ending-soon-listings').style.display = 'none';
-        document.getElementById('recently-added-listings').style.display = 'none';
-        document.getElementById('relevant-listings').style.display = 'inline';
-    }
-
-    function dismiss(notificationID) {
-        $.ajax({
-            type: 'GET',
-            url: '/dismiss',
-            data: {n: notificationID},
-        })
-        document.getElementById('notification' + notificationID).style.display = "none";
-    }
-
-    function remove(notificationID) {
-        $.ajax({
-            type: 'GET',
-            url: '/remove',
-            data: {n: notificationID},
-        })
-        document.getElementById('notification' + notificationID).style.display = "none";
-    }
 
     $('#notificationDrop').on("hide", function () {
         $.ajax({
@@ -165,6 +124,15 @@
         }
     })
 
+    function cancelBid(listingID) {
+        $.ajax({
+            type: "GET",
+            url: "/cancelBid",
+            data: {
+                l: listingID
+            },
+        });
+    }
 </script>
 </body>
 </html>

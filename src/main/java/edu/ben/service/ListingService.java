@@ -39,20 +39,18 @@ public interface ListingService {
 	public List<Listing> getAllDailyListings();
 
 	public List<Listing> getAllWeeklyListings();
-
+	
 	public List<Listing> listingSearch(String search);
-
+	
 	public List<Listing> findAllDonatedListings();
-
+	
 	public List<Listing> findAllDonatedListingsByCategory(String category);
-
+	
 	public List<Listing> listingsSearchEndingLatest(String search);
-
+	
 	public List<Listing> listingsSearchEndingSoonest(String search);
-
+	
 	public List<Listing> listingSearchMostExpensive(String search);
-
+	
 	public List<Listing> listingSearchLeastExpensive(String search);
-
-	public List getRelevantListingsByUserID(int userID);
 }

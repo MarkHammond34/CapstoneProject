@@ -1,4 +1,3 @@
-<%--Nav Bar--%>
 <div class="uk-position-relative" style="background-color: white; margin-bottom: 10px;">
     <div class="uk-position-relativetop">
         <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>

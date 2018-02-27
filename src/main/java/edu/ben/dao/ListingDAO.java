@@ -55,6 +55,4 @@ public interface ListingDAO {
 	public List<Listing> listingSearchLeastExpensive(String search);
 
 
-    public List getRelevantListingsByUserID(int userID);
-
 }

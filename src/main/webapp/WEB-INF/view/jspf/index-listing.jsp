@@ -29,7 +29,7 @@
                 <a
                         class="uk-button uk-button-text" style="color: cornflowerblue; margin-left: 5px"
                         uk-toggle="target: #placeBidModal${listing.id}" id="bidButton${listing.id}">Place Bid</a>
-                <c:if test="${listing.highestBidder.userID == user.userID && listing.ended == 0}">
+                <c:if test="${listing.highestBidder.userID == user.userID}">
                     <a title="Cancel Bid" uk-icon="icon: ban"
                        uk-toggle="target: #cancelBid${listing.id}Modal" style="margin-left: 10px; color: red;"></a>
                 </c:if>
