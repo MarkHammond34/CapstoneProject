@@ -1,8 +1,18 @@
 <footer>
-    <p>
-        &copy;U-ListIt -<a style="color: #ffffff; text-decoration: none;"
-                           href="${pageContext.request.contextPath}/contactUs">
-        Questions? Comments? Contact Us</a> - All rights reserved 2018.
-    </p>
-    <a href="/faqs" style="color: #ffffff; text-decoration: none;">Frequently Asked Questions</a>
+	<p>
+		New to the UListIt? See our<a href="/freshmanChecklist"
+			style="color: #ffffff; text-decoration: none;"> Freshman
+			Checklist Example</a> or our exclusive <a href="/howToVideo"
+			style="color: #ffffff; text-decoration: none;"> How To Video</a>!
+	</p>
+	<p>
+		<a href="/faqs" style="color: #ffffff; text-decoration: none;">Frequently
+			Asked Questions</a>
+	</p>
+	<p>
+		&copy;U-ListIt -<a style="color: #ffffff; text-decoration: none;"
+			href="${pageContext.request.contextPath}/contactUs"> Questions?
+			Comments? Contact Us</a> - All rights reserved 2018.
+	</p>
+
 </footer>
