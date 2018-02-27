@@ -27,20 +27,25 @@
                                     style="color: red"
                                     uk-icon="icon: close; ratio: 1.3"></a>
                             <c:choose>
-                                <c:when test="${notification.type == 1}">
+                                <c:when test="${notification.type == 'WON'}">
                                     <img
                                             src="${pageContext.request.contextPath}/resources/img/icons/trophy.png"
                                             alt="Trophy" width="8%">
                                 </c:when>
-                                <c:when test="${notification.type == 2}">
+                                <c:when test="${notification.type == 'SOLD'}">
                                     <img
                                             src="${pageContext.request.contextPath}/resources/img/icons/cash.png"
                                             alt="Trophy" width="8%">
                                 </c:when>
-                                <c:when test="${notification.type == 3}">
+                                <c:when test="${notification.type == 'BID_CANCEL'}">
                                     <img
                                             src="${pageContext.request.contextPath}/resources/img/icons/cancel.png"
                                             alt="Trophy" width="8%">
+                                </c:when>
+                                <c:when test="${notification.type == 'DISPUTE'}">
+                                    <img
+                                            src="${pageContext.request.contextPath}/resources/img/icons/gavel.png"
+                                            alt="Gavel" width="8%">
                                 </c:when>
                                 <c:otherwise>
                                     <img

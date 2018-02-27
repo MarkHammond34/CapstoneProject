@@ -56,7 +56,7 @@ public class Notification {
     private int viewed;
 
     @Column(name = "type")
-    private int type;
+    private String type;
 
 
     public Notification() {
@@ -79,6 +79,16 @@ public class Notification {
         this.message = message;
         this.sendTimestamp = new Timestamp(System.currentTimeMillis());
         this.active = active;
+    }
+
+    public Notification(User user, int listingID, String subject, String message, int active, String type) {
+        this.user = user;
+        this.listingID = listingID;
+        this.subject = subject;
+        this.message = message;
+        this.sendTimestamp = new Timestamp(System.currentTimeMillis());
+        this.active = active;
+        this.type = type;
     }
 
     public int getNotificationID() {
@@ -173,11 +183,11 @@ public class Notification {
         this.viewed = viewed;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 }
