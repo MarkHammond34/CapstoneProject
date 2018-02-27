@@ -6,6 +6,7 @@ import edu.ben.model.SearchHistory;
 import edu.ben.model.Subcategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.UnexpectedRollbackException;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;

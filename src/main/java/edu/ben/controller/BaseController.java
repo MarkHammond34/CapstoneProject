@@ -33,9 +33,9 @@ public class BaseController {
     }
 
     public void setRequest(HttpServletRequest m) {
-        m.setAttribute("errorMessages", errorMessages);
-        m.setAttribute("warningMessages", warningMessages);
-        m.setAttribute("successMessages", successMessages);
+        m.getSession().setAttribute("errorMessages", errorMessages);
+        m.getSession().setAttribute("warningMessages", warningMessages);
+        m.getSession().setAttribute("successMessages", successMessages);
     }
 
     public void setModel(ModelAndView m) {

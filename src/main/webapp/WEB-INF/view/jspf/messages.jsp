@@ -4,7 +4,7 @@
         <c:if test="${not empty successMessages}">
             <%
                 String successMessage = "";
-                ArrayList<String> successes = (ArrayList<String>) request.getAttribute("successMessages");
+                ArrayList<String> successes = (ArrayList<String>) request.getSession().getAttribute("successMessages");
                 for (String s : successes) {
                     successMessage += s + "\n";
             %>
@@ -21,7 +21,7 @@
         <c:if test="${not empty warningMessages}">
             <%
                 String warningMessage = "";
-                ArrayList<String> warnings = (ArrayList<String>) request.getAttribute("warningMessages");
+                ArrayList<String> warnings = (ArrayList<String>) request.getSession().getAttribute("warningMessages");
                 for (String w : warnings) {
                     warningMessage += w + "\n";
             %>
@@ -38,7 +38,7 @@
         <c:if test="${not empty errorMessages}">
             <%
                 String errorMessage = "";
-                ArrayList<String> errors = (ArrayList<String>) request.getAttribute("errorMessages");
+                ArrayList<String> errors = (ArrayList<String>) request.getSession().getAttribute("errorMessages");
                 for (String e : errors) {
                     errorMessage += e + "\n";
             %>
@@ -52,12 +52,6 @@
                 errors.clear();
             %>
         </c:if>
-
-        <div class="uk-alert-danger collapse" style="text-align: center"
-             role="alert" id="failedListingUpload">
-            <a class="uk-alert-close" uk-close></a> <span>
-		<p id="error"></p>
-	</span>
-        </div>
     </div>
+</div>
 </div>
