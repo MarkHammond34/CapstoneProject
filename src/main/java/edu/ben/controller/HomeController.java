@@ -4,14 +4,16 @@ import java.util.List;
 
 import edu.ben.model.Listing;
 import edu.ben.model.Notification;
+import edu.ben.model.SearchHistory;
 import edu.ben.model.User;
-import edu.ben.service.FaqService;
 import edu.ben.service.ListingBidService;
 import edu.ben.service.NotificationService;
+import edu.ben.service.SearchHistoryService;
 import edu.ben.util.Email;
 import edu.ben.util.ListingRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,89 +25,87 @@ import edu.ben.service.ListingService;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
+@Transactional
 public class HomeController extends BaseController {
 
-	@Autowired
-	ListingService listingService;
+    @Autowired
+    ListingService listingService;
 
-	@Autowired
-	ListingBidService listingBidService;
+    @Autowired
+    ListingBidService listingBidService;
 
-	@Autowired
-	NotificationService notificationService;
+    @Autowired
+    NotificationService notificationService;
 
-	@Autowired
-	FaqService faqService;
+    @Autowired
+    SearchHistoryService searchHistoryService;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView home(HttpServletRequest request) {
-		ModelAndView model = new ModelAndView("index");
+    /*
+    @Autowired
+    FaqService faqService;
+    */
 
-		List<Listing> recent = listingService.getRecentListings();
-		model.addObject("recentListings", recent);
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ModelAndView home(HttpServletRequest request) {
+        ModelAndView model = new ModelAndView("index");
 
-		List<Listing> endingSoon = listingService.getRecentListings();
-		model.addObject("endingSoonListings", endingSoon);
+        List<Listing> recent = listingService.getRecentListings();
+        model.addObject("recentListings", recent);
 
-		List<Listing> trending = listingService.getListingsByBidCount();
-		model.addObject("trendingListings", trending);
+        List<Listing> endingSoon = listingService.getRecentListings();
+        model.addObject("endingSoonListings", endingSoon);
 
-		User user = (User) request.getSession().getAttribute("user");
+        List<Listing> trending = listingService.getListingsByBidCount();
+        model.addObject("trendingListings", trending);
 
-		ListingRunner.run();
+        model.addObject("relevantListings", null);
 
+        User user = (User) request.getSession().getAttribute("user");
 
+        ListingRunner.run();
 
-		if (user != null) {
-			List<Notification> notifications = notificationService.getNotDismissedByUserID(user.getUserID());
-			if (notifications.size() == 0) {
-				request.getSession().setAttribute("notifications", null);
-			} else {
-				request.getSession().setAttribute("notifications", notifications);
+        if (user != null) {
 
-				int count = 0;
-				for (Notification n : notifications) {
-					if (n.getViewed() == 0) {
-						count++;
-					}
-				}
+            List<Listing> relevantListings = listingService.getRelevantListingsByUserID(user.getUserID());
+            if (relevantListings.size() > 3) {
+                model.addObject("relevantListings", relevantListings);
+            } else {
+                model.addObject("relevantListings", null);
+            }
 
-				request.getSession().setAttribute("unviewedNotificationCount", count);
-			}
-		} else {
-			request.getSession().setAttribute("notifications", null);
-		}
+            NotificationController.updateNotifications(request, notificationService);
 
-		setRequest(request);
-		return model;
-	}
+        }
 
+        setModel(model);
+        return model;
+    }
 
-	@GetMapping("/contactUs")
-	public String contactUs() {
-		return "contactUs";
-	}
+    @GetMapping("/contactUs")
+    public String contactUs() {
+        return "contactUs";
+    }
 
-	@PostMapping("/sendEmail")
-	public String sendEmail(HttpServletRequest request) {
-		String message = "";
-		if (request.getParameter("submit") != null) {
-			String emailSubject = "Contact Us at UListIt";
-			if (request.getParameter("message") != null) {
-				message += "Name:   " + request.getParameter("name") + "\n";
-				message += "Phone:   " + request.getParameter("phone") + "\n";
-				message += "Email:   " + request.getParameter("email") + "\n \n";
-				message += request.getParameter("message");
-			}
-			try {
-				Email.sendEmail(message, emailSubject, "ulistithelp@gmail.com");
-				addSuccessMessage("Email sent successfully!");
-			} catch (Exception me) {
-				addErrorMessage("Error sending email!");
-			}
-		}
-		setRequest(request);
-		return "contactUs";
-	}
+    @PostMapping("/sendEmail")
+    public String sendEmail(HttpServletRequest request) {
+        String message = "";
+        if (request.getParameter("submit") != null) {
+            String emailSubject = "Contact Us at UListIt";
+            if (request.getParameter("message") != null) {
+                message += "Name:   " + request.getParameter("name") + "\n";
+                message += "Phone:   " + request.getParameter("phone") + "\n";
+                message += "Email:   " + request.getParameter("email") + "\n \n";
+                message += request.getParameter("message");
+            }
+            try {
+                Email.sendEmail(message, emailSubject, "ulistithelp@gmail.com");
+                addSuccessMessage("Email sent successfully!");
+            } catch (Exception me) {
+                addErrorMessage("Error sending email!");
+            }
+        }
+        setRequest(request);
+        return "contactUs";
+    }
 
 }

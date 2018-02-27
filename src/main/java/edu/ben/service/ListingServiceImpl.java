@@ -137,6 +137,11 @@ public class ListingServiceImpl implements ListingService {
         return null;
     }
 
+    @Override
+    public List getRelevantListingsByUserID(int userID) {
+        return ld.getRelevantListingsByUserID(userID);
+    }
+
 	@Override
 	public List<Listing> listingSearch(String search) {
 		return ld.listingSearch(search);
@@ -171,5 +176,4 @@ public class ListingServiceImpl implements ListingService {
 	public List<Listing> listingSearchLeastExpensive(String search) {
 		return ld.listingSearchLeastExpensive(search);
 	}
-
 }

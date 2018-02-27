@@ -29,7 +29,7 @@ public class NotificationController extends BaseController {
         }
 
         List<Notification> activeNotifications = notificationService.getActiveByUserID(user.getUserID());
-        request.setAttribute("notifications", activeNotifications);
+        request.setAttribute("active", activeNotifications);
 
 
         ArrayList<Notification> currentPage = new ArrayList<Notification>(15);
@@ -68,6 +68,8 @@ public class NotificationController extends BaseController {
             addSuccessMessage("Dismissed");
         }
 
+        updateNotifications(request, notificationService);
+
         setRequest(request);
         return "redirect:" + request.getHeader("Referer");
 
@@ -92,6 +94,8 @@ public class NotificationController extends BaseController {
             addSuccessMessage("Removed");
         }
 
+        updateNotifications(request, notificationService);
+
         setRequest(request);
         return "redirect:" + request.getHeader("Referer");
     }
@@ -111,6 +115,8 @@ public class NotificationController extends BaseController {
             notificationService.remove(user.getUserID(), not.getNotificationID());
         }
 
+        updateNotifications(request, notificationService);
+
         setRequest(request);
         return "redirect:" + request.getHeader("Referer");
     }
@@ -120,23 +126,31 @@ public class NotificationController extends BaseController {
 
         notificationService.markAsViewed((List<Notification>) request.getSession().getAttribute("notifications"));
 
-        User user = (User) request.getSession().getAttribute("user");
-
-        List<Notification> notifications = notificationService.getNotDismissedByUserID(user.getUserID());
-        if (notifications.size() == 0) {
-            request.getSession().setAttribute("notifications", null);
-        } else {
-            request.getSession().setAttribute("notifications", notifications);
-
-            int count = 0;
-            for (Notification n : notifications) {
-                if (n.getViewed() == 0) {
-                    count++;
-                }
-            }
-
-            request.getSession().setAttribute("unviewedNotificationCount", count);
-        }
+        updateNotifications(request, notificationService);
     }
 
+    public static void updateNotifications(HttpServletRequest request, NotificationService notificationService) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null) {
+            List<Notification> notifications = notificationService.getNotDismissedByUserID(user.getUserID());
+            if (notifications.size() == 0) {
+                request.getSession().setAttribute("notifications", null);
+            } else {
+                request.getSession().setAttribute("notifications", notifications);
+
+                int count = 0;
+                for (Notification n : notifications) {
+                    if (n.getViewed() == 0) {
+                        count++;
+                    }
+                }
+
+                request.getSession().setAttribute("unviewedNotificationCount", count);
+            }
+        } else {
+            request.getSession().setAttribute("notifications", null);
+        }
+    }
 }

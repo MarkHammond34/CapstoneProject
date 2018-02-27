@@ -31,7 +31,7 @@ public interface ListingDAO {
     public List getListingsWon(int userID);
 
     public List getActiveListings();
-    
+
     public List<Listing> getAllWeeklyPlusListings();
 
 	public List<Listing> getAllFixedListings();
@@ -54,5 +54,6 @@ public interface ListingDAO {
 	
 	public List<Listing> listingSearchLeastExpensive(String search);
 
+    public List getRelevantListingsByUserID(int userID);
 
 }
