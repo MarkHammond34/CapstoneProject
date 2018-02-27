@@ -495,3 +495,210 @@ hgroup h2.lead {
     max-height: 100%;
     max-width: 100%;
 }
+
+/* CARDS ON LISTING PROFILE PAGE */
+body {
+	padding: 20px;
+	font-family: 'Open Sans', sans-serif;
+	background-color: #f7f7f7;
+}
+
+.lib-panel {
+	margin-bottom: 20Px;
+}
+
+.lib-panel img {
+	width: 100%;
+	background-color: transparent;
+}
+
+.lib-panel .row, .lib-panel .col-md-6 {
+	padding: 0;
+	background-color: #FFFFFF;
+}
+
+.lib-panel .lib-row {
+	padding: 0 20px 0 20px;
+}
+
+.lib-panel .lib-row.lib-header {
+	background-color: #FFFFFF;
+	font-size: 20px;
+	padding: 10px 20px 0 20px;
+}
+
+.lib-panel .lib-row.lib-header .lib-header-seperator {
+	height: 2px;
+	width: 26px;
+	background-color: #d9d9d9;
+	margin: 7px 0 7px 0;
+}
+
+.lib-panel .lib-row.lib-desc {
+	position: relative;
+	height: 100%;
+	display: block;
+	font-size: 13px;
+}
+
+.lib-panel .lib-row.lib-desc a {
+	position: absolute;
+	width: 100%;
+	bottom: 10px;
+	left: 20px;
+}
+
+.row-margin-bottom {
+	margin-bottom: 20px;
+}
+
+.box-shadow {
+	-webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, .10);
+	box-shadow: 0 0 10px 0 rgba(0, 0, 0, .10);
+}
+
+.no-padding {
+	padding: 0;
+}
+/* PROFILE PAGE */
+body {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.fb-profile img.fb-image-lg {
+	z-index: 0;
+	width: 100%;
+	height: 350px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+.fb-image-profile {
+	margin: -90px 10px 20px 80px;
+	z-index: 9;
+	width: 20%;
+}
+
+/***
+Bootstrap Line Tabs by @keenthemes
+A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themeforest: http://j.mp/metronictheme
+Licensed under MIT
+***/
+
+/* Tabs panel */
+.tabbable-panel {
+	border: 1px solid #eee;
+	padding: 10px;
+}
+
+/* Default mode */
+.tabbable-line>.nav-tabs {
+	border: none;
+	margin: 0px;
+}
+
+.tabbable-line>.nav-tabs>li {
+	margin-right: 2px;
+}
+
+.tabbable-line>.nav-tabs>li>a {
+	border: 0;
+	margin-right: 0;
+	color: #737373;
+}
+
+.tabbable-line>.nav-tabs>li>a>i {
+	color: #a6a6a6;
+}
+
+.tabbable-line>.nav-tabs>li.open, .tabbable-line>.nav-tabs>li:hover {
+	border-bottom: 4px solid #fbcdcf;
+}
+
+.tabbable-line>.nav-tabs>li.open>a, .tabbable-line>.nav-tabs>li:hover>a
+	{
+	border: 0;
+	background: none !important;
+	color: #333333;
+}
+
+.tabbable-line>.nav-tabs>li.open>a>i, .tabbable-line>.nav-tabs>li:hover>a>i
+	{
+	color: #a6a6a6;
+}
+
+.tabbable-line>.nav-tabs>li.open .dropdown-menu, .tabbable-line>.nav-tabs>li:hover .dropdown-menu
+	{
+	margin-top: 0px;
+}
+
+.tabbable-line>.nav-tabs>li.active {
+	border-bottom: 4px solid #f3565d;
+	position: relative;
+}
+
+.tabbable-line>.nav-tabs>li.active>a {
+	border: 0 !important;
+	color: #333333;
+}
+
+.tabbable-line>.nav-tabs>li.active>a>i {
+	color: #404040;
+}
+
+.tabbable-line>.tab-content {
+	margin-top: -3px;
+	background-color: #fff;
+	border: 0;
+	border-top: 1px solid #eee;
+	padding: 15px 0;
+}
+
+.portlet .tabbable-line>.tab-content {
+	padding-bottom: 0;
+}
+
+/* Below tabs mode */
+.tabbable-line.tabs-below>.nav-tabs>li {
+	border-top: 4px solid transparent;
+}
+
+.tabbable-line.tabs-below>.nav-tabs>li>a {
+	margin-top: 0;
+}
+
+.tabbable-line.tabs-below>.nav-tabs>li:hover {
+	border-bottom: 0;
+	border-top: 4px solid #fbcdcf;
+}
+
+.tabbable-line.tabs-below>.nav-tabs>li.active {
+	margin-bottom: -2px;
+	border-bottom: 0;
+	border-top: 4px solid #f3565d;
+}
+
+.tabbable-line.tabs-below>.tab-content {
+	margin-top: -10px;
+	border-top: 0;
+	border-bottom: 1px solid #eee;
+	padding-bottom: 15px;
+}
+
+.menu_title {
+	padding: 15px 10px;
+	border-bottom: 1px solid #eee;
+	margin: 0 5px;
+}
+
+@media ( max-width :768px) {
+	.fb-profile-text>h1 {
+		font-weight: 700;
+		font-size: 16px;
+	}
+	.fb-image-profile {
+		margin: -45px 10px 0px 25px;
+		z-index: 9;
+		width: 20%;
+	}
+}

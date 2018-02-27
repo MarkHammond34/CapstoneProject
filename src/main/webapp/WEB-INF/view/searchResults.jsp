@@ -184,14 +184,14 @@
 										<c:forEach var="users" items="${userSearch}">
 											<div class="uk-clearfix" style="font-size: 14px;">
 
-												<a href="#"><img
+												<a href="${pageContext.request.contextPath}/viewProfile?userId=${users.userID}"><img
 													class="uk-align-center uk-border-circle"
 													src="<%=request.getContextPath()%>/resources/img/profile-pic/${users.image_path}"
 													width="250" height="250" alt="Border circle"></a>
 												<ul class="uk-list">
-													<li class="uk-width-1-1">${users.firstName}
+													<li class="uk-width-1-1" uk-icon="icon: user">${users.firstName}
 														"${users.username}" ${users.lastName}</li>
-													<li class="uk-width-1-1">${users.schoolEmail}</li>
+													<li class="uk-width-1-1" uk-icon="icon: mail">${users.schoolEmail}</li>
 												</ul>
 											</div>
 										</c:forEach>
@@ -211,7 +211,7 @@
 			var saved = document.getElementById('searchId').value;
 			$.ajax({
 				type : 'GET',
-				url : 'saveSearch',
+				url : 'follow',
 				data : {
 					search : saved
 				}
