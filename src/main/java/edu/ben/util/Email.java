@@ -40,6 +40,19 @@ public class Email {
         return code;
 
     }
+    
+    public static String unlockAccount(String email) {
+
+        String code = "";
+        for (int i = 0; i < 6; i++) {
+            code += (int)(Math.random() * 10);
+        }
+
+        sendEmail("Enter the following code to unlock your account.\nCode: " + code, "Account Unlock", email);
+
+        return code;
+
+    }
 
     public static void sendEmail(String mes, String subject, String email) {
 
