@@ -29,7 +29,8 @@
 								<span class="val_error" id="title_error"></span>
 							</div>
 							<div class="uk-width-1-2">
-								<strong>File to upload:</strong> <input type="file" name="file">
+								<strong>File to upload:</strong> <input id="image" type="file" name="file">
+								<span class="val_error" id="image_error"></span>
 							</div>
 						</div>
 						<div uk-grid>
@@ -63,7 +64,8 @@
 
 							<div class="uk-width-1-2" id="value">
 								<strong>Price</strong><input type="number" class="uk-input"
-									id="price" name="price" placeholder="Price" disabled>
+									id="price" name="price" placeholder="Price" disabled> <span
+									class="val_error" id="price_error"></span>
 							</div>
 						</div>
 						<div class="uk-width-1-1" id="dateEnd">
@@ -92,46 +94,58 @@
 </body>
 <script type="text/javascript">
 	function validateForm() {
-		var title = document.forms["uploadListingForm"]["title"].value;
 		var title_error = document.getElementById("title_error");
-		var titleId = document.getElementById("titleId");
-		
+		var title = document.getElementById("titleId").value;
+
 		var file = document.forms["uploadListingForm"]["file"].value;
 		var fileArray = file.split(".");
 		var extension = fileArray[1];
 
 		var priceString = document.forms["uploadListingForm"]["price"].value;
 		var price = parseInt(priceString);
-		
-		titleId.addEventListener("blur", titleVerify, true);
-		
 
-		
-
-		console.log("title = " + title);
+		// Name checking
 		if (title == "" || title == null) {
-			console.log("Hit title validity");
-			titleId.style.border = "1px solid red";
-			title_error.textContent = "*Title is required";
-			title_error.style.color = "red";
-			titleId.focus();
+			console.log(title);
+			document.getElementById("titleId").style.borderColor = "red";
+			document.getElementById('title_error').textContent = "* Field Cannot Be empty";
+			document.getElementById('title_error').style.color = "red";
+			document.getElementById('titleId').focus();
 			return false;
+		} else {
+			document.getElementById("titleId").style.borderColor = "black";
+			document.getElementById('title_error').textContent = "";
 		}
-
+		// Image Checking
 		if (extension != "jpeg" && extension != "png" && extension != "jpg") {
-			console.log(extension);
-			window.alert("extension error");
+			document.getElementById('image_error').textContent = "* Must upload an image file.";
+			document.getElementById('image_error').style.color = "red";
+			document.getElementById('image').focus();
 			return false;
+		} else if (file == "" || file == null) {
+			document.getElementById('image_error').textContent = "* Field Cannot Be Empty.";
+			document.getElementById('image_error').style.color = "red";
+			document.getElementById('image').focus();
+		} else {
+			document.getElementById('image_error').textContent = "";
 
-		} else if (price < 0) {
-			window.alert("price error");
+			// Price Checking
+		}
+		if (price < 0) {
+			document.getElementById("price").style.borderColor = "red";
+			document.getElementById('price_error').textContent = "*Price cannot be negative.";
+			document.getElementById('price_error').style.color = "red";
+			document.getElementById('price').focus();
 			return false;
+		} else {
+			document.getElementById("price").style.borderColor = "black";
+			document.getElementById('price_error').textContent = "";
 		}
 
 		window.alert("Good shit");
 
 	}
-	
+
 	function titleVerify() {
 		if (titleId != "") {
 			titleId.style.border = "1px solid black";
