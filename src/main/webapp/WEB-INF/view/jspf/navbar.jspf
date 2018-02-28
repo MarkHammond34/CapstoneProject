@@ -58,14 +58,14 @@
                                                     <c:choose>
                                                         <c:when test="${notification.subject == 'U-ListIt Notification'}">
                                                             <a class="uk-link-muted" href=""
-                                                               id="notification${notification.notificationID}">${notification.message}
-                                                                <c:if test="${notification.viewed == 0}">
-                                                                <span class="badge2"
-                                                                      id="badge2"></span>
+                                                               id="notification${notification.notificationID}">
+                                                                <c:if test="${notification.viewed == 0}"> ${notification.message}
+                                                                    <span class="badge2"
+                                                                          id="badge2"></span>
                                                                 </c:if>
-                                                                <a
-                                                                        onclick="dismiss(${notification.notificationID});"
-                                                                        uk-icon="icon: trash"></a>
+                                                                <a class="uk-postion-top-right" style="color: red;"
+                                                                   onclick="dismiss(${notification.notificationID});"
+                                                                   uk-icon="icon: close"> </a>
                                                             </a>
                                                         </c:when>
                                                         <c:otherwise>
@@ -74,9 +74,10 @@
                                                                 <c:if test="${notification.viewed == 0}">
                                                                     <span class="badge2"></span>
                                                                 </c:if>
-                                                                <a
-                                                                        onclick="dismiss(${notification.notificationID});"
-                                                                        uk-icon="icon: trash"></a>
+                                                                <a class="uk-position-top-right uk-padding-small"
+                                                                   style="color: red;"
+                                                                   onclick="dismiss(${notification.notificationID});"
+                                                                   uk-icon="icon: close"> </a>
                                                             </a>
                                                         </c:otherwise>
                                                     </c:choose>

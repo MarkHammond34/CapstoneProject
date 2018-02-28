@@ -56,6 +56,17 @@ public class SearchController {
             e.printStackTrace();
         }
 
+        if (user != null) {
+            List<Listing> relevant = listingService.getRelevantListingsByUserID(user.getUserID());
+            if (relevant.size() > 5) {
+                request.setAttribute("relevantListings", listingService.getRelevantListingsByUserID(user.getUserID()).subList(0, 4));
+            } else {
+                request.setAttribute("relevantListings", relevant);
+            }
+        } else {
+            request.setAttribute("relevantListings", null);
+        }
+
         List<Listing> listingSearch = listingService.listingSearch(search);
 
         List<Listing> endingLatest = listingService.listingsSearchEndingLatest(search);

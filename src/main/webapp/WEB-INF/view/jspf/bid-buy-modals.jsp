@@ -25,19 +25,17 @@
             <div class="uk-child-width-1-2@s" uk-grid>
                 <div>
                     <h4>Name: ${listing.name}</h4>
-                    <h4>Highest Bid: ${listing.highestBid}</h4>
+                    <h4>Highest Bid: $${listing.highestBid}</h4>
                     <h4>Seller: <a
                             href="/viewProfile?id=${listing.user.userID}">${listing.user.username}</a>
                     </h4>
                 </div>
 
                 <div>
-                    <div class="uk-input">
-                        <label>Your Bid
-                            <input name="bidValue" type="number"
-                                   min="${listing.highestBid}" id="bidValue${listing.id}"></label>
-                        <input name="listingID" type="hidden" value="${listing.id}">
-                    </div>
+                    <h4>Bid</h4>
+                    <input class="uk-input" name="bidValue" type="number"
+                           min="${listing.highestBid}" id="bidValue${listing.id}">
+                    <input name="listingID" type="hidden" value="${listing.id}">
                 </div>
             </div>
             <p class="uk-text-right">

@@ -2,12 +2,11 @@
 
 <body>
 <%@include file="../jspf/navbar.jspf" %>
-<div class="row">
-    <div
-            class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
 
-        <%@ include file="../jspf/messages.jsp" %>
+<%@ include file="../jspf/messages.jsp" %>
 
+<div class="uk-grid uk-margin-medium-bottom" uk-grid>
+    <div class="uk-width-2-3 uk-align-center">
         <form role="form" id="form" data-toggle="validator" commandName="user"
               method="post" action="create">
             <h2>${title}</h2>
@@ -134,6 +133,7 @@
         </form>
     </div>
 </div>
+
 <%@ include file="terms-and-conditions.jsp" %>
 
 <script>
