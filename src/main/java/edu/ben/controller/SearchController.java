@@ -50,13 +50,14 @@ public class SearchController {
             }
         }
 
-        try {
-            searchHistoryService.save(new SearchHistory(user, search));
-        } catch (UnexpectedRollbackException e) {
-            e.printStackTrace();
-        }
-
         if (user != null) {
+
+            try {
+                searchHistoryService.save(new SearchHistory(user, search));
+            } catch (UnexpectedRollbackException e) {
+                e.printStackTrace();
+            }
+
             List<Listing> relevant = listingService.getRelevantListingsByUserID(user.getUserID());
             if (relevant.size() > 5) {
                 request.setAttribute("relevantListings", listingService.getRelevantListingsByUserID(user.getUserID()).subList(0, 4));
