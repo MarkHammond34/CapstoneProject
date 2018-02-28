@@ -89,13 +89,12 @@
 			<li class="uk-width-1-1">Area rug</li>
 			<li class="uk-width-1-1">Posters/art</li>
 		</ul>
-		<h2>Miscellaneous</h2>
-		<ul class="uk-list uk-list-striped uk-grid-small">
-			<li class="uk-width-1-1">Umbrella</li>
-			<li class="uk-width-1-1">Backpack</li>
-			<li class="uk-width-1-1">Sports equipment</li>
-		</ul>
+
 	</div>
+<p>
+</p>
+	
 </body>
 <%@include file="jspf/footer.jspf"%>
+
 </html>
