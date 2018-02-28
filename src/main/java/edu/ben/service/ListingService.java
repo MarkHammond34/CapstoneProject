@@ -55,4 +55,6 @@ public interface ListingService {
     public List<Listing> listingSearchLeastExpensive(String search);
 
     public List getRelevantListingsByUserID(int userID);
+
+    public List getPremiumListings();
 }

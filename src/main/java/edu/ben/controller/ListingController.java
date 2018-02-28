@@ -68,7 +68,7 @@ public class ListingController extends BaseController {
                                     @RequestParam("subCategory") String subCategory,
                                     @RequestParam(value = "price", required = false) Double price,
                                     @RequestParam("description") String description, @RequestParam("file") MultipartFile file,
-                                    @RequestParam("type") String type, Model model, HttpServletRequest request) {
+                                    @RequestParam("type") String type, @RequestParam("premium") String premium, Model model, HttpServletRequest request) {
 
         System.out.println("Hit UploadListing Controller");
         if (price == null) {
@@ -148,6 +148,13 @@ public class ListingController extends BaseController {
                     listing.setHighestBid(0);
                 } else {
                     listing.setType("fixed");
+                }
+                System.out.println(premium);
+
+                if (premium.equals("yes")) {
+                    listing.setPremium(1);
+                } else {
+                    listing.setPremium(0);
                 }
 
                 listing.setUser(u);

@@ -192,4 +192,9 @@ public class Notification {
     public void setType(String type) {
         this.type = type;
     }
+
+    public Timestamp getEndTimestamp() {
+        return sendTimestamp;
+    }
+
 }

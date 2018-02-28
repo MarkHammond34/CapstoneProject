@@ -53,6 +53,8 @@ public class HomeController extends BaseController {
 
         model.addObject("relevantListings", null);
 
+        model.addObject("premiumListings", listingService.getPremiumListings());
+
         User user = (User) request.getSession().getAttribute("user");
 
         ListingRunner.run();

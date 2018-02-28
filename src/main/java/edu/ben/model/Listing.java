@@ -81,6 +81,9 @@ public class Listing implements java.io.Serializable {
     @Column(name = "active")
     private int active;
 
+    @Column(name = "premium")
+    private int premium;
+
     public Listing() {
         this.highestBid = 0;
         this.bidCount = 0;
@@ -273,4 +276,11 @@ public class Listing implements java.io.Serializable {
         return endTimestamp.getTime() - System.currentTimeMillis();
     }
 
+    public int getPremium() {
+        return premium;
+    }
+
+    public void setPremium(int premium) {
+        this.premium = premium;
+    }
 }
