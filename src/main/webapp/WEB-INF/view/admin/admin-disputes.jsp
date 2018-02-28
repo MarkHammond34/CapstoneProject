@@ -25,8 +25,11 @@
                         <li>
                             <a href="${pageContext.request.contextPath}/admin">Dashboard</a>
                         </li>
-                        <li class="uk-active">
+                        <li>
                             <a href="${pageContext.request.contextPath}/adminUser">Manage Users</a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/adminListing">Manage Listings</a>
                         </li>
                         <li class="uk-active">
                             <a href="${pageContext.request.contextPath}/adminDisputes">Manage Disputes</a>

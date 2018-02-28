@@ -110,6 +110,13 @@ public class AdminController extends BaseController {
         return"redirect:adminUser";
     }
 
+    @RequestMapping(value ="adminListing", method = RequestMethod.GET)
+    public String adminListing(HttpServletRequest request){
+        List<Listing> allListings = listingService.getRecentListings();
+        request.getSession().setAttribute("allListings", allListings);
+        return "admin/adminListings";
+
+    }
     @GetMapping("/adminDisputes")
     public String disputes(HttpServletRequest request) {
 
