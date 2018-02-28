@@ -21,11 +21,12 @@
                     <label class="uk-form-label">Password</label>
                     <input class="uk-input" type="password" name="password"
                            placeholder="Password">
+                           
                 </div>
                 <div class="uk-width-1-1 uk-margin-small">
                     <button type="submit" class="btn btn-primary">Login</button>
-                    <a href="/resetPage" class="btn btn-default">Forgot Password</a> <a
-                        href="email" class="btn btn-default">Unlock</a>
+                    <a href="${pageContext.request.contextPath}/resetPage" class="btn btn-default">Forgot Password</a> <a
+                        href="${pageContext.request.contextPath}/unlock" class="btn btn-default">Unlock</a>
                 </div>
             </form>
         </div>
