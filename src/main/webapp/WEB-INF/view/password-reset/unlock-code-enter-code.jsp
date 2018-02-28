@@ -11,7 +11,7 @@
         <%@ include file="../jspf/messages.jsp" %>
 
         <form role="form" data-toggle="validator"
-              method="post" action="${pageContext.request.contextPath}/reset" style="margin-top: 40px;">
+              method="post" action="${pageContext.request.contextPath}/unlockCode" style="margin-top: 40px;">
             <h2>Enter Your Verification Code</h2>
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12">

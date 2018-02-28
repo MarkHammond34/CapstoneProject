@@ -44,7 +44,7 @@ public class LoginController extends BaseController {
 		String message = "";
 
 		if (user != null) {
-			if (user.getActive() > 0) {
+			if (user.getActive() > 0 && user.getLocked() < 1) {
 				if (user.getPassword() != null && user.getPassword().equals(password)) {
 					request.getSession().setAttribute("user", user);
 					userService.updateAttemptedLogins(0, user);

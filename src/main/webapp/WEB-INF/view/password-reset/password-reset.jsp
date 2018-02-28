@@ -11,7 +11,7 @@
         <%@ include file="../jspf/messages.jsp" %>
 
         <form role="form" data-toggle="validator"
-              method="post" action="/reset" style="margin-top: 45px;">
+              method="post" action="${pageContext.request.contextPath}/reset" style="margin-top: 45px;">
             <h2>Reset Password</h2>
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12">

@@ -28,8 +28,8 @@
 			<div class="form-group">
 				<div class="col-lg-10 col-lg-offset-1.5">
 					<button type="submit" class="btn btn-default">Login</button>
-					<a href="/resetPage" class="btn btn-default">Forgot Password</a> <a
-						href="email" class="btn btn-default">Unlock</a>
+					<a href="${pageContext.request.contextPath}/resetPage" class="btn btn-default">Forgot Password</a> <a
+						href="${pageContext.request.contextPath}/unlock" class="btn btn-default">Unlock</a>
 				</div>
 			</div>
 			<div class="form-group blacktext">
