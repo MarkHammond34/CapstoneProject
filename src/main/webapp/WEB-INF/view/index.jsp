@@ -53,14 +53,23 @@
         </div>
         <div class="uk-width-3-4">
             <ul uk-tab>
-                <li class="uk-active"><a onclick="trendingClicked()">Trending</a></li>
-                <li><a onclick="endingSoonClicked()">Ending Soon</a></li>
-                <li><a onclick="recentlyAddedClicked()">Recently Added</a></li>
+                <c:if test="${premiumListings != null}">
+                    <li class="uk-active"><a onclick="premiumClicked()"><span uk-icon="bolt"
+                                                                              style="color: yellow"></span>
+                        <b>Premium</b>
+                        <span uk-icon="bolt"
+                              style="color: yellow"></span></a>
+                    </li>
+                </c:if>
                 <c:if test="${relevantListings != null}">
                     <li><a onclick="recommendedClicked()">Recommended</a></li>
                 </c:if>
+                <li><a onclick="trendingClicked()">Trending</a></li>
+                <li><a onclick="endingSoonClicked()">Ending Soon</a></li>
+                <li><a onclick="recentlyAddedClicked()">Recently Added</a></li>
+
             </ul>
-            <div id="trending-listings" style="display: inline">
+            <div id="trending-listings" style="display: none">
                 <div class="uk-child-width-1-3@m uk-grid-small uk-text-center"
                      uk-grid>
                     <c:forEach var="listing" items="${trendingListings}">
@@ -94,10 +103,19 @@
                     </div>
                 </div>
             </c:if>
+            <c:if test="${premiumListings != null}">
+                <div id="premium-listings" style="display: inline">
+                    <div class="uk-child-width-1-3@m uk-grid-small uk-text-center"
+                         uk-grid>
+                        <c:forEach var="listing" items="${premiumListings}">
+                            <%@include file="jspf/index-listing.jsp" %>
+                        </c:forEach>
+                    </div>
+                </div>
+            </c:if>
         </div>
         6y
     </div>
-</div>
 </div>
 <%@include file="jspf/footer.jspf" %>
 <script>
@@ -106,6 +124,7 @@
         document.getElementById('ending-soon-listings').style.display = 'none';
         document.getElementById('recently-added-listings').style.display = 'none';
         document.getElementById('relevant-listings').style.display = 'none';
+        document.getElementById('premium-listings').style.display = 'none';
     }
 
     function endingSoonClicked() {
@@ -113,6 +132,7 @@
         document.getElementById('ending-soon-listings').style.display = 'inline';
         document.getElementById('recently-added-listings').style.display = 'none';
         document.getElementById('relevant-listings').style.display = 'none';
+        document.getElementById('premium-listings').style.display = 'none';
     }
 
     function recentlyAddedClicked() {
@@ -120,6 +140,7 @@
         document.getElementById('ending-soon-listings').style.display = 'none';
         document.getElementById('recently-added-listings').style.display = 'inline';
         document.getElementById('relevant-listings').style.display = 'none';
+        document.getElementById('premium-listings').style.display = 'none';
     }
 
     function recommendedClicked() {
@@ -127,6 +148,15 @@
         document.getElementById('ending-soon-listings').style.display = 'none';
         document.getElementById('recently-added-listings').style.display = 'none';
         document.getElementById('relevant-listings').style.display = 'inline';
+        document.getElementById('premium-listings').style.display = 'none';
+    }
+
+    function premiumClicked() {
+        document.getElementById('trending-listings').style.display = 'none';
+        document.getElementById('ending-soon-listings').style.display = 'none';
+        document.getElementById('recently-added-listings').style.display = 'none';
+        document.getElementById('relevant-listings').style.display = 'none';
+        document.getElementById('premium-listings').style.display = 'inline';
     }
 
     function dismiss(notificationID) {

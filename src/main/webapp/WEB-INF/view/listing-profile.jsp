@@ -2,9 +2,6 @@
 
 <body>
 <%@include file="jspf/navbar.jspf" %>
-<%@include file="jspf/footer.jspf" %>
-<br>
-<br>
 <br>
 <br>
 <br>
