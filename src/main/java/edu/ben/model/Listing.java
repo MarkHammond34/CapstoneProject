@@ -276,11 +276,11 @@ public class Listing implements java.io.Serializable {
         return endTimestamp.getTime() - System.currentTimeMillis();
     }
 
-    public int getPremium() {
-        return premium;
-    }
-
-    public void setPremium(int premium) {
-        this.premium = premium;
-    }
+//    public int getPremium() {
+//        return premium;
+//    }
+//
+//    public void setPremium(int premium) {
+//        this.premium = premium;
+//    }
 }
