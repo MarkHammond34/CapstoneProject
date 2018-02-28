@@ -216,7 +216,7 @@
         var saved = document.getElementById('searchId').value;
         $.ajax({
             type: 'GET',
-            url: 'follow',
+            url: 'saveSearch',
             data: {
                 search: saved
             }
