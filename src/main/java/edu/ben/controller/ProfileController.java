@@ -7,8 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import edu.ben.model.Follow;
 import edu.ben.model.Listing;
+import edu.ben.model.Transaction;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.ben.model.User;
 import edu.ben.service.FollowService;
 import edu.ben.service.ListingService;
+import edu.ben.service.TransactionService;
 import edu.ben.service.UserService;
 
 @Controller
@@ -29,6 +33,9 @@ public class ProfileController extends BaseController {
 
 	@Autowired
 	FollowService followService;
+	
+	@Autowired
+	TransactionService transactionService;
 
 	@RequestMapping(value = "/viewProfile", method = RequestMethod.GET)
 	public String viewProfile(HttpServletRequest request, @RequestParam("userId") int userId) {
@@ -109,6 +116,24 @@ public class ProfileController extends BaseController {
 		addSuccessMessage("Price successfully updated!");
 
 		return "redirect:/viewProfile";
+	}
+	
+	@RequestMapping(value = "/viewPurchaseHistory", method = RequestMethod.GET)
+	public String viewPurchaseHistory(HttpServletRequest request) {
+		User session = (User) request.getSession().getAttribute("user");
+
+		List<Transaction> userTransactions = transactionService.getTransactionsByBuyerID(session.getUserID());
+		System.out.println("size" + userTransactions.size());
+		request.setAttribute("user", session);
+		request.setAttribute("userTransactions", userTransactions);
+
+
+		return "purchaseHistory";
+	}
+	
+	@GetMapping("/purchaseHistory")
+	public String purchaseHistory() {
+		return "purchaseHistory";
 	}
 
 }

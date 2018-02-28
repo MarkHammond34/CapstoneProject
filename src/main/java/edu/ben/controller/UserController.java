@@ -1,6 +1,6 @@
 package edu.ben.controller;
 
-import java.io.BufferedOutputStream;
+import java.io.BufferedOutputStream; 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.ben.model.Follow;
 import edu.ben.model.User;
+/*import edu.ben.model.Review;*/
+import edu.ben.model.Transaction;
 import edu.ben.service.FollowService;
 import edu.ben.service.UserService;
 import edu.ben.util.ImagePath;
@@ -138,7 +142,6 @@ public class UserController {
 
 			followService.create(f);
 
-
 			System.out.println("following a user");
 		} else if (results.equals("unfollow")) {
 			Follow current = followService.findCurrent(session.getUserID(), followerId);
@@ -148,4 +151,17 @@ public class UserController {
 		}
 		return ":/redirect";
 	}
+
+	@GetMapping("/rateReview")
+	public String rateReview() {
+		return "rateReview";
+	}
+
+	/*@PostMapping("/reviewRateSeller")
+	public String reviewRateSeller(HttpServletRequest request) {
+		
+		  User u = (User) request.getSession().getAttribute("user");
+
+	
+	}*/
 }

@@ -1,6 +1,6 @@
 <%@include file="jspf/header.jsp" %>
 
-<body>
+<body class="uk-background-muted">
 
 <%@include file="jspf/navbar.jspf" %>
 

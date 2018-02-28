@@ -108,6 +108,14 @@ public class UserDAOImpl implements UserDAO {
 		q.setParameter("email", email);
 		q.executeUpdate();
 	}
+	
+	public void updateSellerRating(int seller_rating, String email) {
+
+		Query q = getSession().createQuery("UPDATE user SET seller_rating=:seller_rating WHERE email=:email");
+		q.setParameter("seller_rating", seller_rating);
+		q.setParameter("email", email);
+		q.executeUpdate();
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
