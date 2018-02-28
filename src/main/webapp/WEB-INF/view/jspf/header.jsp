@@ -4,6 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,6 +39,8 @@
 
     <spring:url value="resources/js/main.js" var="mainJS"/>
     <script type="text/javascript" src="${mainJS}"></script>
+
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 
     <style>.uk-countdown-number {
         font-size: 22px;

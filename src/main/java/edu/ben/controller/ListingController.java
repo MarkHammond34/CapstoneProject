@@ -11,13 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -59,6 +57,10 @@ public class ListingController extends BaseController {
 
     @Autowired
     NotificationService notificationService;
+
+    @Autowired
+    private Environment environment;
+
 
     /**
      * Upload single file using Spring Controller
@@ -425,4 +427,51 @@ public class ListingController extends BaseController {
         return model;
     }
 
+    @GetMapping("/checkout")
+    public String checkoutPageGet(HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            addWarningMessage("Login To Checkout");
+            setRequest(request);
+            return "login";
+        }
+
+        addWarningMessage("Error Loading Page");
+        setRequest(request);
+        return "redirect:" + request.getHeader("Referer");
+    }
+
+    @PostMapping("/checkout")
+    public String checkoutPagePost(HttpServletRequest request, @RequestParam("listingID") int listingID) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            addWarningMessage("Login To Checkout");
+            setRequest(request);
+            return "login";
+        }
+
+        String addressNumber = environment.getProperty("school.address.number");
+        String addressStreetName = environment.getProperty("school.address.street.name");
+        String addressStreetType = environment.getProperty("school.address.street.type");
+        String addressCity = environment.getProperty("school.address.city");
+        String addressState = environment.getProperty("school.address.state");
+
+        request.setAttribute("latitude", environment.getProperty("school.latitude"));
+        request.setAttribute("longitude", environment.getProperty("school.longitude"));
+
+        String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + addressNumber +
+                "+" + addressStreetName + "+" + addressStreetType + ",+" + addressCity + ",+" + addressState
+                + "&key=AIzaSyAYv7pVPxQ-k7yWlKPfa8ebsx7ci9q7vQ8";
+
+        request.setAttribute("pickupLocation", url);
+
+        request.setAttribute("title", "Checkout");
+        request.setAttribute("listing", listingService.getByListingID(listingID));
+        setRequest(request);
+        return "checkout";
+    }
 }
