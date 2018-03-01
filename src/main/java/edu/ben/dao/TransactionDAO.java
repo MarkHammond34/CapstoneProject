@@ -18,4 +18,6 @@ public interface TransactionDAO {
 	
 	public List<Transaction> getTransactionsBySellerID(int id);
 	
+	public List<Transaction> getTransactionsByUserID(int id);
+	
 }

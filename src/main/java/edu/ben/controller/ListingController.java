@@ -280,152 +280,128 @@ public class ListingController extends BaseController {
         return "redirect:/";
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public ModelAndView edit() {
+    @RequestMapping(value = "/edit", method = RequestMethod.GET) // WORKS
+	public ModelAndView edit(@RequestParam("listing") int listingID) {
 
-        ModelAndView model = new ModelAndView("/jspf/edit-fixed-listing");
-        model.addObject("listingID", 1);
+		ModelAndView model = new ModelAndView("/jspf/edit-fixed-listing");
 
-        return model;
-    }
+		Listing listing = listingService.getByListingID((listingID));
 
-    @RequestMapping(value = "/editTheListing", method = RequestMethod.POST)
-    public String editListing(@RequestParam("listingID") String id, @RequestParam("price") String price) {
+		model.addObject("listingID", listingID);
+		model.addObject("listing", listing);
 
-        Listing listing = listingService.getByListingID(Integer.parseInt(id));
-        listing.setPrice(Double.parseDouble(price));
-        listingService.saveOrUpdate(listing);
+		return model;
+	}
 
-        return "redirect:/viewProfile";
-    }
+	@RequestMapping(value = "/editTheListing", method = RequestMethod.POST)
+	public String editListing(@RequestParam("listingID") String id, @RequestParam("title") String name,
+			@RequestParam("price") String price, @RequestParam("description") String description) {
 
-    @RequestMapping(value = "/sub", method = RequestMethod.GET)
-    public ModelAndView viewSubcats() {
+		Listing listing = listingService.getByListingID(Integer.parseInt(id));
 
-        ModelAndView model = new ModelAndView("sub-categories");
+		listing.setName(name);
+		listing.setPrice(Integer.parseInt(price));
+		listing.setDescription(description);
 
-        return model;
-    }
+		listingService.saveOrUpdate(listing);
 
-    @RequestMapping(value = "/subPost", method = RequestMethod.POST)
-    public ModelAndView viewSubcategories(@RequestParam("category") String category, HttpServletRequest request) {
+		return "redirect:/viewProfile";
+	}
 
-        ModelAndView model = new ModelAndView("sub-categories");
+	@RequestMapping(value = "/sub", method = RequestMethod.GET)
+	public ModelAndView viewSubcats() {
 
-        // get listings
-        List<Listing> listings = listingService.getAllListingsByCategory(category);
+		ModelAndView model = new ModelAndView("sub-categories");
 
-        Listing listing = listings.get(0); // temp
+		return model;
+	}
 
-        // get user
-        User user = (User) request.getSession().getAttribute("user");
+	@RequestMapping(value = "/subPost", method = RequestMethod.POST)
+	public ModelAndView viewSubcategories(@RequestParam("category") String category, HttpServletRequest request) {
 
-        model.addObject("user", user);
-        model.addObject("listings", listings);
+		ModelAndView model = new ModelAndView("sub-categories");
 
-        model.addObject("listing", listing); // temp
+		// get listings
+		List<Listing> listings = listingService.getAllListingsByCategory(category);
 
-        return model;
-    }
+		Listing listing = listings.get(0); // temp
 
-    @RequestMapping(value = "/listing", method = RequestMethod.GET)
-    public ModelAndView viewSelectedListing(HttpServletRequest request, @RequestParam("listingId") int listingID) {
+		// get user
+		User user = (User) request.getSession().getAttribute("user");
 
-        ModelAndView model = new ModelAndView("listing");
+		model.addObject("user", user);
+		model.addObject("listings", listings);
 
-        // get listing
-        Listing listing = listingService.getByListingID(1);
-        User user = (User) request.getSession().getAttribute("user");
-        String dateCreated = listing.getDateCreated().toString().substring(0, 10);
-        // pass these to model
-        model.addObject("listing", listing);
-        model.addObject("user", user);
-        model.addObject("date", dateCreated);
+		model.addObject("listing", listing); // temp
 
-        boolean hasOffer;
+		return model;
+	}
 
-        // Checks if the user already made an offer on the listing
-        if (offerService.getOfferByUserAndListingId(user.getUserID(), listingID) != null) {
-            hasOffer = true;
-        } else {
-            hasOffer = false;
-        }
+	@RequestMapping(value = "/listing", method = RequestMethod.GET)
+	public ModelAndView viewSelectedListing(HttpServletRequest request, @RequestParam("listingId") int listingID) {
 
-        model.addObject("hasOffer", hasOffer);
+		ModelAndView model = new ModelAndView("listing");
 
-        System.out.println("viewSelected");
+		// get listing
+		Listing listing = listingService.getByListingID(listingID);
+		User user = (User) request.getSession().getAttribute("user");
+		String dateCreated = listing.getDateCreated().toString().substring(0, 10);
+		// pass these to model
+		model.addObject("listing", listing);
+		model.addObject("user", user);
+		model.addObject("date", dateCreated);
 
-        return model;
-    }
+		boolean hasOffer;
 
-    @RequestMapping(value = "/listing2", method = RequestMethod.GET)
-    public ModelAndView viewSelectedListing2() {
+		// Checks if the user already made an offer on the listing
+		if (offerService.getOfferByUserAndListingId(user.getUserID(), listingID) != null) {
+			hasOffer = true;
+		} else {
+			hasOffer = false;
+		}
 
-        ModelAndView model = new ModelAndView("listing2");
+		model.addObject("hasOffer", hasOffer);
 
-        // get listing
-        Listing listing = listingService.getByListingID(1);
-        User user = userService.getUserById(1);
-        String dateCreated = listing.getDateCreated().toString().substring(0, 10);
-        // pass these to model
-        model.addObject("listing", listing);
-        model.addObject("user", user);
-        model.addObject("date", dateCreated);
+		System.out.println("viewSelected");
 
-        return model;
-    }
+		return model;
+	}
 
-    // DELETE BELOW LATER
+	@RequestMapping(value = "/cancelAuction", method = RequestMethod.GET)
+	public ModelAndView cancelAuction(@RequestParam("listing") int listingID) {
 
-    @RequestMapping(value = "/listing3", method = RequestMethod.GET)
-    public ModelAndView viewSelectedListing3() {
+		ModelAndView model = new ModelAndView("profile?");
 
-        ModelAndView model = new ModelAndView("listing3");
+		Listing listing = listingService.getByListingID(listingID);
+		User user = userService.getUserById(listing.getUser().getUserID());
 
-        // get listing
-        Listing listing = listingService.getByListingID(1);
-        User user = userService.getUserById(1);
-        String dateCreated = listing.getDateCreated().toString().substring(0, 10);
-        // pass these to model
-        model.addObject("listing", listing);
-        model.addObject("user", user);
-        model.addObject("date", dateCreated);
+		// if bidcount is above 0, reject auction cancel with an error message
+		if (listing.getBidCount() > 0) {
+			// error message
+			addErrorMessage("You may not cancel an auction that has already been bid on.");
+		} else {
+			// popup, are you sure you want to cancel?
 
-        return model;
-    }
+			// if bidcount is 0, ask if seller is sure they want to cancel the auction
 
-    // DELETE ABOVE LATER
+			// no? - cancel popup
 
-    @RequestMapping(value = "/cancelAuction", method = RequestMethod.GET)
-    public ModelAndView cancelAuction(@RequestParam("listing") int listingID) {
+			// yes?
 
-        ModelAndView model = new ModelAndView("profile?");
+			// delete the listing
+			listingService.deleteListing(listingID);
 
-        Listing listing = listingService.getByListingID(listingID);
-        User user = userService.getUserById(listing.getUser().getUserID());
+		}
+		return model;
+	}
 
-        // if bidcount is above 0, reject auction cancel with an error message
-        if (listing.getBidCount() > 0) {
-            // error message
-            addErrorMessage("You may not cancel an auction that has already been bid on.");
-        } else {
-            // popup, are you sure you want to cancel?
+	@RequestMapping(value = "/auctionRules", method = RequestMethod.GET)
+	public ModelAndView auction() {
 
+		ModelAndView model = new ModelAndView("auction-rules");
 
-            // if bidcount is 0, ask if seller is sure they want to cancel the auction
-
-
-            // no? - cancel popup
-
-            // yes?
-
-            // delete the listing
-            listingService.deleteListing(listingID);
-
-
-        }
-        return model;
-    }
+		return model;
+	}
 
     @GetMapping("/checkout")
     public String checkoutPageGet(HttpServletRequest request) {

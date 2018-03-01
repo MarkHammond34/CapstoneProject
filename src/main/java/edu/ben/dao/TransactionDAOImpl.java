@@ -64,5 +64,11 @@ public class TransactionDAOImpl implements TransactionDAO {
 		return q.list();
 	}
 
+	@Override
+	public List<Transaction> getTransactionsByUserID(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
 
