@@ -37,7 +37,7 @@
 										<option value="" disabled selected>Select Category</option>
 										<option value="apparel">Apparel</option>
 										<option value="books">Books</option>
-										<option value="furnature">Furnature</option>
+										<option value="furniture">Furniture</option>
 										<option value="supplies">School Supplies</option>
 										<option value="technology">Technology</option>
 									</select>

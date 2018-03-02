@@ -37,250 +37,249 @@ import edu.ben.util.ImagePath;
 @Transactional
 public class ListingController extends BaseController {
 
-    @Autowired
-    ListingService listingService;
+	@Autowired
+	ListingService listingService;
 
-    @Autowired
-    FavoriteService favoriteService;
+	@Autowired
+	FavoriteService favoriteService;
 
-    @Autowired
-    CategoryService categoryService;
+	@Autowired
+	CategoryService categoryService;
 
-    @Autowired
-    UserService userService;
+	@Autowired
+	UserService userService;
 
-    @Autowired
-    OfferService offerService;
+	@Autowired
+	OfferService offerService;
 
-    @Autowired
-    SavedSearchService savedSearchService;
+	@Autowired
+	SavedSearchService savedSearchService;
 
-    @Autowired
-    NotificationService notificationService;
+	@Autowired
+	NotificationService notificationService;
 
-    @Autowired
-    private Environment environment;
+	@Autowired
+	private Environment environment;
 
+	/**
+	 * Upload single file using Spring Controller
+	 */
+	@RequestMapping(value = "/uploadListing", method = RequestMethod.POST)
+	public String uploadFileHandler(@RequestParam("title") String name, @RequestParam("category") String category,
+			@RequestParam("subCategory") String subCategory,
+			@RequestParam(value = "price", required = false) Double price,
+			@RequestParam("description") String description, @RequestParam("file") MultipartFile file,
+			@RequestParam("type") String type, @RequestParam("premium") String premium, Model model,
+			HttpServletRequest request) {
 
-    /**
-     * Upload single file using Spring Controller
-     */
-    @RequestMapping(value = "/uploadListing", method = RequestMethod.POST)
-    public String uploadFileHandler(@RequestParam("title") String name, @RequestParam("category") String category,
-                                    @RequestParam("subCategory") String subCategory,
-                                    @RequestParam(value = "price", required = false) Double price,
-                                    @RequestParam("description") String description, @RequestParam("file") MultipartFile file,
-                                    @RequestParam("type") String type, @RequestParam("premium") String premium, Model model, HttpServletRequest request) {
+		System.out.println("Hit UploadListing Controller");
+		if (price == null) {
+			price = (double) 0;
+			// This is a dirty fix
+			Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
 
-        System.out.println("Hit UploadListing Controller");
-        if (price == null) {
-            price = (double) 0;
-            // This is a dirty fix
-            Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
+			// Checks to make sure listing is for at least one hour
+			if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
+				addErrorMessage("Listings Must Be Last At Least One Hour");
+				setRequest(request);
+				return "redirect:" + request.getHeader("Referer");
 
-            // Checks to make sure listing is for at least one hour
-            if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
-                addErrorMessage("Listings Must Be Last At Least One Hour");
-                setRequest(request);
-                return "redirect:" + request.getHeader("Referer");
+			}
+		}
 
-            }
-        }
+		String message = "";
+		String error = "";
 
-        String message = "";
-        String error = "";
+		System.out.println(subCategory);
 
-        System.out.println(subCategory);
+		User u = (User) request.getSession().getAttribute("user");
 
-        User u = (User) request.getSession().getAttribute("user");
+		if (u == null) {
+			addErrorMessage("Login To Create A Listing");
+			setRequest(request);
+			return "login";
+		}
 
-        if (u == null) {
-            addErrorMessage("Login To Create A Listing");
-            setRequest(request);
-            return "login";
-        }
+		// This is a dirty fix
+		Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
 
-        // This is a dirty fix
-        Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
+		// Checks to make sure listing is for at least one hour
+		if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
+			addErrorMessage("Listings Must Be Last At Least One Hour");
+			setRequest(request);
+			return "redirect:" + request.getHeader("Referer");
+		}
 
-        // Checks to make sure listing is for at least one hour
-        if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
-            addErrorMessage("Listings Must Be Last At Least One Hour");
-            setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
-        }
+		if (!file.isEmpty()) {
+			try {
+				String extension = FilenameUtils.getExtension(file.getOriginalFilename());
 
-        if (!file.isEmpty()) {
-            try {
-                String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+				System.out.println(extension);
 
-                System.out.println(extension);
+				if (!extension.equals("jpg") && !extension.equals("png") && !extension.equals("jpeg")) {
+					addErrorMessage("Listing failed. You did not upload an image.");
+					setRequest(request);
+					return "createListing";
+				} else if (price < 0) {
+					addErrorMessage("Cannot have a negative price.");
+					setRequest(request);
+					return "createListing";
+				}
 
-                if (!extension.equals("jpg") && !extension.equals("png") && !extension.equals("jpeg")) {
-                    addErrorMessage("Listing failed. You did not upload an image.");
-                    setRequest(request);
-                    return "createListing";
-                } else if (price < 0) {
-                    addErrorMessage("Cannot have a negative price.");
-                    setRequest(request);
-                    return "createListing";
-                }
+				byte[] bytes = file.getBytes();
 
-                byte[] bytes = file.getBytes();
+				// Creating the directory to store file
+				File dir = new File(ImagePath.url + File.separator + "listings");
+				if (!dir.exists())
+					dir.mkdirs();
 
-                // Creating the directory to store file
-                File dir = new File(ImagePath.url + File.separator + "listings");
-                if (!dir.exists())
-                    dir.mkdirs();
+				// Create the file on server
 
-                // Create the file on server
+				System.out.println("Hit Controller 2");
+				File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
+				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+				stream.write(bytes);
 
-                System.out.println("Hit Controller 2");
-                File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-                stream.write(bytes);
+				System.out.println("File Uploaded");
+				Listing listing = new Listing(name, description, price, category, file.getOriginalFilename());// FIX
+				// LATER
 
+				if (type.equals("auction")) {
+					listing.setType("auction");
+					listing.setHighestBid(0);
+				} else {
+					listing.setType("fixed");
+				}
+				System.out.println(premium);
 
-                System.out.println("File Uploaded");
-                Listing listing = new Listing(name, description, price, category, file.getOriginalFilename());// FIX
-                // LATER
+				if (premium.equals("yes")) {
+					listing.setPremium(1);
+				} else {
+					listing.setPremium(0);
+				}
 
-                if (type.equals("auction")) {
-                    listing.setType("auction");
-                    listing.setHighestBid(0);
-                } else {
-                    listing.setType("fixed");
-                }
-                System.out.println(premium);
+				listing.setUser(u);
+				System.out.println("Check to see if session exists: " + u.getUserID());
+				listingService.create(listing);
 
-                if (premium.equals("yes")) {
-                    listing.setPremium(1);
-                } else {
-                    listing.setPremium(0);
-                }
+				message = "Listing Uploaded Successfully";
+				model.addAttribute("message", message);
+				stream.close();
 
-                listing.setUser(u);
-                System.out.println("Check to see if session exists: " + u.getUserID());
-                listingService.create(listing);
+				// Listing l = new Listing(name, description, price, category, file );
+				// ld.create(l);
+				// Check for saved searches
+				ArrayList<SavedSearch> allSavedSearches = (ArrayList<SavedSearch>) savedSearchService
+						.getAllSavedSearches();
 
-                message = "Listing Uploaded Successfully";
-                model.addAttribute("message", message);
-                stream.close();
+				System.out.println("Saved Search size: " + allSavedSearches.size());
 
-                // Listing l = new Listing(name, description, price, category, file );
-                // ld.create(l);
-                // Check for saved searches
-                ArrayList<SavedSearch> allSavedSearches = (ArrayList<SavedSearch>) savedSearchService
-                        .getAllSavedSearches();
+				if (allSavedSearches != null) {
+					for (int i = 0; i < allSavedSearches.size(); i++) {
+						if (description.toLowerCase().contains(allSavedSearches.get(i).getSearch().toLowerCase())
+								|| name.toLowerCase().contains(allSavedSearches.get(i).getSearch().toLowerCase())) {
+							if (allSavedSearches.get(i).getUser().getUserID() != u.getUserID()) {
+								notificationService.save(new Notification(
+										userService.getUserById(allSavedSearches.get(i).getUser().getUserID()),
+										listing.getId(), "New Listing Posted",
+										u.getUsername() + " has posting a listing\n\n pertaining to "
+												+ allSavedSearches.get(i).getSearch() + ".",
+										1));
+							}
+						}
+					}
+				}
 
-                System.out.println("Saved Search size: " + allSavedSearches.size());
+				return "createListing";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "You failed to upload " + name + " => " + e.getMessage();
 
-                if (allSavedSearches != null) {
-                    for (int i = 0; i < allSavedSearches.size(); i++) {
-                        if (description.toLowerCase().contains(allSavedSearches.get(i).getSearch().toLowerCase())
-                                || name.toLowerCase().contains(allSavedSearches.get(i).getSearch().toLowerCase())) {
-                            if (allSavedSearches.get(i).getUser().getUserID() != u.getUserID()) {
-                                notificationService.save(new Notification(
-                                        userService.getUserById(allSavedSearches.get(i).getUser().getUserID()),
-                                        listing.getId(), "New Listing Posted",
-                                        u.getUsername() + " has posting a listing\n\n pertaining to "
-                                                + allSavedSearches.get(i).getSearch() + ".",
-                                        1));
-                            }
-                        }
-                    }
-                }
+			}
+		} else {
+			return "You failed to upload " + name + " because the file was empty.";
+		}
 
-                return "createListing";
-            } catch (Exception e) {
-                e.printStackTrace();
-                return "You failed to upload " + name + " => " + e.getMessage();
+	}
 
-            }
-        } else {
-            return "You failed to upload " + name + " because the file was empty.";
-        }
+	@RequestMapping("/createListing")
+	public String listingPage(HttpServletRequest request) {
+		setRequest(request);
+		return "createListing";
+	}
 
-    }
+	@RequestMapping("/viewListing")
+	public ModelAndView viewListing(@RequestParam("l") int l) {
+		ModelAndView model = new ModelAndView("listing");
 
-    @RequestMapping("/createListing")
-    public String listingPage(HttpServletRequest request) {
-        setRequest(request);
-        return "createListing";
-    }
+		// get listing
+		Listing listing = listingService.getByListingID(l);
+		// pass these to model
+		model.addObject("listing", listing);
 
-    @RequestMapping("/viewListing")
-    public ModelAndView viewListing(@RequestParam("l") int l) {
-        ModelAndView model = new ModelAndView("listing");
+		System.out.println("Being used?");
 
-        // get listing
-        Listing listing = listingService.getByListingID(l);
-        // pass these to model
-        model.addObject("listing", listing);
+		return model;
+	}
 
-        System.out.println("Being used?");
+	@RequestMapping("/displayListing")
+	public String displayListing(HttpServletRequest request) {
+		setRequest(request);
+		return "displayListing";
+	}
 
-        return model;
-    }
+	@RequestMapping("/displayListingByCategory")
+	public String displayListingByCategory(@RequestParam("category") String category, HttpServletRequest request,
+			Model model) {
 
-    @RequestMapping("/displayListing")
-    public String displayListing(HttpServletRequest request) {
-        setRequest(request);
-        return "displayListing";
-    }
+		System.out.println("Listing Category for display: " + category);
+		List<Listing> listings = listingService.getAllListingsByCategory(category);
+		System.out.println("List size = " + listings.size());
+		System.out.println(listings.get(0).getImage_path());
+		User user = (User) request.getSession().getAttribute("user");
 
-    @RequestMapping("/displayListingByCategory")
-    public String displayListingByCategory(@RequestParam("category") String category, HttpServletRequest request,
-                                           Model model) {
+		// System.out.println("User attribute: " + user.getUsername());
+		model.addAttribute("user", user);
+		model.addAttribute("category", category);
+		model.addAttribute("listings", listings);
 
-        System.out.println("Listing Category for display: " + category);
-        List<Listing> listings = listingService.getAllListingsByCategory(category);
-        System.out.println("List size = " + listings.size());
-        System.out.println(listings.get(0).getImage_path());
-        User user = (User) request.getSession().getAttribute("user");
+		return "displayListing";
+	}
 
-        // System.out.println("User attribute: " + user.getUsername());
-        model.addAttribute("user", user);
-        model.addAttribute("category", category);
-        model.addAttribute("listings", listings);
+	@RequestMapping(value = "/watchListing", method = RequestMethod.POST)
+	public String updateListing(HttpServletRequest request, ModelAndView model) {
+		String listingIDString = request.getParameter("listingID");
+		int listingID = Integer.parseInt(listingIDString);
 
-        return "displayListing";
-    }
+		User user = (User) request.getSession().getAttribute("user");
+		Listing listing = listingService.getByListingID(listingID);
 
-    @RequestMapping(value = "/watchListing", method = RequestMethod.POST)
-    public String updateListing(HttpServletRequest request, ModelAndView model) {
-        String listingIDString = request.getParameter("listingID");
-        int listingID = Integer.parseInt(listingIDString);
+		Favorite f = new Favorite();
+		f.setListing(listing);
+		f.setUser(user);
 
-        User user = (User) request.getSession().getAttribute("user");
-        Listing listing = listingService.getByListingID(listingID);
+		// if it exists. (change name later)
+		if (favoriteService.isWatched(listingID, user.getUserID())) {
+			System.out.println("Unwatching a Listing");
+			favoriteService.unwatchListing(listingID, user.getUserID());
+		} else {
+			System.out.println("Watching a listing");
+			favoriteService.watchListing(listingID, user.getUserID());
+		}
 
-        Favorite f = new Favorite();
-        f.setListing(listing);
-        f.setUser(user);
+		List<Listing> recent = listingService.getRecentListings();
+		model.addObject("recentListings", recent);
 
-        // if it exists. (change name later)
-        if (favoriteService.isWatched(listingID, user.getUserID())) {
-            System.out.println("Unwatching a Listing");
-            favoriteService.unwatchListing(listingID, user.getUserID());
-        } else {
-            System.out.println("Watching a listing");
-            favoriteService.watchListing(listingID, user.getUserID());
-        }
+		List<Listing> endingSoon = listingService.getRecentListings();
+		model.addObject("endingSoonListings", endingSoon);
 
-        List<Listing> recent = listingService.getRecentListings();
-        model.addObject("recentListings", recent);
+		List<Listing> trending = listingService.getListingsByBidCount();
+		model.addObject("trendingListings", trending);
 
-        List<Listing> endingSoon = listingService.getRecentListings();
-        model.addObject("endingSoonListings", endingSoon);
+		return "redirect:/";
+	}
 
-        List<Listing> trending = listingService.getListingsByBidCount();
-        model.addObject("trendingListings", trending);
-
-        return "redirect:/";
-    }
-
-    @RequestMapping(value = "/edit", method = RequestMethod.GET) // WORKS
+	@RequestMapping(value = "/edit", method = RequestMethod.GET) // WORKS
 	public ModelAndView edit(@RequestParam("listing") int listingID) {
 
 		ModelAndView model = new ModelAndView("/jspf/edit-fixed-listing");
@@ -344,25 +343,30 @@ public class ListingController extends BaseController {
 
 		// get listing
 		Listing listing = listingService.getByListingID(listingID);
-		User user = (User) request.getSession().getAttribute("user");
 		String dateCreated = listing.getDateCreated().toString().substring(0, 10);
+		User creator = userService.getUserById(listing.getUser().getUserID());
+
 		// pass these to model
 		model.addObject("listing", listing);
-		model.addObject("user", user);
 		model.addObject("date", dateCreated);
+		model.addObject("creator", creator);
 
-		boolean hasOffer;
+		User user = (User) request.getSession().getAttribute("user");
 
-		// Checks if the user already made an offer on the listing
-		if (offerService.getOfferByUserAndListingId(user.getUserID(), listingID) != null) {
-			hasOffer = true;
-		} else {
-			hasOffer = false;
+		if (user != null) {
+
+			boolean hasOffer;
+
+			// Checks if the user already made an offer on the listing
+			if (offerService.getOfferByUserAndListingId(user.getUserID(), listingID) != null) {
+				hasOffer = true;
+			} else {
+				hasOffer = false;
+			}
+
+			model.addObject("hasOffer", hasOffer);
+
 		}
-
-		model.addObject("hasOffer", hasOffer);
-
-		System.out.println("viewSelected");
 
 		return model;
 	}
@@ -403,51 +407,51 @@ public class ListingController extends BaseController {
 		return model;
 	}
 
-    @GetMapping("/checkout")
-    public String checkoutPageGet(HttpServletRequest request) {
+	@GetMapping("/checkout")
+	public String checkoutPageGet(HttpServletRequest request) {
 
-        User user = (User) request.getSession().getAttribute("user");
+		User user = (User) request.getSession().getAttribute("user");
 
-        if (user == null) {
-            addWarningMessage("Login To Checkout");
-            setRequest(request);
-            return "login";
-        }
+		if (user == null) {
+			addWarningMessage("Login To Checkout");
+			setRequest(request);
+			return "login";
+		}
 
-        addWarningMessage("Error Loading Page");
-        setRequest(request);
-        return "redirect:" + request.getHeader("Referer");
-    }
+		addWarningMessage("Error Loading Page");
+		setRequest(request);
+		return "redirect:" + request.getHeader("Referer");
+	}
 
-    @PostMapping("/checkout")
-    public String checkoutPagePost(HttpServletRequest request, @RequestParam("listingID") int listingID) {
+	@PostMapping("/checkout")
+	public String checkoutPagePost(HttpServletRequest request, @RequestParam("listingID") int listingID) {
 
-        User user = (User) request.getSession().getAttribute("user");
+		User user = (User) request.getSession().getAttribute("user");
 
-        if (user == null) {
-            addWarningMessage("Login To Checkout");
-            setRequest(request);
-            return "login";
-        }
+		if (user == null) {
+			addWarningMessage("Login To Checkout");
+			setRequest(request);
+			return "login";
+		}
 
-        String addressNumber = environment.getProperty("school.address.number");
-        String addressStreetName = environment.getProperty("school.address.street.name");
-        String addressStreetType = environment.getProperty("school.address.street.type");
-        String addressCity = environment.getProperty("school.address.city");
-        String addressState = environment.getProperty("school.address.state");
+		String addressNumber = environment.getProperty("school.address.number");
+		String addressStreetName = environment.getProperty("school.address.street.name");
+		String addressStreetType = environment.getProperty("school.address.street.type");
+		String addressCity = environment.getProperty("school.address.city");
+		String addressState = environment.getProperty("school.address.state");
 
-        request.setAttribute("latitude", environment.getProperty("school.latitude"));
-        request.setAttribute("longitude", environment.getProperty("school.longitude"));
+		request.setAttribute("latitude", environment.getProperty("school.latitude"));
+		request.setAttribute("longitude", environment.getProperty("school.longitude"));
 
-        String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + addressNumber +
-                "+" + addressStreetName + "+" + addressStreetType + ",+" + addressCity + ",+" + addressState
-                + "&key=AIzaSyAYv7pVPxQ-k7yWlKPfa8ebsx7ci9q7vQ8";
+		String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + addressNumber + "+"
+				+ addressStreetName + "+" + addressStreetType + ",+" + addressCity + ",+" + addressState
+				+ "&key=AIzaSyAYv7pVPxQ-k7yWlKPfa8ebsx7ci9q7vQ8";
 
-        request.setAttribute("pickupLocation", url);
+		request.setAttribute("pickupLocation", url);
 
-        request.setAttribute("title", "Checkout");
-        request.setAttribute("listing", listingService.getByListingID(listingID));
-        setRequest(request);
-        return "checkout";
-    }
+		request.setAttribute("title", "Checkout");
+		request.setAttribute("listing", listingService.getByListingID(listingID));
+		setRequest(request);
+		return "checkout";
+	}
 }

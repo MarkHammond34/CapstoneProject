@@ -70,9 +70,7 @@
 
 									<h1 class="uk-article-title">
 										<p>${listing.name}</p>
-										<a class="uk-button uk-button-text" style="color: green;"
-											href="${pageContext.request.contextPath}/button?listing=${listing.id}">Buy
-											Now!</a> <a
+										<a
 											<c:if test="${hasOffer}">onclick="return confirm('You have already made an offer for this listing. Making a new one will replace the current one. Is this okay?');"</c:if>
 											class="uk-button uk-button-text" style="color: green;"
 											href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Make
@@ -105,15 +103,6 @@
 										<%--${listing.dateCreated} --%>
 										${date}.
 									</p>
-
-									<h1 class="uk-article-title">
-
-										<p>${listing.name}</p>
-										<a class="uk-button uk-button-text" style="color: green;"
-											href="${pageContext.request.contextPath}/button?listing=${listing.id}">Place
-											Bid</a>
-
-									</h1>
 
 									<div class="uk-grid-small uk-child-width-auto" uk-grid>
 										<div class="price" style="font-size: 16px;">
