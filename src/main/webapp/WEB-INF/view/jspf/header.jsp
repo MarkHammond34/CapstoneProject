@@ -40,6 +40,12 @@
     <spring:url value="resources/js/main.js" var="mainJS"/>
     <script type="text/javascript" src="${mainJS}"></script>
 
+    <spring:url value="resources/js/notification.js" var="notJS"/>
+    <script type="text/javascript" src="${notJS}"></script>
+
+    <spring:url value="resources/js/listing.js" var="listingJS"/>
+    <script type="text/javascript" src="${listingJS}"></script>
+
     <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 
     <style>.uk-countdown-number {
