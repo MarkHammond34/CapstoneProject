@@ -1,95 +1,224 @@
-<%@include file="jspf/header.jsp"%>
-<style>
-.uk-countdown-number {
-	font-size: 18px;
-}
-
-.uk-countdown-label {
-	font-size: 10px;
-}
-
-.uk-card-media-left img {
-	max-height: 100%;
-	max-width: 100%;
-}
-</style>
+<%@include file="jspf/header.jsp" %>
 
 <body>
 
-	<%@include file="jspf/navbar.jspf"%>
+<%@include file="jspf/navbar.jspf" %>
 
-	<div style="background-color: #f2f2f2;">
+<%@include file="jspf/messages.jsp" %>
 
-		<div class="uk-section">
+<hr>
 
-			<div class="uk-column-1-2 uk-column-divider">
+<div class="uk-background-muted">
 
-				<div class="uk-container uk-container-small">
-					<div class="card hovercard">
-						<div class="card-background">
-							<img class="card-bkimg"
-								src="${pageContext.request.contextPath}/resources/img/listings/Wolverine.jpg"
-								alt="">
-						</div>
-					</div>
-				</div>
+    <div class="uk-section" uk-grid>
 
-				<div>
-					<div class="uk-card uk-card-body">
-						<article class="uk-article">
+        <!-- LEFT SIDE -->
+        <div class="uk-width-2-5@m uk-margin-medium-left uk-margin-medium-top">
+            <div class="uk-position-relative uk-margin-small">
+                <div class="uk-position-relative" uk-slideshow="animation: fade">
 
-							<p class="uk-article-meta">
-								Posted by <a href="viewProfile">${user.username}</a> on
-								<%--${listing.dateCreated} --%>
-								${date}.
-							</p>
+                    <ul class="uk-slideshow-items">
+                        <li><img class="uk-thumbnail uk-thumbnail-medium"
+                                 src="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
+                                 alt="" uk-cover></li>
+                        <li><img class="uk-thumbnail uk-thumbnail-medium"
+                                 src="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
+                                 alt="" uk-cover></li>
+                        <li><img class="uk-thumbnail uk-thumbnail-medium"
+                                 src="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
+                                 alt="" uk-cover></li>
+                    </ul>
 
-							<h1 class="uk-article-title">
-								<a class="uk-link-reset" href="">${listing.name}</a> <a
-									class="uk-button uk-button-text" style="color: green;"
-									href="${pageContext.request.contextPath}/button?listing=${listing.id}">Buy
-									Now!</a> <a
-									<c:if test="${hasOffer}">onclick="return confirm('You have already made an offer for this listing. Making a new one will replace the current one. Is this okay?');"</c:if>
-									class="uk-button uk-button-text" style="color: green;"
-									href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Make
-									offer</a>
+                    <div class="uk-position-bottom-center uk-position-small">
+                        <ul class="uk-thumbnav">
+                            <li uk-slideshow-item="0"><a href="#"> <img
+                                    class="uk-thumbnail"
+                                    src="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
+                                    width="100" alt="" style="max-height: 500px; max-width: 500px;">
+                            </a></li>
+                            <li uk-slideshow-item="1"><a href="#"> <img
+                                    class="uk-thumbnail"
+                                    src="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
+                                    width="100" alt="">
+                            </a></li>
+                            <li uk-slideshow-item="2"><a href="#"> <img
+                                    class="uk-thumbnail"
+                                    src="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
+                                    width="100" alt="">
+                            </a></li>
+                        </ul>
+                    </div>
 
-							</h1>
+                </div>
+            </div>
+        </div>
 
-							<p class="uk-text-lead">${listing.description}</p>
+        <!-- RIGHT SIDE -->
 
-							<div class="uk-grid-small uk-child-width-auto" uk-grid>
-								<div>${listing.price}0</div>
-							</div>
+        <c:if test="${listing.type.equals('fixed')}">
+            <div class="uk-width-2-5@m">
 
-						</article>
+                <div class="uk-card uk-card-body">
 
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                    <h1 class="uk-article-title uk-margin-remove-top">
+                            ${listing.name}
+                    </h1>
 
+                    <p class="uk-text-lead uk-margin-medium-left">${listing.description}</p>
+
+                    <div class="uk-grid-small uk-child-width-auto" uk-grid>
+                        <span class="uk-badge">Price $${listing.price} </span>
+                    </div>
+
+                    <c:if test="${listing.ended == 0}">
+                        <a
+                                <c:if test="${hasOffer}">onclick="return confirm('You have already made an offer for this listing. Making a new one will replace the current one. Is this okay?');"</c:if>
+                                class="uk-button uk-button-text uk-float-right"
+                                style="color: green;"
+                                href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Make
+                            offer</a>
+                    </c:if>
+                </div>
+            </div>
+        </c:if>
+
+        <c:if test="${listing.type.equals('auction')}">
+            <div class="uk-width-1-2@m">
+
+                <div class="uk-card uk-card-body">
+                    <article class="uk-article">
+
+                        <h1 class="uk-article-title uk-margin-remove-top">
+                            <p>${listing.name}</p>
+                        </h1>
+
+                        <p class="uk-text-lead">${listing.description}</p>
+
+                        <div class="uk-grid-small uk-child-width-auto uk-tile-default uk-padding uk-padding-remove-left"
+                             uk-grid>
+                            <!-- Highest Bid Section -->
+                            <ul class="uk-grid-small uk-width-1-2 uk-float-left" uk-grid>
+                                <li class="uk-width-1-1">
+                                    <c:choose>
+                                        <c:when test="${listing.ended == 0}">
+                                                <span class="uk-float-left"><strong>Highest Bid:</strong>
+                                                    <span class="uk-badge"> $${listing.highestBid}</span>
+                                                </span>
+                                        </c:when>
+                                        <c:otherwise>
+                                                <span class="uk-float-left"><strong>Winning Bid:</strong>
+                                                    <span class="uk-badge"> $${listing.highestBid}</span>
+                                                </span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </li>
+                                <li class="uk-width-1-1">
+                                    <span class="uk-float-left">
+                                        <b>Highest Bidder:</b>
+                                        <strong>${listing.highestBidder.username}</strong>
+                                    </span>
+                                </li>
+                                <li class="uk-width-1-1">
+                                    <span class="uk-float-left">
+                                        <b>Bid Count:</b>
+                                        <strong>${listing.bidCount}</strong>
+                                    </span>
+                                </li>
+                            </ul>
+
+                            <!-- Place Bid Button -->
+                            <div class="uk-width-1-2 uk-float-right uk-text-right">
+                                <c:choose>
+                                    <c:when test="${listing.ended == 0}">
+                                        <c:if test="${listing.user.userID != user.userID}">
+                                            <a class="uk-button uk-button-text"
+                                               style="color: cornflowerblue; margin-left: 5px"
+                                               onclick="toggleBid();">Place Bid</a>
+                                        </c:if>
+                                        <c:if test="${listing.highestBidder.userID == user.userID}">
+                                            <a title="Cancel Bid" uk-icon="icon: ban"
+                                               uk-toggle="target: #cancelBid${listing.id}Modal"
+                                               style="margin-left: 10px; color: red;"></a>
+                                        </c:if>
+                                        <br>
+                                        <form method="post" action="/bid"
+                                              class="uk-margin-large-top uk-grid-small"
+                                              uk-grid id="bidForm" style="display: none;">
+                                            <input class="uk-input uk-width-4-5 uk-float-left uk-border-rounded"
+                                                   name="bidValue"
+                                                   type="number"
+                                                   min="${listing.highestBid}">
+                                            <a class="uk-width-1-5 uk-float-right uk-padding-remove"
+                                               uk-icon="icon: check; ratio: 1.50" title="Place Bid"
+                                               onclick="document.getElementById('bidForm').submit();"></a>
+                                            <input name="listingID" type="hidden" value="${listing.id}">
+                                        </form>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:if test="${sessionScope.user.userID == listing.highestBidder.userID}">
+                                            <form method="post" action="/pick-up-review">
+                                                <input type="hidden" name="pickUpID" value="1">
+                                                <a class="uk-button uk-button-text"
+                                                   style="color: cornflowerblue; margin-left: 5px">View Pick Up
+                                                    Details</a>
+                                            </form>
+                                        </c:if>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
+
+                        <hr class="uk-divider-icon">
+
+                        <!-- Countdown and Progress Bar -->
+                        <div class="uk-grid-small" uk-grid>
+                            <div class=" uk-width-1-1 uk-align-center">
+                                <p class="uk-margin-small-bottom uk-margin-small-top uk-align-center listing-ended"
+                                   style="color: red; font-size: 16px; display: none;">
+                                    Listing Ended</p>
+                                <div class="uk-grid-small uk-countdown uk-margin-remove uk-align-center" uk-grid
+                                     uk-countdown="date: ${listing.endTimestamp}">
+                                                <span class="uk-days">
+                                                    <strong class="uk-countdown-number uk-countdown-days"></strong>
+                                                    <strong class="uk-countdown-label uk-margin-small-top uk-margin-left">Days</strong>
+                                                </span>
+                                    <span class="uk-hours">
+                                                        <strong class="uk-countdown-number uk-countdown-hours"></strong>
+                                                        <strong class="uk-countdown-label uk-margin-small-top uk-margin-left">Hours</strong>
+                                                </span>
+                                    <span class="uk-minutes">
+                                                        <strong class="uk-countdown-number uk-countdown-minutes"></strong>
+                                                        <strong class="uk-countdown-label uk-margin-small-top uk-margin-left">Minutes</strong>
+                                                </span>
+                                    <span class="uk-seconds">
+                                                        <strong class="uk-countdown-number uk-countdown-seconds"></strong>
+                                                        <strong class="uk-countdown-label uk-margin-small-top uk-margin-left">Seconds</strong></strong>
+                                                </span>
+                                </div>
+                                <progress id="js-progressbar"
+                                          class="uk-progress uk-margin-remove-top" value="0"
+                                          max="100">
+                                </progress>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </c:if>
+
+    </div>
+
+</div>
 </body>
-<%@include file="jspf/footer.jspf"%>
+<%@include file="jspf/bid-buy-modals.jsp" %>
+<%@include file="jspf/footer.jspf" %>
 <script>
-	UIkit.util
-			.on(
-					'#js-modal-confirm',
-					'click',
-					function(e) {
-						e.preventDefault();
-						e.target.blur();
-						UIkit.modal
-								.confirm(
-										'You have already made an offer for this listing. Making a new one will replace the current one. Is this okay?')
-								.then(function() {
-									console.log('Confirmed.')
-								}, function() {
-									console.log('Rejected.')
-								});
-					});
+    function toggleBid() {
+        if (document.getElementById("bidForm").style.display == 'inline') {
+            document.getElementById("bidForm").style.display = "none";
+        } else {
+            document.getElementById("bidForm").style.display = "inline";
+        }
+    }
 </script>
-
-
 </html>
