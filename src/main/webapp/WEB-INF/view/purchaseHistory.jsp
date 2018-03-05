@@ -10,34 +10,35 @@
 
 		<p></p>
 		<!-- <div class="uk-grid-large uk-text-center"> -->
-			<table class="uk-table uk-table-hover">
-				<thead>
+		<table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Category</th>
+					<th>Price</th>
+					<th>Purchase Date</th>
+					<th>Seller</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="transaction" items="${userTransactions}">
 					<tr>
-						<th>Name</th>
-						<th>Description</th>
-						<th>Category</th>
-						<th>Price</th>
-						<th>Purchase Date</th>
-						<th>Seller</th>
+						<td>${transaction.listingID.name}</td>
+						<td>${transaction.listingID.description}</td>
+						<td>${transaction.listingID.category}</td>
+						<td>${transaction.listingID.price}</td>
+						<td>${transaction.listingID.dateCreated}</td>
+						<td>${transaction.seller.username}</td>
+						<td><a href="${pageContext.request.contextPath}/rateReview"
+							class="btn btn-default">Rate & Review Seller</a></td>
 					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="transaction" items="${userTransactions}">
-						<tr>
-							<td>${transaction.listingID.name}</td>
-							<td>${transaction.listingID.description}</td>
-							<td>${transaction.listingID.category}</td>
-							<td>${transaction.listingID.price}</td>
-							<td>${transaction.listingID.dateCreated}</td>
-							<td>${transaction.seller.username}</td>
-						</tr>
 
-					</c:forEach>
-				</tbody>
-			</table>
+				</c:forEach>
+			</tbody>
+		</table>
 
-		</div>
-	<!-- </div> -->
+	</div>
 
 </body>
 <%@include file="jspf/footer.jspf"%>
