@@ -32,6 +32,11 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
+    public void createConversation(Conversation conversation) {
+        msgDAO.createConversation(conversation.getUser1().getUserID(), conversation.getUser2().getUserID());
+    }
+
+    @Override
     public List<Conversation> getConversation(User user1) {
         return msgDAO.getConversation(user1.getUserID());
     }
@@ -45,5 +50,10 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public void sendMessage(User user, User sendTo, String message) {
         msgDAO.sendMessage(user.getUserID(), sendTo.getUserID(), message);
+    }
+
+    @Override
+    public void sendMessage(User sendFrom, String message, Conversation conversation) {
+        msgDAO.sendMessage(new Message(sendFrom, message, conversation));
     }
 }

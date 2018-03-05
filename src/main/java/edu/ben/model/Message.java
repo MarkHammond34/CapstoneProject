@@ -1,4 +1,5 @@
 package edu.ben.model;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
@@ -12,31 +13,37 @@ import java.sql.Timestamp;
 public class Message implements Serializable {
 
     @Id
-    @Column(name="message_ID")
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "message_ID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @ManyToOne (cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name="conversation_ID")
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "conversation_ID")
     private Conversation conversationId;
 
     @OneToOne
-    @JoinColumn(name="userId")
+    @JoinColumn(name = "userId")
     private User user;
 
-    @Column(name="message_body")
+    @Column(name = "message_body")
     private String messageBody;
 
-    @Column(name="date_sent")
+    @Column(name = "date_sent")
     private Timestamp dateSent;
 
-    public Message(){
+    public Message() {
 
     }
 
-    public Message(User user, String messageBody){
+    public Message(User user, String messageBody) {
         this.user = user;
         this.messageBody = messageBody;
+    }
+
+    public Message(User user, String messageBody, Conversation conversationId) {
+        this.user = user;
+        this.messageBody = messageBody;
+        this.conversationId = conversationId;
     }
 
     public int getId() {

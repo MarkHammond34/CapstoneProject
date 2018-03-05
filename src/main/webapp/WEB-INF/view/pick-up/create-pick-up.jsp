@@ -1,9 +1,9 @@
-<%@include file="jspf/header.jsp" %>
+<%@include file="../jspf/header.jsp" %>
 <body style="background-color: #e5e5e5">
 
-<%@include file="jspf/navbar.jspf" %>
+<%@include file="../jspf/navbar.jspf" %>
 
-<%@include file="jspf/messages.jsp" %>
+<%@include file="../jspf/messages.jsp" %>
 
 <div class="uk-margin-medium-top uk-margin-large-bottom">
     <div class="uk-child-width-expand@s" uk-grid>
@@ -111,7 +111,7 @@
     </div>
 </div>
 
-<%@include file="jspf/footer.jspf" %>
+<%@include file="../jspf/footer.jspf" %>
 
 <script>
     var map;

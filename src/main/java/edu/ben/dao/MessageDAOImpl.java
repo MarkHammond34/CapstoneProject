@@ -28,7 +28,7 @@ public class MessageDAOImpl implements MessageDAO {
 
     @Override
     public void createConversation(int user1, int user2) {
-        Query q = getSession().createQuery("INSERT INTO conversation (userId_1,userId_2) values (" + user1 + ", "+ user2 + ")");
+        Query q = getSession().createQuery("INSERT INTO conversation (userId_1,userId_2) values (" + user1 + ", " + user2 + ")");
         q.executeUpdate();
     }
 
@@ -59,5 +59,10 @@ public class MessageDAOImpl implements MessageDAO {
 
         q = getSession().createQuery("INSERT INTO message (conversation_ID, userId, message_body) VALUES (" + conversation.getId() + ", " + user1 + ", " + message + ")");
         q.executeUpdate();
+    }
+
+    @Override
+    public void sendMessage(Message message) {
+        getSession().save(message);
     }
 }

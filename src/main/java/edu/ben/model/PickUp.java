@@ -29,7 +29,20 @@ public class PickUp {
     @Column(name = "active")
     private int active;
 
+    @Column(name = "status")
+    private String status;
+
+    @OneToOne
+    @JoinColumn(name = "conversation_id")
+    private Conversation conversation;
+
     public PickUp() {
+    }
+
+    public PickUp(Transaction transaction, Location location, Conversation conversation) {
+        this.transaction = transaction;
+        this.location = location;
+        this.conversation = conversation;
     }
 
     public int getPickUpID() {
@@ -70,5 +83,29 @@ public class PickUp {
 
     public void setDateCreated(Timestamp dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Conversation getConversation() {
+        return conversation;
+    }
+
+    public void setConversation(Conversation conversation) {
+        this.conversation = conversation;
     }
 }

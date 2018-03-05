@@ -13,48 +13,57 @@ import edu.ben.model.Transaction;
 @Service
 @Transactional
 public class TransactionServiceImpl implements TransactionService {
-	
-	TransactionDAO transactionDAO;
-	
-	@Autowired
-	public void setTransactionDAO(TransactionDAO transactionDAO) {
-		this.transactionDAO = transactionDAO;
-	}
 
-	@Override
-	public Transaction getTransaction(int id) {
-		return transactionDAO.getTransaction(id);
-	}
+    TransactionDAO transactionDAO;
 
-	@Override
-	public void createTransaction(Transaction transaction) {
-		transactionDAO.createTransaction(transaction);
-	}
+    @Autowired
+    public void setTransactionDAO(TransactionDAO transactionDAO) {
+        this.transactionDAO = transactionDAO;
+    }
 
-	@Override
-	public void saveOrUpdate(Transaction transaction) {
-		transactionDAO.saveOrUpdate(transaction);
-	}
+    @Override
+    public Transaction getTransaction(int id) {
+        return transactionDAO.getTransaction(id);
+    }
 
-	@Override
-	public void deleteTransaction(Transaction transaction) {
-		transactionDAO.deleteTransaction(transaction);
-	}
+    @Override
+    public void createTransaction(Transaction transaction) {
+        transactionDAO.createTransaction(transaction);
+    }
 
-	@Override
-	public List<Transaction> getTransactionsByBuyerID(int id) {
-		return transactionDAO.getTransactionsByBuyerID(id);
-	}
+    @Override
+    public void saveOrUpdate(Transaction transaction) {
+        transactionDAO.saveOrUpdate(transaction);
+    }
 
-	@Override
-	public List<Transaction> getTransactionsBySellerID(int id) {
-		return transactionDAO.getTransactionsBySellerID(id);
-	}
+    @Override
+    public void deleteTransaction(Transaction transaction) {
+        transactionDAO.deleteTransaction(transaction);
+    }
 
-	@Override
-	public List<Transaction> getTransactionsByUserID(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+    @Override
+    public List<Transaction> getTransactionsByBuyerID(int id) {
+        return transactionDAO.getTransactionsByBuyerID(id);
+    }
+
+    @Override
+    public List<Transaction> getTransactionsBySellerID(int id) {
+        return transactionDAO.getTransactionsBySellerID(id);
+    }
+
+    @Override
+    public List<Transaction> getTransactionsByUserID(int id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Transaction getTransactionsByListingID(int id) {
+        try {
+            return transactionDAO.getTransactionsByListingID(id);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+    }
+
 }
