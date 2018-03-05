@@ -1,8 +1,10 @@
 package edu.ben.model;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 @Table(name = "pick_up")
 @Entity(name = "pick_up")
@@ -83,6 +85,16 @@ public class PickUp {
 
     public void setDateCreated(Timestamp dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public String getPickUpDate() {
+        Date date = new Date(pickUpTimestamp.getTime());
+        return new SimpleDateFormat("MM/dd/yyyy").format(date);
+    }
+
+    public String getPickUpTime() {
+        Date date = new Date(pickUpTimestamp.getTime());
+        return new SimpleDateFormat("hh:mm a").format(date);
     }
 
     public int getActive() {

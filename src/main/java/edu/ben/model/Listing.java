@@ -1,6 +1,7 @@
 package edu.ben.model;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -183,6 +184,17 @@ public class Listing implements java.io.Serializable {
                 + ", price=" + price + ", dateCreated=" + dateCreated + ", image_path=" + image_path + ", user=" + user
                 + "]";
     }
+
+    public String getEndDate() {
+        java.sql.Date date = new java.sql.Date(endTimestamp.getTime());
+        return new SimpleDateFormat("MM/dd/yyyy").format(date);
+    }
+
+    public String getEndTime() {
+        java.sql.Date date = new java.sql.Date(endTimestamp.getTime());
+        return new SimpleDateFormat("hh:mm a").format(date);
+    }
+
 
     public Date getDateCreated() {
         return dateCreated;

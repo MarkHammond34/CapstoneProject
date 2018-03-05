@@ -78,37 +78,4 @@ public class MessageController extends BaseController {
         return "messaging/messagePage";
     }
 
-    @RequestMapping(value = "sendPickUpMessage", method = RequestMethod.POST)
-    public String sendPickUpMessage(HttpServletRequest request, @RequestParam("pickUpID") int pickUpID, @RequestParam("message") String message) {
-
-        User user = (User) request.getSession().getAttribute("user");
-
-        if (user == null) {
-            addErrorMessage("Login To Send Message");
-            setRequest(request);
-            return "login";
-        }
-
-        PickUp pickUp = pickUpService.getPickUpByPickUpID(pickUpID);
-
-        if (pickUp == null) {
-            addErrorMessage("Error Loading Pick Up");
-            setRequest(request);
-            return "redirect:/";
-        }
-
-        // If user logged in is not the seller or buyer
-        if (user.getUserID() != pickUp.getTransaction().getSeller().getUserID() || user.getUserID() != pickUp.getTransaction().getBuyer().getUserID()) {
-            addErrorMessage("Access Denied");
-            setRequest(request);
-            return "redirect:/";
-        }
-
-        // Send message
-        messageService.sendMessage(user, message, pickUp.getConversation());
-
-        return "pick-up/pick-up-review";
-
-    }
-
 }
