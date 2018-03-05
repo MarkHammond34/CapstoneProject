@@ -276,11 +276,36 @@ public class Listing implements java.io.Serializable {
         return endTimestamp.getTime() - System.currentTimeMillis();
     }
 
-//    public int getPremium() {
-//        return premium;
-//    }
-//
-//    public void setPremium(int premium) {
-//        this.premium = premium;
-//    }
+    public long getSecondsRemaining() {
+        return (long) Math.floor(getDelay() / 1000);
+    }
+
+    public long getMinutesRemaining() {
+        return (long) Math.floor(getDelay() / (60 * 1000));
+    }
+
+    public long getHoursRemaining() {
+        return (long) Math.floor(getDelay() / (60 * 60 * 1000));
+    }
+
+    public long getDaysRemaining() {
+        return (long) Math.floor(getDelay() / (24 * 60 * 60 * 1000));
+    }
+
+    public long getEndTimestampAsLong() {
+        return endTimestamp.getTime();
+    }
+
+    public long getStartTimestampAsLong() {
+        return startTimestamp.getTime();
+    }
+
+    public int getPremium() {
+        return premium;
+    }
+
+    public void setPremium(int premium) {
+        this.premium = premium;
+    }
+
 }

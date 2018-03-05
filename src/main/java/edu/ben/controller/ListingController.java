@@ -11,12 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,6 +34,7 @@ import edu.ben.service.UserService;
 import edu.ben.util.ImagePath;
 
 @Controller
+@Transactional
 public class ListingController extends BaseController {
 
 	@Autowired
@@ -58,6 +58,9 @@ public class ListingController extends BaseController {
 	@Autowired
 	NotificationService notificationService;
 
+	@Autowired
+	private Environment environment;
+
 	/**
 	 * Upload single file using Spring Controller
 	 */
@@ -66,24 +69,21 @@ public class ListingController extends BaseController {
 			@RequestParam("subCategory") String subCategory,
 			@RequestParam(value = "price", required = false) Double price,
 			@RequestParam("description") String description, @RequestParam("file") MultipartFile file,
-			@RequestParam("type") String type, Model model, HttpServletRequest request) {
+			@RequestParam("type") String type, @RequestParam("premium") String premium, Model model,
+			HttpServletRequest request) {
 
 		System.out.println("Hit UploadListing Controller");
 		if (price == null) {
 			price = (double) 0;
+			// This is a dirty fix
+			Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
 
-			if (request.getParameter("endDate") != null) {
+			// Checks to make sure listing is for at least one hour
+			if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
+				addErrorMessage("Listings Must Be Last At Least One Hour");
+				setRequest(request);
+				return "redirect:" + request.getHeader("Referer");
 
-				// This is a dirty fix
-				Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
-
-				// Checks to make sure listing is for at least one hour
-				if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
-					addErrorMessage("Listings Must Be Last At Least One Hour");
-					setRequest(request);
-					return "redirect:" + request.getHeader("Referer");
-
-				}
 			}
 		}
 
@@ -99,16 +99,15 @@ public class ListingController extends BaseController {
 			setRequest(request);
 			return "login";
 		}
-		if (request.getParameter("endDate") != null) {
-			// This is a dirty fix
-			Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
 
-			// Checks to make sure listing is for at least one hour
-			if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
-				addErrorMessage("Listings Must Be Last At Least One Hour");
-				setRequest(request);
-				return "redirect:" + request.getHeader("Referer");
-			}
+		// This is a dirty fix
+		Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
+
+		// Checks to make sure listing is for at least one hour
+		if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
+			addErrorMessage("Listings Must Be Last At Least One Hour");
+			setRequest(request);
+			return "redirect:" + request.getHeader("Referer");
 		}
 
 		if (!file.isEmpty()) {
@@ -143,15 +142,20 @@ public class ListingController extends BaseController {
 
 				System.out.println("File Uploaded");
 				Listing listing = new Listing(name, description, price, category, file.getOriginalFilename());// FIX
-																												// LATER
+				// LATER
 
 				if (type.equals("auction")) {
 					listing.setType("auction");
 					listing.setHighestBid(0);
-				} else if (type.equals("donation")) {
-					listing.setType("donation");
 				} else {
 					listing.setType("fixed");
+				}
+				System.out.println(premium);
+
+				if (premium.equals("yes")) {
+					listing.setPremium(1);
+				} else {
+					listing.setPremium(0);
 				}
 
 				listing.setUser(u);
@@ -275,20 +279,29 @@ public class ListingController extends BaseController {
 		return "redirect:/";
 	}
 
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit() {
+	@RequestMapping(value = "/edit", method = RequestMethod.GET) // WORKS
+	public ModelAndView edit(@RequestParam("listing") int listingID) {
 
 		ModelAndView model = new ModelAndView("/jspf/edit-fixed-listing");
-		model.addObject("listingID", 1);
+
+		Listing listing = listingService.getByListingID((listingID));
+
+		model.addObject("listingID", listingID);
+		model.addObject("listing", listing);
 
 		return model;
 	}
 
 	@RequestMapping(value = "/editTheListing", method = RequestMethod.POST)
-	public String editListing(@RequestParam("listingID") String id, @RequestParam("price") String price) {
+	public String editListing(@RequestParam("listingID") String id, @RequestParam("title") String name,
+			@RequestParam("price") String price, @RequestParam("description") String description) {
 
 		Listing listing = listingService.getByListingID(Integer.parseInt(id));
-		listing.setPrice(Double.parseDouble(price));
+
+		listing.setName(name);
+		listing.setPrice(Integer.parseInt(price));
+		listing.setDescription(description);
+
 		listingService.saveOrUpdate(listing);
 
 		return "redirect:/viewProfile";
@@ -329,67 +342,34 @@ public class ListingController extends BaseController {
 		ModelAndView model = new ModelAndView("listing");
 
 		// get listing
-		Listing listing = listingService.getByListingID(1);
-		User user = (User) request.getSession().getAttribute("user");
+		Listing listing = listingService.getByListingID(listingID);
 		String dateCreated = listing.getDateCreated().toString().substring(0, 10);
+		User creator = userService.getUserById(listing.getUser().getUserID());
+
 		// pass these to model
 		model.addObject("listing", listing);
-		model.addObject("user", user);
 		model.addObject("date", dateCreated);
+		model.addObject("creator", creator);
 
-		boolean hasOffer;
+		User user = (User) request.getSession().getAttribute("user");
 
-		// Checks if the user already made an offer on the listing
-		if (offerService.getOfferByUserAndListingId(user.getUserID(), listingID) != null) {
-			hasOffer = true;
-		} else {
-			hasOffer = false;
+		if (user != null) {
+
+			boolean hasOffer;
+
+			// Checks if the user already made an offer on the listing
+			if (offerService.getOfferByUserAndListingId(user.getUserID(), listingID) != null) {
+				hasOffer = true;
+			} else {
+				hasOffer = false;
+			}
+
+			model.addObject("hasOffer", hasOffer);
+
 		}
 
-		model.addObject("hasOffer", hasOffer);
-
-		System.out.println("viewSelected");
-
 		return model;
 	}
-
-	@RequestMapping(value = "/listing2", method = RequestMethod.GET)
-	public ModelAndView viewSelectedListing2() {
-
-		ModelAndView model = new ModelAndView("listing2");
-
-		// get listing
-		Listing listing = listingService.getByListingID(1);
-		User user = userService.getUserById(1);
-		String dateCreated = listing.getDateCreated().toString().substring(0, 10);
-		// pass these to model
-		model.addObject("listing", listing);
-		model.addObject("user", user);
-		model.addObject("date", dateCreated);
-
-		return model;
-	}
-
-	// DELETE BELOW LATER
-
-	@RequestMapping(value = "/listing3", method = RequestMethod.GET)
-	public ModelAndView viewSelectedListing3() {
-
-		ModelAndView model = new ModelAndView("listing3");
-
-		// get listing
-		Listing listing = listingService.getByListingID(1);
-		User user = userService.getUserById(1);
-		String dateCreated = listing.getDateCreated().toString().substring(0, 10);
-		// pass these to model
-		model.addObject("listing", listing);
-		model.addObject("user", user);
-		model.addObject("date", dateCreated);
-
-		return model;
-	}
-
-	// DELETE ABOVE LATER
 
 	@RequestMapping(value = "/cancelAuction", method = RequestMethod.GET)
 	public ModelAndView cancelAuction(@RequestParam("listing") int listingID) {
@@ -419,4 +399,59 @@ public class ListingController extends BaseController {
 		return model;
 	}
 
+	@RequestMapping(value = "/auctionRules", method = RequestMethod.GET)
+	public ModelAndView auction() {
+
+		ModelAndView model = new ModelAndView("auction-rules");
+
+		return model;
+	}
+
+	@GetMapping("/checkout")
+	public String checkoutPageGet(HttpServletRequest request) {
+
+		User user = (User) request.getSession().getAttribute("user");
+
+		if (user == null) {
+			addWarningMessage("Login To Checkout");
+			setRequest(request);
+			return "login";
+		}
+
+		addWarningMessage("Error Loading Page");
+		setRequest(request);
+		return "redirect:" + request.getHeader("Referer");
+	}
+
+	@PostMapping("/checkout")
+	public String checkoutPagePost(HttpServletRequest request, @RequestParam("listingID") int listingID) {
+
+		User user = (User) request.getSession().getAttribute("user");
+
+		if (user == null) {
+			addWarningMessage("Login To Checkout");
+			setRequest(request);
+			return "login";
+		}
+
+		String addressNumber = environment.getProperty("school.address.number");
+		String addressStreetName = environment.getProperty("school.address.street.name");
+		String addressStreetType = environment.getProperty("school.address.street.type");
+		String addressCity = environment.getProperty("school.address.city");
+		String addressState = environment.getProperty("school.address.state");
+
+		request.setAttribute("latitude", environment.getProperty("school.latitude"));
+		request.setAttribute("longitude", environment.getProperty("school.longitude"));
+
+		String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + addressNumber + "+"
+				+ addressStreetName + "+" + addressStreetType + ",+" + addressCity + ",+" + addressState
+				+ "&key=AIzaSyAYv7pVPxQ-k7yWlKPfa8ebsx7ci9q7vQ8";
+
+		request.setAttribute("pickupLocation", url);
+
+		request.setAttribute("title", "Checkout");
+		request.setAttribute("listing", listingService.getByListingID(listingID));
+		setRequest(request);
+		return "checkout";
+	}
 }
