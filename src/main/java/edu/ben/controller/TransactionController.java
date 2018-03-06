@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,5 +70,28 @@ public class TransactionController extends BaseController {
 		
 		return model;
 	}
+	
+	 @GetMapping("/purchaseHistory")
+	    public String purchaseHistory() {
+	        return "purchaseHistory";
+	    }
+	 
+	 @RequestMapping(value = "/viewPurchaseHistory", method = RequestMethod.GET)
+		public String viewPurchaseHistory(HttpServletRequest request) {
+			User session = (User) request.getSession().getAttribute("user");
+
+			List<Transaction> userTransactions = transactionService.getTransactionsByBuyerID(session.getUserID());
+			System.out.println("size" + userTransactions.size());
+			request.setAttribute("user", session);
+			request.setAttribute("userTransactions", userTransactions);
+
+
+			return "purchaseHistory";
+		}
+	 
+	 @GetMapping("/rateReview")
+	    public String rateReview() {
+	        return "rateReview";
+	    }
 	
 }

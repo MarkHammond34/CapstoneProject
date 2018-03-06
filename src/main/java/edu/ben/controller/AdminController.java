@@ -96,6 +96,27 @@ public class AdminController extends BaseController {
         return"redirect:adminUser";
     }
 
+    @RequestMapping(value ="adminEditUser", method = RequestMethod.POST)
+    public String adminEditUser(HttpServletRequest request){
+        User usr = userService.findBySchoolEmail(request.getParameter("schoolEmailEdit"));
+        usr.setFirstName(request.getParameter("firstNameEdit"));
+        usr.setLastName(request.getParameter("lastNameEdit"));
+        usr.setUsername(request.getParameter("usernameEdit"));
+        usr.setEmail(request.getParameter("personalEmailEdit"));
+        usr.setSchoolEmail(request.getParameter("schoolEmailEdit"));
+        usr.setPassword(request.getParameter("passwordEdit"));
+        usr.setPasswordConfirm(request.getParameter("passwordEdit"));
+        userService.saveOrUpdate(usr);
+        return"redirect:adminUser";
+    }
+
+    @RequestMapping(value ="adminListing", method = RequestMethod.GET)
+    public String adminListing(HttpServletRequest request){
+        List<Listing> allListings = listingService.getRecentListings();
+        request.getSession().setAttribute("allListings", allListings);
+        return "admin/adminListings";
+
+    }
     @GetMapping("/adminDisputes")
     public String disputes(HttpServletRequest request) {
 

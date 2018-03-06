@@ -34,7 +34,10 @@
                         <li class="uk-active">
                             <a href="${pageContext.request.contextPath}/adminUser">Manage Users</a>
                         </li>
-                        <li class="uk-active">
+                        <li>
+                            <a href="${pageContext.request.contextPath}/adminListing">Manage Listings</a>
+                        </li>
+                        <li>
                             <a href="${pageContext.request.contextPath}/adminDisputes">Manage Disputes</a>
                         </li>
                     </ul>
@@ -62,10 +65,10 @@
     <div class="uk-flex uk-flex-column">
         <ul uk-switcher>
             <li>
-                <a href="#dashboardUserTable"></a>Users
+                <a href="#dashboardUserTable" hidden></a>Users
             </li>
             <li>
-                <a href="#dashboardListingsTable"></a>Listings
+                <a href="#dashboardListingsTable" hidden></a>Listings
             </li>
         </ul>
         <div class="uk-card uk-card-default uk-card-large uk-card-body uk-width-3-4 uk-position-large uk-position-top-center">
@@ -139,7 +142,8 @@
                                     </form>
                                 </td>
                                 <td>
-                                    <a href="#editUserModal" uk-icon="icon: file-edit" uk-toggle></a>
+                                    <a href="#<%=allUsers.get(i).getUsername()%>" uk-icon="icon: file-edit"
+                                       uk-toggle></a>
                                 </td>
                             </tr>
                             <%
@@ -199,38 +203,59 @@
             </div>
         </div>
 
-
+            <%
+              for (int j = 0; j < allUsers.size(); j++) {
+        %>
         <!--Edit Modal !-->
-        <div id="editUserModal" uk-modal>
+        <div id="<%=allUsers.get(j).getUsername()%>" uk-modal>
             <div class="uk-modal-dialog">
                 <button class="uk-modal-close-default" type="button" uk-close></button>
                 <div class="uk-modal-header">
                     <h2 class="uk-modal-title">Edit User</h2>
                 </div>
                 <div class="uk-modal-body">
-                    <form class="uk-grid-small" uk-grid>
+                    <form class="uk-grid-small" uk-grid method="Post" action="adminEditUser">
                         <div class="uk-width-1-2 uk-from-controls">
-                            <input id="firstName" class="uk-input" type="text" placeholder="First Name">
+                            <input  class="uk-input" name="firstNameEdit" type="text"
+                                   value="<%=allUsers.get(j).getFirstName()%>">
                         </div>
                         <div class="uk-width-1-2">
                             <label class="uk-form-label" for="lastName"> </label>
-                            <input id="lastName" class="uk-input" type="text" placeholder="Last Name">
+                            <input id="lastName" class="uk-input" name="lastNameEdit" type="text"
+                                   value="<%=allUsers.get(j).getLastName()%>">
                         </div>
                         <div class="uk-width-1-2">
-                            <input id="username" class="uk-input" type="text" placeholder="Username">
+                            <input id="username" class="uk-input" name="usernameEdit" type="text"
+                                   value="<%=allUsers.get(j).getUsername()%>">
                         </div>
                         <div class="uk-width-1-1">
-                            <input id="personalEmail" class="uk-input" type="email" placeholder="Personal Email">
+                            <input id="personalEmail" class="uk-input" name="personalEmailEdit" type="email"
+                                   value="<%=allUsers.get(j).getEmail()%>">
                         </div>
                         <div class="uk-width-1-1">
-                            <input id="benedictineEmail" class="uk-input" type="email" placeholder="Benedictine Email">
+                            <input id="benedictineEmail" class="uk-input" name="schoolEmailEdit" type="email"
+                                   value="<%=allUsers.get(j).getSchoolEmail()%>">
                         </div>
                         <div class="uk-width-1-1">
-                            <input id="password" class="uk-input" type="password" placeholder="Password">
+                            <input id="password" class="uk-input" name="passwordEdit" type="password"
+                                   value="<%=allUsers.get(j).getPassword()%>">
                         </div>
                         <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid uk-width-1-1">
+                            <%
+                                if (allUsers.get(j).getAdminLevel() == 1) {
+                            %>
+                            <label><input class="uk-radio" type="radio" name="accountType" value="Admin"
+                                          checked="checked" required> Admin</label>
+                            <label><input class="uk-radio" type="radio" name="accountType" value="User"> User</label>
+                            <%
+                            } else {
+                            %>
                             <label><input class="uk-radio" type="radio" name="accountType" value="Admin" required> Admin</label>
-                            <label><input class="uk-radio" type="radio" name="accountType" value="Admin"> User</label>
+                            <label><input class="uk-radio" type="radio" name="accountType" value="User"
+                                          checked="checked"> User</label>
+                            <%
+                                }
+                            %>
                         </div>
                         <button class="uk-button uk-button-default uk-modal-close uk-width-1-2" type="button">Close
                         </button>
@@ -239,5 +264,8 @@
                 </div>
             </div>
         </div>
+            <%
+            }
+        %>
 </body>
 </html>

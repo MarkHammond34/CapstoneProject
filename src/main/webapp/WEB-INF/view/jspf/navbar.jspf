@@ -117,6 +117,9 @@
                                         <li class="uk-width-1-1"><a
                                                 href="${pageContext.request.contextPath}/viewUserListings">
                                             Listings</a></li>
+                                            <li class="uk-width-1-1"><a
+                                                href="${pageContext.request.contextPath}/viewPurchaseHistory">
+                                            Purchase History</a></li>
                                         <li class="uk-width-1-1"><a
                                                 href="${pageContext.request.contextPath}/notifications">
                                             Notification</a></li>

@@ -1,6 +1,6 @@
 package edu.ben.model;
 
-import java.sql.Timestamp;
+import java.sql.Timestamp; 
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,15 +23,23 @@ public class Transaction {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name="buyer_ID")
+/*	@Column(name="buyer_ID")
 	private int buyerID;
 
 	@Column(name="seller_ID")
 	private int sellerID;
-
+*/
 	@OneToOne
 	@JoinColumn(name = "listing_ID")
 	private Listing listingID;
+
+	@OneToOne
+	@JoinColumn(name = "buyer_ID")
+	private User buyer;
+	
+	@OneToOne
+	@JoinColumn(name = "seller_ID")
+	private User seller;
 
 	@Column(name = "transaction_type")
 	// @NotBlank
@@ -56,15 +64,15 @@ public class Transaction {
 	}
 	
 	public Transaction(int buyer, int seller, Listing listingID, Offer offerID) {
-		this.buyerID = buyer;
-		this.sellerID = seller;
+/*		this.buyerID = buyer;
+		this.sellerID = seller;*/
 		this.listingID = listingID;
 		this.offerID = offerID;
 	}
 	
 	public Transaction(int buyer, int seller, Listing listingID, int completed, Offer offerID) {
-		this.buyerID = buyer;
-		this.sellerID = seller;
+		/*this.buyerID = buyer;
+		this.sellerID = seller;*/
 		this.listingID = listingID;
 		this.completed = completed;
 		this.offerID = offerID;
@@ -72,8 +80,8 @@ public class Transaction {
 
 	public Transaction(int id, int buyer, int seller, Listing listingID, int completed, Offer offerID) {
 		this.id = id;
-		this.buyerID = buyer;
-		this.sellerID = seller;
+		/*this.buyerID = buyer;
+		this.sellerID = seller;*/
 		this.listingID = listingID;
 		this.completed = completed;
 		this.offerID = offerID;
@@ -82,8 +90,8 @@ public class Transaction {
 	public Transaction(int id, int buyer, int seller, Listing listingID, String transactionType, int completed,
 			Offer offerID) {
 		this.id = id;
-		this.buyerID = buyer;
-		this.sellerID = seller;
+		/*this.buyerID = buyer;
+		this.sellerID = seller;*/
 		this.listingID = listingID;
 		this.transactionType = transactionType;
 		this.completed = completed;
@@ -100,20 +108,20 @@ public class Transaction {
 		this.id = id;
 	}
 
-	public int getBuyerID() {
-		return buyerID;
+	public User getBuyer() {
+		return buyer;
 	}
 
-	public void setBuyerID(int buyerID) {
-		this.buyerID = buyerID;
+	public void setBuyer(User buyer) {
+		this.buyer = buyer;
 	}
 
-	public int getSellerID() {
-		return sellerID;
+	public User getSeller() {
+		return seller;
 	}
 
-	public void setSellerID(int sellerID) {
-		this.sellerID = sellerID;
+	public void setSeller(User seller) {
+		this.seller = seller;
 	}
 
 	public Listing getListingID() {

@@ -1,7 +1,6 @@
 package edu.ben.controller;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.ben.model.Listing;
-import edu.ben.model.Notification;
 import edu.ben.model.Offer;
 import edu.ben.model.Transaction;
 import edu.ben.model.User;
@@ -39,31 +37,16 @@ public class OfferController extends BaseController {
 
 	@Autowired
 	NotificationService notificationService;
-	
+
 	@Autowired
 	TransactionService transactionService;
 
-	@RequestMapping(value = "/myOffersTest", method = RequestMethod.GET) // An offers page for each listing
-	public ModelAndView showOffersTest(/* @RequestParam("id") int id */) {
-
-		ModelAndView model = new ModelAndView("offers");
-
-		// Listing listing = listingService.getByListingID(id);
-		// List<Offer> offers =
-		// offerService.getOffersById(listing.getOfferID().getOfferID());
-		//
-		// model.addObject("offers", offers);
-
-		return model;
-
-	}
-
 	@RequestMapping(value = "/myOffers", method = RequestMethod.GET) // An offers page for each listing
-	public ModelAndView showOffers(/*@RequestParam("id") int id*/) {
+	public ModelAndView showOffers(@RequestParam("id") int id) {
 
 		ModelAndView model = new ModelAndView("offers");
 
-		Listing listing = listingService.getByListingID(/*id*/1);
+		Listing listing = listingService.getByListingID(id);
 		List<Offer> offers = offerService.getPendingOffersByListingId(listing.getId());
 		
 		model.addObject("offers", offers);

@@ -1,24 +1,31 @@
+<%@include file="tutorialModal.jsp" %>
 <div class="demo">
-    <footer>
-        <p>
-            New to UListIt? See our<a
-                href="${pageContext.request.contextPath}/freshmanChecklist"
-                style="color: #ffffff; text-decoration: none;"> Freshman
-            Checklist Example</a> or our exclusive <a href="/howToVideo"
-                                                      style="color: #ffffff; text-decoration: none;"> How To Video</a>!
-        </p>
-        <p>
-            <a href="/faqs" style="color: #ffffff; text-decoration: none;">Frequently
-                Asked Questions</a>
-        </p>
-        <p>
-            &copy;U-ListIt -<a style="color: #ffffff; text-decoration: none;"
-                               href="${pageContext.request.contextPath}/contactUs"> Questions?
-            Comments? Contact Us</a> - All rights reserved 2018.
-        </p>
-        <form action="/checkout" method="post">
-            <input name="listingID" type="hidden" value="1">
-            <button type="submit" style="width: 5px; height: 5px; float: right;"></button>
-        </form>
-    </footer>
+	<footer>
+		<p>
+			New to UListIt? See our<a
+				href="${pageContext.request.contextPath}/freshmanChecklist"
+				style="color: #ffffff; text-decoration: none;"> Freshman
+				Checklist Example</a> or our exclusive <a data-toggle="modal"
+				href="#myModal" style="color: #ffffff; text-decoration: none;">
+				How To Video</a>!
+		</p>
+		<p>
+			<a href="/faqs" style="color: #ffffff; text-decoration: none;">Frequently
+				Asked Questions</a>
+		</p>
+		<p>
+			&copy;U-ListIt -<a style="color: #ffffff; text-decoration: none;"
+				href="${pageContext.request.contextPath}/contactUs"> Questions?
+				Comments? Contact Us</a> - All rights reserved 2018.
+		</p>
+	</footer>
 </div>
+
+<script>
+	$('#myModal').on('shown.bs.modal', function() {
+		$('#video1')[0].play();
+	})
+	$('#myModal').on('hidden.bs.modal', function() {
+		$('#video1')[0].pause();
+	})
+</script>
