@@ -2,6 +2,7 @@ package edu.ben.model;
 
 import java.sql.Timestamp;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -50,7 +51,7 @@ public class Transaction {
     private int completed;
 
     @OneToOne
-    @JoinColumn(name = "offer_ID")
+    @JoinColumn(name = "offer_ID", nullable = true)
     private Offer offerID;
 
     @Column(name = "date_modified")
@@ -76,6 +77,14 @@ public class Transaction {
         this.listingID = listingID;
         this.completed = completed;
         this.offerID = offerID;
+    }
+
+    public Transaction(Listing listingID, int completed) {
+        this.buyer = listingID.getHighestBidder();
+        this.seller = listingID.getUser();
+        this.listingID = listingID;
+        this.completed = completed;
+        this.offerID = null;
     }
 
     public Transaction(int id, User buyer, User seller, Listing listingID, int completed, Offer offerID) {

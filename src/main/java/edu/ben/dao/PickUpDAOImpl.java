@@ -2,6 +2,7 @@ package edu.ben.dao;
 
 import edu.ben.model.PickUp;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,8 @@ public class PickUpDAOImpl implements PickUpDAO {
 
     @Override
     public PickUp getPickUpByListingID(int id) {
-        Query q = getSession().createQuery("FROM pick_up WHERE listing_id=:id");
-        q.setParameter("id", id);
+        SQLQuery q = getSession().createSQLQuery
+                ("select p.* from pick_up as p inner join transaction as t on p.transaction_id=t.transaction_ID where t.listing_ID=" + id + ";").addEntity(PickUp.class);
         return (PickUp) q.list().get(0);
     }
 

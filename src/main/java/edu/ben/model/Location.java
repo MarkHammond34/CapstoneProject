@@ -1,9 +1,6 @@
 package edu.ben.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Table(name = "pick_up_location")
@@ -12,6 +9,7 @@ public class Location {
 
     @Id
     @Column(name = "location_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int locationID;
 
     @Column(name = "name")
@@ -33,6 +31,12 @@ public class Location {
     private int active;
 
     public Location() {
+    }
+
+    public Location(String name, float latitude, float longitude) {
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public Location(float latitude, float longitude) {

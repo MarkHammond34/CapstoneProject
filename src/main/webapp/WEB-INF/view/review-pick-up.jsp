@@ -41,8 +41,7 @@
                                                value="${pickUp.pickUpDate}"></span>
                                         </li>
                                         <input type="hidden" value="${pickUp.pickUpID}" name="pickUpID">
-                                        <input type="hidden" id="newLatInput" value="" name="newLat">
-                                        <input type="hidden" id="newLongInput" value="" name="newLong">
+                                        <input type="hidden" id="newPosition" value="" name="newPosition">
                                     </c:when>
                                     <c:otherwise>
                                         <li class="uk-width-1-1"><span class="uk-text-large"><strong
@@ -161,7 +160,8 @@
             </ul>
         </div>
         <div class="uk-modal-footer">
-            <button class="uk-button-primary uk-float-right uk-button-large uk-border-rounded" type="button">Accept
+            <button class="uk-button-primary uk-float-right uk-button-large uk-border-rounded" type="button"
+                    onclick="setLatAndLong();">Accept
             </button>
         </div>
     </div>
@@ -259,17 +259,13 @@
             draggable: true,
             animation: google.maps.Animation.DROP,
             title: 'Meeting Location'
-        })
+        });
 
-        marker.addListener('click', toggleBounce);
+        google.maps.event.addListener(marker, 'dragend', function (evt) {
+            document.getElementById("newPosition").value = marker.position;
+        });
     }
 
-    function setLatAndLong() {
-        alert(markerPosition.lat());
-        alert(markerPosition.lng());
-        document.getElementById("newLatInput").value = markerPosition.lat();
-        document.getElementById("newLongInupt").value = markerPosition.lng();
-    }
 </script>
 
 <script async defer

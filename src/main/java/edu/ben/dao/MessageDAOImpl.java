@@ -32,6 +32,11 @@ public class MessageDAOImpl implements MessageDAO {
         q.executeUpdate();
     }
 
+    @Override
+    public void createConversation(Conversation conversation) {
+        getSession().save(conversation);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public List<Conversation> getConversation(int user1) {

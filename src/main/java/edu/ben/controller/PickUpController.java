@@ -5,6 +5,7 @@ import edu.ben.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,29 +56,6 @@ public class PickUpController extends BaseController {
     }
 
     @PostMapping("/pick-up-review")
-    public String pickUpReview(HttpServletRequest request, @RequestParam("pickUpID") int pickUpID) {
-
-        PickUp pickUp = pickUpService.getPickUpByPickUpID(pickUpID);
-
-        if (pickUp == null) {
-            addWarningMessage("Seller Has Not Yet Created A Pick Up");
-            // FIX
-            return "redirect:/";
-        }
-
-        pickUp.setStatus("IN REVIEW");
-        pickUpService.update(pickUp);
-
-        request.setAttribute("pickUp", pickUp);
-        request.setAttribute("title", "Review Pick Up");
-
-        request.setAttribute("latitude", environment.getProperty("school.latitude"));
-        request.setAttribute("longitude", environment.getProperty("school.longitude"));
-
-        return "review-pick-up";
-    }
-
-    @PostMapping("/pick-up-create")
     public String pickUpCreate(HttpServletRequest request, @RequestParam("listingID") int listingID) {
 
         User user = (User) request.getSession().getAttribute("user");
@@ -99,11 +77,28 @@ public class PickUpController extends BaseController {
             Conversation conversation = new Conversation(listing.getUser(), listing.getHighestBidder());
             messageService.createConversation(conversation);
 
+            // Get transaction
+            Transaction transaction = transactionService.getTransactionsByListingID(listingID);
+            if (transaction == null) {
+                transactionService.createTransaction(new Transaction(listing, 0));
+            }
+
+            // Create default location
+            Location location = new Location("N/A", Float.parseFloat(environment.getProperty("school.latitude")), Float.parseFloat(environment.getProperty("school.longitude")));
+            locationService.save(location);
+
             // Create new pickup with default location
-            pickUp = new PickUp(transactionService.getTransactionsByListingID(listingID),
-                    new Location(Float.parseFloat(environment.getProperty("school.latitude")), Float.parseFloat(environment.getProperty("school.longitude")))
-                    , conversation);
+            pickUp = new PickUp(transaction, location, conversation);
+            pickUp.setStatus("CREATED");
             pickUpService.save(pickUp);
+
+            // If pickup exists
+        } else {
+
+            if (pickUp.getStatus().equals("CREATED")) {
+                pickUp.setStatus("IN REVIEW");
+            }
+            pickUpService.update(pickUp);
 
         }
 
@@ -111,13 +106,13 @@ public class PickUpController extends BaseController {
 
         request.setAttribute("latitude", environment.getProperty("school.latitude"));
         request.setAttribute("longitude", environment.getProperty("school.longitude"));
-        request.setAttribute("title", "Pick Up");
+        request.setAttribute("title", "Pick Up Review");
         return "review-pick-up";
     }
 
     @PostMapping("/pick-up-edit")
     public String pickUpEdit(HttpServletRequest request, @RequestParam("pickUpID") int pickUpID, @RequestParam("newName") String newName,
-                             @RequestParam("newDate") String newDate, @RequestParam("newTime") String newTime) {
+                             @RequestParam("newDate") String newDate, @RequestParam("newTime") String newTime, @RequestParam("newPosition") String newPosition) {
 
         PickUp pickUp = pickUpService.getPickUpByPickUpID(pickUpID);
 
@@ -130,6 +125,13 @@ public class PickUpController extends BaseController {
         // If new was edited
         if (!newName.equals("")) {
             pickUp.getLocation().setName(newName);
+        }
+
+        if (!newPosition.equals("")) {
+            int commaIndex = newPosition.indexOf(',');
+
+            pickUp.getLocation().setLatitude(Float.parseFloat(newPosition.substring(1, commaIndex)));
+            pickUp.getLocation().setLongitude(Float.parseFloat(newPosition.substring(commaIndex + 2, (newPosition.length() - 1))));
         }
 
         // If date and time was edited

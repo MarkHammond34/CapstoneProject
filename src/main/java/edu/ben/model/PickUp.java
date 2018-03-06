@@ -45,6 +45,7 @@ public class PickUp {
         this.transaction = transaction;
         this.location = location;
         this.conversation = conversation;
+        this.status = "CREATED";
     }
 
     public int getPickUpID() {

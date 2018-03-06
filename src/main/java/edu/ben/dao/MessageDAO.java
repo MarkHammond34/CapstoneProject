@@ -12,6 +12,8 @@ public interface MessageDAO {
 
     public void createConversation(int user1, int user2);
 
+    public void createConversation(Conversation conversation);
+
     public List<Conversation> getConversation(int user1);
 
     public List<Message> getMessages(int user1, int user2);

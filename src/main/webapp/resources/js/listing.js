@@ -72,6 +72,9 @@ function refreshCountdowns() {
             // Listing Ended
             ended[i].style.display = "inline";
             countdowns[i].style.display = "none";
+            document.getElementById("placeBidButton").style.display = "none";
+            document.getElementById("bidForm").style.display = "none";
+            document.getElementById("pickUpForm").style.display = "inline";
 
         }
     }

@@ -33,7 +33,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void createConversation(Conversation conversation) {
-        msgDAO.createConversation(conversation.getUser1().getUserID(), conversation.getUser2().getUserID());
+        msgDAO.createConversation(conversation);
     }
 
     @Override
