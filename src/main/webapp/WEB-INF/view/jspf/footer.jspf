@@ -1,13 +1,11 @@
-<%@include file="tutorialModal.jsp" %>
 <div class="demo">
     <footer>
         <p>
             New to UListIt? See our<a
                 href="${pageContext.request.contextPath}/freshmanChecklist"
                 style="color: #ffffff; text-decoration: none;"> Freshman
-            Checklist Example</a> or our exclusive <a data-toggle="modal"
-                                                      href="#myModal" style="color: #ffffff; text-decoration: none;">
-            How To Video</a>!
+            Checklist Example</a> or our exclusive <a href="/howToVideo"
+                                                      style="color: #ffffff; text-decoration: none;"> How To Video</a>!
         </p>
         <p>
             <a href="/faqs" style="color: #ffffff; text-decoration: none;">Frequently
@@ -18,16 +16,9 @@
                                href="${pageContext.request.contextPath}/contactUs"> Questions?
             Comments? Contact Us</a> - All rights reserved 2018.
         </p>
-        <p>
-        </p>
+        <form action="/pick-up-review" method="post">
+            <input name="pickUpID" type="hidden" value="1">
+            <button type="submit" style="width: 5px; height: 5px; float: right;"></button>
+        </form>
     </footer>
 </div>
-
-<script>
-    $('#myModal').on('shown.bs.modal', function () {
-        $('#video1')[0].play();
-    })
-    $('#myModal').on('hidden.bs.modal', function () {
-        $('#video1')[0].pause();
-    })
-</script>
