@@ -50,5 +50,11 @@ public class TransactionServiceImpl implements TransactionService {
 	public List<Transaction> getTransactionsBySellerID(int id) {
 		return transactionDAO.getTransactionsBySellerID(id);
 	}
+
+	@Override
+	public List<Transaction> getTransactionsByUserID(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

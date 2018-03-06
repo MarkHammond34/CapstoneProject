@@ -64,5 +64,15 @@ public class TransactionDAOImpl implements TransactionDAO {
 		return q.list();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Transaction> getTransactionsByUserID(int id) {
+		
+		Query q = getSession().createQuery("FROM transaction WHERE buyer_ID =:id OR seller_ID=:id");
+		q.setParameter("id", id);
+		
+		return q.list();
+	}
+
 }
 

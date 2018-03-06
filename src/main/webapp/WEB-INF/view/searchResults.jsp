@@ -270,8 +270,8 @@
         } else if (type.value == "listings") {
             document.getElementById('listingSection').style.display = 'inline';
             document.getElementById('userSection').style.display = 'none';
-            document.getElementById('userDisplay').style.display = 'inline';
-            document.getElementById('listingDisplay').style.display = 'none';
+            document.getElementById('userDisplay').style.display = 'none';
+            document.getElementById('listingDisplay').style.display = 'inline';
         }
     }
 

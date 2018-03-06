@@ -1,11 +1,13 @@
-<div class="uk-card uk-card-muted uk-card-small uk-card-body">
-    <div class="uk-align-center" style="margin-bottom: -5%;" uk-lightbox>
+<div class="uk-card uk-card-default uk-border-rounded uk-padding-small uk-card-small uk-card-body">
+    <div class="uk-align-center uk-margin-remove-bottom" uk-lightbox>
         <a href="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
            title="Image" class="thumbnail"><img
                 src="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
-                alt="Listing"/></a>
+                alt="Listing" style="max-height: 275px; max-width: 275px;"/></a>
     </div>
-    <div class="name" style="font-size: 22px;">
+
+    <!-- Name -->
+    <div class="name uk-margin-remove-top uk-margin-small-bottom" style="font-size: 22px;">
 
         <a href="#"><strong class="uk-text-danger">${listing.name}</strong></a>
         <c:if test="${listing.user.getUserID() != sessionScope.user.userID }">
@@ -22,37 +24,68 @@
         </c:if>
     </div>
 
+    <!-- Button & Price -->
     <c:choose>
         <c:when test="${listing.type == 'auction'}">
-            <div class="price" style="font-size: 16px;">
-                <span class="uk-badge">Current Bid: $${listing.highestBid}</span>
-                <a
-                        class="uk-button uk-button-text" style="color: cornflowerblue; margin-left: 5px"
-                        uk-toggle="target: #placeBidModal${listing.id}" id="bidButton${listing.id}">Place Bid</a>
-                <c:if test="${listing.highestBidder.userID == sessionScope.user.userID}">
-                    <a title="Cancel Bid" uk-icon="icon: ban"
-                       uk-toggle="target: #cancelBid${listing.id}Modal" style="margin-left: 10px; color: red;"></a>
-                </c:if>
-            </div>
-            <hr>
-            <div style="margin-left: 8%;"
-                 id="countdown${listing.id}" class="uk-grid-small" uk-grid
-                 uk-countdown="date: ${listing.endTimestamp}">
-                <div>
-                    <div class="uk-countdown-label uk-text-center uk-visible@s">Days</div>
-                    <div class="uk-countdown-number uk-countdown-days"></div>
-                </div>
-                <div>
-                    <div class="uk-countdown-label uk-text-center uk-visible@s">Hours</div>
-                    <div class="uk-countdown-number uk-countdown-hours"></div>
-                </div>
-                <div>
-                    <div class="uk-countdown-label uk-text-center uk-visible@s">Minutes</div>
-                    <div class="uk-countdown-number uk-countdown-minutes"></div>
-                </div>
-                <div>
-                    <div class="uk-countdown-label uk-text-center uk-visible@s">Seconds</div>
-                    <div class="uk-countdown-number uk-countdown-seconds"></div>
+            <c:choose>
+                <c:when test="${listing.delay < 0}">
+                    <div class="uk-animation-toggle">
+                        <div class="uk-animation-shake uk-animation-reverse">
+                            <div class="price" style="font-size: 16px;">
+                                <span class="uk-badge">Current Bid: $${listing.highestBid}</span>
+                                <a
+                                        class="uk-button uk-button-text"
+                                        style="color: red; margin-left: 5px;"
+                                        id="bidButton${listing.id}">Place
+                                    Bid</a>
+                            </div>
+                        </div>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="price" style="font-size: 16px;">
+                        <span class="uk-badge">Current Bid: $${listing.highestBid}</span>
+                        <a
+                                class="uk-button uk-button-text" style="color: cornflowerblue; margin-left: 5px"
+                                uk-toggle="target: #placeBidModal${listing.id}" id="bidButton${listing.id}">Place
+                            Bid</a>
+                        <c:if test="${listing.highestBidder.userID == sessionScope.user.userID}">
+                            <a title="Cancel Bid" uk-icon="icon: ban"
+                               uk-toggle="target: #cancelBid${listing.id}Modal"
+                               style="margin-left: 10px; color: red;"></a>
+                        </c:if>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+            <hr class="uk-divider-icon uk-margin-remove-bottom">
+            <div class="uk-grid-small" uk-grid>
+                <div class=" uk-width-1-1 uk-align-center">
+                    <p class="uk-margin-small-bottom uk-margin-small-top uk-align-center listing-ended"
+                       style="color: red; font-size: 16px; display: none;">
+                        Listing Ended</p>
+                    <div class="uk-grid-small uk-countdown uk-margin-remove uk-align-center" uk-grid
+                         uk-countdown="date: ${listing.endTimestamp}">
+                        <span class="uk-days">
+                            <strong class="uk-countdown-number uk-countdown-days"></strong>
+                            <strong class="uk-countdown-label uk-margin-small-top uk-margin-left">Days</strong>
+                        </span>
+                        <span class="uk-hours">
+                            <strong class="uk-countdown-number uk-countdown-hours"></strong>
+                            <strong class="uk-countdown-label uk-margin-small-top uk-margin-left">Hours</strong>
+                        </span>
+                        <span class="uk-minutes">
+                            <strong class="uk-countdown-number uk-countdown-minutes"></strong>
+                            <strong class="uk-countdown-label uk-margin-small-top uk-margin-left">Minutes</strong>
+                        </span>
+                        <span class="uk-seconds">
+                            <strong class="uk-countdown-number uk-countdown-seconds"></strong>
+                            <strong class="uk-countdown-label uk-margin-small-top uk-margin-left">Seconds</strong></strong>
+                        </span>
+                    </div>
+                    <progress id="js-progressbar"
+                              class="uk-progress uk-margin-remove-top" value="0"
+                              max="${listing.endTimestampAsLong}">
+                    </progress>
                 </div>
             </div>
         </c:when>

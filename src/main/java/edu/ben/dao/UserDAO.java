@@ -25,6 +25,8 @@ public interface UserDAO {
     public User findBySchoolEmail(String email);
 
     public void update(User user);
+    
+    public void updateSellerRating(int seller_rating, String email);
 
     public void updateAttemptedLogins(int loginAttempts, String email);
 

@@ -37,16 +37,16 @@ public class OfferController extends BaseController {
 
 	@Autowired
 	NotificationService notificationService;
-	
+
 	@Autowired
 	TransactionService transactionService;
 
 	@RequestMapping(value = "/myOffers", method = RequestMethod.GET) // An offers page for each listing
-	public ModelAndView showOffers(/*@RequestParam("id") int id*/) {
+	public ModelAndView showOffers(@RequestParam("id") int id) {
 
 		ModelAndView model = new ModelAndView("dashboard");
 
-		Listing listing = listingService.getByListingID(/*id*/1);
+		Listing listing = listingService.getByListingID(id);
 		List<Offer> offers = offerService.getPendingOffersByListingId(listing.getId());
 		
 		model.addObject("offers", offers);

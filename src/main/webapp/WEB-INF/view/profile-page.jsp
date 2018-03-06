@@ -93,7 +93,7 @@
 
 
 							<c:choose>
-								<c:when test="${isFollowing == 'follow' }">
+								<c:when test="${isFollowing == 'following' }">
 									<div class="uk-clearfix" id="followingTotal">
 										<div class="uk-float-left">
 											<strong class="uk-text-danger">${yourFollowing.size()}</strong>
@@ -107,7 +107,7 @@
 									<div class="uk-clearfix" id="followingTotalNew"
 										style="display: none;">
 										<div class="uk-float-left">
-											<strong class="uk-text-danger">${yourFollowing.size() - 1}</strong>
+											<strong class="uk-text-danger">${yourFollowing.size() + 1}</strong>
 											Followers
 										</div>
 										<div class="uk-float-right">
@@ -130,7 +130,7 @@
 									<div class="uk-clearfix" id="followingTotalNew"
 										style="display: none;">
 										<div class="uk-float-left">
-											<strong class="uk-text-danger">${yourFollowing.size() + 1}</strong>
+											<strong class="uk-text-danger">${yourFollowing.size() - 1}</strong>
 											Followers
 										</div>
 										<div class="uk-float-right">

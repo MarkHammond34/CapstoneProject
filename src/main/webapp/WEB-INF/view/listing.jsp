@@ -138,8 +138,8 @@
                                 <c:choose>
                                     <c:when test="${listing.ended == 0}">
                                         <c:if test="${listing.user.userID != user.userID}">
-                                            <a class="uk-button uk-button-text"
-                                               style="color: cornflowerblue; margin-left: 5px"
+                                            <a id="placeBidButton" class="uk-button uk-button-text"
+                                               style="color: cornflowerblue;"
                                                onclick="toggleBid();">Place Bid</a>
                                         </c:if>
 
@@ -157,15 +157,28 @@
                                                 <input name="listingID" type="hidden" value="${listing.id}">
                                             </form>
                                         </div>
+
+                                        <c:if test="${sessionScope.user.userID == listing.highestBidder.userID}">
+                                            <form method="post" action="/pick-up-review" id="pickUpForm"
+                                                  style="display: none;">
+                                                <input type="hidden" name="listingID" value="${listing.id}">
+                                                <a class="uk-button uk-button-text"
+                                                   style="color: cornflowerblue; margin-left: 5px;"
+                                                   onclick="document.getElementById('pickUpForm').submit();">View
+                                                    Pick Up</a>
+                                            </form>
+                                        </c:if>
+
                                     </c:when>
 
                                     <c:otherwise>
                                         <c:if test="${sessionScope.user.userID == listing.highestBidder.userID}">
-                                            <form method="post" action="/pick-up-review">
-                                                <input type="hidden" name="pickUpID" value="1">
+                                            <form method="post" action="/pick-up-review" id="pickUpForm2">
+                                                <input type="hidden" name="listingID" value="${listing.id}">
                                                 <a class="uk-button uk-button-text"
-                                                   style="color: cornflowerblue; margin-left: 5px">View Pick Up
-                                                    Details</a>
+                                                   style="color: cornflowerblue; margin-left: 5px"
+                                                   onclick="document.getElementById('pickUpForm2').submit();">View Pick
+                                                    Up</a>
                                             </form>
                                         </c:if>
                                     </c:otherwise>
