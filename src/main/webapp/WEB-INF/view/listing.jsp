@@ -18,23 +18,25 @@
                 <div class="uk-position-relative" uk-slideshow="animation: fade">
 
                     <ul class="uk-slideshow-items">
-                        <li><img class="uk-thumbnail uk-thumbnail-medium"
+                        <li><img class="uk-thumbnail uk-thumbnail-large"
                                  src="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
-                                 alt="" uk-cover></li>
-                        <li><img class="uk-thumbnail uk-thumbnail-medium"
+                                 alt="" uk-cover style="margin: auto;">
+                        </li>
+                        <li><img class="uk-thumbnail uk-thumbnail-large"
                                  src="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
-                                 alt="" uk-cover></li>
-                        <li><img class="uk-thumbnail uk-thumbnail-medium"
+                                 alt="" uk-cover style="margin: auto;">
+                        </li>
+                        <li><img class="uk-thumbnail uk-thumbnail-large"
                                  src="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
-                                 alt="" uk-cover></li>
+                                 alt="" uk-cover style="margin: auto;"></li>
                     </ul>
 
-                    <div class="uk-position-bottom-center uk-position-small">
-                        <ul class="uk-thumbnav">
+                    <div class="uk-position-small">
+                        <ul class="uk-thumbnav uk-child-width-1-3">
                             <li uk-slideshow-item="0"><a href="#"> <img
-                                    class="uk-thumbnail"
+                                    class="uk-thumbnail uk-margin-small-left"
                                     src="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
-                                    width="100" alt="" style="max-height: 500px; max-width: 500px;">
+                                    width="100" alt="">
                             </a></li>
                             <li uk-slideshow-item="1"><a href="#"> <img
                                     class="uk-thumbnail"
@@ -97,7 +99,7 @@
                         <div class="uk-grid-small uk-child-width-auto uk-tile-default uk-padding uk-padding-remove-left"
                              uk-grid>
                             <!-- Highest Bid Section -->
-                            <ul class="uk-grid-small uk-width-1-2 uk-float-left" uk-grid>
+                            <ul class="uk-grid-small uk-width-2-3 uk-float-left" uk-grid>
                                 <li class="uk-width-1-1">
                                     <c:choose>
                                         <c:when test="${listing.ended == 0}">
@@ -116,6 +118,11 @@
                                     <span class="uk-float-left">
                                         <b>Highest Bidder:</b>
                                         <strong>${listing.highestBidder.username}</strong>
+                                        <c:if test="${listing.highestBidder.userID == user.userID}">
+                                                <a title="Cancel Bid" uk-icon="icon: ban"
+                                                   uk-toggle="target: #cancelBid${listing.id}Modal"
+                                                   style="color: red;"></a>
+                                        </c:if>
                                     </span>
                                 </li>
                                 <li class="uk-width-1-1">
@@ -127,7 +134,7 @@
                             </ul>
 
                             <!-- Place Bid Button -->
-                            <div class="uk-width-1-2 uk-float-right uk-text-right">
+                            <div class="uk-width-1-3 uk-float-right uk-text-right">
                                 <c:choose>
                                     <c:when test="${listing.ended == 0}">
                                         <c:if test="${listing.user.userID != user.userID}">
@@ -135,25 +142,23 @@
                                                style="color: cornflowerblue; margin-left: 5px"
                                                onclick="toggleBid();">Place Bid</a>
                                         </c:if>
-                                        <c:if test="${listing.highestBidder.userID == user.userID}">
-                                            <a title="Cancel Bid" uk-icon="icon: ban"
-                                               uk-toggle="target: #cancelBid${listing.id}Modal"
-                                               style="margin-left: 10px; color: red;"></a>
-                                        </c:if>
-                                        <br>
-                                        <form method="post" action="/bid"
-                                              class="uk-margin-large-top uk-grid-small"
-                                              uk-grid id="bidForm" style="display: none;">
-                                            <input class="uk-input uk-width-4-5 uk-float-left uk-border-rounded"
-                                                   name="bidValue"
-                                                   type="number"
-                                                   min="${listing.highestBid}">
-                                            <a class="uk-width-1-5 uk-float-right uk-padding-remove"
-                                               uk-icon="icon: check; ratio: 1.50" title="Place Bid"
-                                               onclick="document.getElementById('bidForm').submit();"></a>
-                                            <input name="listingID" type="hidden" value="${listing.id}">
-                                        </form>
+
+                                        <div class="uk-margin-small-top">
+                                            <form method="post" action="/bid"
+                                                  class="uk-grid-small"
+                                                  uk-grid id="bidForm" style="display: none;">
+                                                <input class="uk-input uk-width-4-5 uk-float-left uk-border-rounded"
+                                                       name="bidValue"
+                                                       type="number"
+                                                       min="${listing.highestBid}">
+                                                <a class="uk-width-1-5 uk-float-right uk-padding-remove"
+                                                   uk-icon="icon: check; ratio: 1.50" title="Place Bid"
+                                                   onclick="document.getElementById('bidForm').submit();"></a>
+                                                <input name="listingID" type="hidden" value="${listing.id}">
+                                            </form>
+                                        </div>
                                     </c:when>
+
                                     <c:otherwise>
                                         <c:if test="${sessionScope.user.userID == listing.highestBidder.userID}">
                                             <form method="post" action="/pick-up-review">
@@ -167,8 +172,6 @@
                                 </c:choose>
                             </div>
                         </div>
-
-                        <hr class="uk-divider-icon">
 
                         <!-- Countdown and Progress Bar -->
                         <div class="uk-grid-small" uk-grid>
