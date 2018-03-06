@@ -148,4 +148,15 @@ public class UserController {
 		}
 		return ":/redirect";
 	}
+	
+	@RequestMapping(value="/dashboard", method = RequestMethod.GET)
+	public ModelAndView showDashboard() {
+		
+		ModelAndView model = new ModelAndView("dashboard");
+		
+		model.addObject("title", "Dashboard");
+		
+		return model;
+		
+	}
 }
