@@ -18,8 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.ben.model.Follow;
+import edu.ben.model.Listing;
 import edu.ben.model.User;
 import edu.ben.service.FollowService;
+import edu.ben.service.ListingService;
 import edu.ben.service.UserService;
 import edu.ben.util.ImagePath;
 
@@ -31,6 +33,9 @@ public class UserController {
 
 	@Autowired
 	FollowService followService;
+	
+	@Autowired
+	ListingService listingService;
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
@@ -154,7 +159,12 @@ public class UserController {
 		
 		ModelAndView model = new ModelAndView("dashboard");
 		
+		List<Listing> listings = listingService.getAllListings();
+		
+		System.out.println(listings.size());
+		
 		model.addObject("title", "Dashboard");
+		model.addObject("listings", listings);
 		
 		return model;
 		

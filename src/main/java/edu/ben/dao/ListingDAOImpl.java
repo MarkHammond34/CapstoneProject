@@ -69,7 +69,8 @@ public class ListingDAOImpl implements ListingDAO {
     }
 
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<Listing> getListingsByBidCount() {
         Query q = getSession().createQuery("FROM listing WHERE bid_count > 0 ORDER BY bid_count");
         return (List<Listing>) q.list();
@@ -128,11 +129,17 @@ public class ListingDAOImpl implements ListingDAO {
         return q.list();
     }
 
-    @Override
-    public List getActiveListings() {
+    @SuppressWarnings("unchecked")
+	@Override
+    public List<Listing> getActiveListings() {
         return getSession().createQuery("FROM listing WHERE active=1").list();
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Listing> getAllListings() {
+        return getSession().createQuery("FROM listing").list();
+    }
 
     @Override
     public List<Listing> getAllWeeklyPlusListings() {

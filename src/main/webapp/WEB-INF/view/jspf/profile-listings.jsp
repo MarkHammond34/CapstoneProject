@@ -2,7 +2,7 @@
 	<div class="uk-align-center" style="margin-bottom: -5%;" uk-lightbox>
 		<a
 			href="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
-			title="Image" class="thumbnail"><img
+			title="Image" class="thumbnail"><img height="auto" width="100"
 			src="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
 			alt="Listing" /></a>
 	</div>

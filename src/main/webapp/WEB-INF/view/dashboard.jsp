@@ -47,40 +47,65 @@
 <%@include file="jspf/navbar2.jspf"%>
 <body style="background-color: rgba(36, 143, 203, 0.08);">
 
-	<aside id="left-col" class="uk-light">
-		<div class="bar-wrap">
-			<ul class="uk-nav uk-nav-default">
-				<li class="uk-active"><a href="#">Active</a></li>
-				<li class="uk-parent"><a href="#">Parent</a>
-					<ul class="uk-nav-sub">
-						<li><a href="#">Sub item</a></li>
-						<li><a href="#">Sub item</a></li>
-					</ul></li>
-				<li class="uk-nav-header">Header</li>
-				<li><a href="#"><span class="uk-margin-small-right"
-						uk-icon="icon: table"></span> Item</a></li>
-				<li><a href="#"><span class="uk-margin-small-right"
-						uk-icon="icon: thumbnails"></span> Item</a></li>
-				<li class="uk-nav-divider"></li>
-				<li><a href="#"><span class="uk-margin-small-right"
-						uk-icon="icon: trash"></span> Item</a></li>
-			</ul>
-		</div>
-	</aside>
-	<div id="right-col">
-		<div class="uk-container uk-margin-medium-top">
-			<div class="uk-grid-large uk-child-width-1-3 uk-text-center" uk-grid>
+	<div class="uk-section" style="background-color: blue;">
 
+		<div class="uk-grid">
 
-				<c:forEach var="listing" items="${userListings}">
-					<%@include file="jspf/profile-listings.jsp"%>
-				</c:forEach>
+			<!-- id="left-col" -->
+			<aside class="uk-light uk-width-1-3"
+				style="position: fixed; background-color: #222; width: 260px; z-index: 1;">
+				<div class="bar-wrap">
+					<ul class="uk-nav uk-nav-default">
+						<li class="uk-active"><a href="#">Active</a></li>
+						<li class="uk-parent"><a href="#">Parent</a>
+							<ul class="uk-nav-sub">
+								<li><a href="#">Sub item</a></li>
+								<li><a href="#">Sub item</a></li>
+							</ul></li>
+						<li class="uk-nav-header">Header</li>
+						<li><a href="#"><span class="uk-margin-small-right"
+								uk-icon="icon: table"></span> Item</a></li>
+						<li><a href="#"><span class="uk-margin-small-right"
+								uk-icon="icon: thumbnails"></span> Item</a></li>
+						<li class="uk-nav-divider"></li>
+						<li><a href="#"><span class="uk-margin-small-right"
+								uk-icon="icon: trash"></span> Item</a></li>
+					</ul>
+				</div>
+			</aside>
+			<!-- id="right-col" -->
+			<div class="uk-width-2-3"
+				style="background-color: gray;">
+				<!-- <div class="uk-panel uk-panel-scrollable"> -->
 
+				<div class="uk-panel uk-panel-scrollable uk-height-large uk-clearfix uk-float-right">
 
+					<ul class="uk-grid" data-uk-grid-margin>
+					
+						<c:forEach var="listing" items="${listings}">
+						
+							<li class="uk-width-1-3">
+								<div class="uk-panel">
+									<a
+										href="${pageContext.request.contextPath}/listing?listingId=${listing.id}"><img
+										height="auto" width="85%"
+										class="uk-border-rounded uk-box-shadow-hover-large"
+										src="${pageContext.request.contextPath}/resources/img/listings/Wolverine.jpg"
+										alt=""></a>
+								</div>
+							</li>
+							
+						</c:forEach>
+						
+					</ul>
+
+				</div>
 
 			</div>
 
 		</div>
+
 	</div>
+
 </body>
 </html>

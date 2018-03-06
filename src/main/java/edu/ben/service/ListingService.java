@@ -57,4 +57,6 @@ public interface ListingService {
     public List getRelevantListingsByUserID(int userID);
 
     public List getPremiumListings();
+    
+    public List<Listing> getAllListings();
 }

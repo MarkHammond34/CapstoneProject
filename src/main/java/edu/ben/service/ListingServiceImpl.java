@@ -1,18 +1,15 @@
 package edu.ben.service;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
-import edu.ben.dao.UserDAO;
-import edu.ben.model.Listing;
-import edu.ben.model.ListingBid;
-import edu.ben.model.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.ben.dao.ListingDAO;
+import edu.ben.dao.UserDAO;
+import edu.ben.model.Listing;
 
 @Service
 @Transactional
@@ -181,4 +178,9 @@ public class ListingServiceImpl implements ListingService {
     public List<Listing> listingSearchLeastExpensive(String search) {
         return ld.listingSearchLeastExpensive(search);
     }
+
+	@Override
+	public List<Listing> getAllListings() {
+		return ld.getAllListings();
+	}
 }
