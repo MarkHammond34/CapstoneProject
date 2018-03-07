@@ -138,14 +138,14 @@
                                 <c:choose>
                                     <c:when test="${listing.ended == 0}">
                                         <c:if test="${listing.user.userID != user.userID}">
-                                            <a id="placeBidButton" class="uk-button uk-button-text"
+                                            <a id="placeBidButton" class="uk-button uk-button-text bid-button"
                                                style="color: cornflowerblue;"
                                                onclick="toggleBid();">Place Bid</a>
                                         </c:if>
 
                                         <div class="uk-margin-small-top">
                                             <form method="post" action="/bid"
-                                                  class="uk-grid-small"
+                                                  class="uk-grid-small bid-form"
                                                   uk-grid id="bidForm" style="display: none;">
                                                 <input class="uk-input uk-width-4-5 uk-float-left uk-border-rounded"
                                                        name="bidValue"

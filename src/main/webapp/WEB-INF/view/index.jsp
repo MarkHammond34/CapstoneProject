@@ -157,6 +157,8 @@
         document.getElementById('relevant-listings').style.display = 'none';
         document.getElementById('premium-listings').style.display = 'inline';
     }
+
+
 </script>
 </body>
 </html>
