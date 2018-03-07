@@ -28,8 +28,13 @@ public class MessageDAOImpl implements MessageDAO {
 
     @Override
     public void createConversation(int user1, int user2) {
-        Query q = getSession().createQuery("INSERT INTO conversation (userId_1,userId_2) values (" + user1 + ", "+ user2 + ")");
+        Query q = getSession().createQuery("INSERT INTO conversation (userId_1,userId_2) values (" + user1 + ", " + user2 + ")");
         q.executeUpdate();
+    }
+
+    @Override
+    public void createConversation(Conversation conversation) {
+        getSession().save(conversation);
     }
 
     @SuppressWarnings("unchecked")
@@ -59,5 +64,18 @@ public class MessageDAOImpl implements MessageDAO {
 
         q = getSession().createQuery("INSERT INTO message (conversation_ID, userId, message_body) VALUES (" + conversation.getId() + ", " + user1 + ", " + message + ")");
         q.executeUpdate();
+    }
+
+    @Override
+    public void sendMessage(Message message) {
+        getSession().save(message);
+    }
+
+    @Override
+    public Conversation getConversationOrderByDateCreated(int user1ID, int user2ID) {
+        Query q = getSession().createQuery("FROM conversation WHERE userId_1=:id1 AND userId_2=:id2 ORDER BY date_created DESC");
+        q.setParameter("id1", user1ID);
+        q.setParameter("id2", user2ID);
+        return (Conversation) q.list().get(0);
     }
 }

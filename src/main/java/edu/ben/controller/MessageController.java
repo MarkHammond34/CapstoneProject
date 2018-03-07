@@ -2,14 +2,17 @@ package edu.ben.controller;
 
 import edu.ben.model.Conversation;
 import edu.ben.model.Message;
+import edu.ben.model.PickUp;
 import edu.ben.model.User;
 import edu.ben.service.MessageService;
+import edu.ben.service.PickUpService;
 import edu.ben.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -21,6 +24,9 @@ public class MessageController extends BaseController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    PickUpService pickUpService;
 
     @RequestMapping(value = "/messageDashboard", method = RequestMethod.GET)
     public String messageDashboard(HttpServletRequest request) {
@@ -51,7 +57,7 @@ public class MessageController extends BaseController {
     }
 
     @RequestMapping(value = "viewConversation", method = RequestMethod.POST)
-    public String viewConversation(HttpServletRequest request){
+    public String viewConversation(HttpServletRequest request) {
         User sendBy = (User) request.getSession().getAttribute("user");
         User sendTo = userService.findBySchoolEmail(request.getParameter("UserConversation"));
         List<Message> messages = messageService.getMessages(sendBy, sendTo);
@@ -61,7 +67,7 @@ public class MessageController extends BaseController {
     }
 
     @RequestMapping(value = "sendMessage", method = RequestMethod.POST)
-    public String sendMessage(HttpServletRequest request){
+    public String sendMessage(HttpServletRequest request) {
         User sendBy = (User) request.getSession().getAttribute("user");
         User sendTo = userService.findBySchoolEmail(request.getParameter("SubmitMessage"));
         String message = request.getParameter("stringMessage");

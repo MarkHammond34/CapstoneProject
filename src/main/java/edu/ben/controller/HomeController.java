@@ -42,14 +42,11 @@ public class HomeController extends BaseController {
     public ModelAndView home(HttpServletRequest request) {
         ModelAndView model = new ModelAndView("index");
 
-        List<Listing> recent = listingService.getRecentListings();
-        model.addObject("recentListings", recent);
+        model.addObject("recentListings", listingService.getRecentListings());
 
-        List<Listing> endingSoon = listingService.getRecentListings();
-        model.addObject("endingSoonListings", endingSoon);
+        model.addObject("endingSoonListings", listingService.getRecentListings());
 
-        List<Listing> trending = listingService.getListingsByBidCount();
-        model.addObject("trendingListings", trending);
+        model.addObject("trendingListings", listingService.getListingsByBidCount());
 
         model.addObject("relevantListings", null);
 
@@ -62,7 +59,7 @@ public class HomeController extends BaseController {
         if (user != null) {
 
             List<Listing> relevantListings = listingService.getRelevantListingsByUserID(user.getUserID());
-            System.out.println(relevantListings.size());
+
             if (relevantListings.size() > 3) {
                 model.addObject("relevantListings", relevantListings);
             } else {
@@ -82,7 +79,7 @@ public class HomeController extends BaseController {
         return "contactUs";
     }
 
-	@GetMapping("/freshmanChecklist")
+    @GetMapping("/freshmanChecklist")
     public String freshmanChecklist() {
         return "freshmanChecklist";
     }

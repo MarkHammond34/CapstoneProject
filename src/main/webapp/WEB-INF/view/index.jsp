@@ -69,7 +69,7 @@
                 <li><a onclick="recentlyAddedClicked()">Recently Added</a></li>
 
             </ul>
-            <div id="trending-listings" style="display: none">
+            <div id="trending-listings" style="display: none;">
                 <div class="uk-child-width-1-3@m uk-grid-small uk-text-center"
                      uk-grid>
                     <c:forEach var="listing" items="${trendingListings}">
