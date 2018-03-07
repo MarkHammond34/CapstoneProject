@@ -70,4 +70,12 @@ public class MessageDAOImpl implements MessageDAO {
     public void sendMessage(Message message) {
         getSession().save(message);
     }
+
+    @Override
+    public Conversation getConversationOrderByDateCreated(int user1ID, int user2ID) {
+        Query q = getSession().createQuery("FROM conversation WHERE userId_1=:id1 AND userId_2=:id2 ORDER BY date_created DESC");
+        q.setParameter("id1", user1ID);
+        q.setParameter("id2", user2ID);
+        return (Conversation) q.list().get(0);
+    }
 }

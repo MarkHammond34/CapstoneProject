@@ -31,6 +31,12 @@ public class PickUp {
     @Column(name = "active")
     private int active;
 
+    @Column(name = "buyer_accept")
+    private int buyerAccept;
+
+    @Column(name = "seller_accept")
+    private int sellerAccept;
+
     @Column(name = "status")
     private String status;
 
@@ -46,6 +52,7 @@ public class PickUp {
         this.location = location;
         this.conversation = conversation;
         this.status = "CREATED";
+        this.active = 1;
     }
 
     public int getPickUpID() {
@@ -89,13 +96,19 @@ public class PickUp {
     }
 
     public String getPickUpDate() {
-        Date date = new Date(pickUpTimestamp.getTime());
-        return new SimpleDateFormat("MM/dd/yyyy").format(date);
+        if (pickUpTimestamp != null) {
+            Date date = new Date(pickUpTimestamp.getTime());
+            return new SimpleDateFormat("MM/dd/yyyy").format(date);
+        }
+        return null;
     }
 
     public String getPickUpTime() {
-        Date date = new Date(pickUpTimestamp.getTime());
-        return new SimpleDateFormat("hh:mm a").format(date);
+        if (pickUpTimestamp != null) {
+            Date date = new Date(pickUpTimestamp.getTime());
+            return new SimpleDateFormat("hh:mm a").format(date);
+        }
+        return null;
     }
 
     public int getActive() {
@@ -120,5 +133,21 @@ public class PickUp {
 
     public void setConversation(Conversation conversation) {
         this.conversation = conversation;
+    }
+
+    public int getBuyerAccept() {
+        return buyerAccept;
+    }
+
+    public void setBuyerAccept(int buyerAccept) {
+        this.buyerAccept = buyerAccept;
+    }
+
+    public int getSellerAccept() {
+        return sellerAccept;
+    }
+
+    public void setSellerAccept(int sellerAccept) {
+        this.sellerAccept = sellerAccept;
     }
 }

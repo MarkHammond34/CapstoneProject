@@ -1,6 +1,7 @@
 package edu.ben.dao;
 
 import edu.ben.model.Location;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,12 @@ public class LocationDAOImpl implements LocationDAO {
     @Override
     public List getAllSafeZones() {
         return getSession().createQuery("FROM pick_up_location WHERE active=1 AND safe_zone=1").list();
+    }
+
+    @Override
+    public Location getByName(String name) {
+        Query q = getSession().createQuery("FROM pick_up_location WHERE name=:name");
+        q.setParameter("name", name);
+        return (Location) q.list().get(0);
     }
 }

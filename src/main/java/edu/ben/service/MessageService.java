@@ -22,4 +22,6 @@ public interface MessageService {
 
     public void createConversation(Conversation conversation);
 
+    public Conversation getConversationOrderByDateCreated(User user1, User user2);
+
 }

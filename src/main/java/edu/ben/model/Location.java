@@ -37,11 +37,13 @@ public class Location {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.active = 1;
     }
 
     public Location(float latitude, float longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
+        this.active = 1;
     }
 
     public int getLocationID() {

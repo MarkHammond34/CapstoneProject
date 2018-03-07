@@ -12,4 +12,6 @@ public interface LocationDAO {
 
     public List getAllSafeZones();
 
+    public Location getByName(String name);
+
 }

@@ -28,6 +28,9 @@ public class PickUpController extends BaseController {
     UserService userService;
 
     @Autowired
+    NotificationService notificationService;
+
+    @Autowired
     ListingService listingService;
 
     @Autowired
@@ -37,7 +40,8 @@ public class PickUpController extends BaseController {
     private Environment environment;
 
     @PostMapping("/pick-up-confirm")
-    public String pickUpConfirm(HttpServletRequest request, @RequestParam("pickUpID") int pickUpID) {
+    public String pickUpConfirm(HttpServletRequest request, @RequestParam("pickUpID") int pickUpID,
+                                @RequestParam("userID") int userID) {
 
         PickUp pickUp = pickUpService.getPickUpByPickUpID(pickUpID);
 
@@ -46,7 +50,53 @@ public class PickUpController extends BaseController {
             return "redirect:/";
         }
 
-        pickUp.setStatus("CONFIRMED");
+        if (pickUp.getTransaction().getBuyer().getUserID() == userID) {
+            pickUp.setBuyerAccept(1);
+
+            if (pickUp.getSellerAccept() == 1) {
+                // send seller notification that it was accepted
+                notificationService.save(new Notification(pickUp.getTransaction().getSeller(),
+                        pickUp.getTransaction().getListingID().getId(), "Pick Up Details Accepted",
+                        "Pick up details have been accepted by "
+                                + pickUp.getTransaction().getBuyer().getUsername() +
+                                " for the listing you are buying.\nJust one last step!", 1, "PICKUP"));
+            } else {
+                // send seller notification to accept
+                notificationService.save(new Notification(pickUp.getTransaction().getSeller(),
+                        pickUp.getTransaction().getListingID().getId(), "Pick Up Details Accepted",
+                        "Pick up details have been accepted by "
+                                + pickUp.getTransaction().getBuyer().getUsername() +
+                                " for the listing you are buying.\nNow it's your turn to accept.", 1, "PICKUP"));
+            }
+
+        } else if (pickUp.getTransaction().getSeller().getUserID() == userID) {
+            pickUp.setSellerAccept(1);
+
+            if (pickUp.getBuyerAccept() == 1) {
+                // send buyer notification that it was accepted
+                notificationService.save(new Notification(pickUp.getTransaction().getBuyer(),
+                        pickUp.getTransaction().getListingID().getId(), "Pick Up Details Accepted",
+                        "Pick up details have been accepted by "
+                                + pickUp.getTransaction().getBuyer().getUsername() +
+                                " for the listing you are selling.\nJust one last step!", 1, "PICKUP"));
+            } else {
+                // send buyer notification to accept
+                notificationService.save(new Notification(pickUp.getTransaction().getBuyer(),
+                        pickUp.getTransaction().getListingID().getId(), "Pick Up Details Accepted",
+                        "Pick up details have been accepted by "
+                                + pickUp.getTransaction().getBuyer().getUsername() +
+                                " for the listing you are selling.\nNow it's your turn to accept.", 1, "PICKUP"));
+
+            }
+        }
+
+        // Both Have Accepted
+        if (pickUp.getBuyerAccept() == 1 && pickUp.getSellerAccept() == 1) {
+            pickUp.setStatus("PICK UP ACCEPTED");
+        } else {
+            pickUp.setStatus("AWAITING ACCEPTANCE");
+        }
+
         pickUpService.update(pickUp);
 
         request.setAttribute("pickUp", pickUp);
@@ -76,21 +126,49 @@ public class PickUpController extends BaseController {
             // Create new conversation
             Conversation conversation = new Conversation(listing.getUser(), listing.getHighestBidder());
             messageService.createConversation(conversation);
+            conversation = messageService.getConversationOrderByDateCreated(listing.getUser(), listing.getHighestBidder());
 
             // Get transaction
             Transaction transaction = transactionService.getTransactionsByListingID(listingID);
             if (transaction == null) {
                 transactionService.createTransaction(new Transaction(listing, 0));
+                transaction = transactionService.getTransactionsByListingID(listing.getId());
             }
 
             // Create default location
-            Location location = new Location("N/A", Float.parseFloat(environment.getProperty("school.latitude")), Float.parseFloat(environment.getProperty("school.longitude")));
+            Location location = new Location(String.valueOf(listing.getId()), Float.parseFloat(environment.getProperty("school.latitude")), Float.parseFloat(environment.getProperty("school.longitude")));
             locationService.save(location);
+            location = locationService.getByName(String.valueOf(listing.getId()));
 
             // Create new pickup with default location
             pickUp = new PickUp(transaction, location, conversation);
             pickUp.setStatus("CREATED");
             pickUpService.save(pickUp);
+            pickUp = pickUpService.getPickUpByListingID(listing.getId());
+            pickUp.getLocation().setName("TBD");
+
+            // Change Location Name Back To Default
+            location.setName("TBD");
+            locationService.update(location);
+
+            // If seller goes to page first, add appropriate message and send seller notification
+            if (transaction.getBuyer().getUserID() == user.getUserID()) {
+                addWarningMessage("Seller has not set a pick up date, time, or location yet. Check back in a little bit.");
+                notificationService.save(new Notification(transaction.getSeller(), transaction.getListingID().getId(), "Pick Up Details Created",
+                        "Pick up details have been created for the listing you are selling.", 1, "PICKUP"));
+
+                // If buyer goes to page first, add appropriate message and send buyer notification
+            } else if (transaction.getSeller().getUserID() == user.getUserID()) {
+                addWarningMessage("Set the pick up date, time, and location.");
+                notificationService.save(new Notification(transaction.getBuyer(), transaction.getListingID().getId(), "Pick Up Details Created",
+                        "Pick up details have been created for the listing you are buying.", 1, "PICKUP"));
+
+                // Fail safe for a none authorized user trying to get to the page
+            } else {
+                addErrorMessage("Access Denied");
+                setRequest(request);
+                return "redirect:/";
+            }
 
             // If pickup exists
         } else {
@@ -107,31 +185,39 @@ public class PickUpController extends BaseController {
         request.setAttribute("latitude", environment.getProperty("school.latitude"));
         request.setAttribute("longitude", environment.getProperty("school.longitude"));
         request.setAttribute("title", "Pick Up Review");
+        setRequest(request);
         return "review-pick-up";
     }
 
     @PostMapping("/pick-up-edit")
-    public String pickUpEdit(HttpServletRequest request, @RequestParam("pickUpID") int pickUpID, @RequestParam("newName") String newName,
-                             @RequestParam("newDate") String newDate, @RequestParam("newTime") String newTime, @RequestParam("newPosition") String newPosition) {
+    public String pickUpEdit(HttpServletRequest request, @RequestParam("pickUpID") int pickUpID,
+                             @RequestParam("newName") String newName,
+                             @RequestParam("newDate") String newDate, @RequestParam("newTime") String newTime,
+                             @RequestParam("newPosition") String newPosition) {
 
         PickUp pickUp = pickUpService.getPickUpByPickUpID(pickUpID);
 
         if (pickUp == null) {
-            addWarningMessage("Seller Has Not Yet Created A Pick Up");
-            // FIX
-            return "redirect:/";
+            addWarningMessage("Error Loading Pick Up Details");
+            return "redirect:/" + request.getHeader("Referer");
         }
 
         // If new was edited
         if (!newName.equals("")) {
-            pickUp.getLocation().setName(newName);
+            Location location = pickUp.getLocation();
+            location.setName(newName);
+            locationService.update(location);
         }
 
         if (!newPosition.equals("")) {
             int commaIndex = newPosition.indexOf(',');
 
-            pickUp.getLocation().setLatitude(Float.parseFloat(newPosition.substring(1, commaIndex)));
-            pickUp.getLocation().setLongitude(Float.parseFloat(newPosition.substring(commaIndex + 2, (newPosition.length() - 1))));
+            Location location = pickUp.getLocation();
+
+            location.setLatitude(Float.parseFloat(newPosition.substring(1, commaIndex)));
+            location.setLongitude(Float.parseFloat(newPosition.substring(commaIndex + 2, (newPosition.length() - 1))));
+
+            locationService.update(location);
         }
 
         // If date and time was edited
@@ -192,6 +278,11 @@ public class PickUpController extends BaseController {
             }
         }
 
+        // Notify buyer that the pick up has been modified
+        notificationService.save(new Notification(pickUp.getTransaction().getBuyer(), pickUp.getTransaction().getListingID().getId(), "Pick Up Details Edited",
+                "Pick up details have been edited for the listing " + pickUp.getTransaction().getListingID().getName() +
+                        ".", 1, "PICKUP"));
+
         pickUpService.update(pickUp);
 
         request.setAttribute("pickUp", pickUp);
@@ -206,7 +297,8 @@ public class PickUpController extends BaseController {
     }
 
     @PostMapping("/sendPickUpMessage")
-    public String sendPickUpMessage(HttpServletRequest request, @RequestParam("pickUpID") int pickUpID, @RequestParam("message") String message) {
+    public String sendPickUpMessage(HttpServletRequest request, @RequestParam("pickUpID") int pickUpID,
+                                    @RequestParam("message") String message) {
 
         User user = (User) request.getSession().getAttribute("user");
 

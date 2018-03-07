@@ -7,6 +7,8 @@
 <div class="uk-margin-medium-top uk-margin-large-bottom">
     <form action="/pick-up-edit" method="post">
         <div class="uk-child-width-expand@s" uk-grid>
+
+            <!-- Left Side -->
             <div class="uk-width-2-3@m" style="height: 100%">
                 <h2 class="uk-heading-bullet uk-margin-medium-left">Pick Up Details
                     <c:if test="${sessionScope.user.userID != message.user.userID}">
@@ -18,27 +20,42 @@
                         <div class="uk-float-left uk-width-1-3 uk-margin-auto-vertical">
                             <ul class="uk-list">
                                 <c:choose>
-                                    <c:when test="${sessionScope.user.userID == pickUp.transaction.seller.userID}">
-                                        <li class="uk-width-1-1"><span class="uk-text-large">
-                                        <strong
-                                                style="color: #ff695c">Location: </strong>${pickUp.location.name}
-                                        <input id="editLocationName" style="display: none;" type="text" class="uk-input"
-                                               name="newName"
-                                               value="${pickUp.location.name}"></span>
+                                    <c:when test="${sessionScope.user.userID != message.user.userID}">
+                                        <li class="uk-width-1-1">
+                                            <span class="uk-text-large">
+                                            <strong style="color: #ff695c">Location: </strong>${pickUp.location.name}
+                                                <input id="editLocationName" style="display: none;" type="text"
+                                                       class="uk-input"
+                                                       name="newName" value="${pickUp.location.name}">
+                                            </span>
                                         </li>
                                         <li class="uk-width-1-1 uk-margin-large-top"><span class="uk-text-large">
                                         <strong
-                                                style="color: #ff695c">Date: </strong>${pickUp.pickUpDate}
+                                                style="color: #ff695c">Date: </strong>
+                                            <c:choose>
+                                                <c:when test="${pickUp.pickUpDate == null}">
+                                                    TBD
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${pickUp.pickUpDate}
+                                                </c:otherwise>
+                                            </c:choose>
                                         </span>
                                             <input id="editDate" style="display: none;" type="date" class="uk-input"
-                                                   name="newDate"
-                                                   value="${pickUp.pickUpDate}"></span>
+                                                   name="newDate"></span>
                                         </li>
                                         <li class="uk-width-1-1 uk-margin-large-top"><span class="uk-text-large"><strong
-                                                style="color: #ff695c">Time: </strong>${pickUp.pickUpTime}
+                                                style="color: #ff695c">Time: </strong>
+                                                <c:choose>
+                                                    <c:when test="${pickUp.pickUpTime == null}">
+                                                        TBD
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        ${pickUp.pickUpTime}
+                                                    </c:otherwise>
+                                                </c:choose>
                                         <input id="editTime" style="display: none;" type="time" class="uk-input"
-                                               name="newTime"
-                                               value="${pickUp.pickUpDate}"></span>
+                                               name="newTime"></span>
                                         </li>
                                         <input type="hidden" value="${pickUp.pickUpID}" name="pickUpID">
                                         <input type="hidden" id="newPosition" value="" name="newPosition">
@@ -68,6 +85,7 @@
                 </button>
             </div>
 
+            <!-- Right Side -->
             <div class="uk-width-1-3@m">
                 <h2 class="uk-heading-bullet uk-margin-medium-left">Messages</h2>
                 <div class="uk-card uk-card-default uk-margin-medium-left uk-margin-medium-right">
@@ -114,6 +132,8 @@
                             </c:choose>
                         </div>
                     </div>
+
+                    <!-- Send Message -->
                     <div class="uk-card-footer uk-grid-small" uk-grid>
                         <input class="uk-input uk-background-muted uk-border-rounded uk-width-4-5" type="text"
                                name="message" placeholder="Send A Message" id="message">
@@ -121,17 +141,18 @@
                            uk-icon="icon: chevron-right; ratio: 2"
                            onclick="sendMessage();"></a>
                     </div>
+
                 </div>
             </div>
 
+            <!-- Accept Pick Up Button -->
             <div class="uk-width-1-1">
                 <button title="Accept" uk-toggle="target: #acceptModal"
-                        class="uk-button-primary uk-button-large uk-border-rounded uk-float-right uk-margin-medium-left">
+                        class="uk-button-primary uk-button-large uk-border-rounded uk-float-right uk-margin-medium-left"
+                        <c:if test="${pickUp.pickUpDate == null}">
+                            disabled
+                        </c:if>>
                     Accept
-                    Pick Up
-                </button>
-                <button title="Decline" uk-toggle="target: #declineModal"
-                        class="uk-button-danger uk-button-large uk-border-rounded uk-float-right">Decline
                     Pick Up
                 </button>
             </div>
@@ -149,7 +170,7 @@
         <div class="uk-modal-body uk-margin-auto-vertical">
             <ul class="uk-list uk-text-center">
                 <li class="uk-width-1-1"><span class="uk-text-large"><strong
-                        style="color: #ff695c">Location: </strong>${pickUp.pickUpDate}</span>
+                        style="color: #ff695c">Location: </strong>${pickUp.location.name}</span>
                 </li>
                 <li class="uk-width-1-1 uk-margin-large-top"><span class="uk-text-large"><strong
                         style="color: #ff695c">Date: </strong>${pickUp.pickUpDate}</span>
@@ -159,30 +180,14 @@
                 </li>
             </ul>
         </div>
-        <div class="uk-modal-footer">
-            <button class="uk-button-primary uk-float-right uk-button-large uk-border-rounded" type="button"
-                    onclick="setLatAndLong();">Accept
-            </button>
-        </div>
-    </div>
-</div>
-
-<div id="declineModal" uk-modal>
-    <div class="uk-modal-dialog uk-modal-body">
-        <div class="uk-modal-header">
-            <h2 class="uk-modal-title">Reason For Decline</h2>
-            <a class="uk-link-muted uk-modal-close uk-position-top-right uk-padding"
-               type="button"> <strong>X</strong></a>
-        </div>
-        <div class="uk-modal-body uk-margin-auto-vertical">
-            <textarea class="uk-textarea" rows="8"
-                      cols="20"
-                      required></textarea>
-        </div>
-        <div class="uk-modal-footer">
-            <button class="uk-button-danger uk-float-right uk-button-large uk-border-rounded" type="button">Decline
-            </button>
-        </div>
+        <form>
+            <div class="uk-modal-footer">
+                <input name="userID" type="hidden" value="${sessionScope.user.userID}">
+                <input name="pickUpID" type="hidden" value="${pickUp.pickUpID}">
+                <button class="uk-button-primary uk-float-right uk-button-large uk-border-rounded" type="button">Accept
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -227,25 +232,26 @@
     }
 
     function toggleEditDetails() {
-        if (document.getElementById("editButton").style.display == 'inline') {
+
+        if (document.getElementById("editButton").style.display == "inline") {
             document.getElementById("editButton").style.display = "none";
         } else {
             document.getElementById("editButton").style.display = "inline";
         }
 
-        if (document.getElementById("editLocationName").style.display == 'inline') {
-            document.getElementById("editLocationName").style.display = "none";
+        if (document.getElementById('editLocationName').style.display == "inline") {
+            document.getElementById("editLocationName").style.display = "none"
         } else {
             document.getElementById("editLocationName").style.display = "inline";
         }
 
-        if (document.getElementById("editTime").style.display == 'inline') {
+        if (document.getElementById("editTime").style.display == "inline") {
             document.getElementById("editTime").style.display = "none";
         } else {
             document.getElementById("editTime").style.display = "inline";
         }
 
-        if (document.getElementById("editDate").style.display == 'inline') {
+        if (document.getElementById("editDate").style.display == "inline") {
             document.getElementById("editDate").style.display = "none";
         } else {
             document.getElementById("editDate").style.display = "inline";

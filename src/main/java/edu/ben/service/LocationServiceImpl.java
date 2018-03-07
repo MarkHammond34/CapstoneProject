@@ -21,4 +21,18 @@ public class LocationServiceImpl implements LocationService {
     public void save(Location location) {
         locationDAO.save(location);
     }
+
+    @Override
+    public Location getByName(String name) {
+        try {
+            return locationDAO.getByName(name);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public void update(Location location) {
+        locationDAO.update(location);
+    }
 }

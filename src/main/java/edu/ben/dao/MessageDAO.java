@@ -21,4 +21,6 @@ public interface MessageDAO {
     public void sendMessage(int user1, int user2, String message);
 
     public void sendMessage(Message message);
+
+    public Conversation getConversationOrderByDateCreated(int user1ID, int user2ID);
 }

@@ -56,4 +56,13 @@ public class MessageServiceImpl implements MessageService {
     public void sendMessage(User sendFrom, String message, Conversation conversation) {
         msgDAO.sendMessage(new Message(sendFrom, message, conversation));
     }
+
+    @Override
+    public Conversation getConversationOrderByDateCreated(User user1, User user2) {
+        try {
+            return msgDAO.getConversationOrderByDateCreated(user1.getUserID(), user2.getUserID());
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+    }
 }

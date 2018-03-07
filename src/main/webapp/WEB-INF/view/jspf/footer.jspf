@@ -16,9 +16,5 @@
                                href="${pageContext.request.contextPath}/contactUs"> Questions?
             Comments? Contact Us</a> - All rights reserved 2018.
         </p>
-        <form action="/pick-up-review" method="post">
-            <input name="pickUpID" type="hidden" value="1">
-            <button type="submit" style="width: 5px; height: 5px; float: right;"></button>
-        </form>
     </footer>
 </div>
