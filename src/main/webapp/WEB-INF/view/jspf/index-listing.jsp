@@ -1,4 +1,4 @@
-<div class="uk-card uk-card-default uk-border-rounded uk-padding-small uk-card-small uk-card-body">
+<div class="uk-card uk-card-default uk-border-rounded uk-padding-small uk-card-small uk-card-body uk-margin-auto-bottom">
     <div class="uk-align-center uk-margin-remove-bottom" uk-lightbox>
         <a href="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
            title="Image" class="thumbnail"><img
@@ -9,7 +9,8 @@
     <!-- Name -->
     <div class="name uk-margin-remove-top uk-margin-small-bottom" style="font-size: 22px;">
 
-        <a href="/viewListing?l=${listing.id}"><strong class="uk-text-danger">${listing.name}</strong></a>
+        <a href="/viewListing?l=${listing.id}"><strong
+                class="uk-text-danger">${listing.name}</strong></a>
         <c:if test="${listing.user.getUserID() != sessionScope.user.userID }">
             <div
                     class="watch-item color1 uk-position-medium uk-position-top-right"
@@ -84,7 +85,7 @@
                         </span>
                     </div>
                     <progress id="js-progressbar"
-                              class="uk-progress uk-margin-remove-top" value="0"
+                              class="uk-progress uk-margin-remove-top" value="${listing.percentLeft}"
                               max="100">
                     </progress>
                 </div>

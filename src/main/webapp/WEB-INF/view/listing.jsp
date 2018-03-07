@@ -212,7 +212,7 @@
                                                 </span>
                                 </div>
                                 <progress id="js-progressbar"
-                                          class="uk-progress uk-margin-remove-top" value="0"
+                                          class="uk-progress uk-margin-remove-top" value="${listing.percentLeft}"
                                           max="100">
                                 </progress>
                             </div>

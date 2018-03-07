@@ -11785,9 +11785,9 @@ UIkit.util.ready(function () {
 
             var bars = document.getElementsByClassName("uk-progress");
 
-            for (var i = 0; i < bars.length; i++) {
-                bars[i].value = new Date().getTime();
-            }
+            // for (var i = 0; i < bars.length; i++) {
+            //     bars[i].value = new Date().getTime();
+            // }
 
         }, 900);
 

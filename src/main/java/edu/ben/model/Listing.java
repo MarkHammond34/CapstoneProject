@@ -320,4 +320,19 @@ public class Listing implements java.io.Serializable {
         this.premium = premium;
     }
 
+    public String getPercentLeft() {
+
+        long now = System.currentTimeMillis();
+        long start = startTimestamp.getTime();
+        long end = endTimestamp.getTime();
+
+        if (start >= end || now >= end) {
+            return "0";
+        }
+        if (now <= start) {
+            return "100";
+        }
+        return String.valueOf((int) ((end - now) * 100 / (end - start)));
+    }
+
 }
