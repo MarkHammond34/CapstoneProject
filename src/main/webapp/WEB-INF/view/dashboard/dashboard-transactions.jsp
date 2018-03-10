@@ -15,7 +15,7 @@
 							<td class="uk-table-link">${offer.offerMessage}</td>
 						</c:if>
 						<td class="uk-text-truncate">${offer.offerAmount}</td>
-						<td class="uk-text-nowrap">${offer.status}</td>
+						<td class="uk-text-nowrap">${transaction.completed}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
