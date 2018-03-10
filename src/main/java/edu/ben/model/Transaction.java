@@ -2,7 +2,6 @@ package edu.ben.model;
 
 import java.sql.Timestamp;
 
-import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

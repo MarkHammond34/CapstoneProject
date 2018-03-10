@@ -406,6 +406,14 @@ public class ListingController extends BaseController {
 
 		return model;
 	}
+	
+	@RequestMapping(value = "/rules", method = RequestMethod.GET)
+	public ModelAndView rules() {
+
+		ModelAndView model = new ModelAndView("rules");
+
+		return model;
+	}
 
 	@GetMapping("/checkout")
 	public String checkoutPageGet(HttpServletRequest request) {

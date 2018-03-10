@@ -1,6 +1,6 @@
 package edu.ben.controller;
 
-import java.io.BufferedOutputStream; 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
@@ -9,10 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,11 +19,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.ben.model.Follow;
 import edu.ben.model.Listing;
+import edu.ben.model.Offer;
 import edu.ben.model.User;
-/*import edu.ben.model.Review;*/
-import edu.ben.model.Transaction;
 import edu.ben.service.FollowService;
 import edu.ben.service.ListingService;
+import edu.ben.service.OfferService;
 import edu.ben.service.UserService;
 import edu.ben.util.ImagePath;
 
@@ -40,6 +38,9 @@ public class UserController {
 	
 	@Autowired
 	ListingService listingService;
+	
+	@Autowired
+	OfferService offerService;
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
@@ -160,7 +161,26 @@ public class UserController {
 	@RequestMapping(value="/dashboard", method = RequestMethod.GET)
 	public ModelAndView showDashboard() {
 		
-		ModelAndView model = new ModelAndView("dashboard");
+		ModelAndView model = new ModelAndView("dashboard2");
+		
+		List<Listing> listings = listingService.getAllListings();
+		List<Offer> offers = offerService.getOffersByUserId(9);
+		
+		System.out.println(listings.size());
+		System.out.println(offers.size());
+		
+		model.addObject("title", "Dashboard");
+		model.addObject("listings", listings);
+		model.addObject("offers", offers);
+		
+		return model;
+		
+	}
+	
+	@RequestMapping(value="/dashboardTest", method = RequestMethod.GET)
+	public ModelAndView test() {
+		
+		ModelAndView model = new ModelAndView("test");
 		
 		List<Listing> listings = listingService.getAllListings();
 		
