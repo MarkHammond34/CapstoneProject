@@ -26,7 +26,7 @@ public interface UserDAO {
 
     public void update(User user);
     
-    public void updateSellerRating(int seller_rating, String email);
+    public void updateSellerRating(int sellerRating, String email);
 
     public void updateAttemptedLogins(int loginAttempts, String email);
 

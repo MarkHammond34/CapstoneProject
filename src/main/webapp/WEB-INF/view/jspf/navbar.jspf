@@ -92,11 +92,11 @@
                                     </c:when>
                                     <c:when test="${notifications == null}">
                                         <c:choose>
-                                            <c:when test="${user != null}">
+                                            <c:when test="${sessionScope.user != null}">
                                                 <p uk-icon="icon: happy" style="text-align: center">Nothing
                                                     To See Here </p>
                                             </c:when>
-                                            <c:when test="${user == null}">
+                                            <c:when test="${sessionScope.user == null}">
                                                 <a uk-icon="icon: sign-in" href="/login"
                                                    style="text-align: center">Login To See Notifications</a>
                                             </c:when>
@@ -107,12 +107,12 @@
                         </div>
                     </li>
                     <c:choose>
-                        <c:when test="${user != null }">
-                            <li><a>Welcome ${user.firstName}</a>
+                        <c:when test="${sessionScope.user != null }">
+                            <li><a>Welcome ${sessionScope.user.firstName}</a>
                                 <div uk-dropdown>
                                     <ul class="uk-nav uk-dropdown-nav uk-grid-small" uk-grid>
                                         <li class="uk-width-1-1"><a
-                                                href="${pageContext.request.contextPath}/viewProfile?userId=${sessionScope.user.userID}">
+                                                href="${pageContext.request.contextPath}/viewProfile?id=${sessionScope.user.userID}">
                                             Profile Page</a></li>
                                         <li class="uk-width-1-1"><a
                                                 href="${pageContext.request.contextPath}/viewUserListings">
@@ -123,7 +123,7 @@
                                         <li class="uk-width-1-1"><a
                                                 href="${pageContext.request.contextPath}/notifications">
                                             Notification</a></li>
-                                        <c:if test="${user.adminLevel > 0}">
+                                        <c:if test="${sessionScope.user.adminLevel > 0}">
                                             <li class="uk-width-1-1"><a
                                                     href="${pageContext.request.contextPath}/admin">
                                                 Admin</a></li>

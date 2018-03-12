@@ -13,6 +13,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Formula;
 import org.springframework.transaction.annotation.Transactional;
 
 @Entity(name = "user")
@@ -91,12 +92,9 @@ public class User {
 
     @Column(name = "admin_level")
     private int adminLevel;
-    
-    @Column(name = "seller_rating")
-    private int seller_rating;
 
-    //@Formula("(select avg(r.rating) from review as r where r.seller_id=user_ID")
-    //private int rating;
+    @Formula("(select avg(transaction.trans_rating) from transaction where transaction.seller_ID=user_ID)")
+    private Integer sellerRating;
 
     public User() {
     }
@@ -277,11 +275,11 @@ public class User {
         this.adminLevel = adminLevel;
     }
     
-    public int getSellerRating() {
-        return seller_rating;
+    public Integer getSellerRating() {
+        return sellerRating;
     }
 
-    public void setSellerRating(int seller_rating) {
-        this.seller_rating = seller_rating;
+    public void setSellerRating(Integer sellerRating) {
+        this.sellerRating = sellerRating;
     }
 }

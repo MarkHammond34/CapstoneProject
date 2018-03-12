@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import edu.ben.dao.TransactionDAO;
 import edu.ben.model.Transaction;
+import edu.ben.model.User;
 
 @Service
 @Transactional
@@ -51,10 +52,24 @@ public class TransactionServiceImpl implements TransactionService {
 		return transactionDAO.getTransactionsBySellerID(id);
 	}
 
+	public void updateTransRating(int transRating, Transaction transaction) {
+		transaction.setTransRating(transRating);
+		transactionDAO.saveOrUpdate(transaction);
+	}
+	
+	public void updateFeedbackLeft(int feedbackLeft, Transaction transaction) {
+		transaction.setFeedbackLeft(feedbackLeft);
+		transactionDAO.saveOrUpdate(transaction);
+	}
+	
+	public void updateTransReview(String transReview, Transaction transaction) {
+		transaction.setTransReview(transReview);
+		transactionDAO.saveOrUpdate(transaction);
+	}
+
 	@Override
-	public List<Transaction> getTransactionsByUserID(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Transaction> getTransactionsByUserID(int userID) {
+		return transactionDAO.getTransactionsBySellerID(userID);
 	}
 	
 }

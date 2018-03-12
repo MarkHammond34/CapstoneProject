@@ -58,7 +58,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 	@Override
 	public List<Transaction> getTransactionsBySellerID(int sellerID) {
 		
-		Query q = getSession().createQuery("FROM transaction WHERE buyer_ID=:sellerID");
+		Query q = getSession().createQuery("FROM transaction WHERE seller_ID=:sellerID");
 		q.setParameter("sellerID", sellerID);
 		
 		return q.list();
