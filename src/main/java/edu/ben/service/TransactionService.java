@@ -24,7 +24,9 @@ public interface TransactionService {
 	public List<Transaction> getTransactionsByBuyerID(int id);
 
 	public List<Transaction> getTransactionsBySellerID(int id);
+	
+	public List<Transaction> getTransactionsByUserID(int id);
 
-	public List<Transaction> getTransactionsByUserID(int userID);
+	public Transaction getTransactionsByListingID(int id);
 	
 }
