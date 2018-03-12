@@ -1,16 +1,15 @@
-<div class="uk-card uk-card-default uk-border-rounded uk-padding-small uk-card-small uk-card-body uk-margin-auto-bottom">
+<div class="uk-card uk-card-default uk-border-rounded uk-padding-small uk-card-small uk-card-body">
     <div class="uk-align-center uk-margin-remove-bottom" uk-lightbox>
         <a href="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
            title="Image" class="thumbnail"><img
                 src="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
-                alt="Listing" style="max-height: 275px; max-width: 275px;"/></a>
+                alt="Listing" style="max-height: 225px; max-width: 275px;"/></a>
     </div>
 
     <!-- Name -->
     <div class="name uk-margin-remove-top uk-margin-small-bottom" style="font-size: 22px;">
 
-        <a href="/viewListing?l=${listing.id}"><strong
-                class="uk-text-danger">${listing.name}</strong></a>
+        <a href="#"><strong class="uk-text-danger">${listing.name}</strong></a>
         <c:if test="${listing.user.getUserID() != sessionScope.user.userID }">
             <div
                     class="watch-item color1 uk-position-medium uk-position-top-right"
@@ -47,9 +46,8 @@
                     <div class="price" style="font-size: 16px;">
                         <span class="uk-badge">Current Bid: $${listing.highestBid}</span>
                         <a
-                                class="uk-button uk-button-text bid-button"
-                                style="color: cornflowerblue; margin-left: 5px"
-                                uk-toggle="target: #placeBidModal${listing.id}">Place
+                                class="uk-button uk-button-text" style="color: cornflowerblue; margin-left: 5px"
+                                uk-toggle="target: #placeBidModal${listing.id}" id="bidButton${listing.id}">Place
                             Bid</a>
                         <c:if test="${listing.highestBidder.userID == sessionScope.user.userID}">
                             <a title="Cancel Bid" uk-icon="icon: ban"
@@ -59,11 +57,11 @@
                     </div>
                 </c:otherwise>
             </c:choose>
-            <hr class="uk-divider-icon uk-margin-remove-bottom">
             <div class="uk-grid-small" uk-grid>
-                <div class=" uk-width-1-1 uk-align-center">
+                <div class=" uk-width-1-1 uk-align-center uk-margin-remove-bottom">
                     <p class="uk-margin-small-bottom uk-margin-small-top uk-align-center listing-ended"
                        style="color: red; font-size: 16px; display: none;">
+                        <br>
                         Listing Ended</p>
                     <div class="uk-grid-small uk-countdown uk-margin-remove uk-align-center" uk-grid
                          uk-countdown="date: ${listing.endTimestamp}">
@@ -85,8 +83,8 @@
                         </span>
                     </div>
                     <progress id="js-progressbar"
-                              class="uk-progress uk-margin-remove-top" value="${listing.percentLeft}"
-                              max="100">
+                              class="uk-progress uk-margin-remove-top" value="0"
+                              max="${listing.endTimestampAsLong}">
                     </progress>
                 </div>
             </div>

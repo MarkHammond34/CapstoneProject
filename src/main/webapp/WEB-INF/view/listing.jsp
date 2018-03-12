@@ -66,20 +66,65 @@
                             ${listing.name}
                     </h1>
 
-                    <p class="uk-text-lead uk-margin-medium-left">${listing.description}</p>
+                    <p class="uk-text-lead">${listing.description}</p>
 
-                    <div class="uk-grid-small uk-child-width-auto" uk-grid>
-                        <span class="uk-badge">Price $${listing.price} </span>
+                    <p class="uk-article-meta uk-text-large">Listed by <b><a
+                            href="/viewProfile?id=${listing.user.userID}">${listing.user.username}</a></b></p>
+
+                    <div class="uk-grid-small uk-child-width-auto uk-tile-default uk-border-rounded uk-padding uk-padding-remove-left"
+                         uk-grid>
+
+                        <ul class="uk-grid-small uk-width-2-3 uk-float-left" uk-grid>
+                            <li class="uk-width-1-1">
+
+                                <span class="uk-float-left"><strong>Asking Price</strong>
+                                    <span class="uk-badge">$${listing.price}</span>
+                                </span>
+
+                            </li>
+                        </ul>
+
+                        <c:if test="${listing.ended == 0}">
+                            <a
+                                    <c:if test="${hasOffer}">onclick="return confirm('You have already made an offer for this listing. Making a new one will replace the current one. Is this okay?');"</c:if>
+                                    class="uk-button uk-button-text uk-float-right"
+                                    style="color: green;"
+                                    href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Make
+                                offer</a>
+                        </c:if>
+
                     </div>
 
-                    <c:if test="${listing.ended == 0}">
-                        <a
-                                <c:if test="${hasOffer}">onclick="return confirm('You have already made an offer for this listing. Making a new one will replace the current one. Is this okay?');"</c:if>
-                                class="uk-button uk-button-text uk-float-right"
-                                style="color: green;"
-                                href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Make
-                            offer</a>
-                    </c:if>
+                    <!-- Countdown and Progress Bar -->
+                    <div class="uk-grid-small" uk-grid>
+                        <div class=" uk-width-1-1 uk-align-center">
+                            <p class="uk-margin-small-bottom uk-margin-small-top uk-align-center listing-ended"
+                               style="color: red; font-size: 16px; display: none;">
+                                Listing Ended</p>
+                            <div class="uk-grid-small uk-countdown uk-margin-remove uk-align-center" uk-grid
+                                 uk-countdown="date: ${listing.endTimestamp}">
+                                                <span class="uk-days">
+                                                    <strong class="uk-countdown-number uk-countdown-days"></strong>
+                                                    <strong class="uk-countdown-label uk-margin-small-top uk-margin-left">Days</strong>
+                                                </span>
+                                <span class="uk-hours">
+                                                        <strong class="uk-countdown-number uk-countdown-hours"></strong>
+                                                        <strong class="uk-countdown-label uk-margin-small-top uk-margin-left">Hours</strong>
+                                                </span>
+                                <span class="uk-minutes">
+                                                        <strong class="uk-countdown-number uk-countdown-minutes"></strong>
+                                                        <strong class="uk-countdown-label uk-margin-small-top uk-margin-left">Minutes</strong>
+                                                </span>
+                                <span class="uk-seconds">
+                                                        <strong class="uk-countdown-number uk-countdown-seconds"></strong>
+                                                        <strong class="uk-countdown-label uk-margin-small-top uk-margin-left">Seconds</strong></strong>
+                                                </span>
+                            </div>
+                            <progress class="uk-progress uk-margin-remove-top" value="${listing.percentLeft}"
+                                      max="100">
+                            </progress>
+                        </div>
+                    </div>
                 </div>
             </div>
         </c:if>
@@ -96,8 +141,13 @@
 
                         <p class="uk-text-lead">${listing.description}</p>
 
-                        <div class="uk-grid-small uk-child-width-auto uk-tile-default uk-padding uk-padding-remove-left"
+                        <p class="uk-article-meta uk-text-large">Listed by <b><a
+                                href="/viewProfile?id=${listing.user.userID}">${listing.user.username}</a></b></p>
+
+                        <!-- Bid Section -->
+                        <div class="uk-grid-small uk-child-width-auto uk-tile-default uk-border-rounded uk-padding uk-padding-remove-left"
                              uk-grid>
+
                             <!-- Highest Bid Section -->
                             <ul class="uk-grid-small uk-width-2-3 uk-float-left" uk-grid>
                                 <li class="uk-width-1-1">
@@ -138,14 +188,14 @@
                                 <c:choose>
                                     <c:when test="${listing.ended == 0}">
                                         <c:if test="${listing.user.userID != user.userID}">
-                                            <a id="placeBidButton" class="uk-button uk-button-text bid-button"
+                                            <a id="placeBidButton" class="uk-button uk-button-text"
                                                style="color: cornflowerblue;"
                                                onclick="toggleBid();">Place Bid</a>
                                         </c:if>
 
                                         <div class="uk-margin-small-top">
                                             <form method="post" action="/bid"
-                                                  class="uk-grid-small bid-form"
+                                                  class="uk-grid-small"
                                                   uk-grid id="bidForm" style="display: none;">
                                                 <input class="uk-input uk-width-4-5 uk-float-left uk-border-rounded"
                                                        name="bidValue"
@@ -189,9 +239,9 @@
                         <!-- Countdown and Progress Bar -->
                         <div class="uk-grid-small" uk-grid>
                             <div class=" uk-width-1-1 uk-align-center">
-                                <p class="uk-margin-small-bottom uk-margin-small-top uk-align-center listing-ended"
-                                   style="color: red; font-size: 16px; display: none;">
-                                    Listing Ended</p>
+                                <strong class="uk-margin-small-bottom uk-margin-small-top uk-align-center listing-ended"
+                                        style="color: red; font-size: 16px; display: none;">
+                                    Listing Ended</strong>
                                 <div class="uk-grid-small uk-countdown uk-margin-remove uk-align-center" uk-grid
                                      uk-countdown="date: ${listing.endTimestamp}">
                                                 <span class="uk-days">
@@ -212,7 +262,7 @@
                                                 </span>
                                 </div>
                                 <progress id="js-progressbar"
-                                          class="uk-progress uk-margin-remove-top" value="${listing.percentLeft}"
+                                          class="uk-progress uk-margin-remove-top" value="0"
                                           max="100">
                                 </progress>
                             </div>
