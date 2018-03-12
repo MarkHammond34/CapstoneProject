@@ -3,6 +3,7 @@ package edu.ben.service;
 import java.util.List;
 
 import edu.ben.model.Transaction;
+import edu.ben.model.User;
 
 public interface TransactionService {
 
@@ -11,6 +12,12 @@ public interface TransactionService {
 	public void createTransaction(Transaction transaction);
 
 	public void saveOrUpdate(Transaction transaction);
+	
+	public void updateTransRating(int transRating, Transaction transaction);
+	
+	public void updateFeedbackLeft(int feedbackLeft, Transaction transaction);
+	
+	public void updateTransReview(String transReview, Transaction transaction);
 
 	public void deleteTransaction(Transaction transaction);
 

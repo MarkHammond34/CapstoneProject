@@ -43,22 +43,24 @@ public class ProfileController extends BaseController {
 	OfferService offerService;
 
 	@RequestMapping(value = "/viewProfile", method = RequestMethod.GET)
-    public String viewProfile(HttpServletRequest request) {
-        User session = (User) request.getSession().getAttribute("user");
-
-        List<Listing> userListings = listingService.getAllListingsByUserID(session.getUserID());
+    public String viewProfile(HttpServletRequest request, @RequestParam("id") int id) {
+		
+		
+        List<Listing> userListings = listingService.getAllListingsByUserID(id);
         // user offers
-        List<Offer> offers = offerService.getPendingOffersByUserId(session.getUserID());
+        List<Offer> offers = offerService.getPendingOffersByUserId(id);
         // user transactions
-        List<Transaction> transactions = transactionService.getTransactionsByUserID(session.getUserID());
+        List<Transaction> buyerTransactions = transactionService.getTransactionsByBuyerID(id);
+        List<Transaction> sellerTransactions = transactionService.getTransactionsBySellerID(id);
         
         List<Offer> myOffers = offerService.getPendingOffersByListingId(1);
-
-        request.setAttribute("user", session);
+        
+        request.setAttribute("user", userService.getUserById(id));
         
         request.setAttribute("userListings", userListings);
         request.setAttribute("myOffers", offers);
-        request.setAttribute("transactions", transactions);
+        request.setAttribute("transactions", buyerTransactions);
+        request.setAttribute("transactions", sellerTransactions);
         request.setAttribute("offers", myOffers);
         
         return "profile-page";

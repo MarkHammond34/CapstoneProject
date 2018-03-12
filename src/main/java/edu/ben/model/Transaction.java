@@ -58,6 +58,15 @@ public class Transaction {
 
     @Column(name = "date_created")
     private Timestamp dateCreated;
+    
+    @Column(name = "trans_rating")
+    private int transRating;
+    
+    @Column(name = "trans_review")
+    private String transReview;
+    
+    @Column(name = "review_rate_left")
+    private int feedbackLeft;
 
     public Transaction() {
 
@@ -168,16 +177,42 @@ public class Transaction {
         return dateModified;
     }
 
-    public void setDateModified(Timestamp dateModified) {
-        this.dateModified = dateModified;
-    }
+	public void setDateModified(Timestamp dateModified) {
+		this.dateModified = dateModified;
+	}
 
-    public Timestamp getDateCreated() {
-        return dateCreated;
-    }
+	public Timestamp getDateCreated() {
+		return dateCreated;
+	}
 
-    public void setDateCreated(Timestamp dateCreated) {
-        this.dateCreated = dateCreated;
-    }
+	public void setDateCreated(Timestamp dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+	
+	public int getTransRating() {
+		return transRating;
+	}
+
+	public void setTransRating(int transRating) {
+		this.transRating = transRating;
+	}
+	
+	public String getTransReview() {
+		return transReview;
+	}
+
+	public void setTransReview(String transReview) {
+		this.transReview = transReview;
+	}
+	
+	public int getFeedbackLeft() {
+		return feedbackLeft;
+	}
+
+	public void setFeedbackLeft(int feedbackLeft) {
+		this.feedbackLeft = feedbackLeft;
+	}
+
+
 
 }

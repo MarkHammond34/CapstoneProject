@@ -28,6 +28,10 @@
 	min-height: 200px;
 	max-height: 600px;
 }
+
+#offer-card {
+	padding-top: 10%;
+}
 </style>
 </head>
 <body style="background-color: rgba(36, 143, 203, 0.12);">
@@ -104,28 +108,8 @@
 	<div class="uk-section" uk-height-viewport="expand: true">
 
 		<hr>
-
-		<div class="uk-container uk-container-large">
-			<div class="uk-grid-small uk-child-width-1-3@m uk-text-center"
-				uk-grid>
-
-				<%@include file="dashboard/dashboard-offers.jsp"%>
-				<%@include file="dashboard/dashboard-offers.jsp"%>
-				<%@include file="dashboard/dashboard-offers.jsp"%>
-
-			</div>
-		</div>
-
-		<div class="uk-container uk-container-large">
-			<div class="uk-grid-small uk-child-width-1-3@m uk-text-center"
-				uk-grid>
-
-				<%@include file="dashboard/dashboard-offers.jsp"%>
-				<%@include file="dashboard/dashboard-offers.jsp"%>
-				<%@include file="dashboard/dashboard-offers.jsp"%>
-
-			</div>
-		</div>
+		
+		<%@include file="dashboard/dashboard-meetings.jsp"%>
 
 	</div>
 

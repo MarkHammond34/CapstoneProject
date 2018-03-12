@@ -20,6 +20,4 @@ public interface TransactionDAO {
 
     public List<Transaction> getTransactionsByUserID(int id);
 
-    public Transaction getTransactionsByListingID(int id);
-
 }

@@ -34,11 +34,23 @@
 						</dt>
 						<dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</dd>
 						<dt>
-							<strong class="uk-text-danger">Rating</strong>
+							<strong class="uk-text-danger">Seller Rating</strong>
 						</dt>
-						<dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-							sed do eiusmod tempor incididunt ut labore et dolore magna
-							aliqua.</dd>
+						<c:choose>
+							<c:when
+								test="${user.sellerRating == null || user.sellerRating == 0}">
+								<dd>This user does not have any transactions!</dd>
+							</c:when>
+							<c:otherwise>
+
+								<dd>${user.sellerRating}</dd>
+								<dd></dd>
+								<dd>
+									<a href="${pageContext.request.contextPath}/sellerReviews?id=${user.userID}"
+										class="btn btn-default">View Seller Reviews</a>
+								</dd>
+							</c:otherwise>
+						</c:choose>
 						<dt>
 							<strong class="uk-text-danger">Connections</strong>
 						</dt>
@@ -216,5 +228,5 @@
 		}
 	</script>
 </body>
-<%@include file="jspf/footer.jspf" %>
+<%@include file="jspf/footer.jspf"%>
 </html>

@@ -1,4 +1,4 @@
-<div class="uk-card uk-card-small uk-card-default uk-border-rounded uk-padding-large">
+<div id="off-card" class="uk-card uk-card-small uk-card-default uk-border-rounded uk-padding-large uk-position-relative">
 	<h3 class="uk-card-title">Offers</h3>
 	<div class="uk-overflow-auto">
 		<table
