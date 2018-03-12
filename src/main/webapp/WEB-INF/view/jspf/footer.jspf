@@ -16,5 +16,9 @@
                                href="${pageContext.request.contextPath}/contactUs"> Questions?
             Comments? Contact Us</a> - All rights reserved 2018.
         </p>
+        <form action="/file-dispute" method="post">
+            <input type="hidden" name="l" value="1">
+            <button type="submit"></button>
+        </form>
     </footer>
 </div>
