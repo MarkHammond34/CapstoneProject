@@ -1,13 +1,7 @@
 package edu.ben.controller;
 
-import edu.ben.model.Dispute;
-import edu.ben.model.Listing;
-import edu.ben.model.Notification;
-import edu.ben.model.User;
-import edu.ben.service.DisputeService;
-import edu.ben.service.ListingService;
-import edu.ben.service.NotificationService;
-import edu.ben.service.UserService;
+import edu.ben.model.*;
+import edu.ben.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -37,7 +31,10 @@ public class DisputeController extends BaseController {
     @Autowired
     ListingService listingService;
 
-    @PostMapping("/dispute")
+    @Autowired
+    TransactionService transactionService;
+
+    @PostMapping("/submit-dispute")
     public String fileDispute(HttpServletRequest request, @RequestParam("complaint") String complaint) {
 
         User user = (User) request.getSession().getAttribute("user");
@@ -86,18 +83,45 @@ public class DisputeController extends BaseController {
         }
     }
 
-    @GetMapping("/dispute")
+    @PostMapping("/file-dispute")
     public String getDispute(HttpServletRequest request, int l) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            addWarningMessage("Login To File A Dispute");
+            setRequest(request);
+            return "login";
+        }
+
         try {
 
-            request.getSession().setAttribute("disputeListing", listingService.getByListingID(l));
+            Listing listing = listingService.getByListingID(l);
 
+            if (listing.getEnded() == 0) {
+                addWarningMessage("Listing Is Still Active");
+                setRequest(request);
+                return "redirect:/" + request.getHeader("Referer");
+            }
+
+            Transaction transaction = transactionService.getTransactionsByListingID(l);
+
+            if (transaction.getBuyer().getUserID() != user.getUserID() && transaction.getSeller().getUserID() != user.getUserID()) {
+                addErrorMessage("Only Buyer or Seller Can Dispute A Listing");
+                setRequest(request);
+                return "redirect:/" + request.getHeader("Referer");
+            }
+
+            request.getSession().setAttribute("disputeListing", listing);
+
+            // If listing doesn't exist
         } catch (IndexOutOfBoundsException e) {
             addErrorMessage("No Active Listings Under ID " + l);
             setRequest(request);
             return "redirect:/";
         }
 
+        request.setAttribute("title", "File Dispute");
         setRequest(request);
         return "file-dispute";
     }
