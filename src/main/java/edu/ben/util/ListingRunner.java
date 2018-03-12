@@ -2,9 +2,11 @@ package edu.ben.util;
 
 import edu.ben.model.Listing;
 import edu.ben.model.Notification;
+import edu.ben.model.Transaction;
 import edu.ben.model.User;
 import edu.ben.service.ListingService;
 import edu.ben.service.NotificationService;
+import edu.ben.service.TransactionService;
 import edu.ben.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,6 +34,14 @@ public class ListingRunner {
     }
 
     private static UserService userService;
+
+    private static TransactionService transactionService;
+
+    @Autowired
+    public void setTransactionService(TransactionService transactionService) {
+        this.transactionService = transactionService;
+    }
+
 
     @Autowired
     public void setUserService(UserService userService) {
@@ -74,6 +84,9 @@ public class ListingRunner {
                                 for (User u : losers) {
                                     newNotifications.add(new Notification(u, l.getId(), "You Lost!", "You Lost! \n Listing: " + l.getName(), 1, "LOST"));
                                 }
+
+                                // Create new transaction
+                                transactionService.createTransaction(new Transaction(l, 0));
                             }
 
                             // Batch update for efficiency

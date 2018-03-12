@@ -1,6 +1,7 @@
 package edu.ben.model;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -184,6 +185,17 @@ public class Listing implements java.io.Serializable {
                 + "]";
     }
 
+    public String getEndDate() {
+        java.sql.Date date = new java.sql.Date(endTimestamp.getTime());
+        return new SimpleDateFormat("MM/dd/yyyy").format(date);
+    }
+
+    public String getEndTime() {
+        java.sql.Date date = new java.sql.Date(endTimestamp.getTime());
+        return new SimpleDateFormat("hh:mm a").format(date);
+    }
+
+
     public Date getDateCreated() {
         return dateCreated;
     }
@@ -306,6 +318,21 @@ public class Listing implements java.io.Serializable {
 
     public void setPremium(int premium) {
         this.premium = premium;
+    }
+
+    public String getPercentLeft() {
+
+        long now = System.currentTimeMillis();
+        long start = startTimestamp.getTime();
+        long end = endTimestamp.getTime();
+
+        if (start >= end || now >= end) {
+            return "0";
+        }
+        if (now <= start) {
+            return "100";
+        }
+        return String.valueOf((int) ((end - now) * 100 / (end - start)));
     }
 
 }

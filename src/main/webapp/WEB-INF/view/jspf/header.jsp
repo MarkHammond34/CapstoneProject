@@ -8,6 +8,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+    <spring:url value="resources/js/notification.js" var="notJS"/>
+    <script type="text/javascript" src="${notJS}"></script>
+
     <spring:url value="resources/css/uikit.css" var="uikitCSS"/>
     <spring:url value="resources/js/uikit.js" var="uikitJS"/>
     <spring:url value="resources/js/jquery.js" var="jquery"/>
@@ -17,6 +21,7 @@
     <spring:url value="resources/css/registration.css" var="regCSS"/>
 
     <link href="${uikitCSS}" rel="stylesheet"/>
+
     <script type="text/javascript" src="${uikitJS}"></script>
     <script type="text/javascript" src="${jquery}"></script>
     <script type="text/javascript" src="${uikiticons}"></script>
@@ -37,12 +42,6 @@
     <link href="${indexListingCSS}" rel="stylesheet"/>
     <spring:url value="resources/js/main.js" var="mainJS"/>
     <script type="text/javascript" src="${mainJS}"></script>
-
-    <spring:url value="resources/js/notification.js" var="notJS"/>
-    <script type="text/javascript" src="${notJS}"></script>
-
-    <spring:url value="resources/js/listing.js" var="listingJS"/>
-    <script type="text/javascript" src="${listingJS}"></script>
 
     <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 

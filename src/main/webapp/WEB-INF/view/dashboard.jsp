@@ -47,60 +47,104 @@
 <%@include file="jspf/navbar2.jspf"%>
 <body style="background-color: rgba(36, 143, 203, 0.08);">
 
-	<div class="uk-section" style="background-color: blue;">
+	<div class="uk-section">
+		<!--  style="background-color: blue;" -->
 
-		<div class="uk-grid">
+		<div uk-grid>
 
 			<!-- id="left-col" -->
-			<aside class="uk-light uk-width-1-3"
-				style="position: fixed; background-color: #222; width: 260px; z-index: 1;">
-				<div class="bar-wrap">
-					<ul class="uk-nav uk-nav-default">
-						<li class="uk-active"><a href="#">Active</a></li>
-						<li class="uk-parent"><a href="#">Parent</a>
-							<ul class="uk-nav-sub">
-								<li><a href="#">Sub item</a></li>
-								<li><a href="#">Sub item</a></li>
-							</ul></li>
-						<li class="uk-nav-header">Header</li>
-						<li><a href="#"><span class="uk-margin-small-right"
-								uk-icon="icon: table"></span> Item</a></li>
-						<li><a href="#"><span class="uk-margin-small-right"
-								uk-icon="icon: thumbnails"></span> Item</a></li>
-						<li class="uk-nav-divider"></li>
-						<li><a href="#"><span class="uk-margin-small-right"
-								uk-icon="icon: trash"></span> Item</a></li>
-					</ul>
+			<div class="uk-container uk-child-width-auto@m" uk-grid>
+				<div class="uk-light"
+					style="position: fixed; background-color: #222; width: 260px; z-index: 1;">
+					<div class="bar-wrap">
+
+						<!-- Switcher Navigation -->
+						<!-- <ul class="uk-nav uk-nav-default" uk-switcher>
+							<li class="uk-active"><a href="#">Active</a></li>
+							<li class="uk-parent"><a href="#">Parent</a>
+								<ul class="uk-nav-sub">
+									<li><a href="#">Sub item</a></li>
+									<li><a href="#">Sub item</a></li>
+								</ul></li>
+							<li class="uk-nav-header">Header</li>
+							<li><a href="#"><span class="uk-margin-small-right"
+									uk-icon="icon: table"></span> Item</a></li>
+							<li><a href="#"><span class="uk-margin-small-right"
+									uk-icon="icon: thumbnails"></span> Item</a></li>
+							<li class="uk-nav-divider"></li>
+							<li><a href="#"><span class="uk-margin-small-right"
+									uk-icon="icon: trash"></span> Item</a></li>
+						</ul> -->
+						
+						<ul class="uk-subnav uk-subnav-pill" uk-switcher>
+							<li><a href="#">Item</a></li>
+							<li><a href="#">Item</a></li>
+							<li><a href="#">Item</a></li>
+						</ul>
+					</div>
 				</div>
-			</aside>
+			</div>
 			<!-- id="right-col" -->
-			<div class="uk-width-2-3"
-				style="background-color: gray;">
-				<!-- <div class="uk-panel uk-panel-scrollable"> -->
+			<div class="uk-child-width-1-3@m" style="background-color: gray;"
+				uk-grid>
 
-				<div class="uk-panel uk-panel-scrollable uk-height-large uk-clearfix uk-float-right">
+				<!-- Begin content switcher -->
+				<ul class="uk-switcher uk-margin">
 
-					<ul class="uk-grid" data-uk-grid-margin>
-					
-						<c:forEach var="listing" items="${listings}">
-						
-							<li class="uk-width-1-3">
-								<div class="uk-panel">
-									<a
-										href="${pageContext.request.contextPath}/listing?listingId=${listing.id}"><img
-										height="auto" width="85%"
-										class="uk-border-rounded uk-box-shadow-hover-large"
-										src="${pageContext.request.contextPath}/resources/img/listings/Wolverine.jpg"
-										alt=""></a>
-								</div>
-							</li>
-							
-						</c:forEach>
-						
-					</ul>
+					<!-- 1st set of content -->
+					<li>
+						<div class="uk-panel uk-panel-scrollable uk-height-large">
 
-				</div>
+							<ul class="uk-grid" uk-grid-margin>
 
+								<li><c:forEach var="listing" items="${listings}">
+
+										<li class="uk-child-width-1-3@m">
+											<div class="uk-panel">
+												<a
+													href="${pageContext.request.contextPath}/listing?listingId=${listing.id}"><img
+													height="auto" width="85%"
+													class="uk-border-rounded uk-box-shadow-hover-large"
+													src="${pageContext.request.contextPath}/resources/img/listings/Wolverine.jpg"
+													alt=""></a>
+											</div>
+										</li>
+
+									</c:forEach></li>
+
+							</ul>
+
+						</div>
+					</li>
+
+					<!-- 2nd set of content -->
+					<li>
+						<div class="uk-panel uk-panel-scrollable uk-height-large">
+
+							<ul class="uk-grid" uk-grid-margin>
+
+								<li><c:forEach var="listing" items="${listings}">
+
+										<li class="uk-child-width-1-3@m">
+											<div class="uk-panel">
+												<a
+													href="${pageContext.request.contextPath}/listing?listingId=${listing.id}"><img
+													height="auto" width="85%"
+													class="uk-border-rounded uk-box-shadow-hover-large"
+													src="${pageContext.request.contextPath}/resources/img/listings/Cat.jpg"
+													alt=""></a>
+											</div>
+										</li>
+
+									</c:forEach></li>
+
+							</ul>
+
+						</div>
+					</li>
+
+				</ul>
+				<!-- End content switcher -->
 			</div>
 
 		</div>

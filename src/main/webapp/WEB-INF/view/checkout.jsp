@@ -52,7 +52,7 @@
                     </div>
                     <div class="uk-width-2-3">
                         <div id="map" class="uk-float-right" style="width:90%;height:300px;"></div>
-                    </div>
+                </div>
                 </div>
             </div>
         </div>

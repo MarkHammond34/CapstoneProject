@@ -18,4 +18,10 @@ public interface MessageService {
 
     public void sendMessage(User user, User sendTo, String message);
 
+    public void sendMessage(User sendFrom, String message, Conversation conversation);
+
+    public void createConversation(Conversation conversation);
+
+    public Conversation getConversationOrderByDateCreated(User user1, User user2);
+
 }
