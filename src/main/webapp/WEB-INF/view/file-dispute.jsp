@@ -8,7 +8,7 @@
 
 <div class="uk-grid-medium uk-margin-medium" ukgrid>
 
-    <div class="uk-width-1-2@m uk-width-1-1@s uk-align-center uk-card uk-card-default uk-padding-small uk-border-rounded">
+    <div class="uk-width-1-2@m uk-width-3-4@s uk-align-center uk-card uk-card-default uk-padding-small uk-border-rounded">
         <div class="uk-card-header">
             <h1>File A Dispute
                 <a href="#disputeInfoModal" uk-toggle title="Hint"

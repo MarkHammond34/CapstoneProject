@@ -22,6 +22,15 @@
                     </div>
                 </div>
                 <ul class="uk-navbar-nav">
+
+                    <!-- Freshman Checklist Icon -->
+                    <c:if test="${checklist != null}">
+                        <li>
+                            <a uk-toggle="target: #offcanvas-flip" uk-icon="icon: list" type="Freshman Checklist"></a>
+                        </li>
+                    </c:if>
+
+                    <!-- Notification Icon -->
                     <li>
                         <c:choose>
                             <c:when test="${unviewedNotificationCount > 0}">
