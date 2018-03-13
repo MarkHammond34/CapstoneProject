@@ -36,7 +36,16 @@
 </head>
 <body style="background-color: rgba(36, 143, 203, 0.12);">
 
-	<div class="uk-section uk-section-large">
+	<div class="uk-section" uk-height-viewport="expand: true">
+
+		<div class="uk-cover-container" style="background-color: white;">
+			<canvas width="400" height="200"></canvas>
+			<h1 class="uk-heading-primary">Welcome ${user.firstName}</h1>
+		</div>
+
+	</div>
+
+	<div class="uk-section">
 
 		<div class="uk-container uk-container-expand">
 			<div class="uk-grid-small" uk-grid>
@@ -108,8 +117,19 @@
 	<div class="uk-section" uk-height-viewport="expand: true">
 
 		<hr>
-		
-		<%@include file="dashboard/dashboard-meetings.jsp"%>
+
+		<div class="uk-background-secondary"
+			uk-height-viewport="min-height:300">
+			<div
+				class="uk-grid-small uk-child-width-1-2@m uk-child-width-1-3@l uk-padding-small"
+				uk-grid="">
+
+				<%@include file="dashboard/dashboard-offers.jsp"%>
+				<%@include file="dashboard/dashboard-meetings.jsp"%>
+				<%@include file="dashboard/dashboard-transactions.jsp"%>
+
+			</div>
+		</div>
 
 	</div>
 

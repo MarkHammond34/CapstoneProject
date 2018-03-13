@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 public class AdminController extends BaseController {
@@ -48,37 +50,37 @@ public class AdminController extends BaseController {
     }
 
     @RequestMapping(value = "adminUnlock", method = RequestMethod.POST)
-    public String adminUnlock(HttpServletRequest request){
+    public String adminUnlock(HttpServletRequest request) {
         User usr = userService.findBySchoolEmail(request.getParameter("lock"));
         userService.unlockByUsername(usr.getUsername());
-       return"redirect:adminUser";
+        return "redirect:adminUser";
     }
 
     @RequestMapping(value = "adminLock", method = RequestMethod.POST)
-    public String adminLock(HttpServletRequest request){
+    public String adminLock(HttpServletRequest request) {
         User usr = userService.findBySchoolEmail(request.getParameter("unlock"));
         userService.lockByUsername(usr.getUsername());
-        return"redirect:adminUser";
+        return "redirect:adminUser";
     }
 
     @RequestMapping(value = "adminPasswordReset", method = RequestMethod.POST)
-    public String adminPasswordReset(HttpServletRequest request){
+    public String adminPasswordReset(HttpServletRequest request) {
         System.out.println(request.getParameter("email"));
         User usr = userService.findBySchoolEmail(request.getParameter("email"));
         Email.resetPassword(usr.getSchoolEmail());
         userService.lockByUsername(usr.getUsername());
-        return"redirect:adminUser";
+        return "redirect:adminUser";
     }
 
     @RequestMapping(value = "adminDeleteUser", method = RequestMethod.POST)
-    public String adminDelete(HttpServletRequest request){
+    public String adminDelete(HttpServletRequest request) {
         User usr = userService.findBySchoolEmail(request.getParameter("delete"));
         userService.deleteUser(usr.getUserID());
-        return"redirect:adminUser";
+        return "redirect:adminUser";
     }
 
     @RequestMapping(value = "adminCreateUser", method = RequestMethod.POST)
-    public String adminCreateUser(HttpServletRequest request){
+    public String adminCreateUser(HttpServletRequest request) {
         User user = new User();
         user.setFirstName(request.getParameter("firstName"));
         user.setLastName(request.getParameter("lastName"));
@@ -86,37 +88,62 @@ public class AdminController extends BaseController {
         user.setEmail(request.getParameter("personalEmail"));
         user.setSchoolEmail(request.getParameter("benedictineEmail"));
         user.setPassword(request.getParameter("password"));
-        if(request.getParameter("accountType") == "Admin"){
+        if (request.getParameter("accountType") == "Admin") {
             user.setAdmin(1);
-        }
-        else{
+        } else {
             user.setAdmin(0);
         }
         userService.saveOrUpdate(user);
-        return"redirect:adminUser";
+        return "redirect:adminUser";
     }
 
-    @RequestMapping(value ="adminEditUser", method = RequestMethod.POST)
-    public String adminEditUser(HttpServletRequest request){
+    @RequestMapping(value = "adminEditUser", method = RequestMethod.POST)
+    public String adminEditUser(HttpServletRequest request) {
         User usr = userService.findBySchoolEmail(request.getParameter("schoolEmailEdit"));
-        usr.setFirstName(request.getParameter("firstNameEdit"));
-        usr.setLastName(request.getParameter("lastNameEdit"));
-        usr.setUsername(request.getParameter("usernameEdit"));
-        usr.setEmail(request.getParameter("personalEmailEdit"));
-        usr.setSchoolEmail(request.getParameter("schoolEmailEdit"));
-        usr.setPassword(request.getParameter("passwordEdit"));
-        usr.setPasswordConfirm(request.getParameter("passwordEdit"));
-        userService.saveOrUpdate(usr);
-        return"redirect:adminUser";
+        String firstName = request.getParameter("firstNameEdit");
+        String lastName = request.getParameter("lastNameEdit");
+        String username = request.getParameter("usernameEdit");
+        String phoneNumber = request.getParameter("phoneNumberEdit");
+        String email = request.getParameter("personalEmailEdit");
+        String schoolEmail = request.getParameter("schoolEmailEdit");
+        String password = request.getParameter("passwordEdit");
+
+        Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
+                Pattern.CASE_INSENSITIVE);
+        if (firstName.length() < 2 || firstName.length() > 30 || firstName.matches("[A-Za-z]")) {
+            addErrorMessage("Incorrect value for first name");
+        } else if (lastName.length() < 2 || lastName.length() > 30 || lastName.matches("[A-Za-z]")) {
+            addErrorMessage("Incorrect value for first name");
+        } else if (username.length() > 8) {
+            addErrorMessage("Incorrect value for username");
+        } else if (phoneNumber.length() != 10) {
+            addErrorMessage("Incorrect value for phone number");
+        } else if ((pattern.matcher(email).matches())){
+            addErrorMessage("Incorrect value for email");
+        } else if ((pattern.matcher(schoolEmail).matches())) {
+            addErrorMessage("Incorrect value for school email");
+        } else if(password.length() > 8){
+            addErrorMessage("Incorrect value for password");
+        } else {
+            usr.setFirstName(firstName);
+            usr.setLastName(lastName);
+            usr.setUsername(username);
+            usr.setEmail(email);
+            usr.setSchoolEmail(schoolEmail);
+            usr.setPassword(password);
+            userService.saveOrUpdate(usr);
+        }
+        return "redirect:adminUser";
     }
 
-    @RequestMapping(value ="adminListing", method = RequestMethod.GET)
-    public String adminListing(HttpServletRequest request){
+    @RequestMapping(value = "adminListing", method = RequestMethod.GET)
+    public String adminListing(HttpServletRequest request) {
         List<Listing> allListings = listingService.getRecentListings();
         request.getSession().setAttribute("allListings", allListings);
         return "admin/adminListings";
 
     }
+
     @GetMapping("/adminDisputes")
     public String disputes(HttpServletRequest request) {
 

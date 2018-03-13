@@ -7,28 +7,17 @@
 <%@include file="jspf/messages.jsp" %>
 
 <div class="u-list-it-background">
-
-    <div class="uk-position-relative uk-visible-toggle uk-light"
-         uk-slideshow="max-height: 300; ratio: 10:3">
-
-        <ul class="uk-slideshow-items">
-            <li><img
-                    src="${pageContext.request.contextPath}/resources/img/hp-img1.png"
-                    alt="" width="1203" uk-cover></li>
-            <li><img
-                    src="${pageContext.request.contextPath}/resources/img/sunset.jpg"
-                    alt="" uk-cover></li>
-            <li><img
-                    src="${pageContext.request.contextPath}/resources/img/sunset.jpg"
-                    alt="" uk-cover></li>
-        </ul>
-
-        <a class="uk-position-center-left uk-position-small uk-hidden-hover"
-           href="#" uk-slidenav-previous uk-slideshow-item="previous"></a> <a
-            class="uk-position-center-right uk-position-small uk-hidden-hover"
-            href="#" uk-slidenav-next uk-slideshow-item="next"></a>
-
+    <div class="uk-section-default">
+        <div class="uk-section-large uk-overlay-default uk-background-cover" style="background-image:url('${pageContext.request.contextPath}/resources/img/index2.jpeg');" >
+            <div class="uk-overlay uk-light uk-align-center uk-border-rounded" style="width:50%;background: rgba(34,34,34,0.85);">
+                <form class="uk-search uk-search-large">
+                    <span uk-search-icon></span>
+                    <input class="uk-search-input" type="search" placeholder="Search...">
+                </form>
+            </div>
+        </div>
     </div>
+
     <br>
     <div class="uk-child-width-expand@s uk-text-center" uk-grid>
         <div class="uk-width-1-4">

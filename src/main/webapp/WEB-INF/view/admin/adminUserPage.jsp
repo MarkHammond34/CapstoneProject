@@ -63,7 +63,7 @@
 <body>
 <div class="uk-cover-container uk-height-viewport">
     <div class="uk-flex uk-flex-column">
-        <ul uk-switcher>
+        <ul uk-switcher hidden>
             <li>
                 <a href="#dashboardUserTable" hidden></a>Users
             </li>
@@ -72,9 +72,7 @@
             </li>
         </ul>
         <div class="uk-card uk-card-default uk-card-large uk-card-body uk-width-3-4 uk-position-large uk-position-top-center">
-
-
-        </div>
+            <%@ include file="../jspf/messages.jsp" %>
         <div id="dashboardUserTable"
              class="uk-switcher uk-card uk-card-default uk-card-large uk-card-body uk-width-3-4 uk-position-large uk-position-top-center">
             <div class="uk-overflow-auto">
@@ -216,28 +214,38 @@
                 <div class="uk-modal-body">
                     <form class="uk-grid-small" uk-grid method="Post" action="adminEditUser">
                         <div class="uk-width-1-2 uk-from-controls">
-                            <input  class="uk-input" name="firstNameEdit" type="text"
+                            <label class="uk-form-label" for="firstNameEdit">First Name</label>
+                            <input id="firstNameEdit"  class="uk-input" name="firstNameEdit" type="text"
                                    value="<%=allUsers.get(j).getFirstName()%>">
                         </div>
                         <div class="uk-width-1-2">
-                            <label class="uk-form-label" for="lastName"> </label>
-                            <input id="lastName" class="uk-input" name="lastNameEdit" type="text"
+                            <label class="uk-form-label" for="lastNameEdit">Last Name</label>
+                            <input id="lastNameEdit" class="uk-input" name="lastNameEdit" type="text"
                                    value="<%=allUsers.get(j).getLastName()%>">
                         </div>
                         <div class="uk-width-1-2">
-                            <input id="username" class="uk-input" name="usernameEdit" type="text"
+                            <label class="uk-form-label" for="usernameEdit">Username</label>
+                            <input id="usernameEdit" class="uk-input" name="usernameEdit" type="text"
                                    value="<%=allUsers.get(j).getUsername()%>">
                         </div>
+                        <div class="uk-width-1-2">
+                            <label class="uk-form-label" for="phoneNumberEdit">Phone Number</label>
+                            <input id="phoneNumberEdit" class="uk-input" name="phoneNumberEdit" type="number"
+                                   value="<%=allUsers.get(j).getPhoneNumber()%>">
+                        </div>
                         <div class="uk-width-1-1">
-                            <input id="personalEmail" class="uk-input" name="personalEmailEdit" type="email"
+                            <label class="uk-form-label" for="personalEmailEdit">Personal Email</label>
+                            <input id="personalEmailEdit" class="uk-input" name="personalEmailEdit" type="email"
                                    value="<%=allUsers.get(j).getEmail()%>">
                         </div>
                         <div class="uk-width-1-1">
-                            <input id="benedictineEmail" class="uk-input" name="schoolEmailEdit" type="email"
+                            <label class="uk-form-label" for="benedictineEmailEdit">Benedictine Email</label>
+                            <input id="benedictineEmailEdit" class="uk-input" name="schoolEmailEdit" type="email"
                                    value="<%=allUsers.get(j).getSchoolEmail()%>">
                         </div>
                         <div class="uk-width-1-1">
-                            <input id="password" class="uk-input" name="passwordEdit" type="password"
+                            <label class="uk-form-label" for="passwordEdit">Password</label>
+                            <input id="passwordEdit" class="uk-input" name="passwordEdit" type="password"
                                    value="<%=allUsers.get(j).getPassword()%>">
                         </div>
                         <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid uk-width-1-1">

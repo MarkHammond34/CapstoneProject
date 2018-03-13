@@ -1,24 +1,13 @@
+<%@ page import="edu.ben.model.User" %>
 <div class="uk-position-relative" style="background-color: white; margin-bottom: 10px;">
     <div class="uk-position-relativetop">
         <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
             <div class="uk-navbar-left">
-                <ul class="uk-navbar-nav">
-                    <li><a href="${pageContext.request.contextPath}/">Home</a></li>
-                    <li><a
-                            href="${pageContext.request.contextPath}/displayListing">View
-                        Listings</a></li>
-                    <li>
-                        <form method="get"
-                              action="${pageContext.request.contextPath}/createListing">
-                            <button type="submit" class="create-listing-button">CREATE LISTING
-                            </button>
-                        </form>
-                    </li>
-                </ul>
+                <a class="uk-navbar-toggle" uk-navbar-toggle-icon uk-toggle="target: #offcanvas-slide"></a>
             </div>
             <div class="uk-navbar-center">
-                <a class="uk-navbar-item uk-logo uk-align-center"><img
-                        src="${pageContext.request.contextPath}/resources/img/logo.png"></a>
+                <a class="uk-navbar-item uk-align-center"><img
+                        src="${pageContext.request.contextPath}/resources/img/logo.png" style="margin-top:10%;width:25%;display:block;margin:auto;"></a>
             </div>
             <div class="uk-navbar-right">
                 <div>
@@ -92,11 +81,11 @@
                                     </c:when>
                                     <c:when test="${notifications == null}">
                                         <c:choose>
-                                            <c:when test="${sessionScope.user != null}">
+                                            <c:when test="${user != null}">
                                                 <p uk-icon="icon: happy" style="text-align: center">Nothing
                                                     To See Here </p>
                                             </c:when>
-                                            <c:when test="${sessionScope.user == null}">
+                                            <c:when test="${user == null}">
                                                 <a uk-icon="icon: sign-in" href="/login"
                                                    style="text-align: center">Login To See Notifications</a>
                                             </c:when>
@@ -107,12 +96,12 @@
                         </div>
                     </li>
                     <c:choose>
-                        <c:when test="${sessionScope.user != null }">
-                            <li><a>Welcome ${sessionScope.user.firstName}</a>
+                        <c:when test="${user != null }">
+                            <li><a>Welcome ${user.firstName}</a>
                                 <div uk-dropdown>
                                     <ul class="uk-nav uk-dropdown-nav uk-grid-small" uk-grid>
                                         <li class="uk-width-1-1"><a
-                                                href="${pageContext.request.contextPath}/viewProfile?id=${sessionScope.user.userID}">
+                                                href="${pageContext.request.contextPath}/viewProfile?userId=${sessionScope.user.userID}">
                                             Profile Page</a></li>
                                         <li class="uk-width-1-1"><a
                                                 href="${pageContext.request.contextPath}/viewUserListings">
@@ -123,7 +112,7 @@
                                         <li class="uk-width-1-1"><a
                                                 href="${pageContext.request.contextPath}/notifications">
                                             Notification</a></li>
-                                        <c:if test="${sessionScope.user.adminLevel > 0}">
+                                        <c:if test="${user.adminLevel > 0}">
                                             <li class="uk-width-1-1"><a
                                                     href="${pageContext.request.contextPath}/admin">
                                                 Admin</a></li>
@@ -146,6 +135,31 @@
         </nav>
     </div>
 </div>
+
+<!--Side Nav Menu -->
+<div id="offcanvas-slide" uk-offcanvas="overlay: true">
+    <div class="uk-offcanvas-bar uk-flex uk-flex-column">
+
+        <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical">
+            <li><a href="${pageContext.request.contextPath}/login"><span class="uk-margin-small-right" uk-icon="icon: home"></span>Home</a></li>
+            <li class="uk-nav-divider"></li>
+            <c:if test="${sessionScope.user != null}">
+                <li><a href="${pageContext.request.contextPath}/viewProfile?userId=${sessionScope.user.userID}"><span class="uk-margin-small-right" uk-icon="icon: user"></span>Profile</a></li>
+                <li class="uk-nav-divider"></li>
+                <li><a href="${pageContext.request.contextPath}/viewUserListings"><span class="uk-margin-small-right" uk-icon="icon: thumbnails"></span>Listings</a></li>
+                <li class="uk-nav-divider"></li>
+                <li><a href="${pageContext.request.contextPath}/createListing"><span class="uk-margin-small-right" uk-icon="icon: plus-circle"></span>Create Listing</a></li>
+                <li class="uk-nav-divider"></li>
+            </c:if>
+            <c:if test="${sessionScope.user.adminLevel > 0}">
+                <li><a href="${pageContext.request.contextPath}/admin"><span class="uk-margin-small-right" uk-icon="icon: cog"></span>Admin</a></li>
+            </c:if>
+        </ul>
+
+    </div>
+</div>
+
+
 
 <script>
     // Notification JS

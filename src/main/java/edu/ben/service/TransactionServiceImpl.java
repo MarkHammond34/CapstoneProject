@@ -9,14 +9,13 @@ import org.springframework.stereotype.Service;
 
 import edu.ben.dao.TransactionDAO;
 import edu.ben.model.Transaction;
-import edu.ben.model.User;
 
 @Service
 @Transactional
 public class TransactionServiceImpl implements TransactionService {
-	
+
 	TransactionDAO transactionDAO;
-	
+
 	@Autowired
 	public void setTransactionDAO(TransactionDAO transactionDAO) {
 		this.transactionDAO = transactionDAO;
@@ -52,30 +51,33 @@ public class TransactionServiceImpl implements TransactionService {
 		return transactionDAO.getTransactionsBySellerID(id);
 	}
 
+	@Override
+	public List<Transaction> getTransactionsByUserID(int id) {
+		return transactionDAO.getTransactionsByUserID(id);
+	}
+
+	@Override
+	public Transaction getTransactionsByListingID(int id) {
+		try {
+			return transactionDAO.getTransactionsByListingID(id);
+		} catch (IndexOutOfBoundsException e) {
+			return null;
+		}
+	}
+
 	public void updateTransRating(int transRating, Transaction transaction) {
 		transaction.setTransRating(transRating);
 		transactionDAO.saveOrUpdate(transaction);
 	}
-	
+
 	public void updateFeedbackLeft(int feedbackLeft, Transaction transaction) {
 		transaction.setFeedbackLeft(feedbackLeft);
 		transactionDAO.saveOrUpdate(transaction);
 	}
-	
+
 	public void updateTransReview(String transReview, Transaction transaction) {
 		transaction.setTransReview(transReview);
 		transactionDAO.saveOrUpdate(transaction);
 	}
 
-	@Override
-	public List<Transaction> getTransactionsByUserID(int userID) {
-		return transactionDAO.getTransactionsBySellerID(userID);
-	}
-
-	@Override
-	public Transaction getTransactionsByListingID(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 }

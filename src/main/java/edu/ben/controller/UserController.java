@@ -18,8 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.ben.model.Follow;
-import edu.ben.model.Listing;
-import edu.ben.model.Offer;
 import edu.ben.model.User;
 import edu.ben.service.FollowService;
 import edu.ben.service.ListingService;
@@ -156,41 +154,6 @@ public class UserController {
 			System.out.println("Unfollow");
 		}
 		return ":/redirect";
-	}
-
-	@RequestMapping(value="/dashboard", method = RequestMethod.GET)
-	public ModelAndView showDashboard() {
-		
-		ModelAndView model = new ModelAndView("dashboard2");
-		
-		List<Listing> listings = listingService.getAllListings();
-		List<Offer> offers = offerService.getOffersByUserId(9);
-		
-		System.out.println(listings.size());
-		System.out.println(offers.size());
-		
-		model.addObject("title", "Dashboard");
-		model.addObject("listings", listings);
-		model.addObject("offers", offers);
-		
-		return model;
-		
-	}
-	
-	@RequestMapping(value="/dashboardTest", method = RequestMethod.GET)
-	public ModelAndView test() {
-		
-		ModelAndView model = new ModelAndView("test");
-		
-		List<Listing> listings = listingService.getAllListings();
-		
-		System.out.println(listings.size());
-		
-		model.addObject("title", "Dashboard");
-		model.addObject("listings", listings);
-		
-		return model;
-		
 	}
 
 
