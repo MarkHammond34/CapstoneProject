@@ -105,6 +105,11 @@
         </div>
     </div>
 </div>
+
+<%@include file="checklist/checklist-modal.jsp" %>
+
+<%@include file="checklist/checklist-sidenav.jsp" %>
+
 <%@include file="jspf/footer.jspf" %>
 <script>
     function trendingClicked() {

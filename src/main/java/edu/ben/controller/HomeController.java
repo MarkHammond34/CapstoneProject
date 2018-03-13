@@ -2,8 +2,8 @@ package edu.ben.controller;
 
 import java.util.List;
 
+import edu.ben.model.Checklist;
 import edu.ben.model.Listing;
-import edu.ben.model.Notification;
 import edu.ben.model.User;
 import edu.ben.service.*;
 import edu.ben.util.Email;
@@ -32,6 +32,9 @@ public class HomeController extends BaseController {
 
     @Autowired
     SearchHistoryService searchHistoryService;
+
+    @Autowired
+    ChecklistService checklistService;
 
     /*
     @Autowired
@@ -68,6 +71,8 @@ public class HomeController extends BaseController {
 
             NotificationController.updateNotifications(request, notificationService);
 
+            request.setAttribute("checklist", checklistService.getByUserIDAndType(user.getUserID(), "FRESHMAN"));
+
         }
 
         setModel(model);
@@ -77,11 +82,6 @@ public class HomeController extends BaseController {
     @GetMapping("/contactUs")
     public String contactUs() {
         return "contactUs";
-    }
-
-    @GetMapping("/freshmanChecklist")
-    public String freshmanChecklist() {
-        return "freshmanChecklist";
     }
 
     @PostMapping("/sendEmail")
