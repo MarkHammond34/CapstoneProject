@@ -31,7 +31,7 @@ import edu.ben.service.OfferService;
 import edu.ben.service.NotificationService;
 import edu.ben.service.SavedSearchService;
 import edu.ben.service.UserService;
-import edu.ben.util.ImagePath;
+import edu.ben.util.Path;
 
 @Controller
 @Transactional
@@ -129,7 +129,7 @@ public class ListingController extends BaseController {
 				byte[] bytes = file.getBytes();
 
 				// Creating the directory to store file
-				File dir = new File(ImagePath.url + File.separator + "listings");
+				File dir = new File(Path.url + File.separator + "listings");
 				if (!dir.exists())
 					dir.mkdirs();
 
