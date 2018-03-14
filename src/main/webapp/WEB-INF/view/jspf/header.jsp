@@ -6,7 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
 <!DOCTYPE html>
-<html>
+<html style="height:100%;">
 <head>
 
     <spring:url value="resources/js/notification.js" var="notJS"/>
