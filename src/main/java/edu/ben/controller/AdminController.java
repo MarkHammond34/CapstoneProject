@@ -62,6 +62,20 @@ public class AdminController extends BaseController {
         userService.lockByUsername(usr.getUsername());
         return "redirect:adminUser";
     }
+    
+    @RequestMapping(value = "adminUnban", method = RequestMethod.POST)
+    public String adminUnban(HttpServletRequest request) {
+        User usr = userService.findBySchoolEmail(request.getParameter("ban"));
+        userService.unbanByUsername(usr.getUsername());
+        return "redirect:adminUser";
+    }
+
+    @RequestMapping(value = "adminBan", method = RequestMethod.POST)
+    public String adminBan(HttpServletRequest request) {
+        User usr = userService.findBySchoolEmail(request.getParameter("unban"));
+        userService.banByUsername(usr.getUsername());
+        return "redirect:adminUser";
+    }
 
     @RequestMapping(value = "adminPasswordReset", method = RequestMethod.POST)
     public String adminPasswordReset(HttpServletRequest request) {

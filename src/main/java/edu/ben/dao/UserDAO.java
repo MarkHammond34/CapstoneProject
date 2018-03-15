@@ -19,6 +19,10 @@ public interface UserDAO {
     public void unlockByUsername(String username);
 
     public void lockByUsername(String username);
+    
+    public void unbanByUsername(String username);
+
+    public void banByUsername(String username);
 
     public User findByEmail(String email);
 

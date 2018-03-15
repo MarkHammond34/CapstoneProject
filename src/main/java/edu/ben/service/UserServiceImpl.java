@@ -53,6 +53,14 @@ public class UserServiceImpl implements UserService {
 	public void unlockByUsername(String username) {
 		userDAO.unlockByUsername(username);
 	}
+	
+	public void banByUsername(String username) {
+		userDAO.banByUsername(username);
+	}
+
+	public void unbanByUsername(String username) {
+		userDAO.unbanByUsername(username);
+	}
 
 	@Override
 	public User findByEmail(String email) {

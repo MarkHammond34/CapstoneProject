@@ -47,6 +47,18 @@ public class UserDAOImpl implements UserDAO {
 		q.setParameter("username", username);
 		q.executeUpdate();
 	}
+	
+	public void unbanByUsername(String username) {
+		Query q = getSession().createQuery("UPDATE user SET banned=0 WHERE username=:username");
+		q.setParameter("username", username);
+		q.executeUpdate();
+	}
+
+	public void banByUsername(String username) {
+		Query q = getSession().createQuery("UPDATE user SET banned=1 WHERE username=:username");
+		q.setParameter("username", username);
+		q.executeUpdate();
+	}
 
 	public User getUserById(int id) {
 		User user = (User) getSession().get(User.class, id);

@@ -39,35 +39,40 @@ public class LoginController extends BaseController {
 		System.out.println(password);
 
 		User user = userService.findBySchoolEmail(email);
-		
+
 		String url = "";
 		String message = "";
 
 		if (user != null) {
-			if (user.getActive() > 0 && user.getLocked() < 1) {
-				if (user.getPassword() != null && user.getPassword().equals(password)) {
-					request.getSession().setAttribute("user", user);
-					userService.updateAttemptedLogins(0, user);
-					System.out.println("pass match");
-					return "redirect:/";
+			if (user.getBanned() < 1) {
+				if (user.getActive() > 0 && user.getLocked() < 1) {
+					if (user.getPassword() != null && user.getPassword().equals(password)) {
+						request.getSession().setAttribute("user", user);
+						userService.updateAttemptedLogins(0, user);
+						System.out.println("pass match");
+						return "redirect:/";
 
-				} else {
-					request.setAttribute("email", email);
-					int loginAttempts = user.getLoginAttempts() + 1;
-					System.out.println(loginAttempts);
-					userService.updateAttemptedLogins(loginAttempts, user);
-					
-					if (loginAttempts >= 5) {
-						userService.lockByUsername(user.getUsername());
-						addErrorMessage(
-								"invalid username and password - login limit exceeded, your account has been locked out");
 					} else {
-						addErrorMessage("invalid password - you have " + (5 - loginAttempts) + " remaining");
+						request.setAttribute("email", email);
+						int loginAttempts = user.getLoginAttempts() + 1;
+						System.out.println(loginAttempts);
+						userService.updateAttemptedLogins(loginAttempts, user);
+
+						if (loginAttempts >= 5) {
+							userService.lockByUsername(user.getUsername());
+							addErrorMessage(
+									"invalid username and password - login limit exceeded, your account has been locked out");
+						} else {
+							addErrorMessage("invalid password - you have " + (5 - loginAttempts) + " remaining");
+						}
+						url = "login";
 					}
+				} else {
+					addErrorMessage("Your account is locked out, click unlock to activate your account");
 					url = "login";
 				}
 			} else {
-				addErrorMessage("Your account is locked out, click unlock to activate your account");
+				addErrorMessage("This account is currently banned from our site");
 				url = "login";
 			}
 		} else {
@@ -110,59 +115,50 @@ public class LoginController extends BaseController {
 		return "redirect:/";
 	}
 
-	/*@PostMapping("/unlock")
-	public String unlock(HttpServletRequest request) {
-		String action = request.getParameter("action");
-		String message = "";
-		String url = "unlock";
-
-		if (action.equals("email")) {
-			String email = request.getParameter("email");
-
-			User user = userService.findBySchoolEmail(email);
-
-			if (user != null) {
-
-				Email mail = new Email();
-				message = Email.unlockCode(email);
-				url = "unlock";
-			} else {
-
-				message = "We didn't find your email linked to an account in our Database";
-				url = "unlockCode";
-
-			}
-
-		} else if (action.equals("code")) {
-
-			String email = request.getParameter("email");
-			String code = request.getParameter("code");
-
-			User user = userService.findBySchoolEmail(email);
-
-			if (user != null) {
-
-				if (code.equals(user.getUnlockCode())) {
-					UserDAO.updateIsActive(1, email);
-					message = "Account successfully unlocked";
-					url = "login";
-				} else {
-					message = "The entered code doesn't match the code we sent you";
-					url = "unlock";
-				}
-
-			} else {
-
-				message = "We didn't find your email linked to an account in our Database";
-
-			}
-
-		}
-
-		request.setAttribute("message", message);
-		return url;
-
-	}
-
-}*/
+	/*
+	 * @PostMapping("/unlock") public String unlock(HttpServletRequest request) {
+	 * String action = request.getParameter("action"); String message = ""; String
+	 * url = "unlock";
+	 * 
+	 * if (action.equals("email")) { String email = request.getParameter("email");
+	 * 
+	 * User user = userService.findBySchoolEmail(email);
+	 * 
+	 * if (user != null) {
+	 * 
+	 * Email mail = new Email(); message = Email.unlockCode(email); url = "unlock";
+	 * } else {
+	 * 
+	 * message = "We didn't find your email linked to an account in our Database";
+	 * url = "unlockCode";
+	 * 
+	 * }
+	 * 
+	 * } else if (action.equals("code")) {
+	 * 
+	 * String email = request.getParameter("email"); String code =
+	 * request.getParameter("code");
+	 * 
+	 * User user = userService.findBySchoolEmail(email);
+	 * 
+	 * if (user != null) {
+	 * 
+	 * if (code.equals(user.getUnlockCode())) { UserDAO.updateIsActive(1, email);
+	 * message = "Account successfully unlocked"; url = "login"; } else { message =
+	 * "The entered code doesn't match the code we sent you"; url = "unlock"; }
+	 * 
+	 * } else {
+	 * 
+	 * message = "We didn't find your email linked to an account in our Database";
+	 * 
+	 * }
+	 * 
+	 * }
+	 * 
+	 * request.setAttribute("message", message); return url;
+	 * 
+	 * }
+	 * 
+	 * }
+	 */
 }

@@ -93,6 +93,9 @@ public class User {
     @Column(name = "admin_level")
     private int adminLevel;
 
+    @Column(name = "banned")
+    private int banned;
+
     @Formula("(select avg(transaction.trans_rating) from transaction where transaction.seller_ID=user_ID)")
     private Integer sellerRating;
 
@@ -281,5 +284,13 @@ public class User {
 
     public void setSellerRating(Integer sellerRating) {
         this.sellerRating = sellerRating;
+    }
+    
+    public int getBanned() {
+        return banned;
+    }
+
+    public void setBanned(int banned) {
+        this.banned = banned;
     }
 }

@@ -19,6 +19,10 @@ public interface UserService {
 	public void lockByUsername(String username);
 
 	public void unlockByUsername(String username);
+	
+	public void banByUsername(String username);
+
+	public void unbanByUsername(String username);
 
 	public User findByEmail(String email);
 
