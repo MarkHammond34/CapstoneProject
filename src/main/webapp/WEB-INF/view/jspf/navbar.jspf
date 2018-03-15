@@ -110,7 +110,7 @@
                                 <div uk-dropdown>
                                     <ul class="uk-nav uk-dropdown-nav uk-grid-small" uk-grid>
                                         <li class="uk-width-1-1"><a
-                                                href="${pageContext.request.contextPath}/viewProfile?userId=${sessionScope.user.userID}">
+                                                href="${pageContext.request.contextPath}/viewProfile?id=${sessionScope.user.userID}">
                                             Profile Page</a></li>
                                         <li class="uk-width-1-1"><a
                                                 href="${pageContext.request.contextPath}/viewUserListings">
