@@ -55,9 +55,6 @@ public class Listing implements java.io.Serializable {
     @Column(name = "type")
     public String type;
 
-    @Column(name = "image_path")
-    private String image_path;
-
     @OneToOne
     @JoinColumn(name = "highest_bid_userID")
     private User highestBidder;
@@ -90,50 +87,42 @@ public class Listing implements java.io.Serializable {
         this.bidCount = 0;
     }
 
-    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price,
-                   String imagePath) {
+    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         // this.category = category;
-        this.image_path = imagePath;
         this.highestBid = 0;
         this.bidCount = 0;
     }
 
-    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, String category,
-                   String imagePath) {
+    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, String category) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.category = category;
-        this.image_path = imagePath;
         this.highestBid = 0;
         this.bidCount = 0;
     }
 
-    public Listing(@NotBlank String name, String description, @NotBlank double price, /* @NotBlank String category, */
-                   String file) {
+    public Listing(@NotBlank String name, String description, @NotBlank double price/* @NotBlank String category, */) {
         super();
         this.name = name;
         this.description = description;
         this.price = price;
         // this.category = category;
-        this.image_path = file;
         this.highestBid = 0;
         this.bidCount = 0;
     }
 
-    public Listing(@NotBlank String name, String description, @NotBlank double price, @NotBlank String category,
-                   String file) {
+    public Listing(@NotBlank String name, String description, @NotBlank double price, @NotBlank String category) {
         super();
         this.name = name;
         this.description = description;
         this.price = price;
         this.category = category;
-        this.image_path = file;
         this.highestBid = 0;
         this.bidCount = 0;
     }
@@ -181,7 +170,7 @@ public class Listing implements java.io.Serializable {
     @Override
     public String toString() {
         return "Listing [id=" + id + ", name=" + name + ", description=" + description + ", category=" /* + category */
-                + ", price=" + price + ", dateCreated=" + dateCreated + ", image_path=" + image_path + ", user=" + user
+                + ", price=" + price + ", dateCreated=" + dateCreated + ", user=" + user
                 + "]";
     }
 
@@ -258,14 +247,6 @@ public class Listing implements java.io.Serializable {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public String getImage_path() {
-        return image_path;
-    }
-
-    public void setImage_path(String image_path) {
-        this.image_path = image_path;
     }
 
     public int getActive() {

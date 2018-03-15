@@ -29,6 +29,11 @@ public class ListingDAOImpl implements ListingDAO {
         getSession().save(listing);
     }
 
+    @Override
+    public int save(Listing listing) {
+        return (Integer) getSession().save(listing);
+    }
+
     public void saveOrUpdate(Listing listing) {
         getSession().saveOrUpdate(listing);
     }

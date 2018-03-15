@@ -20,6 +20,11 @@ public class ImageDAOImpl implements ImageDAO {
     private Session getSession(){ return sessionFactory.getCurrentSession();}
 
     @Override
+    public int save(Image image) {
+        return (Integer) getSession().save(image);
+    }
+
+    @Override
     public void saveOrUpdate(Image image) {
         getSession().saveOrUpdate(image);
     }

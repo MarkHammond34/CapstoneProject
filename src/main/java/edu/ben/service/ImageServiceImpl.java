@@ -20,6 +20,11 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
+    public int save(Image image) {
+        return imageDAO.save(image);
+    }
+
+    @Override
     public void saveOrUpdate(Image image) {
         imageDAO.saveOrUpdate(image);
     }
