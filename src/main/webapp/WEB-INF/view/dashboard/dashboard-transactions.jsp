@@ -1,7 +1,7 @@
 <div>
 	<div class="uk-card uk-card-small uk-card-default uk-border-rounded">
 		<%@include file="tableHeaders/transaction-table-header.jsp"%>
-		<div class="uk-overflow-auto">
+		<div>
 			<table
 				class="uk-table uk-table-hover uk-table-middle uk-table-divider">
 				<tbody>

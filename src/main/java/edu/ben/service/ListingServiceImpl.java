@@ -183,4 +183,14 @@ public class ListingServiceImpl implements ListingService {
 	public List<Listing> getAllListings() {
 		return ld.getAllListings();
 	}
+
+	@Override
+	public List<Listing> getActiveListingsByUserId(int id) {
+		return ld.getActiveListingsByUserId(id);
+	}
+
+	@Override
+	public List<Listing> getInActiveListingsByUserId(int id) {
+		return ld.getInActiveListingsByUserId(id);
+	}
 }

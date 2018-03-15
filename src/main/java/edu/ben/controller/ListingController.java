@@ -88,7 +88,7 @@ public class ListingController extends BaseController {
 		}
 
 		String message = "";
-		String error = "";
+		//String error = "";
 
 		System.out.println(subCategory);
 
@@ -279,7 +279,7 @@ public class ListingController extends BaseController {
 		return "redirect:/";
 	}
 
-	@RequestMapping(value = "/edit", method = RequestMethod.GET) // WORKS
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam("listing") int listingID) {
 
 		ModelAndView model = new ModelAndView("/jspf/edit-fixed-listing");
@@ -304,7 +304,7 @@ public class ListingController extends BaseController {
 
 		listingService.saveOrUpdate(listing);
 
-		return "redirect:/viewProfile";
+		return "redirect:/dashboard2";
 	}
 
 	@RequestMapping(value = "/sub", method = RequestMethod.GET)
@@ -374,10 +374,9 @@ public class ListingController extends BaseController {
 	@RequestMapping(value = "/cancelAuction", method = RequestMethod.GET)
 	public ModelAndView cancelAuction(@RequestParam("listing") int listingID) {
 
-		ModelAndView model = new ModelAndView("profile?");
+		ModelAndView model = new ModelAndView("dashboard2");
 
 		Listing listing = listingService.getByListingID(listingID);
-		User user = userService.getUserById(listing.getUser().getUserID());
 
 		// if bidcount is above 0, reject auction cancel with an error message
 		if (listing.getBidCount() > 0) {
@@ -392,9 +391,11 @@ public class ListingController extends BaseController {
 
 			// yes?
 
-			// delete the listing
-			listingService.deleteListing(listingID);
-
+			// deactivate the listing
+			listing.setActive(0);
+			listing.setEnded(1);
+			listingService.saveOrUpdate(listing);
+			
 		}
 		return model;
 	}

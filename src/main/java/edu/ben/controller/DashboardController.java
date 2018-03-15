@@ -2,15 +2,19 @@ package edu.ben.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.ben.model.Listing;
 import edu.ben.model.Offer;
 import edu.ben.model.Transaction;
+import edu.ben.model.User;
 import edu.ben.service.FollowService;
 import edu.ben.service.ListingService;
 import edu.ben.service.OfferService;
@@ -68,6 +72,103 @@ public class DashboardController {
 		return model;
 
 	}
+
+	@RequestMapping(value = "/filterListings", method = RequestMethod.GET)
+	public ModelAndView filterListings(HttpServletRequest request, @RequestParam("type") String filterType,
+			@RequestParam("listings") List<Listing> list) {
+
+		ModelAndView model = new ModelAndView("dashboard2");
+
+		User user = (User) request.getAttribute("user");
+		
+		
+
+		model.addObject("title", "Dashboard");
+
+		return model;
+
+	}
+
+	@RequestMapping(value = "/filterOffers", method = RequestMethod.GET)
+	public ModelAndView filterOffers(HttpServletRequest request, @RequestParam("type") String filterType,
+			@RequestParam("offers") List<Listing> list) {
+
+		ModelAndView model = new ModelAndView("dashboard2");
+
+		User user = (User) request.getAttribute("user");
+
+		model.addObject("title", "Dashboard");
+
+		return model;
+
+	}
+
+	@RequestMapping(value = "/filterMeetings", method = RequestMethod.GET)
+	public ModelAndView filterMeetings(HttpServletRequest request, @RequestParam("type") String filterType,
+			@RequestParam("meetings") List<Listing> list) {
+
+		ModelAndView model = new ModelAndView("dashboard2");
+
+		User user = (User) request.getAttribute("user");
+
+		model.addObject("title", "Dashboard");
+
+		return model;
+
+	}
+
+	@RequestMapping(value = "/filterTransactions", method = RequestMethod.GET)
+	public ModelAndView filterTransactions(HttpServletRequest request, @RequestParam("type") String filterType,
+			@RequestParam("transactions") List<Listing> list) {
+
+		ModelAndView model = new ModelAndView("dashboard2");
+
+		User user = (User) request.getAttribute("user");
+
+		model.addObject("title", "Dashboard");
+
+		return model;
+
+	}
+
+	//
+	// @RequestMapping(value = "/filterAllListings", method = RequestMethod.GET)
+	// public ModelAndView filterAllListings(HttpServletRequest request) {
+	//
+	// ModelAndView model = new ModelAndView("dashboard2");
+	//
+	// User user = (User) request.getAttribute("user");
+	//
+	// List<Listing> listings =
+	// listingService.getAllListingsByUserID(user.getUserID());
+	//
+	// System.out.println(listings.size());
+	//
+	// model.addObject("title", "Dashboard");
+	// model.addObject("listings", listings);
+	//
+	// return model;
+	//
+	// }
+	//
+	// @RequestMapping(value = "/filterAllListings", method = RequestMethod.GET)
+	// public ModelAndView filterAllListings(HttpServletRequest request) {
+	//
+	// ModelAndView model = new ModelAndView("dashboard2");
+	//
+	// User user = (User) request.getAttribute("user");
+	//
+	// List<Listing> listings =
+	// listingService.getAllListingsByUserID(user.getUserID());
+	//
+	// System.out.println(listings.size());
+	//
+	// model.addObject("title", "Dashboard");
+	// model.addObject("listings", listings);
+	//
+	// return model;
+	//
+	// }
 
 	@RequestMapping(value = "/dashboardTest", method = RequestMethod.GET)
 	public ModelAndView test() {

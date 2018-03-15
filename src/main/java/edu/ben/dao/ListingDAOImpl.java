@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.ben.model.Listing;
-import edu.ben.model.User;
 
 @Transactional
 @Repository
@@ -267,4 +266,24 @@ public class ListingDAOImpl implements ListingDAO {
     public List getPremiumListings() {
         return getSession().createQuery("FROM listing WHERE premium=1 AND active=1 AND ended=0 ORDER BY end_timestamp DESC").list();
     }
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Listing> getActiveListingsByUserId(int id) {
+		
+		Query q = getSession().createQuery("FROM Listing WHERE userID=:id AND active = 1");
+		q.setParameter("id", id);
+		
+		return q.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Listing> getInActiveListingsByUserId(int id) {
+		
+		Query q = getSession().createQuery("FROM Listing WHERE userID=:id AND active = 0");
+		q.setParameter("id", id);
+		
+		return q.list();
+	}
 }
