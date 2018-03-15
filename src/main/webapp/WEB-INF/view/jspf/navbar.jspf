@@ -106,7 +106,7 @@
                     </li>
                     <c:choose>
                         <c:when test="${user != null }">
-                            <li><a>Welcome ${user.firstName}</a>
+                            <li><a>Welcome ${sessionScope.user.firstName}</a>
                                 <div uk-dropdown>
                                     <ul class="uk-nav uk-dropdown-nav uk-grid-small" uk-grid>
                                         <li class="uk-width-1-1"><a
