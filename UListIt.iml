@@ -16,7 +16,10 @@
       </configuration>
     </facet>
     <facet type="google-app-engine" name="Google App Engine">
-      <configuration />
+      <configuration>
+        <sdk-home-path>$USER_HOME$/Google App Engine/appengine-java-sdk-1.9.63</sdk-home-path>
+        <persistence-api>JPA2</persistence-api>
+      </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
@@ -73,7 +76,6 @@
     <orderEntry type="library" name="Maven: com.google.cloud.sql:jdbc-socket-factory-core:1.0.5" level="project" />
     <orderEntry type="library" name="Maven: com.google.apis:google-api-services-sqladmin:v1beta4-rev25-1.22.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.api-client:google-api-client:1.23.0" level="project" />
-    <orderEntry type="library" name="Maven: com.google.http-client:google-http-client-jackson2:1.23.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava-jdk5:17.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.api-client:google-api-client-appengine:1.23.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.api-client:google-api-client-servlet:1.23.0" level="project" />
@@ -141,5 +143,13 @@
     <orderEntry type="library" name="Maven: org.apache.maven.shared:maven-filtering:3.1.1" level="project" />
     <orderEntry type="library" name="Maven: org.sonatype.plexus:plexus-build-api:0.0.7" level="project" />
     <orderEntry type="library" name="Maven: org.apache.maven.shared:maven-mapping:3.0.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.apis:google-api-services-calendar:v3-rev260-1.23.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.http-client:google-http-client-jackson2:1.23.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.oauth-client:google-oauth-client-jetty:1.23.0" level="project" />
+    <orderEntry type="library" name="Maven: org.mortbay.jetty:jetty:6.1.26" level="project" />
+    <orderEntry type="library" name="Maven: org.mortbay.jetty:jetty-util:6.1.26" level="project" />
+    <orderEntry type="library" name="Maven: org.mortbay.jetty:servlet-api:2.5-20081211" level="project" />
+    <orderEntry type="library" name="Maven: com.google.appengine:appengine-api-stubs:1.9.62" level="project" />
+    <orderEntry type="library" name="Maven: com.google.appengine:appengine-api-1.0-sdk:1.9.62" level="project" />
   </component>
 </module>

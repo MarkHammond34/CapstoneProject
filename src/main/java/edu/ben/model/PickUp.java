@@ -1,10 +1,15 @@
 package edu.ben.model;
 
-import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Table(name = "pick_up")
 @Entity(name = "pick_up")

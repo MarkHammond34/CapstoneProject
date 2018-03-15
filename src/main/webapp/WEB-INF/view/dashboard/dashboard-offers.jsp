@@ -1,25 +1,33 @@
-<div id="off-card" class="uk-card uk-card-small uk-card-default uk-border-rounded uk-padding-large uk-position-relative">
-	<h3 class="uk-card-title">Offers</h3>
-	<div class="uk-overflow-auto">
-		<table
-			class="uk-table uk-table-hover uk-table-middle uk-table-divider">
-			<tbody>
-				<c:forEach var="offer" items="${offers}">
-					<tr>
-						<td><img class="uk-preserve-width uk-border-circle"
-							uk-tooltip="${offer.userID.username}"
-							src="${pageContext.request.contextPath}/resources/img/profile-pic/${offer.userID.image_path}"
-							height="auto" width="40" alt=""></td>
-						<c:if
-							test="${offer.offerMessage != null && offer.offerMessage.length() > 0}">
-							<td class="uk-table-link">${offer.offerMessage}</td>
-						</c:if>
-						<td class="uk-text-truncate">${offer.offerAmount}</td>
-						<td class="uk-text-nowrap">${offer.status}</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+<div>
+	<div class="uk-card uk-card-small uk-card-default uk-border-rounded">
+		<%@include file="tableHeaders/offer-table-header.jsp"%>
+		<div>
+			<table
+				class="uk-table uk-table-hover uk-table-middle uk-table-divider">
+				<tbody>
+					<c:forEach var="offer" items="${offers}">
+						<tr>
+							<td><img class="uk-preserve-width uk-border-circle"
+								uk-tooltip="${offer.userID.username}"
+								src="${pageContext.request.contextPath}/resources/img/profile-pic/${offer.userID.image_path}"
+								height="auto" width="40" alt=""></td>
+							<c:if
+								test="${offer.offerMessage != null && offer.offerMessage.length() > 0}">
+								<td class="uk-preserve-width">${offer.offerMessage}</td>
+							</c:if>
+							<td class="uk-preserve-width">${offer.offerAmount}</td>
+							<td class="uk-text-nowrap">${offer.status}</td>
+							<td>
+								<ul>
+									<li><button>Accept</button></li>
+									<li><button>Reject</button></li>
+								</ul>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 

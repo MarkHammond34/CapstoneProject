@@ -59,5 +59,9 @@ public interface ListingDAO {
     public List getPremiumListings();
     
     public List<Listing> getAllListings();
+    
+    public List<Listing> getActiveListingsByUserId(int id);
+    
+    public List<Listing> getInActiveListingsByUserId(int id);
 
 }

@@ -209,8 +209,8 @@
 				</div>
 				<div class="uk-width-1-3">
 					<div class="uk-float-right">
-						<div uk-sticky="offset:25" class="uk-float-right">
-							<ul class="uk-nav uk-nav-default" class="uk-float-right"
+						<div uk-sticky="offset:25">
+							<ul class="uk-nav uk-nav-default"
 								uk-scrollspy-nav="closest:li;scroll:true;offset:25">
 								<li><a href="#link1">Bidding</a></li>
 								<li><a href="#link2">Auctions</a></li>

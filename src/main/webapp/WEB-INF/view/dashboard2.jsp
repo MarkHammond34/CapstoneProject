@@ -36,7 +36,45 @@
 </head>
 <body style="background-color: rgba(36, 143, 203, 0.12);">
 
-	<div class="uk-section uk-section-large">
+	<!--<div class="uk-section" uk-height-viewport="expand: true">  -->
+
+
+	<!-- <div class="uk-cover-container" style="background-color: white;">
+			<canvas width="400" height="200"></canvas>
+			<div class="">
+				<h1 class="uk-heading-primary">Welcome ${user.firstName}</h1>
+			</div>
+			<div></div>
+			<div>Earnings</div>
+		</div> -->
+
+	<%@include file="jspf/navbar.jspf"%>
+
+	<div class="uk-section uk-background-muted">
+		<div class="uk-container">
+			<div uk-grid="">
+				<div class="uk-width-1-5">
+					<h3>Welcome ${user.firstName}</h3>
+					<ul class="uk-list uk-list-divider">
+						<li>Text</li>
+						<li>Text</li>
+						<li>Text</li>
+						<li>Text</li>
+					</ul>
+				</div>
+				<div class="uk-width-3-5">
+					<p>image or whatevs...</p>
+				</div>
+				<div class="uk-width-1-5">
+					<h3>Another header</h3>
+					<p>Some more text</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="uk-section">
 
 		<div class="uk-container uk-container-expand">
 			<div class="uk-grid-small" uk-grid>
@@ -45,9 +83,14 @@
 						class="uk-background-secondary uk-padding-small uk-border-rounded">
 						<ul class="uk-nav uk-nav-default"
 							uk-switcher="connect: #seller-content; animation: uk-animation-fade; toggle: > :not(.uk-nav-header)">
-							<li><a href="#">Item</a></li>
-							<li><a href="#">Item</a></li>
+							<li><a href="filterListings">All</a></li>
+							<li><a href="filterActiveListings">Active</a></li>
+							<!-- <li><a href="#">Won</a></li>
+								 <li><a href="#">Lost</a></li>
+								 <li><a href="#">Current bids</a></li>
+								 <li><a href="#">Sold</a></li> -->
 						</ul>
+						<!-- "My" listings (active, inactive, etc), listings won, listings lost, current bids, listings sold (subsection of my listings) -->
 					</div>
 				</div>
 				<div class="uk-width-2-3@m">
@@ -68,7 +111,9 @@
 													height="auto" width="85%"
 													class="uk-border-rounded uk-box-shadow-hover-large"
 													src="${pageContext.request.contextPath}/resources/img/listings/Wolverine.jpg"
-													alt=""></a>
+													alt=""></a><a href="edit?listing=${listing.id}"
+													class="uk-icon-link uk-margin-small-right"
+													uk-icon="file-edit"></a>
 											</div></li>
 									</c:forEach>
 								</ul>
@@ -89,7 +134,9 @@
 													height="auto" width="85%"
 													class="uk-border-rounded uk-box-shadow-hover-large"
 													src="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
-													alt=""></a>
+													alt=""></a><a href="edit?listing=${listing.id}"
+													class="uk-icon-link uk-margin-small-right"
+													uk-icon="file-edit"></a>
 											</div></li>
 									</c:forEach>
 								</ul>
@@ -108,10 +155,34 @@
 	<div class="uk-section" uk-height-viewport="expand: true">
 
 		<hr>
-		
-		<%@include file="dashboard/dashboard-meetings.jsp"%>
+
+		<div class="uk-background-secondary"
+			uk-height-viewport="min-height:300">
+			<div
+				class="uk-grid-small uk-child-width-1-2@m uk-child-width-1-3@l uk-padding-small"
+				uk-grid="">
+
+				<%@include file="dashboard/dashboard-offers.jsp"%>
+				<%@include file="dashboard/dashboard-meetings.jsp"%>
+				<%@include file="dashboard/dashboard-transactions.jsp"%>
+
+			</div>
+		</div>
 
 	</div>
 
 </body>
+<script>
+
+var filter;
+
+function() filter() {
+	
+}
+
+function() sortListings() {
+	
+}
+
+</script>
 </html>
