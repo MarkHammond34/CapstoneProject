@@ -10,7 +10,7 @@
 							<tr>
 								<td><img class="uk-preserve-width uk-border-circle"
 									uk-tooltip="${offer.userID.username}"
-									src="${pageContext.request.contextPath}/resources/img/profile-pic/${offer.userID.image_path}"
+									src="${pageContext.request.contextPath}/resources/img/profile-pic/${offer.userID.imagePath.image_path}"
 									height="auto" width="40" alt=""></td>
 								<c:if
 									test="${offer.offerMessage != null && offer.offerMessage.length() > 0}">

@@ -6,9 +6,11 @@
 			<div uk-dropdown="mode: click">
 				<ul class="uk-nav uk-dropdown-nav">
 					<li class="uk-active"><a href="#">Active</a></li>
-					<li><a href="#">Active</a></li>
-					<li><a href="#">Most Recent</a></li>
-					<li><a href="#">Oldest</a></li>
+					<li><a href="#">Pending</a></li>
+					<li><a href="#">Accepted</a></li>
+					<li><a href="#">Rejected</a></li>
+					<li><a href="#">Newest to oldest</a></li>
+					<li><a href="#">Oldest to newest</a></li>
 				</ul>
 			</div>
 		</div>

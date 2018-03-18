@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
@@ -69,8 +71,9 @@ public class User {
     @Column(name = "active")
     private int active;
 
-    @Column(name = "image_path")
-    private String image_path;
+    @OneToOne
+    @JoinColumn(name = "image_path")
+    private Image image_path;
 
     /**
      * @AssertTrue(message = "Passwords Do Not Match") private boolean
@@ -102,13 +105,14 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String username, String email, String schoolEmail, String password) {
+    public User(String firstName, String lastName, String username, String email, String schoolEmail, String password, Image image_path) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.email = email;
         this.schoolEmail = schoolEmail;
         this.password = password;
+        this.image_path = image_path;
     }
 
     public User(String firstName, String lastName, String username, String email, String schoolEmail, String password,
@@ -238,11 +242,11 @@ public class User {
         this.adminLevel = i;
     }
 
-    public String getImage_path() {
+    public Image getImage_path() {
         return image_path;
     }
 
-    public void setImage_path(String image_path) {
+    public void setImage_path(Image image_path) {
         this.image_path = image_path;
     }
 

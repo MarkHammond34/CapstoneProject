@@ -28,8 +28,9 @@ public class Offer {
 	@Column(name = "offer_message")
 	private String offerMessage;
 
-	@Column(name = "image_path")
-	private String imagePath;
+	@OneToOne
+	@JoinColumn(name = "image_path")
+	private Image imagePath;
 
 	@OneToOne
 	@JoinColumn(name = "user_id")
@@ -64,7 +65,7 @@ public class Offer {
 		this.status = status;
 	}
 	
-	public Offer(int offerAmount, String offerMessage, String imagePath, User userID, Listing listingID, @NotBlank String status) {
+	public Offer(int offerAmount, String offerMessage, Image imagePath, User userID, Listing listingID, @NotBlank String status) {
 		this.offerAmount = offerAmount;
 		this.offerMessage = offerMessage;
 		this.imagePath = imagePath;
@@ -73,10 +74,11 @@ public class Offer {
 		this.status = status;
 	}
 	
-	public Offer(int offerID, int offerAmount, String offerMessage, String imagePath, User userID, Listing listingID, @NotBlank String status) {
+	public Offer(int offerID, int offerAmount, String offerMessage, Image imagePath, User userID, Listing listingID, @NotBlank String status) {
 		this.offerID = offerID;
 		this.offerAmount = offerAmount;
 		this.offerMessage = offerMessage;
+		this.imagePath = imagePath;
 		this.userID = userID;
 		this.listingID = listingID;
 		this.status = status;
@@ -108,11 +110,11 @@ public class Offer {
 		this.offerMessage = offerMessage;
 	}
 
-	public String getImagePath() {
+	public Image getImagePath() {
 		return imagePath;
 	}
 
-	public void setImagePath(String imagePath) {
+	public void setImagePath(Image imagePath) {
 		this.imagePath = imagePath;
 	}
 

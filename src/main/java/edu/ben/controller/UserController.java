@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.ben.model.Follow;
+import edu.ben.model.Image;
 import edu.ben.model.User;
 import edu.ben.service.FollowService;
 import edu.ben.service.ListingService;
@@ -107,7 +108,9 @@ public class UserController {
 				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 				stream.write(bytes);
 
-				user.setImage_path(file.getOriginalFilename());
+				Image image = new Image( file.getName(), file.getOriginalFilename(), 1); // not sure what was meant for this object
+				
+				user.setImage_path(image);
 				userService.saveOrUpdate(user);
 				stream.close();
 

@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Entity(name = "listing")
 @Table(name = "listing")
 @Transactional
-
 public class Listing implements java.io.Serializable {
 
     /**
@@ -81,13 +80,17 @@ public class Listing implements java.io.Serializable {
 
     @Column(name = "premium")
     private int premium;
+    
+    @OneToOne
+	@JoinColumn(name = "image_path")
+	private Image imagePath;
 
     public Listing() {
         this.highestBid = 0;
         this.bidCount = 0;
     }
 
-    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price) {
+    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, Image imagePath) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -95,6 +98,7 @@ public class Listing implements java.io.Serializable {
         // this.category = category;
         this.highestBid = 0;
         this.bidCount = 0;
+        this.imagePath = imagePath;
     }
 
     public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, String category) {
@@ -301,7 +305,15 @@ public class Listing implements java.io.Serializable {
         this.premium = premium;
     }
 
-    public String getPercentLeft() {
+    public Image getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(Image imagePath) {
+		this.imagePath = imagePath;
+	}
+
+	public String getPercentLeft() {
 
         long now = System.currentTimeMillis();
         long start = startTimestamp.getTime();

@@ -42,6 +42,8 @@
 </head>
 <body style="background-color: rgba(36, 143, 203, 0.08);">
 
+	<%@include file="jspf/navbar.jspf"%>
+
 	<div class="uk-section">
 		<div class="uk-container">
 			<div uk-grid="">
@@ -176,7 +178,39 @@
 					<hr />
 					<div class="big">
 						<h2 id="link5">
-							<em>Contact us</em>
+							<em>Meetups</em>
+						</h2>
+						<p>Lorem ipsum dolor sit amet consectetur adipiscing elit
+							faucibus, in nisl pharetra orci iaculis litora viverra dapibus,
+							semper leo ad augue rutrum lacinia placerat. Ornare pulvinar
+							potenti porta quam luctus diam placerat sociis, augue vivamus
+							interdum non vehicula aliquet pharetra morbi, ultricies et
+							faucibus integer mi urna blandit. Faucibus dictum condimentum
+							lectus erat integer hac sagittis, dapibus dignissim neque
+							senectus per non convallis, suspendisse cum curabitur tempor
+							pharetra pretium. Scelerisque nam primis dui eu at penatibus cras
+							velit, taciti sollicitudin hac sed cursus mi senectus feugiat
+							enim, tincidunt nullam aptent vitae convallis nisl rutrum. Magnis
+							morbi a vulputate luctus class etiam cum gravida inceptos est
+							ultricies per pellentesque aptent quis egestas, quisque integer
+							cras nec proin nostra ultrices leo volutpat commodo pretium non
+							ligula felis accumsan. Justo mauris vel tellus velit tristique
+							tempor libero ultricies condimentum, blandit torquent massa
+							consequat id feugiat diam vulputate cursus, dapibus natoque
+							ridiculus donec vitae molestie tincidunt nisl. Imperdiet dictumst
+							convallis maecenas nullam habitant torquent scelerisque ac
+							potenti, dis purus dapibus dictum cubilia tempor velit facilisis
+							varius, interdum vestibulum hac ante integer aptent pulvinar
+							aliquam. Morbi platea lacinia dui nibh purus odio tempus
+							suspendisse, luctus accumsan per turpis volutpat aliquam
+							fringilla nunc, est sociis litora natoque neque sodales
+							vestibulum conubia, id mattis senectus torquent venenatis sapien
+							mollis.</p>
+					</div>
+					<hr />
+					<div class="big">
+						<h2 id="link6">
+							<em>Messaging</em>
 						</h2>
 						<p>Lorem ipsum dolor sit amet consectetur adipiscing elit
 							faucibus, in nisl pharetra orci iaculis litora viverra dapibus,
@@ -216,7 +250,8 @@
 								<li><a href="#link2">Auctions</a></li>
 								<li><a href="#link3">Buying/Selling</a></li>
 								<li><a href="#link4">Disputes</a></li>
-								<li><a href="#link5">Contact us</a></li>
+								<li><a href="#link5">Meetups</a></li>
+								<li><a href="#link6">Messaging</a></li>
 							</ul>
 						</div>
 					</div>

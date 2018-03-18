@@ -276,7 +276,7 @@ public class ListingDAOImpl implements ListingDAO {
 	@Override
 	public List<Listing> getActiveListingsByUserId(int id) {
 		
-		Query q = getSession().createQuery("FROM Listing WHERE userID=:id AND active = 1");
+		Query q = getSession().createQuery("FROM listing WHERE userID=:id AND active = 1");
 		q.setParameter("id", id);
 		
 		return q.list();
@@ -286,7 +286,7 @@ public class ListingDAOImpl implements ListingDAO {
 	@Override
 	public List<Listing> getInActiveListingsByUserId(int id) {
 		
-		Query q = getSession().createQuery("FROM Listing WHERE userID=:id AND active = 0");
+		Query q = getSession().createQuery("FROM listing WHERE userID=:id AND active = 0");
 		q.setParameter("id", id);
 		
 		return q.list();

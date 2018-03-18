@@ -53,6 +53,7 @@ public class DashboardController {
 		ModelAndView model = new ModelAndView("dashboard2");
 
 		List<Listing> listings = listingService.getAllListings();
+		List<Listing> activeListings = listingService.getActiveListingsByUserId(9);
 		List<Offer> offers = offerService.getOffersByUserId(9);
 		List<Transaction> transactions = transactionService.getTransactionsByUserID(9);
 
@@ -66,6 +67,7 @@ public class DashboardController {
 
 		model.addObject("title", "Dashboard");
 		model.addObject("listings", listings);
+		model.addObject("activeListings", activeListings);
 		model.addObject("offers", offers);
 		model.addObject("transactions", transactions);
 
