@@ -102,7 +102,7 @@ public class UserController {
 				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 				stream.write(bytes);
 
-				Image image = new Image( file.getName(), file.getOriginalFilename(), 1); // not sure what was meant for this object
+                Image image = new Image(user, file.getName(), file.getOriginalFilename(), 1); // not sure what was meant for this object
 
                 //user.setImage_path(image);
 				userService.saveOrUpdate(user);

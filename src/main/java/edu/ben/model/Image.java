@@ -39,14 +39,15 @@ public class Image {
 
     }
 
-    public Image(String image_path, String image_name, int main) {
+    public Image(User user, String image_path, String image_name, int main) {
+        this.user = user;
         this.image_path = image_path;
         this.image_name = image_name;
         this.main = main;
     }
 
-    public Image(User user, String image_path, String image_name, int main) {
-        this.user = user;
+    public Image(Listing listing, String image_path, String image_name, int main) {
+        this.listing = listing;
         this.image_path = image_path;
         this.image_name = image_name;
         this.main = main;
