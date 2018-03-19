@@ -22,11 +22,11 @@ public class Offer {
     private String offerMessage;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "offer_maker_id_")
     private User offerMaker;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "offer_receiver_id")
     private User offerReceiver;
 
     @OneToOne

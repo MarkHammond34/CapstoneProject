@@ -175,15 +175,6 @@
 </body>
 <script>
 
-var filter;
-
-function() filter() {
-	
-}
-
-function() sortListings() {
-	
-}
 
 </script>
 </html>
