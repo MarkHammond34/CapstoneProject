@@ -1,11 +1,10 @@
 package edu.ben.controller;
 
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
+import edu.ben.model.Listing;
+import edu.ben.model.Offer;
+import edu.ben.model.Transaction;
+import edu.ben.model.User;
+import edu.ben.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,15 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.ben.model.Listing;
-import edu.ben.model.Offer;
-import edu.ben.model.Transaction;
-import edu.ben.model.User;
-import edu.ben.service.ListingService;
-import edu.ben.service.NotificationService;
-import edu.ben.service.OfferService;
-import edu.ben.service.TransactionService;
-import edu.ben.service.UserService;
+import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 public class OfferController extends BaseController {
@@ -106,7 +100,7 @@ public class OfferController extends BaseController {
 
 			listing = listingService.getByListingID(id);
 			User receiver = userService.getUserById(listing.getUser().getUserID());
-			offer = new Offer(price, message, sender, listing);
+			offer = new Offer(price, message, sender, receiver, listing);
 
 			// do an if check here for an existing offer to update
 
@@ -159,7 +153,7 @@ public class OfferController extends BaseController {
 		User lister = (User) request.getSession().getAttribute("user");
 		Listing listing = listingService.getByListingID(listingID);
 		Offer offer = offerService.getOfferByUserAndListingId(id, listingID);
-		User receiver = userService.getUserById(offer.getUserID().getUserID());
+		User receiver = userService.getUserById(offer.getOfferReceiver().getUserID());
 
 		// maybe popup confirming that you want to accept an offer
 
@@ -234,7 +228,7 @@ public class OfferController extends BaseController {
 
 		// remove offer from page and db
 		//offerService.deleteOffer(offer);
-		offerService.saveOrUpdate(new Offer(offer.getOfferID(), offer.getOfferAmount(), offer.getOfferMessage(), offer.getImagePath(), offer.getUserID(), listing, "rejected"));
+		offerService.saveOrUpdate(new Offer(offer.getOfferID(), offer.getOfferAmount(), offer.getOfferMessage(), offer.getOfferMaker(), offer.getOfferReceiver(), listing, "rejected"));
 
 		// maybe ask offerer when they receive notification if they want to re-offer? -
 		// possibly in a different controller

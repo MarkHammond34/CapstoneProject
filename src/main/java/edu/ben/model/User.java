@@ -1,22 +1,13 @@
 package edu.ben.model;
 
-import java.sql.Timestamp;
+import org.hibernate.annotations.Formula;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.Formula;
-import org.springframework.transaction.annotation.Transactional;
+import java.sql.Timestamp;
 
 @Entity(name = "user")
 @Table(name = "user")
@@ -71,10 +62,6 @@ public class User {
     @Column(name = "active")
     private int active;
 
-    @OneToOne
-    @JoinColumn(name = "image_path")
-    private Image image_path;
-
     /**
      * @AssertTrue(message = "Passwords Do Not Match") private boolean
      * matchingPassword() { return
@@ -112,7 +99,6 @@ public class User {
         this.email = email;
         this.schoolEmail = schoolEmail;
         this.password = password;
-        this.image_path = image_path;
     }
 
     public User(String firstName, String lastName, String username, String email, String schoolEmail, String password,
@@ -240,14 +226,6 @@ public class User {
 
     public void setAdmin(int i) {
         this.adminLevel = i;
-    }
-
-    public Image getImage_path() {
-        return image_path;
-    }
-
-    public void setImage_path(Image image_path) {
-        this.image_path = image_path;
     }
 
     public Timestamp getDateModified() {

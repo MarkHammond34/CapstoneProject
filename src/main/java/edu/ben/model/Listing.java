@@ -1,20 +1,12 @@
 package edu.ben.model;
 
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-
-import org.springframework.transaction.annotation.Transactional;
 
 @Entity(name = "listing")
 @Table(name = "listing")
@@ -80,10 +72,6 @@ public class Listing implements java.io.Serializable {
 
     @Column(name = "premium")
     private int premium;
-    
-    @OneToOne
-	@JoinColumn(name = "image_path")
-	private Image imagePath;
 
     public Listing() {
         this.highestBid = 0;
@@ -98,7 +86,6 @@ public class Listing implements java.io.Serializable {
         // this.category = category;
         this.highestBid = 0;
         this.bidCount = 0;
-        this.imagePath = imagePath;
     }
 
     public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, String category) {
@@ -304,14 +291,6 @@ public class Listing implements java.io.Serializable {
     public void setPremium(int premium) {
         this.premium = premium;
     }
-
-    public Image getImagePath() {
-		return imagePath;
-	}
-
-	public void setImagePath(Image imagePath) {
-		this.imagePath = imagePath;
-	}
 
 	public String getPercentLeft() {
 

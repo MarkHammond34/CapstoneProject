@@ -1,152 +1,138 @@
 package edu.ben.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity(name = "offer")
 @Table(name = "offer")
 @Transactional
 public class Offer {
 
-	@Id
-	@Column(name = "offer_id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int offerID;
+    @Id
+    @Column(name = "offer_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int offerID;
 
-	@Column(name = "offer_amount")
-	private int offerAmount;
+    @Column(name = "offer_amount")
+    private int offerAmount;
 
-	@Column(name = "offer_message")
-	private String offerMessage;
+    @Column(name = "offer_message")
+    private String offerMessage;
 
-	@OneToOne
-	@JoinColumn(name = "image_path")
-	private Image imagePath;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User offerMaker;
 
-	@OneToOne
-	@JoinColumn(name = "user_id")
-	private User userID;
-	
-	@OneToOne
-	@JoinColumn(name = "listing_id")
-	private Listing listingID;
-	
-	@Column(name = "status")
-	private String status;
-	
-	@Column(name = "active")
-	private int active;
-	
-	public Offer() {
-		
-	}
-	
-	public Offer(int offerAmount, String offerMessage, User userID, Listing listingID) {
-		this.offerAmount = offerAmount;
-		this.offerMessage = offerMessage;
-		this.userID = userID;
-		this.listingID = listingID;
-	}
-	
-	public Offer(int offerAmount, String offerMessage, User userID, Listing listingID, @NotBlank String status) {
-		this.offerAmount = offerAmount;
-		this.offerMessage = offerMessage;
-		this.userID = userID;
-		this.listingID = listingID;
-		this.status = status;
-	}
-	
-	public Offer(int offerAmount, String offerMessage, Image imagePath, User userID, Listing listingID, @NotBlank String status) {
-		this.offerAmount = offerAmount;
-		this.offerMessage = offerMessage;
-		this.imagePath = imagePath;
-		this.userID = userID;
-		this.listingID = listingID;
-		this.status = status;
-	}
-	
-	public Offer(int offerID, int offerAmount, String offerMessage, Image imagePath, User userID, Listing listingID, @NotBlank String status) {
-		this.offerID = offerID;
-		this.offerAmount = offerAmount;
-		this.offerMessage = offerMessage;
-		this.imagePath = imagePath;
-		this.userID = userID;
-		this.listingID = listingID;
-		this.status = status;
-	}
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User offerReceiver;
 
-	// Getters and setters
+    @OneToOne
+    @JoinColumn(name = "listing_id")
+    private Listing listingID;
 
-	public int getOfferID() {
-		return offerID;
-	}
+    @Column(name = "status")
+    private String status;
 
-	public void setOfferID(int offerID) {
-		this.offerID = offerID;
-	}
+    @Column(name = "active")
+    private int active;
 
-	public int getOfferAmount() {
-		return offerAmount;
-	}
+    public Offer() {
 
-	public void setOfferAmount(int offerAmount) {
-		this.offerAmount = offerAmount;
-	}
+    }
 
-	public String getOfferMessage() {
-		return offerMessage;
-	}
+    public Offer(int offerAmount, String offerMessage, User offerMaker, User offerReceiver, Listing listingID) {
+        this.offerAmount = offerAmount;
+        this.offerMessage = offerMessage;
+        this.offerMaker = offerMaker;
+        this.offerReceiver = offerReceiver;
+        this.listingID = listingID;
+    }
 
-	public void setOfferMessage(String offerMessage) {
-		this.offerMessage = offerMessage;
-	}
+    public Offer(int offerAmount, String offerMessage, User offerMaker, User offerReceiver, Listing listingID, @NotBlank String status) {
+        this.offerAmount = offerAmount;
+        this.offerMessage = offerMessage;
+        this.offerMaker = offerMaker;
+        this.offerReceiver = offerReceiver;
+        this.listingID = listingID;
+        this.status = status;
+    }
 
-	public Image getImagePath() {
-		return imagePath;
-	}
+    public Offer(int offerID, int offerAmount, String offerMessage, User offerMaker, User offerReceiver, Listing listingID, @NotBlank String status) {
+        this.offerID = offerID;
+        this.offerAmount = offerAmount;
+        this.offerMessage = offerMessage;
+        this.offerMaker = offerMaker;
+        this.offerReceiver = offerReceiver;
+        this.listingID = listingID;
+        this.status = status;
+    }
 
-	public void setImagePath(Image imagePath) {
-		this.imagePath = imagePath;
-	}
+    // Getters and setters
 
-	public User getUserID() {
-		return userID;
-	}
+    public int getOfferID() {
+        return offerID;
+    }
 
-	public void setUserID(User userID) {
-		this.userID = userID;
-	}
+    public void setOfferID(int offerID) {
+        this.offerID = offerID;
+    }
 
-	public Listing getListingID() {
-		return listingID;
-	}
+    public int getOfferAmount() {
+        return offerAmount;
+    }
 
-	public void setListingID(Listing listingID) {
-		this.listingID = listingID;
-	}
+    public void setOfferAmount(int offerAmount) {
+        this.offerAmount = offerAmount;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public String getOfferMessage() {
+        return offerMessage;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setOfferMessage(String offerMessage) {
+        this.offerMessage = offerMessage;
+    }
 
-	public int getActive() {
-		return active;
-	}
+    public Listing getListingID() {
+        return listingID;
+    }
 
-	public void setActive(int active) {
-		this.active = active;
-	}
+    public void setListingID(Listing listingID) {
+        this.listingID = listingID;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
+
+    public User getOfferMaker() {
+        return offerMaker;
+    }
+
+    public void setOfferMaker(User offerMaker) {
+        this.offerMaker = offerMaker;
+    }
+
+    public User getOfferReceiver() {
+        return offerReceiver;
+    }
+
+    public void setOfferReceiver(User offerReceiver) {
+        this.offerReceiver = offerReceiver;
+    }
 }
