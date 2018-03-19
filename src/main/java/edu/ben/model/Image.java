@@ -61,6 +61,15 @@ public class Image {
         this.main = main;
     }
 
+    public Image(User user, Listing listing, Offer offer, String image_path, String image_name, int main) {
+        this.user = user;
+        this.listing = listing;
+        this.offer = offer;
+        this.image_path = image_path;
+        this.image_name = image_name;
+        this.main = main;
+    }
+
     public int getId() {
         return id;
     }
