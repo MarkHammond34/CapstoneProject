@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import edu.ben.service.*;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -28,14 +29,6 @@ import edu.ben.model.Favorite;
 import edu.ben.model.Image;
 import edu.ben.model.Listing;
 import edu.ben.model.User;
-import edu.ben.service.CategoryService;
-import edu.ben.service.FavoriteService;
-import edu.ben.service.ImageService;
-import edu.ben.service.ListingService;
-import edu.ben.service.NotificationService;
-import edu.ben.service.OfferService;
-import edu.ben.service.SavedSearchService;
-import edu.ben.service.UserService;
 
 @Controller
 @Transactional
@@ -65,8 +58,8 @@ public class ListingController extends BaseController {
 	@Autowired
 	private Environment environment;
 
-	@Autowired
-	ImageService imageService;
+    @Autowired
+	PickUpService pickUpService;
 
 	/**
 	 * Upload single file using Spring Controller
