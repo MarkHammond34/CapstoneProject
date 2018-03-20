@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Entity(name = "listing")
 @Table(name = "listing")
@@ -73,12 +74,17 @@ public class Listing implements java.io.Serializable {
     @Column(name = "premium")
     private int premium;
 
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
+    private List<Image> image_id;
+
+    // Constructors
+
     public Listing() {
         this.highestBid = 0;
         this.bidCount = 0;
     }
 
-    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, Image imagePath) {
+    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, List<Image> image_id) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -86,9 +92,10 @@ public class Listing implements java.io.Serializable {
         // this.category = category;
         this.highestBid = 0;
         this.bidCount = 0;
+        this.image_id = image_id;
     }
 
-    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, String category) {
+    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, String category, List<Image> image_id) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -96,9 +103,10 @@ public class Listing implements java.io.Serializable {
         this.category = category;
         this.highestBid = 0;
         this.bidCount = 0;
+        this.image_id = image_id;
     }
 
-    public Listing(@NotBlank String name, String description, @NotBlank double price/* @NotBlank String category, */) {
+    public Listing(@NotBlank String name, String description, @NotBlank double price/* @NotBlank String category, */, List<Image> image_id) {
         super();
         this.name = name;
         this.description = description;
@@ -106,6 +114,7 @@ public class Listing implements java.io.Serializable {
         // this.category = category;
         this.highestBid = 0;
         this.bidCount = 0;
+        this.image_id = image_id;
     }
 
     public Listing(@NotBlank String name, String description, @NotBlank double price, @NotBlank String category) {
@@ -117,6 +126,19 @@ public class Listing implements java.io.Serializable {
         this.highestBid = 0;
         this.bidCount = 0;
     }
+
+    public Listing(@NotBlank String name, String description, @NotBlank double price, @NotBlank String category, List<Image> image_id) {
+        super();
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.category = category;
+        this.highestBid = 0;
+        this.bidCount = 0;
+        this.image_id = image_id;
+    }
+
+    // Getters and setters
 
     public int getId() {
         return id;
@@ -307,4 +329,11 @@ public class Listing implements java.io.Serializable {
         return String.valueOf((int) ((end - now) * 100 / (end - start)));
     }
 
+    public List<Image> getImage_id() {
+        return image_id;
+    }
+
+    public void setImage_id(List<Image> image_id) {
+        this.image_id = image_id;
+    }
 }

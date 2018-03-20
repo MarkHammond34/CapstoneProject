@@ -18,8 +18,8 @@ public class Image {
     @JoinColumn(name = "user_Id", nullable = true)
     private User user;
 
-    @OneToOne
-    @JoinColumn(name = "listing_Id", nullable = true)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "listing_id", nullable = true)
     private Listing listing;
 
     @OneToOne
