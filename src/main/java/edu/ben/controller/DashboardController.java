@@ -1,6 +1,7 @@
 package edu.ben.controller;
 
 import edu.ben.model.Listing;
+import edu.ben.model.Transaction;
 import edu.ben.model.User;
 import edu.ben.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,25 +48,25 @@ public class DashboardController {
 
 		ModelAndView model = new ModelAndView("dashboard2");
 
-        //List<Listing> listings = listingService.getAllListings();
-        //List<Listing> activeListings = listingService.getActiveListingsByUserId(9);
-        //List<Offer> offers = offerService.getOffersByUserId(9);
-        //List<Transaction> transactions = transactionService.getTransactionsByUserID(9);
+        List<Listing> listings = listingService.getAllListings();
+        List<Listing> activeListings = listingService.getActiveListingsByUserId(9);
+        //  List<Offer> offers = offerService.getOffersByUserId(9);
+        List<Transaction> transactions = transactionService.getTransactionsByUserID(9);
         // Do something with images here
 
         //System.out.println(listings.size());
         //System.out.println(offers.size());
-//		if (transactions == null) {
-//			System.out.println("transactions are null");
-//		} else {
-//			System.out.println(transactions.size());
-//		}
+        if (transactions == null) {
+            System.out.println("transactions are null");
+        } else {
+            System.out.println(transactions.size());
+        }
 
 		model.addObject("title", "Dashboard");
-//		model.addObject("listings", listings);
-//		model.addObject("activeListings", activeListings);
-//		//model.addObject("offers", offers);
-//		model.addObject("transactions", transactions);
+        model.addObject("listings", listings);
+        model.addObject("activeListings", activeListings);
+        //	model.addObject("offers", offers);
+        model.addObject("transactions", transactions);
 
 		return model;
 

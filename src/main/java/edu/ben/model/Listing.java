@@ -74,8 +74,8 @@ public class Listing implements java.io.Serializable {
     @Column(name = "premium")
     private int premium;
 
-    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
-    private List<Image> image_id;
+    @OneToMany(mappedBy = "listing", fetch = FetchType.EAGER)
+    private List<Image> images;
 
     // Constructors
 
@@ -84,7 +84,7 @@ public class Listing implements java.io.Serializable {
         this.bidCount = 0;
     }
 
-    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, List<Image> image_id) {
+    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -92,10 +92,9 @@ public class Listing implements java.io.Serializable {
         // this.category = category;
         this.highestBid = 0;
         this.bidCount = 0;
-        this.image_id = image_id;
     }
 
-    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, String category, List<Image> image_id) {
+    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, String category) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -103,10 +102,9 @@ public class Listing implements java.io.Serializable {
         this.category = category;
         this.highestBid = 0;
         this.bidCount = 0;
-        this.image_id = image_id;
     }
 
-    public Listing(@NotBlank String name, String description, @NotBlank double price/* @NotBlank String category, */, List<Image> image_id) {
+    public Listing(@NotBlank String name, String description, @NotBlank double price/* @NotBlank String category, */) {
         super();
         this.name = name;
         this.description = description;
@@ -114,7 +112,6 @@ public class Listing implements java.io.Serializable {
         // this.category = category;
         this.highestBid = 0;
         this.bidCount = 0;
-        this.image_id = image_id;
     }
 
     public Listing(@NotBlank String name, String description, @NotBlank double price, @NotBlank String category) {
@@ -125,17 +122,6 @@ public class Listing implements java.io.Serializable {
         this.category = category;
         this.highestBid = 0;
         this.bidCount = 0;
-    }
-
-    public Listing(@NotBlank String name, String description, @NotBlank double price, @NotBlank String category, List<Image> image_id) {
-        super();
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.category = category;
-        this.highestBid = 0;
-        this.bidCount = 0;
-        this.image_id = image_id;
     }
 
     // Getters and setters
@@ -329,11 +315,11 @@ public class Listing implements java.io.Serializable {
         return String.valueOf((int) ((end - now) * 100 / (end - start)));
     }
 
-    public List<Image> getImage_id() {
-        return image_id;
+    public List<Image> getImages() {
+        return images;
     }
 
-    public void setImage_id(List<Image> image_id) {
-        this.image_id = image_id;
+    public void setImages(List<Image> images) {
+        this.images = images;
     }
 }
