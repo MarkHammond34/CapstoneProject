@@ -3,16 +3,13 @@
 <body>
 	<%@include file="jspf/navbar.jspf"%>
 
-	<div class="container-fluid">
+	<div class="uk-container">
 		<div class="row">
 			<div class="fb-profile">
-				<img align="left" class="fb-image-lg"
-					src="<%=request.getContextPath()%>/resources/img/background/ulistit_background.jpg"
-					alt="Profile image example" height="250" /> <a
-					href="${pageContext.request.contextPath}/editUser"><img
+				<a href="${pageContext.request.contextPath}/editUser"><img
 					align="left" style="border-radius: 50%"
 					class="fb-image-profile thumbnail"
-					src="<%=request.getContextPath()%>/resources/img/profile-pic/${user.image_path}"
+					src="https://media-exp2.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAO7AAAAJDVkYzc5Y2UzLWM2YzktNGVhMi05YWJjLTdlYjVlNzc1Nzk4OQ.jpg"
 					alt="Profile image example" /></a>
 				<div class="fb-profile-text">
 					<h1>
@@ -23,12 +20,17 @@
 		</div>
 	</div>
 	<!-- /container fluid-->
-	<div class="uk-section uk-section-muted">
-		<div class="uk-grid">
+	<div class="uk-margin-left uk-section uk-section-muted">
+		<div class="uk-grid uk-margin-left">
 			<div class="uk-width-1-4 uk-column-divider uk-grid" uk-grid
 				uk-scrollspy="cls: uk-animation-fade; target: > div > .uk-card; delay: 500; repeat: true">
-				<div class="uk-container uk-container-small">
-					<dl class="uk-description-list uk-description-list-divider">
+				<div class="uk-margin-left uk-container uk-container-small">
+					<dl
+						class="uk-margin-left uk-description-list uk-description-list-divider">
+						<dt>
+							<strong class="uk-text-danger">Joined Date</strong>
+						</dt>
+						<dd>${user.truncatedDate}</dd>
 						<dt>
 							<strong class="uk-text-danger">About Me</strong>
 						</dt>
@@ -43,11 +45,13 @@
 							</c:when>
 							<c:otherwise>
 
-								<dd>${user.sellerRating}</dd>
+								<dd class="uk-margin-left">${user.sellerRating}</dd>
 								<dd></dd>
-								<dd>
-									<a href="${pageContext.request.contextPath}/sellerReviews?id=${user.userID}"
-										class="btn btn-default">View Seller Reviews</a>
+								<dd class="uk-margin-left">
+									<a
+										href="${pageContext.request.contextPath}/sellerReviews?id=${user.userID}"
+										class="uk-button uk-button-small uk-button-primary">View
+										Seller Reviews</a>
 								</dd>
 							</c:otherwise>
 						</c:choose>
@@ -160,11 +164,23 @@
 			</div>
 			<div class="uk-width-3-4">
 				<div class="uk-container uk-container-small">
-					<h4>
-						<strong class="uk-text-danger"> ${user.username}</strong> has <strong
-							class="uk-text-danger"> ${userListings.size()}</strong> listings
-						posted.
-					</h4>
+					<c:choose>
+						<c:when test="${sessionScope.user.userID == user.userID }">
+							<h4>
+								<strong class="uk-text-danger">You</strong> have <strong
+									class="uk-text-danger"> ${userListings.size()}</strong>
+								listing(s) posted.
+							</h4>
+						</c:when>
+
+						<c:otherwise>
+							<h4>
+								<strong class="uk-text-danger"> ${user.username}</strong> has <strong
+									class="uk-text-danger"> ${userListings.size()}</strong>
+								listing(s) posted.
+							</h4>
+						</c:otherwise>
+					</c:choose>
 					<hr>
 					<div class="uk-grid-large uk-child-width-1-3 uk-text-center"
 						uk-grid>

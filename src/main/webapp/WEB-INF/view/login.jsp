@@ -24,9 +24,9 @@
                            
                 </div>
                 <div class="uk-width-1-1 uk-margin-small">
-                    <button type="submit" class="btn btn-primary">Login</button>
-                    <a href="${pageContext.request.contextPath}/resetPage" class="btn btn-default">Forgot Password</a> <a
-                        href="${pageContext.request.contextPath}/unlock" class="btn btn-default">Unlock</a>
+                    <button type="submit" class="uk-button uk-button-primary">Login</button>
+                    <a href="${pageContext.request.contextPath}/resetPage" class="uk-button uk-button-secondary">Forgot Password</a> <a
+                        href="${pageContext.request.contextPath}/unlock" class="uk-button uk-button-secondary">Unlock</a>
                 </div>
             </form>
         </div>

@@ -1,7 +1,7 @@
 <%@include file="header.jsp"%>
 <%@include file="tutorialModal.jsp"%>
 <div
-	class="uk-section uk-section-secondary uk-light uk-position-bottom uk-text-center">
+	class="uk-section uk-section-secondary uk-light uk-position-bottom uk-text-center" hidden>
 	<p>
 		New to UListIt? See our<a
 			href="${pageContext.request.contextPath}/freshmanChecklist"
@@ -15,7 +15,6 @@
 	</p>
 	<p>
 		&copy;U-ListIt -<a style="color: #ffffff; text-decoration: none;"
-			href="${pageContext.request.contextPath}/contactUs"> Questions?
-			Comments? Contact Us</a> - All rights reserved 2018.
+			href="${pageContext.request.contextPath}/contactUs"> Contact Us</a> - All rights reserved 2018.
 	</p>
 </div>

@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html style="height:100%;">
 <head>
-
+	
     <spring:url value="resources/js/notification.js" var="notJS"/>
     <script type="text/javascript" src="${notJS}"></script>
 
@@ -88,3 +88,4 @@
     }
     </style>
 </head>
+<script src="//platform.linkedin.com/in.js" type="text/javascript"></script>

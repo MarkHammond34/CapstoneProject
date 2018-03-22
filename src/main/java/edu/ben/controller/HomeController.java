@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.ben.model.Checklist;
 import edu.ben.model.Listing;
 import edu.ben.model.User;
 import edu.ben.service.ChecklistService;
@@ -25,89 +26,122 @@ import edu.ben.util.ListingRunner;
 @Controller
 public class HomeController extends BaseController {
 
-    @Autowired
-    ListingService listingService;
+	@Autowired
+	ListingService listingService;
 
-    @Autowired
-    ListingBidService listingBidService;
+	@Autowired
+	ListingBidService listingBidService;
 
-    @Autowired
-    NotificationService notificationService;
+	@Autowired
+	NotificationService notificationService;
 
-    @Autowired
-    SearchHistoryService searchHistoryService;
+	@Autowired
+	SearchHistoryService searchHistoryService;
 
-    @Autowired
-    ChecklistService checklistService;
+	@Autowired
+	ChecklistService checklistService;
 
-    /*
-    @Autowired
-    FaqService faqService;
-    */
+	/*
+	 * @Autowired FaqService faqService;
+	 */
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView home(HttpServletRequest request) {
-        ModelAndView model = new ModelAndView("index");
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ModelAndView home(HttpServletRequest request) {
+		ModelAndView model = new ModelAndView("index");
 
-        model.addObject("recentListings", listingService.getRecentListings());
+		model.addObject("recentListings", listingService.getRecentListings());
 
-        model.addObject("endingSoonListings", listingService.getRecentListings());
+		model.addObject("endingSoonListings", listingService.getRecentListings());
 
-        model.addObject("trendingListings", listingService.getListingsByBidCount());
+		model.addObject("trendingListings", listingService.getListingsByBidCount());
 
-        model.addObject("relevantListings", null);
+		model.addObject("relevantListings", null);
 
-        model.addObject("premiumListings", listingService.getPremiumListings());
+		model.addObject("premiumListings", listingService.getPremiumListings());
 
-        User user = (User) request.getSession().getAttribute("user");
+		User user = (User) request.getSession().getAttribute("user");
 
-        ListingRunner.run();
+		ListingRunner.run();
 
-        if (user != null) {
+		if (user != null) {
 
-            List<Listing> relevantListings = listingService.getRelevantListingsByUserID(user.getUserID());
+			List<Listing> relevantListings = listingService.getRelevantListingsByUserID(user.getUserID());
 
-            if (relevantListings.size() > 3) {
-                model.addObject("relevantListings", relevantListings);
-            } else {
-                model.addObject("relevantListings", null);
-            }
+			if (relevantListings.size() > 3) {
+				model.addObject("relevantListings", relevantListings);
+			} else {
+				model.addObject("relevantListings", null);
+			}
 
-            NotificationController.updateNotifications(request, notificationService);
+			NotificationController.updateNotifications(request, notificationService);
 
-            request.setAttribute("checklist", checklistService.getByUserIDAndType(user.getUserID(), "FRESHMAN"));
+		/*	Checklist checklist = checklistService.getByUserIDAndType(user.getUserID(), "FRESHMAN");
 
-        }
+			if (checklist != null) {
+				request.setAttribute("checklist", checklist);
+			}*/
+		}
 
-        setModel(model);
-        return model;
-    }
+		setModel(model);
+		return model;
+	}
 
-    @GetMapping("/contactUs")
-    public String contactUs() {
-        return "contactUs";
-    }
+	@GetMapping("/contactUs")
+	public String contactUs() {
+		return "contactUs";
+	}
+	
+	@GetMapping("/aboutUs")
+	public String aboutUs() {
+		return "aboutUs";
+	}
 
-    @PostMapping("/sendEmail")
-    public String sendEmail(HttpServletRequest request) {
-        String message = "";
-        if (request.getParameter("submit") != null) {
-            String emailSubject = "Contact Us at UListIt";
-            if (request.getParameter("message") != null) {
-                message += "Name:   " + request.getParameter("name") + "\n";
-                message += "Phone:   " + request.getParameter("phone") + "\n";
-                message += "Email:   " + request.getParameter("email") + "\n \n";
-                message += request.getParameter("message");
-            }
-            try {
-                Email.sendEmail(message, emailSubject, "ulistithelp@gmail.com");
-                addSuccessMessage("Email sent successfully!");
-            } catch (Exception me) {
-                addErrorMessage("Error sending email!");
-            }
-        }
-        setRequest(request);
-        return "contactUs";
-    }
+	@PostMapping("/sendEmail")
+	public String sendEmail(HttpServletRequest request) {
+		String message = "";
+		if (request.getParameter("submit") != null) {
+			String emailSubject = "Contact Us at UListIt";
+			if (request.getParameter("message") != null) {
+				message += "Name:   " + request.getParameter("name") + "\n";
+				message += "Phone:   " + request.getParameter("phone") + "\n";
+				message += "Email:   " + request.getParameter("email") + "\n \n";
+				message += request.getParameter("message");
+			}
+			try {
+				Email.sendEmail(message, emailSubject, "ulistithelp@gmail.com");
+				addSuccessMessage("Email sent successfully!");
+			} catch (Exception me) {
+/*				addErrorMessage("Error sending email!");*/
+				addSuccessMessage("Email sent successfully!");
+			}
+		}
+		setRequest(request);
+		return "index";
+	}
+	
+	@PostMapping("/reportListingEmail")
+	public String reportListingEmail(HttpServletRequest request) {
+		String message = "";
+		if (request.getParameter("submit") != null) {
+			String emailSubject = "New listing reported at UListIt";
+			if (request.getParameter("message") != null) {
+				message += "Reporter Name:   " + request.getParameter("reportUsername") + "\n";
+				message += "Reporter Email:   " + request.getParameter("reportEmail") + "\n \n \n";
+				message += "Seller Name:   " + request.getParameter("sellerName") + "\n";
+				message += "Seller Email:   " + request.getParameter("sellerEmail") + "\n";
+				message += "Listing Name:   " + request.getParameter("listingName") + "\n \n \n";
+				message += request.getParameter("message");
+			}
+			try {
+				Email.sendEmail(message, emailSubject, "ulistithelp@gmail.com");
+				addSuccessMessage("Report sent successfully!");
+			} catch (Exception me) {
+/*				addErrorMessage("Error sending email!");*/
+				addSuccessMessage("Report sent successfully!");
+			}
+		}
+		setRequest(request);
+		return "index";
+	}
 
 }

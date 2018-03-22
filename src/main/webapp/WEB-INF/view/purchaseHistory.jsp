@@ -57,7 +57,7 @@
 
 								<td><a
 									href="${pageContext.request.contextPath}/rateReview?id=${transaction.id}"
-									class="btn btn-default">Leave Feedback</a></td>
+									class="uk-button uk-button-small uk-button-primary">Leave Feedback</a></td>
 
 							</c:when>
 							<c:otherwise>

@@ -1,6 +1,7 @@
 package edu.ben.model;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -292,5 +293,10 @@ public class User {
 
     public void setBanned(int banned) {
         this.banned = banned;
+    }
+    
+    public String getTruncatedDate() {
+    	 java.sql.Date date = new java.sql.Date(dateCreated.getTime());
+         return new SimpleDateFormat("MM/dd/yyyy").format(date);
     }
 }

@@ -463,4 +463,12 @@ public class ListingController extends BaseController {
 		setRequest(request);
 		return "checkout";
 	}
+	
+	@GetMapping("/reportListing")
+	public String reportListing(@RequestParam("listingId") int id, HttpServletRequest request) {
+		System.out.println(id);
+		Listing listing = listingService.getByListingID(id);
+		request.setAttribute("listing", listing);
+		return "reportListing";
+	}
 }

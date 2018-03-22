@@ -137,14 +137,14 @@
 												<form method="Post" action="adminUnban">
 													<button name="ban"
 														value="<%=allUsers.get(i).getSchoolEmail()%>"
-														type="submit" uk-icon="icon: close"></button>
+														type="submit" uk-tooltip="Unban this user" uk-icon="icon: close"></button>
 												</form> <%
  	} else {
  %>
 												<form method="Post" action="adminBan">
 													<button name="unban"
 														value="<%=allUsers.get(i).getSchoolEmail()%>"
-														type="submit" uk-icon="icon: user"></button>
+														type="submit"  uk-tooltip="Ban this user" uk-icon="icon: user"></button>
 												</form> <%
  	}
  %>

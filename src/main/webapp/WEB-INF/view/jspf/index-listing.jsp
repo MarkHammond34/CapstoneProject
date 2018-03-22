@@ -9,7 +9,7 @@
     <!-- Name -->
     <div class="name uk-margin-remove-top uk-margin-small-bottom" style="font-size: 22px;">
 
-        <a href="#"><strong class="uk-text-danger">${listing.name}</strong></a>
+        <a href="listing?listingId=${listing.id}"><strong class="uk-text-danger">${listing.name}</strong></a>
         <c:if test="${listing.user.getUserID() != sessionScope.user.userID }">
             <div
                     class="watch-item color1 uk-position-medium uk-position-top-right"
