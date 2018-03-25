@@ -15,12 +15,16 @@ public class Image {
     private int id;
 
     @OneToOne
-    @JoinColumn(name = "user_Id",nullable=true)
+    @JoinColumn(name = "user_Id", nullable = true)
     private User user;
 
-    @OneToOne
-    @JoinColumn(name = "listing_Id",nullable=true)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "listing_Id")
     private Listing listing;
+
+    @OneToOne
+    @JoinColumn(name = "offer_Id", nullable = true)
+    private Offer offer;
 
     @Column(name = "image_path")
     private String image_path;
@@ -34,15 +38,16 @@ public class Image {
     public Image() {
 
     }
-    
-    public Image(String image_path, String image_name, int main) {
+
+    public Image(User user, String image_path, String image_name, int main) {
+        this.user = user;
         this.image_path = image_path;
         this.image_name = image_name;
         this.main = main;
     }
-    
-    public Image(User user, String image_path, String image_name, int main) {
-        this.user = user;
+
+    public Image(Listing listing, String image_path, String image_name, int main) {
+        this.listing = listing;
         this.image_path = image_path;
         this.image_name = image_name;
         this.main = main;
@@ -56,6 +61,15 @@ public class Image {
         this.main = main;
     }
 
+    public Image(User user, Listing listing, Offer offer, String image_path, String image_name, int main) {
+        this.user = user;
+        this.listing = listing;
+        this.offer = offer;
+        this.image_path = image_path;
+        this.image_name = image_name;
+        this.main = main;
+    }
+
     public int getId() {
         return id;
     }
@@ -64,9 +78,13 @@ public class Image {
         this.id = id;
     }
 
-    public User getUser() { return user; }
+    public User getUser() {
+        return user;
+    }
 
-    public void setUser(User user) { this.user = user; }
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Listing getListing() {
         return listing;
@@ -74,6 +92,14 @@ public class Image {
 
     public void setListing(Listing listing) {
         this.listing = listing;
+    }
+
+    public Offer getOffer() {
+        return offer;
+    }
+
+    public void setOffer(Offer offer) {
+        this.offer = offer;
     }
 
     public String getImage_path() {

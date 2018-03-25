@@ -1,9 +1,9 @@
 package edu.ben.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
+import edu.ben.model.Listing;
+import edu.ben.model.Transaction;
+import edu.ben.model.User;
+import edu.ben.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,15 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.ben.model.Listing;
-import edu.ben.model.Offer;
-import edu.ben.model.Transaction;
-import edu.ben.model.User;
-import edu.ben.service.FollowService;
-import edu.ben.service.ListingService;
-import edu.ben.service.OfferService;
-import edu.ben.service.TransactionService;
-import edu.ben.service.UserService;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class DashboardController {
@@ -39,6 +32,9 @@ public class DashboardController {
 	@Autowired
 	TransactionService transactionService;
 
+    @Autowired
+    ImageService imageService;
+
 	@RequestMapping(value = "/dashboard-offers", method = RequestMethod.GET)
 	public ModelAndView showActiveDash() {
 
@@ -52,24 +48,25 @@ public class DashboardController {
 
 		ModelAndView model = new ModelAndView("dashboard2");
 
-		List<Listing> listings = listingService.getAllListings();
-		List<Listing> activeListings = listingService.getActiveListingsByUserId(9);
-		List<Offer> offers = offerService.getOffersByUserId(9);
-		List<Transaction> transactions = transactionService.getTransactionsByUserID(9);
+        List<Listing> listings = listingService.getAllListings();
+        List<Listing> activeListings = listingService.getActiveListingsByUserId(9);
+        //  List<Offer> offers = offerService.getOffersByUserId(9);
+        List<Transaction> transactions = transactionService.getTransactionsByUserID(9);
+        // Do something with images here
 
-		System.out.println(listings.size());
-		System.out.println(offers.size());
-		if (transactions == null) {
-			System.out.println("transactions are null");
-		} else {
-			System.out.println(transactions.size());
-		}
+        //System.out.println(listings.size());
+        //System.out.println(offers.size());
+        if (transactions == null) {
+            System.out.println("transactions are null");
+        } else {
+            System.out.println(transactions.size());
+        }
 
 		model.addObject("title", "Dashboard");
-		model.addObject("listings", listings);
-		model.addObject("activeListings", activeListings);
-		model.addObject("offers", offers);
-		model.addObject("transactions", transactions);
+        model.addObject("listings", listings);
+        model.addObject("activeListings", activeListings);
+        //	model.addObject("offers", offers);
+        model.addObject("transactions", transactions);
 
 		return model;
 

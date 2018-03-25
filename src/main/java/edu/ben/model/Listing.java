@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Entity(name = "listing")
 @Table(name = "listing")
@@ -73,12 +74,17 @@ public class Listing implements java.io.Serializable {
     @Column(name = "premium")
     private int premium;
 
+    @OneToMany(mappedBy = "listing", fetch = FetchType.EAGER)
+    private List<Image> images;
+
+    // Constructors
+
     public Listing() {
         this.highestBid = 0;
         this.bidCount = 0;
     }
 
-    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, Image imagePath) {
+    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -117,6 +123,8 @@ public class Listing implements java.io.Serializable {
         this.highestBid = 0;
         this.bidCount = 0;
     }
+
+    // Getters and setters
 
     public int getId() {
         return id;
@@ -307,4 +315,11 @@ public class Listing implements java.io.Serializable {
         return String.valueOf((int) ((end - now) * 100 / (end - start)));
     }
 
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
 }

@@ -76,7 +76,7 @@
 
 	<div class="uk-section">
 
-		<div class="uk-container uk-container-expand">
+		<div class="uk-container">
 			<div class="uk-grid-small" uk-grid>
 				<div class="uk-width-1-3@m">
 					<div
@@ -175,15 +175,6 @@
 </body>
 <script>
 
-var filter;
-
-function() filter() {
-	
-}
-
-function() sortListings() {
-	
-}
 
 </script>
 </html>

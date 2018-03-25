@@ -1,22 +1,5 @@
 package edu.ben.controller;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-
 import edu.ben.model.Follow;
 import edu.ben.model.Image;
 import edu.ben.model.User;
@@ -25,6 +8,17 @@ import edu.ben.service.ListingService;
 import edu.ben.service.OfferService;
 import edu.ben.service.UserService;
 import edu.ben.util.ImagePath;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -108,9 +102,8 @@ public class UserController {
 				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 				stream.write(bytes);
 
-				Image image = new Image( file.getName(), file.getOriginalFilename(), 1); // not sure what was meant for this object
-				
-				user.setImage_path(image);
+                Image image = new Image(user, file.getName(), file.getOriginalFilename(), 1); // not sure what to do with this
+
 				userService.saveOrUpdate(user);
 				stream.close();
 
