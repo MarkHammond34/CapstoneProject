@@ -15,6 +15,7 @@
 
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Admin Dashboard</title>
     <spring:url value="resources/css/uikit.css" var="uikitCSS"/>
     <spring:url value="resources/js/uikit.js" var="uikitJS"/>
