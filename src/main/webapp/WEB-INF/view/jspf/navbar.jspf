@@ -24,7 +24,7 @@
                 <ul class="uk-navbar-nav">
 
                     <!-- Freshman Checklist Icon -->
-                    <c:if test="${checklist != null}">
+                    <c:if test="${sessionScope.checklist != null}">
                         <li>
                             <a uk-toggle="target: #offcanvas-flip" uk-icon="icon: list" type="Freshman Checklist"></a>
                         </li>
@@ -167,6 +167,8 @@
 
     </div>
 </div>
+
+<%@include file="../checklist/checklist-sidenav.jsp"%>
 
 
 

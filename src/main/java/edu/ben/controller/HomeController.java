@@ -81,8 +81,6 @@ public class HomeController extends BaseController {
                 request.getSession().setAttribute("checklist", null);
             }
 
-            request.setAttribute("newUser", "true");
-
         }
 
         setModel(model);

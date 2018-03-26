@@ -9,6 +9,8 @@
 <html style="height:100%;">
 <head>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <spring:url value="resources/js/notification.js" var="notJS"/>
     <script type="text/javascript" src="${notJS}"></script>
 

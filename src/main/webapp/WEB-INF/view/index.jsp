@@ -8,8 +8,10 @@
 
 <div class="u-list-it-background">
     <div class="uk-section-default">
-        <div class="uk-section-large uk-overlay-default uk-background-cover" style="background-image:url('${pageContext.request.contextPath}/resources/img/index2.jpeg');" >
-            <div class="uk-overlay uk-light uk-align-center uk-border-rounded" style="width:50%;background: rgba(34,34,34,0.85);">
+        <div class="uk-section-large uk-overlay-default uk-background-cover"
+             style="background-image:url('${pageContext.request.contextPath}/resources/img/index2.jpeg');">
+            <div class="uk-overlay uk-light uk-align-center uk-border-rounded"
+                 style="width:50%;background: rgba(34,34,34,0.85);">
                 <form class="uk-search uk-search-large">
                     <span uk-search-icon></span>
                     <input class="uk-search-input" type="search" placeholder="Search...">
@@ -19,91 +21,71 @@
     </div>
 
     <br>
-    <div class="uk-child-width-expand@s uk-text-center" uk-grid>
-        <div class="uk-width-1-4">
-            <h2>Categories</h2>
-            <div class="uk-card uk-card-default uk-card-body uk-grid-margin">
-                <c:forEach items="${categories}" var="category">
-                    <c:forEach items="${category.subCategories}" var="sub">
-                        <div>
-                            <h3>
-                                <a class="uk-link-heading" href="">${category.name}</a>
-                            </h3>
-                        </div>
-                        <hr>
-                        <div>
-                            <a href="" class="uk-link-reset">${sub.name}</a>
-                        </div>
-                        <br>
-                    </c:forEach>
-                    <br>
+
+    <div class="uk-width-1-1">
+        <ul uk-tab>
+            <c:if test="${premiumListings != null}">
+                <li class="uk-active"><a onclick="premiumClicked()"><span uk-icon="bolt"
+                                                                          style="color: yellow"></span>
+                    <b>Premium</b>
+                    <span uk-icon="bolt"
+                          style="color: yellow"></span></a>
+                </li>
+            </c:if>
+            <c:if test="${relevantListings != null}">
+                <li><a onclick="recommendedClicked()">Recommended</a></li>
+            </c:if>
+            <li><a onclick="trendingClicked()">Trending</a></li>
+            <li><a onclick="endingSoonClicked()">Ending Soon</a></li>
+            <li><a onclick="recentlyAddedClicked()">Recently Added</a></li>
+
+        </ul>
+        <div id="trending-listings" style="display: none;">
+            <div class="uk-child-width-1-4@m uk-grid-small uk-text-center"
+                 uk-grid>
+                <c:forEach var="listing" items="${trendingListings}">
+                    <%@include file="listing/index-listing.jsp" %>
                 </c:forEach>
             </div>
         </div>
-        <div class="uk-width-3-4">
-            <ul uk-tab>
-                <c:if test="${premiumListings != null}">
-                    <li class="uk-active"><a onclick="premiumClicked()"><span uk-icon="bolt"
-                                                                              style="color: yellow"></span>
-                        <b>Premium</b>
-                        <span uk-icon="bolt"
-                              style="color: yellow"></span></a>
-                    </li>
-                </c:if>
-                <c:if test="${relevantListings != null}">
-                    <li><a onclick="recommendedClicked()">Recommended</a></li>
-                </c:if>
-                <li><a onclick="trendingClicked()">Trending</a></li>
-                <li><a onclick="endingSoonClicked()">Ending Soon</a></li>
-                <li><a onclick="recentlyAddedClicked()">Recently Added</a></li>
-
-            </ul>
-            <div id="trending-listings" style="display: none;">
-                <div class="uk-child-width-1-3@m uk-grid-small uk-text-center"
-                     uk-grid>
-                    <c:forEach var="listing" items="${trendingListings}">
-                        <%@include file="listing/index-listing.jsp" %>
-                    </c:forEach>
-                </div>
+        <div id="ending-soon-listings" style="display: none">
+            <div class="uk-child-width-1-4@m uk-grid-small uk-text-center"
+                 uk-grid>
+                <c:forEach var="listing" items="${endingSoonListings}">
+                    <%@include file="listing/index-listing.jsp" %>
+                </c:forEach>
             </div>
-            <div id="ending-soon-listings" style="display: none">
-                <div class="uk-child-width-1-3@m uk-grid-small uk-text-center"
-                     uk-grid>
-                    <c:forEach var="listing" items="${endingSoonListings}">
-                        <%@include file="listing/index-listing.jsp" %>
-                    </c:forEach>
-                </div>
-            </div>
-            <div id="recently-added-listings" style="display: none">
-                <div class="uk-child-width-1-3@m uk-grid-small uk-text-center"
-                     uk-grid>
-                    <c:forEach var="listing" items="${recentListings}">
-                        <%@include file="listing/index-listing.jsp" %>
-                    </c:forEach>
-                </div>
-            </div>
-            <c:if test="${relevantListings != null}">
-                <div id="relevant-listings" style="display: none">
-                    <div class="uk-child-width-1-3@m uk-grid-small uk-text-center"
-                         uk-grid>
-                        <c:forEach var="listing" items="${relevantListings}">
-                            <%@include file="listing/index-listing.jsp" %>
-                        </c:forEach>
-                    </div>
-                </div>
-            </c:if>
-            <c:if test="${premiumListings != null}">
-                <div id="premium-listings" style="display: inline">
-                    <div class="uk-child-width-1-3@m uk-grid-small uk-text-center"
-                         uk-grid>
-                        <c:forEach var="listing" items="${premiumListings}">
-                            <%@include file="listing/index-listing.jsp" %>
-                        </c:forEach>
-                    </div>
-                </div>
-            </c:if>
         </div>
+        <div id="recently-added-listings" style="display: none">
+            <div class="uk-child-width-1-4@m uk-grid-small uk-text-center"
+                 uk-grid>
+                <c:forEach var="listing" items="${recentListings}">
+                    <%@include file="listing/index-listing.jsp" %>
+                </c:forEach>
+            </div>
+        </div>
+        <c:if test="${relevantListings != null}">
+            <div id="relevant-listings" style="display: none">
+                <div class="uk-child-width-1-4@m uk-grid-small uk-text-center"
+                     uk-grid>
+                    <c:forEach var="listing" items="${relevantListings}">
+                        <%@include file="listing/index-listing.jsp" %>
+                    </c:forEach>
+                </div>
+            </div>
+        </c:if>
+        <c:if test="${premiumListings != null}">
+            <div id="premium-listings" style="display: inline">
+                <div class="uk-child-width-1-4@m uk-grid-small uk-text-center"
+                     uk-grid>
+                    <c:forEach var="listing" items="${premiumListings}">
+                        <%@include file="listing/index-listing.jsp" %>
+                    </c:forEach>
+                </div>
+            </div>
+        </c:if>
     </div>
+
 </div>
 
 <%@include file="checklist/checklist-modal.jsp" %>
