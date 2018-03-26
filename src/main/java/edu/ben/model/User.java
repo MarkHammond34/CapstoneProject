@@ -62,12 +62,6 @@ public class User {
     @Column(name = "active")
     private int active;
 
-    /**
-     * @AssertTrue(message = "Passwords Do Not Match") private boolean
-     * matchingPassword() { return
-     * this.password.equals(this.passwordConfirm); }
-     */
-
     @Column(name = "login_attempts")
     private int loginAttempts;
 
