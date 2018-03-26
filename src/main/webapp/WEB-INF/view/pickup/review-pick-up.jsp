@@ -1,5 +1,5 @@
 <%@include file="../jspf/header.jsp" %>
-<body style="background-color: #e5e5e5">
+<body class="uk-background-muted">
 <%@include file="../jspf/navbar.jspf" %>
 
 <%@include file="../jspf/messages.jsp" %>
@@ -10,7 +10,7 @@
             <!-- Left Side -->
             <div class="uk-width-2-3@m uk-width-1-1@s" style="height: 100%">
                 <form action="/pick-up-edit" method="post">
-                    <h2 class="uk-heading-bullet">Pick Up Details
+                    <h2 class="uk-heading">Pick Up Details
                         <c:if test="${sessionScope.user.userID == pickUp.transaction.seller.userID}">
                             <a onclick="toggleEditDetails();" uk-icon="icon: pencil"></a>
                         </c:if>
@@ -84,14 +84,15 @@
                         </div>
                     </div>
                     <button id="editButton" style="display: none;" type="submit" onclick="setLatAndLong();"
-                            class="uk-float-left uk-margin-medium-left uk-margin-small-top uk-button-large uk-border-rounded uk-button-primary">
+                            class="uk-float-left uk-margin-medium-left uk-margin-small-top uk-button-large uk-border-rounded uk-button-primary uk-box-shadow-hover-large">
                         Edit
                     </button>
                 </form>
             </div>
+
             <!-- Right Side -->
             <div class="uk-width-1-3@m uk-width-1-1@s">
-                <h2 class="uk-heading-bullet">Messages</h2>
+                <h2 class="uk-heading">Messages</h2>
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-header">
                         <a class="uk-float-right" onclick="refreshPage(500);" title="Refresh"
@@ -151,55 +152,30 @@
                 <div class="uk-width-1-3@s uk-width-1-1@m">
                     <c:choose>
 
-                        <c:when test="${pickUp.buyerAccept == 0 && pickUp.sellerAccept == 0}">
+                        <c:when test="${pickUp.buyerAccept == 0 && pickUp.transaction.seller.userID == sessionScope.user.userID}">
+                            <!-- Display Disabled Checkout Button -->
+                            <form action="/checkout" method="post" id="checkoutForm">
+                                <input name="listingID" type="hidden"
+                                       value="${pickUp.transaction.listingID.id}">
+                                <input name="checkOut"
+                                       type="hidden"
+                                       value="true">
+                                <button title="Checkout"
+                                        class="uk-button-default uk-button-large uk-border-rounded uk-margin-large-top uk-float-right uk-box-shadow-hover-large">
+                                    Checkout
+                                </button>
+                            </form>
+                        </c:when>
+
+                        <c:when test="${pickUp.buyerAccept == 0 && pickUp.transaction.buyer.userID == sessionScope.user.userID}">
                             <!-- Display Accept Button -->
                             <button title="Accept" uk-toggle="target: #acceptModal"
-                                    class="uk-button-primary uk-button-large uk-border-rounded uk-margin-large-top uk-float-right">
+                                    class="uk-button-primary uk-button-large uk-border-rounded uk-margin-large-top uk-float-right uk-box-shadow-hover-large">
                                 Accept Pick Up
                             </button>
                         </c:when>
 
-                        <c:when test="${pickUp.buyerAccept == 1 && pickUp.sellerAccept == 0}">
-                            <c:choose>
-                                <c:when test="${pickUp.transaction.seller.userID == sessionScope.user.userID}">
-                                    <!-- Display Accept Button -->
-                                    <button title="Accept" uk-toggle="target: #acceptModal"
-                                            class="uk-button-primary uk-button-large uk-border-rounded uk-margin-large-top uk-float-right">
-                                        Accept Pick Up
-                                    </button>
-                                </c:when>
-                                <c:otherwise>
-                                    <!-- Display Disabled Accept Button -->
-                                    <button title="Accept" uk-toggle="target: #acceptModal"
-                                            class="uk-button-primary uk-button-large uk-border-rounded uk-margin-large-top uk-float-right"
-                                            disabled>
-                                        Accept Pick Up
-                                    </button>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:when>
-
-                        <c:when test="${pickUp.buyerAccept == 0 && pickUp.sellerAccept == 1}">
-                            <c:choose>
-                                <c:when test="${pickUp.transaction.buyer.userID == sessionScope.user.userID}">
-                                    <!-- Display Accept Button -->
-                                    <button title="Accept" uk-toggle="target: #acceptModal"
-                                            class="uk-button-primary uk-button-large uk-border-rounded uk-margin-large-top uk-float-right">
-                                        Accept Pick Up
-                                    </button>
-                                </c:when>
-                                <c:otherwise>
-                                    <!-- Display Disabled Accept Button -->
-                                    <button title="Accept" uk-toggle="target: #acceptModal"
-                                            class="uk-button-primary uk-button-large uk-border-rounded uk-margin-large-top uk-float-right"
-                                            disabled>
-                                        Accept Pick Up
-                                    </button>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:when>
-
-                        <c:when test="${pickUp.buyerAccept == 1 && pickUp.sellerAccept == 1}">
+                        <c:when test="${pickUp.buyerAccept == 1}">
                             <!-- Display Checkout Button -->
                             <form action="/checkout" method="post" id="checkoutForm">
                                 <input name="listingID" type="hidden"
@@ -208,7 +184,7 @@
                                        type="hidden"
                                        value="true">
                                 <button title="Checkout" onclick="document.getElementById('checkoutForm').submit();"
-                                        class="uk-button-primary uk-button-large uk-border-rounded uk-margin-large-top uk-float-right">
+                                        class="uk-button-primary uk-button-large uk-border-rounded uk-margin-large-top uk-float-right uk-box-shadow-hover-large">
                                     Checkout
                                 </button>
                             </form>

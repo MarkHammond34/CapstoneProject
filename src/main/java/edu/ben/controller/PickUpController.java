@@ -46,9 +46,6 @@ public class PickUpController extends BaseController {
     MessageService messageService;
 
     @Autowired
-    QRCodeKeyService qrCodeKeyService;
-
-    @Autowired
     private Environment environment;
 
     @PostMapping("/pick-up-accept")
@@ -66,51 +63,23 @@ public class PickUpController extends BaseController {
 
         if (pickUp == null) {
             addWarningMessage("Error Loading Page");
+            setRequest(request);
             return "redirect:" + request.getHeader("Referer");
         }
 
         // Send notifications once accepted
         if (pickUp.getTransaction().getBuyer().getUserID() == user.getUserID()) {
+
             pickUp.setBuyerAccept(1);
 
-            if (pickUp.getSellerAccept() == 1) {
-                // send seller notification that it was accepted
-                notificationService.save(new Notification(pickUp.getTransaction().getSeller(),
-                        pickUp.getTransaction().getListingID().getId(), "Pick Up Details Accepted",
-                        "Pick up details have been accepted by "
-                                + pickUp.getTransaction().getBuyer().getUsername() +
-                                " for the listing you are buying.\nJust one last step!", 1, "PICKUP"));
-            } else {
-                // send seller notification to accept
-                notificationService.save(new Notification(pickUp.getTransaction().getSeller(),
-                        pickUp.getTransaction().getListingID().getId(), "Pick Up Details Accepted",
-                        "Pick up details have been accepted by "
-                                + pickUp.getTransaction().getBuyer().getUsername() +
-                                " for the listing you are buying.\nNow it's your turn to accept.", 1, "PICKUP"));
-            }
+            // send seller notification that it was accepted
+            notificationService.save(new Notification(pickUp.getTransaction().getSeller(),
+                    pickUp.getTransaction().getListingID().getId(), "Pick Up Details Accepted",
+                    "Pick up details have been accepted by "
+                            + pickUp.getTransaction().getBuyer().getUsername() +
+                            " for the listing you are buying.\nJust one last step!", 1, "PICKUP"));
 
-        } else if (pickUp.getTransaction().getSeller().getUserID() == user.getUserID()) {
-            pickUp.setSellerAccept(1);
-
-            if (pickUp.getBuyerAccept() == 1) {
-                // send buyer notification that it was accepted
-                notificationService.save(new Notification(pickUp.getTransaction().getBuyer(),
-                        pickUp.getTransaction().getListingID().getId(), "Pick Up Details Accepted",
-                        "Pick up details have been accepted by "
-                                + pickUp.getTransaction().getBuyer().getUsername() +
-                                " for the listing you are selling.\nJust one last step!", 1, "PICKUP"));
-            } else {
-                // send buyer notification to accept
-                notificationService.save(new Notification(pickUp.getTransaction().getBuyer(),
-                        pickUp.getTransaction().getListingID().getId(), "Pick Up Details Accepted",
-                        "Pick up details have been accepted by "
-                                + pickUp.getTransaction().getBuyer().getUsername() +
-                                " for the listing you are selling.\nNow it's your turn to accept.", 1, "PICKUP"));
-            }
-        }
-
-        // Both Have Accepted
-        if (pickUp.getBuyerAccept() == 1 && pickUp.getSellerAccept() == 1) {
+            pickUp.setStatus("ACCEPTED");
 
             pickUp.setStatus("PICK UP ACCEPTED");
             request.setAttribute("listingID", pickUp.getTransaction().getListingID().getId());
@@ -119,41 +88,14 @@ public class PickUpController extends BaseController {
             return "redirect:/checkout";
 
         } else {
-
-            pickUp.setStatus("AWAITING ACCEPTANCE");
-            pickUpService.update(pickUp);
-
-            request.setAttribute("title", "Pick Up Review");
-            request.setAttribute("pickUp", pickUp);
-
-            request.setAttribute("latitude", environment.getProperty("school.latitude"));
-            request.setAttribute("longitude", environment.getProperty("school.longitude"));
-
-            // If buyer is the user logged in
-            if (pickUp.getTransaction().getBuyer().getUserID() == user.getUserID()) {
-                addWarningMessage("Just Need The Seller To Accept");
-            } else {
-                addWarningMessage("Just Need The Buyer To Accept");
-            }
-
+            addWarningMessage("Access Denied");
             setRequest(request);
             return "redirect:" + request.getHeader("Referer");
         }
     }
 
-    @RequestMapping(value = "/pick-up-review", method = {RequestMethod.GET, RequestMethod.POST})
-    public String pickUpCreate(HttpServletRequest request) {
-
-        // BUG
-        if (request.getMethod().equals("GET")) {
-            addWarningMessage("Pick Up Review: Access Denied");
-            setRequest(request);
-            return "redirect:/";
-        }
-
-        int listingID = Integer.parseInt(request.getParameter("listingID"));
-
-        System.out.println(request.getMethod());
+    @GetMapping("/pick-up-review")
+    public String pickUpCreate(HttpServletRequest request, @RequestParam("l") int listingID) {
 
         User user = (User) request.getSession().getAttribute("user");
 
@@ -161,6 +103,22 @@ public class PickUpController extends BaseController {
             addErrorMessage("Login To Create A Pick Up");
             setRequest(request);
             return "login";
+        }
+
+        Transaction transaction = transactionService.getTransactionsByListingID(listingID);
+
+        // Verify transaction was created
+        if (transaction == null) {
+            addErrorMessage("Error Loading Transaction");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        // Verify user
+        if (user.getUserID() != transaction.getBuyer().getUserID() && user.getUserID() != transaction.getSeller().getUserID()) {
+            addWarningMessage("Access Denied");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
         }
 
         PickUp pickUp = pickUpService.getPickUpByListingID(listingID);
@@ -172,31 +130,20 @@ public class PickUpController extends BaseController {
 
             // Create new conversation
             Conversation conversation = new Conversation(listing.getUser(), listing.getHighestBidder());
-            messageService.createConversation(conversation);
-            conversation = messageService.getConversationOrderByDateCreated(listing.getUser(), listing.getHighestBidder());
-
-            // Get transaction
-            Transaction transaction = transactionService.getTransactionsByListingID(listingID);
-            if (transaction == null) {
-                transactionService.createTransaction(new Transaction(listing, 0));
-                transaction = transactionService.getTransactionsByListingID(listing.getId());
-            }
+            int conversationID = messageService.createConversation(conversation);
+            conversation = messageService.getConversationByID(conversationID);
 
             // Create default location
-            Location location = new Location(String.valueOf(listing.getId()), Float.parseFloat(environment.getProperty("school.latitude")), Float.parseFloat(environment.getProperty("school.longitude")));
-            locationService.save(location);
-            location = locationService.getByName(String.valueOf(listing.getId()));
+            Location location = new Location("TBD",
+                    Float.parseFloat(environment.getProperty("school.latitude")), Float.parseFloat(environment.getProperty("school.longitude")));
+            int locationID = locationService.save(location);
+            location = locationService.getByLocationID(locationID);
 
             // Create new pickup with default location
             pickUp = new PickUp(transaction, location, conversation);
             pickUp.setStatus("CREATED");
             pickUpService.save(pickUp);
             pickUp = pickUpService.getPickUpByListingID(listing.getId());
-            pickUp.getLocation().setName("TBD");
-
-            // Change Location Name Back To Default
-            location.setName("TBD");
-            locationService.update(location);
 
             // If seller goes to page first, add appropriate message and send seller notification
             if (transaction.getBuyer().getUserID() == user.getUserID()) {
@@ -219,30 +166,29 @@ public class PickUpController extends BaseController {
 
             // If pickup exists
         } else {
-
             if (pickUp.getStatus().equals("CREATED")) {
                 pickUp.setStatus("IN REVIEW");
             }
             pickUpService.update(pickUp);
-
         }
 
-        // Set the warning message based off of who has and who has not accepted the pick up
-        if (user.getUserID() == pickUp.getTransaction().getBuyer().getUserID() &&
-                pickUp.getSellerAccept() == 1 && pickUp.getBuyerAccept() == 0) {
-            addWarningMessage("Seller has accepted the pickup. Accept to continue.");
+        // Set the warning message
+        if (user.getUserID() == pickUp.getTransaction().getSeller().getUserID() &&
+                pickUp.getSellerAccept() == 1) {
+            addWarningMessage("Buyer has accepted the pickup. Checkout to continue.");
+
+        } else if (user.getUserID() == pickUp.getTransaction().getSeller().getUserID() &&
+                pickUp.getSellerAccept() == 0) {
+            addWarningMessage("Buyer has not yet accepted the pickup.");
+        }
+
+        if (user.getUserID() == pickUp.getTransaction().getSeller().getUserID() &&
+                pickUp.getStatus().equals("PICK UP MISSED")) {
+            addWarningMessage("Pickup time missed! Set a new date and time to continue.");
 
         } else if (user.getUserID() == pickUp.getTransaction().getBuyer().getUserID() &&
-                pickUp.getSellerAccept() == 0 && pickUp.getBuyerAccept() == 1) {
-            addWarningMessage("Seller has not yet accepted the pickup.");
-
-        } else if (user.getUserID() == pickUp.getTransaction().getSeller().getUserID() &&
-                pickUp.getSellerAccept() == 1 && pickUp.getBuyerAccept() == 0) {
-            addWarningMessage("Buyer has accepted the pickup. Accept to continue.");
-
-        } else if (user.getUserID() == pickUp.getTransaction().getSeller().getUserID() &&
-                pickUp.getSellerAccept() == 0 && pickUp.getBuyerAccept() == 1) {
-            addWarningMessage("Buyer has not yet accepted the pickup.");
+                pickUp.getStatus().equals("PICK UP MISSED")) {
+            addWarningMessage("Pickup time missed! Accept the new date and time to continue.");
         }
 
         request.setAttribute("pickUp", pickUp);
@@ -426,210 +372,8 @@ public class PickUpController extends BaseController {
         return "redirect:" + request.getHeader("Referer");
     }
 
-    // Seller
-    @GetMapping("/qr-code")
-    public String generateQrCode(HttpServletRequest request, @RequestParam("p") int pickUpID) {
 
-        User user = (User) request.getSession().getAttribute("user");
-
-        if (user == null) {
-            addErrorMessage("Login To Generate A Code");
-            setRequest(request);
-            return "login";
-        }
-
-        PickUp pickUp = pickUpService.getPickUpByPickUpID(pickUpID);
-
-        if (pickUp == null) {
-            addErrorMessage("Error Loading Pick Up");
-            setRequest(request);
-            return "redirect:/";
-        }
-
-        // Verify that user logged in is the seller
-        if (user.getUserID() != pickUp.getTransaction().getSeller().getUserID()) {
-            addErrorMessage("Access Denied");
-            setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
-        }
-
-        QRCodeKey qrCodeKey = qrCodeKeyService.getByPickUpID(pickUpID);
-
-        // If code does not already exist, create one
-        if (qrCodeKey == null) {
-
-            String key = generateQRKey(pickUp.getTransaction().getBuyer().getUserID(),
-                    pickUp.getTransaction().getSeller().getUserID(), pickUp.getPickUpID());
-
-            // Ensures key is unique
-            while (qrCodeKeyService.exists(key)) {
-                key = generateQRKey(pickUp.getTransaction().getBuyer().getUserID(),
-                        pickUp.getTransaction().getSeller().getUserID(), pickUp.getPickUpID());
-            }
-
-            qrCodeKeyService.save(new QRCodeKey(key, pickUp));
-
-            request.setAttribute("pickUp", pickUp);
-            request.setAttribute("qrCodeKey", qrCodeKeyService.getByKey(key));
-            return "pickup/view-qr-code";
-
-        } else {
-
-            request.setAttribute("pickUp", pickUp);
-            request.setAttribute("qrCodeKey", qrCodeKey);
-            return "pickup/view-qr-code";
-
-        }
-    }
-
-    private String generateQRKey(int buyerID, int sellerID, int pickUpID) {
-        String code = String.valueOf(pickUpID) + String.valueOf(buyerID) + String.valueOf(sellerID);
-        for (int i = 0; i < 13; i++) {
-            code += (int) (Math.random() * 10);
-        }
-        return code;
-    }
-
-    // Buyer
-    @GetMapping("/scan-qr-code")
-    public String scanQrCodeGet(HttpServletRequest request, @RequestParam("p") int pickUpID) {
-
-        User user = (User) request.getSession().getAttribute("user");
-
-        if (user == null) {
-            addErrorMessage("Login To Generate A Code");
-            setRequest(request);
-            return "login";
-        }
-
-        PickUp pickUp = pickUpService.getPickUpByPickUpID(pickUpID);
-
-        // Verify the pick up exists
-        if (pickUp == null) {
-            addErrorMessage("Pick Up Has Not Been Created");
-            setRequest(request);
-            return "redirect:/";
-        }
-
-        // Verify that buyer accepted the pick up
-        if (pickUp.getBuyerAccept() == 0) {
-            addErrorMessage("Pick Up Has Not Been Accepted");
-            setRequest(request);
-            return "redirect:/";
-        }
-
-        // Verify that user logged in is the buyer
-        if (user.getUserID() == pickUp.getTransaction().getBuyer().getUserID()) {
-            addErrorMessage("Access Denied");
-            setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
-        }
-
-        if (qrCodeKeyService.exists(pickUpID)) {
-            addSuccessMessage("Scan The QR Code To Verify Your Pick Up");
-        } else {
-            addWarningMessage("Seller Has Not Created Opened The QR Code");
-        }
-
-        setRequest(request);
-        return "pickup/scan-qr-code";
-    }
-
-    @GetMapping("/sample-scan")
-    public String sampleScan() {
-        return "pickup/scan-qr-code";
-    }
-
-    @GetMapping("/sample-code")
-    public String sampleCode(HttpServletRequest request) {
-        QRCodeKey key = new QRCodeKey();
-        key.setKey("1234");
-        request.setAttribute("qrCodeKey", key);
-        return "pickup/view-qr-code";
-    }
-
-    @PostMapping("/verify-qr-code")
-    public String verifyQrCode(HttpServletRequest request, @RequestParam("p") int pickUpID, @RequestParam("qrCodeImage") File qrCodeImage) {
-
-        User user = (User) request.getSession().getAttribute("user");
-
-        if (user == null) {
-            addErrorMessage("Login To Generate A Code");
-            setRequest(request);
-            return "login";
-        }
-
-        PickUp pickUp = pickUpService.getPickUpByPickUpID(pickUpID);
-
-        if (pickUp == null) {
-            addErrorMessage("Error Loading Pick Up");
-            setRequest(request);
-            return "redirect:/";
-        }
-
-        // Verify that buyer accepted the pick up
-        if (pickUp.getBuyerAccept() == 0) {
-            addErrorMessage("Pick Up Has Not Been Accepted");
-            setRequest(request);
-            return "redirect:/";
-        }
-
-        // Verify that user logged in is the buyer
-        if (user.getUserID() == pickUp.getTransaction().getBuyer().getUserID()) {
-            addErrorMessage("Access Denied");
-            setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
-        }
-
-        QRCodeKey key = qrCodeKeyService.getByPickUpID(pickUpID);
-
-        // Verify key exists
-        if (key == null) {
-            addErrorMessage("QR Code Not Yet Created");
-            setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
-        }
-
-        try {
-            BufferedImage bufferedImage = ImageIO.read(qrCodeImage);
-            LuminanceSource source = new BufferedImageLuminanceSource(bufferedImage);
-            BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
-
-            Result result = new MultiFormatReader().decode(bitmap);
-
-            System.out.println("Result: " + result.getText());
-
-            // Get scanned code
-            String scannedKey = result.getText();
-
-            // Compare codes
-            if (scannedKey.equals(key.getKey())) {
-                // Set key to scanned and confirmed
-                key.setStatus("SCANNED_CONFIRMED");
-                qrCodeKeyService.update(key);
-
-                // Set pickup to confirmed
-                pickUp.setStatus("VERIFIED");
-                pickUpService.update(pickUp);
-
-                setRequest(request);
-                return "redirect:/pick-up-confirmed";
-            } else {
-                // Return with error
-                key.setStatus("SCANNED");
-                addErrorMessage("Invalid Code");
-                setRequest(request);
-                return "redirect:" + request.getHeader("Referer");
-            }
-        } catch (Exception e) {
-            // Returns with error if code couldn't be decoded
-            addErrorMessage("Error Decoding QR Code, Try Again");
-            setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
-        }
-
-    }
-
+    /**
     @GetMapping("/pick-up-confirmed")
     public String pickUpConfirmed(HttpServletRequest request, @RequestParam("p") int pickUpID) {
 
@@ -682,4 +426,5 @@ public class PickUpController extends BaseController {
             return "redirect:" + request.getHeader("Referer");
         }
     }
+    */
 }

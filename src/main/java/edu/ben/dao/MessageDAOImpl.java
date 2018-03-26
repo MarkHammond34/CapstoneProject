@@ -33,8 +33,8 @@ public class MessageDAOImpl implements MessageDAO {
     }
 
     @Override
-    public void createConversation(Conversation conversation) {
-        getSession().save(conversation);
+    public int createConversation(Conversation conversation) {
+        return (int) getSession().save(conversation);
     }
 
     @SuppressWarnings("unchecked")
@@ -72,10 +72,9 @@ public class MessageDAOImpl implements MessageDAO {
     }
 
     @Override
-    public Conversation getConversationOrderByDateCreated(int user1ID, int user2ID) {
-        Query q = getSession().createQuery("FROM conversation WHERE userId_1=:id1 AND userId_2=:id2 ORDER BY date_created DESC");
-        q.setParameter("id1", user1ID);
-        q.setParameter("id2", user2ID);
+    public Conversation getConversationByID(int conversationID) {
+        Query q = getSession().createQuery("FROM conversation WHERE conversation_ID:=id");
+        q.setParameter("id", conversationID);
         return (Conversation) q.list().get(0);
     }
 }

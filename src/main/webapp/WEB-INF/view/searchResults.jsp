@@ -129,7 +129,7 @@
                                 <div class="uk-grid-large uk-child-width-1-3 uk-text-center"
                                      uk-grid>
                                     <c:forEach var="listing" items="${listingSearch}">
-                                        <%@include file="jspf/index-listing.jsp" %>
+                                        <%@include file="listing/index-listing.jsp" %>
                                     </c:forEach>
                                 </div>
                             </div>
@@ -139,7 +139,7 @@
                                 <div class="uk-grid-large uk-child-width-1-3 uk-text-center"
                                      uk-grid>
                                     <c:forEach var="listing" items="${endingSoonest}">
-                                        <%@include file="jspf/index-listing.jsp" %>
+                                        <%@include file="listing/index-listing.jsp" %>
                                     </c:forEach>
                                 </div>
                             </div>
@@ -149,7 +149,7 @@
                                 <div class="uk-grid-large uk-child-width-1-3 uk-text-center"
                                      uk-grid>
                                     <c:forEach var="listing" items="${endingLatest}">
-                                        <%@include file="jspf/index-listing.jsp" %>
+                                        <%@include file="listing/index-listing.jsp" %>
                                     </c:forEach>
                                 </div>
                             </div>
@@ -159,7 +159,7 @@
                                 <div class="uk-grid-large uk-child-width-1-3 uk-text-center"
                                      uk-grid>
                                     <c:forEach var="listing" items="${mostExpensive}">
-                                        <%@include file="jspf/index-listing.jsp" %>
+                                        <%@include file="listing/index-listing.jsp" %>
                                     </c:forEach>
                                 </div>
                             </div>
@@ -169,7 +169,7 @@
                                 <div class="uk-grid-large uk-child-width-1-3 uk-text-center"
                                      uk-grid>
                                     <c:forEach var="listing" items="${leastExpensive}">
-                                        <%@include file="jspf/index-listing.jsp" %>
+                                        <%@include file="listing/index-listing.jsp" %>
                                     </c:forEach>
                                 </div>
                             </div>
@@ -202,7 +202,7 @@
                 <div class="uk-width-1-4 uk-card-body uk-card uk-card-default uk-padding-remove-left uk-text-center uk-padding-remove-right">
                     <h3 class="uk-margin-remove-bottom">Recommended Listings</h3>
                     <c:forEach items="${relevantListings}" var="listing">
-                        <%@include file="jspf/index-listing.jsp" %>
+                        <%@include file="listing/index-listing.jsp" %>
                     </c:forEach>
                 </div>
             </div>

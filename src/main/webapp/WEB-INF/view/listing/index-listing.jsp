@@ -1,4 +1,4 @@
-<div class="uk-card uk-card-default uk-border-rounded uk-padding-small uk-card-small uk-card-body">
+<div class="uk-card uk-card-default uk-border-rounded uk-padding-small uk-card-body uk-margin-auto-vertical">
     <div class="uk-align-center uk-margin-remove-bottom" uk-lightbox>
         <a href="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
            title="Image" class="thumbnail"><img
@@ -9,7 +9,7 @@
     <!-- Name -->
     <div class="name uk-margin-remove-top uk-margin-small-bottom" style="font-size: 22px;">
 
-        <a href="#"><strong class="uk-text-danger">${listing.name}</strong></a>
+        <a href="/listing?l=${listing.id}"><strong class="uk-text-danger">${listing.name}</strong></a>
         <c:if test="${listing.user.getUserID() != sessionScope.user.userID }">
             <div
                     class="watch-item color1 uk-position-medium uk-position-top-right"
@@ -29,17 +29,13 @@
         <c:when test="${listing.type == 'auction'}">
             <c:choose>
                 <c:when test="${listing.delay < 0}">
-                    <div class="uk-animation-toggle">
-                        <div class="uk-animation-shake uk-animation-reverse">
-                            <div class="price" style="font-size: 16px;">
-                                <span class="uk-badge">Current Bid: $${listing.highestBid}</span>
-                                <a
-                                        class="uk-button uk-button-text"
-                                        style="color: red; margin-left: 5px;"
-                                        id="bidButton${listing.id}">Place
-                                    Bid</a>
-                            </div>
-                        </div>
+                    <div class="price" style="font-size: 16px;">
+                        <span class="uk-badge">Current Bid: $${listing.highestBid}</span>
+                        <a
+                                class="uk-button uk-button-text"
+                                style="color: red; margin-left: 5px;"
+                                id="bidButton${listing.id}">Place
+                            Bid</a>
                     </div>
                 </c:when>
                 <c:otherwise>
@@ -59,7 +55,7 @@
             </c:choose>
             <div class="uk-grid-small" uk-grid>
                 <div class=" uk-width-1-1 uk-align-center uk-margin-remove-bottom">
-                    <p class="uk-margin-small-bottom uk-margin-small-top uk-align-center listing-ended"
+                    <p class="uk-margin-medium-top uk-align-center listing-ended"
                        style="color: red; font-size: 16px; display: none;">
                         <br>
                         Listing Ended</p>
@@ -82,10 +78,6 @@
                             <strong class="uk-countdown-label uk-margin-small-top uk-margin-left">Seconds</strong></strong>
                         </span>
                     </div>
-                    <progress id="js-progressbar"
-                              class="uk-progress uk-margin-remove-top" value="0"
-                              max="${listing.endTimestampAsLong}">
-                    </progress>
                 </div>
             </div>
         </c:when>

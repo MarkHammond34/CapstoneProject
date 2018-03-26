@@ -6,7 +6,7 @@
          ${pageContext.request.contextPath}/resources/img/checklist-background.jpg); color: white;" uk-grid>
         <button class="uk-modal-close uk-position-large uk-position-top-right" style="color: white;" type="button"
                 uk-close></button>
-        <div class="uk-text-center uk-width-1-1"><h1>Welcome to U-ListIt!</h1></div>
+        <div class="uk-text-center uk-width-1-1" style="color: white;"><h1>Welcome to U-ListIt!</h1></div>
         <div class="uk-margin uk-width-1-2" style="font-size: 20px;">
             <p>College is an exciting time!</p>
             <br>

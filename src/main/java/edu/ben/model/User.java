@@ -259,7 +259,7 @@ public class User {
     public void setAdminLevel(int adminLevel) {
         this.adminLevel = adminLevel;
     }
-    
+
     public Integer getSellerRating() {
         return sellerRating;
     }
@@ -267,7 +267,19 @@ public class User {
     public void setSellerRating(Integer sellerRating) {
         this.sellerRating = sellerRating;
     }
-    
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getFormattedPhoneNumber() {
+        return "(" + phoneNumber.substring(0, 2) + ") " + phoneNumber.substring(3, 5) + "-" + phoneNumber.substring(6);
+    }
+
     public int getBanned() {
         return banned;
     }

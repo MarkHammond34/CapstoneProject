@@ -57,7 +57,7 @@
 							<div class="uk-grid-large uk-child-width-1-3 uk-text-center"
 								uk-grid>
 								<c:forEach var="listing" items="${donationList}">
-									<%@include file="jspf/index-listing.jsp"%>
+									<%@include file="listing/index-listing.jsp"%>
 								</c:forEach>
 							</div>
 						</div>

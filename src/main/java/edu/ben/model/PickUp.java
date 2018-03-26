@@ -155,4 +155,8 @@ public class PickUp {
     public void setSellerAccept(int sellerAccept) {
         this.sellerAccept = sellerAccept;
     }
+
+    public long getDelay() {
+        return pickUpTimestamp.getTime() - System.currentTimeMillis();
+    }
 }

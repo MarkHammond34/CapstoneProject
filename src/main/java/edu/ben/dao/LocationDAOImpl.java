@@ -20,8 +20,8 @@ public class LocationDAOImpl implements LocationDAO {
     }
 
     @Override
-    public void save(Location location) {
-        getSession().save(location);
+    public int save(Location location) {
+        return (int) getSession().save(location);
     }
 
     @Override
@@ -38,6 +38,18 @@ public class LocationDAOImpl implements LocationDAO {
     public Location getByName(String name) {
         Query q = getSession().createQuery("FROM pick_up_location WHERE name=:name");
         q.setParameter("name", name);
+        return (Location) q.list().get(0);
+    }
+
+    @Override
+    public List getAllLocations() {
+        return getSession().createQuery("FROM pick_up_location WHERE active=1").list();
+    }
+
+    @Override
+    public Location getByLocationID(int id) {
+        Query q = getSession().createQuery("FROM pick_up_location WHERE location_id=:id");
+        q.setParameter("id", id);
         return (Location) q.list().get(0);
     }
 }

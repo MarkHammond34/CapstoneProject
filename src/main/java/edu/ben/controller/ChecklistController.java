@@ -97,6 +97,8 @@ public class ChecklistController extends BaseController {
             }
         }
 
+        request.getSession().setAttribute("checklist", checklistService.getByChecklistID(checklistID));
+
         addSuccessMessage("Checklist Updated");
         setRequest(request);
         return "redirect:" + request.getHeader("Referer");
@@ -123,6 +125,8 @@ public class ChecklistController extends BaseController {
         }
 
         checklistService.save(new ChecklistItem(checklist, name));
+
+        request.getSession().setAttribute("checklist", checklistService.getByChecklistID(checklistID));
 
         addSuccessMessage(name + " Created");
         setRequest(request);

@@ -1,15 +1,10 @@
 package edu.ben.controller;
 
-import edu.ben.model.Dispute;
-import edu.ben.model.Listing;
-import edu.ben.model.Notification;
-import edu.ben.model.User;
-import edu.ben.service.DisputeService;
-import edu.ben.service.ListingService;
-import edu.ben.service.NotificationService;
-import edu.ben.service.UserService;
+import edu.ben.model.*;
+import edu.ben.service.*;
 import edu.ben.util.Email;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +27,12 @@ public class AdminController extends BaseController {
 
     @Autowired
     NotificationService notificationService;
+
+    @Autowired
+    LocationService locationService;
+
+    @Autowired
+    Environment environment;
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin(HttpServletRequest request) {
@@ -172,6 +173,108 @@ public class AdminController extends BaseController {
         request.setAttribute("title", "Disputes");
         request.setAttribute("disputes", disputeService.getAllActive());
         return "admin/admin-disputes";
+    }
+
+    @GetMapping("/adminLocations")
+    public String locations(HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null && user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "login";
+        }
+
+        request.setAttribute("lat", environment.getProperty("school.latitude"));
+        request.setAttribute("lng", environment.getProperty("school.longitude"));
+
+        request.setAttribute("title", "Locations");
+
+        List<Location> locations = locationService.getAllLocations();
+        request.setAttribute("locations", locations);
+        request.setAttribute("locationCount", locations.size());
+
+        request.setAttribute("safeZones", locationService.getAllSafeZones());
+        return "admin/admin-locations";
+    }
+
+    @PostMapping("/createSafeZone")
+    public String createSafeZone(HttpServletRequest request, @RequestParam("name") String name,
+                                 @RequestParam("position") String position) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null && user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "login";
+        }
+
+        Location newLocation = new Location();
+        newLocation.setName(name);
+        newLocation.setSafeZone(1);
+        newLocation.setActive(1);
+
+        int commaIndex = position.indexOf(',');
+
+        newLocation.setLatitude(Float.parseFloat(position.substring(1, commaIndex)));
+        newLocation.setLongitude(Float.parseFloat(position.substring(commaIndex + 2, (position.length() - 1))));
+
+        locationService.save(newLocation);
+
+        addSuccessMessage("Safe Zone Created");
+        setRequest(request);
+        return "redirect:" + request.getHeader("Referer");
+    }
+
+    @PostMapping("/editSafeZone")
+    public String editSafeZone(HttpServletRequest request, @RequestParam("locationID") int locationID,
+                               @RequestParam("newName") String newName,
+                               @RequestParam("newLat") float newLat, @RequestParam("newLng") float newLng) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null && user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "login";
+        }
+
+        Location location = locationService.getByLocationID(locationID);
+
+        if (!newName.equals("")) {
+            location.setName(newName);
+        }
+
+        location.setLatitude(newLat);
+        location.setLongitude(newLng);
+
+        locationService.update(location);
+
+        addSuccessMessage("Safe Zone Updated");
+        setRequest(request);
+        return "redirect:" + request.getHeader("Referer");
+    }
+
+    @PostMapping("/deleteSafeZone")
+    public String editSafeZone(HttpServletRequest request, @RequestParam("locationID") int locationID) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null && user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "login";
+        }
+
+        Location location = locationService.getByLocationID(locationID);
+        location.setActive(0);
+        locationService.update(location);
+
+        addSuccessMessage("Safe Zone Updated");
+        setRequest(request);
+        return "redirect:" + request.getHeader("Referer");
     }
 
     @PostMapping("/contactUser")

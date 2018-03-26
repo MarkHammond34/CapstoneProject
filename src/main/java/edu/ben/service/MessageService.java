@@ -20,8 +20,10 @@ public interface MessageService {
 
     public void sendMessage(User sendFrom, String message, Conversation conversation);
 
-    public void createConversation(Conversation conversation);
+    public int createConversation(Conversation conversation);
 
-    public Conversation getConversationOrderByDateCreated(User user1, User user2);
+    public Conversation getConversationByID(int conversationID);
+
+
 
 }

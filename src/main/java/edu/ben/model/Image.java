@@ -12,6 +12,7 @@ public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idimage")
     private int id;
 
     @OneToOne

@@ -62,7 +62,7 @@
                 <div class="uk-child-width-1-3@m uk-grid-small uk-text-center"
                      uk-grid>
                     <c:forEach var="listing" items="${trendingListings}">
-                        <%@include file="jspf/index-listing.jsp" %>
+                        <%@include file="listing/index-listing.jsp" %>
                     </c:forEach>
                 </div>
             </div>
@@ -70,7 +70,7 @@
                 <div class="uk-child-width-1-3@m uk-grid-small uk-text-center"
                      uk-grid>
                     <c:forEach var="listing" items="${endingSoonListings}">
-                        <%@include file="jspf/index-listing.jsp" %>
+                        <%@include file="listing/index-listing.jsp" %>
                     </c:forEach>
                 </div>
             </div>
@@ -78,7 +78,7 @@
                 <div class="uk-child-width-1-3@m uk-grid-small uk-text-center"
                      uk-grid>
                     <c:forEach var="listing" items="${recentListings}">
-                        <%@include file="jspf/index-listing.jsp" %>
+                        <%@include file="listing/index-listing.jsp" %>
                     </c:forEach>
                 </div>
             </div>
@@ -87,7 +87,7 @@
                     <div class="uk-child-width-1-3@m uk-grid-small uk-text-center"
                          uk-grid>
                         <c:forEach var="listing" items="${relevantListings}">
-                            <%@include file="jspf/index-listing.jsp" %>
+                            <%@include file="listing/index-listing.jsp" %>
                         </c:forEach>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                     <div class="uk-child-width-1-3@m uk-grid-small uk-text-center"
                          uk-grid>
                         <c:forEach var="listing" items="${premiumListings}">
-                            <%@include file="jspf/index-listing.jsp" %>
+                            <%@include file="listing/index-listing.jsp" %>
                         </c:forEach>
                     </div>
                 </div>

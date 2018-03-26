@@ -34,144 +34,147 @@ import edu.ben.model.User;
 @Transactional
 public class ListingController extends BaseController {
 
-	@Autowired
-	ListingService listingService;
-
-	@Autowired
-	FavoriteService favoriteService;
-
-	@Autowired
-	CategoryService categoryService;
-
-	@Autowired
-	UserService userService;
-
-	@Autowired
-	OfferService offerService;
-
-	@Autowired
-	SavedSearchService savedSearchService;
-
-	@Autowired
-	NotificationService notificationService;
-
-	@Autowired
-	private Environment environment;
+    @Autowired
+    ListingService listingService;
 
     @Autowired
-	PickUpService pickUpService;
+    FavoriteService favoriteService;
 
-	/**
-	 * Upload single file using Spring Controller
-	 */
-	@RequestMapping(value = "/uploadListing", method = RequestMethod.POST)
-	public String uploadFileHandler(@RequestParam("title") String name, @RequestParam("category") String category,
-									@RequestParam("subCategory") String subCategory,
-									@RequestParam(value = "price", required = false) Double price,
-									@RequestParam("description") String description, @RequestParam("file") List<MultipartFile> file,
-									@RequestParam("type") String type, @RequestParam("premium") String premium, Model model,
-									HttpServletRequest request) {
+    @Autowired
+    CategoryService categoryService;
 
-		System.out.println("Hit UploadListing Controller");
-		if (price == null) {
-			price = (double) 0;
-			// This is a dirty fix
-			Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
+    @Autowired
+    UserService userService;
 
-			// Checks to make sure listing is for at least one hour
-			if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
-				addErrorMessage("Listings Must Be Last At Least One Hour");
-				setRequest(request);
-				return "redirect:" + request.getHeader("Referer");
+    @Autowired
+    OfferService offerService;
 
-			}
-		}
+    @Autowired
+    SavedSearchService savedSearchService;
 
-		String message = "";
-		String error = "";
+    @Autowired
+    NotificationService notificationService;
 
-		System.out.println(subCategory);
+    @Autowired
+    private Environment environment;
 
-		User u = (User) request.getSession().getAttribute("user");
+    @Autowired
+    PickUpService pickUpService;
 
-		if (u == null) {
-			addErrorMessage("Login `` Create A Listing");
-			setRequest(request);
-			return "login";
-		}
+    @Autowired
+    ImageService imageService;
 
-		// This is a dirty fix
+    /**
+     * Upload single file using Spring Controller
+     */
+    @RequestMapping(value = "/uploadListing", method = RequestMethod.POST)
+    public String uploadFileHandler(@RequestParam("title") String name, @RequestParam("category") String category,
+                                    @RequestParam("subCategory") String subCategory,
+                                    @RequestParam(value = "price", required = false) Double price,
+                                    @RequestParam("description") String description, @RequestParam("file") List<MultipartFile> file,
+                                    @RequestParam("type") String type, @RequestParam("premium") String premium, Model model,
+                                    HttpServletRequest request) {
 
-		if(request.getParameter("endDate") != null) {
-			Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
-			// Checks to make sure listing is for at least one hour
-			if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
-				addErrorMessage("Listings Must Be Last At Least One Hour");
-				setRequest(request);
-				return "redirect:" + request.getHeader("Referer");
-			}
-		}
-		if (price < 0) {
-			addErrorMessage("Cannot have a negative price.");
-			setRequest(request);
-			return "createListing";
-		}
+        System.out.println("Hit UploadListing Controller");
+        if (price == null) {
+            price = (double) 0;
+            // This is a dirty fix
+            Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
 
-		Listing listing = new Listing(name, description, price, category);// FIX
+            // Checks to make sure listing is for at least one hour
+            if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
+                addErrorMessage("Listings Must Be Last At Least One Hour");
+                setRequest(request);
+                return "redirect:" + request.getHeader("Referer");
 
-		if (type.equals("auction")) {
-			listing.setType("auction");
-			listing.setHighestBid(0);
-		} else {
-			listing.setType("fixed");
-		}
-		System.out.println(premium);
+            }
+        }
 
-		if (premium.equals("yes")) {
-			listing.setPremium(1);
-		} else {
-			listing.setPremium(0);
-		}
+        String message = "";
+        String error = "";
 
-		listing.setUser(u);
-		int listingId = listingService.save(listing);
-		Listing lst  = listingService.getByListingID(listingId);
+        System.out.println(subCategory);
 
-		String directory =  System.getProperty("user.home");
-		for(int i = 0; i < file.size(); i++){
-			String fileType = FilenameUtils.getExtension(file.get(i).getOriginalFilename());
-			String fileName = FilenameUtils.getBaseName(file.get(i).getOriginalFilename());
-			if(fileType.equals("jpg") || fileType.equals("png") || fileType.equals("jpeg")){
-				Image imgImport = new Image();
-				try {
-					byte[] bytes = file.get(i).getBytes();
-					System.out.println("File Directory:   " +System.getProperty("user.home")+ File.separator + "ulistitUsers" + File.separator + u.getUserID()+"@"+u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId);
-					File dir = new File( System.getProperty("user.home")+ File.separator + "ulistitUsers" + File.separator + u.getUserID()+"@"+u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId);
-					if (!dir.exists())
-						dir.mkdirs();
-					System.out.println("Image Path:     "+ "ulistitUsers" + "/" + u.getUserID()+"@"+u.getSchoolEmail() + "/" + "listings" + "/" + listingId);
-					imgImport.setImage_path("ulistitUsers" + "/" + u.getUserID()+"@"+u.getSchoolEmail() + "/" + "listings" + "/" + listingId);
-					imgImport.setListing(lst);
-					imgImport.setImage_name(fileName + "." + fileType);
-					if(i == 0)
-						imgImport.setMain(1);
-					imageService.save(imgImport);
-					System.out.println("Full File path:     "+ System.getProperty("user.home")+ File.separator + "ulistitUsers" + File.separator + u.getUserID()+"@"+u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId + File.separator + file.get(i).getOriginalFilename());
-					File serverFile = new File(System.getProperty("user.home")+ File.separator + "ulistitUsers" + File.separator + u.getUserID()+"@"+u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId + File.separator + file.get(i).getOriginalFilename());
-					try {
-						BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-						stream.write(bytes);
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					}
+        User u = (User) request.getSession().getAttribute("user");
 
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+        if (u == null) {
+            addErrorMessage("Login `` Create A Listing");
+            setRequest(request);
+            return "login";
+        }
+
+        // This is a dirty fix
+
+        if (request.getParameter("endDate") != null) {
+            Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
+            // Checks to make sure listing is for at least one hour
+            if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
+                addErrorMessage("Listings Must Be Last At Least One Hour");
+                setRequest(request);
+                return "redirect:" + request.getHeader("Referer");
+            }
+        }
+        if (price < 0) {
+            addErrorMessage("Cannot have a negative price.");
+            setRequest(request);
+            return "createListing";
+        }
+
+        Listing listing = new Listing(name, description, price, category);// FIX
+
+        if (type.equals("auction")) {
+            listing.setType("auction");
+            listing.setHighestBid(0);
+        } else {
+            listing.setType("fixed");
+        }
+        System.out.println(premium);
+
+        if (premium.equals("yes")) {
+            listing.setPremium(1);
+        } else {
+            listing.setPremium(0);
+        }
+
+        listing.setUser(u);
+        int listingId = listingService.save(listing);
+        Listing lst = listingService.getByListingID(listingId);
+
+        String directory = System.getProperty("user.home");
+        for (int i = 0; i < file.size(); i++) {
+            String fileType = FilenameUtils.getExtension(file.get(i).getOriginalFilename());
+            String fileName = FilenameUtils.getBaseName(file.get(i).getOriginalFilename());
+            if (fileType.equals("jpg") || fileType.equals("png") || fileType.equals("jpeg")) {
+                Image imgImport = new Image();
+                try {
+                    byte[] bytes = file.get(i).getBytes();
+                    System.out.println("File Directory:   " + System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId);
+                    File dir = new File(System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId);
+                    if (!dir.exists())
+                        dir.mkdirs();
+                    System.out.println("Image Path:     " + "ulistitUsers" + "/" + u.getUserID() + "@" + u.getSchoolEmail() + "/" + "listings" + "/" + listingId);
+                    imgImport.setImage_path("ulistitUsers" + "/" + u.getUserID() + "@" + u.getSchoolEmail() + "/" + "listings" + "/" + listingId);
+                    imgImport.setListing(lst);
+                    imgImport.setImage_name(fileName + "." + fileType);
+                    if (i == 0)
+                        imgImport.setMain(1);
+                    imageService.save(imgImport);
+                    System.out.println("Full File path:     " + System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId + File.separator + file.get(i).getOriginalFilename());
+                    File serverFile = new File(System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId + File.separator + file.get(i).getOriginalFilename());
+                    try {
+                        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+                        stream.write(bytes);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
 
-			}
-		}
+            }
+        }
 		/*
 		if (!file.isEmpty()) {
 			try {
@@ -264,268 +267,221 @@ public class ListingController extends BaseController {
 			return "You failed to upload " + name + " because the file was empty.";
 		}
 		*/
-		return "redirect:/";
-	}
+        return "redirect:/";
+    }
 
 
-	@RequestMapping("/createListing")
-	public String listingPage(HttpServletRequest request) {
-		setRequest(request);
-		return "createListing";
-	}
+    @RequestMapping("/createListing")
+    public String listingPage(HttpServletRequest request) {
+        setRequest(request);
+        return "createListing";
+    }
 
-	@RequestMapping("/viewListing")
-	public ModelAndView viewListing(@RequestParam("l") int l) {
-		ModelAndView model = new ModelAndView("listing");
+    @RequestMapping("/viewListing")
+    public ModelAndView viewListing(@RequestParam("l") int l) {
+        ModelAndView model = new ModelAndView("listing/listing");
 
-		// get listing
-		Listing listing = listingService.getByListingID(l);
-		// pass these to model
-		model.addObject("listing", listing);
+        // get listing
+        Listing listing = listingService.getByListingID(l);
+        // pass these to model
+        model.addObject("listing", listing);
 
-		System.out.println("Being used?");
+        System.out.println("Being used?");
 
-		return model;
-	}
+        return model;
+    }
 
-	@RequestMapping("/displayListing")
-	public String displayListing(HttpServletRequest request) {
-		setRequest(request);
-		return "displayListing";
-	}
+    @RequestMapping("/displayListing")
+    public String displayListing(HttpServletRequest request) {
+        setRequest(request);
+        return "displayListing";
+    }
 
-	@RequestMapping("/displayListingByCategory")
-	public String displayListingByCategory(@RequestParam("category") String category, HttpServletRequest request,
-			Model model) {
+    @RequestMapping("/displayListingByCategory")
+    public String displayListingByCategory(@RequestParam("category") String category, HttpServletRequest request,
+                                           Model model) {
 
-		System.out.println("Listing Category for display: " + category);
-		List<Listing> listings = listingService.getAllListingsByCategory(category);
-		System.out.println("List size = " + listings.size());
-		User user = (User) request.getSession().getAttribute("user");
+        System.out.println("Listing Category for display: " + category);
+        List<Listing> listings = listingService.getAllListingsByCategory(category);
+        System.out.println("List size = " + listings.size());
+        User user = (User) request.getSession().getAttribute("user");
 
-		// System.out.println("User attribute: " + user.getUsername());
-		model.addAttribute("user", user);
-		model.addAttribute("category", category);
-		model.addAttribute("listings", listings);
+        // System.out.println("User attribute: " + user.getUsername());
+        model.addAttribute("user", user);
+        model.addAttribute("category", category);
+        model.addAttribute("listings", listings);
 
-		return "displayListing";
-	}
+        return "displayListing";
+    }
 
-	@RequestMapping(value = "/watchListing", method = RequestMethod.POST)
-	public String updateListing(HttpServletRequest request, ModelAndView model) {
-		String listingIDString = request.getParameter("listingID");
-		int listingID = Integer.parseInt(listingIDString);
+    @RequestMapping(value = "/watchListing", method = RequestMethod.POST)
+    public String updateListing(HttpServletRequest request, ModelAndView model) {
+        String listingIDString = request.getParameter("listingID");
+        int listingID = Integer.parseInt(listingIDString);
 
-		User user = (User) request.getSession().getAttribute("user");
-		Listing listing = listingService.getByListingID(listingID);
+        User user = (User) request.getSession().getAttribute("user");
+        Listing listing = listingService.getByListingID(listingID);
 
-		Favorite f = new Favorite();
-		f.setListing(listing);
-		f.setUser(user);
+        Favorite f = new Favorite();
+        f.setListing(listing);
+        f.setUser(user);
 
-		// if it exists. (change name later)
-		if (favoriteService.isWatched(listingID, user.getUserID())) {
-			System.out.println("Unwatching a Listing");
-			favoriteService.unwatchListing(listingID, user.getUserID());
-		} else {
-			System.out.println("Watching a listing");
-			favoriteService.watchListing(listingID, user.getUserID());
-		}
+        // if it exists. (change name later)
+        if (favoriteService.isWatched(listingID, user.getUserID())) {
+            System.out.println("Unwatching a Listing");
+            favoriteService.unwatchListing(listingID, user.getUserID());
+        } else {
+            System.out.println("Watching a listing");
+            favoriteService.watchListing(listingID, user.getUserID());
+        }
 
-		List<Listing> recent = listingService.getRecentListings();
-		model.addObject("recentListings", recent);
+        List<Listing> recent = listingService.getRecentListings();
+        model.addObject("recentListings", recent);
 
-		List<Listing> endingSoon = listingService.getRecentListings();
-		model.addObject("endingSoonListings", endingSoon);
+        List<Listing> endingSoon = listingService.getRecentListings();
+        model.addObject("endingSoonListings", endingSoon);
 
-		List<Listing> trending = listingService.getListingsByBidCount();
-		model.addObject("trendingListings", trending);
+        List<Listing> trending = listingService.getListingsByBidCount();
+        model.addObject("trendingListings", trending);
 
-		return "redirect:/";
-	}
+        return "redirect:/";
+    }
 
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam("listing") int listingID) {
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public ModelAndView edit(@RequestParam("listing") int listingID) {
 
-		ModelAndView model = new ModelAndView("/jspf/edit-fixed-listing");
+        ModelAndView model = new ModelAndView("/jspf/edit-fixed-listing");
 
-		Listing listing = listingService.getByListingID((listingID));
+        Listing listing = listingService.getByListingID((listingID));
 
-		model.addObject("listingID", listingID);
-		model.addObject("listing", listing);
+        model.addObject("listingID", listingID);
+        model.addObject("listing", listing);
 
-		return model;
-	}
+        return model;
+    }
 
-	@RequestMapping(value = "/editTheListing", method = RequestMethod.POST)
-	public String editListing(@RequestParam("listingID") String id, @RequestParam("title") String name,
-			@RequestParam("price") String price, @RequestParam("description") String description) {
+    @RequestMapping(value = "/editTheListing", method = RequestMethod.POST)
+    public String editListing(@RequestParam("listingID") String id, @RequestParam("title") String name,
+                              @RequestParam("price") String price, @RequestParam("description") String description) {
 
-		Listing listing = listingService.getByListingID(Integer.parseInt(id));
+        Listing listing = listingService.getByListingID(Integer.parseInt(id));
 
-		listing.setName(name);
-		listing.setPrice(Integer.parseInt(price));
-		listing.setDescription(description);
+        listing.setName(name);
+        listing.setPrice(Integer.parseInt(price));
+        listing.setDescription(description);
 
-		listingService.saveOrUpdate(listing);
+        listingService.saveOrUpdate(listing);
 
-		return "redirect:/dashboard2";
-	}
+        return "redirect:/dashboard2";
+    }
 
-	@RequestMapping(value = "/sub", method = RequestMethod.GET)
-	public ModelAndView viewSubcats() {
+    @RequestMapping(value = "/sub", method = RequestMethod.GET)
+    public ModelAndView viewSubcats() {
 
-		ModelAndView model = new ModelAndView("sub-categories");
+        ModelAndView model = new ModelAndView("sub-categories");
 
-		return model;
-	}
+        return model;
+    }
 
-	@RequestMapping(value = "/subPost", method = RequestMethod.POST)
-	public ModelAndView viewSubcategories(@RequestParam("category") String category, HttpServletRequest request) {
+    @RequestMapping(value = "/subPost", method = RequestMethod.POST)
+    public ModelAndView viewSubcategories(@RequestParam("category") String category, HttpServletRequest request) {
 
-		ModelAndView model = new ModelAndView("sub-categories");
+        ModelAndView model = new ModelAndView("sub-categories");
 
-		// get listings
-		List<Listing> listings = listingService.getAllListingsByCategory(category);
+        // get listings
+        List<Listing> listings = listingService.getAllListingsByCategory(category);
 
-		Listing listing = listings.get(0); // temp
+        Listing listing = listings.get(0); // temp
 
-		// get user
-		User user = (User) request.getSession().getAttribute("user");
+        // get user
+        User user = (User) request.getSession().getAttribute("user");
 
-		model.addObject("user", user);
-		model.addObject("listings", listings);
+        model.addObject("user", user);
+        model.addObject("listings", listings);
 
-		model.addObject("listing", listing); // temp
+        model.addObject("listing", listing); // temp
 
-		return model;
-	}
+        return model;
+    }
 
-	@RequestMapping(value = "/listing", method = RequestMethod.GET)
-	public ModelAndView viewSelectedListing(HttpServletRequest request, @RequestParam("listingId") int listingID) {
+    @RequestMapping(value = "/listing", method = RequestMethod.GET)
+    public ModelAndView viewSelectedListing(HttpServletRequest request, @RequestParam("listingId") int listingID) {
 
-		ModelAndView model = new ModelAndView("listing");
+        ModelAndView model = new ModelAndView("listing/listing");
 
-		// get listing
-		Listing listing = listingService.getByListingID(listingID);
-		String dateCreated = listing.getDateCreated().toString().substring(0, 10);
-		User creator = userService.getUserById(listing.getUser().getUserID());
+        // get listing
+        Listing listing = listingService.getByListingID(listingID);
+        String dateCreated = listing.getDateCreated().toString().substring(0, 10);
+        User creator = userService.getUserById(listing.getUser().getUserID());
 
-		// pass these to model
-		model.addObject("listing", listing);
-		model.addObject("date", dateCreated);
-		model.addObject("creator", creator);
+        // pass these to model
+        model.addObject("listing", listing);
+        model.addObject("date", dateCreated);
+        model.addObject("creator", creator);
 
-		User user = (User) request.getSession().getAttribute("user");
+        User user = (User) request.getSession().getAttribute("user");
 
-		if (user != null) {
+        if (user != null) {
 
-			boolean hasOffer;
+            boolean hasOffer;
 
-			// Checks if the user already made an offer on the listing
-			if (offerService.getOfferByUserAndListingId(user.getUserID(), listingID) != null) {
-				hasOffer = true;
-			} else {
-				hasOffer = false;
-			}
+            // Checks if the user already made an offer on the listing
+            if (offerService.getOfferByUserAndListingId(user.getUserID(), listingID) != null) {
+                hasOffer = true;
+            } else {
+                hasOffer = false;
+            }
 
-			model.addObject("hasOffer", hasOffer);
+            model.addObject("hasOffer", hasOffer);
 
-		}
+        }
 
-		return model;
-	}
+        return model;
+    }
 
-	@RequestMapping(value = "/cancelAuction", method = RequestMethod.GET)
-	public ModelAndView cancelAuction(@RequestParam("listing") int listingID) {
+    @RequestMapping(value = "/cancelAuction", method = RequestMethod.GET)
+    public ModelAndView cancelAuction(@RequestParam("listing") int listingID) {
 
-		ModelAndView model = new ModelAndView("dashboard2");
+        ModelAndView model = new ModelAndView("dashboard2");
 
-		Listing listing = listingService.getByListingID(listingID);
+        Listing listing = listingService.getByListingID(listingID);
 
-		// if bidcount is above 0, reject auction cancel with an error message
-		if (listing.getBidCount() > 0) {
-			// error message
-			addErrorMessage("You may not cancel an auction that has already been bid on.");
-		} else {
-			// popup, are you sure you want to cancel?
+        // if bidcount is above 0, reject auction cancel with an error message
+        if (listing.getBidCount() > 0) {
+            // error message
+            addErrorMessage("You may not cancel an auction that has already been bid on.");
+        } else {
+            // popup, are you sure you want to cancel?
 
-			// if bidcount is 0, ask if seller is sure they want to cancel the auction
+            // if bidcount is 0, ask if seller is sure they want to cancel the auction
 
-			// no? - cancel popup
+            // no? - cancel popup
 
-			// yes?
+            // yes?
 
-			// deactivate the listing
-			listing.setActive(0);
-			listing.setEnded(1);
-			listingService.saveOrUpdate(listing);
-			
-		}
-		return model;
-	}
+            // deactivate the listing
+            listing.setActive(0);
+            listing.setEnded(1);
+            listingService.saveOrUpdate(listing);
 
-	@RequestMapping(value = "/auctionRules", method = RequestMethod.GET)
-	public ModelAndView auction() {
+        }
+        return model;
+    }
 
-		ModelAndView model = new ModelAndView("auction-rules");
+    @RequestMapping(value = "/auctionRules", method = RequestMethod.GET)
+    public ModelAndView auction() {
 
-		return model;
-	}
-	
-	@RequestMapping(value = "/rules", method = RequestMethod.GET)
-	public ModelAndView rules() {
+        ModelAndView model = new ModelAndView("auction-rules");
 
-		ModelAndView model = new ModelAndView("rules");
+        return model;
+    }
 
-		return model;
-	}
+    @RequestMapping(value = "/rules", method = RequestMethod.GET)
+    public ModelAndView rules() {
 
-	@GetMapping("/checkout")
-	public String checkoutPageGet(HttpServletRequest request) {
+        ModelAndView model = new ModelAndView("rules");
 
-		User user = (User) request.getSession().getAttribute("user");
+        return model;
+    }
 
-		if (user == null) {
-			addWarningMessage("Login To Checkout");
-			setRequest(request);
-			return "login";
-		}
-
-		addWarningMessage("Error Loading Page");
-		setRequest(request);
-		return "redirect:" + request.getHeader("Referer");
-	}
-
-	@PostMapping("/checkout")
-	public String checkoutPagePost(HttpServletRequest request, @RequestParam("listingID") int listingID) {
-
-		User user = (User) request.getSession().getAttribute("user");
-
-		if (user == null) {
-			addWarningMessage("Login To Checkout");
-			setRequest(request);
-			return "login";
-		}
-
-		String addressNumber = environment.getProperty("school.address.number");
-		String addressStreetName = environment.getProperty("school.address.street.name");
-		String addressStreetType = environment.getProperty("school.address.street.type");
-		String addressCity = environment.getProperty("school.address.city");
-		String addressState = environment.getProperty("school.address.state");
-
-		request.setAttribute("latitude", environment.getProperty("school.latitude"));
-		request.setAttribute("longitude", environment.getProperty("school.longitude"));
-
-		String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + addressNumber + "+"
-				+ addressStreetName + "+" + addressStreetType + ",+" + addressCity + ",+" + addressState
-				+ "&key=AIzaSyAYv7pVPxQ-k7yWlKPfa8ebsx7ci9q7vQ8";
-
-		request.setAttribute("pickupLocation", url);
-
-		request.setAttribute("title", "Checkout");
-		request.setAttribute("listing", listingService.getByListingID(listingID));
-		setRequest(request);
-		return "checkout";
-	}
 }
