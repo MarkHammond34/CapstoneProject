@@ -23,10 +23,6 @@ public class Image {
     @JoinColumn(name = "listing_Id")
     private Listing listing;
 
-    @OneToOne
-    @JoinColumn(name = "offer_Id", nullable = true)
-    private Offer offer;
-
     @Column(name = "image_path")
     private String image_path;
 
@@ -62,15 +58,6 @@ public class Image {
         this.main = main;
     }
 
-    public Image(User user, Listing listing, Offer offer, String image_path, String image_name, int main) {
-        this.user = user;
-        this.listing = listing;
-        this.offer = offer;
-        this.image_path = image_path;
-        this.image_name = image_name;
-        this.main = main;
-    }
-
     public int getId() {
         return id;
     }
@@ -93,14 +80,6 @@ public class Image {
 
     public void setListing(Listing listing) {
         this.listing = listing;
-    }
-
-    public Offer getOffer() {
-        return offer;
-    }
-
-    public void setOffer(Offer offer) {
-        this.offer = offer;
     }
 
     public String getImage_path() {
