@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface LocationDAO {
 
-    public void save(Location location);
+    public int save(Location location);
 
     public void update(Location location);
 
@@ -14,4 +14,7 @@ public interface LocationDAO {
 
     public Location getByName(String name);
 
+    public List getAllLocations();
+
+    public Location getByLocationID(int id);
 }

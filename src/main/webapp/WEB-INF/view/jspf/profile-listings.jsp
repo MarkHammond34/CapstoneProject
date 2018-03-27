@@ -129,4 +129,4 @@
 		</c:when>
 	</c:choose>
 </div>
-<%@include file="bid-buy-modals.jsp"%>
+<%@include file="../listing/bid-buy-modals.jsp"%>

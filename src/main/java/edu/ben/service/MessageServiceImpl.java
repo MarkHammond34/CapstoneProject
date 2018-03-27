@@ -32,8 +32,8 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void createConversation(Conversation conversation) {
-        msgDAO.createConversation(conversation);
+    public int createConversation(Conversation conversation) {
+        return msgDAO.createConversation(conversation);
     }
 
     @Override
@@ -58,9 +58,9 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Conversation getConversationOrderByDateCreated(User user1, User user2) {
+    public Conversation getConversationByID(int conversationID) {
         try {
-            return msgDAO.getConversationOrderByDateCreated(user1.getUserID(), user2.getUserID());
+            return msgDAO.getConversationByID(conversationID);
         } catch (IndexOutOfBoundsException e) {
             return null;
         }

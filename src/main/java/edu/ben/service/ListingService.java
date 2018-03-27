@@ -8,6 +8,8 @@ public interface ListingService {
 
 	public void deleteListing(int id);
 
+    public int save(Listing listing);
+
 	public void saveOrUpdate(Listing listing);
 
 	public void create(Listing listing);

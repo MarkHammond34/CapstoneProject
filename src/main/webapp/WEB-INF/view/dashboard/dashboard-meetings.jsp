@@ -9,9 +9,9 @@
 						<c:forEach var="offer" items="${offers}">
 							<tr>
 								<td><img class="uk-preserve-width uk-border-circle"
-									uk-tooltip="${offer.userID.username}"
-									src="${pageContext.request.contextPath}/resources/img/profile-pic/${offer.userID.image_path}"
-									height="auto" width="40" alt=""></td>
+										 uk-tooltip="${offer.userID.username}"
+										 src="${pageContext.request.contextPath}/resources/img/profile-pic/default.jpeg"
+										 height="auto" width="40" alt=""></td>
 								<c:if
 									test="${offer.offerMessage != null && offer.offerMessage.length() > 0}">
 									<td class="uk-preserve-width">${offer.offerMessage}</td>
@@ -26,3 +26,10 @@
 		</div>
 	</div>
 </div>
+<script>
+
+    var sortedList = ${requestScope.offers};
+
+    sortedList.sort;
+
+</script>

@@ -4,15 +4,10 @@ import edu.ben.model.*;
 import edu.ben.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,7 +118,7 @@ public class DisputeController extends BaseController {
 
         request.setAttribute("title", "File Dispute");
         setRequest(request);
-        return "file-dispute";
+        return "dispute/file-dispute";
     }
 
 }

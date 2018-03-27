@@ -51,7 +51,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <%@include file="jspf/bid-buy-modals.jsp" %>
+                            <%@include file="listing/bid-buy-modals.jsp" %>
                         </c:forEach>
                     </div>
                 </c:if>

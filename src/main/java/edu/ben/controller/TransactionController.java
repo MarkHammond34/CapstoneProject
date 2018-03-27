@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.ben.model.Listing;
-import edu.ben.model.Offer;
 import edu.ben.model.Transaction;
 import edu.ben.model.User;
 import edu.ben.service.ListingService;
@@ -36,7 +35,7 @@ public class TransactionController extends BaseController {
 
 	@RequestMapping(value = "/checkoutPage", method = RequestMethod.GET)
 	public ModelAndView checkoutPage() {
-		return new ModelAndView("checkout");
+		return new ModelAndView("checkout/checkout");
 	}
 
 	@RequestMapping(value = "/button", method = RequestMethod.GET)

@@ -1,9 +1,6 @@
 package edu.ben.dao;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
+import edu.ben.model.Listing;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -12,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.ben.model.Listing;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 @Transactional
 @Repository
@@ -27,6 +26,11 @@ public class ListingDAOImpl implements ListingDAO {
 
     public void create(Listing listing) {
         getSession().save(listing);
+    }
+
+    @Override
+    public int save(Listing listing) {
+        return (Integer) getSession().save(listing);
     }
 
     public void saveOrUpdate(Listing listing) {
@@ -54,7 +58,7 @@ public class ListingDAOImpl implements ListingDAO {
         Query q = getSession().createQuery("FROM listing ORDER BY date_created DESC");
         List<Listing> list = (List<Listing>) q.list();
         Iterator<Listing> it = list.iterator();
-        List<Listing> recentListings = new ArrayList<Listing>();
+        List<Listing> recentListings = new ArrayList<>();
 
 
         while (it.hasNext()) {
@@ -271,7 +275,7 @@ public class ListingDAOImpl implements ListingDAO {
 	@Override
 	public List<Listing> getActiveListingsByUserId(int id) {
 		
-		Query q = getSession().createQuery("FROM Listing WHERE userID=:id AND active = 1");
+		Query q = getSession().createQuery("FROM listing WHERE userID=:id AND active = 1");
 		q.setParameter("id", id);
 		
 		return q.list();
@@ -281,7 +285,7 @@ public class ListingDAOImpl implements ListingDAO {
 	@Override
 	public List<Listing> getInActiveListingsByUserId(int id) {
 		
-		Query q = getSession().createQuery("FROM Listing WHERE userID=:id AND active = 0");
+		Query q = getSession().createQuery("FROM listing WHERE userID=:id AND active = 0");
 		q.setParameter("id", id);
 		
 		return q.list();

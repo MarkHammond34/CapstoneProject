@@ -9,16 +9,19 @@ import javax.persistence.*;
 @Table(name = "image")
 @Transactional
 public class Image {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idimage")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Column(name = "user_Id")
-    private int user;
+    @OneToOne
+    @JoinColumn(name = "user_Id", nullable = true)
+    private User user;
 
-    @Column(name = "listing_Id")
-    private int listing;
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "listing_Id")
+    private Listing listing;
 
     @Column(name = "image_path")
     private String image_path;
@@ -33,7 +36,21 @@ public class Image {
 
     }
 
-    public Image(int user,int listing, String image_path, String image_name, int main) {
+    public Image(User user, String image_path, String image_name, int main) {
+        this.user = user;
+        this.image_path = image_path;
+        this.image_name = image_name;
+        this.main = main;
+    }
+
+    public Image(Listing listing, String image_path, String image_name, int main) {
+        this.listing = listing;
+        this.image_path = image_path;
+        this.image_name = image_name;
+        this.main = main;
+    }
+
+    public Image(User user, Listing listing, String image_path, String image_name, int main) {
         this.user = user;
         this.listing = listing;
         this.image_path = image_path;
@@ -49,15 +66,19 @@ public class Image {
         this.id = id;
     }
 
-    public int getUser() { return user; }
+    public User getUser() {
+        return user;
+    }
 
-    public void setUser(int user) { this.user = user; }
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-    public int getListing() {
+    public Listing getListing() {
         return listing;
     }
 
-    public void setListing(int listing) {
+    public void setListing(Listing listing) {
         this.listing = listing;
     }
 

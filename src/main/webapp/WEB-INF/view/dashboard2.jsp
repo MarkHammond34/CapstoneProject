@@ -76,19 +76,20 @@
 
 	<div class="uk-section">
 
-		<div class="uk-container uk-container-expand">
+		<div class="uk-container">
 			<div class="uk-grid-small" uk-grid>
 				<div class="uk-width-1-3@m">
 					<div
 						class="uk-background-secondary uk-padding-small uk-border-rounded">
 						<ul class="uk-nav uk-nav-default"
 							uk-switcher="connect: #seller-content; animation: uk-animation-fade; toggle: > :not(.uk-nav-header)">
-							<li><a href="filterListings">All</a></li>
-							<li><a href="filterActiveListings">Active</a></li>
-							<!-- <li><a href="#">Won</a></li>
-								 <li><a href="#">Lost</a></li>
-								 <li><a href="#">Current bids</a></li>
-								 <li><a href="#">Sold</a></li> -->
+							<li><a href="#">All</a></li>
+							<li><a href="#">Active</a></li>
+							<li><a href="#">InActive</a></li>
+							<li><a href="#">Won</a></li>
+							<li><a href="#">Lost</a></li>
+							<li><a href="#">Current bids</a></li>
+							<li><a href="#">Sold</a></li>
 						</ul>
 						<!-- "My" listings (active, inactive, etc), listings won, listings lost, current bids, listings sold (subsection of my listings) -->
 					</div>
@@ -110,7 +111,7 @@
 													href="${pageContext.request.contextPath}/listing?listingId=${listing.id}"><img
 													height="auto" width="85%"
 													class="uk-border-rounded uk-box-shadow-hover-large"
-													src="${pageContext.request.contextPath}/resources/img/listings/Wolverine.jpg"
+													src="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
 													alt=""></a><a href="edit?listing=${listing.id}"
 													class="uk-icon-link uk-margin-small-right"
 													uk-icon="file-edit"></a>
@@ -174,15 +175,6 @@
 </body>
 <script>
 
-var filter;
-
-function() filter() {
-	
-}
-
-function() sortListings() {
-	
-}
 
 </script>
 </html>

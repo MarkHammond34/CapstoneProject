@@ -1,25 +1,17 @@
 package edu.ben.model;
 
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-
-import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
 @Entity(name = "listing")
 @Table(name = "listing")
 @Transactional
-
 public class Listing implements java.io.Serializable {
 
     /**
@@ -55,9 +47,6 @@ public class Listing implements java.io.Serializable {
     @Column(name = "type")
     public String type;
 
-    @Column(name = "image_path")
-    private String image_path;
-
     @OneToOne
     @JoinColumn(name = "highest_bid_userID")
     private User highestBidder;
@@ -85,58 +74,57 @@ public class Listing implements java.io.Serializable {
     @Column(name = "premium")
     private int premium;
 
+    @OneToMany(mappedBy = "listing", fetch = FetchType.EAGER)
+    private List<Image> images;
+
+    // Constructors
+
     public Listing() {
         this.highestBid = 0;
         this.bidCount = 0;
     }
 
-    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price,
-                   String imagePath) {
+    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         // this.category = category;
-        this.image_path = imagePath;
         this.highestBid = 0;
         this.bidCount = 0;
     }
 
-    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, String category,
-                   String imagePath) {
+    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, String category) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.category = category;
-        this.image_path = imagePath;
         this.highestBid = 0;
         this.bidCount = 0;
     }
 
-    public Listing(@NotBlank String name, String description, @NotBlank double price, /* @NotBlank String category, */
-                   String file) {
+    public Listing(@NotBlank String name, String description, @NotBlank double price/* @NotBlank String category, */) {
         super();
         this.name = name;
         this.description = description;
         this.price = price;
         // this.category = category;
-        this.image_path = file;
         this.highestBid = 0;
         this.bidCount = 0;
     }
 
-    public Listing(@NotBlank String name, String description, @NotBlank double price, @NotBlank String category,
-                   String file) {
+    public Listing(@NotBlank String name, String description, @NotBlank double price, @NotBlank String category) {
         super();
         this.name = name;
         this.description = description;
         this.price = price;
         this.category = category;
-        this.image_path = file;
         this.highestBid = 0;
         this.bidCount = 0;
     }
+
+    // Getters and setters
 
     public int getId() {
         return id;
@@ -181,7 +169,7 @@ public class Listing implements java.io.Serializable {
     @Override
     public String toString() {
         return "Listing [id=" + id + ", name=" + name + ", description=" + description + ", category=" /* + category */
-                + ", price=" + price + ", dateCreated=" + dateCreated + ", image_path=" + image_path + ", user=" + user
+                + ", price=" + price + ", dateCreated=" + dateCreated + ", user=" + user
                 + "]";
     }
 
@@ -260,14 +248,6 @@ public class Listing implements java.io.Serializable {
         this.user = user;
     }
 
-    public String getImage_path() {
-        return image_path;
-    }
-
-    public void setImage_path(String image_path) {
-        this.image_path = image_path;
-    }
-
     public int getActive() {
         return active;
     }
@@ -320,7 +300,7 @@ public class Listing implements java.io.Serializable {
         this.premium = premium;
     }
 
-    public String getPercentLeft() {
+	public String getPercentLeft() {
 
         long now = System.currentTimeMillis();
         long start = startTimestamp.getTime();
@@ -335,4 +315,11 @@ public class Listing implements java.io.Serializable {
         return String.valueOf((int) ((end - now) * 100 / (end - start)));
     }
 
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
 }

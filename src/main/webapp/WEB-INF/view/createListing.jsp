@@ -29,7 +29,7 @@
 								<span class="val_error" id="title_error"></span>
 							</div>
 							<div class="uk-width-1-2">
-								<strong>File to upload:</strong> <input id="image" type="file" name="file">
+								<strong>File to upload:</strong> <input id="image" type="file" name="file" multiple/>
 								<span class="val_error" id="image_error"></span>
 							</div>
 						</div>
@@ -82,6 +82,12 @@
 						</div>
 
 						<div class="uk-width-1-1">
+							<input type="hidden" name="premium" value ="no">
+							<label><input class="uk-checkbox" style="margin-bottom: 5px" type="checkbox" name="premium"
+										  value="yes"> Premium Listing
+							</label>
+							<a
+									onclick="togglePremiumHint();" uk-icon="icon: question"></a>
 							<button type="submit" id="submit" name="submit"
 								class="btn btn-primary pull-right">Submit Form</button>
 						</div>
