@@ -46,7 +46,7 @@ public class User {
     @Email
     @Size(max = 40, message = "Invalid Email")
     private String email;
-    
+
     @Column(unique = true, name = "phone_number")
     private String phoneNumber;
 
@@ -64,20 +64,15 @@ public class User {
     @Transient
     private String passwordConfirm;
 
+    @Column(name = "grade_level")
+    @NotNull
+    private String gradeLevel;
+
     @Transient
     private int securityLevel;
 
     @Column(name = "active")
     private int active;
-
-    @Column(name = "image_path")
-    private String image_path;
-
-    /**
-     * @AssertTrue(message = "Passwords Do Not Match") private boolean
-     * matchingPassword() { return
-     * this.password.equals(this.passwordConfirm); }
-     */
 
     @Column(name = "login_attempts")
     private int loginAttempts;
@@ -239,14 +234,6 @@ public class User {
         this.adminLevel = i;
     }
 
-    public String getImage_path() {
-        return image_path;
-    }
-
-    public void setImage_path(String image_path) {
-        this.image_path = image_path;
-    }
-
     public Timestamp getDateModified() {
         return dateModified;
     }
@@ -278,7 +265,7 @@ public class User {
     public void setAdminLevel(int adminLevel) {
         this.adminLevel = adminLevel;
     }
-    
+
     public Integer getSellerRating() {
         return sellerRating;
     }
@@ -286,7 +273,19 @@ public class User {
     public void setSellerRating(Integer sellerRating) {
         this.sellerRating = sellerRating;
     }
-    
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getFormattedPhoneNumber() {
+        return "(" + phoneNumber.substring(0, 2) + ") " + phoneNumber.substring(3, 5) + "-" + phoneNumber.substring(6);
+    }
+
     public int getBanned() {
         return banned;
     }
@@ -294,9 +293,12 @@ public class User {
     public void setBanned(int banned) {
         this.banned = banned;
     }
-    
-    public String getTruncatedDate() {
-    	 java.sql.Date date = new java.sql.Date(dateCreated.getTime());
-         return new SimpleDateFormat("MM/dd/yyyy").format(date);
+
+    public String getGradeLevel() {
+        return gradeLevel;
+    }
+
+    public void setGradeLevel(String gradeLevel) {
+        this.gradeLevel = gradeLevel;
     }
 }
