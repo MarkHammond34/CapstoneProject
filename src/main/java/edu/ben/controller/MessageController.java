@@ -53,7 +53,7 @@ public class MessageController extends BaseController {
         System.out.println(sendTo.getUserID());
         Conversation input = new Conversation(sendBy, sendTo);
         messageService.saveOrUpdate(input);
-        return "messaging/messageDashboard";
+        return "redirect:/messageDashboard";
     }
 
     @RequestMapping(value = "viewConversation", method = RequestMethod.POST)

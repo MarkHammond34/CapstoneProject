@@ -21,7 +21,7 @@ public class Image {
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "listing_Id")
-    private Listing listing;
+    private Listing listingId;
 
     @Column(name = "image_path")
     private String image_path;
@@ -44,7 +44,7 @@ public class Image {
     }
 
     public Image(Listing listing, String image_path, String image_name, int main) {
-        this.listing = listing;
+        this.listingId = listing;
         this.image_path = image_path;
         this.image_name = image_name;
         this.main = main;
@@ -52,7 +52,7 @@ public class Image {
 
     public Image(User user, Listing listing, String image_path, String image_name, int main) {
         this.user = user;
-        this.listing = listing;
+        this.listingId = listing;
         this.image_path = image_path;
         this.image_name = image_name;
         this.main = main;
@@ -75,11 +75,11 @@ public class Image {
     }
 
     public Listing getListing() {
-        return listing;
+        return listingId;
     }
 
     public void setListing(Listing listing) {
-        this.listing = listing;
+        this.listingId = listing;
     }
 
     public String getImage_path() {

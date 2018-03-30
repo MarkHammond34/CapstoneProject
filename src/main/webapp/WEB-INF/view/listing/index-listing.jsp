@@ -1,8 +1,8 @@
 <div class="uk-card uk-card-default uk-border-rounded uk-padding-small uk-card-small uk-card-body">
     <div class="uk-align-center uk-margin-remove-bottom" uk-lightbox>
-        <a href="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
+        <a href="${pageContext.request.contextPath}/directory/${listing.images.get(0).image_path}/${listing.images.get(0).image_name}"
            title="Image" class="thumbnail"><img
-                src="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
+                src="${pageContext.request.contextPath}/directory/${listing.images.get(0).image_path}/${listing.images.get(0).image_name}"
                 alt="Listing" style="max-height: 225px; max-width: 275px;"/></a>
     </div>
 
