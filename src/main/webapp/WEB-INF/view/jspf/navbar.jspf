@@ -39,7 +39,7 @@
                                                           id="badge1" data-badge="${unviewedNotificationCount}"></span></a>
                         </c:when>
                         <c:otherwise>
-                            <a href="" uk-icon="icon: bell"></a>
+                            <a uk-icon="icon: bell"></a>
                         </c:otherwise>
                     </c:choose>
                         <div uk-drop="mode: click" id="notificationDrop">
@@ -57,7 +57,8 @@
                                                     <c:choose>
                                                         <c:when
                                                                 test="${notification.subject == 'U-ListIt Notification'}">
-                                                            <a class="uk-link-muted" href=""
+                                                            <a class="uk-link-muted"
+                                                               href="/listing?l=${notification.listingID}"
                                                                id="notification${notification.notificationID}"> <c:if
                                                                     test="${notification.viewed == 0}"> ${notification.message}
                                                                 <span
@@ -68,7 +69,8 @@
                                                             </a>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <a class="uk-link-muted" href=""
+                                                            <a class="uk-link-muted"
+                                                               href="/listing?l=${notification.listingID}"
                                                                id="notification${notification.notificationID}">${notification.subject}
                                                                 <c:if test="${notification.viewed == 0}">
                                                                     <span class="badge2"></span>

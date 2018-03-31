@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import edu.ben.util.PickUpRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,6 +64,8 @@ public class HomeController extends BaseController {
 		User user = (User) request.getSession().getAttribute("user");
 
 		ListingRunner.run();
+
+		//PickUpRunner.run();
 
 		if (user != null) {
 
