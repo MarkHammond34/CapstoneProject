@@ -35,6 +35,7 @@ public class RegistrationController extends BaseController {
 		try {
 			if ((User) request.getSession().getAttribute("user") != null) {
 				addWarningMessage("Please Logout Before Registering");
+				setRequest(request);
 				return "redirect:/home";
 			} else {
 

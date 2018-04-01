@@ -1,5 +1,5 @@
 <div class="uk-grid-medium" uk-grid>
-    <div class="uk-width-1-2 uk-align-center">
+    <div class="uk-width-1-2 uk-align-center" id="messageBox">
         <%@ page import="java.util.ArrayList" %>
         <c:if test="${not empty successMessages}">
             <%

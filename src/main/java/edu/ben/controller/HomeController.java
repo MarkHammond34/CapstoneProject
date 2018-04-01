@@ -1,9 +1,11 @@
 package edu.ben.controller;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import edu.ben.util.PickUpRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,6 +65,8 @@ public class HomeController extends BaseController {
 
 		ListingRunner.run();
 
+		//PickUpRunner.run();
+
 		if (user != null) {
 
 			List<Listing> relevantListings = listingService.getRelevantListingsByUserID(user.getUserID());
@@ -75,12 +79,18 @@ public class HomeController extends BaseController {
 
 			NotificationController.updateNotifications(request, notificationService);
 
-		/*	Checklist checklist = checklistService.getByUserIDAndType(user.getUserID(), "FRESHMAN");
+            try {
+                request.getSession().setAttribute("checklist", checklistService.getByUserIDAndType(user.getUserID(), "FRESHMAN"));
+            } catch (Exception e) {
+                request.getSession().setAttribute("checklist", null);
+            }
 
-			if (checklist != null) {
-				request.setAttribute("checklist", checklist);
-			}*/
-		}
+            if (user.getGradeLevel().equals("Freshman") && user.getDateCreated().before(new Timestamp(System.currentTimeMillis() + 600000))
+                    && checklistService.getByUserIDAndType(user.getUserID(), "FRESHMAN") == null) {
+                request.setAttribute("newUser", true);
+            }
+
+        }
 
 		setModel(model);
 		return model;
