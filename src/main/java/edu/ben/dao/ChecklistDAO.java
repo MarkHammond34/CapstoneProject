@@ -22,4 +22,6 @@ public interface ChecklistDAO {
     public Checklist getAdminChecklist();
 
     public Checklist getByChecklistID(int id);
+
+    public void delete(ChecklistItem item);
 }

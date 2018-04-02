@@ -1,6 +1,6 @@
 <%@include file="jspf/header.jsp" %>
 
-<body class="uk-background-muted">
+<body class="uk-background-muted" onload="checkIsNewUser(${newUser});">
 
 <%@include file="jspf/navbar.jspf" %>
 
@@ -132,6 +132,13 @@
         document.getElementById('recently-added-listings').style.display = 'none';
         document.getElementById('relevant-listings').style.display = 'none';
         document.getElementById('premium-listings').style.display = 'inline';
+    }
+
+    function checkIsNewUser(isNewUser) {
+        alert("WORKS");
+        if (isNewUser == true) {
+            document.getElementById("checkListModal").modal;
+        }
     }
 
 

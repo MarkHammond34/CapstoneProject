@@ -32,6 +32,9 @@ public class AdminController extends BaseController {
     LocationService locationService;
 
     @Autowired
+    ChecklistService checklistService;
+
+    @Autowired
     Environment environment;
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
@@ -63,7 +66,7 @@ public class AdminController extends BaseController {
         userService.lockByUsername(usr.getUsername());
         return "redirect:adminUser";
     }
-    
+
     @RequestMapping(value = "adminUnban", method = RequestMethod.POST)
     public String adminUnban(HttpServletRequest request) {
         User usr = userService.findBySchoolEmail(request.getParameter("ban"));
@@ -133,11 +136,11 @@ public class AdminController extends BaseController {
             addErrorMessage("Incorrect value for username");
         } else if (phoneNumber.length() != 10) {
             addErrorMessage("Incorrect value for phone number");
-        } else if ((pattern.matcher(email).matches())){
+        } else if ((pattern.matcher(email).matches())) {
             addErrorMessage("Incorrect value for email");
         } else if ((pattern.matcher(schoolEmail).matches())) {
             addErrorMessage("Incorrect value for school email");
-        } else if(password.length() > 8){
+        } else if (password.length() > 8) {
             addErrorMessage("Incorrect value for password");
         } else {
             usr.setFirstName(firstName);
@@ -349,5 +352,105 @@ public class AdminController extends BaseController {
         addSuccessMessage("Follow Up Email Sent");
         setRequest(request);
         return "redirect:/adminDisputes";
+    }
+
+    @GetMapping("/adminChecklist")
+    public String checklist(HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null && user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "login";
+        }
+
+        request.setAttribute("title", "Checklist");
+        request.setAttribute("defaultChecklist", checklistService.getAdminChecklist());
+        return "admin/admin-checklist";
+
+    }
+
+    @PostMapping("/adminAddChecklistItem")
+    public String addChecklistItem(HttpServletRequest request, @RequestParam("newItemName") String newItemName) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null && user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "login";
+        }
+
+        // Get admin checklist
+        Checklist checklist = checklistService.getAdminChecklist();
+
+        if (checklist == null) {
+            addErrorMessage("Error Loading Checklist");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        ChecklistItem newItem = new ChecklistItem(checklist, newItemName);
+
+        // Check if new item already exits
+        for (ChecklistItem item : checklist.getItems()) {
+            if (item.getName().equals(newItemName)) {
+                addWarningMessage(newItemName + " Already Exists");
+                setRequest(request);
+                return "redirect:" + request.getHeader("Referer");
+            }
+        }
+
+        checklistService.save(newItem);
+        addSuccessMessage(newItemName + " Added To Default Checklist");
+        setRequest(request);
+
+        return "redirect:" + request.getHeader("Referer");
+
+    }
+
+    @PostMapping("/adminRemoveChecklistItem")
+    public String addChecklistItem(HttpServletRequest request, @RequestParam("itemID") int itemID) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null && user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "login";
+        }
+
+        // Get admin checklist
+        Checklist checklist = checklistService.getAdminChecklist();
+
+        if (checklist == null) {
+            addErrorMessage("Error Loading Checklist");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        ChecklistItem item = null;
+
+        // Check if item exits
+        for (ChecklistItem i : checklist.getItems()) {
+            if (i.getItemID() == itemID) {
+                item = i;
+            }
+        }
+
+        if (item == null) {
+            addErrorMessage("Removal Error: Item Does Not Exist");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        checklistService.delete(item);
+
+        addSuccessMessage(item.getName() + " Removed From Default Checklist");
+        setRequest(request);
+
+        return "redirect:" + request.getHeader("Referer");
+
     }
 }

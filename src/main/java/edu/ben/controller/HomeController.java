@@ -82,12 +82,13 @@ public class HomeController extends BaseController {
             try {
                 request.getSession().setAttribute("checklist", checklistService.getByUserIDAndType(user.getUserID(), "FRESHMAN"));
             } catch (Exception e) {
+                if (user.getGradeLevel().equals("Freshman") &&
+                        user.getDateCreated().before(new Timestamp(System.currentTimeMillis() + 600000))) {
+                    request.setAttribute("newUser", true);
+                } else {
+                    request.setAttribute("newUser", false);
+                }
                 request.getSession().setAttribute("checklist", null);
-            }
-
-            if (user.getGradeLevel().equals("Freshman") && user.getDateCreated().before(new Timestamp(System.currentTimeMillis() + 600000))
-                    && checklistService.getByUserIDAndType(user.getUserID(), "FRESHMAN") == null) {
-                request.setAttribute("newUser", true);
             }
 
         }

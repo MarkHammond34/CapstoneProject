@@ -402,20 +402,16 @@ public class ListingController extends BaseController {
         return model;
     }
 
-	@RequestMapping(value = "/listing", method = RequestMethod.GET)
-	public ModelAndView viewSelectedListing(HttpServletRequest request, @RequestParam("listingId") int listingID) {
+    @RequestMapping(value = "/listing", method = RequestMethod.GET)
+    public String viewSelectedListing(HttpServletRequest request, @RequestParam("l") int listingID) {
 
-		ModelAndView model = new ModelAndView("listing");
-
-		// get listing
-		Listing listing = listingService.getByListingID(listingID);
-		String dateCreated = listing.getDateCreated().toString().substring(0, 10);
-		User creator = userService.getUserById(listing.getUser().getUserID());
+        // get listing
+        Listing listing = listingService.getByListingID(listingID);
 
         if (listing == null) {
             addErrorMessage("Error Loading Listing");
             setRequest(request);
-            //return "redirect:" + request.getHeader("Referer");
+            return "redirect:" + request.getHeader("Referer");
         }
 
         User user = (User) request.getSession().getAttribute("user");
@@ -491,7 +487,7 @@ public class ListingController extends BaseController {
         request.setAttribute("title", "Listing");
 
         setRequest(request);
-        return model;
+        return "listing/listing";
 
     }
 
@@ -647,61 +643,6 @@ public class ListingController extends BaseController {
 
         return model;
     }
-
-    //    @GetMapping("/reportListing")
-//    public String reportListing(@RequestParam("listingId") int id, HttpServletRequest request) {
-//        System.out.println(id);
-//        Listing listing = listingService.getByListingID(id);
-//        request.setAttribute("listing", listing);
-//        return "reportListing";
-//    }
-	@GetMapping("/checkout")
-	public String checkoutPageGet(HttpServletRequest request) {
-
-		User user = (User) request.getSession().getAttribute("user");
-
-		if (user == null) {
-			addWarningMessage("Login To Checkout");
-			setRequest(request);
-			return "login";
-		}
-
-		addWarningMessage("Error Loading Page");
-		setRequest(request);
-		return "redirect:" + request.getHeader("Referer");
-	}
-
-	@PostMapping("/checkout")
-	public String checkoutPagePost(HttpServletRequest request, @RequestParam("listingID") int listingID) {
-
-		User user = (User) request.getSession().getAttribute("user");
-
-		if (user == null) {
-			addWarningMessage("Login To Checkout");
-			setRequest(request);
-			return "login";
-		}
-
-		String addressNumber = environment.getProperty("school.address.number");
-		String addressStreetName = environment.getProperty("school.address.street.name");
-		String addressStreetType = environment.getProperty("school.address.street.type");
-		String addressCity = environment.getProperty("school.address.city");
-		String addressState = environment.getProperty("school.address.state");
-
-		request.setAttribute("latitude", environment.getProperty("school.latitude"));
-		request.setAttribute("longitude", environment.getProperty("school.longitude"));
-
-		String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + addressNumber + "+"
-				+ addressStreetName + "+" + addressStreetType + ",+" + addressCity + ",+" + addressState
-				+ "&key=AIzaSyAYv7pVPxQ-k7yWlKPfa8ebsx7ci9q7vQ8";
-
-		request.setAttribute("pickupLocation", url);
-
-		request.setAttribute("title", "Checkout");
-		request.setAttribute("listing", listingService.getByListingID(listingID));
-		setRequest(request);
-		return "checkout";
-	}
 
     @GetMapping("/reportListing")
 	public String reportListing(@RequestParam("listingId") int id, HttpServletRequest request) {
