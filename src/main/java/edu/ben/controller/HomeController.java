@@ -82,7 +82,7 @@ public class HomeController extends BaseController {
             try {
                 request.getSession().setAttribute("checklist", checklistService.getByUserIDAndType(user.getUserID(), "FRESHMAN"));
             } catch (Exception e) {
-                if (user.getGradeLevel().equals("Freshman") &&
+                if (user.getGradeLevel() == 1 &&
                         user.getDateCreated().before(new Timestamp(System.currentTimeMillis() + 600000))) {
                     request.setAttribute("newUser", true);
                 } else {

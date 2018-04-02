@@ -135,7 +135,6 @@
     }
 
     function checkIsNewUser(isNewUser) {
-        alert("WORKS");
         if (isNewUser == true) {
             document.getElementById("checkListModal").modal;
         }

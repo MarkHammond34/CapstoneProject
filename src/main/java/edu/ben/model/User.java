@@ -66,7 +66,7 @@ public class User {
 
     @Column(name = "grade_level")
     @NotNull
-    private String gradeLevel;
+    private int gradeLevel;
 
     @Transient
     private int securityLevel;
@@ -196,8 +196,6 @@ public class User {
         this.passwordConfirm = passwordConfirm;
     }
 
-    // private int phoneNumber;
-
     public int getSecurity_level() {
         return securityLevel;
     }
@@ -294,11 +292,11 @@ public class User {
         this.banned = banned;
     }
 
-    public String getGradeLevel() {
+    public int getGradeLevel() {
         return gradeLevel;
     }
 
-    public void setGradeLevel(String gradeLevel) {
+    public void setGradeLevel(int gradeLevel) {
         this.gradeLevel = gradeLevel;
     }
 }
