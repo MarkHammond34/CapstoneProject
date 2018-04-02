@@ -1,22 +1,15 @@
 package edu.ben.controller;
 
-import com.google.zxing.BinaryBitmap;
-import com.google.zxing.LuminanceSource;
-import com.google.zxing.MultiFormatReader;
-import com.google.zxing.Result;
-import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
-import com.google.zxing.common.HybridBinarizer;
 import edu.ben.model.*;
 import edu.ben.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
@@ -81,11 +74,10 @@ public class PickUpController extends BaseController {
 
             pickUp.setStatus("ACCEPTED");
 
-            pickUp.setStatus("PICK UP ACCEPTED");
-            request.setAttribute("listingID", pickUp.getTransaction().getListingID().getId());
+            pickUpService.update(pickUp);
+
             setRequest(request);
-            request.setAttribute("checkingOut", "true");
-            return "redirect:/checkout";
+            return "redirect:/checkout?l=" + pickUp.getTransaction().getListingID().getId();
 
         } else {
             addWarningMessage("Access Denied");
@@ -172,16 +164,6 @@ public class PickUpController extends BaseController {
             pickUpService.update(pickUp);
         }
 
-        // Set the warning message
-        if (user.getUserID() == pickUp.getTransaction().getSeller().getUserID() &&
-                pickUp.getSellerAccept() == 1) {
-            addWarningMessage("Buyer has accepted the pickup. Checkout to continue.");
-
-        } else if (user.getUserID() == pickUp.getTransaction().getSeller().getUserID() &&
-                pickUp.getSellerAccept() == 0) {
-            addWarningMessage("Buyer has not yet accepted the pickup.");
-        }
-
         if (user.getUserID() == pickUp.getTransaction().getSeller().getUserID() &&
                 pickUp.getStatus().equals("PICK UP MISSED")) {
             addWarningMessage("Pickup time missed! Set a new date and time to continue.");
@@ -210,14 +192,15 @@ public class PickUpController extends BaseController {
 
         if (pickUp == null) {
             addWarningMessage("Error Loading Pick Up Details");
+            setRequest(request);
             return "redirect:" + request.getHeader("Referer");
 
             // If buyer tries to edit after the pick up was accepted, return warning
-        } else if (pickUp.getBuyerAccept() == 1 && pickUp.getSellerAccept() == 1) {
-            addWarningMessage("Pick Up Already Accepted By Both Parties");
-            addWarningMessage("* If you would like to change the pick up details, please contact the other party via school email.");
+        } else if (pickUp.getBuyerAccept() == 1) {
+            addWarningMessage("Pick Up Already Accepted By The Buyer");
+            addWarningMessage("* If you would like to change the pick up details, please contact the other party via school email (" +
+                    pickUp.getTransaction().getBuyer().getSchoolEmail() + ").");
             return "redirect:" + request.getHeader("Referer");
-
         } else {
 
             // If new was edited
@@ -373,9 +356,8 @@ public class PickUpController extends BaseController {
     }
 
 
-    /**
-    @GetMapping("/pick-up-confirmed")
-    public String pickUpConfirmed(HttpServletRequest request, @RequestParam("p") int pickUpID) {
+    @GetMapping("/pick-up-confirm")
+    public String pickUpConfirmed(HttpServletRequest request, @RequestParam("l") int listingID) {
 
         User user = (User) request.getSession().getAttribute("user");
 
@@ -385,7 +367,7 @@ public class PickUpController extends BaseController {
             return "login";
         }
 
-        PickUp pickUp = pickUpService.getPickUpByPickUpID(pickUpID);
+        PickUp pickUp = pickUpService.getPickUpByListingID(listingID);
 
         if (pickUp == null) {
             addErrorMessage("Error Loading Pick Up");
@@ -400,31 +382,59 @@ public class PickUpController extends BaseController {
             return "redirect:/";
         }
 
-        // Verify that user logged in is the buyer
+        // Verify pick up as buyer
         if (user.getUserID() == pickUp.getTransaction().getBuyer().getUserID()) {
-            addErrorMessage("Access Denied");
-            setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
-        }
 
-        QRCodeKey key = qrCodeKeyService.getByPickUpID(pickUpID);
+            pickUp.setBuyerVerified(1);
 
-        // Verify key exists
-        if (key == null) {
-            addErrorMessage("QR Code Not Yet Created");
-            setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
-        }
+            // Pick up fully verified
+            if (pickUp.getSellerVerified() == 1) {
 
-        if (key.getStatus().equals("SCANNED_CONFIRMED")) {
-            addSuccessMessage("Pick Up Confirmed");
-            setRequest(request);
-            return "pickup/pick-up-verified";
+                // PROCESS PAYPAL TRANSACTION
+
+                // END TRANSACTION
+                Transaction transaction = pickUp.getTransaction();
+                transaction.setCompleted(1);
+                transactionService.saveOrUpdate(transaction);
+
+                // END PICK UP
+                pickUp.setStatus("COMPLETED");
+
+            }
+
+            addSuccessMessage("Pick Up Verified");
+
+            // Verify pick up as seller
+        } else if (user.getUserID() == pickUp.getTransaction().getSeller().getUserID()) {
+
+            pickUp.setSellerVerified(1);
+
+            // Pick up fully verified
+            if (pickUp.getBuyerVerified() == 1) {
+
+                // PROCESS PAYPAL TRANSACTION
+
+                // END TRANSACTION
+                Transaction transaction = pickUp.getTransaction();
+                transaction.setCompleted(1);
+                transactionService.saveOrUpdate(transaction);
+
+                // END PICK UP
+                pickUp.setStatus("COMPLETED");
+
+            }
+
+            addSuccessMessage("Pick Up Verified");
+
+            // Unauthorized user
         } else {
-            addWarningMessage("Pick Up Not Yet Confirmed");
-            setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
+            addErrorMessage("Access Denied");
         }
+
+        pickUpService.update(pickUp);
+
+        setRequest(request);
+        return "redirect:" + request.getHeader("Referer");
     }
-    */
+
 }

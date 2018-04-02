@@ -1,13 +1,21 @@
 package edu.ben.model;
 
-import org.hibernate.annotations.Formula;
-import org.springframework.transaction.annotation.Transactional;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.sql.Timestamp;
+
+import org.hibernate.annotations.Formula;
+import org.springframework.transaction.annotation.Transactional;
 
 @Entity(name = "user")
 @Table(name = "user")
@@ -38,7 +46,7 @@ public class User {
     @Email
     @Size(max = 40, message = "Invalid Email")
     private String email;
-    
+
     @Column(unique = true, name = "phone_number")
     private String phoneNumber;
 
@@ -55,6 +63,10 @@ public class User {
 
     @Transient
     private String passwordConfirm;
+
+    @Column(name = "grade_level")
+    @NotNull
+    private String gradeLevel;
 
     @Transient
     private int securityLevel;
@@ -86,7 +98,7 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String username, String email, String schoolEmail, String password, Image image_path) {
+    public User(String firstName, String lastName, String username, String email, String schoolEmail, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -280,5 +292,13 @@ public class User {
 
     public void setBanned(int banned) {
         this.banned = banned;
+    }
+
+    public String getGradeLevel() {
+        return gradeLevel;
+    }
+
+    public void setGradeLevel(String gradeLevel) {
+        this.gradeLevel = gradeLevel;
     }
 }

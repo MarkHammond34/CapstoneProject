@@ -74,7 +74,7 @@ public class Listing implements java.io.Serializable {
     @Column(name = "premium")
     private int premium;
 
-    @OneToMany(mappedBy = "listing", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "listingId",  fetch = FetchType.EAGER)
     private List<Image> images;
 
     // Constructors

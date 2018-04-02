@@ -5,136 +5,105 @@
 
 <%@ include file="../jspf/messages.jsp" %>
 
-<div class="uk-grid uk-margin-medium-bottom" uk-grid>
-    <div class="uk-width-2-3 uk-align-center">
-        <form role="form" id="form" data-toggle="validator" commandName="user"
-              method="post" action="create">
-            <h2>${title}</h2>
-            <hr class="colorgraph">
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="form-group">
-                        <div class="input-group" data-validate="length" data-length="2">
-                            <input type="text" name="firstName" path="firstName"
-                                   id="firstName" class="form-control input-lg"
-                                   placeholder="First Name" tabindex="1" data-minlength="2"
-                                   data-minlength="30" required>
-                            <span class="input-group-addon danger"><span
-                                    class="glyphicon glyphicon-remove"></span></span>
-                        </div>
-                    </div>
+<div class="uk-container">
+
+    <div class="uk-grid uk-margin-medium-bottom" uk-grid>
+
+        <div class="uk-width-2-3@m uk-width-1-1@s uk-align-center uk-card-body">
+
+            <form role="form" data-toggle="validator"
+                  method="post" action="create" class="uk-form-large uk-grid" uk-grid>
+
+                <h2>Registration</h2>
+
+                <hr class="colorgraph uk-width-1-1 uk-align-center">
+
+                <div class="uk-width-1-2@m uk-width-1-1@s uk-margin-small-top">
+                    <input type="text" name="firstName" path="firstName"
+                           id="firstName" class="uk-input"
+                           placeholder="First Name" tabindex="1" data-minlength="2"
+                           data-minlength="30" required>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="form-group">
-                        <div class="input-group" data-validate="length" data-length="2">
-                            <input type="text" name="lastName" path="lastName" id="lastName"
-                                   class="form-control input-lg" placeholder="Last Name"
-                                   tabindex="2" data-minlength="2" data-minlength="30" required>
-                            <span class="input-group-addon danger"><span
-                                    class="glyphicon glyphicon-remove"></span></span>
-                        </div>
-                    </div>
+
+                <div class="uk-width-1-2@m uk-width-1-1@s uk-margin-small-top">
+                    <input type="text" name="lastName" path="lastName" id="lastName"
+                           class="uk-input" placeholder="Last Name"
+                           tabindex="2" data-minlength="2" data-minlength="30" required>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="form-group">
-                        <div class="input-group" data-validate="length" data-length="8">
-                            <input type="text" name="username" path="username" id="username"
-                                   class="form-control input-lg" placeholder="Username" tabindex="3"
-                                   required>
-                            <span class="input-group-addon danger"><span
-                                    class="glyphicon glyphicon-remove"></span></span>
-                        </div>
-                    </div>
+
+                <div class="uk-width-1-1 uk-margin-small-top">
+                    <input type="text" name="username" path="username" id="username"
+                           class="uk-input" placeholder="Username" tabindex="3"
+                           required>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="form-group">
-                        <div class="input-group" data-validate="phone">
-                            <input type="tel" name="phoneNumber" id="phoneNumber" path="phoneNumber"
-                                   class="form-control input-lg"
-                                   placeholder="Phone Number" tabindex="3" min="9" required>
-                            <span class="input-group-addon danger"><span
-                                    class="glyphicon glyphicon-remove"></span></span>
-                        </div>
-                    </div>
+
+                <div class="uk-width-1-1 uk-margin-small-top">
+                    <input type="tel" name="phoneNumber" id="phoneNumber" path="phoneNumber"
+                           class="uk-input"
+                           placeholder="Phone Number" tabindex="3" min="9" required>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="form-group">
-                        <input type="email" name="email" path="email" id="email"
-                               class="form-control input-lg"
-                               placeholder="Personal Email Address (Optional)" tabindex="4">
-                    </div>
+
+                <div class="uk-width-1-2@m uk-width-1-1@s uk-margin-small-top">
+                    <input type="email" name="email" path="email" id="email"
+                           class="uk-input"
+                           placeholder="Personal Email Address (Optional)" tabindex="4">
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="form-group">
-                        <div class="input-group" data-validate="email">
-                            <input type="email" name="schoolEmail" path="schoolEmail" id="schoolEmail"
-                                   class="form-control input-lg"
-                                   placeholder="Benedictine Email Address" tabindex="4" required>
-                            <span class="input-group-addon danger"><span
-                                    class="glyphicon glyphicon-remove"></span></span>
-                        </div>
-                    </div>
+
+                <div class="uk-width-1-2@m uk-width-1-1@s uk-margin-small-top">
+                    <input type="email" name="schoolEmail" path="schoolEmail" id="schoolEmail"
+                           class="uk-input"
+                           placeholder="Benedictine Email Address" tabindex="4" required>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="form-group">
-                        <div class="input-group" data-validate="length" data-length="6">
-                            <input type="password" name="password" path="password"
-                                   id="password" class="form-control input-lg"
-                                   placeholder="Password" tabindex="5" data-minlength="8" required>
-                            <span class="input-group-addon danger"><span
-                                    class="glyphicon glyphicon-remove"></span></span>
-                        </div>
-                    </div>
+
+                <div class="uk-width-1-2@m uk-width-1-1@s uk-margin-small-top">
+                    <input type="password" name="password" path="password"
+                           id="password" class="uk-input"
+                           placeholder="Password" tabindex="5" data-minlength="8" required>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="form-group">
-                        <div class="input-group" data-validate="password" data-length="6">
-                            <input type="password" name="passwordConfirm"
-                                   id="passwordConfirm" class="form-control input-lg"
-                                   placeholder="Confirm Password" tabindex="6"
-                                   data-match="#password" data-match-error="Passwords Do Not Match" required>
-                            <span class="input-group-addon danger"><span
-                                    class="glyphicon glyphicon-remove"></span></span>
-                        </div>
-                    </div>
+
+                <div class="uk-width-1-2@m uk-width-1-1@s uk-margin-small-top">
+                    <input type="password" name="passwordConfirm"
+                           id="passwordConfirm" class="uk-input"
+                           placeholder="Confirm Password" tabindex="6"
+                           data-match="#password" data-match-error="Passwords Do Not Match" required>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                    By clicking <strong class="label label-primary">Register</strong>,
-                    you agree to the <a href="#" data-toggle="modal"
-                                        data-target="#termsAndConditionsModal">Terms and Conditions</a>
+
+                <div class="uk-width-1-1 uk-margin-small-top">
+                    <select name="gradeLevel" class="uk-select uk-input" path="gradeLevel" required>
+                        <option>Freshman</option>
+                        <option>Sophomore</option>
+                        <option>Junior</option>
+                        <option>Senior</option>
+                    </select>
+                </div>
+
+                <div class="uk-width-1-1@s uk-align-center uk-margin-small-top">
+                    By clicking <strong>Register</strong>,
+                    you agree to the
+                    <a uk-toggle="target: #termsAndConditionsModal">Terms and Conditions</a>
                     set out by this site, including our Cookie Use.
                 </div>
-            </div>
 
-            <hr class="colorgraph">
-            <div class="row">
-                <div class="col-xs-12 col-md-6">
-                    <input type="submit" value="Register"
-                           class="btn btn-primary btn-block btn-lg" tabindex="7" disabled>
-                </div>
-                <div class="col-xs-12 col-md-6">
-                    <a href="login" class="btn btn-success btn-block btn-lg">Sign
+                <hr class="colorgraph uk-width-1-1 uk-align-center uk-margin-small-top">
+
+                <div class="uk-width-1-1 uk-margin-large-bottom uk-margin-small-top">
+                    <button type="submit" value="Register"
+                            class="uk-button-primary uk-button-large uk-float-right" tabindex="7">Register
+                    </button>
+
+                    <a href="login" class="uk-button-large uk-button-secondary uk-float-left">Sign
                         In</a>
                 </div>
-            </div>
-            <c:if test="${admin == true}">
-                <input type="hidden" name="adminRegistration" value="true">
-            </c:if>
-        </form>
+                <c:if test="${admin == true}">
+                    <input type="hidden" name="adminRegistration" value="true">
+                </c:if>
+
+            </form>
+        </div>
     </div>
 </div>
 
-<%@ include file="terms-and-conditions.jsp" %>
+<%@include file="terms-and-conditions.jsp" %>
 
 <script>
     $(document).ready(function () {
@@ -182,5 +151,4 @@
     });
 </script>
 </body>
-<%@include file="../jspf/footer.jspf" %>
 </html>

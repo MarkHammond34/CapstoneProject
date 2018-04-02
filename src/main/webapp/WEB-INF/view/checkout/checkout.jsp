@@ -6,6 +6,14 @@
 <%@include file="../jspf/messages.jsp" %>
 
 <div class="uk-container">
+
+    <ul class="uk-breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><a href="/listing?l=${listing.id}">Listing</a></li>
+        <li><a href="/pick-up-review?l=${listing.id}">Pick Up</a></li>
+        <li><span>Checkout</span></li>
+    </ul>
+
     <div class="uk-grid-large" uk-grid>
 
         <!-- Left side -->
@@ -13,12 +21,12 @@
 
             <!-- Listing Details -->
             <h2 class="uk-heading-bullet">Listing Details</h2>
-            <div class="uk-card uk-card-default">
+            <div class="uk-card uk-card-default uk-box-shadow-hover-large uk-border-rounded">
                 <div class="uk-card-body uk-grid" uk-grid>
                     <div class="uk-width-1-1@m">
 
                         <img class="uk-width-2-5@m uk-width-1-1@s uk-float-right"
-                             src="${pageContext.request.contextPath}/resources/img/listings/${listing.image_path}"
+                             src="${pageContext.request.contextPath}/resources/img/listings/couch.jpg"
                              alt="">
 
                         <div class="uk-width-3-5@m uk-width-1-1@s uk-float-left uk-padding-small">
@@ -74,7 +82,7 @@
 
             <!-- Pick Up Details -->
             <h2 class="uk-heading-bullet">Pickup Details</h2>
-            <div class="uk-card uk-card-default">
+            <div class="uk-card uk-card-default uk-box-shadow-hover-large uk-border-rounded">
                 <div class="uk-card-body uk-grid" uk-grid>
                     <div class="uk-width-1-1">
                         <span class="uk-text-center">
@@ -102,8 +110,9 @@
 
         <!-- Right side -->
         <div class="uk-width-1-3@m uk-width-1-1@s">
+
             <h2 class="uk-heading-bullet">Transaction Details</h2>
-            <div class="uk-card uk-card-default">
+            <div class="uk-card uk-card-default uk-box-shadow-hover-large uk-border-rounded">
                 <c:choose>
                     <c:when test="${sessionScope.user.userID == pickUp.transaction.buyer.userID}">
                         <div class="uk-card-header">
