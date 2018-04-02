@@ -127,6 +127,7 @@ public class ListingController extends BaseController {
         }
 
         listing.setUser(u);
+        listing.setActive(1);
         int listingId = listingService.save(listing);
         Listing lst  = listingService.getByListingID(listingId);
 

@@ -1,7 +1,6 @@
-<%@include file="header.jsp"%>
 <%@include file="tutorialModal.jsp"%>
 <div
-	class="uk-section uk-section-secondary uk-light uk-position-bottom uk-text-center" style="position:absolute;height:10%;bottom:0;">
+	class="uk-section uk-section-secondary uk-light uk-position-bottom uk-text-center" style="position:absolute;height:10%;bottom:0;" hidden>
 	<p>
 		New to UListIt? See our<a
 			href="${pageContext.request.contextPath}/freshmanChecklist"
