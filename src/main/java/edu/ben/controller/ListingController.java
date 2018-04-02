@@ -407,51 +407,74 @@ public class ListingController extends BaseController {
 		return model;
 	}
 
-	@GetMapping("/checkout")
-	public String checkoutPageGet(HttpServletRequest request) {
+    @RequestMapping(value = "/rules", method = RequestMethod.GET)
+    public ModelAndView rules() {
 
-		User user = (User) request.getSession().getAttribute("user");
+        ModelAndView model = new ModelAndView("rules");
 
-		if (user == null) {
-			addWarningMessage("Login To Checkout");
-			setRequest(request);
-			return "login";
-		}
+        return model;
+    }
 
-		addWarningMessage("Error Loading Page");
-		setRequest(request);
-		return "redirect:" + request.getHeader("Referer");
-	}
+    //    @GetMapping("/reportListing")
+//    public String reportListing(@RequestParam("listingId") int id, HttpServletRequest request) {
+//        System.out.println(id);
+//        Listing listing = listingService.getByListingID(id);
+//        request.setAttribute("listing", listing);
+//        return "reportListing";
+//    }
+//	@GetMapping("/checkout")
+//	public String checkoutPageGet(HttpServletRequest request) {
+//
+//		User user = (User) request.getSession().getAttribute("user");
+//
+//		if (user == null) {
+//			addWarningMessage("Login To Checkout");
+//			setRequest(request);
+//			return "login";
+//		}
+//
+//		addWarningMessage("Error Loading Page");
+//		setRequest(request);
+//		return "redirect:" + request.getHeader("Referer");
+//	}
+//
+//	@PostMapping("/checkout")
+//	public String checkoutPagePost(HttpServletRequest request, @RequestParam("listingID") int listingID) {
+//
+//		User user = (User) request.getSession().getAttribute("user");
+//
+//		if (user == null) {
+//			addWarningMessage("Login To Checkout");
+//			setRequest(request);
+//			return "login";
+//		}
+//
+//		String addressNumber = environment.getProperty("school.address.number");
+//		String addressStreetName = environment.getProperty("school.address.street.name");
+//		String addressStreetType = environment.getProperty("school.address.street.type");
+//		String addressCity = environment.getProperty("school.address.city");
+//		String addressState = environment.getProperty("school.address.state");
+//
+//		request.setAttribute("latitude", environment.getProperty("school.latitude"));
+//		request.setAttribute("longitude", environment.getProperty("school.longitude"));
+//
+//		String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + addressNumber + "+"
+//				+ addressStreetName + "+" + addressStreetType + ",+" + addressCity + ",+" + addressState
+//				+ "&key=AIzaSyAYv7pVPxQ-k7yWlKPfa8ebsx7ci9q7vQ8";
+//
+//		request.setAttribute("pickupLocation", url);
+//
+//		request.setAttribute("title", "Checkout");
+//		request.setAttribute("listing", listingService.getByListingID(listingID));
+//		setRequest(request);
+//		return "checkout";
+//	}
 
-	@PostMapping("/checkout")
-	public String checkoutPagePost(HttpServletRequest request, @RequestParam("listingID") int listingID) {
-
-		User user = (User) request.getSession().getAttribute("user");
-
-		if (user == null) {
-			addWarningMessage("Login To Checkout");
-			setRequest(request);
-			return "login";
-		}
-
-		String addressNumber = environment.getProperty("school.address.number");
-		String addressStreetName = environment.getProperty("school.address.street.name");
-		String addressStreetType = environment.getProperty("school.address.street.type");
-		String addressCity = environment.getProperty("school.address.city");
-		String addressState = environment.getProperty("school.address.state");
-
-		request.setAttribute("latitude", environment.getProperty("school.latitude"));
-		request.setAttribute("longitude", environment.getProperty("school.longitude"));
-
-		String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + addressNumber + "+"
-				+ addressStreetName + "+" + addressStreetType + ",+" + addressCity + ",+" + addressState
-				+ "&key=AIzaSyAYv7pVPxQ-k7yWlKPfa8ebsx7ci9q7vQ8";
-
-		request.setAttribute("pickupLocation", url);
-
-		request.setAttribute("title", "Checkout");
-		request.setAttribute("listing", listingService.getByListingID(listingID));
-		setRequest(request);
-		return "checkout";
+    @GetMapping("/reportListing")
+	public String reportListing(@RequestParam("listingId") int id, HttpServletRequest request) {
+		System.out.println(id);
+		Listing listing = listingService.getByListingID(id);
+		request.setAttribute("listing", listing);
+		return "reportListing";
 	}
 }

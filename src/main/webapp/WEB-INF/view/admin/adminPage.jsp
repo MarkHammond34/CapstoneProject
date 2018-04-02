@@ -46,7 +46,7 @@
                         <li>
                             <a href="${pageContext.request.contextPath}/eventsNews">Events/News</a>
                         </li>
-                        
+
                     </ul>
                 </div>
                 <div class="uk-navbar-right">

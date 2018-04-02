@@ -49,7 +49,6 @@
           <element id="library" level="project" name="Maven: com.google.cloud.sql:jdbc-socket-factory-core:1.0.5" />
           <element id="library" level="project" name="Maven: com.google.apis:google-api-services-sqladmin:v1beta4-rev25-1.22.0" />
           <element id="library" level="project" name="Maven: com.google.api-client:google-api-client:1.23.0" />
-          <element id="library" level="project" name="Maven: com.google.http-client:google-http-client-jackson2:1.23.0" />
           <element id="library" level="project" name="Maven: com.google.guava:guava-jdk5:17.0" />
           <element id="library" level="project" name="Maven: com.google.api-client:google-api-client-appengine:1.23.0" />
           <element id="library" level="project" name="Maven: com.google.api-client:google-api-client-servlet:1.23.0" />
@@ -117,6 +116,19 @@
           <element id="library" level="project" name="Maven: org.apache.maven.shared:maven-filtering:3.1.1" />
           <element id="library" level="project" name="Maven: org.sonatype.plexus:plexus-build-api:0.0.7" />
           <element id="library" level="project" name="Maven: org.apache.maven.shared:maven-mapping:3.0.0" />
+          <element id="library" level="project" name="Maven: com.google.apis:google-api-services-calendar:v3-rev260-1.23.0" />
+          <element id="library" level="project" name="Maven: com.google.http-client:google-http-client-jackson2:1.23.0" />
+          <element id="library" level="project" name="Maven: com.google.oauth-client:google-oauth-client-jetty:1.23.0" />
+          <element id="library" level="project" name="Maven: org.mortbay.jetty:jetty:6.1.26" />
+          <element id="library" level="project" name="Maven: org.mortbay.jetty:jetty-util:6.1.26" />
+          <element id="library" level="project" name="Maven: org.mortbay.jetty:servlet-api:2.5-20081211" />
+          <element id="library" level="project" name="Maven: org.apache.poi:poi-ooxml:3.17-beta1" />
+          <element id="library" level="project" name="Maven: org.apache.poi:poi:3.17-beta1" />
+          <element id="library" level="project" name="Maven: org.apache.commons:commons-collections4:4.1" />
+          <element id="library" level="project" name="Maven: org.apache.poi:poi-ooxml-schemas:3.17-beta1" />
+          <element id="library" level="project" name="Maven: org.apache.xmlbeans:xmlbeans:2.6.0" />
+          <element id="library" level="project" name="Maven: stax:stax-api:1.0.1" />
+          <element id="library" level="project" name="Maven: com.github.virtuald:curvesapi:1.04" />
         </element>
       </element>
       <element id="directory" name="META-INF">
