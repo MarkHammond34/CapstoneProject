@@ -1,19 +1,17 @@
 <%@include file="tutorialModal.jsp"%>
 <div
-	class="uk-section uk-section-secondary uk-light uk-position-bottom uk-text-center" style="position:absolute;height:10%;bottom:0;" hidden>
-	<p>
-		New to UListIt? See our<a
-			href="${pageContext.request.contextPath}/freshmanChecklist"
-			style="color: #ffffff; text-decoration: none;"> Freshman
-			Checklist Example</a> or our exclusive <a href="#myModal" uk-toggle>
-			How To Video</a>!
-		<br>
-		<a href="/faqs" style="color: #ffffff; text-decoration: none;">Frequently
-			Asked Questions</a>
-		<br>
-		&copy;U-ListIt -<a style="color: #ffffff; text-decoration: none;"
-						   href="${pageContext.request.contextPath}/contactUs"> Contact Us</a> - All rights reserved 2018.
+        class="footer uk-section-secondary uk-light uk-position-bottom uk-text-center" style="height:10%;" hidden>
 
-	</p>
+    New to UListIt? See our<a
+        href="${pageContext.request.contextPath}/freshmanChecklist"
+        style="color: #ffffff; text-decoration: none;"> Freshman
+    Checklist Example</a> or our exclusive <a href="#myModal" uk-toggle>
+    How To Video</a>!
+    <br>
+    <a href="/faqs" style="color: #ffffff; text-decoration: none;">Frequently
+        Asked Questions</a>
+    <br>
+    &copy;U-ListIt -<a style="color: #ffffff; text-decoration: none;"
+                       href="${pageContext.request.contextPath}/contactUs"> Contact Us</a> - All rights reserved 2018.
 
 </div>

@@ -23,9 +23,10 @@
     <br>
 
     <div class="uk-width-1-1">
-        <ul uk-tab>
+
+        <ul class="uk-flex-center uk-subnav uk-subnav-pill" uk-switcher="animation: uk-animation-slide-left-medium, uk-animation-slide-right-medium">
             <c:if test="${premiumListings != null}">
-                <li class="uk-active"><a onclick="premiumClicked()"><span uk-icon="bolt"
+                <li class="uk-active"><a href="#premium-listings"><span uk-icon="bolt"
                                                                           style="color: yellow"></span>
                     <b>Premium</b>
                     <span uk-icon="bolt"
@@ -33,57 +34,75 @@
                 </li>
             </c:if>
             <c:if test="${relevantListings != null}">
-                <li><a onclick="recommendedClicked()">Recommended</a></li>
+                <li><a href="#relevant-listings">Recommended</a></li>
             </c:if>
-            <li><a onclick="trendingClicked()">Trending</a></li>
-            <li><a onclick="endingSoonClicked()">Ending Soon</a></li>
-            <li><a onclick="recentlyAddedClicked()">Recently Added</a></li>
+            <li><a href="#trending-listings">Trending</a></li>
+            <li><a href="#ending-soon-listings">Ending Soon</a></li>
+            <li><a href="#recently-added-listings">Recently Added</a></li>
 
         </ul>
-        <div id="trending-listings" style="display: none;">
-            <div class="uk-child-width-1-4@m uk-grid-small uk-text-center"
-                 uk-grid>
+        <ul class="uk-switcher uk-margin">
+    <c:if test="${premiumListings != null}">
+        <div id="premium-listings">
+            <div uk-slider>
+                <div class="uk-position-relative uk-visible-toggle uk-light">
+                    <ul class="uk-slider-items uk-child-width-1-3@s uk-grid">
+                        <c:forEach var="listing" items="${premiumListings}">
+                            <%@include file="listing/index-listing.jsp" %>
+                        </c:forEach>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </c:if>
+    <c:if test="${relevantListings != null}">
+        <div id="relevant-listings">
+            <div uk-slider>
+                <div class="uk-position-relative uk-visible-toggle uk-light">
+                    <ul class="uk-slider-items uk-child-width-1-3@s uk-grid">
+                        <c:forEach var="listing" items="${relevantListings}">
+                            <%@include file="listing/index-listing.jsp" %>
+                        </c:forEach>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </c:if>
+        <div id="trending-listings">
+            <div uk-slider>
+            <div class="uk-position-relative uk-visible-toggle uk-light">
+            <ul class="uk-slider-items uk-child-width-1-3@s uk-grid">
+
                 <c:forEach var="listing" items="${trendingListings}">
                     <%@include file="listing/index-listing.jsp" %>
                 </c:forEach>
+            </ul>
+            </div>
             </div>
         </div>
-        <div id="ending-soon-listings" style="display: none">
-            <div class="uk-child-width-1-4@m uk-grid-small uk-text-center"
-                 uk-grid>
-                <c:forEach var="listing" items="${endingSoonListings}">
-                    <%@include file="listing/index-listing.jsp" %>
-                </c:forEach>
-            </div>
-        </div>
-        <div id="recently-added-listings" style="display: none">
-            <div class="uk-child-width-1-4@m uk-grid-small uk-text-center"
-                 uk-grid>
-                <c:forEach var="listing" items="${recentListings}">
-                    <%@include file="listing/index-listing.jsp" %>
-                </c:forEach>
-            </div>
-        </div>
-        <c:if test="${relevantListings != null}">
-            <div id="relevant-listings" style="display: none">
-                <div class="uk-child-width-1-4@m uk-grid-small uk-text-center"
-                     uk-grid>
-                    <c:forEach var="listing" items="${relevantListings}">
+        <div id="ending-soon-listings">
+            <div uk-slider>
+            <div class="uk-position-relative uk-visible-toggle uk-light">
+                <ul class="uk-slider-items uk-child-width-1-3@s  uk-grid">
+                    <c:forEach var="listing" items="${endingSoonListings}">
                         <%@include file="listing/index-listing.jsp" %>
                     </c:forEach>
-                </div>
+                </ul>
             </div>
-        </c:if>
-        <c:if test="${premiumListings != null}">
-            <div id="premium-listings" style="display: inline">
-                <div class="uk-child-width-1-4@m uk-grid-small uk-text-center"
-                     uk-grid>
-                    <c:forEach var="listing" items="${premiumListings}">
+            </div>
+        </div>
+        <div id="recently-added-listings">
+            <div uk-slider>
+            <div class="uk-position-relative uk-visible-toggle uk-light">
+                <ul class="uk-slider-items uk-child-width-1-3@s uk-grid">
+                    <c:forEach var="listing" items="${recentListings}">
                         <%@include file="listing/index-listing.jsp" %>
                     </c:forEach>
-                </div>
+                </ul>
             </div>
-        </c:if>
+            </div>
+        </div>
+        </ul>
     </div>
 
 </div>
@@ -91,56 +110,7 @@
 <%@include file="checklist/checklist-modal.jsp" %>
 
 <%@include file="checklist/checklist-sidenav.jsp" %>
+</body>
 
 <%@include file="jspf/footer.jspf" %>
-<script>
-    function trendingClicked() {
-        document.getElementById('trending-listings').style.display = 'inline';
-        document.getElementById('ending-soon-listings').style.display = 'none';
-        document.getElementById('recently-added-listings').style.display = 'none';
-        document.getElementById('relevant-listings').style.display = 'none';
-        document.getElementById('premium-listings').style.display = 'none';
-    }
-
-    function endingSoonClicked() {
-        document.getElementById('trending-listings').style.display = 'none';
-        document.getElementById('ending-soon-listings').style.display = 'inline';
-        document.getElementById('recently-added-listings').style.display = 'none';
-        document.getElementById('relevant-listings').style.display = 'none';
-        document.getElementById('premium-listings').style.display = 'none';
-    }
-
-    function recentlyAddedClicked() {
-        document.getElementById('trending-listings').style.display = 'none';
-        document.getElementById('ending-soon-listings').style.display = 'none';
-        document.getElementById('recently-added-listings').style.display = 'inline';
-        document.getElementById('relevant-listings').style.display = 'none';
-        document.getElementById('premium-listings').style.display = 'none';
-    }
-
-    function recommendedClicked() {
-        document.getElementById('trending-listings').style.display = 'none';
-        document.getElementById('ending-soon-listings').style.display = 'none';
-        document.getElementById('recently-added-listings').style.display = 'none';
-        document.getElementById('relevant-listings').style.display = 'inline';
-        document.getElementById('premium-listings').style.display = 'none';
-    }
-
-    function premiumClicked() {
-        document.getElementById('trending-listings').style.display = 'none';
-        document.getElementById('ending-soon-listings').style.display = 'none';
-        document.getElementById('recently-added-listings').style.display = 'none';
-        document.getElementById('relevant-listings').style.display = 'none';
-        document.getElementById('premium-listings').style.display = 'inline';
-    }
-
-    function checkIsNewUser(isNewUser) {
-        if (isNewUser == true) {
-            document.getElementById("checkListModal").modal;
-        }
-    }
-
-
-</script>
-</body>
 </html>

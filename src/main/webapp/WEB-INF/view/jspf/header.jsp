@@ -88,6 +88,13 @@
         border-radius: 50%;
         box-shadow: 0 0 1px #333;
     }
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        display: inline-block;
+    }
     </style>
 </head>
 <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
