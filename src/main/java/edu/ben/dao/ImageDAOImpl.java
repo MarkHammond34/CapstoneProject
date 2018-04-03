@@ -40,4 +40,18 @@ public class ImageDAOImpl implements ImageDAO {
         Query q = getSession().createQuery("FROM image where user_Id=" + userId);
         return q.list();
     }
+
+    @Override
+    public void removeAllMainImages(int userId) {
+        Query q = getSession().createQuery("UPDATE image SET main=0 WHERE user_Id=" + userId );
+        q.executeUpdate();
+    }
+
+    @Override
+    public void changeMain(int imageId, int main) {
+        Query q = getSession().createQuery("UPDATE image SET main=" + main + " WHERE idimage=" + imageId );
+        q.executeUpdate();
+    }
+
+
 }

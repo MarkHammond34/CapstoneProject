@@ -15,7 +15,7 @@ public class Image {
     @Column(name = "idimage")
     private int id;
 
-    @OneToOne
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "user_Id", nullable = true)
     private User user;
 

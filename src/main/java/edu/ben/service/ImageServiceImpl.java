@@ -38,4 +38,15 @@ public class ImageServiceImpl implements ImageService {
     public List<Image> getImagesByUserId(int userId) {
         return imageDAO.getImagesByUserId(userId);
     }
+
+    @Override
+    public void removeAllMainImages(int userId) {
+        imageDAO.removeAllMainImages(userId);
+    }
+
+    @Override
+    public void changeMain(int imageId, int main) {
+        imageDAO.changeMain(imageId,main);
+    }
+
 }

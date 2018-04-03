@@ -2,14 +2,9 @@ package edu.ben.model;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -94,6 +89,9 @@ public class User {
 
     @Formula("(select avg(transaction.trans_rating) from transaction where transaction.seller_ID=user_ID)")
     private Integer sellerRating;
+
+    @OneToMany(mappedBy = "user",  fetch = FetchType.EAGER)
+    private List<Image> profileImages;
 
     public User() {
     }
@@ -299,4 +297,14 @@ public class User {
     public void setGradeLevel(int gradeLevel) {
         this.gradeLevel = gradeLevel;
     }
+
+    public List<Image> getProfileImages() {
+        return profileImages;
+    }
+
+    public void setProfileImages(List<Image> profileImages) {
+        this.profileImages = profileImages;
+    }
+
+
 }

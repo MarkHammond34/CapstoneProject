@@ -2,7 +2,6 @@
 
 <body>
 	<%@include file="jspf/navbar.jspf"%>
-
 	<div class="uk-container">
 		<div class="row">
 			<div class="fb-profile">

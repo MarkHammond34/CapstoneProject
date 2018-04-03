@@ -77,6 +77,7 @@ public class Listing implements java.io.Serializable {
     @OneToMany(mappedBy = "listingId",  fetch = FetchType.EAGER)
     private List<Image> images;
 
+
     // Constructors
 
     public Listing() {
@@ -315,9 +316,7 @@ public class Listing implements java.io.Serializable {
         return String.valueOf((int) ((end - now) * 100 / (end - start)));
     }
 
-    public List<Image> getImages() {
-        return images;
-    }
+    public List<Image> getImages() { return images; }
 
     public void setImages(List<Image> images) {
         this.images = images;
