@@ -58,8 +58,6 @@ public class BidController extends BaseController {
     public String bid(@RequestParam int l,
                       HttpServletRequest request) {
 
-        System.out.println("Cancelling listing " + l);
-
         User user = (User) request.getSession().getAttribute("user");
 
         if (user == null) {

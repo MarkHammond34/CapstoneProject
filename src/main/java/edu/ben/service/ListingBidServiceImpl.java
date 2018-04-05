@@ -91,11 +91,19 @@ public class ListingBidServiceImpl implements ListingBidService {
             try {
                 // Set new highest bidder
                 User newHighestBidder = listingBidDAO.getHighestBidderByListingID(listingID, user.getUserID());
-                listing.setHighestBidder(newHighestBidder);
+                if (newHighestBidder != null) {
+                    listing.setHighestBidder(newHighestBidder);
+                } else {
+                    listing.setHighestBidder(null);
+                }
 
                 // Set new highest bid
                 ListingBid newListingBid = listingBidDAO.getHighestBidByListingID(listingID);
-                listing.setHighestBid(newListingBid.getBidValue());
+                if (newListingBid != null) {
+                    listing.setHighestBid(newListingBid.getBidValue());
+                } else {
+                    listing.setHighestBid(0);
+                }
 
                 // Update listing
                 listingDAO.saveOrUpdate(listing);
@@ -106,7 +114,7 @@ public class ListingBidServiceImpl implements ListingBidService {
                 // Send cancellation notification to seller
                 newNotifications.add(new Notification(listing.getUser(), listingID, "Bid Cancelled On Your Listing", "The highest bid on listing " + listing.getName() + " has been cancelled.\nThe new highest bid has is ", 1));
 
-            } catch (IndexOutOfBoundsException e) {
+            } catch (Exception e) {
 
                 listing.setHighestBidder(null);
                 listing.setHighestBid(0);
@@ -141,8 +149,9 @@ public class ListingBidServiceImpl implements ListingBidService {
         lb.setActive(1);
         listingBidDAO.save(lb);
 
+
         // If current highest bidder is getting outbid, send notification
-        if (biddingUserID != listing.getHighestBidder().getUserID()) {
+        if (listing.getHighestBidder() != null && biddingUserID != listing.getHighestBidder().getUserID()) {
             notificationService.save(new Notification(listing.getHighestBidder(), listing.getId(), "You've Be Outbit! Listing: " + listing.getName(), 1));
         }
 
