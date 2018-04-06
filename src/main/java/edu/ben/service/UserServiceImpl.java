@@ -110,7 +110,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> searchUser(String search) {
+	public List searchUser(String search) {
 		return userDAO.searchUser(search);
 	}
 

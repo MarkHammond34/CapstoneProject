@@ -1,7 +1,6 @@
 package edu.ben.model;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.persistence.*;
@@ -88,6 +87,7 @@ public class User {
     private int banned;
 
     @Formula("(select avg(transaction.trans_rating) from transaction where transaction.seller_ID=user_ID)")
+    @Column(name="seller_rating")
     private Integer sellerRating;
 
     @OneToMany(mappedBy = "user",  fetch = FetchType.EAGER)

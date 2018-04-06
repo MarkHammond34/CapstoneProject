@@ -38,7 +38,7 @@ public interface UserDAO {
 
     public List<User> getRecentUsers();
 
-    public List<User> searchUser(String search);
+    public List searchUser(String search);
 
     public List<User> getListingLosers(int listingID, int winnerID);
 

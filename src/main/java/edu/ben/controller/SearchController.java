@@ -79,10 +79,11 @@ public class SearchController {
         System.out.println("Most expensive size: " + mostExpensive.size());
         List<Listing> leastExpensive = listingService.listingSearchLeastExpensive(search);
 
-        ArrayList<User> userSearch = (ArrayList<User>) userService.searchUser(search);
+        List<User> userSearch = userService.searchUser(search);
+        System.out.println("user size: " + userSearch.size());
 
-        System.out.println("search result size: " + userSearch.size());
-        request.setAttribute("userSearch", userSearch);
+//        System.out.println("search result size: " + userSearch.size());
+//        request.setAttribute("userSearch", userSearch);
 
         request.setAttribute("search", search);
         request.setAttribute("listingSearch", listingSearch);
@@ -92,6 +93,7 @@ public class SearchController {
         request.setAttribute("leastExpensive", leastExpensive);
         request.setAttribute("user", user);
         request.setAttribute("saved", saved);
+        request.setAttribute("userSearch", userSearch);
 
         return "searchResults";
 
