@@ -3,10 +3,19 @@
 <%@include file="jspf/navbar.jspf" %>
 <br>
 <br>
-<br>
 <!-- BEGIN CONTENT WRAPPER -->
 <div id="content-wrapper">
     <!-- BEGIN MAIN -->
+    <div class="uk-container">
+        <h1 class="uk-heading-line uk-text-center"><span>Community Page</span></h1>
+        <div class="uk-margin">
+            <form class="uk-search uk-search-default">
+                <span uk-search-icon></span>
+                <input class="uk-search-input" name="search" action="searchNews" type="search" placeholder="Search...">
+            </form>
+        </div>
+    </div>
+    <br>
     <div id="main">
         <div id="headlines">
             <div id="main-headline">
@@ -17,17 +26,12 @@
                 <p>Ut sed arcu nulla. In eget lectus vitae purus volutpat consectetur suscipit ut justo.</p>
                 <p><a href="#">Full story »</a></p>
                 <h2 class="heading">Latest Video</h2>
-                <object width="400" height="300">
-                    <param name="movie" value="http://www.youtube.com/v/B0jhJA1Hjxk&amp;hl=en_US&amp;fs=1&amp;">
-                    <param name="allowFullScreen" value="true">
-                    <param name="allowscriptaccess" value="never">
-                    <embed width="400" height="300"
-                           src="http://www.youtube.com/v/B0jhJA1Hjxk&amp;hl=en_US&amp;fs=1&amp;"
-                           type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="never">
-                </object>
-                <h2><a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a></h2>
-                <p class="author"><span>09.18.09</span></p>
-                <p><a href="#">More video »</a></p>
+                <iframe width="375" height="300" src="${newestVideo.videoPath}" frameborder="0"
+                        allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                <br>
+                <h2><a href="#">${newestVideo.title}</a></h2>
+                <p class="author"><span>${videoDate}</span></p>
+                <p><a href="${pageContext.request.contextPath}/allVideos">More videos</a></p>
             </div>
             <div id="more-headlines">
                 <h2 class="heading">Featured Stories</h2>
@@ -67,7 +71,8 @@
                href="https://twitter.com/benu1887">
                 Tweets by @BenU1887
             </a>
-            <a class="twitter-timeline" href="https://twitter.com/BenU1887?ref_src=twsrc%5Etfw">Tweets by BenU1887</a>
+            <a class="twitter-timeline" href="https://twitter.com/BenU1887?ref_src=twsrc%5Etfw">Tweets by
+                BenU1887</a>
             <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </div>
         <br>
@@ -119,6 +124,7 @@
             <h2 class="heading">Humour</h2>
             <img alt="" src="img/cartoon.jpg"></div>
     </div>
+
 </div>
 </body>
 </html>

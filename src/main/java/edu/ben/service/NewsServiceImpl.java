@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import edu.ben.dao.NewsDAO;
 import edu.ben.model.News;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class NewsServiceImpl implements NewsService {
@@ -35,5 +37,10 @@ public class NewsServiceImpl implements NewsService {
 	public void create(News news) {
 		nd.create(news);
 		
+	}
+
+	@Override
+	public List getAllArticles() {
+		return nd.getAllArticles();
 	}
 }

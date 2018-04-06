@@ -153,5 +153,7 @@
     <orderEntry type="library" name="Maven: org.apache.xmlbeans:xmlbeans:2.6.0" level="project" />
     <orderEntry type="library" name="Maven: stax:stax-api:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: com.github.virtuald:curvesapi:1.04" level="project" />
+    <orderEntry type="library" name="Maven: com.google.apis:google-api-services-youtube:v3-rev193-1.23.0" level="project" />
+    <orderEntry type="library" name="Maven: oro:oro:2.0.8" level="project" />
   </component>
 </module>

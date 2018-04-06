@@ -8,10 +8,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+
 <link rel="apple-touch-icon-precomposed"
 	href="images/apple-touch-icon.png">
 <link rel="stylesheet" href="css/uikit.docs.min.css">
@@ -30,28 +29,24 @@
 	var="indexListingCSS" />
 <spring:url value="resources/css/registration.css" var="regCSS" />
 
-<link href="${uikitCSS}" rel="stylesheet" />
+    <link href="${uikitCSS}" rel="stylesheet" />
 
 <script type="text/javascript" src="${uikitJS}"></script>
-<script type="text/javascript" src="${jquery}"></script>
-<script type="text/javascript" src="${uikiticons}"></script>
+    <script type="text/javascript" src="${jquery}"></script>
 
+    <script type="text/javascript" src="${uikiticons}"></script>
 
-<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
-
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>${title}</title>
-<link rel="stylesheet"
+    <title>${title}</title><link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
-<link href="${mainCSS}" rel="stylesheet" />
-<link href="${regCSS}" rel="stylesheet" />
-<link href="${indexListingCSS}" rel="stylesheet" />
-<spring:url value="resources/js/main.js" var="mainJS" />
-<script type="text/javascript" src="${mainJS}"></script>
+   <link href="${mainCSS}" rel="stylesheet"/>
+    <link href="${regCSS}" rel="stylesheet"/>
+    <link href="${indexListingCSS}" rel="stylesheet"/>
+    <spring:url value="resources/js/main.js" var="mainJS"/>
+    <script type="text/javascript" src="${mainJS}"></script>
 
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 
@@ -93,20 +88,19 @@
 	box-shadow: 0 0 1px #333;
 }
 
-.badge2 {
-	content: attr(data-badge);
-	position: absolute;
-	background: #ff695c;
-	left: 5px;
-	bottom: 40px;
-	width: 10px;
-	height: 10px;
-	line-height: 18px;
-	border-radius: 50%;
-	box-shadow: 0 0 1px #333;
-}
-
-.news-events {
+    .badge2 {
+        content: attr(data-badge);
+        position: absolute;
+        background: #ff695c;
+        left: 5px;
+        bottom: 40px;
+        width: 10px;
+        height: 10px;
+        line-height: 18px;
+        border-radius: 50%;
+        box-shadow: 0 0 1px #333;
+    }
+    .news-events {
 	border-left: 1px solid gainsboro;
 	height: 100%;
 	position: absolute;
@@ -755,6 +749,5 @@ fieldset {
 }
 .date-as-calendar.size3x {
 	font-size: 48px;
-}
-</style>
+}</style>
 </head>

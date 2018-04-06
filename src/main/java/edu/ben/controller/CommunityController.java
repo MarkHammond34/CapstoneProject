@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Array;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,7 +15,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import edu.ben.model.Video;
 import edu.ben.service.EventsService;
+import edu.ben.service.VideoService;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
@@ -46,6 +49,9 @@ public class CommunityController extends BaseController {
 
     @Autowired
     EventsService eventService;
+
+    @Autowired
+    VideoService videoService;
 
     @RequestMapping(value = "/communityPage", method = RequestMethod.GET)
     public ModelAndView community(HttpServletRequest request) {
@@ -195,6 +201,14 @@ public class CommunityController extends BaseController {
             request.setAttribute("time", time);
         }
 
+        Video newestVideo = videoService.getNewestVideo();
+        Timestamp videoDateInt = newestVideo.getDateCreated();
+        String videoDate = Integer.toString(videoDateInt.getMonth() + 1) +"/" + Integer.toString(videoDateInt.getDate()+ 1)+ "/" + Integer.toString(videoDateInt.getYear() + 1900);
+        request.setAttribute("videoDate", videoDate);
+        System.out.println("video date: " + videoDate);
+        System.out.println("Path: " + newestVideo.getVideoPath());
+        request.setAttribute("newestVideo", newestVideo);
+
         return model;
     }
 
@@ -325,6 +339,85 @@ public class CommunityController extends BaseController {
         q.CreateEvent(event);
 
         return "events-news";
+    }
+
+    @RequestMapping(value="/searchNews")
+    public String searchNews(HttpServletRequest request, @RequestParam("Seaerch") String search) {
+        System.out.println(search);
+        ArrayList<News> news = (ArrayList<News>) newsService.getAllArticles();
+        ArrayList<News> searchResults = new ArrayList<>();
+
+
+        for (int i = 0;  i < news.size(); i++ ) {
+            boolean searchFound = false;
+            Resource resource = new ClassPathResource(news.get(i).getFilePath());
+            // File file = new File(classLoader.getResource("El Norte.docx").getFile());
+            System.out.println("Please dont fail " + resource.getFilename());
+            //
+            // System.out.println(file.getAbsolutePath());
+            // String name = doc.getOriginalFilename();
+            // File resource = new File("C:" + request.getContextPath() +
+            // "/src/main/webapp/resources/docs/" + name);
+            // System.out.println("Resource " + resource.getPath());
+
+            try {
+                FileInputStream fis = new FileInputStream(resource.getFile());
+                XWPFDocument xdoc = new XWPFDocument(OPCPackage.open(fis));
+
+                List<XWPFParagraph> paragraphList = xdoc.getParagraphs();
+                XWPFHeaderFooterPolicy policy = new XWPFHeaderFooterPolicy(xdoc);
+
+                XWPFHeader header = policy.getDefaultHeader();
+                if (header != null) {
+                    request.setAttribute("header", header);
+                    System.out.println(header.getText());
+
+                    if (header.getText().toLowerCase().contains(search)) {
+                        System.out.println("Search found in header");
+                        searchResults.add(news.get(i));
+                        searchFound = true;
+                    }
+                }
+
+                XWPFFooter footer = policy.getDefaultFooter();
+                if (footer != null) {
+                    request.setAttribute("footer", footer);
+                    System.out.println(footer.getText());
+
+                    if(footer.getText().toLowerCase().contains(search) && (searchFound = false)) {
+                        System.out.println("Search found in footer");
+                        searchResults.add(news.get(i));
+                        searchFound = true;
+                    }
+                }
+
+                for (XWPFParagraph paragraph : paragraphList) {
+                    if (paragraph.getText().toLowerCase().contains(search) && (searchFound = false)) {
+                        System.out.println("Search Result found");
+                        searchResults.add(news.get(i));
+                    }
+                    System.out.println(paragraph.getText());
+                    System.out.println(paragraph.getAlignment());
+                    System.out.print(paragraph.getRuns().size());
+                    System.out.println(paragraph.getStyle());
+
+                    // Returns numbering format for this paragraph, eg bullet or lowerLetter.
+                    System.out.println(paragraph.getNumFmt());
+                    System.out.println(paragraph.getAlignment());
+
+                    System.out.println(paragraph.isWordWrapped());
+
+                    System.out.println("********************************************************************");
+                }
+                request.setAttribute("paragraphList", paragraphList);
+                request.setAttribute("newsSearchResults", searchResults);
+                System.out.println("search size: " + searchResults.size());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return "community2";
     }
 
 }
