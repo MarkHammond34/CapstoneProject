@@ -13,4 +13,8 @@ public interface ImageService {
     public List<Image> getImagesByListingId(int listingId);
 
     public List<Image> getImagesByUserId(int userId);
+
+    public void removeAllMainImages(int userId);
+
+    public void changeMain(int imageId, int main);
 }

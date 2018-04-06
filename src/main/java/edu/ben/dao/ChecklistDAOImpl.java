@@ -58,6 +58,11 @@ public class ChecklistDAOImpl implements ChecklistDAO {
     }
 
     @Override
+    public void delete(ChecklistItem item) {
+        getSession().delete(item);
+    }
+
+    @Override
     public Checklist getAdminChecklist() {
         return (Checklist) getSession().createQuery("FROM checklist WHERE type='admin' AND active=1 ORDER BY date_created DESC").list().get(0);
     }

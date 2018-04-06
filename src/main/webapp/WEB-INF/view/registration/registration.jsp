@@ -70,10 +70,10 @@
 
                 <div class="uk-width-1-1 uk-margin-small-top">
                     <select name="gradeLevel" class="uk-select uk-input" path="gradeLevel" required>
-                        <option>Freshman</option>
-                        <option>Sophomore</option>
-                        <option>Junior</option>
-                        <option>Senior</option>
+                        <option value="1">Freshman</option>
+                        <option value="2">Sophomore</option>
+                        <option value="3">Junior</option>
+                        <option value="4">Senior</option>
                     </select>
                 </div>
 

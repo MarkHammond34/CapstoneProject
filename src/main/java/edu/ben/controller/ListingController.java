@@ -61,14 +61,14 @@ public class ListingController extends BaseController {
     /**
      * Upload single file using Spring Controller
      */
-//    @RequestMapping(value = "/uploadListing", method = RequestMethod.POST)
-//    public String uploadFileHandler(@RequestParam("title") String name, @RequestParam("category") String category,
-//                                    @RequestParam("subCategory") String subCategory,
-//                                    @RequestParam(value = "price", required = false) Double price,
-//                                    @RequestParam("description") String description, @RequestParam("file") List<MultipartFile> file,
-//                                    @RequestParam("type") String type, @RequestParam("premium") String premium, Model model,
-//                                    HttpServletRequest request) {
-//
+    @RequestMapping(value = "/uploadListing", method = RequestMethod.POST)
+    public String uploadFileHandler(@RequestParam("title") String name, @RequestParam("category") String category,
+                                    @RequestParam("subCategory") String subCategory,
+                                    @RequestParam(value = "price", required = false) Double price,
+                                    @RequestParam("description") String description,/*, @RequestParam("file") List<MultipartFile> file,*/
+                                    @RequestParam("type") String type, @RequestParam("premium") String premium, Model model,
+                                    HttpServletRequest request) {
+
 //        System.out.println("Hit UploadListing Controller");
 //        if (price == null) {
 //            price = (double) 0;
@@ -109,7 +109,7 @@ public class ListingController extends BaseController {
 //        // This is a dirty fix
 //
 //        if (request.getParameter("endDate") != null) {
-//           // Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
+//            // Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
 //            // Checks to make sure listing is for at least one hour
 //            if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
 //                addErrorMessage("Listings Must Be Last At Least One Hour");
@@ -142,168 +142,172 @@ public class ListingController extends BaseController {
 //        if (!file.isEmpty()) {
 //            try {
 //                String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-//        listing.setUser(u);
-//        int listingId = listingService.save(listing);
-//        Listing lst = listingService.getByListingID(listingId);
-//
-//        String directory = System.getProperty("user.home");
-//        for (int i = 0; i < file.size(); i++) {
-//            String fileType = FilenameUtils.getExtension(file.get(i).getOriginalFilename());
-//            String fileName = FilenameUtils.getBaseName(file.get(i).getOriginalFilename());
-//            if (fileType.equals("jpg") || fileType.equals("png") || fileType.equals("jpeg")) {
-//                Image imgImport = new Image();
-//                try {
-//                   // byte[] bytes = file.get(i).getBytes();
-//                    System.out.println("File Directory:   " + System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId);
-//                    File dir = new File(System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId);
-//                    if (!dir.exists())
-//                        dir.mkdirs();
-//                    System.out.println("Image Path:     " + "ulistitUsers" + "/" + u.getUserID() + "@" + u.getSchoolEmail() + "/" + "listings" + "/" + listingId);
-//                    imgImport.setImage_path("ulistitUsers" + "/" + u.getUserID() + "@" + u.getSchoolEmail() + "/" + "listings" + "/" + listingId);
-//                    imgImport.setListing(lst);
-//                    imgImport.setImage_name(fileName + "." + fileType);
-//                    if (i == 0)
-//                        imgImport.setMain(1);
-//                    imageService.save(imgImport);
-//                    System.out.println("Full File path:     " + System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId + File.separator + file.get(i).getOriginalFilename());
-//                    File serverFile = new File(System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId + File.separator + file.get(i).getOriginalFilename());
-//                    try {
-//                      //  BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-//                        stream.write(bytes);
-//                    } catch (FileNotFoundException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//		/*
-//		if (!file.isEmpty()) {
-//			try {
-//				String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-//
-//                System.out.println(extension);
-//
-//                if (!extension.equals("jpg") && !extension.equals("png") && !extension.equals("jpeg")) {
-//                    addErrorMessage("Listing failed. You did not upload an image.");
-//                    setRequest(request);
-//                    return "createListing";
-//                } else if (price < 0) {
-//                    addErrorMessage("Cannot have a negative price.");
-//                    setRequest(request);
-//                    return "createListing";
-//                }
-//
-//                byte[] bytes = file.getBytes();
-//
-//                // Creating the directory to store file
-//                File dir = new File(Path.url + File.separator + "listings");
-//                if (!dir.exists())
-//                    dir.mkdirs();
-//
-//                // Create the file on server
-//
-//                System.out.println("Hit Controller 2");
-//                File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
-//                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-//                stream.write(bytes);
-//
-//                System.out.println("File Uploaded");
-//                //Listing listing = new Listing(name, description, price, category, file.getOriginalFilename());// FIX
-//                // LATER
-//
-//                Listing listing = new Listing();
-//
-//                if (type.equals("auction")) {
-//                    listing.setType("auction");
-//                    listing.setHighestBid(0);
-//                } else {
-//                    listing.setType("fixed");
-//                }
-//                System.out.println(premium);
-//
-//                if (premium.equals("yes")) {
-//                    listing.setPremium(1);
-//                } else {
-//                    listing.setPremium(0);
-//                }
-//
 //                listing.setUser(u);
-//                System.out.println("Check to see if session exists: " + u.getUserID());
-//                listingService.create(listing);
+//                int listingId = listingService.save(listing);
+//                Listing lst = listingService.getByListingID(listingId);
 //
-//                message = "Listing Uploaded Successfully";
-//                model.addAttribute("message", message);
-//                stream.close();
-//
-//                // Listing l = new Listing(name, description, price, category, file );
-//                // ld.create(l);
-//                // Check for saved searches
-//                ArrayList<SavedSearch> allSavedSearches = (ArrayList<SavedSearch>) savedSearchService
-//                        .getAllSavedSearches();
-//
-//                System.out.println("Saved Search size: " + allSavedSearches.size());
-//
-//                if (allSavedSearches != null) {
-//                    for (int i = 0; i < allSavedSearches.size(); i++) {
-//                        if (description.toLowerCase().contains(allSavedSearches.get(i).getSearch().toLowerCase())
-//                                || name.toLowerCase().contains(allSavedSearches.get(i).getSearch().toLowerCase())) {
-//                            if (allSavedSearches.get(i).getUser().getUserID() != u.getUserID()) {
-//                                notificationService.save(new Notification(
-//                                        userService.getUserById(allSavedSearches.get(i).getUser().getUserID()),
-//                                        listing.getId(), "New Listing Posted",
-//                                        u.getUsername() + " has posting a listing\n\n pertaining to "
-//                                                + allSavedSearches.get(i).getSearch() + ".",
-//                                        1));
+//                String directory = System.getProperty("user.home");
+//                for (int i = 0; i < file.size(); i++) {
+//                    String fileType = FilenameUtils.getExtension(file.get(i).getOriginalFilename());
+//                    String fileName = FilenameUtils.getBaseName(file.get(i).getOriginalFilename());
+//                    if (fileType.equals("jpg") || fileType.equals("png") || fileType.equals("jpeg")) {
+//                        Image imgImport = new Image();
+//                        try {
+//                            // byte[] bytes = file.get(i).getBytes();
+//                            System.out.println("File Directory:   " + System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId);
+//                            File dir = new File(System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId);
+//                            if (!dir.exists())
+//                                dir.mkdirs();
+//                            System.out.println("Image Path:     " + "ulistitUsers" + "/" + u.getUserID() + "@" + u.getSchoolEmail() + "/" + "listings" + "/" + listingId);
+//                            imgImport.setImage_path("ulistitUsers" + "/" + u.getUserID() + "@" + u.getSchoolEmail() + "/" + "listings" + "/" + listingId);
+//                            imgImport.setListing(lst);
+//                            imgImport.setImage_name(fileName + "." + fileType);
+//                            if (i == 0)
+//                                imgImport.setMain(1);
+//                            imageService.save(imgImport);
+//                            System.out.println("Full File path:     " + System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId + File.separator + file.get(i).getOriginalFilename());
+//                            File serverFile = new File(System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId + File.separator + file.get(i).getOriginalFilename());
+//                            try {
+//                                //  BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+//                                stream.write(bytes);
+//                            } catch (FileNotFoundException e) {
+//                                e.printStackTrace();
 //                            }
+//
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
 //                        }
 //                    }
 //                }
 //
-//                return "createListing";
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                return "You failed to upload " + name + " => " + e.getMessage();
+//                if (!file.isEmpty()) {
+//                    try {
+//                        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+//
+//                        System.out.println(extension);
+//
+//                        if (!extension.equals("jpg") && !extension.equals("png") && !extension.equals("jpeg")) {
+//                            addErrorMessage("Listing failed. You did not upload an image.");
+//                            setRequest(request);
+//                            return "createListing";
+//                        } else if (price < 0) {
+//                            addErrorMessage("Cannot have a negative price.");
+//                            setRequest(request);
+//                            return "createListing";
+//                        }
+//
+//                        byte[] bytes = file.getBytes();
+//
+//                        // Creating the directory to store file
+//                        File dir = new File(Path.url + File.separator + "listings");
+//                        if (!dir.exists())
+//                            dir.mkdirs();
+//
+//                        // Create the file on server
+//
+//                        System.out.println("Hit Controller 2");
+//                        File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
+//                        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+//                        stream.write(bytes);
+//
+//                        System.out.println("File Uploaded");
+//                        //Listing listing = new Listing(name, description, price, category, file.getOriginalFilename());// FIX
+//                        // LATER
+//
+//                        Listing listing = new Listing();
+//
+//                        if (type.equals("auction")) {
+//                            listing.setType("auction");
+//                            listing.setHighestBid(0);
+//                        } else {
+//                            listing.setType("fixed");
+//                        }
+//                        System.out.println(premium);
+//
+//                        if (premium.equals("yes")) {
+//                            listing.setPremium(1);
+//                        } else {
+//                            listing.setPremium(0);
+//                        }
+//
+//                        listing.setUser(u);
+//                        System.out.println("Check to see if session exists: " + u.getUserID());
+//                        listingService.create(listing);
+//
+//                        message = "Listing Uploaded Successfully";
+//                        model.addAttribute("message", message);
+//                        stream.close();
+//
+//                        // Listing l = new Listing(name, description, price, category, file );
+//                        // ld.create(l);
+//                        // Check for saved searches
+//                        ArrayList<SavedSearch> allSavedSearches = (ArrayList<SavedSearch>) savedSearchService
+//                                .getAllSavedSearches();
+//
+//                        System.out.println("Saved Search size: " + allSavedSearches.size());
+//
+//                        if (allSavedSearches != null) {
+//                            for (int i = 0; i < allSavedSearches.size(); i++) {
+//                                if (description.toLowerCase().contains(allSavedSearches.get(i).getSearch().toLowerCase())
+//                                        || name.toLowerCase().contains(allSavedSearches.get(i).getSearch().toLowerCase())) {
+//                                    if (allSavedSearches.get(i).getUser().getUserID() != u.getUserID()) {
+//                                        notificationService.save(new Notification(
+//                                                userService.getUserById(allSavedSearches.get(i).getUser().getUserID()),
+//                                                listing.getId(), "New Listing Posted",
+//                                                u.getUsername() + " has posting a listing\n\n pertaining to "
+//                                                        + allSavedSearches.get(i).getSearch() + ".",
+//                                                1));
+//                                    }
+//                                }
+//                            }
+//                        }
+//
+//                        return "createListing";
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                        return "You failed to upload " + name + " => " + e.getMessage();
+//                    }
+//                } else {
+//                    return "You failed to upload " + name + " because the file was empty.";
+//                }
 //
 //            }
-//        } else {
-//            return "You failed to upload " + name + " because the file was empty.";
+//
 //        }
-//		*/
-//        return "redirect:/";
-//    }
-//
-//
-//    @RequestMapping("/createListing")
-//    public String listingPage(HttpServletRequest request) {
-//        setRequest(request);
-//        return "createListing";
-//    }
 
-	@RequestMapping("/viewListing")
-	public ModelAndView viewListing(@RequestParam("l") int l) {
-		ModelAndView model = new ModelAndView("listing");
+        return "redirect:/";
+    }
 
-		// get listing
-		Listing listing = listingService.getByListingID(l);
-		// pass these to model
-		model.addObject("listing", listing);
 
-		System.out.println("Being used?");
+    @RequestMapping("/createListing")
+    public String listingPage(HttpServletRequest request) {
+        setRequest(request);
+        return "createListing";
+    }
 
-		return model;
-	}
+    @RequestMapping("/viewListing")
+    public ModelAndView viewListing(@RequestParam("l") int l) {
+        ModelAndView model = new ModelAndView("listing");
 
-	@RequestMapping("/displayListing")
-	public String displayListing(HttpServletRequest request) {
-		setRequest(request);
-		return "displayListing";
-	}
+        // get listing
+        Listing listing = listingService.getByListingID(l);
+        // pass these to model
+        model.addObject("listing", listing);
+
+        System.out.println("Being used?");
+
+        return model;
+    }
+
+    @RequestMapping("/displayListing")
+    public String displayListing(HttpServletRequest request) {
+        setRequest(request);
+        return "displayListing";
+    }
 
     @RequestMapping("/displayListingByCategory")
-    public String displayListingByCategory(@RequestParam("category") String category, HttpServletRequest request,
+    public String displayListingByCategory(@RequestParam("category") String category, HttpServletRequest
+            request,
                                            Model model) {
 
         System.out.println("Listing Category for display: " + category);
@@ -410,15 +414,15 @@ public class ListingController extends BaseController {
         return model;
     }
 
-	@RequestMapping(value = "/listing", method = RequestMethod.GET)
-	public ModelAndView viewSelectedListing(HttpServletRequest request, @RequestParam("listingId") int listingID) {
+    @RequestMapping(value = "/listing", method = RequestMethod.GET)
+    public ModelAndView viewSelectedListing(HttpServletRequest request, @RequestParam("listingId") int listingID) {
 
-		ModelAndView model = new ModelAndView("listing");
+        ModelAndView model = new ModelAndView("listing");
 
-		// get listing
-		Listing listing = listingService.getByListingID(listingID);
-		String dateCreated = listing.getDateCreated().toString().substring(0, 10);
-		User creator = userService.getUserById(listing.getUser().getUserID());
+        // get listing
+        Listing listing = listingService.getByListingID(listingID);
+        String dateCreated = listing.getDateCreated().toString().substring(0, 10);
+        User creator = userService.getUserById(listing.getUser().getUserID());
 
         if (listing == null) {
             addErrorMessage("Error Loading Listing");
@@ -663,59 +667,59 @@ public class ListingController extends BaseController {
 //        request.setAttribute("listing", listing);
 //        return "reportListing";
 //    }
-	@GetMapping("/checkout")
-	public String checkoutPageGet(HttpServletRequest request) {
+    @GetMapping("/checkout")
+    public String checkoutPageGet(HttpServletRequest request) {
 
-		User user = (User) request.getSession().getAttribute("user");
+        User user = (User) request.getSession().getAttribute("user");
 
-		if (user == null) {
-			addWarningMessage("Login To Checkout");
-			setRequest(request);
-			return "login";
-		}
+        if (user == null) {
+            addWarningMessage("Login To Checkout");
+            setRequest(request);
+            return "login";
+        }
 
-		addWarningMessage("Error Loading Page");
-		setRequest(request);
-		return "redirect:" + request.getHeader("Referer");
-	}
+        addWarningMessage("Error Loading Page");
+        setRequest(request);
+        return "redirect:" + request.getHeader("Referer");
+    }
 
-	@PostMapping("/checkout")
-	public String checkoutPagePost(HttpServletRequest request, @RequestParam("listingID") int listingID) {
+    @PostMapping("/checkout")
+    public String checkoutPagePost(HttpServletRequest request, @RequestParam("listingID") int listingID) {
 
-		User user = (User) request.getSession().getAttribute("user");
+        User user = (User) request.getSession().getAttribute("user");
 
-		if (user == null) {
-			addWarningMessage("Login To Checkout");
-			setRequest(request);
-			return "login";
-		}
+        if (user == null) {
+            addWarningMessage("Login To Checkout");
+            setRequest(request);
+            return "login";
+        }
 
-		String addressNumber = environment.getProperty("school.address.number");
-		String addressStreetName = environment.getProperty("school.address.street.name");
-		String addressStreetType = environment.getProperty("school.address.street.type");
-		String addressCity = environment.getProperty("school.address.city");
-		String addressState = environment.getProperty("school.address.state");
+        String addressNumber = environment.getProperty("school.address.number");
+        String addressStreetName = environment.getProperty("school.address.street.name");
+        String addressStreetType = environment.getProperty("school.address.street.type");
+        String addressCity = environment.getProperty("school.address.city");
+        String addressState = environment.getProperty("school.address.state");
 
-		request.setAttribute("latitude", environment.getProperty("school.latitude"));
-		request.setAttribute("longitude", environment.getProperty("school.longitude"));
+        request.setAttribute("latitude", environment.getProperty("school.latitude"));
+        request.setAttribute("longitude", environment.getProperty("school.longitude"));
 
-		String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + addressNumber + "+"
-				+ addressStreetName + "+" + addressStreetType + ",+" + addressCity + ",+" + addressState
-				+ "&key=AIzaSyAYv7pVPxQ-k7yWlKPfa8ebsx7ci9q7vQ8";
+        String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + addressNumber + "+"
+                + addressStreetName + "+" + addressStreetType + ",+" + addressCity + ",+" + addressState
+                + "&key=AIzaSyAYv7pVPxQ-k7yWlKPfa8ebsx7ci9q7vQ8";
 
-		request.setAttribute("pickupLocation", url);
+        request.setAttribute("pickupLocation", url);
 
-		request.setAttribute("title", "Checkout");
-		request.setAttribute("listing", listingService.getByListingID(listingID));
-		setRequest(request);
-		return "checkout";
-	}
+        request.setAttribute("title", "Checkout");
+        request.setAttribute("listing", listingService.getByListingID(listingID));
+        setRequest(request);
+        return "checkout";
+    }
 
     @GetMapping("/reportListing")
-	public String reportListing(@RequestParam("listingId") int id, HttpServletRequest request) {
-		System.out.println(id);
-		Listing listing = listingService.getByListingID(id);
-		request.setAttribute("listing", listing);
-		return "reportListing";
-	}
+    public String reportListing(@RequestParam("listingId") int id, HttpServletRequest request) {
+        System.out.println(id);
+        Listing listing = listingService.getByListingID(id);
+        request.setAttribute("listing", listing);
+        return "reportListing";
+    }
 }
