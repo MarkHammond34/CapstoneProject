@@ -61,8 +61,12 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	public User getUserById(int id) {
-		User user = (User) getSession().get(User.class, id);
-		return user;
+		//User user = (User) getSession().get(User.class, id);
+		Query q = getSession().createQuery("FROM user WHERE user_ID=:id");
+		q.setParameter("id", id);
+
+		//return user;
+		return (User) q.list().get(0);
 	}
 
 	public void update(User user) {

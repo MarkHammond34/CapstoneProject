@@ -7,7 +7,7 @@
 
 		<div class="uk-section">
 
-			<div class="container">
+            <div class="uk-container">
 				<div class="col-md-3"></div>
 				<div class="col-md-6">
 					<div class="form-area">
@@ -33,9 +33,6 @@
 							<div class="uk-width-1-1">
 								<button type="submit" id="submit" name="submit"
 									class="btn btn-primary pull-right">Submit Form</button>
-								<a class="uk-button uk-button-text" style="color: green;"
-									href="confirmOffer">Confirm
-									offer</a>
 							</div>
 						</form>
 					</div>

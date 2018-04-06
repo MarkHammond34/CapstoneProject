@@ -7,7 +7,7 @@ import edu.ben.service.FollowService;
 import edu.ben.service.ListingService;
 import edu.ben.service.OfferService;
 import edu.ben.service.UserService;
-import edu.ben.util.ImagePath;
+import edu.ben.util.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +31,7 @@ public class UserController {
 	
 	@Autowired
 	ListingService listingService;
-	
+
 	@Autowired
 	OfferService offerService;
 
@@ -92,7 +92,7 @@ public class UserController {
 				byte[] bytes = file.getBytes();
 
 				// Creating the directory to store file
-				File dir = new File(ImagePath.url + File.separator + "profile-pic");
+				File dir = new File(Path.url + File.separator + "profile-pic");
 				if (!dir.exists())
 					dir.mkdirs();
 

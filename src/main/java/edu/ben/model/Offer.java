@@ -21,13 +21,15 @@ public class Offer {
     @Column(name = "offer_message")
     private String offerMessage;
 
-    //@OneToOne
-    //@JoinColumn(name = "offer_maker_id_")
+    @OneToOne
+    @JoinColumn(name = "offer_maker_id_")
+
     @Transient
     private User offerMaker;
 
-//    @OneToOne
-//    @JoinColumn(name = "offer_receiver_id")
+    @OneToOne
+    @JoinColumn(name = "offer_receiver_id")
+
     @Transient
     private User offerReceiver;
 

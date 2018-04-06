@@ -18,7 +18,5 @@ public interface FollowDAO {
 	public void create(Follow follow);
 	
 	public Follow findCurrent(int userID, int followerID);
-	
-	
 
 }

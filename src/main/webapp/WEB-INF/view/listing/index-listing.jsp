@@ -1,28 +1,21 @@
-<li>
-<div class="uk-card uk-card-default uk-margin-auto-vertical">
-    <div class="uk-card-media-top">
-        <div class="uk-align-center" uk-slideshow="autoplay-interval: 2000"  uk-slideshow>
-            <ul class="uk-slideshow-items">
-                <c:forEach items="${listing.images}" var="listingImages">
-                    <div uk-lightbox>
-                        <li>
-                            <div class="uk-position-center">
-                                <a href="${pageContext.request.contextPath}/directory/${listingImages.image_path}/${listingImages.image_name}"
-                                   title="Image" class="thumbnail"><img
-                                        src="${pageContext.request.contextPath}/directory/${listingImages.image_path}/${listingImages.image_name}"
-                                        alt="Listing" ></a>
-                            </div>
-                        </li>
+<div class="uk-card uk-card-default uk-border-rounded uk-padding-small uk-card-body uk-margin-auto-vertical">
+    <div class="uk-align-center" uk-slideshow="autoplay-interval: 2000"  uk-slideshow>
+        <ul class="uk-slideshow-items">
+            <c:forEach items="${listing.images}" var="listingImages">
+                <li>
+                    <div class="uk-position-center">
+                        <a href="${pageContext.request.contextPath}/directory/${listingImages.image_path}/${listingImages.image_name}"
+                           title="Image" class="thumbnail"><img
+                                src="${pageContext.request.contextPath}/directory/${listingImages.image_path}/${listingImages.image_name}"
+                                alt="Listing" ukcover></a>
                     </div>
-                </c:forEach>
-            </ul>
-            <a class="uk-position-top-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
-            <a class="uk-position-top-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
-
-        </div>
+                </li>
+            </c:forEach>
+        </ul>
+        <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+        <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
     </div>
 
-    <div class="uk-card-body">
     <!-- Name -->
     <div class="name uk-margin-remove-top uk-margin-small-bottom" style="font-size: 22px;">
 
@@ -108,7 +101,5 @@
             </div>
         </c:when>
     </c:choose>
-    </div>
 </div>
 <%@include file="bid-buy-modals.jsp" %>
-</li>
