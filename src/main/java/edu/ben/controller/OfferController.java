@@ -38,7 +38,7 @@ public class OfferController extends BaseController {
 	@RequestMapping(value = "/myOffers", method = RequestMethod.GET) // An offers page for each listing
 	public ModelAndView showOffers(@RequestParam("id") int id) {
 
-		ModelAndView model = new ModelAndView("dashboard");
+		ModelAndView model = new ModelAndView("dashboard2");
 
 		Listing listing = listingService.getByListingID(id);
 		List<Offer> offers = offerService.getPendingOffersByListingId(listing.getId());
@@ -92,7 +92,7 @@ public class OfferController extends BaseController {
 		// Notify seller
 
 		Listing listing;
-		Offer offer = new Offer();
+		Offer offer;
 		User sender = (User) request.getSession().getAttribute("user");
 		model.addObject("listingId", id);
 
@@ -100,26 +100,11 @@ public class OfferController extends BaseController {
 
 			listing = listingService.getByListingID(id);
 			User receiver = userService.getUserById(listing.getUser().getUserID());
-			offer = new Offer(price, message, sender, receiver, listing);
+			offer = new Offer(price, message, sender, receiver, listing); // Adjust for new offer setup
 
 			// do an if check here for an existing offer to update
 
-			if (offerService.getOfferByUserAndListingId(sender.getUserID(), id) == null) {
-				
-				// Create a new offer in the database
-				System.out.println("Creating");
-				offer.setStatus("pending");
-				offerService.createOffer(offer);
-				
-			} else {
-				
-				// Replace current offer
-				System.out.println("Updating");
-				offer.setStatus("pending");
-				offerService.saveOrUpdate(offer);
-				offerService.deleteOffer(offerService.getOfferByUserAndListingId(sender.getUserID(), id));
-				
-			}
+			checkExistingOffer(id, offer, sender);
 
 			// Notify seller
 			String subject = "You have a new offer!";
@@ -148,7 +133,7 @@ public class OfferController extends BaseController {
 	public ModelAndView acceptOffer(@RequestParam("offererID") int id, @RequestParam("listing") int listingID,
 			HttpServletRequest request) {
 
-		ModelAndView model = new ModelAndView("offers");
+		ModelAndView model = new ModelAndView("dashboard2");
 
 		User lister = (User) request.getSession().getAttribute("user");
 		Listing listing = listingService.getByListingID(listingID);
@@ -199,9 +184,9 @@ public class OfferController extends BaseController {
 
 	@RequestMapping(value = "/rejectOffer", method = RequestMethod.GET)
 	public ModelAndView rejectOffer(@RequestParam("offererID") int id, @RequestParam("listing") int listingID,
-			HttpServletRequest request) {
+									HttpServletRequest request) {
 
-		ModelAndView model = new ModelAndView("offers");
+		ModelAndView model = new ModelAndView("dashboard2");
 
 		User lister = (User) request.getSession().getAttribute("user");
 		Offer offer = offerService.getOfferByUserAndListingId(id, listingID);
@@ -226,9 +211,10 @@ public class OfferController extends BaseController {
 		// subject, notificationMessage, timeSent, 1);
 		// notificationService.save(notification);
 
-		// remove offer from page and db
-		//offerService.deleteOffer(offer);
-		offerService.saveOrUpdate(new Offer(offer.getOfferID(), offer.getOfferAmount(), offer.getOfferMessage(), offer.getOfferMaker(), offer.getOfferReceiver(), listing, "rejected"));
+		offer.setActive(0);
+		offer.setStatus("rejected");
+		offerService.saveOrUpdate(offer);
+		//offerService.saveOrUpdate(new Offer(offer.getOfferID(), offer.getOfferAmount(), offer.getOfferMessage(), offer.getOfferMaker(), offer.getOfferReceiver(), listing, "rejected"));
 
 		// maybe ask offerer when they receive notification if they want to re-offer? -
 		// possibly in a different controller
@@ -236,10 +222,94 @@ public class OfferController extends BaseController {
 		List<Offer> offers = offerService.getOffersByListingId(listing.getId());
 
 		model.addObject("offers", offers);
-		
+
 		System.out.println("Rejected");
 
 		return model;
 
+	}
+
+	@RequestMapping(value = "/counterOffer", method = RequestMethod.GET)
+	public ModelAndView counterOffer(@RequestParam("offerID") int offerID) {
+
+		ModelAndView model = new ModelAndView("makeCounterOffer");
+
+		Offer initial = offerService.getOfferById(offerID);
+
+		model.addObject("initial", initial);
+
+		return model;
+	}
+
+	@RequestMapping(value = "/confirmCounterOffer", method = RequestMethod.POST)
+	public ModelAndView confirmCounterOffer(@RequestParam("initial") int initial, @RequestParam("offer-amount") int price,
+											@RequestParam("offer-message") String message, HttpServletRequest request) {
+
+		ModelAndView model = new ModelAndView("dashboard2");
+
+		Offer initialOffer = offerService.getOfferById(initial);
+		System.out.println();
+		System.out.println(initialOffer.getOfferID());
+		User offerMaker = (User) request.getSession().getAttribute("user");
+		Offer newOffer;
+
+		try {
+
+			System.out.println();
+			System.out.println(offerMaker.getFirstName());
+			System.out.println(offerMaker.getUserID());
+			User offerReceiver = userService.getUserById(offerMaker.getUserID());
+			newOffer = new Offer(price, message, offerMaker, offerReceiver, initialOffer.getListingID(), "pending");
+
+			// Update old offer
+			initialOffer.setStatus("countered");
+			offerService.saveOrUpdate(initialOffer);
+
+			// Save new offer
+			offerService.createOffer(newOffer);
+
+			// Notify seller
+			String subject = "You have a new offer!";
+			String notificationMessage = offerMaker.getUsername() + " has made an offer on " + newOffer.getListingID().getName() + "!";
+			Date date = new Date();
+			Timestamp timeSent = new Timestamp(date.getTime());
+
+			// Notification notification = new Notification(receiver, listing.getId(),
+			// subject, notificationMessage, timeSent, 1);
+			// notificationService.save(notification);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			ModelAndView model2 = new ModelAndView("makeCounterOffer");
+			addErrorMessage("An error occurred processing your request. Please try again.");
+			return model2;
+
+		}
+
+		return model;
+
+	}
+
+	private void checkExistingOffer(@RequestParam("listing") int id, Offer offer, User sender) {
+
+		if (offerService.getOfferByUserAndListingId(sender.getUserID(), id) == null) {
+
+			// Create a new offer in the database
+			System.out.println("Creating");
+			// Need to update the old offer as well
+			offer.setStatus("pending");
+			offerService.createOffer(offer);
+
+		} else {
+
+			// Replace current offer
+			System.out.println("Updating");
+			offer.setStatus("pending");
+			// Need to update the old offer as well
+			offerService.saveOrUpdate(offer);
+			offerService.deleteOffer(offerService.getOfferByUserAndListingId(sender.getUserID(), id));
+
+		}
 	}
 }
