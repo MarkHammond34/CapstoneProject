@@ -97,6 +97,7 @@
                                 <th>Type</th>
                                 <th>Active/Inactive</th>
                                 <th>Edit</th>
+                                <th>Delete</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -132,8 +133,15 @@
                                     %>
                                 </td>
                                 <td>
-                                    <a href="#<%=allListings.get(i).getId()%>" uk-icon="icon: file-edit"
+                                    <a href="/editListing?id=<%=allListings.get(i).getId()%>" uk-icon="icon: file-edit"
                                        uk-toggle></a>
+                                </td>
+                                <td>
+                                    <form method="Post" action="adminDeleteListing">
+                                        <button name="adminDeleteListing"
+                                                value="<%=allListings.get(i).getId()%>"
+                                                type="submit" uk-icon="icon: trash"></button>
+                                    </form>
                                 </td>
                             </tr>
                             <%

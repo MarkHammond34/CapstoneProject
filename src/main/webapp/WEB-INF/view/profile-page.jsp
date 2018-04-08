@@ -44,10 +44,25 @@
 								<dd>This user does not have any transactions!</dd>
 							</c:when>
 							<c:otherwise>
-
-								<dd class="uk-margin-left">${user.sellerRating}</dd>
+								<c:choose>
+									<c:when test="${user.sellerRating == 1}">
+										<td><span uk-icon="star"></span></td>
+									</c:when>
+									<c:when test="${user.sellerRating == 2}">
+										<td><span uk-icon="star"></span><span uk-icon="star"></span></td>
+									</c:when>
+									<c:when test="${user.sellerRating == 3}">
+										<td><span uk-icon="star"></span><span uk-icon="star"></span><span uk-icon="star"></span></td>
+									</c:when>
+									<c:when test="${user.sellerRating == 4}">
+										<td><span uk-icon="star"></span><span uk-icon="star"></span><span uk-icon="star"></span><span uk-icon="star"></span></td>
+									</c:when>
+									<c:when test="${user.sellerRating == 5}">
+										<td><span uk-icon="star"></span><span uk-icon="star"></span><span uk-icon="star"></span><span uk-icon="star"></span><span uk-icon="star"></span></td>
+									</c:when>
+								</c:choose>
 								<dd></dd>
-								<dd class="uk-margin-left">
+								<dd class="uk-margin-top">
 									<a
 										href="${pageContext.request.contextPath}/sellerReviews?id=${user.userID}"
 										class="uk-button uk-button-small uk-button-primary">View
