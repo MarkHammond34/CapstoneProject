@@ -1,7 +1,6 @@
 package edu.ben.dao;
 
-import java.util.List;
-
+import edu.ben.model.Offer;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.ben.model.Offer;
+import java.util.List;
 
 @Transactional
 @Repository
@@ -40,8 +39,8 @@ public class OfferDAOImpl implements OfferDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Offer> getOffersByUserId(int id) {
-		
-		Query q = getSession().createQuery("FROM offer WHERE user_id=:id");
+
+        Query q = getSession().createQuery("FROM offer WHERE offer_maker_id=:id OR offer_receiver_id=:id");
 		q.setParameter("id", id);
 		
 		return q.list();
@@ -50,8 +49,8 @@ public class OfferDAOImpl implements OfferDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Offer> getActiveOffersByUserId(int id) {
-		
-		Query q = getSession().createQuery("FROM offer WHERE user_id=:id AND active=1");
+
+        Query q = getSession().createQuery("FROM offer WHERE offer_maker_id=:id OR offer_receiver_id=:id AND active=1");
 		q.setParameter("id", id);
 		
 		return q.list();
@@ -82,14 +81,14 @@ public class OfferDAOImpl implements OfferDAO {
 		
 		Query q = getSession().createQuery("FROM offer WHERE offer_id=:id");
 		q.setParameter("id", id);
-		
-		return (Offer) q.list();
+
+        return (Offer) q.list().get(0);
 	}
 
 	@Override
 	public Offer getOfferByUserAndListingId(int userID, int listingID) {
-		
-		Query q = getSession().createQuery("FROM offer WHERE user_id=:userID AND listing_id=:listingID");
+
+        Query q = getSession().createQuery("FROM offer WHERE offer_maker_id=:userID OR offer_receiver_id=:userID AND listing_id=:listingID");
 		q.setParameter("userID", userID);
 		q.setParameter("listingID", listingID);
 		
@@ -105,7 +104,7 @@ public class OfferDAOImpl implements OfferDAO {
 	public List<Offer> getPendingOffersByUserId(int id) {
 		
 		String status = "pending";
-		Query q = getSession().createQuery("FROM offer WHERE user_id=:id AND status=:status");
+        Query q = getSession().createQuery("FROM offer WHERE offer_maker_id=:id OR offer_receiver_id=:id AND status=:status");
 		q.setParameter("id", id);
 		q.setParameter("status", status);
 		

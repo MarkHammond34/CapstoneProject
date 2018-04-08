@@ -6,10 +6,10 @@
 				<table
 					class="uk-table uk-table-hover uk-table-middle uk-table-divider">
 					<tbody>
-						<c:forEach var="offer" items="${offers}">
+					<c:forEach var="pickup" items="${pickUps}">
 							<tr>
 								<td><img class="uk-preserve-width uk-border-circle"
-										 uk-tooltip="${offer.userID.username}"
+										 uk-tooltip="${offer.offerMaker.username}"
 										 src="${pageContext.request.contextPath}/resources/img/profile-pic/default.jpeg"
 										 height="auto" width="40" alt=""></td>
 								<c:if

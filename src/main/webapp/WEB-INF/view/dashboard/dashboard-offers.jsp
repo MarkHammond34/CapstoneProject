@@ -9,7 +9,7 @@
                     <c:forEach var="offer" items="${offers}">
                         <tr>
                             <td><img class="uk-preserve-width uk-border-circle"
-                                     uk-tooltip="${offer.userID.username}"
+                                     uk-tooltip="${offer.offerMaker.username}"
                                      src="${pageContext.request.contextPath}/resources/img/profile-pic/default.jpeg"
                                      height="auto" width="40" alt=""></td>
                             <c:if
@@ -20,12 +20,24 @@
                             <td class="uk-text-nowrap">${offer.status}</td>
                             <td>
                                 <ul>
-                                    <li>
-                                        <button>Accept</button>
-                                    </li>
-                                    <li>
-                                        <button>Reject</button>
-                                    </li>
+                                    <c:if test="${offer.offerMaker.userID == user.userID && !offer.status.equals('countered')}">
+                                        <li>
+                                            <button href="">Accept</button>
+                                        </li>
+                                        <li>
+                                            <button href="">Reject</button>
+                                        </li>
+                                        <li>
+                                            <form method="get" action="/counterOffer">
+                                                <div class="uk-width-1-1">
+                                                    <input type="hidden" name="offerID" value="${offer.offerID}">
+                                                    <button type="submit"
+                                                            class="btn btn-primary">Counter
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </li>
+                                    </c:if>
                                 </ul>
                             </td>
                         </tr>
@@ -36,19 +48,3 @@
         </div>
     </div>
 </div>
-
-<!-- <div
-class="uk-panel uk-panel-scrollable uk-resize-vertical uk-height-large uk-padding-remove uk-background-secondary uk-border-rounded">
-<ul class="uk-nav uk-nav-default uk-child-width-1-3@m" uk-grid>
-<c:forEach var="listing" items="${listings}">
-    <li class="uk-padding-small"><div class="uk-panel uk-width-auto">
-    <a
-    href="${pageContext.request.contextPath}/listing?listingId=${listing.id}"><img
-    height="auto" width="85%"
-    class="uk-border-rounded uk-box-shadow-hover-large"
-    src="${pageContext.request.contextPath}/resources/img/listings/Wolverine.jpg"
-    alt=""></a>
-    </div></li>
-</c:forEach>
-</ul>
-</div> -->

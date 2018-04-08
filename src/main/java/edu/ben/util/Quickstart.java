@@ -148,7 +148,7 @@ public class Quickstart {
     	System.out.println("Start: " + startTime);
     	Event event = new Event()
     	    .setSummary(calendarEvent.getTitle())
-    	    .setLocation(calendarEvent.getLocation())
+    	    .setLocation("Krasa Student Center, Lisle, IL")
     	    .setDescription(calendarEvent.getDescription());
 
     	DateTime startDateTime = new DateTime(startTime + "-06:00");

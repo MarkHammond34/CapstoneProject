@@ -1,29 +1,17 @@
 package edu.ben.controller;
 
-import java.sql.Timestamp;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import edu.ben.util.PickUpRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-
-import edu.ben.model.Checklist;
 import edu.ben.model.Listing;
 import edu.ben.model.User;
-import edu.ben.service.ChecklistService;
-import edu.ben.service.ListingBidService;
-import edu.ben.service.ListingService;
-import edu.ben.service.NotificationService;
-import edu.ben.service.SearchHistoryService;
+import edu.ben.service.*;
 import edu.ben.util.Email;
-import edu.ben.util.ListingRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
+import java.util.List;
 
 @Controller
 public class HomeController extends BaseController {
@@ -63,7 +51,7 @@ public class HomeController extends BaseController {
 
 		User user = (User) request.getSession().getAttribute("user");
 
-		ListingRunner.run();
+		//ListingRunner.run();
 
 		//PickUpRunner.run();
 
