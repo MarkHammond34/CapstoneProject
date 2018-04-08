@@ -44,17 +44,22 @@ public class ChecklistDAOImpl implements ChecklistDAO {
 
     @Override
     public List getByUserID(int userID) {
-        Query q = getSession().createQuery("FROM checklist WHERE user_id=:id AND active=1");
+        Query q = getSession().createQuery("FROM checklist WHERE user_id=:id AND active=1 ORDER BY status ASC");
         q.setParameter("id", userID);
         return q.list();
     }
 
     @Override
     public Checklist getByUserIDAndType(int userID, String type) {
-        Query q = getSession().createQuery("FROM checklist WHERE user_id=:id AND type=:type AND active=1");
+        Query q = getSession().createQuery("FROM checklist WHERE user_id=:id AND type=:type AND active=1 ORDER BY status ASC");
         q.setParameter("id", userID);
         q.setParameter("type", type);
         return (Checklist) q.list().get(0);
+    }
+
+    @Override
+    public void delete(ChecklistItem item) {
+        getSession().delete(item);
     }
 
     @Override

@@ -12,7 +12,7 @@ public interface MessageDAO {
 
     public void createConversation(int user1, int user2);
 
-    public void createConversation(Conversation conversation);
+    public int createConversation(Conversation conversation);
 
     public List<Conversation> getConversation(int user1);
 
@@ -22,5 +22,5 @@ public interface MessageDAO {
 
     public void sendMessage(Message message);
 
-    public Conversation getConversationOrderByDateCreated(int user1ID, int user2ID);
+    public Conversation getConversationByID(int conversationID);
 }

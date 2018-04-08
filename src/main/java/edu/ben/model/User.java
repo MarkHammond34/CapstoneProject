@@ -2,14 +2,9 @@ package edu.ben.model;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -46,7 +41,7 @@ public class User {
     @Email
     @Size(max = 40, message = "Invalid Email")
     private String email;
-    
+
     @Column(unique = true, name = "phone_number")
     private String phoneNumber;
 
@@ -64,20 +59,15 @@ public class User {
     @Transient
     private String passwordConfirm;
 
+    @Column(name = "grade_level")
+    @NotNull
+    private int gradeLevel;
+
     @Transient
     private int securityLevel;
 
     @Column(name = "active")
     private int active;
-
-    @Column(name = "image_path")
-    private String image_path;
-
-    /**
-     * @AssertTrue(message = "Passwords Do Not Match") private boolean
-     * matchingPassword() { return
-     * this.password.equals(this.passwordConfirm); }
-     */
 
     @Column(name = "login_attempts")
     private int loginAttempts;
@@ -99,6 +89,9 @@ public class User {
 
     @Formula("(select avg(transaction.trans_rating) from transaction where transaction.seller_ID=user_ID)")
     private Integer sellerRating;
+
+    @OneToMany(mappedBy = "user",  fetch = FetchType.EAGER)
+    private List<Image> profileImages;
 
     public User() {
     }
@@ -201,8 +194,6 @@ public class User {
         this.passwordConfirm = passwordConfirm;
     }
 
-    // private int phoneNumber;
-
     public int getSecurity_level() {
         return securityLevel;
     }
@@ -239,14 +230,6 @@ public class User {
         this.adminLevel = i;
     }
 
-    public String getImage_path() {
-        return image_path;
-    }
-
-    public void setImage_path(String image_path) {
-        this.image_path = image_path;
-    }
-
     public Timestamp getDateModified() {
         return dateModified;
     }
@@ -278,7 +261,7 @@ public class User {
     public void setAdminLevel(int adminLevel) {
         this.adminLevel = adminLevel;
     }
-    
+
     public Integer getSellerRating() {
         return sellerRating;
     }
@@ -286,7 +269,19 @@ public class User {
     public void setSellerRating(Integer sellerRating) {
         this.sellerRating = sellerRating;
     }
-    
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getFormattedPhoneNumber() {
+        return "(" + phoneNumber.substring(0, 2) + ") " + phoneNumber.substring(3, 5) + "-" + phoneNumber.substring(6);
+    }
+
     public int getBanned() {
         return banned;
     }
@@ -294,9 +289,22 @@ public class User {
     public void setBanned(int banned) {
         this.banned = banned;
     }
-    
-    public String getTruncatedDate() {
-    	 java.sql.Date date = new java.sql.Date(dateCreated.getTime());
-         return new SimpleDateFormat("MM/dd/yyyy").format(date);
+
+    public int getGradeLevel() {
+        return gradeLevel;
     }
+
+    public void setGradeLevel(int gradeLevel) {
+        this.gradeLevel = gradeLevel;
+    }
+
+    public List<Image> getProfileImages() {
+        return profileImages;
+    }
+
+    public void setProfileImages(List<Image> profileImages) {
+        this.profileImages = profileImages;
+    }
+
+
 }

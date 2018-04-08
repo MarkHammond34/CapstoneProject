@@ -21,6 +21,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+        registry.addResourceHandler("/directory/**").addResourceLocations("file:"+System.getProperty("user.home")+"/");
     }
 
     @Bean

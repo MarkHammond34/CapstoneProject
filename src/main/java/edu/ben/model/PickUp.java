@@ -39,8 +39,11 @@ public class PickUp {
     @Column(name = "buyer_accept")
     private int buyerAccept;
 
-    @Column(name = "seller_accept")
-    private int sellerAccept;
+    @Column(name = "seller_verified")
+    private int sellerVerified;
+
+    @Column(name = "buyer_verified")
+    private int buyerVerified;
 
     @Column(name = "status")
     private String status;
@@ -148,11 +151,23 @@ public class PickUp {
         this.buyerAccept = buyerAccept;
     }
 
-    public int getSellerAccept() {
-        return sellerAccept;
+    public long getDelay() {
+        return pickUpTimestamp.getTime() - System.currentTimeMillis();
     }
 
-    public void setSellerAccept(int sellerAccept) {
-        this.sellerAccept = sellerAccept;
+    public int getSellerVerified() {
+        return sellerVerified;
+    }
+
+    public void setSellerVerified(int sellerVerified) {
+        this.sellerVerified = sellerVerified;
+    }
+
+    public int getBuyerVerified() {
+        return buyerVerified;
+    }
+
+    public void setBuyerVerified(int buyerVerified) {
+        this.buyerVerified = buyerVerified;
     }
 }

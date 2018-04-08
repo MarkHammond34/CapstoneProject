@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -44,5 +45,10 @@ public class PickUpServiceImpl implements PickUpService {
     @Override
     public void update(PickUp pickUp) {
         pickUpDAO.update(pickUp);
+    }
+
+    @Override
+    public List getAllActive() {
+        return pickUpDAO.getAllActive();
     }
 }

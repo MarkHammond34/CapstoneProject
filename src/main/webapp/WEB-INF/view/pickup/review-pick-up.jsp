@@ -1,35 +1,43 @@
-<%@include file="jspf/header.jsp" %>
-<body style="background-color: #e5e5e5">
-<%@include file="jspf/navbar.jspf" %>
+<%@include file="../jspf/header.jsp" %>
+<body class="uk-background-muted">
+<%@include file="../jspf/navbar.jspf" %>
 
-<%@include file="jspf/messages.jsp" %>
+<%@include file="../jspf/messages.jsp" %>
 
-<div class="uk-margin-medium-top uk-margin-large-bottom">
-    <form action="/pick-up-edit" method="post">
+<div class="uk-container">
+    <div class="uk-margin-large-bottom">
+
+        <ul class="uk-breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li><a href="/listing?l=${pickUp.transaction.listingID.id}">Listing</a></li>
+            <li><span>Pick Up</span></li>
+        </ul>
+
         <div class="uk-child-width-expand@s" uk-grid>
-
             <!-- Left Side -->
-            <div class="uk-width-2-3@m" style="height: 100%">
-                <h2 class="uk-heading-bullet uk-margin-medium-left">Pick Up Details
-                    <c:if test="${sessionScope.user.userID != message.user.userID}">
-                        <a onclick="toggleEditDetails();" uk-icon="icon: pencil"></a>
-                    </c:if>
-                </h2>
-                <div class="uk-card uk-card-default uk-margin-medium-left">
-                    <div class="uk-card-body" uk-grid>
-                        <div class="uk-float-left uk-width-1-3 uk-margin-auto-vertical">
-                            <ul class="uk-list">
+            <div class="uk-width-2-3@m uk-width-1-1@s" style="height: 100%">
+                <form action="/pick-up-edit" method="post">
+                    <h2 class="uk-heading">Pick Up Details
+                        <c:if test="${sessionScope.user.userID == pickUp.transaction.seller.userID}">
+                            <a onclick="toggleEditDetails();" uk-icon="icon: pencil"></a>
+                        </c:if>
+                    </h2>
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-body" uk-grid>
+                            <div class="uk-width-1-1 uk-margin-auto-vertical">
+                                <span class="uk-align-center">
                                 <c:choose>
-                                    <c:when test="${sessionScope.user.userID != message.user.userID}">
-                                        <li class="uk-width-1-1">
+                                    <c:when test="${sessionScope.user.userID == pickUp.transaction.seller.userID}">
+                                        <span class="uk-width-1-3@m uk-width-1-1@s uk-padding-small">
                                             <span class="uk-text-large">
                                             <strong style="color: #ff695c">Location: </strong>${pickUp.location.name}
                                                 <input id="editLocationName" style="display: none;" type="text"
                                                        class="uk-input"
                                                        name="newName" value="${pickUp.location.name}">
                                             </span>
-                                        </li>
-                                        <li class="uk-width-1-1 uk-margin-large-top"><span class="uk-text-large">
+                                        </span>
+                                        <span class="uk-width-1-3@m uk-width-1-1@s uk-padding-small"><span
+                                                class="uk-text-large">
                                         <strong
                                                 style="color: #ff695c">Date: </strong>
                                             <c:choose>
@@ -43,8 +51,8 @@
                                         </span>
                                             <input id="editDate" style="display: none;" type="date" class="uk-input"
                                                    name="newDate"></span>
-                                        </li>
-                                        <li class="uk-width-1-1 uk-margin-large-top"><span class="uk-text-large"><strong
+                                        <span class="uk-width-1-3@m uk-width-1-1@s uk-padding-small"><span
+                                                class="uk-text-large"><strong
                                                 style="color: #ff695c">Time: </strong>
                                                 <c:choose>
                                                     <c:when test="${pickUp.pickUpTime == null}">
@@ -56,39 +64,43 @@
                                                 </c:choose>
                                         <input id="editTime" style="display: none;" type="time" class="uk-input"
                                                name="newTime"></span>
-                                        </li>
+                                        </span>
                                         <input type="hidden" value="${pickUp.pickUpID}" name="pickUpID">
                                         <input type="hidden" id="newPosition" value="" name="newPosition">
                                     </c:when>
                                     <c:otherwise>
-                                        <li class="uk-width-1-1"><span class="uk-text-large"><strong
+                                        <span class="uk-width-1-3@m uk-width-1-1@s uk-padding-small"><span
+                                                class="uk-text-large"><strong
                                                 style="color: #ff695c">Location: </strong>${pickUp.location.name}</span>
-                                        </li>
-                                        <li class="uk-width-1-1 uk-margin-large-top"><span class="uk-text-large"><strong
+                                        </span>
+                                        <span class="uk-width-1-3@m uk-width-1-1@s uk-padding-small"><span
+                                                class="uk-text-large"><strong
                                                 style="color: #ff695c">Date: </strong>${pickUp.pickUpDate}</span>
-                                        </li>
-                                        <li class="uk-width-1-1 uk-margin-large-top"><span class="uk-text-large"><strong
+                                        </span>
+                                        <span class="uk-width-1-3@m uk-width-1-1@s uk-padding-small"><span
+                                                class="uk-text-large"><strong
                                                 style="color: #ff695c">Time: </strong>${pickUp.pickUpTime}</span>
-                                        </li>
+                                        </span>
                                     </c:otherwise>
                                 </c:choose>
-                            </ul>
-                        </div>
-                        <div class="uk-float-right uk-width-2-3">
-                            <div id="map" style="width:100%;height:400px;"></div>
+                                </span>
+                            </div>
+                            <div class="uk-width-1-1">
+                                <div id="map" style="width:100%;height:400px;"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <button id="editButton" style="display: none;" type="submit" onclick="setLatAndLong();"
-                        class="uk-float-left uk-margin-medium-left uk-margin-small-top uk-button-large uk-border-rounded uk-button-primary">
-                    Edit
-                </button>
+                    <button id="editButton" style="display: none;" type="submit" onclick="setLatAndLong();"
+                            class="uk-float-left uk-margin-medium-left uk-margin-small-top uk-button-large uk-border-rounded uk-button-primary uk-box-shadow-hover-large">
+                        Edit
+                    </button>
+                </form>
             </div>
 
             <!-- Right Side -->
-            <div class="uk-width-1-3@m">
-                <h2 class="uk-heading-bullet uk-margin-medium-left">Messages</h2>
-                <div class="uk-card uk-card-default uk-margin-medium-left uk-margin-medium-right">
+            <div class="uk-width-1-3@m uk-width-1-1@s">
+                <h2 class="uk-heading">Messages</h2>
+                <div class="uk-card uk-card-default">
                     <div class="uk-card-header">
                         <a class="uk-float-right" onclick="refreshPage(500);" title="Refresh"
                            uk-icon="icon: refresh"></a>
@@ -141,23 +153,45 @@
                            uk-icon="icon: chevron-right; ratio: 2"
                            onclick="sendMessage();"></a>
                     </div>
+                </div>
 
+                <!-- Display Appropriate Buttons -->
+                <div class="uk-width-1-3@s uk-width-1-1@m">
+                    <c:choose>
+
+                        <c:when test="${pickUp.buyerAccept == 0 && pickUp.transaction.seller.userID == sessionScope.user.userID}">
+                            <!-- Display Disabled Checkout Button -->
+                            <button title="Checkout"
+                                    onclick="showErrorMessage('Buyer Must Accept Before You Can Checkout');"
+                                    class="uk-button-default uk-button-large uk-border-rounded uk-margin-large-top uk-float-right uk-box-shadow-hover-large">
+                                Checkout
+                            </button>
+                        </c:when>
+
+                        <c:when test="${pickUp.buyerAccept == 0 && pickUp.transaction.buyer.userID == sessionScope.user.userID}">
+                            <!-- Display Accept Button -->
+                            <button title="Accept" uk-toggle="target: #acceptModal"
+                                    class="uk-button-primary uk-button-large uk-border-rounded uk-margin-large-top uk-float-right uk-box-shadow-hover-large">
+                                Accept Pick Up
+                            </button>
+                        </c:when>
+
+                        <c:when test="${pickUp.buyerAccept == 1 && pickUp.transaction.transactionType == 'pending checkout'}">
+                            <!-- Display Checkout Button -->
+                            <form action="/checkout" method="get">
+                                <input name="l" type="hidden"
+                                       value="${pickUp.transaction.listingID.id}">
+                                <button title="Checkout" type="submit"
+                                        class="uk-button-primary uk-button-large uk-border-rounded uk-margin-large-top uk-float-right uk-box-shadow-hover-large">
+                                    Checkout
+                                </button>
+                            </form>
+                        </c:when>
+                    </c:choose>
                 </div>
             </div>
-
-            <!-- Accept Pick Up Button -->
-            <div class="uk-width-1-1">
-                <button title="Accept" uk-toggle="target: #acceptModal"
-                        class="uk-button-primary uk-button-large uk-border-rounded uk-float-right uk-margin-medium-left"
-                        <c:if test="${pickUp.pickUpDate == null}">
-                            disabled
-                        </c:if>>
-                    Accept
-                    Pick Up
-                </button>
-            </div>
         </div>
-    </form>
+    </div>
 </div>
 
 <div id="acceptModal" uk-modal>
@@ -180,18 +214,15 @@
                 </li>
             </ul>
         </div>
-        <form>
+        <form action="/pick-up-accept" method="post">
             <div class="uk-modal-footer">
-                <input name="userID" type="hidden" value="${sessionScope.user.userID}">
                 <input name="pickUpID" type="hidden" value="${pickUp.pickUpID}">
-                <button class="uk-button-primary uk-float-right uk-button-large uk-border-rounded" type="button">Accept
+                <button class="uk-button-primary uk-float-right uk-button-large uk-border-rounded" type="submit">Accept
                 </button>
             </div>
         </form>
     </div>
 </div>
-
-<%@include file="jspf/footer.jspf" %>
 
 <script>
     var map;
@@ -211,8 +242,7 @@
             map: map,
             animation: google.maps.Animation.DROP,
             title: 'Meeting Location'
-        })
-        marker.addListener('click', toggleBounce);
+        });
     }
 
     function sendMessage() {
@@ -270,6 +300,120 @@
         google.maps.event.addListener(marker, 'dragend', function (evt) {
             document.getElementById("newPosition").value = marker.position;
         });
+    }
+
+    function showErrorMessage(message) {
+
+        // Get message box
+        var messageBox = document.getElementById("messageBox");
+
+        // Create a new error div
+        var newErrorDiv = document.createElement("DIV");
+
+        // Add style to newErrorDiv
+        newErrorDiv.style.textAlign = "center";
+        newErrorDiv.style.marginTop = "40px";
+
+        // Add uk-alert-success as a class
+        var newErrorDivClass = document.createAttribute("class");
+        newErrorDivClass.value = "uk-alert-danger";
+        newErrorDiv.setAttributeNode(newErrorDivClass);
+        newErrorDiv.setAttributeNode(document.createAttribute("uk-alert"));
+
+        // Add alert close anchor
+        var newErrorDivClose = document.createElement("A");
+        var newErrorDivCloseClass = document.createAttribute("class");
+        newErrorDivCloseClass.value = "uk-alert-close";
+        newErrorDivClose.setAttributeNode(newErrorDivCloseClass);
+        newErrorDivClose.setAttributeNode(document.createAttribute("uk-close"));
+
+        // Add anchor to newErrorDiv
+        newErrorDiv.appendChild(newErrorDivClose);
+
+        // Add error message p to newErrorDiv
+        var newErrorDivPara = document.createElement("P");
+        newErrorDivPara.appendChild(document.createTextNode(message));
+        newErrorDiv.appendChild(newErrorDivPara);
+
+        // Add error div to message box
+        messageBox.appendChild(newErrorDiv);
+
+    }
+
+    function showWarningMessage(message) {
+
+        // Get message box
+        var messageBox = document.getElementById("messageBox");
+
+        // Create a new warning div
+        var newWarningDiv = document.createElement("DIV");
+
+        // Add style to newWarning
+        newWarningDiv.style.textAlign = "center";
+        newWarningDiv.style.marginTop = "40px";
+
+        // Add uk-alert-warning as a class
+        var newWarningDivClass = document.createAttribute("class");
+        newWarningDivClass.value = "uk-alert-warning";
+        newWarningDiv.setAttributeNode(newWarningDivClass);
+        newWarningDiv.setAttributeNode(document.createAttribute("uk-alert"));
+
+        // Add alert close anchor
+        var newWarningDivClose = document.createElement("A");
+        var newWarningDivCloseClass = document.createAttribute("class");
+        newWarningDivCloseClass.value = "uk-alert-close";
+        newWarningDivClose.setAttributeNode(newWarningDivCloseClass);
+        newWarningDivClose.setAttributeNode(document.createAttribute("uk-close"));
+
+        // Add anchor to newWarningDiv
+        newWarningDiv.appendChild(newWarningDivClose);
+
+        // Add warning message p to newErrorDiv
+        var newWarningDivPara = document.createElement("P");
+        newWarningDivPara.appendChild(document.createTextNode(message));
+        newWarningDiv.appendChild(newErrorDivPara);
+
+        // Add warning div to message box
+        messageBox.appendChild(newWarningDiv);
+
+    }
+
+    function showSuccessMessage(message) {
+
+        // Get message box
+        var messageBox = document.getElementById("messageBox");
+
+        // Create a new success div
+        var newSuccessDiv = document.createElement("DIV");
+
+        // Add style to newWarning
+        newSuccessDiv.style.textAlign = "center";
+        newSuccessDiv.style.marginTop = "40px";
+
+        // Add uk-alert-warning as a class
+        var newSuccessDivClass = document.createAttribute("class");
+        newSuccessDivClass.value = "uk-alert-success";
+        newSuccessDiv.setAttributeNode(newSuccessDivClass);
+        newSuccessDiv.setAttributeNode(document.createAttribute("uk-alert"));
+
+        // Add alert close anchor
+        var newSuccessDivClose = document.createElement("A");
+        var newSuccessDivCloseClass = document.createAttribute("class");
+        newSuccessDivCloseClass.value = "uk-alert-close";
+        newSuccessDivClose.setAttributeNode(newSuccessDivCloseClass);
+        newSuccessDivClose.setAttributeNode(document.createAttribute("uk-close"));
+
+        // Add anchor to newSuccessDiv
+        newSuccessDiv.appendChild(newSuccessDivClose);
+
+        // Add success message p to newErrorDiv
+        var newSuccessDivPara = document.createElement("P");
+        newSuccessDivPara.appendChild(document.createTextNode(message));
+        newSuccessDiv.appendChild(newSuccessDivPara);
+
+        // Add success div to message box
+        messageBox.appendChild(newSuccessDiv);
+
     }
 
 </script>

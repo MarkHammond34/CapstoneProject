@@ -49,6 +49,9 @@ public class ListingServiceImpl implements ListingService {
         ld.deleteListing(id);
     }
 
+    @Override
+    public int save(Listing listing) { return ld.save(listing); }
+
 
     @Override
     public void saveOrUpdate(Listing listing) {

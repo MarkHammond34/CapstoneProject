@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -18,8 +19,8 @@ public class LocationServiceImpl implements LocationService {
         this.locationDAO = locationDAO;
     }
 
-    public void save(Location location) {
-        locationDAO.save(location);
+    public int save(Location location) {
+        return locationDAO.save(location);
     }
 
     @Override
@@ -32,7 +33,27 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    public Location getByLocationID(int id) {
+        try {
+            return locationDAO.getByLocationID(id);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+    }
+
+    @Override
     public void update(Location location) {
         locationDAO.update(location);
     }
+
+    @Override
+    public List getAllLocations() {
+        return locationDAO.getAllLocations();
+    }
+
+    @Override
+    public List getAllSafeZones() {
+        return locationDAO.getAllSafeZones();
+    }
+
 }

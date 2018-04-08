@@ -1,15 +1,10 @@
 package edu.ben.controller;
 
-import edu.ben.model.Dispute;
-import edu.ben.model.Listing;
-import edu.ben.model.Notification;
-import edu.ben.model.User;
-import edu.ben.service.DisputeService;
-import edu.ben.service.ListingService;
-import edu.ben.service.NotificationService;
-import edu.ben.service.UserService;
+import edu.ben.model.*;
+import edu.ben.service.*;
 import edu.ben.util.Email;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +27,15 @@ public class AdminController extends BaseController {
 
     @Autowired
     NotificationService notificationService;
+
+    @Autowired
+    LocationService locationService;
+
+    @Autowired
+    ChecklistService checklistService;
+
+    @Autowired
+    Environment environment;
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin(HttpServletRequest request) {
@@ -62,7 +66,7 @@ public class AdminController extends BaseController {
         userService.lockByUsername(usr.getUsername());
         return "redirect:adminUser";
     }
-    
+
     @RequestMapping(value = "adminUnban", method = RequestMethod.POST)
     public String adminUnban(HttpServletRequest request) {
         User usr = userService.findBySchoolEmail(request.getParameter("ban"));
@@ -144,11 +148,11 @@ public class AdminController extends BaseController {
             addErrorMessage("Incorrect value for username");
         } else if (phoneNumber.length() != 10) {
             addErrorMessage("Incorrect value for phone number");
-        } else if ((pattern.matcher(email).matches())){
+        } else if ((pattern.matcher(email).matches())) {
             addErrorMessage("Incorrect value for email");
         } else if ((pattern.matcher(schoolEmail).matches())) {
             addErrorMessage("Incorrect value for school email");
-        } else if(password.length() > 8){
+        } else if (password.length() > 8) {
             addErrorMessage("Incorrect value for password");
         } else {
             usr.setFirstName(firstName);
@@ -184,6 +188,108 @@ public class AdminController extends BaseController {
         request.setAttribute("title", "Disputes");
         request.setAttribute("disputes", disputeService.getAllActive());
         return "admin/admin-disputes";
+    }
+
+    @GetMapping("/adminLocations")
+    public String locations(HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null && user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "login";
+        }
+
+        request.setAttribute("lat", environment.getProperty("school.latitude"));
+        request.setAttribute("lng", environment.getProperty("school.longitude"));
+
+        request.setAttribute("title", "Locations");
+
+        List<Location> locations = locationService.getAllLocations();
+        request.setAttribute("locations", locations);
+        request.setAttribute("locationCount", locations.size());
+
+        request.setAttribute("safeZones", locationService.getAllSafeZones());
+        return "admin/admin-locations";
+    }
+
+    @PostMapping("/createSafeZone")
+    public String createSafeZone(HttpServletRequest request, @RequestParam("name") String name,
+                                 @RequestParam("position") String position) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null && user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "login";
+        }
+
+        Location newLocation = new Location();
+        newLocation.setName(name);
+        newLocation.setSafeZone(1);
+        newLocation.setActive(1);
+
+        int commaIndex = position.indexOf(',');
+
+        newLocation.setLatitude(Float.parseFloat(position.substring(1, commaIndex)));
+        newLocation.setLongitude(Float.parseFloat(position.substring(commaIndex + 2, (position.length() - 1))));
+
+        locationService.save(newLocation);
+
+        addSuccessMessage("Safe Zone Created");
+        setRequest(request);
+        return "redirect:" + request.getHeader("Referer");
+    }
+
+    @PostMapping("/editSafeZone")
+    public String editSafeZone(HttpServletRequest request, @RequestParam("locationID") int locationID,
+                               @RequestParam("newName") String newName,
+                               @RequestParam("newLat") float newLat, @RequestParam("newLng") float newLng) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null && user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "login";
+        }
+
+        Location location = locationService.getByLocationID(locationID);
+
+        if (!newName.equals("")) {
+            location.setName(newName);
+        }
+
+        location.setLatitude(newLat);
+        location.setLongitude(newLng);
+
+        locationService.update(location);
+
+        addSuccessMessage("Safe Zone Updated");
+        setRequest(request);
+        return "redirect:" + request.getHeader("Referer");
+    }
+
+    @PostMapping("/deleteSafeZone")
+    public String editSafeZone(HttpServletRequest request, @RequestParam("locationID") int locationID) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null && user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "login";
+        }
+
+        Location location = locationService.getByLocationID(locationID);
+        location.setActive(0);
+        locationService.update(location);
+
+        addSuccessMessage("Safe Zone Updated");
+        setRequest(request);
+        return "redirect:" + request.getHeader("Referer");
     }
 
     @PostMapping("/contactUser")
@@ -258,5 +364,105 @@ public class AdminController extends BaseController {
         addSuccessMessage("Follow Up Email Sent");
         setRequest(request);
         return "redirect:/adminDisputes";
+    }
+
+    @GetMapping("/adminChecklist")
+    public String checklist(HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null && user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "login";
+        }
+
+        request.setAttribute("title", "Checklist");
+        request.setAttribute("defaultChecklist", checklistService.getAdminChecklist());
+        return "admin/admin-checklist";
+
+    }
+
+    @PostMapping("/adminAddChecklistItem")
+    public String addChecklistItem(HttpServletRequest request, @RequestParam("newItemName") String newItemName) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null && user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "login";
+        }
+
+        // Get admin checklist
+        Checklist checklist = checklistService.getAdminChecklist();
+
+        if (checklist == null) {
+            addErrorMessage("Error Loading Checklist");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        ChecklistItem newItem = new ChecklistItem(checklist, newItemName);
+
+        // Check if new item already exits
+        for (ChecklistItem item : checklist.getItems()) {
+            if (item.getName().equals(newItemName)) {
+                addWarningMessage(newItemName + " Already Exists");
+                setRequest(request);
+                return "redirect:" + request.getHeader("Referer");
+            }
+        }
+
+        checklistService.save(newItem);
+        addSuccessMessage(newItemName + " Added To Default Checklist");
+        setRequest(request);
+
+        return "redirect:" + request.getHeader("Referer");
+
+    }
+
+    @PostMapping("/adminRemoveChecklistItem")
+    public String addChecklistItem(HttpServletRequest request, @RequestParam("itemID") int itemID) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null && user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "login";
+        }
+
+        // Get admin checklist
+        Checklist checklist = checklistService.getAdminChecklist();
+
+        if (checklist == null) {
+            addErrorMessage("Error Loading Checklist");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        ChecklistItem item = null;
+
+        // Check if item exits
+        for (ChecklistItem i : checklist.getItems()) {
+            if (i.getItemID() == itemID) {
+                item = i;
+            }
+        }
+
+        if (item == null) {
+            addErrorMessage("Removal Error: Item Does Not Exist");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        checklistService.delete(item);
+
+        addSuccessMessage(item.getName() + " Removed From Default Checklist");
+        setRequest(request);
+
+        return "redirect:" + request.getHeader("Referer");
+
     }
 }

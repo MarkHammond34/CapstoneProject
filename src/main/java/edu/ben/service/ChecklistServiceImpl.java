@@ -72,4 +72,9 @@ public class ChecklistServiceImpl implements ChecklistService {
             return null;
         }
     }
+
+    @Override
+    public void delete(ChecklistItem item) {
+        checklistDAO.delete(item);
+    }
 }

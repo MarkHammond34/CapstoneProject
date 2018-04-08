@@ -8,6 +8,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class PickUpDAOImpl implements PickUpDAO {
 
@@ -40,5 +42,10 @@ public class PickUpDAOImpl implements PickUpDAO {
         Query q = getSession().createQuery("FROM pick_up WHERE pick_up_id=:id");
         q.setParameter("id", id);
         return (PickUp) q.list().get(0);
+    }
+
+    @Override
+    public List getAllActive() {
+        return getSession().createQuery("FROM pick_up WHERE active=1").list();
     }
 }
