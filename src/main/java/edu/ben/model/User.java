@@ -93,6 +93,12 @@ public class User {
     @OneToMany(mappedBy = "user",  fetch = FetchType.EAGER)
     private List<Image> profileImages;
 
+//    @OneToOne(fetch = FetchType.LAZY,
+//            cascade = CascadeType.ALL,
+//            mappedBy = "user")
+    @Transient
+    private Tutorial tutorial;
+
     public User() {
     }
 
