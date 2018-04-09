@@ -40,7 +40,7 @@ public interface UserService {
 
 	public List<User> getListingLosers(int listingID, int winnerID);
 	
-    public List<User> searchUser(String search);
+    public List searchUser(String search);
 
 	public List<User> getDisputeResolvingAdmins();
 }

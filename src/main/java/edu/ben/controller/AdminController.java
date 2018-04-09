@@ -97,6 +97,18 @@ public class AdminController extends BaseController {
         return "redirect:adminUser";
     }
 
+    @RequestMapping(value = "adminDeleteListing", method = RequestMethod.POST)
+    public String adminDeleteListing(HttpServletRequest request) {
+        Listing listing = listingService.getByListingID(Integer.parseInt(request.getParameter("adminDeleteListing")));
+        listingService.deleteListing(listing.getId());
+        return "redirect:adminListing";
+    }
+
+    @GetMapping("/editListing")
+    public String editListing() {
+        return "editListing";
+    }
+
     @RequestMapping(value = "adminCreateUser", method = RequestMethod.POST)
     public String adminCreateUser(HttpServletRequest request) {
         User user = new User();
