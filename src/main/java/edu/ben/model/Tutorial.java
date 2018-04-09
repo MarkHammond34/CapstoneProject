@@ -7,10 +7,8 @@ import javax.persistence.*;
 public class Tutorial {
 
     @Id
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            mappedBy = "tutorial")
-    private User user;
+    @Column(name = "user_id")
+    private int user_id;
 
     @Column(name = "viewed_home")
     private int viewedHome;
@@ -33,8 +31,8 @@ public class Tutorial {
     public Tutorial() {
     }
 
-    public Tutorial(User user) {
-        this.user = user;
+    public Tutorial(int userID) {
+        this.user_id = userID;
         this.viewedHome = 0;
         this.viewedListing = 0;
         this.viewedDashboard = 0;
@@ -43,12 +41,12 @@ public class Tutorial {
         this.viewedSavedSearch = 0;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserID() {
+        return user_id;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserID(int user_id) {
+        this.user_id = user_id;
     }
 
     public int getViewedHome() {

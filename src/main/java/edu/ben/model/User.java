@@ -87,17 +87,11 @@ public class User {
     private int banned;
 
     @Formula("(select avg(transaction.trans_rating) from transaction where transaction.seller_ID=user_ID)")
-    @Column(name="seller_rating")
+    @Column(name = "seller_rating")
     private Integer sellerRating;
 
-    @OneToMany(mappedBy = "user",  fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Image> profileImages;
-
-//    @OneToOne(fetch = FetchType.LAZY,
-//            cascade = CascadeType.ALL,
-//            mappedBy = "user")
-    @Transient
-    private Tutorial tutorial;
 
     public User() {
     }

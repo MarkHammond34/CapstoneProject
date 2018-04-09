@@ -1,6 +1,7 @@
 package edu.ben.service;
 
 import edu.ben.dao.TutorialDAO;
+import edu.ben.dao.UserDAO;
 import edu.ben.model.Tutorial;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TutorialServiceImpl implements TutorialService {
 
-    private TutorialDAO tutorialDAO;
+    TutorialDAO tutorialDAO;
 
     @Autowired
-    public void setTutorialDAO(TutorialDAO tutorialDAO) {
+    public void setUserDAO(TutorialDAO tutorialDAO) {
         this.tutorialDAO = tutorialDAO;
     }
 
