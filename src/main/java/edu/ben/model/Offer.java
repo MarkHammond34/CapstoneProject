@@ -22,15 +22,11 @@ public class Offer {
     private String offerMessage;
 
     @OneToOne
-    @JoinColumn(name = "offer_maker_id_")
-
-    @Transient
+    @JoinColumn(name = "offer_maker_id")
     private User offerMaker;
 
     @OneToOne
     @JoinColumn(name = "offer_receiver_id")
-
-    @Transient
     private User offerReceiver;
 
     @OneToOne
@@ -138,5 +134,19 @@ public class Offer {
 
     public void setOfferReceiver(User offerReceiver) {
         this.offerReceiver = offerReceiver;
+    }
+
+    @Override
+    public String toString() {
+        return "Offer{" +
+                "offerID=" + offerID +
+                ", offerAmount=" + offerAmount +
+                ", offerMessage='" + offerMessage + '\'' +
+                ", offerMaker=" + offerMaker +
+                ", offerReceiver=" + offerReceiver +
+                ", listingID=" + listingID +
+                ", status='" + status + '\'' +
+                ", active=" + active +
+                '}';
     }
 }

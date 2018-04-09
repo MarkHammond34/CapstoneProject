@@ -20,7 +20,7 @@
                             <td class="uk-text-nowrap">${offer.status}</td>
                             <td>
                                 <ul>
-                                    <c:if test="${offer.offerMaker.userID == user.userID && !offer.status.equals('countered')}">
+                                    <c:if test="${offer.offerMaker.userID != user.userID && !offer.status.equals('countered')}">
                                         <li>
                                             <button href="">Accept</button>
                                         </li>

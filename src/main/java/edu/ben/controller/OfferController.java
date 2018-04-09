@@ -236,6 +236,8 @@ public class OfferController extends BaseController {
 
 		Offer initial = offerService.getOfferById(offerID);
 
+		System.out.println("Initial= " + initial);
+
 		model.addObject("initial", initial);
 
 		return model;
@@ -245,21 +247,22 @@ public class OfferController extends BaseController {
 	public ModelAndView confirmCounterOffer(@RequestParam("initial") int initial, @RequestParam("offer-amount") int price,
 											@RequestParam("offer-message") String message, HttpServletRequest request) {
 
-		ModelAndView model = new ModelAndView("dashboard2");
+		ModelAndView model = new ModelAndView("redirect:/dashboard");
 
 		Offer initialOffer = offerService.getOfferById(initial);
 		System.out.println();
-		System.out.println(initialOffer.getOfferID());
+		System.out.println("Initial offer ID: " + initialOffer.getOfferID());
 		User offerMaker = (User) request.getSession().getAttribute("user");
 		Offer newOffer;
 
 		try {
 
-			System.out.println();
-			System.out.println(offerMaker.getFirstName());
-			System.out.println(offerMaker.getUserID());
 			User offerReceiver = userService.getUserById(offerMaker.getUserID());
 			newOffer = new Offer(price, message, offerMaker, offerReceiver, initialOffer.getListingID(), "pending");
+
+			System.out.println("Offer maker ID: " + offerMaker.getUserID());
+			System.out.println("Offer receiver ID: " + offerReceiver.getUserID());
+			System.out.println("New offer: " + newOffer);
 
 			// Update old offer
 			initialOffer.setStatus("countered");

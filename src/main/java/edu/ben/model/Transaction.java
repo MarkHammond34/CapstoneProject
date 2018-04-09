@@ -1,17 +1,9 @@
 package edu.ben.model;
 
-import java.sql.Timestamp;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity(name = "transaction")
 @Table(name = "transaction")
@@ -23,12 +15,6 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    /*	@Column(name="buyer_ID")
-        private int buyerID;
-
-        @Column(name="seller_ID")
-        private int sellerID;
-    */
     @OneToOne
     @JoinColumn(name = "listing_ID")
     private Listing listingID;

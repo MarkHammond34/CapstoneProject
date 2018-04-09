@@ -45,27 +45,39 @@ public class DashboardController {
     }
 
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-    public ModelAndView showDashboard() {
+    public ModelAndView showDashboard(HttpServletRequest request) {
+
+        if (request.getSession(false) == null) {
+
+            return new ModelAndView("redirect:/"); // Might change to different page later. Maybe login page.
+        } else {
+            System.out.println("Already a session");
+        }
 
         ModelAndView model = new ModelAndView("dashboard2");
 
         List<Listing> listings = listingService.getAllListings();
+        int allSize = listings.size();
         List<Listing> activeListings = listingService.getActiveListingsByUserId(12);
+        int activeSize = activeListings.size();
         List<Listing> inactiveListings = listingService.getInActiveListingsByUserId(12);
+        int inactiveSize = inactiveListings.size();
         List<Offer> offers = offerService.getOffersByUserId(14);
         List<Transaction> transactions = transactionService.getTransactionsByUserID(9);
 
-        System.out.println(listings.get(0).getDateCreated().getTime());
-        System.out.println(listings.size());
-        System.out.println(activeListings.size());
-        System.out.println(inactiveListings.size());
-        System.out.println(offers.size());
-        System.out.println(transactions.size());
+        System.out.println("Date created: " + listings.get(0).getDateCreated().getTime());
+//        System.out.println(listings.size());
+//        System.out.println(activeListings.size());
+//        System.out.println(inactiveListings.size());
+//        System.out.println(offers.size());
+//        System.out.println(transactions.size());
 
         model.addObject("title", "Dashboard");
+
         model.addObject("allListings", listings);
         model.addObject("activeListings", activeListings);
         model.addObject("inactiveListings", inactiveListings);
+
         model.addObject("offers", offers);
         model.addObject("transactions", transactions);
 
@@ -129,45 +141,6 @@ public class DashboardController {
         return model;
 
     }
-
-    //
-    // @RequestMapping(value = "/filterAllListings", method = RequestMethod.GET)
-    // public ModelAndView filterAllListings(HttpServletRequest request) {
-    //
-    // ModelAndView model = new ModelAndView("dashboard2");
-    //
-    // User user = (User) request.getAttribute("user");
-    //
-    // List<Listing> listings =
-    // listingService.getAllListingsByUserID(user.getUserID());
-    //
-    // System.out.println(listings.size());
-    //
-    // model.addObject("title", "Dashboard");
-    // model.addObject("listings", listings);
-    //
-    // return model;
-    //
-    // }
-    //
-    // @RequestMapping(value = "/filterAllListings", method = RequestMethod.GET)
-    // public ModelAndView filterAllListings(HttpServletRequest request) {
-    //
-    // ModelAndView model = new ModelAndView("dashboard2");
-    //
-    // User user = (User) request.getAttribute("user");
-    //
-    // List<Listing> listings =
-    // listingService.getAllListingsByUserID(user.getUserID());
-    //
-    // System.out.println(listings.size());
-    //
-    // model.addObject("title", "Dashboard");
-    // model.addObject("listings", listings);
-    //
-    // return model;
-    //
-    // }
 
     @RequestMapping(value = "/dashboardTest", method = RequestMethod.GET)
     public ModelAndView test() {
