@@ -50,7 +50,7 @@ public class ListingBidDAOImpl implements ListingBidDAO {
 
     @Override
     public User getHighestBidderByListingID(int listingID, int userID) {
-        SQLQuery q = getSession().createSQLQuery("SELECT * FROM user WHERE user_ID = (SELECT user_id FROM listing_bid WHERE listing_id =:listingID AND active=1 AND bid_value = (SELECT MAX(bid_value) FROM listing_bid WHERE listing_id=:listingID AND active=1 AND user_id!=:userID))").addEntity(User.class);
+        Query q = getSession().createQuery("FROM user WHERE user_ID = (SELECT user_id FROM listing_bid WHERE listing_id =:listingID AND active=1 AND bid_value = (SELECT MAX(bid_value) FROM listing_bid WHERE listing_id=:listingID AND active=1 AND user_id!=:userID))");
         q.setParameter("listingID", listingID);
         q.setParameter("userID", userID);
 

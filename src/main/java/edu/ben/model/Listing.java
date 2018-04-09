@@ -1,5 +1,6 @@
 package edu.ben.model;
 
+import org.hibernate.annotations.JoinColumnOrFormula;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
@@ -52,11 +53,9 @@ public class Listing implements java.io.Serializable {
     private User highestBidder;
 
     @Column(name = "highest_bid")
-    // @Nullable
     private Integer highestBid;
 
     @Column(name = "bid_count")
-    // @Nullable
     private int bidCount;
 
     @Column(name = "start_timestamp")

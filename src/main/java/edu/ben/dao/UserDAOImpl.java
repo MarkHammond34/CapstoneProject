@@ -165,9 +165,8 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public List<User> getListingLosers(int listingID, int winnerID) {
-		Query q = getSession().createSQLQuery(
-				"SELECT * FROM user WHERE user_ID IN (SELECT user_id FROM listing_bid WHERE listing_id=:listingID AND user_id !=:winnerID);")
-				.addEntity(User.class);
+		Query q = getSession().createQuery(
+				"FROM user as u WHERE user_ID IN (SELECT l.user_id FROM listing_bid as l WHERE l.listing_id=:listingID AND l.user_id !=:winnerID)");
 		q.setParameter("listingID", listingID);
 		q.setParameter("winnerID", winnerID);
 		return q.list();
