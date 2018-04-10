@@ -2,6 +2,7 @@ package edu.ben.model;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.text.SimpleDateFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -305,6 +306,13 @@ public class User {
     public void setProfileImages(List<Image> profileImages) {
         this.profileImages = profileImages;
     }
+
+    public String getTruncatedDate() {
+        java.sql.Date date = new java.sql.Date(dateCreated.getTime());
+        return new SimpleDateFormat("MM/dd/yyyy").format(date);
+    }
+
+
 
 
 }
