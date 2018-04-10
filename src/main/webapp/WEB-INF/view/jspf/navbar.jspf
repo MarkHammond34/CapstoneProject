@@ -160,7 +160,7 @@
             <c:if test="${sessionScope.user != null}">
                 <li class="uk-nav-divider"></li>
                 <li><a
-                        href="${pageContext.request.contextPath}/viewProfile?userId=${sessionScope.user.userID}"><span
+                        href="${pageContext.request.contextPath}/viewProfile?id=${sessionScope.user.userID}"><span
                         class="uk-margin-small-right" uk-icon="icon: user"></span>Profile</a></li>
                 <li class="uk-nav-divider"></li>
                 <li><a
