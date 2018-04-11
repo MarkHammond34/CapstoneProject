@@ -278,7 +278,7 @@
                 </div>
             </div>
             -->
-
+            <div id="paypal-button"></div>
             <button class="uk-button-large uk-border-rounded uk-button-primary uk-float-right uk-margin-large-top uk-box-shadow-hover-large">
                 Finish
             </button>
@@ -350,7 +350,8 @@
 
                             // The payment is complete!
                             // You can now show a confirmation message to the customer
-                            window.alert('Payment Complete!');
+                            window.alert('Payment of ' + payment + ' Complete!');
+                            // Can use ajax to do things for the db or can return a better page back to the jsp
                         });
                 },
                 onCancel: function (data, actions) {

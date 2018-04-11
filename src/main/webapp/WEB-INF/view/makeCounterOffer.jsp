@@ -17,6 +17,9 @@
                         <br style="clear: both">
                         <h3 style="margin-bottom: 15px; text-align: center;">Make an
                             offer</h3>
+
+                        <hr class="colorgraph uk-width-1-1 uk-align-center">
+
                         <div class="uk-width-1-1">
                             <strong>Price</strong><input type="number" class="uk-input"
                                                          id="price" name="offer-amount" value="${initial.offerAmount}"
@@ -30,6 +33,8 @@
                                                         class="help-block "></span>
                             <input type="hidden" name="initial" value="${initial.offerID}">
                         </div>
+
+                        <hr class="colorgraph uk-width-1-1 uk-align-center">
 
                         <div class="uk-width-1-1">
                             <button type="submit" id="submit" name="submit"

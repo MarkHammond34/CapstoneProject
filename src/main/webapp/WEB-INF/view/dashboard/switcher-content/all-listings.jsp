@@ -14,16 +14,20 @@
                                 <div class="uk-align-center" uk-slideshow="autoplay-interval: 2000" uk-slideshow>
                                     <ul class="uk-slideshow-items">
                                         <c:forEach items="${listing.images}" var="listingImages">
-                                            <li>
-                                                <div class="uk-position-center">
-                                                    <a href="${pageContext.request.contextPath}/directory/${listingImages.image_path}/${listingImages.image_name}"
-                                                       title="Image" class="thumbnail"><img
-                                                            src="${pageContext.request.contextPath}/directory/${listingImages.image_path}/${listingImages.image_name}"
-                                                            alt="Listing" ukcover><a href="edit?listing=${listing.id}"
-                                                                                     class="uk-icon-link uk-margin-small-right"
-                                                                                     uk-icon="file-edit"></a></a>
-                                                </div>
-                                            </li>
+                                            <div class="uk-lightbox">
+                                                <li>
+                                                    <div class="uk-position-center">
+                                                        <a href="${pageContext.request.contextPath}/directory/${listingImages.image_path}/${listingImages.image_name}"
+                                                           title="Image" class="thumbnail"><img height="auto"
+                                                                                                width="30%"
+                                                                                                src="${pageContext.request.contextPath}/directory/${listingImages.image_path}/${listingImages.image_name}"
+                                                                                                alt="Listing" ukcover><a
+                                                                href="edit?listing=${listing.id}"
+                                                                class="uk-icon-link uk-margin-small-right"
+                                                                uk-icon="file-edit"></a></a>
+                                                    </div>
+                                                </li>
+                                            </div>
                                         </c:forEach>
                                     </ul>
                                     <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#"
@@ -34,9 +38,9 @@
                                 <!-- Saran -->
                             </c:if>
                             <c:if test="${listing.images.size() == 1}">
-                                <a href="${pageContext.request.contextPath}/directory/${listingImages.image_path}/${listingImages.image_name}"
-                                   title="Image" class="thumbnail"><img
-                                        src="${pageContext.request.contextPath}/directory/${listingImages.image_path}/${listingImages.image_name}"
+                                <a href="${pageContext.request.contextPath}/directory/${listing.images.get(0).image_path}/${listing.images.get(0).image_name}"
+                                   title="Image" class="thumbnail"><img height="auto" width="80%"
+                                                                        src="${pageContext.request.contextPath}/directory/${listing.images.get(0).image_path}/${listing.images.get(0).image_name}"
                                         alt="Listing" ukcover><a href="edit?listing=${listing.id}"
                                                                  class="uk-icon-link uk-margin-small-right"
                                                                  uk-icon="file-edit"></a></a>

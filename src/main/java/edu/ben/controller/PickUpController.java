@@ -41,6 +41,9 @@ public class PickUpController extends BaseController {
     @Autowired
     private Environment environment;
 
+    @Autowired
+    TutorialService tutorialService;
+
     @PostMapping("/pick-up-accept")
     public String pickUpConfirm(HttpServletRequest request, @RequestParam("pickUpID") int pickUpID) {
 
@@ -172,6 +175,16 @@ public class PickUpController extends BaseController {
                 pickUp.getStatus().equals("PICK UP MISSED")) {
             addWarningMessage("Pickup time missed! Accept the new date and time to continue.");
         }
+
+
+//        if (user.getTutorial() != null && user.getTutorial().getViewedPickup() == 0) {
+//
+//            Tutorial tutorial = user.getTutorial();
+//            tutorial.setViewedPickup(1);
+//            tutorialService.update(tutorial);
+//
+//            request.setAttribute("showTutorial", true);
+//        }
 
         request.setAttribute("pickUp", pickUp);
 

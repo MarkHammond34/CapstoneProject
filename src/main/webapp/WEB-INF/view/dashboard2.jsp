@@ -25,7 +25,9 @@
             }
 
             .full-wrap {
-                border: 10px solid lightsteelblue;
+                border: 25px outset rgba(36, 143, 203, 0.20);
+            <!-- border-style: outset;
+            -->
                 max-width: 1350px;
                 margin: 0 auto;
                 background: white;
@@ -37,7 +39,9 @@
         </style>
 
     </head>
-    <body style="background-color: rgba(36, 143, 203, 0.20);">
+    <body>
+
+    <!-- style="background-color: #b0c4de; background-image: linear-gradient(52deg, #b0c4de 25%, #2c57ff 100%);" -->
 
     <%@include file="jspf/navbar.jspf" %>
 
