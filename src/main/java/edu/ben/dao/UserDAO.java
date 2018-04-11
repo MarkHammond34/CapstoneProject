@@ -14,7 +14,7 @@ public interface UserDAO {
 
     public void saveOrUpdate(User user);
 
-    public void create(User user);
+    public int create(User user);
 
     public void unlockByUsername(String username);
 

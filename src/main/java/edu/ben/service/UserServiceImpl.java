@@ -40,8 +40,8 @@ public class UserServiceImpl implements UserService {
 		userDAO.saveOrUpdate(user);
 	}
 
-	public void create(User user) {
-		userDAO.create(user);
+	public int create(User user) {
+		return userDAO.create(user);
 	}
 
 	public void lockByUsername(String username) {

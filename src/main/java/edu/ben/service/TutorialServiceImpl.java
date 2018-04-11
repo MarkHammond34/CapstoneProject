@@ -27,4 +27,9 @@ public class TutorialServiceImpl implements TutorialService {
     public void update(Tutorial tutorial) {
         tutorialDAO.update(tutorial);
     }
+
+    @Override
+    public Tutorial getByUserID(int id) {
+        return tutorialDAO.getByUserID(id);
+    }
 }

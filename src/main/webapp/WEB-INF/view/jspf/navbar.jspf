@@ -1,10 +1,14 @@
-<div class="uk-position-relative"
-     style="background-color: white; margin-bottom: 10px;">
+<div class="uk-position-relative homepage-tutorial"
+     style="background-color: white; margin-bottom: 10px;"
+     data-intro="Welcome to U-ListIt! Here is a quick tour of our home page."
+     data-step="1">
     <div class="uk-position-relativetop">
         <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
             <div class="uk-navbar-left">
-                <a class="uk-navbar-toggle" uk-navbar-toggle-icon
-                   uk-toggle="target: #offcanvas-slide"></a>
+                <a class="uk-navbar-toggle homepage-tutorial" uk-navbar-toggle-icon
+                   uk-toggle="target: #offcanvas-slide"
+                   data-intro="Click here to see more options."
+                   data-step="4"></a>
             </div>
             <div class="uk-navbar-center">
                 <a class="uk-navbar-item uk-align-center"><img
@@ -13,7 +17,9 @@
             </div>
             <div class="uk-navbar-right">
                 <div>
-                    <a class="uk-navbar-toggle" uk-search-icon href="#"></a>
+                    <a class="uk-navbar-toggle homepage-tutorial" uk-search-icon href="#"
+                       data-intro="Click here to search for listings or users."
+                       data-step="2"></a>
                     <div class="uk-drop"
                          uk-drop="mode: click; pos: left-center; offset: 0">
                         <form class="uk-search uk-search-navbar uk-width-1-1"
@@ -34,11 +40,15 @@
                     <!-- Notification Icon -->
                     <li><c:choose>
                         <c:when test="${unviewedNotificationCount > 0}">
-                            <a uk-icon="icon: bell"><span class="badge1"
-                                                          id="badge1" data-badge="${unviewedNotificationCount}"></span></a>
+                            <a uk-icon="icon: bell" class="homepage-tutorial"
+                               data-intro="Click here to see your recent notifications"
+                               data-step="3"><span class="badge1"
+                                                   id="badge1" data-badge="${unviewedNotificationCount}"></span></a>
                         </c:when>
                         <c:otherwise>
-                            <a uk-icon="icon: bell"></a>
+                            <a uk-icon="icon: bell" class="homepage-tutorial"
+                               data-intro="Click here to see your recent notifications"
+                               data-step="3"></a>
                         </c:otherwise>
                     </c:choose>
                         <div uk-drop="mode: click" id="notificationDrop">
@@ -160,7 +170,7 @@
             <c:if test="${sessionScope.user != null}">
                 <li class="uk-nav-divider"></li>
                 <li><a
-                        href="${pageContext.request.contextPath}/viewProfile?id=${sessionScope.user.userID}"><span
+                        href="${pageContext.request.contextPath}/viewProfile?userId=${sessionScope.user.userID}"><span
                         class="uk-margin-small-right" uk-icon="icon: user"></span>Profile</a></li>
                 <li class="uk-nav-divider"></li>
                 <li><a
@@ -181,7 +191,7 @@
     </div>
 </div>
 
-<%@include file="../checklist/checklist-sidenav.jsp"%>
+<%@include file="../checklist/checklist-sidenav.jsp" %>
 
 
 <script>

@@ -62,7 +62,9 @@
                     <p class="uk-text-lead">${listing.description}</p>
 
                     <p class="uk-article-meta">Listed by <b><a
-                            href="/viewProfile?id=${listing.user.userID}">${listing.user.username}</a></b></p>
+                            href="/viewProfile?id=${listing.user.userID}"
+                            data-intro="Click see more about the seller." data-step="5">${listing.user.username}</a></b>
+                    </p>
 
                     <div class="uk-grid-small uk-child-width-auto uk-tile-default uk-border-rounded uk-padding uk-padding-remove-left"
                          uk-grid>
@@ -137,15 +139,21 @@
 
                     <p class="uk-text-lead">${listing.description}</p>
 
-                    <p class="uk-article-meta">Listed by <b><a
-                            href="/viewProfile?id=${listing.user.userID}">${listing.user.username}</a></b>
-                        <br>
+                    <span class="uk-width-1-1">
+                        <p class="uk-article-meta">Listed by <b><a
+                                href="/viewProfile?id=${listing.user.userID}"
+                                data-intro="Click here to see more about the seller."
+                                data-step="5">${listing.user.username}</a></b>
                         <c:if test="${listing.ended == 1 && listing.highestBidder.userID ==
-                    sessionScope.user.userID || listing.user.userID == sessionScope.user.userID}">
-                            <a class="uk-float-right" uk-toggle="target: #cancelPurchaseModal">Having Second
+                                sessionScope.user.userID || listing.user.userID == sessionScope.user.userID && viewTransaction != 'true'}">
+                            <a class="uk-float-right"
+                               data-intro="Having second thoughts about buying this listing? Click here to cancel your purchase."
+                               data-step="4"
+                               uk-toggle="target: #cancelPurchaseModal">Having Second
                                 Thoughts?</a>
                         </c:if>
-                    </p>
+                        </p>
+                    </span>
 
                     <!-- Bid Section -->
                     <div class="uk-grid-small uk-child-width-auto uk-tile-default uk-border-rounded uk-padding
@@ -175,6 +183,8 @@
                                         <c:if test="${listing.highestBidder.userID == user.userID}">
                                                 <a title="Cancel Bid" uk-icon="icon: ban"
                                                    uk-toggle="target: #cancelBid${listing.id}Modal"
+                                                   data-intro="Place a bid but change your mind? Click here to cancel your bid."
+                                                   data-step="3"
                                                    style="color: red;"></a>
                                         </c:if>
                                     </span>
@@ -192,9 +202,12 @@
                             <c:choose>
                                 <c:when test="${listing.ended == 0}">
                                     <c:if test="${listing.user.userID != user.userID}">
+
                                         <a id="placeBidButton" class="uk-button uk-button-text"
                                            style="color: cornflowerblue;"
-                                           onclick="toggleBid();">Place Bid</a>
+                                           onclick="toggleBid();" data-intro="Click here to place a bid!" data-step="1">Place
+                                            Bid</a>
+
                                     </c:if>
 
                                     <div class="uk-margin-small-top">
@@ -211,6 +224,7 @@
                                             <input name="listingID" type="hidden" value="${listing.id}">
                                         </form>
                                     </div>
+
                                 </c:when>
 
                                 <c:otherwise>
@@ -218,28 +232,35 @@
                                         <c:choose>
                                             <c:when test="${viewCheckout == true}">
                                                 <a href="/checkout?l=${listing.id}" class="uk-button uk-button-text"
+                                                   data-intro="Click here to checkout" data-step="1"
                                                    style="color: cornflowerblue; margin-left: 5px;">Checkout</a>
                                             </c:when>
                                             <c:when test="${viewPickUp == true}">
                                                 <a href="/pick-up-review?l=${listing.id}"
                                                    class="uk-button uk-button-text"
+                                                   data-intro="Click here view your pick up" data-step="1"
                                                    style="color: cornflowerblue; margin-left: 5px;">View Pick Up</a>
                                             </c:when>
                                             <c:when test="${viewPickUpDetails == true}">
                                                 <a href="/pick-up-review?l=${listing.id}"
                                                    class="uk-button uk-button-text"
+                                                   data-intro="Click here view your pick up" data-step="1"
                                                    style="color: cornflowerblue; margin-left: 5px;">View Pick Up
                                                     Details</a>
                                             </c:when>
                                             <c:when test="${viewVerification == true}">
                                                 <a uk-toggle="target: #verifyPickUpModal"
                                                    class="uk-button uk-button-text"
-                                                   style="color: cornflowerblue; margin-left: 5px;">Verify Pick Up</a>
+                                                   data-intro="Click here view your pick up" data-step="1"
+                                                   style="color: cornflowerblue; margin-left: 5px;">Verify Pick
+                                                    Up</a>
                                             </c:when>
                                             <c:when test="${viewTransaction == true}">
                                                 <a href="/viewPurchaseHistory"
                                                    class="uk-button uk-button-text"
-                                                   style="color: cornflowerblue; margin-left: 5px;">View Transaction</a>
+                                                   data-intro="Click here view your transaction" data-step="1"
+                                                   style="color: cornflowerblue; margin-left: 5px;">View
+                                                    Transaction</a>
                                             </c:when>
                                         </c:choose>
                                     </c:if>
@@ -249,8 +270,9 @@
                     </div>
 
                     <!-- Countdown and Progress Bar -->
-                    <div class="uk-grid-small" uk-grid>
-                        <div class=" uk-width-1-1 uk-align-center">
+                    <div class="uk-grid-small" uk-grid data-intro="Place your bid before the time runs out!"
+                         data-step="2">
+                        <div class="uk-width-1-1 uk-align-center">
                             <strong class="uk-margin-small-bottom uk-margin-small-top uk-align-center listing-ended"
                                     style="color: red; font-size: 16px; display: none;">
                                 Listing Ended</strong>
@@ -301,5 +323,18 @@
             document.getElementById("bidForm").style.display = "inline";
         }
     }
+
+    window.addEventListener("load", function () {
+        if (document.getElementById("yes").style.display == "inline") {
+            setTimeout(function () {
+                introJs().start();
+            }, 2000);
+        }
+    });
+
 </script>
+
+<c:if test="${showTutorial == true}">
+    <p id="yes" style="display: inline;"></p>
+</c:if>
 </html>

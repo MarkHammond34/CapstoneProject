@@ -59,6 +59,9 @@ public class ListingController extends BaseController {
     @Autowired
     ImageService imageService;
 
+    @Autowired
+    TutorialService tutorialService;
+
     /**
      * Upload single file using Spring Controller
      */
@@ -427,55 +430,86 @@ public class ListingController extends BaseController {
 //
 //            model.addObject("hasOffer", hasOffer);
 
+            Transaction transaction = transactionService.getTransactionsByListingID(listingID);
 
-            // Check if pick up was started
-            PickUp pickUp = pickUpService.getPickUpByListingID(listingID);
+            if (user.getUserID() == transaction.getBuyer().getUserID() || user.getUserID() == transaction.getSeller().getUserID()) {
 
-            if (pickUp != null) {
+                // Check if transaction was cancelled
+                if (transaction.getTransactionType().equals("cancelled")) {
 
-                // View Pick Up Page
-                if (pickUp.getStatus().equals("IN REVIEW")) {
-                    request.setAttribute("viewPickUp", true);
+                    addWarningMessage("Transaction On This Listing Has Been Cancelled");
+                    request.setAttribute("viewTransaction", true);
 
-                } else if (pickUp.getStatus().equals("PICK UP MISSED")) {
-                    addWarningMessage("Pick Up Missed");
-                    request.setAttribute("viewPickUp", true);
+                } else {
 
-                    // View Checkout Page
-                } else if (pickUp.getStatus().equals("ACCEPTED")) {
-                    request.setAttribute("viewCheckout", true);
+                    // Check if pick up was started
+                    PickUp pickUp = pickUpService.getPickUpByListingID(listingID);
 
-                    // View Pick Up Page For Details
-                } else if (pickUp.getStatus().equals("AWAITING PICK UP")) {
-                    request.setAttribute("viewPickUpDetails", true);
+                    if (pickUp != null) {
 
-                    // View Verification or Transaction Page
-                } else if (pickUp.getStatus().equals("PENDING VERIFICATION")) {
+                        // View Pick Up Page
+                        if (pickUp.getStatus().equals("IN REVIEW")) {
+                            request.setAttribute("viewPickUp", true);
 
-                    // User Logged In Is Seller And Has Not Verified
-                    if (pickUp.getTransaction().getSeller().getUserID() == user.getUserID() && pickUp.getSellerVerified() == 0) {
-                        request.setAttribute("viewVerification", true);
+                        } else if (pickUp.getStatus().equals("PICK UP MISSED")) {
+                            addWarningMessage("Pick Up Missed");
+                            request.setAttribute("viewPickUp", true);
 
-                        // User Logged In Is Seller And Has Verified
-                    } else if (pickUp.getTransaction().getSeller().getUserID() == user.getUserID() && pickUp.getSellerVerified() == 1) {
-                        request.setAttribute("viewTransaction", true);
+                            // View Checkout Page
+                        } else if (pickUp.getStatus().equals("ACCEPTED")) {
+                            request.setAttribute("viewCheckout", true);
 
-                        // User Logged In Is Buyer And Has Not Verified
-                    } else if (pickUp.getTransaction().getBuyer().getUserID() == user.getUserID() && pickUp.getBuyerVerified() == 0) {
-                        request.setAttribute("viewVerification", true);
+                            // View Pick Up Page For Details
+                        } else if (pickUp.getStatus().equals("AWAITING PICK UP")) {
+                            request.setAttribute("viewPickUpDetails", true);
 
-                        // User Logged In Is Buyer And Has Verified
-                    } else if (pickUp.getTransaction().getBuyer().getUserID() == user.getUserID() && pickUp.getBuyerVerified() == 1) {
-                        request.setAttribute("viewTransaction", true);
+                            // View Verification or Transaction Page
+                        } else if (pickUp.getStatus().equals("PENDING VERIFICATION")) {
+
+                            // User Logged In Is Seller And Has Not Verified
+                            if (pickUp.getTransaction().getSeller().getUserID() == user.getUserID() && pickUp.getSellerVerified() == 0) {
+                                request.setAttribute("viewVerification", true);
+
+                                // User Logged In Is Seller And Has Verified
+                            } else if (pickUp.getTransaction().getSeller().getUserID() == user.getUserID() && pickUp.getSellerVerified() == 1) {
+                                request.setAttribute("viewTransaction", true);
+
+                                // User Logged In Is Buyer And Has Not Verified
+                            } else if (pickUp.getTransaction().getBuyer().getUserID() == user.getUserID() && pickUp.getBuyerVerified() == 0) {
+                                request.setAttribute("viewVerification", true);
+
+                                // User Logged In Is Buyer And Has Verified
+                            } else if (pickUp.getTransaction().getBuyer().getUserID() == user.getUserID() && pickUp.getBuyerVerified() == 1) {
+                                request.setAttribute("viewTransaction", true);
+                            }
+
+                        } else if (pickUp.getStatus().equals("VERIFIED") &&
+                                pickUp.getTransaction().getSeller().getUserID() == user.getUserID()) {
+                            request.setAttribute("viewTransaction", true);
+
+                        } else if (pickUp.getStatus().equals("COMPLETED")) {
+                            request.setAttribute("viewTransaction", true);
+                        }
+
                     }
-
-                } else if (pickUp.getStatus().equals("VERIFIED") &&
-                        pickUp.getTransaction().getSeller().getUserID() == user.getUserID()) {
-                    request.setAttribute("viewTransaction", true);
-
-                } else if (pickUp.getStatus().equals("COMPLETED")) {
-                    request.setAttribute("viewTransaction", true);
                 }
+
+            }
+
+            if (user.getTutorial().getViewedListing() == 0) {
+
+                // Update tutorial
+                Tutorial tutorial = user.getTutorial();
+                tutorial.setViewedListing(1);
+                tutorialService.update(tutorial);
+
+                // Set updated tutorial
+                user.setTutorial(tutorial);
+                request.getSession().removeAttribute("user");
+                request.getSession().setAttribute("user", user);
+
+                request.setAttribute("showTutorial", true);
+
             }
 
         }
@@ -528,6 +562,14 @@ public class ListingController extends BaseController {
             return "redirect:" + request.getHeader("Referer");
         }
 
+        Transaction transaction = transactionService.getTransactionsByListingID(listingID);
+
+        if (transaction != null && transaction.getTransactionType().equals("cancelled")) {
+            addWarningMessage("Listing Was Already Cancelled");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
         request.setAttribute("listing", listing);
         return "listing/cancel-purchase-overview";
 
@@ -552,7 +594,23 @@ public class ListingController extends BaseController {
             return "redirect:" + request.getHeader("Referer");
         }
 
-        if (user.getUserID() != listing.getUser().getUserID() && user.getUserID() != listing.getHighestBidder().getUserID()) {
+        Notification notification;
+
+        // send notification to other user
+        if (user.getUserID() == listing.getHighestBidder().getUserID()) {
+            // notify the seller
+            notification = new Notification(listing.getUser(), listingID, "Purchase Cancelled",
+                    "The buyer for your listing: " + listing.getName() + " has cancelled the purchase.\n\nAs a result, " +
+                            "if they already payed via PayPal, they received a full refund.\n\nSorry :(", 1);
+
+        } else if (user.getUserID() == listing.getUser().getUserID()) {
+            // notify the buyer
+            notification = new Notification(listing.getHighestBidder(), listingID, "Purchase Cancelled",
+                    "The seller for the listing: " + listing.getName() + " has cancelled the purchase.\n\nAs a result, " +
+                            "if you already payed via PayPal, you will receive a full refund.\n\nSorry :(", 1);
+
+            // unauthorized user
+        } else {
             addErrorMessage("Access Denied");
             setRequest(request);
             return "redirect:" + request.getHeader("Referer");
@@ -564,8 +622,6 @@ public class ListingController extends BaseController {
             return "redirect:" + request.getHeader("Referer");
         }
 
-        // send notification to other user
-
         // Cancel Transaction
         Transaction transaction = transactionService.getTransactionsByListingID(listingID);
 
@@ -575,9 +631,17 @@ public class ListingController extends BaseController {
             return "redirect:" + request.getHeader("Referer");
         }
 
+        if (transaction.getTransactionType().equals("cancelled")) {
+            addWarningMessage("Listing Was Already Cancelled");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
         transaction.setTransactionType("cancelled");
         transaction.setCompleted(1);
         transactionService.saveOrUpdate(transaction);
+
+        // Return money
 
         // Cancel Pick Up
         PickUp pickUp = pickUpService.getPickUpByListingID(listingID);
@@ -591,6 +655,8 @@ public class ListingController extends BaseController {
         pickUp.setStatus("CANCELLED");
         pickUp.setActive(0);
         pickUpService.update(pickUp);
+
+        notificationService.save(notification);
 
         addSuccessMessage("Purchase Cancelled");
         return "redirect:" + request.getHeader("Referer");

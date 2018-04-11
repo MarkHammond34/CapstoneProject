@@ -141,7 +141,7 @@
                         payment: {
                             transactions: [{
                                 amount: {
-                                    total: ${listing.highestBid},
+                                    total: ${listing.highestBid * 0.10},
                                     currency: 'USD'
                                 }
                             }]
@@ -154,7 +154,12 @@
                      */
                     return actions.payment.execute().then(
                         function (payment) {
-                            showSuccessMessage("Payment Complete");
+                            showSuccessMessage("Payment Complete!");
+                            $.ajax({
+                                type: 'POST',
+                                data: {l: ${listing.id}},
+                                url: '/cancel-purchase',
+                            });
                         });
                 },
                 onCancel: function (data, actions) {
@@ -166,6 +171,6 @@
             }, '#paypal-button');
 </script>
 
-<%@include file="../jspf/add-message-js.jsp"%>
+<%@include file="../jspf/add-message-js.jsp" %>
 
 </body>

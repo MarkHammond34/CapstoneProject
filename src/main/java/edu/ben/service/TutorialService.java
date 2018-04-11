@@ -8,4 +8,7 @@ public interface TutorialService {
 
     public void update(Tutorial tutorial);
 
+    public Tutorial getByUserID(int id);
+
+
 }

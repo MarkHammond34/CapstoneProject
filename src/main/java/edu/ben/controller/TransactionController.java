@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import edu.ben.model.Tutorial;
+import edu.ben.service.TutorialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,19 +26,22 @@ import edu.ben.util.Email;
 @Controller
 public class TransactionController extends BaseController {
 
-	@Autowired
-	ListingService listingService;
+    @Autowired
+    ListingService listingService;
 
-	@Autowired
-	UserService userService;
+    @Autowired
+    UserService userService;
 
-	@Autowired
-	TransactionService transactionService;
+    @Autowired
+    TransactionService transactionService;
 
-	@RequestMapping(value = "/checkoutPage", method = RequestMethod.GET)
-	public ModelAndView checkoutPage() {
-		return new ModelAndView("checkout/checkout");
-	}
+    @Autowired
+	TutorialService tutorialService;
+
+    @RequestMapping(value = "/checkoutPage", method = RequestMethod.GET)
+    public ModelAndView checkoutPage() {
+        return new ModelAndView("checkout/checkout");
+    }
 
 	@RequestMapping(value = "/button", method = RequestMethod.GET)
 	public ModelAndView checkoutTest(@RequestParam("listing") int listingID, HttpServletRequest request) {
@@ -95,17 +100,39 @@ public class TransactionController extends BaseController {
 		return "sellerReviews";
 	}
 
-	@RequestMapping(value = "/viewPurchaseHistory", method = RequestMethod.GET)
-	public String viewPurchaseHistory(HttpServletRequest request) {
-		User session = (User) request.getSession().getAttribute("user");
+    @RequestMapping(value = "/viewPurchaseHistory", method = RequestMethod.GET)
+    public String viewPurchaseHistory(HttpServletRequest request) {
+        User session = (User) request.getSession().getAttribute("user");
 
-		List<Transaction> userTransactions = transactionService.getTransactionsByBuyerID(session.getUserID());
-		System.out.println("size " + userTransactions.size());
-		request.setAttribute("user", session);
-		request.setAttribute("userTransactions", userTransactions);
+        if (session == null) {
+            addWarningMessage("Login To View Purchase History");
+            setRequest(request);
+            return "login";
+        }
 
-		return "purchaseHistory";
-	}
+        List<Transaction> userTransactions = transactionService.getTransactionsByBuyerID(session.getUserID());
+        System.out.println("size " + userTransactions.size());
+        request.setAttribute("user", session);
+        request.setAttribute("userTransactions", userTransactions);
+
+        if (session.getTutorial().getViewedTransactionHistory() == 0) {
+
+            // Update tutorial
+            Tutorial tutorial = session.getTutorial();
+            tutorial.setViewedTransactionHistory(1);
+            tutorialService.update(tutorial);
+
+            // Set updated tutorial
+            session.setTutorial(tutorial);
+            request.getSession().removeAttribute("user");
+            request.getSession().setAttribute("user", session);
+
+            request.setAttribute("showTutorial", true);
+
+        }
+
+        return "purchaseHistory";
+    }
 
 	@GetMapping("/rateReview")
 	public String rateReview(HttpServletRequest request) {

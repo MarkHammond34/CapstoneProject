@@ -14,6 +14,7 @@
         </ul>
 
         <div class="uk-child-width-expand@s" uk-grid>
+
             <!-- Left Side -->
             <div class="uk-width-2-3@m uk-width-1-1@s" style="height: 100%">
                 <form action="/pick-up-edit" method="post">
@@ -22,7 +23,9 @@
                             <a onclick="toggleEditDetails();" uk-icon="icon: pencil"></a>
                         </c:if>
                     </h2>
-                    <div class="uk-card uk-card-default">
+                    <div class="uk-card uk-card-default pickup-tutorial"
+                         data-intro="Here you can review the pick up info and chat to pick the best time and place for your."
+                         data-step="1">
                         <div class="uk-card-body" uk-grid>
                             <div class="uk-width-1-1 uk-margin-auto-vertical">
                                 <span class="uk-align-center">
@@ -414,6 +417,16 @@
         // Add success div to message box
         messageBox.appendChild(newSuccessDiv);
 
+    }
+
+    function onload(showTutorial) {
+        if (showTutorial == true) {
+            setTimeout(function () {
+                introJs(".pickup-tutorial").start();
+            }, 2000);
+        }
+
+        introJs(".pickup-tutorial").start();
     }
 
 </script>

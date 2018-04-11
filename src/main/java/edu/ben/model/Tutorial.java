@@ -7,8 +7,11 @@ import javax.persistence.*;
 public class Tutorial {
 
     @Id
-    @Column(name = "user_id")
+    @Column(name = "tutorial_id")
     private int user_id;
+
+    @OneToOne(mappedBy="tutorial")
+    private User user;
 
     @Column(name = "viewed_home")
     private int viewedHome;
@@ -28,6 +31,9 @@ public class Tutorial {
     @Column(name = "viewed_saved_search")
     private int viewedSavedSearch;
 
+    @Column(name = "viewed_transaction_history")
+    private int viewedTransactionHistory;
+
     public Tutorial() {
     }
 
@@ -39,6 +45,7 @@ public class Tutorial {
         this.viewedChecklist = 0;
         this.viewedPickup = 0;
         this.viewedSavedSearch = 0;
+        this.viewedTransactionHistory = 0;
     }
 
     public int getUserID() {
@@ -95,5 +102,29 @@ public class Tutorial {
 
     public void setViewedSavedSearch(int viewedSavedSearch) {
         this.viewedSavedSearch = viewedSavedSearch;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public int getViewedTransactionHistory() {
+        return viewedTransactionHistory;
+    }
+
+    public void setViewedTransactionHistory(int viewedTransactionHistory) {
+        this.viewedTransactionHistory = viewedTransactionHistory;
     }
 }

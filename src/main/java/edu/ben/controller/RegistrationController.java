@@ -6,6 +6,8 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import edu.ben.model.Tutorial;
+import edu.ben.service.TutorialService;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,8 +31,11 @@ public class RegistrationController extends BaseController {
 	@Autowired
 	UserService userService;
 
-	@PostMapping("/create")
-	public String createUser(HttpServletRequest request, Model m, @Valid User user, BindingResult bindingResult) {
+    @Autowired
+	TutorialService tutorialService;
+
+    @PostMapping("/create")
+    public String createUser(HttpServletRequest request, Model m, @Valid User user, BindingResult bindingResult) {
 
 		try {
 			if ((User) request.getSession().getAttribute("user") != null) {
@@ -55,19 +60,27 @@ public class RegistrationController extends BaseController {
 						user.setSecurityLevel(3);
 					}
 
-					userService.create(user);
-					userService.lockByUsername(user.getUsername());
-					request.getSession().setAttribute("action", "registration");
-					request.getSession().setAttribute("tempUser", user);
-					return "redirect:/validate";
-				}
-			}
-		} catch (ConstraintViolationException e) {
-			addErrorMessage("Account Already Exists With That Username or School Email");
-			setRequest(request);
-			return "registration/registration";
-		}
-	}
+                    int id = userService.create(user);
+
+                    // Set the tutorial
+                    tutorialService.save(new Tutorial(id));
+                    user.setTutorial(tutorialService.getByUserID(user.getUserID()));
+                    userService.update(user);
+
+
+                    userService.lockByUsername(user.getUsername());
+
+                    request.getSession().setAttribute("action", "registration");
+                    request.getSession().setAttribute("tempUser", user);
+                    return "redirect:/validate";
+                }
+            }
+        } catch (ConstraintViolationException e) {
+            addErrorMessage("Account Already Exists With That Username or School Email");
+            setRequest(request);
+            return "registration/registration";
+        }
+    }
 
 	@GetMapping("/register")
 	public String register(HttpServletRequest m) {

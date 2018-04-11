@@ -14,13 +14,13 @@ public class ListingBid {
     private int bidID;
 
     @Column(name = "listing_id")
-    private int listingID;
+    private int listing_id;
 
     @Column(name = "user_id")
-    private int userID;
+    private int user_id;
 
     @Column(name = "bid_value")
-    private int bidValue;
+    private int bid_value;
 
     @Column(name = "active")
     private int active;
@@ -29,25 +29,25 @@ public class ListingBid {
     }
 
     public ListingBid(int listingID, int userID, int bidValue) {
-        this.listingID = listingID;
-        this.userID = userID;
-        this.bidValue = bidValue;
+        this.listing_id = listingID;
+        this.user_id = userID;
+        this.bid_value = bidValue;
     }
 
     public int getListingID() {
-        return listingID;
+        return listing_id;
     }
 
     public void setListingID(int listingID) {
-        this.listingID = listingID;
+        this.listing_id = listingID;
     }
 
     public int getUserID() {
-        return userID;
+        return user_id;
     }
 
     public void setUserID(int userID) {
-        this.userID = userID;
+        this.user_id = userID;
     }
 
     public int getBidID() {
@@ -59,11 +59,11 @@ public class ListingBid {
     }
 
     public int getBidValue() {
-        return bidValue;
+        return bid_value;
     }
 
     public void setBidValue(int bidValue) {
-        this.bidValue = bidValue;
+        this.bid_value = bidValue;
     }
 
     public int getActive() {

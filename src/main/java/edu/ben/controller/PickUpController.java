@@ -156,7 +156,7 @@ public class PickUpController extends BaseController {
             } else {
                 addErrorMessage("Access Denied");
                 setRequest(request);
-                return "redirect:/";
+                return "redirect:" + request.getHeader("Referer");
             }
 
             // If pickup exists
@@ -177,14 +177,21 @@ public class PickUpController extends BaseController {
         }
 
 
-//        if (user.getTutorial() != null && user.getTutorial().getViewedPickup() == 0) {
-//
-//            Tutorial tutorial = user.getTutorial();
-//            tutorial.setViewedPickup(1);
-//            tutorialService.update(tutorial);
-//
-//            request.setAttribute("showTutorial", true);
-//        }
+        if (user.getTutorial().getViewedPickup() == 0) {
+
+            // Update tutorial
+            Tutorial tutorial = user.getTutorial();
+            tutorial.setViewedPickup(1);
+            tutorialService.update(tutorial);
+
+            // Set updated tutorial
+            user.setTutorial(tutorial);
+            request.getSession().removeAttribute("user");
+            request.getSession().setAttribute("user", user);
+
+            request.setAttribute("showTutorial", true);
+
+        }
 
         request.setAttribute("pickUp", pickUp);
 

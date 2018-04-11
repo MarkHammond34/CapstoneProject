@@ -1,6 +1,7 @@
 package edu.ben.controller;
 
 import edu.ben.model.Listing;
+import edu.ben.model.Tutorial;
 import edu.ben.model.User;
 import edu.ben.service.*;
 import edu.ben.util.Email;
@@ -33,9 +34,15 @@ public class HomeController extends BaseController {
 	@Autowired
 	ChecklistService checklistService;
 
-	/*
-	 * @Autowired FaqService faqService;
-	 */
+    @Autowired
+    TutorialService tutorialService;
+
+    @Autowired
+    UserService userService;
+
+    /*
+     * @Autowired FaqService faqService;
+     */
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(HttpServletRequest request) {
@@ -79,6 +86,22 @@ public class HomeController extends BaseController {
                     request.setAttribute("newUser", false);
                 }
                 request.getSession().setAttribute("checklist", null);
+            }
+
+            if (user.getTutorial() != null && user.getTutorial().getViewedHome() == 0) {
+
+                // Update tutorial
+                Tutorial tutorial = user.getTutorial();
+                tutorial.setViewedHome(1);
+                tutorialService.update(tutorial);
+
+                // Set updated tutorial
+                user.setTutorial(tutorial);
+                request.getSession().removeAttribute("user");
+                request.getSession().setAttribute("user", user);
+
+                request.setAttribute("showTutorial", true);
+
             }
 
         }

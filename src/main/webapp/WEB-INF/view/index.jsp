@@ -10,9 +10,11 @@
     <div class="uk-section-default">
         <div class="uk-section-large uk-overlay-default uk-background-cover"
              style="background-image:url('${pageContext.request.contextPath}/resources/img/index2.jpeg');">
-            <div class="uk-overlay uk-light uk-align-center uk-border-rounded"
-                 style="width:50%;background: rgba(34,34,34,0.85);">
-                <form class="uk-search uk-search-large">
+            <div class="uk-overlay uk-light uk-align-center uk-border-rounded homepage-tutorial"
+                 style="width:50%;background: rgba(34,34,34,0.85);"
+                 data-intro="You can also search here."
+                 data-step="5">
+                <form class=" uk-search uk-search-large">
                     <span uk-search-icon></span>
                     <input class="uk-search-input" type="search" placeholder="Search...">
                 </form>
@@ -22,7 +24,9 @@
 
     <br>
 
-    <div class="uk-width-1-1">
+    <div class="uk-width-1-1 homepage-tutorial"
+         data-intro="Browse listings by premium, trending, ending soon, and recently added."
+         data-step="6">
 
         <ul class="uk-flex-center uk-subnav uk-subnav-pill" uk-switcher="animation: uk-animation-slide-left-medium, uk-animation-slide-right-medium">
             <c:if test="${premiumListings != null}">
@@ -41,6 +45,7 @@
             <li><a href="#recently-added-listings">Recently Added</a></li>
 
         </ul>
+
         <ul class="uk-switcher uk-margin">
     <c:if test="${premiumListings != null}">
         <div id="premium-listings">
@@ -110,7 +115,26 @@
 <%@include file="checklist/checklist-modal.jsp" %>
 
 <%@include file="checklist/checklist-sidenav.jsp" %>
+
+<script>
+
+    window.addEventListener("load", function () {
+        if (document.getElementById("yes").style.display == "inline") {
+            setTimeout(function () {
+                introJs(".homepage-tutorial").start();
+            }, 2000);
+        }
+    });
+
+</script>
+
+<c:if test="${showTutorial == true}">
+    <p id="yes" style="display: inline;"></p>
+</c:if>
+
+
 </body>
 
 <%@include file="jspf/footer.jspf" %>
+
 </html>

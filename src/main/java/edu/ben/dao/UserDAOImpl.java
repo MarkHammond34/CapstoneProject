@@ -31,8 +31,8 @@ public class UserDAOImpl implements UserDAO {
         getSession().saveOrUpdate(user);
     }
 
-    public void create(User user) {
-        getSession().save(user);
+    public int create(User user) {
+        return (int) getSession().save(user);
     }
 
     public void unlockByUsername(String username) {
@@ -153,14 +153,14 @@ public class UserDAOImpl implements UserDAO {
 
     }
 
-	@Override
-	public List<User> getListingLosers(int listingID, int winnerID) {
-		Query q = getSession().createQuery(
-				" FROM user as uWHERE user_ID IN (SELECT l.user_id FROM listing_bid as lWHERE l.listing_id=:listingID AND l.user_id !=:winnerID)");
-		q.setParameter("listingID", listingID);
-		q.setParameter("winnerID", winnerID);
-		return q.list();
-	}
+    @Override
+    public List<User> getListingLosers(int listingID, int winnerID) {
+        Query q = getSession().createQuery(
+                " FROM user as u WHERE user_ID IN (SELECT l.user_id FROM listing_bid as l WHERE l.listing_id=:listingID AND l.user_id !=:winnerID)");
+        q.setParameter("listingID", listingID);
+        q.setParameter("winnerID", winnerID);
+        return q.list();
+    }
 
     @Override
     public List<User> getDisputeResolvingAdmins() {

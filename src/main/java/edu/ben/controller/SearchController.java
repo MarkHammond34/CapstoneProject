@@ -10,7 +10,8 @@ import edu.ben.model.Listing;
 import edu.ben.model.SavedSearch;
 
 import edu.ben.model.SearchHistory;
-import edu.ben.service.SearchHistoryService;
+import edu.ben.model.Tutorial;
+import edu.ben.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.UnexpectedRollbackException;
@@ -20,9 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.ben.model.User;
-import edu.ben.service.ListingService;
-import edu.ben.service.SavedSearchService;
-import edu.ben.service.UserService;
 
 @Controller
 public class SearchController {
@@ -38,6 +36,9 @@ public class SearchController {
 
     @Autowired
     SearchHistoryService searchHistoryService;
+
+    @Autowired
+    TutorialService tutorialService;
 
     @RequestMapping(value = "/searchResults", method = RequestMethod.POST)
     public String searchCategory(@RequestParam("search") String search, HttpServletRequest request, Model model) {
@@ -94,6 +95,22 @@ public class SearchController {
         request.setAttribute("user", user);
         request.setAttribute("saved", saved);
         request.setAttribute("userSearch", userSearch);
+
+        if (user.getTutorial().getViewedSavedSearch() == 0) {
+
+            // Update tutorial
+            Tutorial tutorial = user.getTutorial();
+            tutorial.setViewedSavedSearch(1);
+            tutorialService.update(tutorial);
+
+            // Set updated tutorial
+            user.setTutorial(tutorial);
+            request.getSession().removeAttribute("user");
+            request.getSession().setAttribute("user", user);
+
+            request.setAttribute("showTutorial", true);
+
+        }
 
         return "searchResults";
 

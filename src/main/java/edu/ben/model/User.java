@@ -98,6 +98,10 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Image> profileImages;
 
+    @OneToOne
+    @JoinColumn(name="tutorial_id")
+    private Tutorial tutorial;
+
     public User() {
     }
 
@@ -324,6 +328,14 @@ public class User {
 
     public void setStatus(ArrayList<String> status) {
         this.status = status;
+    }
+
+    public Tutorial getTutorial() {
+        return tutorial;
+    }
+
+    public void setTutorial(Tutorial tutorial) {
+        this.tutorial = tutorial;
     }
 
 

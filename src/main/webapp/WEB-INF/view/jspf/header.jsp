@@ -22,6 +22,15 @@
     <spring:url value="resources/js/notification.js" var="notJS"/>
     <script type="text/javascript" src="${notJS}"></script>
 
+    <!-- JS & CSS for Tutorial -->
+    <spring:url value="resources/js/intro.js" var="introJS"/>
+    <script type="text/javascript" src="${introJS}"></script>
+    <spring:url value="resources/css/introjs.css" var="introjsCSS"/>
+    <link href="${introjsCSS}" rel="stylesheet"/>
+    <spring:url value="resources/css/introjs-nassim.css" var="introjsNassimCSS"/>
+    <link href="${introjsNassimCSS}" rel="stylesheet"/>
+    <spring:url value="resources/css/introjs-rtl.css" var="introjsRtlCSS"/>
+
     <spring:url value="resources/css/uikit.css" var="uikitCSS"/>
     <spring:url value="resources/js/uikit.js" var="uikitJS"/>
     <spring:url value="resources/js/jquery.js" var="jquery"/>

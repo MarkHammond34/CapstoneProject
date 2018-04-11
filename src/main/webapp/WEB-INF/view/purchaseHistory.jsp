@@ -1,13 +1,13 @@
 <%@include file="jspf/header.jsp" %>
 
-
 <body class="uk-background-muted">
+
 <%@include file="jspf/navbar.jspf" %>
 
 <%@include file="jspf/messages.jsp" %>
 
-<div id="central" class="uk-width-4-5 uk-align-center">
-    <h2>
+<div id="central" class="uk-width-4-5 uk-align-center purchase-history-tutorial">
+    <h2 data-intro="Keep track of your transactions on the purchase history page!" data-step="1">
         <strong class="uk-text-danger"> ${user.username}</strong> has made <strong
             class="uk-text-danger"> ${userTransactions.size()}</strong>
         purchase(s)
@@ -56,7 +56,9 @@
 
                         <td><a
                                 href="${pageContext.request.contextPath}/rateReview?id=${transaction.id}"
-                                class="uk-button uk-button-small uk-button-primary">Leave Feedback</a></td>
+                                class="uk-button uk-button-small uk-button-primary" class="purchase-history-tutorial"
+                                data-intro="Have something to say about this user? Leave a rating and review!"
+                                data-step="2">Leave Feedback</a></td>
 
                     </c:when>
                     <c:otherwise>
@@ -74,13 +76,16 @@
                                 <td><span uk-icon="star"></span><span uk-icon="star"></span></td>
                             </c:when>
                             <c:when test="${transaction.transRating == 3}">
-                                <td><span uk-icon="star"></span><span uk-icon="star"></span><span uk-icon="star"></span></td>
+                                <td><span uk-icon="star"></span><span uk-icon="star"></span><span uk-icon="star"></span>
+                                </td>
                             </c:when>
                             <c:when test="${transaction.transRating == 4}">
-                                <td><span uk-icon="star"></span><span uk-icon="star"></span><span uk-icon="star"></span><span uk-icon="star"></span></td>
+                                <td><span uk-icon="star"></span><span uk-icon="star"></span><span uk-icon="star"></span><span
+                                        uk-icon="star"></span></td>
                             </c:when>
                             <c:when test="${transaction.transRating == 5}">
-                                <td><span uk-icon="star"></span><span uk-icon="star"></span><span uk-icon="star"></span><span uk-icon="star"></span><span uk-icon="star"></span></td>
+                                <td><span uk-icon="star"></span><span uk-icon="star"></span><span uk-icon="star"></span><span
+                                        uk-icon="star"></span><span uk-icon="star"></span></td>
                             </c:when>
                         </c:choose>
                         <td>${transaction.transReview}</td>
@@ -93,6 +98,22 @@
     </table>
 
 </div>
+
+<script>
+
+    window.addEventListener("load", function () {
+        //if (document.getElementById("yes").style.display == "inline") {
+        setTimeout(function () {
+            introJs(".purchase-history-tutorial").start();
+        }, 2000);
+        //}
+    });
+
+</script>
+
+<c:if test="${showTutorial == true}">
+    <p id="yes" style="display: inline;"></p>
+</c:if>
 
 </body>
 <%@include file="jspf/footer.jspf" %>

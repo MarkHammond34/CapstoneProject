@@ -26,7 +26,10 @@
                             <c:choose>
 
                                 <c:when test="${saved == 'saved'}">
-                                    <label style="padding-top: 10px;"> <input
+                                    <label style="padding-top: 10px;"
+                                           data-intro="Can't find what you're looking for? Save your search and you'll be
+                                           notified if someone posts a listing similar to what you're looking for."
+                                           data-step="1"> <input
                                             class="uk-checkbox" type="checkbox" checked> <span
                                             class="uk-text-warning" style="position: relative; top: 3px;">
 												Save Search</span>
@@ -34,7 +37,10 @@
                                 </c:when>
 
                                 <c:otherwise>
-                                    <label style="padding-top: 10px;"> <input
+                                    <label style="padding-top: 10px;"
+                                           data-intro="Can't find what you're looking for? Save your search and you'll be
+                                           notified if someone posts a listing similar to what you're looking for."
+                                           data-step="1"> <input
                                             class="uk-checkbox" type="checkbox"> <span
                                             class="uk-text-warning" style="position: relative; top: 3px;">
 												Save Search</span>
@@ -286,6 +292,19 @@
             document.getElementById('userResults').style.display = 'inline';
         }
     }
+
+    function onload(showTutorial) {
+        if (showTutorial == true) {
+            setTimeout(function () {
+                introJs().start();
+            }, 2000);
+        } else {
+            setTimeout(function () {
+                introJs().start();
+            }, 2000);
+        }
+    }
+
 </script>
 </body>
 <%@include file="jspf/footer.jspf" %>
