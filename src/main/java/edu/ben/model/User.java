@@ -1,6 +1,7 @@
 package edu.ben.model;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -89,6 +90,9 @@ public class User {
     @Formula("(select avg(transaction.trans_rating) from transaction where transaction.seller_ID=user_ID)")
     @Column(name="seller_rating")
     private Integer sellerRating;
+
+    @Transient
+    private ArrayList<String> status = new ArrayList<>();
 
     @OneToMany(mappedBy = "user",  fetch = FetchType.EAGER)
     private List<Image> profileImages;
@@ -304,6 +308,14 @@ public class User {
 
     public void setProfileImages(List<Image> profileImages) {
         this.profileImages = profileImages;
+    }
+
+    public ArrayList<String> getStatus() {
+        return status;
+    }
+
+    public void setStatus(ArrayList<String> status) {
+        this.status = status;
     }
 
 

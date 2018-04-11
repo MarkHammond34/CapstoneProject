@@ -209,11 +209,11 @@ public class CommunityController extends BaseController {
         System.out.println("Path: " + newestVideo.getVideoPath());
         request.setAttribute("newestVideo", newestVideo);
 
-        return model;
-    }
+		return model;
+	}
 
-    @RequestMapping(value = "/feedback", method = RequestMethod.POST)
-    public ModelAndView feedback() {
+	@RequestMapping(value = "/feedback", method = RequestMethod.POST)
+	public ModelAndView feedback() {
 
         return new ModelAndView("redirect:/community");
     }

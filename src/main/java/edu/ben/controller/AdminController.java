@@ -9,8 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Controller
@@ -40,10 +40,24 @@ public class AdminController extends BaseController {
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin(HttpServletRequest request) {
         List<User> recentUsers = userService.getRecentUsers();
+        List<User> getAllMembers = userService.getAllUsers();
         List<Listing> recentListings = listingService.getRecentListings();
+        ArrayList<String> status = new ArrayList<>();
+
+        for (int i = 0; i < recentUsers.size(); i++) {
+            if (recentUsers.get(i).getAdminLevel() > 0) {
+                status.add("Admin");
+            } else {
+                status.add("Customer");
+            }
+        }
         request.getSession().setAttribute("recentUsers", recentUsers);
         request.getSession().setAttribute("recentListings", recentListings);
-        return "admin/adminPage";
+        request.getSession().setAttribute("members", getAllMembers);
+        request.getSession().setAttribute("status", status);
+
+        System.out.println("Member Size: " + getAllMembers.size());
+        return "adminPage";
     }
 
     @RequestMapping(value = "adminUser", method = RequestMethod.GET)
@@ -452,5 +466,10 @@ public class AdminController extends BaseController {
 
         return "redirect:" + request.getHeader("Referer");
 
+    }
+
+    @RequestMapping(value = "taskManager", method = RequestMethod.GET)
+    public String taskPage(HttpServletRequest request) {
+        return "task-manager";
     }
 }
