@@ -496,7 +496,7 @@ public class ListingController extends BaseController {
 
             }
 
-            if (user.getTutorial().getViewedListing() == 0) {
+            if (user.getTutorial() != null && user.getTutorial().getViewedListing() == 0) {
 
                 // Update tutorial
                 Tutorial tutorial = user.getTutorial();

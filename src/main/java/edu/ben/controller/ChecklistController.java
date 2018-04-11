@@ -81,7 +81,7 @@ public class ChecklistController extends BaseController {
 
         System.out.println(user.getTutorial().getViewedChecklist());
 
-        if (user.getTutorial().getViewedChecklist() == 0) {
+        if (user.getTutorial() != null && user.getTutorial().getViewedChecklist() == 0) {
 
             // Update tutorial
             Tutorial tutorial = user.getTutorial();

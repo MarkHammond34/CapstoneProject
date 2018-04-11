@@ -177,7 +177,7 @@ public class PickUpController extends BaseController {
         }
 
 
-        if (user.getTutorial().getViewedPickup() == 0) {
+        if (user.getTutorial() != null && user.getTutorial().getViewedPickup() == 0) {
 
             // Update tutorial
             Tutorial tutorial = user.getTutorial();

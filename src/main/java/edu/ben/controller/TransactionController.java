@@ -115,7 +115,7 @@ public class TransactionController extends BaseController {
         request.setAttribute("user", session);
         request.setAttribute("userTransactions", userTransactions);
 
-        if (session.getTutorial().getViewedTransactionHistory() == 0) {
+        if (session.getTutorial() != null && session.getTutorial().getViewedTransactionHistory() == 0) {
 
             // Update tutorial
             Tutorial tutorial = session.getTutorial();
