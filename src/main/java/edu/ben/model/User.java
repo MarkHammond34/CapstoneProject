@@ -3,6 +3,7 @@ package edu.ben.model;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.text.SimpleDateFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -88,13 +89,13 @@ public class User {
     private int banned;
 
     @Formula("(select avg(transaction.trans_rating) from transaction where transaction.seller_ID=user_ID)")
-    @Column(name="seller_rating")
+    @Column(name = "seller_rating")
     private Integer sellerRating;
 
     @Transient
     private ArrayList<String> status = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",  fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Image> profileImages;
 
     public User() {
@@ -309,6 +310,13 @@ public class User {
     public void setProfileImages(List<Image> profileImages) {
         this.profileImages = profileImages;
     }
+
+    public String getTruncatedDate() {
+        java.sql.Date date = new java.sql.Date(dateCreated.getTime());
+        return new SimpleDateFormat("MM/dd/yyyy").format(date);
+    }
+
+
 
     public ArrayList<String> getStatus() {
         return status;

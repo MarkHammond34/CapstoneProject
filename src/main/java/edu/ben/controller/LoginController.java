@@ -87,6 +87,11 @@ public class LoginController extends BaseController {
 
 	}
 
+	@GetMapping("/landingPage")
+	public String landingPage() {
+		return "landingPage";
+	}
+
 	@GetMapping("/login")
 	public String login() {
 		return "login";

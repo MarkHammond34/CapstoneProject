@@ -101,14 +101,12 @@
 
             <div class="uk-margin-medium">
                 <form class="uk-width-1-1@s uk-align-center">
-                    <a class="uk-button-secondary uk-button-large uk-border-rounded uk-box-shadow-medium uk-box-shadow-hover-large uk-float-left"
+                    <a class="uk-width-1-5@m uk-width-1-2@s uk-text-center uk-button-secondary uk-button-large uk-border-rounded uk-box-shadow-medium uk-box-shadow-hover-large uk-float-left"
                        type="submit">
                         Go Back
                     </a>
-                    <button class="uk-button-danger uk-button-large uk-border-rounded uk-box-shadow-medium uk-box-shadow-hover-large uk-float-right"
-                            type="submit">
-                        Cancel Purchase
-                    </button>
+                    <div class="uk-width-1-5@m uk-width-1-2@s uk-float-right"
+                         id="paypal-button"></div>
                 </form>
             </div>
 
@@ -118,5 +116,56 @@
         </div>
     </div>
 </div>
+
+<script>
+    paypal.Button
+        .render(
+            {
+                env: 'sandbox', // Or 'production',
+                client: {
+                    sandbox: 'AVGW1RKTj5gyUclN5wBmPk97pGaiTCsnR4AHZZ6QHsjDgraupasf1V8YbxMbKZLiBAJ-BwtkoUmIsfdf',
+                    production: 'AUTi02B9WEFnsmjxP3XY2p2IljLU5HATmVK5yynF22kD3myoQhcQ7bKx2QF8CjiQRQ8-qyDJfgLwRd1u'
+                },
+                commit: true, // Show a 'Pay Now' button
+                style: {
+                    color: 'gold',
+                    size: 'responsive',
+                    shape: 'rect',
+                    label: 'pay'
+                },
+                payment: function (data, actions) {
+                    /*
+                     * Set up the payment here
+                     */
+                    return actions.payment.create({
+                        payment: {
+                            transactions: [{
+                                amount: {
+                                    total: ${listing.highestBid},
+                                    currency: 'USD'
+                                }
+                            }]
+                        }
+                    });
+                },
+                onAuthorize: function (data, actions) {
+                    /*
+                     * Execute the payment here
+                     */
+                    return actions.payment.execute().then(
+                        function (payment) {
+                            showSuccessMessage("Payment Complete");
+                        });
+                },
+                onCancel: function (data, actions) {
+                    showWarningMessage("Payment Canceled");
+                },
+                onError: function (err) {
+                    showErrorMessage("Error Processing Payment");
+                }
+            }, '#paypal-button');
+</script>
+
+<%@include file="../jspf/add-message-js.jsp"%>
 
 </body>

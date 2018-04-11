@@ -7,20 +7,17 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.util.store.FileDataStoreFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
-
+import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.*;
-
 import edu.ben.model.CalendarEvent;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
@@ -139,8 +136,8 @@ public class Quickstart {
     	// https://developers.google.com/google-apps/calendar/quickstart/java
     	// Change the scope to CalendarScopes.CALENDAR and delete any stored
     	// credentials.
-    	
-    	service =  getCalendarService();
+
+        service = getCalendarService();
     	
     	String startTime = calendarEvent.getStartTime().toString().replace(' ', 'T');
     	String endTime = calendarEvent.getEndTime().toString().replace(' ', 'T');
