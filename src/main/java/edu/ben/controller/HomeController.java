@@ -54,8 +54,8 @@ public class HomeController extends BaseController {
 		User user = (User) request.getSession().getAttribute("user");
 
 		ListingRunner.run();
-//
-//		PickUpRunner.run();
+
+		//PickUpRunner.run();
 
 		if (user != null) {
 

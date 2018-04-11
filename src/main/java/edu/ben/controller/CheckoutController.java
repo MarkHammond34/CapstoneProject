@@ -43,8 +43,7 @@ public class CheckoutController extends BaseController {
                 return "login";
             }
 
-            // Transaction transaction = transactionService.getTransactionsByListingID(listingID);
-            Transaction transaction = transactionService.getTransactionsByListingID(4);
+            Transaction transaction = transactionService.getTransactionsByListingID(listingID);
 
             // Verify transaction was created
             if (transaction == null) {

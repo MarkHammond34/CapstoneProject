@@ -286,20 +286,6 @@ public class ListingController extends BaseController {
         return "createListing";
     }
 
-    @RequestMapping("/viewListing")
-    public ModelAndView viewListing(@RequestParam("l") int l) {
-        ModelAndView model = new ModelAndView("listing");
-
-        // get listing
-        Listing listing = listingService.getByListingID(l);
-        // pass these to model
-        model.addObject("listing", listing);
-
-        System.out.println("Being used?");
-
-        return model;
-    }
-
     @RequestMapping("/displayListing")
     public String displayListing(HttpServletRequest request) {
         setRequest(request);
