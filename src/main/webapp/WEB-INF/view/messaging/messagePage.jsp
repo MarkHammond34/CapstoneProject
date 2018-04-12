@@ -15,6 +15,24 @@
 <div class="uk-section uk-section-muted">
     <div class="uk-container">
         <h1>Chat with: ${conversationUser.username}</h1>
+        <script>
+            jQuery(document).ready(function($){
+                    $.ajax({
+                        url: 'getMessages',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { "user1" : "${sessionScope.user.schoolEmail}", "user2" : "${sessionScope.sendTo.schoolEmail}" },
+                        success: function(){
+
+
+                        }
+                        }
+
+
+
+                    )
+            })
+        </script>
         <div class="uk-grid uk-child-width-1-2\@l uk-position-center uk-card">
             <div class="uk-panel uk-panel-scrollable uk-overflow-auto ">
                 <div class="uk-description-list uk-description-list-divider">

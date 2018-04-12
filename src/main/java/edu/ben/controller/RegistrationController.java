@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import edu.ben.model.Tutorial;
+import edu.ben.service.ImageService;
 import edu.ben.service.TutorialService;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public class RegistrationController extends BaseController {
 
     @Autowired
 	TutorialService tutorialService;
+
+    @Autowired
+	ImageService imageService;
 
     @PostMapping("/create")
     public String createUser(HttpServletRequest request, Model m, @Valid User user, BindingResult bindingResult) {

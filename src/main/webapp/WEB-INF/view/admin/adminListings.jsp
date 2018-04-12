@@ -92,10 +92,10 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Name</th>
                                 <th>Username</th>
                                 <th>Category</th>
                                 <th>Price</th>
-                                <th>Type</th>
                                 <th>Delete/Activate</th>
                                 <th>Edit</th>
 
@@ -109,13 +109,13 @@
                             <tr>
                                 <td><%=allListings.get(i).getId()%>
                                 </td>
+                                <td><%=allListings.get(i).getName()%>
+                                </td>
                                 <td><%=allListings.get(i).getUser().getUsername()%>
                                 </td>
                                 <td><%=allListings.get(i).getCategory()%>
                                 </td>
                                 <td><%=allListings.get(i).getPrice()%>
-                                </td>
-                                <td><%=allListings.get(i).getType()%>
                                 </td>
                                 <td>
                                     <%
