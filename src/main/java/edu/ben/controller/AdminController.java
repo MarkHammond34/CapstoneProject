@@ -95,6 +95,20 @@ public class AdminController extends BaseController {
         return "redirect:adminUser";
     }
 
+    @RequestMapping(value = "adminInactivateListing", method = RequestMethod.POST)
+    public String adminInactivateListing(HttpServletRequest request) {
+        Listing listing = listingService.getByListingID(Integer.parseInt(request.getParameter("adminInactivateListing")));
+        listingService.deleteByListingId(listing.getId());
+        return "redirect:adminListing";
+    }
+
+    @RequestMapping(value = "adminActivateListing", method = RequestMethod.POST)
+    public String adminActivateListing(HttpServletRequest request) {
+        Listing listing = listingService.getByListingID(Integer.parseInt(request.getParameter("adminActivateListing")));
+        listingService.activateByListingId(listing.getId());
+        return "redirect:adminListing";
+    }
+
     @RequestMapping(value = "adminPasswordReset", method = RequestMethod.POST)
     public String adminPasswordReset(HttpServletRequest request) {
         System.out.println(request.getParameter("email"));
@@ -116,11 +130,6 @@ public class AdminController extends BaseController {
         Listing listing = listingService.getByListingID(Integer.parseInt(request.getParameter("adminDeleteListing")));
         listingService.deleteListing(listing.getId());
         return "redirect:adminListing";
-    }
-
-    @GetMapping("/editListing")
-    public String editListing() {
-        return "editListing";
     }
 
     @RequestMapping(value = "adminCreateUser", method = RequestMethod.POST)

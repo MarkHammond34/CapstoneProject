@@ -196,4 +196,10 @@ public class ListingServiceImpl implements ListingService {
 	public List<Listing> getInActiveListingsByUserId(int id) {
 		return ld.getInActiveListingsByUserId(id);
 	}
+
+    public void deleteByListingId(int id)  {
+        ld.deleteByListingId(id);
+    }
+
+    public void activateByListingId(int id) { ld.activateByListingId(id);}
 }

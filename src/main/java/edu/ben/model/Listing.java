@@ -90,7 +90,6 @@ public class Listing implements java.io.Serializable {
         this.description = description;
         this.price = price;
         // this.category = category;
-        this.highestBid = 0;
         this.bidCount = 0;
     }
 

@@ -2,12 +2,15 @@ package edu.ben.controller;
 
 import edu.ben.model.Follow;
 import edu.ben.model.Image;
+import edu.ben.model.Listing;
 import edu.ben.model.User;
 import edu.ben.service.FollowService;
 import edu.ben.service.ListingService;
 import edu.ben.service.OfferService;
 import edu.ben.service.UserService;
 import edu.ben.util.Path;
+import org.apache.poi.util.SystemOutLogger;
+import org.hibernate.annotations.SourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,136 +24,175 @@ import java.io.FileOutputStream;
 import java.util.List;
 
 @Controller
-public class UserController {
+public class UserController extends BaseController {
 
-	@Autowired
-	UserService userService;
+    @Autowired
+    UserService userService;
 
-	@Autowired
-	FollowService followService;
-	
-	@Autowired
-	ListingService listingService;
+    @Autowired
+    FollowService followService;
 
-	@Autowired
-	OfferService offerService;
+    @Autowired
+    ListingService listingService;
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
-		ModelAndView model = new ModelAndView("/list");
-		List<User> list = userService.getAllUsers();
+    @Autowired
+    OfferService offerService;
 
-		model.addObject("list", list);
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public ModelAndView list() {
+        ModelAndView model = new ModelAndView("/list");
+        List<User> list = userService.getAllUsers();
 
-		return model;
-	}
+        model.addObject("list", list);
 
-	@RequestMapping(value = "/update{id}", method = RequestMethod.GET)
-	public ModelAndView update(@PathVariable("id") int id) {
-		ModelAndView model = new ModelAndView("/form");
-		User user = userService.getUserById(id);
+        return model;
+    }
 
-		model.addObject("userForm", user);
+    @RequestMapping(value = "/update{id}", method = RequestMethod.GET)
+    public ModelAndView update(@PathVariable("id") int id) {
+        ModelAndView model = new ModelAndView("/form");
+        User user = userService.getUserById(id);
 
-		return model;
-	}
+        model.addObject("userForm", user);
 
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public ModelAndView add() {
-		ModelAndView model = new ModelAndView("/form");
-		User user = new User();
+        return model;
+    }
 
-		model.addObject("userForm", user);
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public ModelAndView add() {
+        ModelAndView model = new ModelAndView("/form");
+        User user = new User();
 
-		return model;
-	}
+        model.addObject("userForm", user);
 
-	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ModelAndView save(@ModelAttribute("userForm") User user) {
+        return model;
+    }
 
-		userService.saveOrUpdate(user);
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public ModelAndView save(@ModelAttribute("userForm") User user) {
 
-		return new ModelAndView("redirect:/list");
-	}
+        userService.saveOrUpdate(user);
 
-	@RequestMapping(value = "/testing", method = RequestMethod.GET)
-	public ModelAndView testing() {
+        return new ModelAndView("redirect:/list");
+    }
 
-		// User user = new User("Corey", "Bill", "ey", "corey@email.com", "password");
-		// userService.createUser(user);
+    @RequestMapping(value = "/testing", method = RequestMethod.GET)
+    public ModelAndView testing() {
 
-		return new ModelAndView("redirect:/");
-	}
+        // User user = new User("Corey", "Bill", "ey", "corey@email.com", "password");
+        // userService.createUser(user);
 
-	@RequestMapping(value = "/uploadProfilePic", method = RequestMethod.POST)
-	public String uploadProfilePic(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
-		User user = (User) request.getSession().getAttribute("user");
+        return new ModelAndView("redirect:/");
+    }
 
-		if (!file.isEmpty()) {
-			try {
+    @RequestMapping(value = "/uploadProfilePic", method = RequestMethod.POST)
+    public String uploadProfilePic(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
 
-				byte[] bytes = file.getBytes();
+        if (!file.isEmpty()) {
+            try {
 
-				// Creating the directory to store file
-				File dir = new File(Path.url + File.separator + "profile-pic");
-				if (!dir.exists())
-					dir.mkdirs();
+                byte[] bytes = file.getBytes();
 
-				// Create the file on server
+                // Creating the directory to store file
+                File dir = new File(Path.url + File.separator + "profile-pic");
+                if (!dir.exists())
+                    dir.mkdirs();
 
-				File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
-				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-				stream.write(bytes);
+                // Create the file on server
+
+                File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+                stream.write(bytes);
 
                 Image image = new Image(user, file.getName(), file.getOriginalFilename(), 1); // not sure what to do with this
 
-				userService.saveOrUpdate(user);
-				stream.close();
+                userService.saveOrUpdate(user);
+                stream.close();
 
-				// Listing l = new Listing(name, description, price, category, file );
-				// ld.create(l);
+                // Listing l = new Listing(name, description, price, category, file );
+                // ld.create(l);
 
-				return "createListing";
-			} catch (Exception e) {
-				e.printStackTrace();
-				return "You failed to upload profile pic  => " + e.getMessage();
+                return "createListing";
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "You failed to upload profile pic  => " + e.getMessage();
 
-			}
-		} else {
-			return "You failed to upload profile pic because the file was empty.";
-		}
-	}
+            }
+        } else {
+            return "You failed to upload profile pic because the file was empty.";
+        }
+    }
 
-	@RequestMapping(value = "/editUser", method = RequestMethod.GET)
-	public String editUser() {
+    @GetMapping("/editUser")
+    public String editUser(HttpServletRequest request, @RequestParam("id") int id) {
+        System.out.println(id);
+        request.setAttribute("user", userService.getUserById(id));
+        return "edit-user";
+    }
 
-		return "edit-user";
-	}
+    @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
+    public String updateUser(HttpServletRequest request,
+                             @RequestParam(value = "username", required = false) String username,
+                             @RequestParam(value = "firstName", required = false) String firstName,
+                             @RequestParam(value = "lastName", required = false) String lastName,
+                             @RequestParam(value = "password", required = false) String password,
+                             @RequestParam(value = "confirmPassword", required = false) String confirmPassword) {
 
-	@RequestMapping(value = "/followUser", method = RequestMethod.GET)
-	public String follow(HttpServletRequest request, @RequestParam("result") String results,
-			@RequestParam("followerId") int followerId) {
-		System.out.println("Hit Servlet");
-		User session = (User) request.getSession().getAttribute("user");
-		if (results.equals("follow")) {
-			Follow f = new Follow();
-			User user = userService.getUserById(session.getUserID());
-			User follower = userService.getUserById(followerId);
+        System.out.println("first name: " + firstName);
+        System.out.println("last name: " + lastName);
+        User user = (User) request.getSession().getAttribute("user");
 
-			f.setUser(user);
-			f.setFollower(follower);
+        if (!password.equals(confirmPassword)) {
+            addErrorMessage("Passwords do not match! Please re-enter your password");
+            setRequest(request);
+            System.out.println(password);
+            System.out.println(confirmPassword);
+            System.out.println("pass not match");
+            return "redirect:/editUser?id=" + user.getUserID();
+        } else {
+            addSuccessMessage("Profile Updated!");
+            setRequest(request);
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setUsername(username);
+            user.setPassword(password);
+            user.setPasswordConfirm(confirmPassword);
+            System.out.println(password);
+            System.out.println(confirmPassword);
+            System.out.println("pass match");
 
-			followService.create(f);
+            userService.saveOrUpdate(user);
+            return "redirect:/viewProfile?id=" + user.getUserID();
+        }
 
-			System.out.println("following a user");
-		} else if (results.equals("unfollow")) {
-			Follow current = followService.findCurrent(session.getUserID(), followerId);
-			followService.deleteFollower(current.getId());
 
-			System.out.println("Unfollow");
-		}
-		return ":/redirect";
-	}
+    }
+
+    @RequestMapping(value = "/followUser", method = RequestMethod.GET)
+    public String follow(HttpServletRequest request, @RequestParam("result") String results,
+                         @RequestParam("followerId") int followerId) {
+        System.out.println("Hit Servlet");
+        User session = (User) request.getSession().getAttribute("user");
+        if (results.equals("follow")) {
+            Follow f = new Follow();
+            User user = userService.getUserById(session.getUserID());
+            User follower = userService.getUserById(followerId);
+
+            f.setUser(user);
+            f.setFollower(follower);
+
+            followService.create(f);
+
+            System.out.println("following a user");
+        } else if (results.equals("unfollow")) {
+            Follow current = followService.findCurrent(session.getUserID(), followerId);
+            followService.deleteFollower(current.getId());
+
+            System.out.println("Unfollow");
+        }
+        return "redirect:/viewProfile";
+    }
 
 
 //	@GetMapping("/rateReview")

@@ -10,6 +10,10 @@ public interface ListingDAO {
 
     public int save(Listing listing);
 
+    public void deleteByListingId(int id);
+
+    public void activateByListingId(int id);
+
     public void saveOrUpdate(Listing listing);
 
     public void create(Listing listing);

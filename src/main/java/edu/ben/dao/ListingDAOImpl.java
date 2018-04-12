@@ -290,4 +290,16 @@ public class ListingDAOImpl implements ListingDAO {
 		
 		return q.list();
 	}
+
+    public void deleteByListingId(int id) {
+        Query q = getSession().createQuery("UPDATE listing SET active=0 WHERE id=:id");
+        q.setParameter("id", id);
+        q.executeUpdate();
+    }
+
+    public void activateByListingId(int id) {
+        Query q = getSession().createQuery("UPDATE listing SET active=1 WHERE id=:id");
+        q.setParameter("id", id);
+        q.executeUpdate();
+    }
 }

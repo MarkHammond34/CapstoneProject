@@ -13,6 +13,7 @@
 <%@ page import="edu.ben.model.User" %>
 <%@ page import="edu.ben.model.Listing" %>
 <%@ page import="java.util.List" %>
+<%@include file="../jspf/messages.jsp"%>
 <html>
 <spring:url value="resources/css/uikit.css" var="uikitCSS"/>
 <spring:url value="resources/js/uikit.js" var="uikitJS"/>
@@ -95,9 +96,9 @@
                                 <th>Category</th>
                                 <th>Price</th>
                                 <th>Type</th>
-                                <th>Active/Inactive</th>
+                                <th>Delete/Activate</th>
                                 <th>Edit</th>
-                                <th>Delete</th>
+
                             </tr>
                             </thead>
                             <tbody>
@@ -120,14 +121,16 @@
                                     <%
                                         if (allListings.get(i).getActive() == 1) {
                                     %>
-                                        <button name="active"  type="submit"
-                                                uk-icon="icon: check"></button>
+                                    <form method="Post" action="adminInactivateListing">
+                                        <button name="adminInactivateListing" value="<%=allListings.get(i).getId()%>"  type="submit"
+                                                uk-icon="icon: trash" uk-tooltip="Delete this listing"></button>
+                                    </form>
                                     <%
                                     } else {
                                     %>
-
-                                        <button name="inactive"
-                                                type="submit" uk-icon="icon: ban"></button>
+                                    <form method="Post" action="adminActivateListing">
+                                        <button name="adminActivateListing" value="<%=allListings.get(i).getId()%>"
+                                                type="submit" uk-icon="icon: check" uk-tooltip="Activate this listing"></button>
                                     <%
                                         }
                                     %>
@@ -135,13 +138,6 @@
                                 <td>
                                     <a href="/editListing?id=<%=allListings.get(i).getId()%>" uk-icon="icon: file-edit"
                                        uk-toggle></a>
-                                </td>
-                                <td>
-                                    <form method="Post" action="adminDeleteListing">
-                                        <button name="adminDeleteListing"
-                                                value="<%=allListings.get(i).getId()%>"
-                                                type="submit" uk-icon="icon: trash"></button>
-                                    </form>
                                 </td>
                             </tr>
                             <%

@@ -314,6 +314,27 @@ public class ListingController extends BaseController {
         return "displayListing";
     }
 
+    @RequestMapping(value = "/updateListingInfo", method = RequestMethod.POST)
+    public String updateListingInfo(HttpServletRequest request,
+                                    @RequestParam(value = "name") String name,
+                                    @RequestParam(value = "description") String description,
+                                    @RequestParam(value = "category") String category,
+                                    @RequestParam(value = "id") int id)
+
+    {
+
+        Listing listing = listingService.getByListingID(id);
+        addSuccessMessage("Listing Updated!");
+        setRequest(request);
+        listing.setName(name);
+        listing.setDescription(description);
+        listing.setCategory(category);
+
+        listingService.saveOrUpdate(listing);
+        return "redirect:/adminListing";
+    }
+
+
     @RequestMapping(value = "/watchListing", method = RequestMethod.POST)
     public String updateListing(HttpServletRequest request, ModelAndView model) {
         String listingIDString = request.getParameter("listingID");
@@ -360,19 +381,11 @@ public class ListingController extends BaseController {
         return model;
     }
 
-    @RequestMapping(value = "/editTheListing", method = RequestMethod.POST)
-    public String editListing(@RequestParam("listingID") String id, @RequestParam("title") String name,
-                              @RequestParam("price") String price, @RequestParam("description") String description) {
-
-        Listing listing = listingService.getByListingID(Integer.parseInt(id));
-
-        listing.setName(name);
-        listing.setPrice(Integer.parseInt(price));
-        listing.setDescription(description);
-
-        listingService.saveOrUpdate(listing);
-
-        return "redirect:/dashboard2";
+    @GetMapping("/editListing")
+    public String editListing(HttpServletRequest request, @RequestParam("id") int id) {
+        System.out.println(id);
+        request.setAttribute("listing", listingService.getByListingID(id));
+        return "editListing";
     }
 
     @RequestMapping(value = "/sub", method = RequestMethod.GET)
@@ -708,7 +721,7 @@ public class ListingController extends BaseController {
         return model;
     }
 
-    //    @GetMapping("/reportListing")
+//    @GetMapping("/reportListing")
 //    public String reportListing(@RequestParam("listingId") int id, HttpServletRequest request) {
 //        System.out.println(id);
 //        Listing listing = listingService.getByListingID(id);

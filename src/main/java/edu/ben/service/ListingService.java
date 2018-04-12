@@ -14,6 +14,10 @@ public interface ListingService {
 
 	public void create(Listing listing);
 
+	public void deleteByListingId(int id);
+
+	public void activateByListingId(int id);
+
 	public List<Listing> getAllListingsByCategory(String category);
 
 	public List<Listing> getRecentListings();

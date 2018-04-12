@@ -1,15 +1,16 @@
 <%@include file="jspf/header.jsp"%>
+<%@include file="jspf/messages.jsp"%>
 
 <body>
 	<%@include file="jspf/navbar.jspf"%>
 	<div class="uk-container">
 		<div class="row">
 			<div class="fb-profile">
-				<a href="${pageContext.request.contextPath}/editUser"><img
+				<a  href="${pageContext.request.contextPath}/editUser?id=${user.userID}"><img
 					align="left" style="border-radius: 50%"
 					class="fb-image-profile thumbnail"
 					src="https://media-exp2.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAO7AAAAJDVkYzc5Y2UzLWM2YzktNGVhMi05YWJjLTdlYjVlNzc1Nzk4OQ.jpg"
-					alt="Profile image example" /></a>
+					alt="Profile image example" uk-tooltip="Edit Profile Data" /></a>
 				<div class="fb-profile-text">
 					<h1>
 						<strong class="uk-text-danger">${user.username}</strong>
