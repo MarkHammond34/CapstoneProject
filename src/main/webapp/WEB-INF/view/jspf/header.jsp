@@ -39,9 +39,7 @@
     <spring:url value="resources/css/index-listing.css" var="indexListingCSS"/>
     <spring:url value="resources/css/registration.css" var="regCSS"/>
 
-<script type="text/javascript" src="${jquery}"></script>
-<script type="text/javascript" src="${uikitJS}"></script><link href="${uikitCSS}" rel="stylesheet"/>
-<script type="text/javascript" src="${uikiticons}"></script>
+
 
     <title>${title}</title><link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -755,5 +753,8 @@ fieldset {
 .date-as-calendar.size3x {
 	font-size: 48px;
 }</style>
+    <script type="text/javascript" src="${jquery}"></script>
+    <script type="text/javascript" src="${uikitJS}"></script><link href="${uikitCSS}" rel="stylesheet"/>
+    <script type="text/javascript" src="${uikiticons}"></script>
 </head>
 <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
