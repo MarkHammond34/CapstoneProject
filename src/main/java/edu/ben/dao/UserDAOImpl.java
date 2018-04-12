@@ -27,6 +27,8 @@ public class UserDAOImpl implements UserDAO {
         return (List<User>) criteria.list();
     }
 
+    public int save(User user){return (Integer) getSession().save(user);}
+
     public void saveOrUpdate(User user) {
         getSession().saveOrUpdate(user);
     }

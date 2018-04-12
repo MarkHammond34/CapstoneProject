@@ -105,4 +105,9 @@ public class Image {
     public void setMain(int main) {
         this.main = main;
     }
+
+    @Override
+    public String toString(){
+        return image_path+ "/" + image_name;
+    }
 }

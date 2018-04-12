@@ -1,5 +1,8 @@
 package edu.ben.controller;
 
+import com.google.api.client.json.Json;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import edu.ben.model.Conversation;
 import edu.ben.model.Message;
 import edu.ben.model.PickUp;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -28,7 +32,7 @@ public class MessageController extends BaseController {
     @Autowired
     PickUpService pickUpService;
 
-    @RequestMapping(value = "/messageDashboard", method = RequestMethod.GET)
+    @RequestMapping(value = "/message", method = RequestMethod.GET)
     public String messageDashboard(HttpServletRequest request) {
         User sessionUser = (User) request.getSession().getAttribute("user");
         List<Conversation> conversations = messageService.getConversation(sessionUser);
@@ -53,7 +57,7 @@ public class MessageController extends BaseController {
         System.out.println(sendTo.getUserID());
         Conversation input = new Conversation(sendBy, sendTo);
         messageService.saveOrUpdate(input);
-        return "redirect:/messageDashboard";
+        return "redirect:/message";
     }
 
     @RequestMapping(value = "viewConversation", method = RequestMethod.POST)
@@ -76,6 +80,59 @@ public class MessageController extends BaseController {
         request.getSession().setAttribute("messages", messages);
         request.getSession().setAttribute("conversationUser", sendTo);
         return "messaging/messagePage";
+    }
+
+    @RequestMapping(value = "getConversation", method = RequestMethod.GET, produces="application/json")
+    public @ResponseBody String getConversation(HttpServletRequest request) {
+        User sessionUser = (User) request.getSession().getAttribute("user");
+        List<Conversation> conversations = messageService.getConversation(sessionUser);
+
+        JsonArray result = new JsonArray();
+        for(int i =0; i < conversations.size(); i++){
+            JsonObject addJson = new JsonObject();
+            addJson.addProperty("conversationId", String.valueOf(conversations.get(i).getId()));
+            addJson.addProperty("user1Id", String.valueOf(conversations.get(i).getUser1().getUserID()));
+            addJson.addProperty("user1FirstName", (conversations.get(i).getUser1().getFirstName()));
+            addJson.addProperty("user1LastName", (conversations.get(i).getUser1().getLastName()));
+            addJson.addProperty("user1Username", (conversations.get(i).getUser1().getUsername()));
+            addJson.addProperty("user1SchoolEmail", (conversations.get(i).getUser1().getSchoolEmail()));
+           // addJson.addProperty("user1ProfilePic", (conversations.get(i).getUser1().getMainImage().toString()));
+
+            addJson.addProperty("user2Id", String.valueOf(conversations.get(i).getUser2().getUserID()));
+            addJson.addProperty("user2FirstName", (conversations.get(i).getUser2().getFirstName()));
+            addJson.addProperty("user2LastName", (conversations.get(i).getUser2().getLastName()));
+            addJson.addProperty("user2Username", (conversations.get(i).getUser2().getUsername()));
+            addJson.addProperty("user2SchoolEmail", (conversations.get(i).getUser2().getSchoolEmail()));
+            //addJson.addProperty("user2ProfilePic", (conversations.get(i).getUser2().getMainImage().toString()));
+
+            addJson.addProperty("timestamp", conversations.get(i).getDateCreated().toString());
+            result.add(addJson);
+        }
+        return result.toString();
+    }
+
+    @RequestMapping(value="getMessages", method = RequestMethod.GET, produces="application/json")
+    public @ResponseBody String getMessages(HttpServletRequest request, @RequestParam("schoolEmail") String email){
+        System.out.println(email);
+        User sendBy = (User) request.getSession().getAttribute("user");
+        User sendTo = userService.findBySchoolEmail(email);
+        List<Message> messages = messageService.getMessages(sendBy, sendTo);
+        if(messages != null || !messages.isEmpty()) {
+            JsonArray result = new JsonArray();
+            for (int i = 0; i < messages.size(); i++) {
+                JsonObject addJson = new JsonObject();
+                addJson.addProperty("Username", (messages.get(i).getUser().getUsername()));
+                addJson.addProperty("UserFirstName", (messages.get(i).getUser().getFirstName()));
+                addJson.addProperty("UserLastName", (messages.get(i).getUser().getLastName()));
+                addJson.addProperty("UserId", String.valueOf(messages.get(i).getUser().getUserID()));
+                addJson.addProperty("messageBody", (messages.get(i).getMessageBody()));
+                addJson.addProperty("dateSent", String.valueOf(messages.get(i).getDateSent()));
+                addJson.addProperty("conversationId", String.valueOf(messages.get(i).getConversationId()));
+                result.add(addJson);
+            }
+            return result.toString();
+        }
+        return null;
     }
 
 }
