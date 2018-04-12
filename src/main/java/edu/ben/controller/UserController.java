@@ -113,7 +113,7 @@ public class UserController extends BaseController {
                 // Listing l = new Listing(name, description, price, category, file );
                 // ld.create(l);
 
-                return "createListing";
+                return "listing/create-listing";
             } catch (Exception e) {
                 e.printStackTrace();
                 return "You failed to upload profile pic  => " + e.getMessage();
