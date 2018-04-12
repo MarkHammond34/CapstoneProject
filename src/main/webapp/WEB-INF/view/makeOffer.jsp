@@ -1,51 +1,64 @@
-<%@include file="jspf/header.jsp"%>
-<body>
+<%@include file="jspf/header.jsp" %>
+<div style="border: 20px solid white;
+            margin: 0 auto;
+            background: white;">
+    <body>
 
-	<%@include file="jspf/navbar.jspf"%>
+    <!-- max-width: 1350px; -->
 
-	<!--<div style="background-color: #f2f2f2;">-->
+    <%@include file="jspf/navbar.jspf" %>
 
-		<div class="uk-section">
+    <!--<div style="background-color: #f2f2f2;">-->
 
-            <div class="uk-container">
-				<div class="col-md-3"></div>
-				<div class="col-md-6">
-					<div class="form-area uk-align-center">
-						<form method="POST" class="uk-grid-large"
-							onsubmit="return validateForm()" action="confirmOffer"
-							enctype="multipart/form-data" name="uploadListingForm" uk-grid>
-							<br style="clear: both">
-							<h3 style="margin-bottom: 15px; text-align: center;">Make an
-								offer</h3>
+    <div class="uk-section uk-background-muted uk-padding-remove">
 
-							<hr class="colorgraph uk-width-1-1 uk-align-center">
+        <div class="uk-container">
 
-							<div class="uk-width-1-1">
-								<strong>Price</strong><input type="number" class="uk-input"
-									id="price" name="offer-amount" placeholder="Offer" required>
-							</div>
-							<div class="uk-width-1-1">
-								<strong> Offer Message (Optional): </strong>
-								<textarea class="uk-textarea" type="textarea" name="offer-message"
-									id="message" placeholder="Message" maxlength="140" rows="7"></textarea>
-								<span class="help-block"><p id="characterLeft"
-										class="help-block "></span>
-								<input type="hidden" name="listing" value="${listing.id}">
-							</div>
+            <div class="uk-grid uk-margin-medium-bottom uk-align-center" uk-grid>
 
-							<hr class="colorgraph uk-width-1-1 uk-align-center">
+                <div class="uk-width-2-3@m uk-width-1-1@s uk-align-center uk-card-body">
 
-							<div class="uk-width-1-1">
-								<button type="submit" id="submit" name="submit"
-									class="btn btn-primary pull-right">Submit Form</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
+                    <form role="form" data-toggle="validator" method="POST" class="uk-form uk-grid"
+                          action="confirmOffer" enctype="multipart/form-data" name="uploadListingForm" uk-grid>
 
-		</div>
+                        <h2>Make an offer</h2>
 
-</body>
-<%@include file="jspf/footer.jspf"%>
+                        <!--<hr class="colorgraph uk-width-1-1 uk-align-center">-->
+
+                        <div class="uk-card uk-card-body uk-card-hover uk-card-large uk-card-default uk-width-1-1 uk-border-rounded uk-align-center">
+
+                            <div class="uk-width-1-1 uk-align-center">
+                                <strong>Price</strong><input type="number" class="uk-input"
+                                                             id="price" name="offer-amount" placeholder="Offer"
+                                                             required>
+                            </div>
+                            <div class="uk-width-1-1 uk-align-center">
+                                <strong> Offer Message (Optional): </strong>
+                                <textarea class="uk-textarea" type="textarea" name="offer-message"
+                                          id="message" placeholder="Message" maxlength="140" rows="7"></textarea>
+                                <span class="help-block"><p id="characterLeft"
+                                                            class="help-block "></span>
+                                <input type="hidden" name="listing" value="${listing.id}">
+                            </div>
+
+                        </div>
+
+                        <!--<hr class="colorgraph uk-width-1-1 uk-align-center">-->
+
+                        <div class="uk-width-1-1 uk-margin-large-bottom uk-margin-small-top uk-padding-remove uk-align-center">
+                            <button type="submit" value="confirmOffer" name="submit"
+                                    class="uk-button-primary uk-border-rounded uk-button-large uk-float-right"
+                                    tabindex="7">Confirm offer
+                            </button>
+
+                            <a href="" class="uk-button-large uk-border-rounded uk-button-secondary uk-float-left">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+</div>
+<%@include file="jspf/footer.jspf" %>
 </html>

@@ -7,38 +7,45 @@
 
 <!DOCTYPE html>
 <html>
-<div class="full-wrap">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link href="resources/css/uikit.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
-        <script type="text/javascript" src="resources/js/jquery.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <style>
-            .uk-panel {
-                border: 0;
-                min-height: 400px;
-                max-height: 600px;
-            }
+    <link href="resources/css/uikit.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+    <script type="text/javascript" src="resources/js/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 
-            .full-wrap {
-                border: 25px outset rgba(36, 143, 203, 0.20);
-            <!-- border-style: outset;
-            -->
-                max-width: 1350px;
-                margin: 0 auto;
-                background: white;
-            }
+    <style>
+        <!--
+        .uk-panel {
+            border: 0;
+            min-height: 400px;
+            max-height: 600px;
+        }
 
-            p, h3, li, a {
-                font-family: 'Muli', sans-serif;
-            }
-        </style>
+        -->
 
-    </head>
+        .full-wrap {
+        <!-- border: 25 px outset rgba(36, 143, 203, 0.20);
+        --> border: 20px solid white;
+            max-width: 1350px;
+            margin: 0 auto;
+            background: white;
+        }
+
+        p, h3, li, a {
+            font-family: 'Muli', sans-serif;
+        }
+    </style>
+
+</head>
+
+<div style="border: 20px solid white;
+            margin: 0 auto;
+            background: white;">
+    <!--class="full-wrap" max-width: 1350px;-->
     <body>
 
     <!-- style="background-color: #b0c4de; background-image: linear-gradient(52deg, #b0c4de 25%, #2c57ff 100%);" -->
