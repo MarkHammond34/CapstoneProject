@@ -76,6 +76,9 @@ public class Listing implements java.io.Serializable {
     @OneToMany(mappedBy = "listingId",  fetch = FetchType.EAGER)
     private List<Image> images;
 
+    @Column(name = "payment_type")
+    public String paymentType;
+
 
     // Constructors
 
@@ -84,44 +87,53 @@ public class Listing implements java.io.Serializable {
         this.bidCount = 0;
     }
 
-    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price) {
+    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, @NotBlank String paymentType) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         // this.category = category;
+        this.paymentType = paymentType;
         this.highestBid = 0;
         this.bidCount = 0;
+        this.active = 1;
     }
 
-    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, String category) {
+    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, String category, @NotBlank String paymentType) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.category = category;
+        this.paymentType = paymentType;
         this.highestBid = 0;
         this.bidCount = 0;
+        this.active = 1;
     }
 
-    public Listing(@NotBlank String name, String description, @NotBlank double price/* @NotBlank String category, */) {
+    public Listing(@NotBlank String name, String description, @NotBlank double price, @NotBlank String paymentType) {
         super();
         this.name = name;
         this.description = description;
         this.price = price;
         // this.category = category;
+        this.paymentType = paymentType;
         this.highestBid = 0;
         this.bidCount = 0;
+        this.active = 1;
     }
 
-    public Listing(@NotBlank String name, String description, @NotBlank double price, @NotBlank String category) {
+    public Listing(@NotBlank String name, String description, @NotBlank double price, @NotBlank String category,
+                   @NotBlank String paymentType) {
         super();
         this.name = name;
         this.description = description;
         this.price = price;
         this.category = category;
+        this.paymentType = paymentType;
         this.highestBid = 0;
         this.bidCount = 0;
+        this.active = 1;
     }
 
     // Getters and setters
