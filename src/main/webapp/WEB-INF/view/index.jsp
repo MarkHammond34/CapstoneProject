@@ -1,6 +1,6 @@
 <%@include file="jspf/header.jsp" %>
 
-<body class="uk-background-muted" onload="checkIsNewUser(${newUser});">
+<body class="uk-background-muted">
 
 <%@include file="jspf/navbar.jspf" %>
 
@@ -28,10 +28,11 @@
          data-intro="Browse listings by premium, trending, ending soon, and recently added."
          data-step="6">
 
-        <ul class="uk-flex-center uk-subnav uk-subnav-pill" uk-switcher="animation: uk-animation-slide-left-medium, uk-animation-slide-right-medium">
+        <ul class="uk-flex-center uk-subnav uk-subnav-pill"
+            uk-switcher="animation: uk-animation-slide-left-medium, uk-animation-slide-right-medium">
             <c:if test="${premiumListings != null}">
                 <li class="uk-active"><a href="#premium-listings"><span uk-icon="bolt"
-                                                                          style="color: yellow"></span>
+                                                                        style="color: yellow"></span>
                     <b>Premium</b>
                     <span uk-icon="bolt"
                           style="color: yellow"></span></a>
@@ -47,66 +48,66 @@
         </ul>
 
         <ul class="uk-switcher uk-margin">
-    <c:if test="${premiumListings != null}">
-        <div id="premium-listings">
-            <div uk-slider>
-                <div class="uk-position-relative uk-visible-toggle uk-light">
-                    <ul class="uk-slider-items uk-child-width-1-3@s uk-grid">
-                        <c:forEach var="listing" items="${premiumListings}">
-                            <%@include file="listing/index-listing.jsp" %>
-                        </c:forEach>
-                    </ul>
+            <c:if test="${premiumListings != null}">
+                <div id="premium-listings">
+                    <div uk-slider>
+                        <div class="uk-position-relative uk-visible-toggle uk-light">
+                            <ul class="uk-slider-items uk-child-width-1-3@s uk-grid">
+                                <c:forEach var="listing" items="${premiumListings}">
+                                    <%@include file="listing/index-listing.jsp" %>
+                                </c:forEach>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </c:if>
-    <c:if test="${relevantListings != null}">
-        <div id="relevant-listings">
-            <div uk-slider>
-                <div class="uk-position-relative uk-visible-toggle uk-light">
-                    <ul class="uk-slider-items uk-child-width-1-3@s uk-grid">
-                        <c:forEach var="listing" items="${relevantListings}">
-                            <%@include file="listing/index-listing.jsp" %>
-                        </c:forEach>
-                    </ul>
+            </c:if>
+            <c:if test="${relevantListings != null}">
+                <div id="relevant-listings">
+                    <div uk-slider>
+                        <div class="uk-position-relative uk-visible-toggle uk-light">
+                            <ul class="uk-slider-items uk-child-width-1-3@s uk-grid">
+                                <c:forEach var="listing" items="${relevantListings}">
+                                    <%@include file="listing/index-listing.jsp" %>
+                                </c:forEach>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </c:if>
-        <div id="trending-listings">
-            <div uk-slider>
-            <div class="uk-position-relative uk-visible-toggle uk-light">
-            <ul class="uk-slider-items uk-child-width-1-3@s uk-grid">
+            </c:if>
+            <div id="trending-listings">
+                <div uk-slider>
+                    <div class="uk-position-relative uk-visible-toggle uk-light">
+                        <ul class="uk-slider-items uk-child-width-1-3@s uk-grid">
 
-                <c:forEach var="listing" items="${trendingListings}">
-                    <%@include file="listing/index-listing.jsp" %>
-                </c:forEach>
-            </ul>
+                            <c:forEach var="listing" items="${trendingListings}">
+                                <%@include file="listing/index-listing.jsp" %>
+                            </c:forEach>
+                        </ul>
+                    </div>
+                </div>
             </div>
+            <div id="ending-soon-listings">
+                <div uk-slider>
+                    <div class="uk-position-relative uk-visible-toggle uk-light">
+                        <ul class="uk-slider-items uk-child-width-1-3@s  uk-grid">
+                            <c:forEach var="listing" items="${endingSoonListings}">
+                                <%@include file="listing/index-listing.jsp" %>
+                            </c:forEach>
+                        </ul>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div id="ending-soon-listings">
-            <div uk-slider>
-            <div class="uk-position-relative uk-visible-toggle uk-light">
-                <ul class="uk-slider-items uk-child-width-1-3@s  uk-grid">
-                    <c:forEach var="listing" items="${endingSoonListings}">
-                        <%@include file="listing/index-listing.jsp" %>
-                    </c:forEach>
-                </ul>
+            <div id="recently-added-listings">
+                <div uk-slider>
+                    <div class="uk-position-relative uk-visible-toggle uk-light">
+                        <ul class="uk-slider-items uk-child-width-1-3@s uk-grid">
+                            <c:forEach var="listing" items="${recentListings}">
+                                <%@include file="listing/index-listing.jsp" %>
+                            </c:forEach>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            </div>
-        </div>
-        <div id="recently-added-listings">
-            <div uk-slider>
-            <div class="uk-position-relative uk-visible-toggle uk-light">
-                <ul class="uk-slider-items uk-child-width-1-3@s uk-grid">
-                    <c:forEach var="listing" items="${recentListings}">
-                        <%@include file="listing/index-listing.jsp" %>
-                    </c:forEach>
-                </ul>
-            </div>
-            </div>
-        </div>
         </ul>
     </div>
 

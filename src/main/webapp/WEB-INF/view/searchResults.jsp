@@ -293,19 +293,19 @@
         }
     }
 
-    function onload(showTutorial) {
-        if (showTutorial == true) {
-            setTimeout(function () {
-                introJs().start();
-            }, 2000);
-        } else {
+    window.addEventListener("load", function () {
+        if (document.getElementById("yes").style.display == "inline") {
             setTimeout(function () {
                 introJs().start();
             }, 2000);
         }
-    }
+    });
 
 </script>
+
+<c:if test="${showTutorial == true}">
+    <p id="yes" style="display: inline;"></p>
+</c:if>
 </body>
 <%@include file="jspf/footer.jspf" %>
 </html>
