@@ -128,7 +128,7 @@ fred@skyrocketlabs.com
 /* ARCHITECTURE */
 
 body {
-	font-family: georgia,"times new roman",times,serif;
+    font-family: 'Muli', sans-serif;
 	color: #333;
 	margin: 0;
 	padding: 0;
