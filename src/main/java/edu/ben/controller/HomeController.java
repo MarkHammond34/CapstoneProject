@@ -40,6 +40,9 @@ public class HomeController extends BaseController {
     @Autowired
     UserService userService;
 
+    @Autowired
+	CategoryService categoryService;
+
     /*
      * @Autowired FaqService faqService;
      */
@@ -48,7 +51,9 @@ public class HomeController extends BaseController {
 	public ModelAndView home(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("index");
 
+
 		model.addObject("recentListings", listingService.getRecentListings());
+		System.out.println("Recent Listing Size: " + listingService.getRecentListings().size());
 
 		model.addObject("endingSoonListings", listingService.getRecentListings());
 
@@ -58,10 +63,12 @@ public class HomeController extends BaseController {
 
 		model.addObject("premiumListings", listingService.getPremiumListings());
 
+		model.addObject("categories", categoryService.getAllCategories());
+
 		User user = (User) request.getSession().getAttribute("user");
 
-	/*	ListingRunner.run();
-*/
+	ListingRunner.run();
+
 		//PickUpRunner.run();
 
 		if (user != null) {
