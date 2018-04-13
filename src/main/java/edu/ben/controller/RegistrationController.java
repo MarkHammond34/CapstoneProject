@@ -64,10 +64,10 @@ public class RegistrationController extends BaseController {
 						user.setSecurityLevel(3);
 					}
 
-                    int id = userService.create(user);
+//                    int id = userService.create(user);
 
                     // Set the tutorial
-                    tutorialService.save(new Tutorial(id));
+//                    tutorialService.save(new Tutorial(id));
                     user.setTutorial(tutorialService.getByUserID(user.getUserID()));
                     userService.update(user);
 

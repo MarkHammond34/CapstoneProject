@@ -10,6 +10,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ page import="edu.ben.model.User" %>
+<%@ page import="java.util.List" %>
+<%@ page import="edu.ben.model.Listing" %>
 
 <html>
 <head>
@@ -38,115 +41,324 @@
 
             color: white;
         }
+
+        .description {
+            float: right;
+        }
+
+        .low {
+            background-color: #21D4FD;
+            background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
+
+            color: white;
+        }
+
+        .normal {
+            background-color: #08AEEA;
+            background-image: linear-gradient(135deg, #08AEEA 0%, #2AF598 100%);
+
+        }
+
+        .high {
+            background-color: #FEE140;
+            background-image: linear-gradient(90deg, #FEE140 0%, #FA709A 100%);
+
+            color: white;
+
+        }
+
+        .critical {
+            background-color: #000000;
+            background-image: linear-gradient(310deg, #000000 0%, #FF2525 79%);
+
+            color: white;
+
+        }
+
+        .profile-pic {
+            height: auto;
+            width: auto;
+            max-height: 40px;
+            max-width: 40px;
+
+            padding: 1px;
+            border: 1px solid #08AEEA;
+
+        }
+
     </style>
 </head>
-
 <div style="border: 20px solid white;
             margin: 0 auto;
             background: white;">
-    <body>
-    <%@include file="jspf/admin-navbar.jsp" %>
-    <div class="uk-container">
-        <h1 class="uk-heading-line uk-text-center"><span>Task Manager</span></h1>
-        <br>
-        <div uk-grid>
-            <div class="uk-width-2-5">
-                <div class="uk-card-small uk-card-default uk-card-hover uk-border-rounded uk-card-body">
-                    <h3>Create and Assign Tasks</h3>
-                    <hr>
-                    <form>
-                        <fieldset class="uk-fieldset">
-                            <div class="uk-margin">
-                                <strong>Enter Name:</strong> <input class="uk-input" type="text" placeholder="Input"
-                                                                    name="name">
-                            </div>
+<body>
+<%@include file="jspf/admin-navbar.jsp" %>
+<div class="uk-container">
+    <h1 class="uk-heading-line uk-text-center"><span>Task Manager</span></h1>
+    <br>
+    <div uk-grid>
+        <div class="uk-width-2-5">
+            <div class="uk-card-small uk-card-default uk-card-hover uk-border-rounded uk-card-body">
+                <h3>Create and Assign Tasks</h3>
+                <hr>
+                <form method="POST" class="task-manager"
+                      onsubmit="return validateForm()" action="createTask"
+                      name="createTaskForm">
+                    <fieldset class="uk-fieldset">
+                        <div class="uk-margin">
+                            <strong>Enter Name:</strong> <input class="uk-input" type="text" placeholder="Input"
+                                                                name="name">
+                        </div>
 
-                            <div class="uk-margin">
-                                <strong>Enter Description:</strong> <textarea class="uk-textarea" rows="5"
-                                                                              placeholder="Textarea"
-                                                                              name="description"></textarea>
-                            </div>
-                            <div class="uk-margin">
-                                <strong>Assign an Admin:</strong>
-                                <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-                                    <label><input class="uk-checkbox" type="checkbox">Steve Schultz</label>
-                                    <label><input class="uk-checkbox" type="checkbox">Mark Hammond</label>
-                                    <label><input class="uk-checkbox" type="checkbox">Corey Kuehl</label>
-                                    <label><input class="uk-checkbox" type="checkbox">Saran Movva</label>
-                                    <label><input class="uk-checkbox" type="checkbox">Jacob Trumpis</label>
-                                </div>
-                            </div>
-                            <div class="uk-margin">
-                                <label class="uk-form-label" for="form-horizontal-select2"></label>
-                                <div class="uk-form-controls">
-                                    <strong>Select Priority Level:</strong> <select class="uk-select"
-                                                                                    id="form-horizontal-select2"
-                                                                                    name="priority">
-                                    <option value="low">Low</option>
-                                    <option value="normal">Normal</option>
-                                    <option value="high">High</option>
-                                    <option value="critical">Critical</option>
-                                </select>
-                                </div>
-                            </div>
-                            <br>
-                            <button class="submit-button uk-button uk-button-default">Default</button>
-                        </fieldset>
-                    </form>
+                        <div class="uk-margin">
+                            <strong>Enter Description:</strong> <textarea class="uk-textarea" rows="5"
+                                                                          placeholder="Textarea"
+                                                                          name="description"></textarea>
+                        </div>
+                        <div class="uk-margin">
+                            <strong>Assign an Admin:</strong>
+                            <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid" name="admin">
+                                <c:forEach var="admin" items="${admins}" varStatus="loop">
+                                    <label><input class="uk-checkbox" name="admin" value="${admin.schoolEmail}"
+                                                  type="checkbox"> ${admin.firstName} ${admin.lastName}</label>
 
-                </div>
+                                </c:forEach>
+                            </div>
+                        </div>
+                        <div class="uk-margin">
+                            <label class="uk-form-label" for="form-horizontal-select2"></label>
+                            <div class="uk-form-controls">
+                                <strong>Select Priority Level:</strong> <select class="uk-select"
+                                                                                id="form-horizontal-select2"
+                                                                                name="priority">
+                                <option value="low">Low</option>
+                                <option value="normal">Normal</option>
+                                <option value="high">High</option>
+                                <option value="critical">Critical</option>
+                            </select>
+                            </div>
+                        </div>
+                        <br>
+                        <button class="submit-button uk-button uk-button-default">Default</button>
+                    </fieldset>
+                </form>
+
             </div>
-            <div class="uk-width-3-5">
-                <div class="uk-card-small uk-card-default uk-card-hover uk-border-rounded uk-card-body"
-                     style="overflow: auto;">
-                    <h3>Task List</h3>
-                    <hr>
-                    <table class="uk-table uk-table-hover uk-table-divider">
+        </div>
+        <div class="uk-width-3-5">
+            <div class="uk-card-small uk-card-default uk-card-hover uk-border-rounded uk-card-body"
+                 style="overflow: auto;">
+                <div>
+                    <h3>Task List </h3>
+                </div>
+                <hr>
+                <table class="uk-table uk-table-hover uk-table-divider">
 
                         <thead>
 
-                        </thead>
-                        <tbody>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="task" items="${tasks}" varStatus="loop">
                         <tr>
+
                             <td>
-                                <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-                                    <label><input class="uk-checkbox" type="checkbox" checked> We gotta get this shit
-                                        done</label>
+                                <div uk-grid>
+                                    <c:choose>
+                                        <c:when test="${task.priority == 'low'}">
+                                            <div class="uk-width-4-5">
+                                                <c:choose>
+                                                    <c:when test="${task.status == 0}">
+                                                        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                                                            <label><input id="task${task.taskID}"
+                                                                          onchange="checkTask(${task.taskID});"
+                                                                          class="uk-checkbox" type="checkbox"><span
+                                                                    class="low uk-badge uk-padding-small uk-margin-left"> ${task.priority}</span>
+                                                                <span id="name${task.taskID}">${task.name}</span>
+                                                            </label>
+
+                                                        </div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                                                            <label><input id="task${task.taskID}"
+                                                                          onchange="checkTask(${task.taskID});"
+                                                                          class="uk-checkbox" type="checkbox"
+                                                                          checked><span
+                                                                    class="low uk-badge uk-padding-small uk-margin-left"> ${task.priority}</span>
+                                                                <span id="name${task.taskID}"
+                                                                      style="text-decoration: line-through;">${task.name}</span>
+                                                            </label>
+
+                                                        </div>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>
+                                        </c:when>
+                                        <c:when test="${task.priority == 'normal'}">
+                                            <div class="uk-width-4-5">
+                                                <c:choose>
+                                                    <c:when test="${task.status == 0}">
+                                                        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                                                            <label><input id="task${task.taskID}"
+                                                                          onchange="checkTask(${task.taskID});"
+                                                                          class="uk-checkbox" type="checkbox"><span
+                                                                    class="normal uk-badge uk-padding-small uk-margin-left"> ${task.priority}</span>
+                                                                <span id="name${task.taskID}">${task.name}</span>
+                                                            </label>
+
+                                                        </div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                                                            <label><input id="task${task.taskID}"
+                                                                          onchange="checkTask(${task.taskID});"
+                                                                          class="uk-checkbox" type="checkbox"
+                                                                          checked><span
+                                                                    class="normal uk-badge uk-padding-small uk-margin-left"> ${task.priority}</span>
+                                                                <span id="name${task.taskID}"
+                                                                      style="text-decoration: line-through;">${task.name}</span>
+                                                            </label>
+
+                                                        </div>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>
+                                        </c:when>
+                                        <c:when test="${task.priority == 'high'}">
+                                            <div class="uk-width-4-5">
+                                                <c:choose>
+                                                    <c:when test="${task.status == 0}">
+                                                        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                                                            <label><input id="task${task.taskID}"
+                                                                          onchange="checkTask(${task.taskID});"
+                                                                          class="uk-checkbox" type="checkbox"><span
+                                                                    class="high uk-badge uk-padding-small uk-margin-left"> ${task.priority}</span>
+                                                                <span id="name${task.taskID}">${task.name}</span>
+                                                            </label>
+
+                                                        </div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                                                            <label><input id="task${task.taskID}"
+                                                                          onchange="checkTask(${task.taskID});"
+                                                                          class="uk-checkbox" type="checkbox"
+                                                                          checked><span
+                                                                    class="high uk-badge uk-padding-small uk-margin-left"> ${task.priority}</span>
+                                                                <span id="name${task.taskID}"
+                                                                      style="text-decoration: line-through;">${task.name}</span>
+                                                            </label>
+
+                                                        </div>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>
+                                        </c:when>
+                                        <c:when test="${task.priority == 'critical'}">
+                                            <div class="uk-width-4-5">
+                                                <c:choose>
+                                                    <c:when test="${task.status == 0}">
+                                                        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                                                            <label><input id="task${task.taskID}"
+                                                                          onchange="checkTask(${task.taskID});"
+                                                                          class="uk-checkbox" type="checkbox"><span
+                                                                    class="critical uk-badge uk-padding-small uk-margin-left"> ${task.priority}</span>
+                                                                <span id="name${task.taskID}">${task.name}</span>
+                                                            </label>
+
+                                                        </div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                                                            <label><input id="task${task.taskID}"
+                                                                          onchange="checkTask(${task.taskID});"
+                                                                          class="uk-checkbox" type="checkbox"
+                                                                          checked><span
+                                                                    class="critical uk-badge uk-padding-small uk-margin-left"> ${task.priority}</span>
+                                                                <span id="name${task.taskID}"
+                                                                      style="text-decoration: line-through;">${task.name}</span>
+                                                            </label>
+
+                                                        </div>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>
+                                        </c:when>
+                                        <c:otherwise>Error</c:otherwise>
+                                    </c:choose>
+
+                                    <div class="uk-width-1-5">
+
+                                        <span class=" description uk-margin-small-right" uk-icon="icon: more; ratio: 1"
+                                              uk-toggle="target: #toggle-usage${task.taskID}"></span>
+
+
+                                    </div>
 
                                 </div>
-                            </td>
-                            <td>Table Data</td>
-                            <td>Table Data</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-                                    <label><input class="uk-checkbox" type="checkbox"> Yo, Trump fucking get this shit
-                                        done</label>
-                                </div>
-                            </td>
-                            <td>Table Data</td>
-                            <td>Table Data</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-                                    <label><input class="uk-checkbox" type="checkbox" checked>Stop being a piece of shit
-                                        and
-                                        take this task on!</label>
-                                </div>
-                            </td>
-                            <td>Table Data</td>
-                            <td>Table Data</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                                <div hidden id="toggle-usage${task.taskID}">
+                                    <br>
+                                    <div uk-grid>
 
-                </div>
+                                        <div class="uk-width-2-5"><h6 class="uk-text-center"><strong>Developers</strong>
+                                        </h6>
+                                            <hr>
+
+                                            <div class="uk-container">
+                                                <div class="uk-child-width-1-2@m uk-grid-small uk-grid-match" uk-grid>
+
+                                                    <c:forEach var="admin" items="${adminTasks}" varStatus="loop">
+
+                                                        <c:if test="${task.taskID == admin.getTask().getTaskID()}">
+                                                            <img class="profile-pic uk-border-circle uk-padding-small uk-margin-left"
+                                                                 uk-tooltip="${admin.getUser().getFirstName()} ${admin.getUser().getLastName()}"
+                                                                 src="${pageContext.request.contextPath}/resources/img/profile-pic/default.jpeg">
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="uk-width-3-5"><h6 class="uk-text-center">
+                                            <strong>Description</strong></h6>
+                                            <hr>
+                                            <p class="uk-text-center">${task.description}</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </td>
+
+
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+
+
             </div>
         </div>
     </div>
+</div>
 
+<script type="text/javascript">
+    console.log("Hello World");
+
+    function checkTask(taskID) {
+        console.log("Hit Function");
+        $.ajax({
+            type: 'GET',
+            url: '/taskCompleted',
+            data: {"taskID": taskID},
+        })
+        if (document.getElementById('task' + taskID).checked) {
+            document.getElementById('name' + taskID).style.textDecoration = "line-through";
+        } else {
+            document.getElementById('name' + taskID).style.textDecoration = "none"
+        }
+    }
+</script>
 
     </body>
 </div>

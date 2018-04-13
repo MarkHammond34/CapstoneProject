@@ -12,11 +12,9 @@ public interface UserService {
 
 	public void deleteUser(int id);
 
-	public int save(User user);
-
 	public void saveOrUpdate(User user);
 
-	public int create(User user);
+	public void create(User user);
 
 	public void lockByUsername(String username);
 
@@ -45,4 +43,6 @@ public interface UserService {
     public List searchUser(String search);
 
 	public List<User> getDisputeResolvingAdmins();
+
+	public List getAllAdmins();
 }
