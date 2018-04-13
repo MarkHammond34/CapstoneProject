@@ -338,6 +338,8 @@ public class CommunityController extends BaseController {
 
         q.CreateEvent(event);
 
+        eventService.create(event);
+
         return "events-news";
     }
 
@@ -418,6 +420,11 @@ public class CommunityController extends BaseController {
         }
 
         return "community2";
+    }
+
+    @RequestMapping(value = "/eventsNews", method = RequestMethod.GET)
+    public String viewEventsNews() {
+        return "events-news";
     }
 
 }
