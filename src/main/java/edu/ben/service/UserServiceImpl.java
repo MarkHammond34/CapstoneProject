@@ -36,14 +36,12 @@ public class UserServiceImpl implements UserService {
 		userDAO.deleteUser(id);
 	}
 
-	public int save(User user){ return userDAO.save(user);}
-
 	public void saveOrUpdate(User user) {
 		userDAO.saveOrUpdate(user);
 	}
 
-	public int create(User user) {
-		return userDAO.create(user);
+	public void create(User user) {
+		userDAO.create(user);
 	}
 
 	public void lockByUsername(String username) {
@@ -119,5 +117,10 @@ public class UserServiceImpl implements UserService {
 	public void updateSellerRating(int sellerRating, User user) {
 		user.setSellerRating(sellerRating);
 		userDAO.update(user);
+	}
+
+	@Override
+	public List getAllAdmins() {
+		return userDAO.getAllAdmins();
 	}
 }
