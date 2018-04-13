@@ -37,24 +37,38 @@ public class AdminController extends BaseController {
     @Autowired
     Environment environment;
 
+    @Autowired
+    TaskService taskService;
+
+    @Autowired
+    AdminTaskService adminTaskService;
+
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin(HttpServletRequest request) {
         List<User> recentUsers = userService.getRecentUsers();
         List<User> getAllMembers = userService.getAllUsers();
         List<Listing> recentListings = listingService.getRecentListings();
+        ArrayList<User> admins = (ArrayList<User>) userService.getAllAdmins();
         ArrayList<String> status = new ArrayList<>();
+        ArrayList<Task> tasks = (ArrayList<Task>) taskService.getAllTasks();
 
         for (int i = 0; i < recentUsers.size(); i++) {
-            if (recentUsers.get(i).getAdminLevel() > 0) {
-                status.add("Admin");
-            } else {
+            if (recentUsers.get(i).getAdminLevel() < 10 && recentUsers.get(i).getAdminLevel() > 0) {
                 status.add("Customer");
+            } else if (recentUsers.get(i).getAdminLevel() >= 10 && recentUsers.get(i).getAdminLevel() < 20) {
+                status.add("Low-Level Admin");
+            } else if (recentUsers.get(i).getAdminLevel() >= 20 && recentUsers.get(i).getAdminLevel() < 30) {
+                status.add("Mid-Level Admin");
+            } else {
+                status.add("High-Level Admin");
             }
         }
         request.getSession().setAttribute("recentUsers", recentUsers);
         request.getSession().setAttribute("recentListings", recentListings);
         request.getSession().setAttribute("members", getAllMembers);
+        request.getSession().setAttribute("admins", admins);
         request.getSession().setAttribute("status", status);
+        request.getSession().setAttribute("tasks", tasks);
 
         System.out.println("Member Size: " + getAllMembers.size());
         return "adminPage";
@@ -491,6 +505,65 @@ public class AdminController extends BaseController {
 
     @RequestMapping(value = "taskManager", method = RequestMethod.GET)
     public String taskPage(HttpServletRequest request) {
+        ArrayList<User> admins = (ArrayList<User>) userService.getAllAdmins();
+        ArrayList<Task> tasks = (ArrayList<Task>) taskService.getAllTasks();
+
+        ArrayList<AdminTask> adminTasks = (ArrayList<AdminTask>) adminTaskService.getAllAdminTasks();
+
+        System.out.println("Task size: " + tasks.size());
+        System.out.println("admins: " + admins.size());
+
+        request.setAttribute("admins", admins);
+        request.setAttribute("tasks", tasks);
+        request.setAttribute("adminTasks", adminTasks);
         return "task-manager";
+    }
+
+    @RequestMapping(value = "createTask", method = RequestMethod.POST)
+    public String createTask(HttpServletRequest request, @RequestParam("name") String name, @RequestParam("description") String description, @RequestParam("admin") String[] admin, @RequestParam("priority") String priority) {
+        Task t = new Task(name, description, 0, priority);
+
+        taskService.create(t);
+
+
+        for (int i = 0; i < admin.length; i++) {
+            User user = userService.findBySchoolEmail(admin[i]);
+            System.out.println("userID: " + user.getUserID());
+
+            AdminTask task = new AdminTask();
+
+            task.setTask(t);
+            task.setUser(user);
+
+            adminTaskService.create(task);
+
+        }
+
+        ArrayList<User> admins = (ArrayList<User>) userService.getAllAdmins();
+        ArrayList<Task> tasks = (ArrayList<Task>) taskService.getAllTasks();
+
+        ArrayList<AdminTask> adminTasks = (ArrayList<AdminTask>) adminTaskService.getAllAdminTasks();
+
+        request.setAttribute("admins", admins);
+        request.setAttribute("tasks", tasks);
+        request.setAttribute("adminTasks", adminTasks);
+
+        return "task-manager";
+    }
+
+    @RequestMapping(value = "taskCompleted", method = RequestMethod.GET)
+    public String createTask(HttpServletRequest request, @RequestParam("taskID") int taskID) {
+        Task t = (Task) taskService.getAllTasksByTaskID(taskID);
+
+
+        if (t.getStatus() == 0) {
+            t.setStatus(1);
+            taskService.saveOrUpdate(t);
+            return "redirect:" + request.getHeader("Referer");
+        } else {
+            t.setStatus(0);
+            taskService.saveOrUpdate(t);
+            return "redirect:" + request.getHeader("Referer");
+        }
     }
 }
