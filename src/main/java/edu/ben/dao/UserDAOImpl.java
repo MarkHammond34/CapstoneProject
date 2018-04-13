@@ -166,6 +166,13 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> getDisputeResolvingAdmins() {
-        return getSession().createQuery("FROM user WHERE admin_level = 3").list();
+        return getSession().createQuery("FROM user WHERE admin_level >= 10").list();
+    }
+
+    @Override
+    public List getAllAdmins() {
+        Query q = getSession().createQuery("From user WHERE admin_level >= 10");
+
+        return q.list();
     }
 }
