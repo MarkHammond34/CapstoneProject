@@ -1,4 +1,4 @@
-<div class="uk-grid-medium" uk-grid>
+<div class="uk-grid-medium" uk-grid hidden>
     <script type="text/javascript">
         $( window ).on( "load", function() {
             $('#dangerButton').click();
