@@ -73,6 +73,12 @@ public class ListingRunner {
                                 if (l.getHighestBidder() == null) {
                                     // Send notification to seller that no one placed a big
                                     newNotifications.add(new Notification(l.getUser(), l.getId(), "Your Listing Ended", "Listing: " + l.getName() + " ended without any bids.", 1));
+
+                                    // Create new transaction
+                                    Transaction transaction = new Transaction(l, 0);
+                                    transaction.setTransactionType("no winner");
+                                    transactionService.createTransaction(transaction);
+
                                 } else {
                                     // Create notification for buyer
                                     newNotifications.add(new Notification(l.getHighestBidder(), l.getId(), "You Won!", "You Won! \n Listing: " + l.getName(), 1, "WON"));
@@ -91,19 +97,19 @@ public class ListingRunner {
                             } else {
                                 //Offer stuff
                                 /**
-                                // Create notification for buyer
-                                newNotifications.add(new Notification(l.getHighestBidder(), l.getId(), "You Won!", "You Won! \n Listing: " + l.getName(), 1, "WON"));
-                                // Create notification for seller
-                                newNotifications.add(new Notification(l.getUser(), l.getId(), "Sold!", "Sold! \n Listing: " + l.getName(), 1, "SOLD"));
+                                 // Create notification for buyer
+                                 newNotifications.add(new Notification(l.getHighestBidder(), l.getId(), "You Won!", "You Won! \n Listing: " + l.getName(), 1, "WON"));
+                                 // Create notification for seller
+                                 newNotifications.add(new Notification(l.getUser(), l.getId(), "Sold!", "Sold! \n Listing: " + l.getName(), 1, "SOLD"));
 
-                                // Create notifications or losers
-                                List<User> losers = userService.getListingLosers(l.getId(), l.getHighestBidder().getUserID());
-                                for (User u : losers) {
-                                    newNotifications.add(new Notification(u, l.getId(), "You Lost!", "You Lost! \n Listing: " + l.getName(), 1, "LOST"));
-                                }
+                                 // Create notifications or losers
+                                 List<User> losers = userService.getListingLosers(l.getId(), l.getHighestBidder().getUserID());
+                                 for (User u : losers) {
+                                 newNotifications.add(new Notification(u, l.getId(), "You Lost!", "You Lost! \n Listing: " + l.getName(), 1, "LOST"));
+                                 }
 
-                                // Create new transaction
-                                transactionService.createTransaction(new Transaction(l, 0));
+                                 // Create new transaction
+                                 transactionService.createTransaction(new Transaction(l, 0));
                                  */
                             }
 

@@ -15,34 +15,28 @@
             <div class="uk-margin-small-left uk-margin-small-right" uk-slideshow="animation: fade">
 
                 <ul class="uk-slideshow-items" style="min-height: 350px">
-                    <li><img class="uk-align-center"
-                             src="${pageContext.request.contextPath}/resources/img/listings/couch.jpg"
-                             style="height: auto; width: auto; max-height: 100%; max-width: 100%;">
-                    <li><img
-                            src="${pageContext.request.contextPath}/resources/img/listings/couch.jpg">
-                    </li>
-                    <li><img
-                            src="${pageContext.request.contextPath}/resources/img/listings/couch.jpg">
-                    </li>
+
+                    <c:forEach items="${listing.images}" var="image">
+                        <li>
+                            <img class="uk-align-center"
+                                 src="${pageContext.request.contextPath}/directory/${image.image_path}/${image.image_name}"
+                                 style="height: auto; width: auto; max-height: 100%; max-width: 100%;">
+                        </li>
+                    </c:forEach>
+
                 </ul>
 
                 <div class="uk-padding-small">
-                    <ul class="uk-thumbnav uk-child-width-1-5">
-                        <li uk-slideshow-item="0"><a href="#"> <img
-                                class="uk-thumbnail"
-                                src="${pageContext.request.contextPath}/resources/img/listings/couch.jpg"
-                                width="100" alt="">
-                        </a></li>
-                        <li uk-slideshow-item="1"><a href="#"> <img
-                                class="uk-thumbnail"
-                                src="${pageContext.request.contextPath}/resources/img/listings/couch.jpg"
-                                width="100" alt="">
-                        </a></li>
-                        <li uk-slideshow-item="2"><a href="#"> <img
-                                class="uk-thumbnail"
-                                src="${pageContext.request.contextPath}/resources/img/listings/couch.jpg"
-                                width="100" alt="">
-                        </a></li>
+                    <ul class="uk-thumbnav uk-child-width-1-3">
+
+                        <c:forEach items="${listing.images}" var="image" varStatus="loop">
+                            <li uk-slideshow-item="${loop.index}"><a href="#">
+                                <img class="uk-thumbnail"
+                                     src="${pageContext.request.contextPath}/directory/${image.image_path}/${image.image_name}"
+                                     width="100" alt="Listing"></a>
+                            </li>
+                        </c:forEach>
+
                     </ul>
                 </div>
 
@@ -279,25 +273,33 @@
                             <div class="uk-grid-small uk-countdown uk-margin-remove uk-align-center" uk-grid
                                  uk-countdown="date: ${listing.endTimestamp}">
                                                 <span class="uk-days">
-                                                    <strong class="uk-countdown-number uk-countdown-days"></strong>
-                                                    <strong class="uk-countdown-label uk-margin-small-top uk-margin-left">Days</strong>
+                                                    <strong class="uk-countdown-number uk-countdown-days"
+                                                            style="font-size: 22px;"></strong>
+                                                    <strong class="uk-countdown-label uk-margin-small-top uk-margin-left"
+                                                            style="font-size: 22px;">Days</strong>
                                                 </span>
                                 <span class="uk-hours">
-                                                        <strong class="uk-countdown-number uk-countdown-hours"></strong>
-                                                        <strong class="uk-countdown-label uk-margin-small-top uk-margin-left">Hours</strong>
+                                                        <strong class="uk-countdown-number uk-countdown-hours"
+                                                                style="font-size: 22px;"></strong>
+                                                        <strong class="uk-countdown-label uk-margin-small-top uk-margin-left"
+                                                                style="font-size: 22px;">Hours</strong>
 
                                                 </span>
                                 <span class="uk-minutes">
-                                                        <strong class="uk-countdown-number uk-countdown-minutes"></strong>
-                                                        <strong class="uk-countdown-label uk-margin-small-top uk-margin-left">Minutes</strong>
+                                                        <strong class="uk-countdown-number uk-countdown-minutes"
+                                                                style="font-size: 22px;"></strong>
+                                                        <strong class="uk-countdown-label uk-margin-small-top uk-margin-left"
+                                                                style="font-size: 22px;">Minutes</strong>
                                                 </span>
                                 <span class="uk-seconds">
-                                                        <strong class="uk-countdown-number uk-countdown-seconds"></strong>
-                                                        <strong class="uk-countdown-label uk-margin-small-top uk-margin-left">Seconds</strong>
+                                                        <strong class="uk-countdown-number uk-countdown-seconds"
+                                                                style="font-size: 22px;"></strong>
+                                                        <strong class="uk-countdown-label uk-margin-small-top uk-margin-left"
+                                                                style="font-size: 22px;">Seconds</strong>
                                                 </span>
                                 <span>
-                                <strong>Remaining</strong>
-                            </span>
+                                <strong style="font-size: 22px;">Remaining</strong>
+                                </span>
                             </div>
                             <progress id="js-progressbar"
                                       class="uk-progress uk-margin-remove-top" value="${listing.percentLeft}"

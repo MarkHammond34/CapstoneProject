@@ -60,7 +60,7 @@ public class TransactionServiceImpl implements TransactionService {
 	public Transaction getTransactionsByListingID(int id) {
 		try {
 			return transactionDAO.getTransactionsByListingID(id);
-		} catch (IndexOutOfBoundsException e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}

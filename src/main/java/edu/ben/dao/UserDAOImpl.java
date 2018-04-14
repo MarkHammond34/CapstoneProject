@@ -177,9 +177,4 @@ public class UserDAOImpl implements UserDAO {
 
         return q.list();
     }
-
-    @Override
-    public List<User> getAllAdmins() {
-        return getSession().createQuery("FROM user WHERE admin_level > 0").list();
-    }
 }

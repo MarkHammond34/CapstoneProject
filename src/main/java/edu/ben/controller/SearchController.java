@@ -96,7 +96,7 @@ public class SearchController {
         request.setAttribute("saved", saved);
         request.setAttribute("userSearch", userSearch);
 
-        if (user.getTutorial().getViewedSavedSearch() == 0) {
+        if (user != null && user.getTutorial().getViewedSavedSearch() == 0) {
 
             // Update tutorial
             Tutorial tutorial = user.getTutorial();

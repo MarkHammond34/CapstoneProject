@@ -444,15 +444,17 @@ public class ListingController extends BaseController {
 //
 //            model.addObject("hasOffer", hasOffer);
 
-            Transaction transaction = transactionService.getTransactionsByListingID(listingID);
+            if (listing.getEnded() == 1) {
 
-            if (user.getUserID() == transaction.getBuyer().getUserID() || user.getUserID() == transaction.getSeller().getUserID()) {
+                Transaction transaction = transactionService.getTransactionsByListingID(listingID);
 
                 // Check if transaction was cancelled
                 if (transaction.getTransactionType().equals("cancelled")) {
 
-                    addWarningMessage("Transaction On This Listing Has Been Cancelled");
-                    request.setAttribute("viewTransaction", true);
+                    if (user.getUserID() == transaction.getBuyer().getUserID() || user.getUserID() == transaction.getSeller().getUserID()) {
+                        addWarningMessage("Transaction On This Listing Has Been Cancelled");
+                        request.setAttribute("viewTransaction", true);
+                    }
 
                 } else {
 
@@ -504,10 +506,8 @@ public class ListingController extends BaseController {
                         } else if (pickUp.getStatus().equals("COMPLETED")) {
                             request.setAttribute("viewTransaction", true);
                         }
-
                     }
                 }
-
             }
 
             if (user.getTutorial() != null && user.getTutorial().getViewedListing() == 0) {
