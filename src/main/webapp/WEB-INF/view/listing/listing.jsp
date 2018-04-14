@@ -1,6 +1,6 @@
 <%@include file="../jspf/header.jsp" %>
 
-<body class="uk-background-muted">
+<body class="uk-background-muted listing-tutorial">
 
 <%@include file="../jspf/navbar.jspf" %>
 
@@ -327,7 +327,7 @@
     window.addEventListener("load", function () {
         if (document.getElementById("yes").style.display == "inline") {
             setTimeout(function () {
-                introJs().start();
+                introJs(".listing-tutorial").start();
             }, 2000);
         }
     });

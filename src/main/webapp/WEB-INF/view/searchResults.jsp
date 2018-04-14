@@ -1,10 +1,10 @@
 <%@include file="jspf/header.jsp" %>
 
-<body>
+<body class="uk-background-muted">
 
 <%@include file="jspf/navbar.jspf" %>
 
-<div id="listingResults">
+<div class="search-tutorial" id="listingResults">
     <div class="uk-container">
         <div style="float: left;">
             <h1>Results</h1>
@@ -205,12 +205,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="uk-width-1-4 uk-card-body uk-card uk-card-default uk-padding-remove-left uk-text-center uk-padding-remove-right">
-                    <h3 class="uk-margin-remove-bottom">Recommended Listings</h3>
-                    <c:forEach items="${relevantListings}" var="listing">
-                        <%@include file="listing/index-listing.jsp" %>
-                    </c:forEach>
-                </div>
             </div>
         </div>
     </div>
@@ -266,7 +260,6 @@
     }
 
     function changeSearchType(type) {
-        window.alert(type.value);
 
         if (type.value == "users") {
             document.getElementById('listingSection').style.display = 'none';
@@ -283,7 +276,6 @@
 
     function toggle() {
         var test = document.getElementById('listing').value;
-        window.alert(test);
         if (document.getElementById('listing').checked) {
             document.getElementById('listingResults').style.display = 'inline';
             document.getElementById('userResults').style.display = 'none';
@@ -296,7 +288,7 @@
     window.addEventListener("load", function () {
         if (document.getElementById("yes").style.display == "inline") {
             setTimeout(function () {
-                introJs().start();
+                introJs(".search-tutorial").start();
             }, 2000);
         }
     });
@@ -306,6 +298,7 @@
 <c:if test="${showTutorial == true}">
     <p id="yes" style="display: inline;"></p>
 </c:if>
+
 </body>
 <%@include file="jspf/footer.jspf" %>
 </html>

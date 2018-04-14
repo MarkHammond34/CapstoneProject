@@ -27,7 +27,9 @@ public class UserDAOImpl implements UserDAO {
         return (List<User>) criteria.list();
     }
 
-    public int save(User user){return (Integer) getSession().save(user);}
+    public int save(User user) {
+        return (Integer) getSession().save(user);
+    }
 
     public void saveOrUpdate(User user) {
         getSession().saveOrUpdate(user);
@@ -167,5 +169,10 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public List<User> getDisputeResolvingAdmins() {
         return getSession().createQuery("FROM user WHERE admin_level = 3").list();
+    }
+
+    @Override
+    public List<User> getAllAdmins() {
+        return getSession().createQuery("FROM user WHERE admin_level > 0").list();
     }
 }

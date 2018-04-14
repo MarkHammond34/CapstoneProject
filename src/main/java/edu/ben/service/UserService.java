@@ -45,4 +45,6 @@ public interface UserService {
     public List searchUser(String search);
 
 	public List<User> getDisputeResolvingAdmins();
+
+	public List<User> getAllAdmins();
 }

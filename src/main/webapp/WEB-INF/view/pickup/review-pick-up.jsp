@@ -1,10 +1,12 @@
 <%@include file="../jspf/header.jsp" %>
+
 <body class="uk-background-muted">
+
 <%@include file="../jspf/navbar.jspf" %>
 
 <%@include file="../jspf/messages.jsp" %>
 
-<div class="uk-container">
+<div class="uk-container pickup-tutorial">
     <div class="uk-margin-large-bottom">
 
         <ul class="uk-breadcrumb">
@@ -23,7 +25,7 @@
                             <a onclick="toggleEditDetails();" uk-icon="icon: pencil"></a>
                         </c:if>
                     </h2>
-                    <div class="uk-card uk-card-default pickup-tutorial"
+                    <div class="uk-card uk-card-default"
                          data-intro="Here you can review the pick up info and chat to pick the best time and place for your."
                          data-step="1">
                         <div class="uk-card-body" uk-grid>
@@ -305,131 +307,19 @@
         });
     }
 
-    function showErrorMessage(message) {
-
-        // Get message box
-        var messageBox = document.getElementById("messageBox");
-
-        // Create a new error div
-        var newErrorDiv = document.createElement("DIV");
-
-        // Add style to newErrorDiv
-        newErrorDiv.style.textAlign = "center";
-        newErrorDiv.style.marginTop = "40px";
-
-        // Add uk-alert-success as a class
-        var newErrorDivClass = document.createAttribute("class");
-        newErrorDivClass.value = "uk-alert-danger";
-        newErrorDiv.setAttributeNode(newErrorDivClass);
-        newErrorDiv.setAttributeNode(document.createAttribute("uk-alert"));
-
-        // Add alert close anchor
-        var newErrorDivClose = document.createElement("A");
-        var newErrorDivCloseClass = document.createAttribute("class");
-        newErrorDivCloseClass.value = "uk-alert-close";
-        newErrorDivClose.setAttributeNode(newErrorDivCloseClass);
-        newErrorDivClose.setAttributeNode(document.createAttribute("uk-close"));
-
-        // Add anchor to newErrorDiv
-        newErrorDiv.appendChild(newErrorDivClose);
-
-        // Add error message p to newErrorDiv
-        var newErrorDivPara = document.createElement("P");
-        newErrorDivPara.appendChild(document.createTextNode(message));
-        newErrorDiv.appendChild(newErrorDivPara);
-
-        // Add error div to message box
-        messageBox.appendChild(newErrorDiv);
-
-    }
-
-    function showWarningMessage(message) {
-
-        // Get message box
-        var messageBox = document.getElementById("messageBox");
-
-        // Create a new warning div
-        var newWarningDiv = document.createElement("DIV");
-
-        // Add style to newWarning
-        newWarningDiv.style.textAlign = "center";
-        newWarningDiv.style.marginTop = "40px";
-
-        // Add uk-alert-warning as a class
-        var newWarningDivClass = document.createAttribute("class");
-        newWarningDivClass.value = "uk-alert-warning";
-        newWarningDiv.setAttributeNode(newWarningDivClass);
-        newWarningDiv.setAttributeNode(document.createAttribute("uk-alert"));
-
-        // Add alert close anchor
-        var newWarningDivClose = document.createElement("A");
-        var newWarningDivCloseClass = document.createAttribute("class");
-        newWarningDivCloseClass.value = "uk-alert-close";
-        newWarningDivClose.setAttributeNode(newWarningDivCloseClass);
-        newWarningDivClose.setAttributeNode(document.createAttribute("uk-close"));
-
-        // Add anchor to newWarningDiv
-        newWarningDiv.appendChild(newWarningDivClose);
-
-        // Add warning message p to newErrorDiv
-        var newWarningDivPara = document.createElement("P");
-        newWarningDivPara.appendChild(document.createTextNode(message));
-        newWarningDiv.appendChild(newErrorDivPara);
-
-        // Add warning div to message box
-        messageBox.appendChild(newWarningDiv);
-
-    }
-
-    function showSuccessMessage(message) {
-
-        // Get message box
-        var messageBox = document.getElementById("messageBox");
-
-        // Create a new success div
-        var newSuccessDiv = document.createElement("DIV");
-
-        // Add style to newWarning
-        newSuccessDiv.style.textAlign = "center";
-        newSuccessDiv.style.marginTop = "40px";
-
-        // Add uk-alert-warning as a class
-        var newSuccessDivClass = document.createAttribute("class");
-        newSuccessDivClass.value = "uk-alert-success";
-        newSuccessDiv.setAttributeNode(newSuccessDivClass);
-        newSuccessDiv.setAttributeNode(document.createAttribute("uk-alert"));
-
-        // Add alert close anchor
-        var newSuccessDivClose = document.createElement("A");
-        var newSuccessDivCloseClass = document.createAttribute("class");
-        newSuccessDivCloseClass.value = "uk-alert-close";
-        newSuccessDivClose.setAttributeNode(newSuccessDivCloseClass);
-        newSuccessDivClose.setAttributeNode(document.createAttribute("uk-close"));
-
-        // Add anchor to newSuccessDiv
-        newSuccessDiv.appendChild(newSuccessDivClose);
-
-        // Add success message p to newErrorDiv
-        var newSuccessDivPara = document.createElement("P");
-        newSuccessDivPara.appendChild(document.createTextNode(message));
-        newSuccessDiv.appendChild(newSuccessDivPara);
-
-        // Add success div to message box
-        messageBox.appendChild(newSuccessDiv);
-
-    }
-
-    function onload(showTutorial) {
-        if (showTutorial == true) {
+    window.addEventListener("load", function () {
+        if (document.getElementById("yes").style.display == "inline") {
             setTimeout(function () {
-                introJs(".pickup-tutorial").start();
+                introJs(".transaction-tutorial").start();
             }, 2000);
         }
-
-        introJs(".pickup-tutorial").start();
-    }
+    });
 
 </script>
+
+<c:if test="${showTutorial == true}">
+    <p id="yes" style="display: inline;"></p>
+</c:if>
 
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYv7pVPxQ-k7yWlKPfa8ebsx7ci9q7vQ8&callback=initMap"

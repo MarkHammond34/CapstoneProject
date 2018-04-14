@@ -6,7 +6,7 @@
 
 <%@include file="jspf/messages.jsp" %>
 
-<div id="central" class="uk-width-4-5 uk-align-center purchase-history-tutorial">
+<div id="central" class="uk-width-4-5 uk-align-center transaction-tutorial">
     <h2 data-intro="Keep track of your transactions on the purchase history page!" data-step="1">
         <strong class="uk-text-danger"> ${user.username}</strong> has made <strong
             class="uk-text-danger"> ${userTransactions.size()}</strong>
@@ -56,7 +56,7 @@
 
                         <td><a
                                 href="${pageContext.request.contextPath}/rateReview?id=${transaction.id}"
-                                class="uk-button uk-button-small uk-button-primary" class="purchase-history-tutorial"
+                                class="uk-button uk-button-small uk-button-primary" class=""
                                 data-intro="Have something to say about this user? Leave a rating and review!"
                                 data-step="2">Leave Feedback</a></td>
 
@@ -102,11 +102,11 @@
 <script>
 
     window.addEventListener("load", function () {
-        //if (document.getElementById("yes").style.display == "inline") {
-        setTimeout(function () {
-            introJs(".purchase-history-tutorial").start();
-        }, 2000);
-        //}
+        if (document.getElementById("yes").style.display == "inline") {
+            setTimeout(function () {
+                introJs(".transaction-tutorial").start();
+            }, 2000);
+        }
     });
 
 </script>

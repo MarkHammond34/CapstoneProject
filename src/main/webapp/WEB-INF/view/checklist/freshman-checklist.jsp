@@ -1,12 +1,13 @@
 <%@include file="../jspf/header.jsp" %>
 
-<body class="uk-background-muted">
+<body class="uk-background-muted checklist-tutorial">
 
 <%@include file="../jspf/navbar.jspf" %>
 
 <%@include file="../jspf/messages.jsp" %>
 
-<div class="uk-width-3-4@l uk-width-1-1@m uk-width-1-1@s uk-align-center uk-margin uk-tile uk-tile-default uk-border-rounded uk-box-shadow-medium uk-box-shadow-hover-large">
+<div class="uk-width-3-4@l uk-width-1-1@m uk-width-1-1@s
+uk-align-center uk-margin uk-tile uk-tile-default uk-border-rounded uk-box-shadow-medium uk-box-shadow-hover-large">
 
     <h1 class="uk-text-center uk-heading-primary"
         data-intro="Keep track of things you need to buy with our Freshman Checklist" data-step="1">
@@ -125,7 +126,7 @@
         window.addEventListener("load", function () {
             if (document.getElementById("yes").style.display == "inline") {
                 setTimeout(function () {
-                    introJs().start();
+                    introJs(".checklist-tutorial").start();
                 }, 2000);
             }
         });

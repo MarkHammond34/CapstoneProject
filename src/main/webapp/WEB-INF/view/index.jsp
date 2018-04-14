@@ -1,6 +1,6 @@
 <%@include file="jspf/header.jsp" %>
 
-<body class="uk-background-muted">
+<body class="uk-background-muted homepage-tutorial">
 
 <%@include file="jspf/navbar.jspf" %>
 
@@ -10,7 +10,7 @@
     <div class="uk-section-default">
         <div class="uk-section-large uk-overlay-default uk-background-cover"
              style="background-image:url('${pageContext.request.contextPath}/resources/img/index2.jpeg');">
-            <div class="uk-overlay uk-light uk-align-center uk-border-rounded homepage-tutorial"
+            <div class="uk-overlay uk-light uk-align-center uk-border-rounded"
                  style="width:50%;background: rgba(34,34,34,0.85);"
                  data-intro="You can also search here."
                  data-step="5">
@@ -24,7 +24,7 @@
 
     <br>
 
-    <div class="uk-width-1-1 homepage-tutorial"
+    <div class="uk-width-1-1"
          data-intro="Browse listings by premium, trending, ending soon, and recently added."
          data-step="6">
 
