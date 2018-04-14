@@ -257,7 +257,7 @@ public class OfferController extends BaseController {
 
 		try {
 
-			User offerReceiver = userService.getUserById(offerMaker.getUserID());
+            User offerReceiver = userService.getUserById(initialOffer.getOfferMaker().getUserID());
 			newOffer = new Offer(price, message, offerMaker, offerReceiver, initialOffer.getListingID(), "pending");
 
 			System.out.println("Offer maker ID: " + offerMaker.getUserID());

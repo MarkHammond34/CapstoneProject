@@ -31,6 +31,13 @@
     <link href="${introjsNassimCSS}" rel="stylesheet"/>
     <spring:url value="resources/css/introjs-rtl.css" var="introjsRtlCSS"/>
 
+
+
+    <script src="resources/js/typeit.min.js"></script>
+    <script src="resources/js/typing.js"></script>
+    <link href="recources/css/typing.css" rel="stylesheet">
+    <link href="resources/css/demo.css" rel="stylesheet">
+
     <spring:url value="resources/css/uikit.css" var="uikitCSS"/>
     <spring:url value="resources/js/uikit.js" var="uikitJS"/>
     <spring:url value="resources/js/jquery.js" var="jquery"/>
@@ -121,7 +128,7 @@ fred@skyrocketlabs.com
 /* ARCHITECTURE */
 
 body {
-	font-family: georgia,"times new roman",times,serif;
+    font-family: 'Muli', sans-serif;
 	color: #333;
 	margin: 0;
 	padding: 0;
@@ -652,6 +659,25 @@ fieldset {
 	top: 50px;
 	font-size: 14px;
 }
+.category-pic {
+    height: auto;
+    width: auto;
+
+    max-height: 150px;
+    max-width: 150px;
+}
+    div.item {
+        vertical-align: top;
+        display: inline-block;
+        text-align: center;
+
+    }
+
+    .caption {
+        display: block;
+        font-family: georgia,"times new roman",times,serif;
+        font-size: 20px;
+    }
 
 /****************************************/
 /* Layout rules using position: absolute and relative dimensions using em. */

@@ -3,7 +3,7 @@
      data-intro="Welcome to U-ListIt! Here is a quick tour of our home page."
      data-step="1">
     <div class="uk-position-relativetop">
-        <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+        <nav class="uk-navbar-container" style="color: rgba(238, 238, 238, 0)" uk-navbar>
             <div class="uk-navbar-left">
                 <a class="uk-navbar-toggle homepage-tutorial" uk-navbar-toggle-icon
                    uk-toggle="target: #offcanvas-slide"
@@ -11,7 +11,7 @@
                    data-step="4"></a>
             </div>
             <div class="uk-navbar-center">
-                <a class="uk-navbar-item uk-align-center"><img
+                <a href="/" class="uk-navbar-item uk-align-center"><img
                         src="${pageContext.request.contextPath}/resources/img/logo.png"
                         style="margin-top: 10%; width: 25%; display: block; margin: auto;"></a>
             </div>

@@ -88,6 +88,9 @@
 
     </style>
 </head>
+<div style="border: 20px solid white;
+            margin: 0 auto;
+            background: white;">
 <body>
 <%@include file="jspf/admin-navbar.jsp" %>
 <div class="uk-container">
@@ -151,7 +154,7 @@
                 <hr>
                 <table class="uk-table uk-table-hover uk-table-divider">
 
-                    <thead>
+                        <thead>
 
                     </thead>
                     <tbody>
@@ -357,5 +360,6 @@
     }
 </script>
 
-</body>
+    </body>
+</div>
 </html>

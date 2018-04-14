@@ -22,6 +22,9 @@ public class Category {
     @Column(name = "date_created")
     private Timestamp dateCreated;
 
+    @Column(name = "image_file")
+    private String image;
+
     @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
     private List<Subcategory> subCategories;
 
@@ -58,5 +61,14 @@ public class Category {
 
     public void setSubCategories(List<Subcategory> subCategories) {
         this.subCategories = subCategories;
+    }
+
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
