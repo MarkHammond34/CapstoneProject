@@ -1,25 +1,27 @@
 <div>
 	<div class="uk-card uk-card-small uk-card-default uk-border-rounded">
-		<%@include file="tableHeaders/meeting-table-header.jsp"%>
+		<%@include file="tableHeaders/meeting-table-header.jsp" %>
 		<div class="uk-card-body">
 			<div class="uk-overflow-auto">
 				<table
-					class="uk-table uk-table-hover uk-table-middle uk-table-divider">
+						class="uk-table uk-table-hover uk-table-middle uk-table-divider">
 					<tbody>
 					<c:forEach var="pickup" items="${pickUps}">
-							<tr>
-								<td><img class="uk-preserve-width uk-border-circle"
-										 uk-tooltip="${offer.offerMaker.username}"
-										 src="${pageContext.request.contextPath}/resources/img/profile-pic/default.jpeg"
-										 height="auto" width="40" alt=""></td>
-								<c:if
-									test="${offer.offerMessage != null && offer.offerMessage.length() > 0}">
-									<td class="uk-preserve-width">${offer.offerMessage}</td>
-								</c:if>
-								<td class="uk-preserve-width">${offer.offerAmount}</td>
-								<td class="uk-text-nowrap">${offer.status}</td>
-							</tr>
-						</c:forEach>
+						<tr>
+							<td><img class="uk-preserve-width uk-border-circle"
+							<c:if test="${user.userID == pickup.transaction.buyer.userID}">
+									 uk-tooltip="${pickup.transaction.buyer.username}"
+							</c:if>
+							<c:if test="${user.userID == pickup.transaction.seller.userID}">
+									 uk-tooltip="${pickup.transaction.seller.username}"
+							</c:if>
+									 src="${pageContext.request.contextPath}/resources/img/listings/default.jpeg"
+									 height="auto" width="40" alt=""></td>
+							<td class="uk-preserve-width">${pickup.pickUpTimestamp}</td>
+							<td class="uk-preserve-width">${pickup.location.name}</td>
+							<td class="uk-text-nowrap">${pickup.status}</td>
+						</tr>
+					</c:forEach>
 					</tbody>
 				</table>
 			</div>

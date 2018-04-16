@@ -10,11 +10,11 @@
                         <tr>
                             <td><img class="uk-preserve-width uk-border-circle"
                                      uk-tooltip="${transaction.buyer.username}"
-                                     src="${pageContext.request.contextPath}/resources/img/profile-pic/default.jpeg"
+                                     src="${pageContext.request.contextPath}/resources/img/listings/default.jpeg"
                                      height="auto" width="40" alt=""></td>
                             <td><img class="uk-preserve-width uk-border-circle"
                                      uk-tooltip="${transaction.seller.username}"
-                                     src="${pageContext.request.contextPath}/resources/img/profile-pic/default.jpeg"
+                                     src="${pageContext.request.contextPath}/resources/img/listings/default.jpeg"
                                      height="auto" width="40" alt=""></td>
                             <td class="uk-table-link">${transaction.listingID.name}</td>
                             <td class="uk-preserve-width">${transaction.offerID.offerAmount}</td>
