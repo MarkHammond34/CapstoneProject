@@ -1,5 +1,5 @@
 <%@include file="jspf/header.jsp" %>
-<div class="homepage-tutorial" style="border: 20px solid white;
+<div style="border: 20px solid white;
             margin: 0 auto;
             background: white;">
     <body class="uk-background-muted">
