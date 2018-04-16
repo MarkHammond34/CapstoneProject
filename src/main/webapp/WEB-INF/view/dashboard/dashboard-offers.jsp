@@ -10,7 +10,7 @@
                         <tr>
                             <td><img class="uk-preserve-width uk-border-circle"
                                      uk-tooltip="${offer.offerMaker.username}"
-                                     src="${pageContext.request.contextPath}/resources/img/profile-pic/default.jpeg"
+                                     src="${pageContext.request.contextPath}/resources/img/listings/default.jpeg"
                                      height="auto" width="40" alt=""></td>
                             <c:if
                                     test="${offer.offerMessage != null && offer.offerMessage.length() > 0}">
@@ -22,17 +22,34 @@
                                 <ul>
                                     <c:if test="${offer.offerMaker.userID != user.userID && !offer.status.equals('countered')}">
                                         <li>
-                                            <button href="">Accept</button>
+                                            <form method="get"
+                                                  action="/acceptOffer?offerID=${offer.offerID}&listing=${offer.listingID.id}">
+                                                <div class="uk-width-1-1">
+                                                    <input type="hidden" name="offerID" value="${offer.offerID}">
+                                                    <button type="submit"
+                                                            class="uk-button uk-button-primary uk-border-rounded">Accept
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </li>
                                         <li>
-                                            <button href="">Reject</button>
+                                            <form method="get"
+                                                  action="/rejectOffer?offerID=${offer.offerID}&listing=${offer.listingID.id}">
+                                                <div class="uk-width-1-1">
+                                                    <input type="hidden" name="offerID" value="${offer.offerID}">
+                                                    <button type="submit"
+                                                            class="uk-button uk-button-danger uk-border-rounded">Reject
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </li>
                                         <li>
                                             <form method="get" action="/counterOffer">
                                                 <div class="uk-width-1-1">
                                                     <input type="hidden" name="offerID" value="${offer.offerID}">
                                                     <button type="submit"
-                                                            class="btn btn-primary">Counter
+                                                            class="uk-button uk-button-secondary uk-border-rounded">
+                                                        Counter
                                                     </button>
                                                 </div>
                                             </form>

@@ -48,11 +48,6 @@
 
 
     <title>${title}</title>
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script
-            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
 
     <!-- <link href="${mainCSS}" rel="stylesheet"/> -->
     <link href="${regCSS}" rel="stylesheet"/>
@@ -67,10 +62,6 @@
         .uk-card-media-left img {
             max-height: 100%;
             max-width: 100%;
-        }
-
-        .body {
-            background-color: #f2f2f2;
         }
 
         .badge1 {

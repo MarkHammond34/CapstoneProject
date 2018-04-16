@@ -10,7 +10,7 @@
 
     <div class="u-list-it-background uk-inline-clip">
         <div class="uk-section-default">
-            <div class="uk-section-large uk-overlay-default uk-background-cover "
+            <div class="uk-section uk-overlay-default uk-background-cover "
                  style="background-image:url('${pageContext.request.contextPath}/resources/img/index2.jpeg'); height: auto; max-height: 350px;  background-position: center;
                          background-repeat: no-repeat;
                          background-size: cover;">
@@ -151,9 +151,7 @@
         function addToPlaceholder(toAdd, el) {
             el.attr('placeholder', el.attr('placeholder') + toAdd);
             // Delay between symbols "typing"
-            return new Promise(resolve = > setTimeout(resolve, 100)
-        )
-            ;
+            return new Promise(resolve => setTimeout(resolve, 100));
         }
 
         // Cleare placeholder attribute in given element
@@ -163,27 +161,23 @@
 
         // Print one phrase
         function printPhrase(phrase, el) {
-            return new Promise(resolve = > {
+            return new Promise(resolve => {
                 // Clear placeholder before typing next phrase
                 clearPlaceholder(el);
             let letters = phrase.split('');
             // For each letter in phrase
             letters.reduce(
-                (promise, letter, index) = > promise.then(_ = > {
-                // Resolve promise when all letters are typed
-                if(index === letters.length - 1
-        )
-            {
-                // Delay before start next phrase "typing"
-                setTimeout(resolve, 1000);
-            }
-            return addToPlaceholder(letter, el);
-        }),
-            Promise.resolve()
-        )
-            ;
-        })
-            ;
+                (promise, letter, index) => promise.then(_ => {
+                    // Resolve promise when all letters are typed
+                    if (index === letters.length - 1) {
+                        // Delay before start next phrase "typing"
+                        setTimeout(resolve, 1000);
+                    }
+                    return addToPlaceholder(letter, el);
+                }),
+                Promise.resolve()
+            );
+            });
         }
 
         // Print given phrases to element
@@ -192,11 +186,9 @@
             // wait for phrase to be typed
             // before start typing next
             phrases.reduce(
-                (promise, phrase) = > promise.then(_ = > printPhrase(phrase, el)
-        ),
+                (promise, phrase) => promise.then(_ => printPhrase(phrase, el)),
             Promise.resolve()
-        )
-            ;
+            );
         }
 
         // Start typing
