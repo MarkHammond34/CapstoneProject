@@ -1,35 +1,10 @@
-<%@include file="jspf/header.jsp" %>
-<body>
-<div class="uk-position-relative">
-    <div class="uk-position-relativetop">
-        <nav class="uk-navbar-container uk-navbar-dark" uk-navbar>
-            <div class="uk-navbar-center">
-                <ul class="uk-navbar-nav">
-                    <li class="uk-active"><a
-                            href="${pageContext.request.contextPath}/admin">Dashboard</a></li>
-                    <li><a href="${pageContext.request.contextPath}/adminUser">Manage
-                        Users</a></li>
-                    <li><a href="${pageContext.request.contextPath}/adminListing">Manage
-                        Listings</a></li>
-                    <li><a
-                            href="${pageContext.request.contextPath}/adminDisputes">Manage
-                        Disputes</a></li>
-                    <li><a href="${pageContext.request.contextPath}/eventsNews">Events/News</a>
-                    </li>
+<%@include file="admin-header.jsp" %>
 
-                </ul>
-            </div>
-            <div class="uk-navbar-right">
-                <ul class="uk-navbar-nav">
-                    <li><a>Welcome ${user.firstName}</a></li>
-                    <li><a href="${pageContext.request.contextPath}/">Home</a></li>
-                    <li><a href="${pageContext.request.contextPath}/logout">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
-</div>
+<body class="uk-background-muted">
+
+<%@include file="admin-navbar.jsp" %>
+
+<%@include file="../jspf/messages.jsp" %>
 
 <div class="uk-container">
     <div uk-grid>
@@ -95,7 +70,8 @@
 
                         <legend class="uk-legend uk-text-primary uk-text-bold">News</legend>
 
-                        <strong>News Article Title</strong><div class="uk-margin">
+                        <strong>News Article Title</strong>
+                        <div class="uk-margin">
                             <input class="uk-input" name="title" type="text" placeholder="Title">
                         </div>
                         <br>
@@ -112,7 +88,8 @@
                             id="image_error2"></span>
                         <br>
 
-                        <strong>Description: </strong><div class="uk-margin">
+                        <strong>Description: </strong>
+                        <div class="uk-margin">
 									<textarea class="uk-textarea" name="description" rows="5"
                                               placeholder="Textarea"></textarea>
                         </div>
@@ -133,15 +110,17 @@
 
                         <legend class="uk-legend uk-text-primary uk-text-bold">Video</legend>
 
-                        <strong>Video Title</strong><div class="uk-margin">
-                        <input class="uk-input" name="videoTitle" type="text" placeholder="Title">
-                    </div>
+                        <strong>Video Title</strong>
+                        <div class="uk-margin">
+                            <input class="uk-input" name="videoTitle" type="text" placeholder="Title">
+                        </div>
                         <br>
 
-                        <strong>Youtube URL: </strong><div class="uk-margin">
+                        <strong>Youtube URL: </strong>
+                        <div class="uk-margin">
 									<textarea class="uk-textarea" name="video" rows="5"
                                               placeholder="Textarea"></textarea>
-                    </div>
+                        </div>
 
                         <br>
                         <button type="submit"

@@ -105,7 +105,6 @@
 </div>
 
 <!--Side Nav Menu -->
-<!--Side Nav Menu -->
 <div id="offcanvas-slide" uk-offcanvas="overlay: true">
     <div class="admin-nav uk-offcanvas-bar uk-flex uk-flex-column">
 
@@ -118,16 +117,32 @@
                     class="uk-margin-small-right" uk-icon="icon: users"></span>Manage Users</a></li>
             <c:if test="${sessionScope.user != null}">
                 <li class="uk-nav-divider"></li>
+
                 <li>
                     <a href="${pageContext.request.contextPath}/adminListing"><span
-                        class="uk-margin-small-right" uk-icon="icon: user"></span>Manage Listings</a></li>
+                            class="uk-margin-small-right" uk-icon="icon: user"></span>Manage Listings</a></li>
                 <li class="uk-nav-divider"></li>
+
                 <li><a href="${pageContext.request.contextPath}/adminDisputes"><span
-                        class="uk-margin-small-right" uk-icon="icon: thumbnails"></span>Manage Disputes</a></li>
+                        class="uk-margin-small-right" uk-icon="icon: warning"></span>Manage Disputes</a></li>
                 <li class="uk-nav-divider"></li>
+
                 <li><a href="${pageContext.request.contextPath}/eventsNews"><span
-                        class="uk-margin-small-right" uk-icon="icon: plus-circle"></span>Manage Community Page</a></li>
+                        class="uk-margin-small-right" uk-icon="icon: calendar"></span>Manage Community Page</a></li>
                 <li class="uk-nav-divider"></li>
+
+                <li><a href="${pageContext.request.contextPath}/adminFaqs"><span
+                        class="uk-margin-small-right" uk-icon="icon: question"></span>Manage Faqs</a></li>
+                <li class="uk-nav-divider"></li>
+
+                <li><a href="${pageContext.request.contextPath}/adminLocations"><span
+                        class="uk-margin-small-right" uk-icon="icon: location"></span>Manage Locations</a></li>
+                <li class="uk-nav-divider"></li>
+
+                <li><a href="${pageContext.request.contextPath}/"><span
+                        class="uk-margin-small-right" uk-icon="icon: reply"></span>Homepage</a></li>
+                <li class="uk-nav-divider"></li>
+
             </c:if>
         </ul>
 

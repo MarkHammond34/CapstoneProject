@@ -56,8 +56,11 @@
         </div>
     </div>
 </head>
+<%@include file="admin-header.jsp" %>
 
-<body style="background-color: #5bc0de">
+<body>
+
+<%@include file="admin-navbar.jsp" %>
 
 <%@include file="../jspf/messages.jsp" %>
 

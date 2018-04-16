@@ -190,20 +190,27 @@ public class ListingDAOImpl implements ListingDAO {
     }
 
     @Override
-    public List<Listing> findAllDonatedListings() {
-        Query q = getSession().createSQLQuery("select * from ulistit.listing where type = 'donation';")
-                .addEntity(Listing.class);
-
-        return (List<Listing>) q.list();
+    public List findAllDonatedListings() {
+        return getSession().createQuery("FROM listing WHERE type='donation' AND active=1").list();
     }
 
     @Override
-    public List<Listing> findAllDonatedListingsByCategory(String category) {
+    public List findAllDonatedListingsByCategory(String category) {
         Query q = getSession()
-                .createSQLQuery("select * from ulistit.listing where type='donation' AND category='" + category + "';")
+                .createQuery("FROM listing WHERE type='donation' AND category=:cat AND active=1");
+        q.setParameter("cat", category);
+        return q.list();
+    }
+
+    @Override
+    public List listingsSearchDonations(String search) {
+        Query q = getSession().createSQLQuery("SELECT * FROM ulistit.listing WHERE (SOUNDEX(name)=soundex('" + search
+                + "') OR SOUNDEX(category)=soundex('" + search + "') OR SOUNDEX(description)=soundex('" + search
+                + "') OR name LIKE '%" + search + "%' OR category LIKE '%" + search + "%' OR description LIKE '%"
+                + search + "%') AND (type='donation' AND active=1);")
                 .addEntity(Listing.class);
 
-        return (List<Listing>) q.list();
+        return q.list();
     }
 
     @Override

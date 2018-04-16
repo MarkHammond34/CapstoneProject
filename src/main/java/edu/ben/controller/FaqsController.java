@@ -22,6 +22,6 @@ public class FaqsController extends BaseController {
         request.setAttribute("faqs", faqService.getAllFaqs());
         request.setAttribute("title", "Frequently Asked Questions");
         setRequest(request);
-        return "faqs";
+        return "faqs/faqs";
     }
 }

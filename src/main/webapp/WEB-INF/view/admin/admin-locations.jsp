@@ -1,71 +1,15 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
-<html>
-<spring:url value="resources/css/uikit.css" var="uikitCSS"/>
-<spring:url value="resources/js/uikit.js" var="uikitJS"/>
-<spring:url value="resources/js/jquery.js" var="jquery"/>
-<spring:url value="resources/js/uikit-icons.js" var="uikiticons"/>
-<link href="${uikitCSS}" rel="stylesheet"/>
-<script type="text/javascript" src="${uikitJS}"></script>
-<script type="text/javascript" src="${jquery}"></script>
-<script type="text/javascript" src="${uikiticons}"></script>
-<head>
-    <title>Locations</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-</head>
+<%@include file="admin-header.jsp" %>
 
 <body class="uk-background-muted">
 
-<div class="uk-position-relative">
-    <div class="uk-position-relativetop">
-        <nav class="uk-navbar-container uk-navbar-dark" uk-navbar>
-            <div class="uk-navbar-center">
-                <ul class="uk-navbar-nav">
-                    <li>
-                        <a href="${pageContext.request.contextPath}/admin">Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="${pageContext.request.contextPath}/adminUser">Manage Users</a>
-                    </li>
-                    <li class="uk-active">
-                        <a href="${pageContext.request.contextPath}/adminListing">Manage Listings</a>
-                    </li>
-                    <li>
-                        <a href="${pageContext.request.contextPath}/adminDisputes">Manage Disputes</a>
-                    </li>
-                    <li>
-                        <a href="${pageContext.request.contextPath}/adminDisputes">Manage Disputes</a>
-                    </li>
-                    <li>
-                        <a href="${pageContext.request.contextPath}/eventsNews">Events/News</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="uk-navbar-right">
-                <ul class="uk-navbar-nav">
-                    <li>
-                        <a>Welcome ${user.firstName}</a>
-                    </li>
-                    <li>
-                        <a href="${pageContext.request.contextPath}/">Home</a>
-                    </li>
-                    <li>
-                        <a href="${pageContext.request.contextPath}/logout">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
-</div>
+<%@include file="admin-navbar.jsp" %>
 
 <%@include file="../jspf/messages.jsp" %>
 
 <div class="uk-grid" uk-grid>
 
-    <div class="uk-width-3-4@m uk-width-1-1@s uk-align-center uk-card uk-card-default">
+    <div class="uk-width-4-5@m uk-width-1-1@s uk-align-center uk-card uk-card-default uk-box-shadow-hover-large">
+
         <div class="uk-card-header">
             <ul class="uk-float-right uk-text-center" uk-tab="connect: #listMapSwitcher;">
                 <li><a href="#">Safe Zones</a></li>
@@ -73,51 +17,50 @@
             </ul>
             <h3 class="uk-float-left">Pick Up Locations</h3>
         </div>
-        <div class="uk-card-body uk-grid" uk-grid>
-            <ul class="uk-switcher uk-margin uk-card-body uk-align-center" id="listMapSwitcher">
-                <li class="uk-margin-remove">
-                    <table class=" uk-table uk-table-hover uk-align-center uk-width-1-1 uk-table-middle uk-table-divider">
-                        <thead>
+
+        <ul class="uk-switcher uk-align-center" id="listMapSwitcher">
+            <li>
+                <table class="uk-table uk-table-hover uk-width-1-1 uk-table-divider uk-align-center">
+                    <thead>
+                    <tr>
+                        <th class="uk-table-expand">Name</th>
+                        <th class="uk-table-shrink">Latitude</th>
+                        <th class="uk-table-shrink">Longitude</th>
+                        <th class="uk-table-shrink uk-text-nowrap uk-text-center">Date Created</th>
+                        <th class="uk-table-shrink"></th>
+                        <th class="uk-table-shrink"></th>
+                        <th class="uk-table-shrink">
+                            <a href="#newSafeZoneModal" style="color: cornflowerblue"
+                               uk-icon="icon: plus-circle" title="Create" uk-toggle
+                               onclick="createNewMarker();"></a>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${safeZones}" var="location">
                         <tr>
-                            <th class="uk-table-expand">Name</th>
-                            <th class="uk-table-shrink">Latitude</th>
-                            <th class="uk-table-shrink">Longitude</th>
-                            <th class="uk-table-shrink uk-text-nowrap uk-text-center">Date Created</th>
-                            <th class="uk-table-shrink"></th>
-                            <th class="uk-table-shrink"></th>
-                            <th class="uk-table-shrink">
-                                <a href="#newSafeZoneModal" style="color: cornflowerblue"
-                                   uk-icon="icon: plus-circle" title="Create" uk-toggle
-                                   onclick="createNewMarker();"></a>
-                            </th>
+                            <td>${location.name}</td>
+                            <td class="uk-table-link">${location.latitude}</td>
+                            <td class="uk-text-truncate">${location.longitude}</td>
+                            <td class="uk-text-nowrap">${location.dateCreated}</td>
+                            <td>
+                                <a href="#editModal${location.locationID}" uk-icon="icon: pencil" title="Edit"
+                                   uk-toggle onclick="addNewMap();"></a>
+                            </td>
+                            <td>
+                                <a href="#deleteModal${location.locationID}" uk-icon="icon: trash"
+                                   title="Delete" uk-toggle></a>
+                            </td>
+                            <td></td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${safeZones}" var="location">
-                            <tr>
-                                <td>${location.name}</td>
-                                <td class="uk-table-link">${location.latitude}</td>
-                                <td class="uk-text-truncate">${location.longitude}</td>
-                                <td class="uk-text-nowrap">${location.dateCreated}</td>
-                                <td>
-                                    <a href="#editModal${location.locationID}" uk-icon="icon: pencil" title="Edit"
-                                       uk-toggle onclick="addNewMap();"></a>
-                                </td>
-                                <td>
-                                    <a href="#deleteModal${location.locationID}" uk-icon="icon: trash"
-                                       title="Delete" uk-toggle></a>
-                                </td>
-                                <td></td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                </li>
-                <li>
-                    <div class="uk-width-1-1" id="map" style="width:800px;height:400px;"></div>
-                </li>
-            </ul>
-        </div>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </li>
+            <li>
+                <div class="uk-width-1-1 uk-align-center" id="map" style="width:800px;height:400px;"></div>
+            </li>
+        </ul>
     </div>
 </div>
 

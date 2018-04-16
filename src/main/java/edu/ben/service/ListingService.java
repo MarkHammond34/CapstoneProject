@@ -70,4 +70,6 @@ public interface ListingService {
 
 	public List<Listing> getInActiveListingsByUserId(int id);
 
+	public List listingsSearchDonations(String search);
+
 }

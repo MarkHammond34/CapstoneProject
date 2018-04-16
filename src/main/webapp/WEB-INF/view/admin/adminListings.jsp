@@ -1,71 +1,11 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: saran
-  Date: 2/28/18
-  Time: 7:06 AM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
-<%@ page import="edu.ben.model.User" %>
-<%@ page import="edu.ben.model.Listing" %>
-<%@ page import="java.util.List" %>
-<%@include file="../jspf/messages.jsp"%>
-<html>
-<spring:url value="resources/css/uikit.css" var="uikitCSS"/>
-<spring:url value="resources/js/uikit.js" var="uikitJS"/>
-<spring:url value="resources/js/jquery.js" var="jquery"/>
-<spring:url value="resources/js/uikit-icons.js" var="uikiticons"/>
-<link href="${uikitCSS}" rel="stylesheet"/>
-<script type="text/javascript" src="${uikitJS}"></script>
-<script type="text/javascript" src="${jquery}"></script>
-<script type="text/javascript" src="${uikiticons}"></script>
-<head>
-    <title>Admin Listings</title>
-    <div class="uk-position-relative">
-        <div class="uk-position-relativetop">
-            <nav class="uk-navbar-container uk-navbar-dark" uk-navbar>
-                <div class="uk-navbar-center">
-                    <ul class="uk-navbar-nav">
-                        <li>
-                            <a href="${pageContext.request.contextPath}/admin">Dashboard</a>
-                        </li>
-                        <li>
-                            <a href="${pageContext.request.contextPath}/adminUser">Manage Users</a>
-                        </li>
-                        <li class="uk-active">
-                            <a href="${pageContext.request.contextPath}/adminListing">Manage Listings</a>
-                        </li>
-                        <li class="uk-active">
-                            <a href="${pageContext.request.contextPath}/adminDisputes">Manage Disputes</a>
-                        </li>
-                        <li>
-                            <a href="${pageContext.request.contextPath}/eventsNews">Events/News</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="uk-navbar-right">
-                    <ul class="uk-navbar-nav">
-                        <li>
-                            <a>Welcome ${user.firstName}</a>
-                        </li>
-                        <li>
-                            <a href="${pageContext.request.contextPath}/">Home</a>
-                        </li>
-                        <li>
-                            <a href="${pageContext.request.contextPath}/logout">Logout</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </div>
-</head>
+<%@include file="admin-header.jsp" %>
 
 <body>
+
+<%@include file="admin-navbar.jsp" %>
+
+<%@include file="../jspf/messages.jsp" %>
+
 <div class="uk-cover-container uk-height-viewport">
     <div class="uk-flex uk-flex-column">
         <ul uk-switcher>
@@ -85,7 +25,8 @@
             <div class="uk-overflow-auto">
                 <div class="uk-child-width-3-4" uk-grid>
                     <div class="uk-overflow-container">
-                        <a class="uk-button uk-button-default uk-position-top-right" href="#createUserModal" uk-toggle hidden>Create
+                        <a class="uk-button uk-button-default uk-position-top-right" href="#createUserModal" uk-toggle
+                           hidden>Create
                             User</a>
                         <h3 class="uk-heading-divider">Listings</h3>
                         <table class="uk-table uk-table-small uk-table-hover u-table-middle uk-table-divider">
@@ -122,7 +63,8 @@
                                         if (allListings.get(i).getActive() == 1) {
                                     %>
                                     <form method="Post" action="adminInactivateListing">
-                                        <button name="adminInactivateListing" value="<%=allListings.get(i).getId()%>"  type="submit"
+                                        <button name="adminInactivateListing" value="<%=allListings.get(i).getId()%>"
+                                                type="submit"
                                                 uk-icon="icon: trash" uk-tooltip="Delete this listing"></button>
                                     </form>
                                     <%
@@ -130,8 +72,9 @@
                                     %>
                                     <form method="Post" action="adminActivateListing">
                                         <button name="adminActivateListing" value="<%=allListings.get(i).getId()%>"
-                                                type="submit" uk-icon="icon: check" uk-tooltip="Activate this listing"></button>
-                                    <%
+                                                type="submit" uk-icon="icon: check"
+                                                uk-tooltip="Activate this listing"></button>
+                                            <%
                                         }
                                     %>
                                 </td>

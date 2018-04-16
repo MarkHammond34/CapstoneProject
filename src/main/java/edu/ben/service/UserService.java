@@ -14,7 +14,7 @@ public interface UserService {
 
 	public void saveOrUpdate(User user);
 
-	public void create(User user);
+	public int create(User user);
 
 	public void lockByUsername(String username);
 

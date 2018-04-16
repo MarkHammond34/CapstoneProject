@@ -3,18 +3,14 @@ package edu.ben.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.Array;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import edu.ben.model.Video;
 import edu.ben.service.EventsService;
 import edu.ben.service.VideoService;
@@ -266,7 +262,7 @@ public class CommunityController extends BaseController {
             }
 
         }
-        return "events-news";
+        return "admin/events-news";
     }
 
     @RequestMapping(value = "/viewNews")
@@ -340,7 +336,7 @@ public class CommunityController extends BaseController {
 
         eventService.create(event);
 
-        return "events-news";
+        return "admin/events-news";
     }
 
     @RequestMapping(value="/searchNews")
@@ -424,7 +420,7 @@ public class CommunityController extends BaseController {
 
     @RequestMapping(value = "/eventsNews", method = RequestMethod.GET)
     public String viewEventsNews() {
-        return "events-news";
+        return "admin/events-news";
     }
 
 }

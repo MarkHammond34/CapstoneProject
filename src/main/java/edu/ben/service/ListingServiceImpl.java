@@ -197,6 +197,11 @@ public class ListingServiceImpl implements ListingService {
 		return ld.getInActiveListingsByUserId(id);
 	}
 
+    @Override
+    public List listingsSearchDonations(String search) {
+        return ld.listingsSearchDonations(search);
+    }
+
     public void deleteByListingId(int id)  {
         ld.deleteByListingId(id);
     }

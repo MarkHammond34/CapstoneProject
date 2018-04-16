@@ -1,52 +1,8 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
-<%@ page import="edu.ben.model.User" %>
-<%@ page import="java.util.List" %>
-<html>
-<spring:url value="resources/css/uikit.css" var="uikitCSS"/>
-<spring:url value="resources/js/uikit.js" var="uikitJS"/>
-<spring:url value="resources/js/jquery.js" var="jquery"/>
-<spring:url value="resources/js/uikit-icons.js" var="uikiticons"/>
-<link href="${uikitCSS}" rel="stylesheet"/>
-<script type="text/javascript" src="${uikitJS}"></script>
-<script type="text/javascript" src="${jquery}"></script>
-<script type="text/javascript" src="${uikiticons}"></script>
-<head>
-    <title>${title}</title>
-</head>
+<%@include file="admin-header.jsp" %>
+
 <body class="uk-background-muted">
 
-<div class="uk-position-relative">
-    <div class="uk-position-relativetop">
-        <nav class="uk-navbar-container uk-navbar-dark" uk-navbar>
-            <div class="uk-navbar-center">
-                <ul class="uk-navbar-nav">
-                    <li><a href="${pageContext.request.contextPath}/admin">Dashboard</a>
-                    </li>
-                    <li class="uk-active"><a
-                            href="${pageContext.request.contextPath}/adminUser">Manage
-                        Users</a></li>
-                    <li><a href="${pageContext.request.contextPath}/adminListing">Manage
-                        Listings</a></li>
-                    <li><a href="${pageContext.request.contextPath}/adminDisputes">Manage
-                        Disputes</a></li>
-                    <li><a href="${pageContext.request.contextPath}/adminChecklist">Manage
-                        Freshman Checklist</a></li>
-                </ul>
-            </div>
-            <div class="uk-navbar-right">
-                <ul class="uk-navbar-nav">
-                    <li><a>Welcome ${user.firstName}</a></li>
-                    <li><a href="${pageContext.request.contextPath}/">Home</a></li>
-                    <li><a href="${pageContext.request.contextPath}/logout">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
-</div>
+<%@include file="admin-navbar.jsp" %>
 
 <%@include file="../jspf/messages.jsp" %>
 

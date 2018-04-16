@@ -73,7 +73,7 @@ public class ListingController extends BaseController {
                                     @RequestParam("subCategory") String subCategory,
                                     @RequestParam(value = "price", required = false) Double price,
                                     @RequestParam("description") String description, @RequestParam("file") List<MultipartFile> file,
-                                    @RequestParam("type") String type, @RequestParam("paymentType") String paymentType,
+                                    @RequestParam("type") String type, @RequestParam(value = "paymentType") String paymentType,
                                     @RequestParam("premium") String premium, Model model,
                                     HttpServletRequest request) {
 

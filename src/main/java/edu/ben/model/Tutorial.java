@@ -7,10 +7,11 @@ import javax.persistence.*;
 public class Tutorial {
 
     @Id
-    @Column(name = "tutorial_id")
-    private int user_id;
+    @Column(name = "user_id")
+    private Integer userID;
 
-    @OneToOne(mappedBy="tutorial")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column(name = "viewed_home")
@@ -34,11 +35,15 @@ public class Tutorial {
     @Column(name = "viewed_transaction_history")
     private int viewedTransactionHistory;
 
+    @Column(name = "viewed_donate_an_item")
+    private int viewedDonateAnItem;
+
     public Tutorial() {
     }
 
-    public Tutorial(int userID) {
-        this.user_id = userID;
+    public Tutorial(User user) {
+        this.userID = user.getUserID();
+        this.user = user;
         this.viewedHome = 0;
         this.viewedListing = 0;
         this.viewedDashboard = 0;
@@ -46,14 +51,15 @@ public class Tutorial {
         this.viewedPickup = 0;
         this.viewedSavedSearch = 0;
         this.viewedTransactionHistory = 0;
+        this.viewedDonateAnItem = 0;
     }
 
-    public int getUserID() {
-        return user_id;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserID(int user_id) {
-        this.user_id = user_id;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getViewedHome() {
@@ -104,27 +110,27 @@ public class Tutorial {
         this.viewedSavedSearch = viewedSavedSearch;
     }
 
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public int getViewedTransactionHistory() {
         return viewedTransactionHistory;
     }
 
     public void setViewedTransactionHistory(int viewedTransactionHistory) {
         this.viewedTransactionHistory = viewedTransactionHistory;
+    }
+
+    public Integer getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Integer userID) {
+        this.userID = userID;
+    }
+
+    public int getViewedDonateAnItem() {
+        return viewedDonateAnItem;
+    }
+
+    public void setViewedDonateAnItem(int viewedDonateAnItem) {
+        this.viewedDonateAnItem = viewedDonateAnItem;
     }
 }

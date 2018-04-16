@@ -216,6 +216,9 @@
 
         run();
 
+    </script>
+
+    <script>
         window.addEventListener("load", function () {
             if (document.getElementById("yes").style.display == "inline") {
                 setTimeout(function () {
@@ -223,7 +226,6 @@
                 }, 2000);
             }
         });
-
     </script>
 
 

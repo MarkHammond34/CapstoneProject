@@ -48,9 +48,11 @@ public interface ListingDAO {
 	
 	public List<Listing> listingSearch(String search);
 	
-	public List<Listing> findAllDonatedListings();
-	
-	public List<Listing> findAllDonatedListingsByCategory(String category);
+	public List findAllDonatedListings();
+
+    public List findAllDonatedListingsByCategory(String category);
+
+    public List listingsSearchDonations(String search);
 	
 	public List<Listing> listingsSearchEndingLatest(String search);
 	

@@ -23,14 +23,14 @@
                         <br style="clear: both">
 
 
-                        <div class="uk-width-3-4@m uk-width-1-2@s">
+                        <div class="uk-width-2-3@m uk-width-1-2@s">
                             <strong>Title of Product</strong> <input type="text"
                                                                      class="uk-input" id="titleId" name="title"
                                                                      placeholder="Title">
                             <span class="val_error" id="title_error"></span>
                         </div>
 
-                        <div class="uk-width-1-4@m uk-width-1-2@s" uk-form-custom>
+                        <div class="uk-width-1-3@m uk-width-1-2@s" uk-form-custom>
                             <br>
                             <input id="image" type="file" name="file" multiple/>
                             <span class="val_error" id="image_error"></span>

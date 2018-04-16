@@ -21,11 +21,25 @@ public class Faq {
     @Column(name = "answer")
     private String answer;
 
-    @Column(name = "created_by")
-    private Timestamp createdOn;
+    @OneToOne
+    @JoinColumn(name = "created_by")
+    private User createdBy;
 
     @Column(name = "date_created")
     private Timestamp dateCreated;
+
+    @Column(name = "category")
+    private String category;
+
+    public Faq() {
+    }
+
+    public Faq(String q, String a, User createdBy, String category) {
+        this.question = q;
+        this.answer = a;
+        this.createdBy = createdBy;
+        this.category = category;
+    }
 
     public int getQuestionID() {
         return questionID;
@@ -51,12 +65,12 @@ public class Faq {
         this.answer = answer;
     }
 
-    public Timestamp getCreatedOn() {
-        return createdOn;
+    public User getCreatedBy() {
+        return createdBy;
     }
 
-    public void setCreatedOn(Timestamp createdOn) {
-        this.createdOn = createdOn;
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
     }
 
     public Timestamp getDateCreated() {
@@ -65,5 +79,13 @@ public class Faq {
 
     public void setDateCreated(Timestamp dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

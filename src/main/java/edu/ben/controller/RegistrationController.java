@@ -64,17 +64,17 @@ public class RegistrationController extends BaseController {
 						user.setSecurityLevel(3);
 					}
 
-//                    int id = userService.create(user);
+                    int id = userService.create(user);
+                    user.setUserID(id);
 
                     // Set the tutorial
-//                    tutorialService.save(new Tutorial(id));
-                    user.setTutorial(tutorialService.getByUserID(user.getUserID()));
-                    userService.update(user);
+                    tutorialService.save(new Tutorial(user));
 
+                    user = userService.getUserById(id);
 
                     userService.lockByUsername(user.getUsername());
 
-                    request.getSession().setAttribute("action", "registration");
+                    request.getSession().setAttribute("action", "sendCode");
                     request.getSession().setAttribute("tempUser", user);
                     return "redirect:/validate";
                 }
@@ -86,60 +86,93 @@ public class RegistrationController extends BaseController {
         }
     }
 
-	@GetMapping("/register")
-	public String register(HttpServletRequest m) {
+    @GetMapping("/register")
+    public String register(HttpServletRequest m) {
 
-		if (m.getParameter("admin") != null) {
-			m.setAttribute("title", "Admin Sign Up");
-			m.setAttribute("admin", true);
-		} else {
-			m.setAttribute("title", "Sign Up");
-		}
+        if (m.getParameter("admin") != null) {
+            m.setAttribute("title", "Admin Sign Up");
+            m.setAttribute("admin", true);
+        } else {
+            m.setAttribute("title", "Sign Up");
+        }
 
-		setRequest(m);
-		return "registration/registration";
-	}
+        setRequest(m);
+        return "registration/registration";
+    }
 
-	@GetMapping("/validate")
-	public String validate(HttpServletRequest req) {
+    @GetMapping("/validate")
+    public String validate(HttpServletRequest req) {
 
-		User user = (User) req.getSession().getAttribute("tempUser");
-		String action = (String) req.getSession().getAttribute("action");
+        User user = (User) req.getSession().getAttribute("tempUser");
+        String action = (String) req.getSession().getAttribute("action");
 
-		if (action.equals("registration")) {
+        if (user == null) {
+            addErrorMessage("Error Loading User");
+            setRequest(req);
+            return "redirect:" + req.getHeader("Referer");
+        }
 
-			req.getSession().setAttribute("action", "code");
-			req.getSession().setAttribute("code", Email.studentVerification(user.getSchoolEmail()));
-			setRequest(req);
-			System.out.println(req.getSession().getAttribute("code"));
-			return "registration/student-validation";
+        if (action.equals("sendCode") || action.equals("matchCode")) {
 
-		} else if (action.equals("code")) {
+            req.getSession().setAttribute("action", "matchCode");
+            //req.getSession().setAttribute("code", Email.studentVerification(user.getSchoolEmail()));
+            setRequest(req);
+            return "registration/student-validation";
 
-			if (req.getSession().getAttribute("code").equals(req.getParameter("userCode"))) {
+        } else {
+            addErrorMessage("Incorrect Action");
+            setRequest(req);
+            return "redirect:" + req.getHeader("Referer");
+        }
+    }
 
-				userService.unlockByUsername((String) ((User) req.getSession().getAttribute("tempUser")).getUsername());
-				req.getSession().removeAttribute("code");
-				req.getSession().removeAttribute("tempUser");
-				req.getSession().setAttribute("user", user);
-				setRequest(req);
-				return "redirect:/";
+    @GetMapping("/code")
+    public String matchCode(HttpServletRequest req) {
 
-			} else {
+        User user = (User) req.getSession().getAttribute("tempUser");
+        String action = (String) req.getSession().getAttribute("action");
 
-				addErrorMessage("Codes Didn't Match");
-				setRequest(req);
-				return "registration/student-verification";
+        if (user == null) {
+            addErrorMessage("Error Loading User");
+            setRequest(req);
+            return "redirect:" + req.getHeader("Referer");
+        }
 
-			}
-		}
-		return "";
-	}
+        if (action.equals("matchCode")) {
 
-	@GetMapping("/resetPage")
-	public String passwordResetGet() {
-		return "password-reset/password-reset";
-	}
+            if (req.getSession().getAttribute("code").equals(req.getParameter("userCode"))) {
+
+                userService.unlockByUsername((String) ((User) req.getSession().getAttribute("tempUser")).getUsername());
+                req.getSession().removeAttribute("code");
+                req.getSession().removeAttribute("tempUser");
+                req.getSession().setAttribute("user", user);
+                setRequest(req);
+                return "redirect:/";
+
+            } else {
+
+                addErrorMessage("Codes Didn't Match");
+                setRequest(req);
+                return "registration/student-verification";
+
+            }
+
+        } else if (action.equals("sendCode")) {
+
+            return "redirect:/validate";
+
+        } else {
+            addErrorMessage("Incorrect Action");
+            setRequest(req);
+            return "redirect:" + req.getHeader("Referer");
+        }
+
+    }
+
+    @GetMapping("/resetPage")
+    public String passwordResetGet() {
+        return "password-reset/password-reset";
+    }
 
 	@GetMapping("/unlock")
 	public String unlock() {

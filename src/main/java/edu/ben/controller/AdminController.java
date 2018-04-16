@@ -43,6 +43,9 @@ public class AdminController extends BaseController {
     @Autowired
     AdminTaskService adminTaskService;
 
+    @Autowired
+    FaqService faqService;
+
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin(HttpServletRequest request) {
         List<User> recentUsers = userService.getRecentUsers();
@@ -71,7 +74,7 @@ public class AdminController extends BaseController {
         request.getSession().setAttribute("tasks", tasks);
 
         System.out.println("Member Size: " + getAllMembers.size());
-        return "adminPage";
+        return "admin/adminPage";
     }
 
     @RequestMapping(value = "adminUser", method = RequestMethod.GET)
@@ -327,6 +330,135 @@ public class AdminController extends BaseController {
         addSuccessMessage("Safe Zone Updated");
         setRequest(request);
         return "redirect:" + request.getHeader("Referer");
+    }
+
+    @GetMapping("/adminFaqs")
+    public String faqs(HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null && user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "login";
+        }
+
+        request.setAttribute("title", "Manage Faqs");
+        request.setAttribute("faqs", faqService.getAllFaqs());
+        return "admin/admin-faqs";
+    }
+
+    @PostMapping("/adminAddFaq")
+    public String addFaq(HttpServletRequest request, @RequestParam("newFaqQuestion") String question,
+                         @RequestParam("newFaqAnswer") String answer, @RequestParam("newFaqCategory") String category) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null && user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "login";
+        }
+
+        // Error checking for question
+        if (question.length() < 5 && !question.contains("?")) {
+            addErrorMessage("Invalid Question");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        // Error checking for answer
+        if (answer.length() < 5) {
+            addErrorMessage("Invalid Answer");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        faqService.save(new Faq(question, answer, user, category));
+
+        addSuccessMessage("Faq Created!");
+        setRequest(request);
+
+        return "redirect:" + request.getHeader("Referer");
+    }
+
+    @PostMapping("/adminEditFaq")
+    public String editFaq(HttpServletRequest request, @RequestParam("newFaqQuestion") String question,
+                          @RequestParam("newFaqAnswer") String answer, @RequestParam("newFaqCategory") String category, @RequestParam("faqID") int faqID) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null && user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "login";
+        }
+
+        Faq faq = faqService.getByFaqID(faqID);
+
+        if (faq == null) {
+            addErrorMessage("Error Loading Faq");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        if (question.length() < 5) {
+            addErrorMessage("Invalid Faq Question");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        if (answer.length() < 5) {
+            addErrorMessage("Invalid Faq Answer");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        if (!faq.getQuestion().equals(question)) {
+            faq.setQuestion(question);
+        }
+
+        if (!faq.getAnswer().equals(answer)) {
+            faq.setAnswer(answer);
+        }
+
+        if (!faq.getCategory().equals(category)) {
+            faq.setCategory(category);
+        }
+
+        faqService.update(faq);
+
+        addSuccessMessage("Faq Updated!");
+        setRequest(request);
+
+        return "redirect:" + request.getHeader("Referer");
+    }
+
+    @PostMapping("/adminRemoveFaq")
+    public String removeFaq(HttpServletRequest request, @RequestParam("faqID") int faqID) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user != null && user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "login";
+        }
+
+        Faq faq = faqService.getByFaqID(faqID);
+
+        if (faq == null) {
+            addErrorMessage("Error Loading Faq");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        faqService.remove(faq);
+
+        addSuccessMessage("Faq Removed");
+        setRequest(request);
+        return "redirect:" + request.getHeader("Referer");
+
     }
 
     @PostMapping("/contactUser")

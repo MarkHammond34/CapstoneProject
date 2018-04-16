@@ -92,7 +92,7 @@
             margin: 0 auto;
             background: white;">
 <body>
-<%@include file="jspf/admin-navbar.jsp" %>
+<%@include file="admin/admin-navbar.jsp" %>
 <div class="uk-container">
     <h1 class="uk-heading-line uk-text-center"><span>Task Manager</span></h1>
     <br>
