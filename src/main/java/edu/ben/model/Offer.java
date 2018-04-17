@@ -138,7 +138,7 @@ public class Offer {
 
     @Override
     public String toString() {
-        return "Offer{" +
+        return "Offer:" +
                 "offerID=" + offerID +
                 ", offerAmount=" + offerAmount +
                 ", offerMessage='" + offerMessage + '\'' +
@@ -146,7 +146,6 @@ public class Offer {
                 ", offerReceiver=" + offerReceiver +
                 ", listingID=" + listingID +
                 ", status='" + status + '\'' +
-                ", active=" + active +
-                '}';
+                ", active=" + active;
     }
 }

@@ -14,14 +14,8 @@
 
     <link rel="apple-touch-icon-precomposed"
           href="images/apple-touch-icon.png">
-    <link rel="stylesheet" href="css/uikit.docs.min.css">
-    <script src="../vendor/jquery.js"></script>
-    <script src="js/uikit.min.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <spring:url value="resources/js/notification.js" var="notJS"/>
-    <script type="text/javascript" src="${notJS}"></script>
 
     <!-- JS & CSS for Tutorial -->
     <spring:url value="resources/js/intro.js" var="introJS"/>
@@ -31,12 +25,6 @@
     <spring:url value="resources/css/introjs-nassim.css" var="introjsNassimCSS"/>
     <link href="${introjsNassimCSS}" rel="stylesheet"/>
     <spring:url value="resources/css/introjs-rtl.css" var="introjsRtlCSS"/>
-
-
-    <script src="resources/js/typeit.min.js"></script>
-    <script src="resources/js/typing.js"></script>
-    <link href="recources/css/typing.css" rel="stylesheet">
-    <link href="resources/css/demo.css" rel="stylesheet">
 
     <spring:url value="resources/css/uikit.css" var="uikitCSS"/>
     <spring:url value="resources/js/uikit.js" var="uikitJS"/>
@@ -52,8 +40,6 @@
     <!-- <link href="${mainCSS}" rel="stylesheet"/> -->
     <link href="${regCSS}" rel="stylesheet"/>
     <link href="${indexListingCSS}" rel="stylesheet"/>
-    <spring:url value="resources/js/main.js" var="mainJS"/>
-    <script type="text/javascript" src="${mainJS}"></script>
 
     <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 

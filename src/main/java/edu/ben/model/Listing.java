@@ -1,6 +1,5 @@
 package edu.ben.model;
 
-import org.hibernate.annotations.JoinColumnOrFormula;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
@@ -40,7 +39,7 @@ public class Listing implements java.io.Serializable {
     private String category;
 
     @Column(name = "price")
-    private double price;
+    private int price;
 
     @Column(name = "date_created")
     private Date dateCreated;
@@ -87,7 +86,7 @@ public class Listing implements java.io.Serializable {
         this.bidCount = 0;
     }
 
-    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, @NotBlank String paymentType) {
+    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank int price, @NotBlank String paymentType) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -99,7 +98,7 @@ public class Listing implements java.io.Serializable {
         this.active = 1;
     }
 
-    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank double price, String category, @NotBlank String paymentType) {
+    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank int price, String category, @NotBlank String paymentType) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -111,19 +110,18 @@ public class Listing implements java.io.Serializable {
         this.active = 1;
     }
 
-    public Listing(@NotBlank String name, String description, @NotBlank double price, @NotBlank String paymentType) {
+    public Listing(@NotBlank String name, String description, @NotBlank int price, @NotBlank String paymentType) {
         super();
         this.name = name;
         this.description = description;
         this.price = price;
-        // this.category = category;
         this.paymentType = paymentType;
         this.highestBid = 0;
         this.bidCount = 0;
         this.active = 1;
     }
 
-    public Listing(@NotBlank String name, String description, @NotBlank double price, @NotBlank String category,
+    public Listing(@NotBlank String name, String description, @NotBlank int price, @NotBlank String category,
                    @NotBlank String paymentType) {
         super();
         this.name = name;
@@ -162,11 +160,11 @@ public class Listing implements java.io.Serializable {
         this.description = description;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

@@ -51,8 +51,9 @@ public class DashboardController {
         session = request.getSession();
         User user = (User) session.getAttribute("user");
 
-        List<Listing> listings = listingService.getAllListings();
+        List<Listing> listings = listingService.getAllListingsByUserID(user.getUserID());
         List<Listing> activeListings = listingService.getActiveListingsByUserId(user.getUserID());
+        System.out.println("Active listings size: " + activeListings.size());
         List<Listing> inactiveListings = listingService.getInActiveListingsByUserId(user.getUserID());
         List<Offer> offers = offerService.getOffersByUserId(user.getUserID());
         List<Transaction> transactions = transactionService.getTransactionsByUserID(user.getUserID());
