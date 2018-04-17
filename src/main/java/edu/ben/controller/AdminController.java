@@ -48,6 +48,21 @@ public class AdminController extends BaseController {
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin(HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/admin");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
         List<User> recentUsers = userService.getRecentUsers();
         List<User> getAllMembers = userService.getAllUsers();
         List<Listing> recentListings = listingService.getRecentListings();
@@ -79,6 +94,21 @@ public class AdminController extends BaseController {
 
     @RequestMapping(value = "adminUser", method = RequestMethod.GET)
     public String adminUser(HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminUser");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
         List<User> allUsers = userService.getAllUsers();
         request.getSession().setAttribute("allUsers", allUsers);
         return "admin/adminUserPage";
@@ -86,6 +116,21 @@ public class AdminController extends BaseController {
 
     @RequestMapping(value = "adminUnlock", method = RequestMethod.POST)
     public String adminUnlock(HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminUser");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
         User usr = userService.findBySchoolEmail(request.getParameter("lock"));
         userService.unlockByUsername(usr.getUsername());
         return "redirect:adminUser";
@@ -93,6 +138,21 @@ public class AdminController extends BaseController {
 
     @RequestMapping(value = "adminLock", method = RequestMethod.POST)
     public String adminLock(HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminUser");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
         User usr = userService.findBySchoolEmail(request.getParameter("unlock"));
         userService.lockByUsername(usr.getUsername());
         return "redirect:adminUser";
@@ -100,6 +160,21 @@ public class AdminController extends BaseController {
 
     @RequestMapping(value = "adminUnban", method = RequestMethod.POST)
     public String adminUnban(HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminUser");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
         User usr = userService.findBySchoolEmail(request.getParameter("ban"));
         userService.unbanByUsername(usr.getUsername());
         return "redirect:adminUser";
@@ -107,6 +182,21 @@ public class AdminController extends BaseController {
 
     @RequestMapping(value = "adminBan", method = RequestMethod.POST)
     public String adminBan(HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminUser");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
         User usr = userService.findBySchoolEmail(request.getParameter("unban"));
         userService.banByUsername(usr.getUsername());
         return "redirect:adminUser";
@@ -114,6 +204,21 @@ public class AdminController extends BaseController {
 
     @RequestMapping(value = "adminInactivateListing", method = RequestMethod.POST)
     public String adminInactivateListing(HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminListing");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
         Listing listing = listingService.getByListingID(Integer.parseInt(request.getParameter("adminInactivateListing")));
         listingService.deleteByListingId(listing.getId());
         return "redirect:adminListing";
@@ -121,6 +226,21 @@ public class AdminController extends BaseController {
 
     @RequestMapping(value = "adminActivateListing", method = RequestMethod.POST)
     public String adminActivateListing(HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminListing");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
         Listing listing = listingService.getByListingID(Integer.parseInt(request.getParameter("adminActivateListing")));
         listingService.activateByListingId(listing.getId());
         return "redirect:adminListing";
@@ -128,6 +248,21 @@ public class AdminController extends BaseController {
 
     @RequestMapping(value = "adminPasswordReset", method = RequestMethod.POST)
     public String adminPasswordReset(HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminUser");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
         System.out.println(request.getParameter("email"));
         User usr = userService.findBySchoolEmail(request.getParameter("email"));
         Email.resetPassword(usr.getSchoolEmail());
@@ -137,6 +272,21 @@ public class AdminController extends BaseController {
 
     @RequestMapping(value = "adminDeleteUser", method = RequestMethod.POST)
     public String adminDelete(HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminUser");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
         User usr = userService.findBySchoolEmail(request.getParameter("delete"));
         userService.deleteUser(usr.getUserID());
         return "redirect:adminUser";
@@ -144,6 +294,21 @@ public class AdminController extends BaseController {
 
     @RequestMapping(value = "adminDeleteListing", method = RequestMethod.POST)
     public String adminDeleteListing(HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminListing");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
         Listing listing = listingService.getByListingID(Integer.parseInt(request.getParameter("adminDeleteListing")));
         listingService.deleteListing(listing.getId());
         return "redirect:adminListing";
@@ -151,6 +316,21 @@ public class AdminController extends BaseController {
 
     @RequestMapping(value = "adminCreateUser", method = RequestMethod.POST)
     public String adminCreateUser(HttpServletRequest request) {
+
+        User u = (User) request.getSession().getAttribute("user");
+
+        if (u == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminUser");
+            return "redirect:/login";
+        }
+
+        if (u.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
         User user = new User();
         user.setFirstName(request.getParameter("firstName"));
         user.setLastName(request.getParameter("lastName"));
@@ -208,6 +388,21 @@ public class AdminController extends BaseController {
 
     @RequestMapping(value = "adminListing", method = RequestMethod.GET)
     public String adminListing(HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminListing");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
         List<Listing> allListings = listingService.getRecentListings();
         request.getSession().setAttribute("allListings", allListings);
         return "admin/adminListings";
@@ -219,10 +414,16 @@ public class AdminController extends BaseController {
 
         User user = (User) request.getSession().getAttribute("user");
 
-        if (user != null && user.getAdminLevel() < 1) {
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminDisputes");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
             addErrorMessage("Access Denied");
             setRequest(request);
-            return "login";
+            return "redirect:" + request.getHeader("Referer");
         }
 
         request.setAttribute("title", "Disputes");
@@ -235,10 +436,16 @@ public class AdminController extends BaseController {
 
         User user = (User) request.getSession().getAttribute("user");
 
-        if (user != null && user.getAdminLevel() < 1) {
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminLocations");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
             addErrorMessage("Access Denied");
             setRequest(request);
-            return "login";
+            return "redirect:" + request.getHeader("Referer");
         }
 
         request.setAttribute("lat", environment.getProperty("school.latitude"));
@@ -260,10 +467,16 @@ public class AdminController extends BaseController {
 
         User user = (User) request.getSession().getAttribute("user");
 
-        if (user != null && user.getAdminLevel() < 1) {
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminLocations");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
             addErrorMessage("Access Denied");
             setRequest(request);
-            return "login";
+            return "redirect:" + request.getHeader("Referer");
         }
 
         Location newLocation = new Location();
@@ -290,10 +503,16 @@ public class AdminController extends BaseController {
 
         User user = (User) request.getSession().getAttribute("user");
 
-        if (user != null && user.getAdminLevel() < 1) {
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminLocations");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
             addErrorMessage("Access Denied");
             setRequest(request);
-            return "login";
+            return "redirect:" + request.getHeader("Referer");
         }
 
         Location location = locationService.getByLocationID(locationID);
@@ -317,11 +536,18 @@ public class AdminController extends BaseController {
 
         User user = (User) request.getSession().getAttribute("user");
 
-        if (user != null && user.getAdminLevel() < 1) {
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminLocations");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
             addErrorMessage("Access Denied");
             setRequest(request);
-            return "login";
+            return "redirect:" + request.getHeader("Referer");
         }
+
 
         Location location = locationService.getByLocationID(locationID);
         location.setActive(0);
@@ -337,10 +563,16 @@ public class AdminController extends BaseController {
 
         User user = (User) request.getSession().getAttribute("user");
 
-        if (user != null && user.getAdminLevel() < 1) {
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminFaqs");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
             addErrorMessage("Access Denied");
             setRequest(request);
-            return "login";
+            return "redirect:" + request.getHeader("Referer");
         }
 
         request.setAttribute("title", "Manage Faqs");
@@ -354,10 +586,16 @@ public class AdminController extends BaseController {
 
         User user = (User) request.getSession().getAttribute("user");
 
-        if (user != null && user.getAdminLevel() < 1) {
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminFaqs");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
             addErrorMessage("Access Denied");
             setRequest(request);
-            return "login";
+            return "redirect:" + request.getHeader("Referer");
         }
 
         // Error checking for question

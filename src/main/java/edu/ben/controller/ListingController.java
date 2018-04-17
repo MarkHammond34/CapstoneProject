@@ -19,6 +19,15 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.ben.service.CategoryService;
+import edu.ben.service.FavoriteService;
+import edu.ben.service.ListingService;
+import edu.ben.service.OfferService;
+import edu.ben.service.NotificationService;
+import edu.ben.service.SavedSearchService;
+import edu.ben.service.UserService;
+import edu.ben.util.Path;
+
 @Controller
 @Transactional
 public class ListingController extends BaseController {
@@ -538,8 +547,9 @@ public class ListingController extends BaseController {
 
         if (user == null) {
             addWarningMessage("Login To Cancel A Purchase");
+            request.getSession().setAttribute("lastPage", "/cancel-overview?l=" + listingID);
             setRequest(request);
-            return "login";
+            return "redirect:/login";
         }
 
         Listing listing;
@@ -590,6 +600,7 @@ public class ListingController extends BaseController {
 
         if (user == null) {
             addWarningMessage("Login To Cancel A Purchase");
+            request.getSession().setAttribute("lastPage", "/cancel-overview?l=" + listingID);
             setRequest(request);
             return "login";
         }
