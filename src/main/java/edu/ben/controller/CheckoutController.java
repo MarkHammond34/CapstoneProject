@@ -40,7 +40,8 @@ public class CheckoutController extends BaseController {
             if (user == null) {
                 addWarningMessage("Login To Checkout");
                 setRequest(request);
-                return "login";
+                request.getSession().setAttribute("lastPage", "/checkout?l=" + listingID);
+                return "redirect:/login";
             }
 
             Transaction transaction = transactionService.getTransactionsByListingID(listingID);

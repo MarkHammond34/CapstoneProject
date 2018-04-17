@@ -38,11 +38,6 @@ public class TransactionController extends BaseController {
     @Autowired
 	TutorialService tutorialService;
 
-    @RequestMapping(value = "/checkoutPage", method = RequestMethod.GET)
-    public ModelAndView checkoutPage() {
-        return new ModelAndView("checkout/checkout");
-    }
-
 	@RequestMapping(value = "/button", method = RequestMethod.GET)
 	public ModelAndView checkoutTest(@RequestParam("listing") int listingID, HttpServletRequest request) {
 

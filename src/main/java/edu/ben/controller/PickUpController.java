@@ -52,7 +52,7 @@ public class PickUpController extends BaseController {
         if (user == null) {
             addErrorMessage("Login To Accept A Pick Up");
             setRequest(request);
-            return "login";
+            return "redirect:/login";
         }
 
         PickUp pickUp = pickUpService.getPickUpByPickUpID(pickUpID);
@@ -208,6 +208,14 @@ public class PickUpController extends BaseController {
                              @RequestParam("newDate") String newDate, @RequestParam("newTime") String newTime,
                              @RequestParam("newPosition") String newPosition) {
 
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            addErrorMessage("Login To Create A Pick Up");
+            setRequest(request);
+            return "redirect:/login";
+        }
+
         PickUp pickUp = pickUpService.getPickUpByPickUpID(pickUpID);
 
         if (pickUp == null) {
@@ -215,8 +223,15 @@ public class PickUpController extends BaseController {
             setRequest(request);
             return "redirect:" + request.getHeader("Referer");
 
-            // If buyer tries to edit after the pick up was accepted, return warning
-        } else if (pickUp.getBuyerAccept() == 1) {
+        }
+
+        if (user.getUserID() != pickUp.getTransaction().getSeller().getUserID()) {
+            addErrorMessage("Must Be Seller Of This Listing To Edit The Pick Up");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        if (pickUp.getBuyerAccept() == 1) {
             addWarningMessage("Pick Up Already Accepted By The Buyer");
             addWarningMessage("* If you would like to change the pick up details, please contact the other party via school email (" +
                     pickUp.getTransaction().getBuyer().getSchoolEmail() + ").");

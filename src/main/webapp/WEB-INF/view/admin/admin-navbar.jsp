@@ -139,6 +139,11 @@
                         class="uk-margin-small-right" uk-icon="icon: location"></span>Manage Locations</a></li>
                 <li class="uk-nav-divider"></li>
 
+                <li><a href="${pageContext.request.contextPath}/adminDonations"><span
+                        class="uk-margin-small-right" uk-icon="icon: happy"></span>Manage Donations</a></li>
+                <li class="uk-nav-divider"></li>
+
+
                 <li><a href="${pageContext.request.contextPath}/"><span
                         class="uk-margin-small-right" uk-icon="icon: reply"></span>Homepage</a></li>
                 <li class="uk-nav-divider"></li>

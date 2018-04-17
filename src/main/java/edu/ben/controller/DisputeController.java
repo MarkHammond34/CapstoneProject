@@ -30,24 +30,26 @@ public class DisputeController extends BaseController {
     TransactionService transactionService;
 
     @PostMapping("/submit-dispute")
-    public String fileDispute(HttpServletRequest request, @RequestParam("complaint") String complaint) {
+    public String fileDispute(HttpServletRequest request, @RequestParam("complaint") String complaint,
+                              @RequestParam("listingID") int listingID) {
 
         User user = (User) request.getSession().getAttribute("user");
 
         if (user == null) {
             addWarningMessage("Please Login To File A Dispute");
+            request.getSession().setAttribute("lastPage", "/file-dispute?l=" + listingID);
             setRequest(request);
-            return "login";
+            return "redirect:/login";
 
         } else {
 
-            Listing disputeListing = (Listing) request.getSession().getAttribute("disputeListing");
+            Listing disputeListing = listingService.getByListingID(listingID);
 
             if (disputeListing == null) {
 
                 addErrorMessage("Dispute Error, Try Again");
                 setRequest(request);
-                return request.getHeader("Referer");
+                return "redirect:" + request.getHeader("Referer");
 
             } else {
 
@@ -86,7 +88,8 @@ public class DisputeController extends BaseController {
         if (user == null) {
             addWarningMessage("Login To File A Dispute");
             setRequest(request);
-            return "login";
+            request.getSession().setAttribute("lastPage", "/file-dispute?l=" + l);
+            return "redirect:/login";
         }
 
         try {

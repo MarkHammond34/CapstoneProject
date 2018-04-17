@@ -24,8 +24,9 @@ public class NotificationController extends BaseController {
 
         if (user == null) {
             addWarningMessage("Login To See Notifications");
+            request.getSession().setAttribute("lastPage", "/notifications");
             setRequest(request);
-            return "login";
+            return "redirect:/login";
         }
 
         List<Notification> activeNotifications = notificationService.getActiveByUserID(user.getUserID());

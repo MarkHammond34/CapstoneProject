@@ -38,6 +38,9 @@ public class Listing implements java.io.Serializable {
     @Column(name = "category")
     private String category;
 
+    @Column(name = "sub_category")
+    private String subCategory;
+
     @Column(name = "price")
     private int price;
 
@@ -329,5 +332,29 @@ public class Listing implements java.io.Serializable {
 
     public void setImages(List<Image> images) {
         this.images = images;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getSubCategory() {
+        return subCategory;
+    }
+
+    public void setSubCategory(String subCategory) {
+        this.subCategory = subCategory;
+    }
+
+    public void setHighestBid(Integer highestBid) {
+        this.highestBid = highestBid;
+    }
+
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
     }
 }

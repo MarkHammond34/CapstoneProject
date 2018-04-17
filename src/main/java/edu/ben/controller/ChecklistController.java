@@ -35,8 +35,9 @@ public class ChecklistController extends BaseController {
 
         if (user == null) {
             addWarningMessage("Login To Create A Checklist");
+            request.getSession().setAttribute("lastPage", "/checklist");
             setRequest(request);
-            return "login";
+            return "redirect:/login";
         }
 
         if (user.getGradeLevel() != 1) {
@@ -111,7 +112,8 @@ public class ChecklistController extends BaseController {
         if (user == null) {
             addWarningMessage("Login To View Your Checklist");
             setRequest(request);
-            return "login";
+            request.getSession().setAttribute("lastPage", "/checklist");
+            return "redirect:/login";
         }
 
         Checklist checklist = checklistService.getByChecklistID(checklistID);
@@ -145,8 +147,9 @@ public class ChecklistController extends BaseController {
 
         if (user == null) {
             addWarningMessage("Login To View Your Checklist");
+            request.getSession().setAttribute("lastPage", "/checklist");
             setRequest(request);
-            return "login";
+            return "redirect:/login";
         }
 
         Checklist checklist = checklistService.getByChecklistID(checklistID);

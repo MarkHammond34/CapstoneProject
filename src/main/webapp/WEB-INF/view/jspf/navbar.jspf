@@ -165,8 +165,14 @@
             <li><a href="${pageContext.request.contextPath}/"><span
                     class="uk-margin-small-right" uk-icon="icon: home"></span>Home</a></li>
             <li class="uk-nav-divider"></li>
+
+            <li><a href="${pageContext.request.contextPath}/donate"><span
+                    class="uk-margin-small-right" uk-icon="icon: happy"></span>Donations</a></li>
+            <li class="uk-nav-divider"></li>
+
             <li><a href="${pageContext.request.contextPath}/aboutUs"><span
                     class="uk-margin-small-right" uk-icon="icon: users"></span>About Us</a></li>
+
             <c:if test="${sessionScope.user != null}">
                 <li class="uk-nav-divider"></li>
                 <li><a

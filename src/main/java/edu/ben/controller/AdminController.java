@@ -46,6 +46,9 @@ public class AdminController extends BaseController {
     @Autowired
     FaqService faqService;
 
+    @Autowired
+    CategoryService categoryService;
+
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin(HttpServletRequest request) {
 
@@ -936,4 +939,127 @@ public class AdminController extends BaseController {
             return "redirect:" + request.getHeader("Referer");
         }
     }
+
+    @GetMapping("/adminDonations")
+    public String donations(HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminDonations");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        request.setAttribute("categories", categoryService.getAllCategories());
+        request.setAttribute("subCategories", categoryService.getAllSubCategories());
+
+        request.setAttribute("title", "Manage Donations");
+        request.setAttribute("donations", listingService.findAllDonatedListings());
+        return "admin/admin-donations";
+    }
+
+    @PostMapping("/adminRemoveDonation")
+    public String removeDonation(HttpServletRequest request, @RequestParam("listingID") int listingID, @RequestParam("reason") String reason) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminDonations");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        Listing listing = listingService.getByListingID(listingID);
+
+        if (!listing.getType().equals("donation")) {
+            addWarningMessage("Listing Not A Donation");
+            setRequest(request);
+            return "redirect:/adminDonations";
+        }
+
+        listing.setActive(0);
+        listingService.saveOrUpdate(listing);
+
+        // Notify seller why their donation was removed
+        if (reason.equals("inappropriate content")) {
+            notificationService.save(new Notification(listing.getUser(), listing.getId(), "Donated Item Removed",
+                    "An item you donated was remove from the site because it was flagged as inappropriate.\n\nIf you have questions contact us at ulistithelp@gmail.com", 1,
+                    "DONATION"));
+        } else if (reason.equals("low quality")) {
+            notificationService.save(new Notification(listing.getUser(), listing.getId(), "Donated Item Removed",
+                    "An item you donated was remove from the site because it was flagged as low quality.\n\nIf you have questions contact us at ulistithelp@gmail.com", 1,
+                    "DONATION"));
+        }
+
+        addSuccessMessage(listing.getName() + " Was Removed");
+        setRequest(request);
+        return "redirect:/adminDonations";
+
+    }
+
+    @PostMapping("/adminEditDonation")
+    public String editDonation(HttpServletRequest request, @RequestParam("listingID") int listingID, @RequestParam("name") String name, @RequestParam("description") String description, @RequestParam("category") String category,
+                               @RequestParam("subCategory") String subCategory) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            setRequest(request);
+            request.getSession().setAttribute("lastPage", "/adminDonations");
+            return "redirect:/login";
+        }
+
+        if (user.getAdminLevel() < 1) {
+            addErrorMessage("Access Denied");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        Listing listing = listingService.getByListingID(listingID);
+
+        if (!listing.getType().equals("donation")) {
+            addWarningMessage("Listing Not A Donation");
+            setRequest(request);
+            return "redirect:/adminDonations";
+        }
+
+        if (!listing.getName().equals(name) && name.length() > 0) {
+            listing.setName(name);
+
+        } else if (!listing.getDescription().equals(description) && description.length() > 0) {
+            listing.setDescription(description);
+
+        } else if (!listing.getCategory().equals(category) && category.length() > 0) {
+            listing.setCategory(category);
+
+        } else if (!listing.getSubCategory().equals(subCategory) && subCategory.length() > 0) {
+            listing.setSubCategory(subCategory);
+        }
+
+        listingService.saveOrUpdate(listing);
+
+        // Notify seller why their donation was edited
+        notificationService.save(new Notification(listing.getUser(), listing.getId(), "Donated Item Edited",
+                "An item you donated was edited by an administrator.\n\nIf you have questions contact us at ulistithelp@gmail.com", 1,
+                "DONATION"));
+
+        addSuccessMessage(listing.getName() + " Was Edited");
+        setRequest(request);
+        return "redirect:/adminDonations";
+
+    }
+
 }

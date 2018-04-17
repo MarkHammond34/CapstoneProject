@@ -78,9 +78,25 @@ public class DonationController extends BaseController {
     @GetMapping("/search-donations")
     public String searchDonations(HttpServletRequest request, @RequestParam("s") String search) {
 
-        request.setAttribute("results", listingService.listingsSearchDonations(search));
+        User user = (User) request.getSession().getAttribute("user");
 
-        return "donation/donate-an-item";
+        if (user != null) {
+
+            try {
+                searchHistoryService.save(new SearchHistory(user, search));
+            } catch (UnexpectedRollbackException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        request.setAttribute("listingSearch", listingService.listingsSearchDonations(search));
+        request.setAttribute("search", search + " Donations");
+        request.setAttribute("donationSearch", true);
+
+        request.setAttribute("title", "Donation Search");
+        return "searchResults";
+
     }
 
     @GetMapping("/donate-an-item")

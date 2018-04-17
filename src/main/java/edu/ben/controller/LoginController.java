@@ -43,14 +43,20 @@ public class LoginController extends BaseController {
 		String url = "";
 		String message = "";
 
-		if (user != null) {
-			if (user.getBanned() < 1) {
-				if (user.getActive() > 0 && user.getLocked() < 1) {
-					if (user.getPassword() != null && user.getPassword().equals(password)) {
-						request.getSession().setAttribute("user", user);
-						userService.updateAttemptedLogins(0, user);
-						System.out.println("pass match");
-						return "redirect:/";
+        if (user != null) {
+            if (user.getBanned() < 1) {
+                if (user.getActive() > 0 && user.getLocked() < 1) {
+                    if (user.getPassword() != null && user.getPassword().equals(password)) {
+                        request.getSession().setAttribute("user", user);
+                        userService.updateAttemptedLogins(0, user);
+                        System.out.println("pass match");
+
+                        if (request.getSession().getAttribute("lastPage") != null) {
+                            String lastPage = (String) request.getSession().getAttribute("lastPage");
+                            request.getSession().removeAttribute("lastPage");
+                            return "redirect:" + lastPage;
+                        }
+                        return "redirect:/";
 
 					} else {
 						request.setAttribute("email", email);
