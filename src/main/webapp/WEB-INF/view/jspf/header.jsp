@@ -41,8 +41,6 @@
     <link href="${regCSS}" rel="stylesheet"/>
     <link href="${indexListingCSS}" rel="stylesheet"/>
 
-    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
-
     <style>
 
         .uk-card-media-left img {

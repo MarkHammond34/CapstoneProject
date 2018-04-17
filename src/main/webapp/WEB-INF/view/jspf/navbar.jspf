@@ -160,6 +160,8 @@
 <div id="offcanvas-slide" uk-offcanvas="overlay: true">
     <div class="uk-offcanvas-bar uk-flex uk-flex-column">
 
+        <button class="uk-offcanvas-close" type="button" uk-close></button>
+
         <ul
                 class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical">
             <li><a href="${pageContext.request.contextPath}/"><span

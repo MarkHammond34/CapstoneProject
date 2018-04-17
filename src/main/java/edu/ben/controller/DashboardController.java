@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-public class DashboardController {
+public class DashboardController extends BaseController {
 
     @Autowired
     UserService userService;
@@ -39,38 +39,38 @@ public class DashboardController {
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public ModelAndView showDashboard(HttpServletRequest request, HttpSession session) {
 
-        if (request.getSession(false) == null) {
+        if (request.getSession(false) == null || session.getAttribute("user") == null) {
 
-            return new ModelAndView("redirect:/"); // Might change to different page later. Maybe login page.
+            addErrorMessage("Please log in or sign up");
+            return new ModelAndView("redirect:login"); // Might change to different page later. Maybe login page.
         } else {
-            System.out.println("Already a session");
+            //System.out.println("Already a session"); // For testing
+
+            ModelAndView model = new ModelAndView("dashboard2");
+
+            session = request.getSession();
+            User user = (User) session.getAttribute("user");
+
+            List<Listing> listings = listingService.getAllListingsByUserID(user.getUserID());
+            List<Listing> activeListings = listingService.getActiveListingsByUserId(user.getUserID());
+            System.out.println("Active listings size: " + activeListings.size());
+            List<Listing> inactiveListings = listingService.getInActiveListingsByUserId(user.getUserID());
+            List<Offer> offers = offerService.getOffersByUserId(user.getUserID());
+            List<Transaction> transactions = transactionService.getTransactionsByUserID(user.getUserID());
+            List<PickUp> pickUps = pickUpService.getAllActive();
+
+            model.addObject("title", "Dashboard");
+
+            model.addObject("allListings", listings);
+            model.addObject("activeListings", activeListings);
+            model.addObject("inactiveListings", inactiveListings);
+
+            model.addObject("offers", offers);
+            model.addObject("pickUps", pickUps);
+            model.addObject("transactions", transactions);
+
+            return model;
         }
-
-        ModelAndView model = new ModelAndView("dashboard2");
-
-        session = request.getSession();
-        User user = (User) session.getAttribute("user");
-
-        List<Listing> listings = listingService.getAllListingsByUserID(user.getUserID());
-        List<Listing> activeListings = listingService.getActiveListingsByUserId(user.getUserID());
-        System.out.println("Active listings size: " + activeListings.size());
-        List<Listing> inactiveListings = listingService.getInActiveListingsByUserId(user.getUserID());
-        List<Offer> offers = offerService.getOffersByUserId(user.getUserID());
-        List<Transaction> transactions = transactionService.getTransactionsByUserID(user.getUserID());
-        List<PickUp> pickUps = pickUpService.getAllActive();
-
-        model.addObject("title", "Dashboard");
-
-        model.addObject("allListings", listings);
-        model.addObject("activeListings", activeListings);
-        model.addObject("inactiveListings", inactiveListings);
-
-        model.addObject("offers", offers);
-        model.addObject("pickUps", pickUps);
-        model.addObject("transactions", transactions);
-
-        return model;
-
     }
 
     @RequestMapping(value = "/dashboardTest", method = RequestMethod.GET)

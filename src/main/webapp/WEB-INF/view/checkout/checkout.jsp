@@ -1,4 +1,5 @@
 <%@include file="../jspf/header.jsp" %>
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <div style="border: 20px solid white;
             margin: 0 auto;
             background: white;">
