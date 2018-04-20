@@ -164,19 +164,19 @@
             return new Promise(resolve => {
                 // Clear placeholder before typing next phrase
                 clearPlaceholder(el);
-            let letters = phrase.split('');
-            // For each letter in phrase
-            letters.reduce(
-                (promise, letter, index) => promise.then(_ => {
-                    // Resolve promise when all letters are typed
-                    if (index === letters.length - 1) {
-                        // Delay before start next phrase "typing"
-                        setTimeout(resolve, 1000);
-                    }
-                    return addToPlaceholder(letter, el);
-                }),
-                Promise.resolve()
-            );
+                let letters = phrase.split('');
+                // For each letter in phrase
+                letters.reduce(
+                    (promise, letter, index) => promise.then(_ => {
+                        // Resolve promise when all letters are typed
+                        if (index === letters.length - 1) {
+                            // Delay before start next phrase "typing"
+                            setTimeout(resolve, 1000);
+                        }
+                        return addToPlaceholder(letter, el);
+                    }),
+                    Promise.resolve()
+                );
             });
         }
 
@@ -187,7 +187,7 @@
             // before start typing next
             phrases.reduce(
                 (promise, phrase) => promise.then(_ => printPhrase(phrase, el)),
-            Promise.resolve()
+                Promise.resolve()
             );
         }
 
@@ -211,10 +211,15 @@
     </script>
 
     <script>
+
         // Start Tutorial
         window.addEventListener("load", function () {
-            $.get('/checkForTutorial').done(function (response) {
-                if (response.viewedHome == '0') {
+            $.ajax({
+                type: 'GET',
+                url: '/checkForTutorial',
+                data: {page: "home"},
+            }).done(function (response) {
+                if (response.showTutorial == 'YES') {
                     setTimeout(function () {
                         introJs(".homepage-tutorial").start();
                     }, 1500);

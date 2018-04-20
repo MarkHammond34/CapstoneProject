@@ -107,9 +107,14 @@
 
     <script>
 
+        // Start Tutorial
         window.addEventListener("load", function () {
-            $.get('/checkForTutorial').done(function (response) {
-                if (response.viewedTransactionHistory == '0') {
+            $.ajax({
+                type: 'GET',
+                url: '/checkForTutorial',
+                data: {page: "transactionHistory"},
+            }).done(function (response) {
+                if (response.showTutorial == 'YES') {
                     setTimeout(function () {
                         introJs(".purchase-history-tutorial").start();
                     }, 1500);

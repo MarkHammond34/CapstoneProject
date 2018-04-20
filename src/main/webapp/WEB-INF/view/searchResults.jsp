@@ -308,9 +308,14 @@
         }
     }
 
+    // Start Tutorial
     window.addEventListener("load", function () {
-        $.get('/checkForTutorial').done(function (response) {
-            if (response.viewSavedSearch == '0') {
+        $.ajax({
+            type: 'GET',
+            url: '/checkForTutorial',
+            data: {page: "savedSearch"},
+        }).done(function (response) {
+            if (response.showTutorial == 'YES') {
                 setTimeout(function () {
                     introJs(".search-tutorial").start();
                 }, 1500);

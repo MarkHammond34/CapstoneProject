@@ -309,8 +309,12 @@
 
     // Start Tutorial
     window.addEventListener("load", function () {
-        $.get('/checkForTutorial').done(function (response) {
-            if (response.viewedPickup == '0') {
+        $.ajax({
+            type: 'GET',
+            url: '/donateAnItem',
+            data: {page: "pickup"},
+        }).done(function (response) {
+            if (response.showTutorial == 'YES') {
                 setTimeout(function () {
                     introJs(".pickup-tutorial").start();
                 }, 1500);

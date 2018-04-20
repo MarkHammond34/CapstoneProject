@@ -169,8 +169,12 @@
 
     // Start Tutorial
     window.addEventListener("load", function () {
-        $.get('/checkForTutorial').done(function (response) {
-            if (response.viewedDonateAnItem == '0') {
+        $.ajax({
+            type: 'GET',
+            url: '/checkForTutorial',
+            data: {page: "checklist"},
+        }).done(function (response) {
+            if (response.showTutorial == 'YES') {
                 setTimeout(function () {
                     introJs(".donate-an-item-tutorial").start();
                 }, 1500);

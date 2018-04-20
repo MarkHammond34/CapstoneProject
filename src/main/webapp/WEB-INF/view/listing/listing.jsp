@@ -331,9 +331,14 @@
         }
     }
 
+    // Start Tutorial
     window.addEventListener("load", function () {
-        $.get('/checkForTutorial').done(function (response) {
-            if (response.viewedListing == '0') {
+        $.ajax({
+            type: 'GET',
+            url: '/checkForTutorial',
+            data: {page: "listing"},
+        }).done(function (response) {
+            if (response.showTutorial == 'YES') {
                 setTimeout(function () {
                     introJs(".listing-tutorial").start();
                 }, 1500);
