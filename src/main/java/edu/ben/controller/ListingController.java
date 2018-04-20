@@ -512,23 +512,6 @@ public class ListingController extends BaseController {
                     }
                 }
             }
-
-            if (user.getTutorial() != null && user.getTutorial().getViewedListing() == 0) {
-
-                // Update tutorial
-                Tutorial tutorial = user.getTutorial();
-                tutorial.setViewedListing(1);
-                tutorialService.update(tutorial);
-
-                // Set updated tutorial
-                user.setTutorial(tutorial);
-                request.getSession().removeAttribute("user");
-                request.getSession().setAttribute("user", user);
-
-                request.setAttribute("showTutorial", true);
-
-            }
-
         }
 
         request.setAttribute("listing", listing);

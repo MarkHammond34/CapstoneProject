@@ -108,18 +108,16 @@
     <script>
 
         window.addEventListener("load", function () {
-            //if (document.getElementById("yes").style.display == "inline") {
-            setTimeout(function () {
-                introJs(".purchase-history-tutorial").start();
-            }, 2000);
-            //}
+            $.get('/checkForTutorial').done(function (response) {
+                if (response.viewedTransactionHistory == '0') {
+                    setTimeout(function () {
+                        introJs(".purchase-history-tutorial").start();
+                    }, 1500);
+                }
+            });
         });
 
     </script>
-
-    <c:if test="${showTutorial == true}">
-        <p id="yes" style="display: inline;"></p>
-    </c:if>
 
     </body>
     <%@include file="jspf/footer.jspf" %>

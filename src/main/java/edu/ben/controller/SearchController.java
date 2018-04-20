@@ -87,33 +87,6 @@ public class SearchController extends BaseController {
         request.setAttribute("saved", saved);
         request.setAttribute("userSearch", userSearch);
 
-        try {
-
-            if (user != null && user.getTutorial().getViewedSavedSearch() == 0) {
-
-                // Update tutorial
-                Tutorial tutorial = user.getTutorial();
-                tutorial.setViewedSavedSearch(1);
-                tutorialService.update(tutorial);
-
-                // Set updated tutorial
-                user.setTutorial(tutorial);
-                request.getSession().removeAttribute("user");
-                request.getSession().setAttribute("user", user);
-
-                request.setAttribute("showTutorial", true);
-
-            }
-
-        } catch (Exception e) {
-            System.out.println("Hit the exception");
-            addErrorMessage("An error occurred while searching. Please try again or contact an admin.");
-            return "searchResults";
-
-        }
-
-
-
         return "searchResults";
 
     }

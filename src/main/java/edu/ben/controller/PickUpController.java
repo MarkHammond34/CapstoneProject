@@ -177,22 +177,6 @@ public class PickUpController extends BaseController {
         }
 
 
-        if (user.getTutorial() != null && user.getTutorial().getViewedPickup() == 0) {
-
-            // Update tutorial
-            Tutorial tutorial = user.getTutorial();
-            tutorial.setViewedPickup(1);
-            tutorialService.update(tutorial);
-
-            // Set updated tutorial
-            user.setTutorial(tutorial);
-            request.getSession().removeAttribute("user");
-            request.getSession().setAttribute("user", user);
-
-            request.setAttribute("showTutorial", true);
-
-        }
-
         request.setAttribute("pickUp", pickUp);
 
         request.setAttribute("latitude", environment.getProperty("school.latitude"));

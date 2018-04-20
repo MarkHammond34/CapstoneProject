@@ -80,24 +80,6 @@ public class ChecklistController extends BaseController {
             }
         }
 
-        System.out.println(user.getTutorial().getViewedChecklist());
-
-        if (user.getTutorial() != null && user.getTutorial().getViewedChecklist() == 0) {
-
-            // Update tutorial
-            Tutorial tutorial = user.getTutorial();
-            tutorial.setViewedChecklist(1);
-            tutorialService.update(tutorial);
-
-            // Set updated tutorial
-            user.setTutorial(tutorial);
-            request.getSession().removeAttribute("user");
-            request.getSession().setAttribute("user", user);
-
-            request.setAttribute("showTutorial", true);
-
-        }
-
         request.setAttribute("title", "Checklist");
         request.setAttribute("checklist", checklist);
         return "checklist/freshman-checklist";

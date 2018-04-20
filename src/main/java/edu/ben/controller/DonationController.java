@@ -111,22 +111,6 @@ public class DonationController extends BaseController {
             return "redirect:/login";
         }
 
-        if (user.getTutorial() != null && user.getTutorial().getViewedDonateAnItem() == 0) {
-
-            // Update tutorial
-            Tutorial tutorial = user.getTutorial();
-            tutorial.setViewedDonateAnItem(1);
-            tutorialService.update(tutorial);
-
-            // Set updated tutorial
-            user.setTutorial(tutorial);
-            request.getSession().removeAttribute("user");
-            request.getSession().setAttribute("user", user);
-
-            request.setAttribute("showTutorial", true);
-
-        }
-
         request.setAttribute("categories", categoryService.getAllCategories());
         request.setAttribute("subCategories", categoryService.getAllSubCategories());
 

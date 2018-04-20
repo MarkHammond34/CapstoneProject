@@ -131,19 +131,18 @@
 
     <script>
 
+        // Start Tutorial
         window.addEventListener("load", function () {
-            if (document.getElementById("yes").style.display == "inline") {
-                setTimeout(function () {
-                    introJs(".checklist-tutorial").start();
-                }, 2000);
-            }
+            $.get('/checkForTutorial').done(function (response) {
+                if (response.viewedChecklist == '0') {
+                    setTimeout(function () {
+                        introJs(".checklist-tutorial").start();
+                    }, 1500);
+                }
+            });
         });
 
     </script>
-
-    <c:if test="${showTutorial == true}">
-    <p id="yes" style="display: inline;"></p>
-    </c:if>
 
 </body>
 </html>

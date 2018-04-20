@@ -307,19 +307,18 @@
         });
     }
 
+    // Start Tutorial
     window.addEventListener("load", function () {
-        if (document.getElementById("yes").style.display == "inline") {
-            setTimeout(function () {
-                introJs(".transaction-tutorial").start();
-            }, 2000);
-        }
+        $.get('/checkForTutorial').done(function (response) {
+            if (response.viewedPickup == '0') {
+                setTimeout(function () {
+                    introJs(".pickup-tutorial").start();
+                }, 1500);
+            }
+        });
     });
 
 </script>
-
-<c:if test="${showTutorial == true}">
-    <p id="yes" style="display: inline;"></p>
-</c:if>
 
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYv7pVPxQ-k7yWlKPfa8ebsx7ci9q7vQ8&callback=initMap"

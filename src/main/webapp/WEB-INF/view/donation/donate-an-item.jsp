@@ -167,12 +167,15 @@
         document.getElementById("subCategorySelect").removeAttribute("disabled");
     }
 
+    // Start Tutorial
     window.addEventListener("load", function () {
-        if (document.getElementById("yes").style.display == "inline") {
-            setTimeout(function () {
-                introJs(".donate-an-item-tutorial").start();
-            }, 2000);
-        }
+        $.get('/checkForTutorial').done(function (response) {
+            if (response.viewedDonateAnItem == '0') {
+                setTimeout(function () {
+                    introJs(".donate-an-item-tutorial").start();
+                }, 1500);
+            }
+        });
     });
 
     var fileNames = "";
