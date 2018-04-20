@@ -197,7 +197,7 @@ public class ListingDAOImpl implements ListingDAO {
     @Override
     public List findAllDonatedListingsByCategory(String category) {
         Query q = getSession()
-                .createQuery("FROM listing WHERE type='donation' AND category=:cat AND active=1");
+                .createQuery("FROM listing WHERE type='donation' AND category=:cat AND active=1 ORDER BY date_created DESC");
         q.setParameter("cat", category);
         return q.list();
     }

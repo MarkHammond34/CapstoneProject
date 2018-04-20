@@ -36,8 +36,9 @@ public class BidController extends BaseController {
 
         if (user == null) {
             addWarningMessage("Login To Place A Bid");
+            request.getSession().setAttribute("lastPage", "/listing?l=" + listingID);
             setRequest(request);
-            return "login";
+            return "redirect:/login";
         }
 
         int results = listingBidService.placeBid(user.getUserID(), bidValue, listingService.getByListingID(listingID));
@@ -62,6 +63,7 @@ public class BidController extends BaseController {
 
         if (user == null) {
             addErrorMessage("Login To Cancel A Bid");
+            request.getSession().setAttribute("lastPage", "/listing?l=" + l);
             setRequest(request);
             return "redirect:/login";
         }

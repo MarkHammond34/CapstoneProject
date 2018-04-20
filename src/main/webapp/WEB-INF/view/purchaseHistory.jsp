@@ -107,19 +107,22 @@
 
     <script>
 
+        // Start Tutorial
         window.addEventListener("load", function () {
-            //if (document.getElementById("yes").style.display == "inline") {
-            setTimeout(function () {
-                introJs(".purchase-history-tutorial").start();
-            }, 2000);
-            //}
+            $.ajax({
+                type: 'GET',
+                url: '/checkForTutorial',
+                data: {page: "transactionHistory"},
+            }).done(function (response) {
+                if (response.showTutorial == 'YES') {
+                    setTimeout(function () {
+                        introJs(".purchase-history-tutorial").start();
+                    }, 1500);
+                }
+            });
         });
 
     </script>
-
-    <c:if test="${showTutorial == true}">
-        <p id="yes" style="display: inline;"></p>
-    </c:if>
 
     </body>
     <%@include file="jspf/footer.jspf" %>

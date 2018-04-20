@@ -1,5 +1,5 @@
 <%@include file="jspf/header.jsp" %>
-<div class="homepage-tutorial" style="border: 20px solid white;
+<div style="border: 20px solid white;
             margin: 0 auto;
             background: white;">
     <body class="uk-background-muted">
@@ -164,19 +164,19 @@
             return new Promise(resolve => {
                 // Clear placeholder before typing next phrase
                 clearPlaceholder(el);
-            let letters = phrase.split('');
-            // For each letter in phrase
-            letters.reduce(
-                (promise, letter, index) => promise.then(_ => {
-                    // Resolve promise when all letters are typed
-                    if (index === letters.length - 1) {
-                        // Delay before start next phrase "typing"
-                        setTimeout(resolve, 1000);
-                    }
-                    return addToPlaceholder(letter, el);
-                }),
-                Promise.resolve()
-            );
+                let letters = phrase.split('');
+                // For each letter in phrase
+                letters.reduce(
+                    (promise, letter, index) => promise.then(_ => {
+                        // Resolve promise when all letters are typed
+                        if (index === letters.length - 1) {
+                            // Delay before start next phrase "typing"
+                            setTimeout(resolve, 1000);
+                        }
+                        return addToPlaceholder(letter, el);
+                    }),
+                    Promise.resolve()
+                );
             });
         }
 
@@ -187,7 +187,7 @@
             // before start typing next
             phrases.reduce(
                 (promise, phrase) => promise.then(_ => printPhrase(phrase, el)),
-            Promise.resolve()
+                Promise.resolve()
             );
         }
 
@@ -211,20 +211,22 @@
     </script>
 
     <script>
+
+        // Start Tutorial
         window.addEventListener("load", function () {
-            if (document.getElementById("yes").style.display == "inline") {
-                setTimeout(function () {
-                    introJs(".homepage-tutorial").start();
-                }, 2000);
-            }
+            $.ajax({
+                type: 'GET',
+                url: '/checkForTutorial',
+                data: {page: "home"},
+            }).done(function (response) {
+                if (response.showTutorial == 'YES') {
+                    setTimeout(function () {
+                        introJs(".homepage-tutorial").start();
+                    }, 1500);
+                }
+            });
         });
     </script>
-
-
-    <c:if test="${showTutorial == true}">
-        <p id="yes" style="display: inline;"></p>
-    </c:if>
-
 
     </body>
 

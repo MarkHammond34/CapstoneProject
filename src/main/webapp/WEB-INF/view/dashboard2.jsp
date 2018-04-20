@@ -13,7 +13,6 @@
 <div style="border: 20px solid white;
             margin: 0 auto;
             background: white;">
-    <!--class="full-wrap" max-width: 1350px;-->
     <body>
 
     <!-- style="background-color: #b0c4de; background-image: linear-gradient(52deg, #b0c4de 25%, #2c57ff 100%);" -->

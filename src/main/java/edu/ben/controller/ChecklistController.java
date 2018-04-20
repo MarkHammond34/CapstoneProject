@@ -35,8 +35,9 @@ public class ChecklistController extends BaseController {
 
         if (user == null) {
             addWarningMessage("Login To Create A Checklist");
+            request.getSession().setAttribute("lastPage", "/checklist");
             setRequest(request);
-            return "login";
+            return "redirect:/login";
         }
 
         if (user.getGradeLevel() != 1) {
@@ -79,24 +80,6 @@ public class ChecklistController extends BaseController {
             }
         }
 
-        System.out.println(user.getTutorial().getViewedChecklist());
-
-        if (user.getTutorial() != null && user.getTutorial().getViewedChecklist() == 0) {
-
-            // Update tutorial
-            Tutorial tutorial = user.getTutorial();
-            tutorial.setViewedChecklist(1);
-            tutorialService.update(tutorial);
-
-            // Set updated tutorial
-            user.setTutorial(tutorial);
-            request.getSession().removeAttribute("user");
-            request.getSession().setAttribute("user", user);
-
-            request.setAttribute("showTutorial", true);
-
-        }
-
         request.setAttribute("title", "Checklist");
         request.setAttribute("checklist", checklist);
         return "checklist/freshman-checklist";
@@ -111,7 +94,8 @@ public class ChecklistController extends BaseController {
         if (user == null) {
             addWarningMessage("Login To View Your Checklist");
             setRequest(request);
-            return "login";
+            request.getSession().setAttribute("lastPage", "/checklist");
+            return "redirect:/login";
         }
 
         Checklist checklist = checklistService.getByChecklistID(checklistID);
@@ -145,8 +129,9 @@ public class ChecklistController extends BaseController {
 
         if (user == null) {
             addWarningMessage("Login To View Your Checklist");
+            request.getSession().setAttribute("lastPage", "/checklist");
             setRequest(request);
-            return "login";
+            return "redirect:/login";
         }
 
         Checklist checklist = checklistService.getByChecklistID(checklistID);

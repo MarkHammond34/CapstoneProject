@@ -12,16 +12,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="apple-touch-icon-precomposed"
-          href="images/apple-touch-icon.png">
-    <link rel="stylesheet" href="css/uikit.docs.min.css">
-    <script src="../vendor/jquery.js"></script>
-    <script src="js/uikit.min.js"></script>
+    <!-- Favicon -->
+    <spring:url value="resources/favicon/apple-icon-57x57.png" var="icon57"/>
+    <link rel="apple-touch-icon" sizes="57x57" href="${icon57}">
+    <spring:url value="resources/favicon/apple-icon-60x60.png" var="icon60"/>
+    <link rel="apple-touch-icon" sizes="60x60" href="${icon60}">
+    <spring:url value="resources/favicon/apple-icon-72x72.png" var="icon72"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="${icon72}">
+    <spring:url value="resources/favicon/apple-icon-76x76.png" var="icon76"/>
+    <link rel="apple-touch-icon" sizes="76x76" href="${icon76}">
+    <spring:url value="resources/favicon/apple-icon-114x114.png" var="icon114"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="${icon114}">
+    <spring:url value="resources/favicon/apple-icon-120x120.png" var="icon120"/>
+    <link rel="apple-touch-icon" sizes="120x120" href="${icon120}">
+    <spring:url value="resources/favicon/apple-icon-144x144.png" var="icon144"/>
+    <link rel="apple-touch-icon" sizes="144x144" href="${icon144}">
+    <spring:url value="resources/favicon/apple-icon-152x152.png" var="icon152"/>
+    <link rel="apple-touch-icon" sizes="152x152" href="${icon152}">
+    <spring:url value="resources/favicon/apple-icon-180x180.png" var="icon180"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="${icon180}">
+    <spring:url value="resources/favicon/android-icon-192x192.png" var="icon192"/>
+    <link rel="icon" type="image/png" sizes="192x192" href="${icon192}">
+    <spring:url value="resources/favicon/favicon-32x32.png" var="icon32"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="${icon32}">
+    <spring:url value="resources/favicon/favicon-96x96.png" var="icon96"/>
+    <link rel="icon" type="image/png" sizes="96x96" href="${icon96}">
+    <spring:url value="resources/favicon/favicon-16x16.png" var="icon16"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="${icon16}">
+    <spring:url value="resources/favicon/manifest.json" var="iconMan"/>
+    <link rel="manifest" href="${iconMan}">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <spring:url value="resources/js/notification.js" var="notJS"/>
-    <script type="text/javascript" src="${notJS}"></script>
 
     <!-- JS & CSS for Tutorial -->
     <spring:url value="resources/js/intro.js" var="introJS"/>
@@ -32,11 +56,15 @@
     <link href="${introjsNassimCSS}" rel="stylesheet"/>
     <spring:url value="resources/css/introjs-rtl.css" var="introjsRtlCSS"/>
 
+    <!-- Notification JS & CSS -->
+    <spring:url value="resources/css/notification.css" var="notCSS"/>
+    <link href="${notCSS}" rel="stylesheet"/>
+    <spring:url value="resources/js/notification.js" var="notJS"/>
+    <script type="text/javascript" src="${notJS}"></script>
 
-    <script src="resources/js/typeit.min.js"></script>
-    <script src="resources/js/typing.js"></script>
-    <link href="recources/css/typing.css" rel="stylesheet">
-    <link href="resources/css/demo.css" rel="stylesheet">
+    <!-- Fontawesome -->
+    <spring:url value="resources/js/fontawesome-all.js" var="fontAwesomeJS"/>
+    <script defer src="${fontAwesomeJS}"></script>
 
     <spring:url value="resources/css/uikit.css" var="uikitCSS"/>
     <spring:url value="resources/js/uikit.js" var="uikitJS"/>
@@ -52,10 +80,6 @@
     <!-- <link href="${mainCSS}" rel="stylesheet"/> -->
     <link href="${regCSS}" rel="stylesheet"/>
     <link href="${indexListingCSS}" rel="stylesheet"/>
-    <spring:url value="resources/js/main.js" var="mainJS"/>
-    <script type="text/javascript" src="${mainJS}"></script>
-
-    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 
     <style>
 
@@ -79,19 +103,6 @@
             width: 18px;
             height: 18px;
             text-align: center;
-            line-height: 18px;
-            border-radius: 50%;
-            box-shadow: 0 0 1px #333;
-        }
-
-        .badge2 {
-            content: attr(data-badge);
-            position: absolute;
-            background: #ff695c;
-            left: 5px;
-            bottom: 40px;
-            width: 10px;
-            height: 10px;
             line-height: 18px;
             border-radius: 50%;
             box-shadow: 0 0 1px #333;

@@ -1,13 +1,13 @@
 <%@include file="jspf/header.jsp" %>
 
-<body class="uk-background-muted">
+<body class="uk-background-muted uk-height-viewport">
 
 <%@include file="jspf/navbar.jspf" %>
 
 <%@include file="jspf/messages.jsp" %>
 
 <div class="uk-grid uk-margin-large-bottom" uk-grid>
-    <div class="uk-width-2-5 uk-align-center">
+    <div class="uk-width-2-5@m uk-width-3-4@s uk-align-center">
         <div class="uk-card uk-card-default uk-card-body uk-margin-large uk-padding-large">
             <h3>Login</h3>
             <form action="loginUser"

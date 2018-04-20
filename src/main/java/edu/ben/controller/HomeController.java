@@ -87,8 +87,6 @@ public class HomeController extends BaseController {
 				model.addObject("relevantListings", null);
 			}
 
-			NotificationController.updateNotifications(request, notificationService);
-
             try {
                 request.getSession().setAttribute("checklist", checklistService.getByUserIDAndType(user.getUserID(), "FRESHMAN"));
             } catch (Exception e) {
@@ -99,22 +97,6 @@ public class HomeController extends BaseController {
                     request.setAttribute("newUser", false);
                 }
                 request.getSession().setAttribute("checklist", null);
-            }
-
-            if (user.getTutorial() != null && user.getTutorial().getViewedHome() == 0) {
-
-                // Update tutorial
-                Tutorial tutorial = user.getTutorial();
-                tutorial.setViewedHome(1);
-                tutorialService.update(tutorial);
-
-                // Set updated tutorial
-                user.setTutorial(tutorial);
-                request.getSession().removeAttribute("user");
-                request.getSession().setAttribute("user", user);
-
-                request.setAttribute("showTutorial", true);
-
             }
 
         }

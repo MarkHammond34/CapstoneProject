@@ -109,10 +109,10 @@ public class ListingBidServiceImpl implements ListingBidService {
                 listingDAO.saveOrUpdate(listing);
 
                 // Send new highest bidder notification
-                newNotifications.add(new Notification(newHighestBidder, listingID, "You're Now The Highest Bidder!", "Congratulations!\nThe highest bidder for listing " + listing.getName() + " cancelled his/her bid making you the new highest bidder!", 1));
+                newNotifications.add(new Notification(newHighestBidder, listingID, "You're Now The Highest Bidder!", "Congratulations!\nThe highest bidder for listing " + listing.getName() + " cancelled his/her bid making you the new highest bidder!", 1, "HIGHEST_BIDDER"));
 
                 // Send cancellation notification to seller
-                newNotifications.add(new Notification(listing.getUser(), listingID, "Bid Cancelled On Your Listing", "The highest bid on listing " + listing.getName() + " has been cancelled.\nThe new highest bid has is ", 1));
+                newNotifications.add(new Notification(listing.getUser(), listingID, "Bid Cancelled On Your Listing", "The highest bid on listing " + listing.getName() + " has been cancelled.\nThe new highest bid has is ", 1, "DEFAULT"));
 
             } catch (Exception e) {
 

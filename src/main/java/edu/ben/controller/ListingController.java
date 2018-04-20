@@ -7,7 +7,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -71,26 +74,26 @@ public class ListingController extends BaseController {
     @RequestMapping(value = "/uploadListing", method = RequestMethod.POST)
     public String uploadFileHandler(@RequestParam("title") String name, @RequestParam("category") String category,
                                     @RequestParam("subCategory") String subCategory,
-                                    @RequestParam(value = "price", required = false) Double price,
+                                    @RequestParam(value = "price", required = false) int price,
                                     @RequestParam("description") String description, @RequestParam("file") List<MultipartFile> file,
                                     @RequestParam("type") String type, @RequestParam(value = "paymentType") String paymentType,
                                     @RequestParam("premium") String premium, Model model,
                                     HttpServletRequest request) {
 
-        System.out.println("Hit UploadListing Controller");
-        if (price == null) {
-            price = (double) 0;
-            // This is a dirty fix
-            Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
-
-            // Checks to make sure listing is for at least one hour
-            if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
-                addErrorMessage("Listings Must Be Last At Least One Hour");
-                setRequest(request);
-                return "redirect:" + request.getHeader("Referer");
-
-            }
-        }
+//        System.out.println("Hit UploadListing Controller");
+//        if (price == null) {
+//            price = 0;
+//            // This is a dirty fix
+//            Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
+//
+//            // Checks to make sure listing is for at least one hour
+//            if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
+//                addErrorMessage("Listings Must Be Last At Least One Hour");
+//                setRequest(request);
+//                return "redirect:" + request.getHeader("Referer");
+//
+//            }
+//        }
 
         String message = "";
         //String error = "";
@@ -509,23 +512,6 @@ public class ListingController extends BaseController {
                     }
                 }
             }
-
-            if (user.getTutorial() != null && user.getTutorial().getViewedListing() == 0) {
-
-                // Update tutorial
-                Tutorial tutorial = user.getTutorial();
-                tutorial.setViewedListing(1);
-                tutorialService.update(tutorial);
-
-                // Set updated tutorial
-                user.setTutorial(tutorial);
-                request.getSession().removeAttribute("user");
-                request.getSession().setAttribute("user", user);
-
-                request.setAttribute("showTutorial", true);
-
-            }
-
         }
 
         request.setAttribute("listing", listing);
@@ -544,8 +530,9 @@ public class ListingController extends BaseController {
 
         if (user == null) {
             addWarningMessage("Login To Cancel A Purchase");
+            request.getSession().setAttribute("lastPage", "/cancel-overview?l=" + listingID);
             setRequest(request);
-            return "login";
+            return "redirect:/login";
         }
 
         Listing listing;
@@ -596,6 +583,7 @@ public class ListingController extends BaseController {
 
         if (user == null) {
             addWarningMessage("Login To Cancel A Purchase");
+            request.getSession().setAttribute("lastPage", "/cancel-overview?l=" + listingID);
             setRequest(request);
             return "login";
         }

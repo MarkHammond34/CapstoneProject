@@ -38,11 +38,6 @@ public class TransactionController extends BaseController {
     @Autowired
 	TutorialService tutorialService;
 
-    @RequestMapping(value = "/checkoutPage", method = RequestMethod.GET)
-    public ModelAndView checkoutPage() {
-        return new ModelAndView("checkout/checkout");
-    }
-
 	@RequestMapping(value = "/button", method = RequestMethod.GET)
 	public ModelAndView checkoutTest(@RequestParam("listing") int listingID, HttpServletRequest request) {
 
@@ -114,22 +109,6 @@ public class TransactionController extends BaseController {
         System.out.println("size " + userTransactions.size());
         request.setAttribute("user", session);
         request.setAttribute("userTransactions", userTransactions);
-
-        if (session.getTutorial() != null && session.getTutorial().getViewedTransactionHistory() == 0) {
-
-            // Update tutorial
-            Tutorial tutorial = session.getTutorial();
-            tutorial.setViewedTransactionHistory(1);
-            tutorialService.update(tutorial);
-
-            // Set updated tutorial
-            session.setTutorial(tutorial);
-            request.getSession().removeAttribute("user");
-            request.getSession().setAttribute("user", session);
-
-            request.setAttribute("showTutorial", true);
-
-        }
 
         return "purchaseHistory";
     }

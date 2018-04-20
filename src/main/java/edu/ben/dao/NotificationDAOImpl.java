@@ -48,7 +48,7 @@ public class NotificationDAOImpl implements NotificationDAO {
 
     @Override
     public List<Notification> getNotDismissedByUserID(int userID) {
-        Query q = getSession().createQuery("FROM notification WHERE active=1 AND dismissed=0 AND user_id=:userID");
+        Query q = getSession().createQuery("FROM notification WHERE active=1 AND dismissed=0 AND user_id=:userID ORDER BY date_created desc");
         q.setParameter("userID", userID);
         return (List<Notification>) q.list();
     }

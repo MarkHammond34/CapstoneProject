@@ -1,6 +1,10 @@
 package edu.ben.model;
 
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.annotation.Nullable;
 import javax.persistence.Column;
@@ -195,6 +199,21 @@ public class Notification {
 
     public Timestamp getEndTimestamp() {
         return sendTimestamp;
+    }
+
+    public String getFormattedDate() {
+        Date date = new Date();
+        date.setTime(sendTimestamp.getTime());
+
+        // Set calendar to a week ago
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -7);
+
+        if (cal.getTimeInMillis() > sendTimestamp.getTime()) {
+            return new SimpleDateFormat("MMM d, hh:mm a").format(date);
+        }
+
+        return new SimpleDateFormat("E, hh:mm a").format(date);
     }
 
 }
