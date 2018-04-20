@@ -171,6 +171,8 @@ function updateNotifications() {
                     // If New Notification, Update New Count
                     if (response[key].viewed == '0') {
                         newNotificationCount++;
+                        // Display Desktop Notification
+                        showDesktopNotification(response[key].subject, response[key].message, 'localhost:8080/listing?l=' + response[key].listingID);
                     }
                 }
 
@@ -211,4 +213,32 @@ function remove(notificationID) {
         data: {n: notificationID},
     });
     document.getElementById("notification" + notificationID + "Item").style.display = "none";
+}
+
+// Desktop Notification Access
+
+// request permission on page load
+document.addEventListener('DOMContentLoaded', function () {
+    if (!Notification) {
+        console.log("Desktop notifications not available in this browser.");
+        return;
+    }
+
+    if (Notification.permission !== "granted")
+        Notification.requestPermission();
+});
+
+function showDesktopNotification(notificationTitle, notificationBody, notificationRedirect) {
+    if (Notification.permission !== "granted")
+        Notification.requestPermission();
+    else {
+        var notification = new Notification(notificationTitle, {
+            icon: 'resources/img/logo.png',
+            body: notificationBody,
+        });
+
+        notification.onclick = function () {
+            window.open(notificationRedirect);
+        };
+    }
 }
