@@ -1,12 +1,10 @@
 package edu.ben.controller;
 
-import edu.ben.model.Listing;
-import edu.ben.model.SavedSearch;
-import edu.ben.model.Tutorial;
-import edu.ben.model.User;
+import edu.ben.model.*;
 import edu.ben.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,11 +44,11 @@ public class SearchController extends BaseController {
 
         if (user != null) {
 
-//            try {
-//                searchHistoryService.save(new SearchHistory(user, search));
-//            } catch (UnexpectedRollbackException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                searchHistoryService.save(new SearchHistory(user, search));
+            } catch (UnexpectedRollbackException e) {
+                e.printStackTrace();
+            }
 
             List<Listing> relevant = listingService.getRelevantListingsByUserID(user.getUserID());
             if (relevant.size() > 5) {

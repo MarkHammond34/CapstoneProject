@@ -81,8 +81,6 @@ public class HomeController extends BaseController {
 				model.addObject("relevantListings", null);
 			}
 
-			NotificationController.updateNotifications(request, notificationService);
-
             try {
                 request.getSession().setAttribute("checklist", checklistService.getByUserIDAndType(user.getUserID(), "FRESHMAN"));
             } catch (Exception e) {

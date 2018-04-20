@@ -141,7 +141,7 @@ public class ListingRunner {
 
                     if (l.getHighestBidder() == null) {
                         // Send notification to seller that no one placed a big
-                        newNotifications.add(new Notification(l.getUser(), l.getId(), "Listing Ended", "Listing: " + l.getName() + " ended without any bids.", 1));
+                        newNotifications.add(new Notification(l.getUser(), l.getId(), "Listing Ended", "Listing: " + l.getName() + " ended without any bids.", 1, "NO_BIDDER"));
                     } else {
                         // Create notification for buyer
                         newNotifications.add(new Notification(l.getHighestBidder(), l.getId(), "You Won!", "You Won! \n Listing: " + l.getName(), 1, "WON"));
