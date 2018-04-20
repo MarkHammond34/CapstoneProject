@@ -26,12 +26,21 @@ public class News {
 	 
 	 @Column(name="imagepath")
 	 private String imagePath;
-	 
-	 @Column(name="description")
+
+
+	@Column(name="description")
+
 	 private String description;
 	 
 	 @Column(name="dateCreated")
 	 private Timestamp dateCreated;
+
+	 @Column(name="display_type")
+	 private String displayType;
+
+	 public News() {
+
+	 }
 	 
 	 public News(String title, String filePath, String imagePath, String description) {
 		 this.title=title;
@@ -63,6 +72,36 @@ public class News {
 	public void setDateCreated(Timestamp dateCreated) {
 		this.dateCreated = dateCreated;
 	}
-	 
-	 
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getDisplayType() {
+		return displayType;
+	}
+
+	public void setDisplayType(String displayType) {
+		this.displayType = displayType;
+	}
 }

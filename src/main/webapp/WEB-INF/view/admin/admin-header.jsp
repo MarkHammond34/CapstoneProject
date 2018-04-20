@@ -27,6 +27,7 @@
     <script type="text/javascript" src="${jquery}"></script>
     <script type="text/javascript" src="${uikiticons}"></script>
     <script type="text/javascript" src="${chart}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <style>
         body {
             background-color: white;
@@ -92,6 +93,12 @@
         .profile-pic {
             padding: 1px;
             border: 1px solid #08AEEA;
+        }
+
+        .uk-button {
+            background-color: #a59d9d;
+            background-image: linear-gradient(138deg, #a59d9d 0%, #ffffff 100%);
+
         }
     </style>
 

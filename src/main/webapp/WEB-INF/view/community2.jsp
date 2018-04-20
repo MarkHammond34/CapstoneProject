@@ -20,7 +20,7 @@
         <div id="headlines">
             <div id="main-headline">
                 <h2 class="heading">Featured Story</h2>
-                <img alt="" src="img/blank.jpg">
+                <img alt="" src="${pageContext.request.contextPath}/resources/img/news/newsHead.jpg">
                 <h1><a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a></h1>
                 <p class="author">Name Here | <span>09.18.09</span></p>
                 <p>Ut sed arcu nulla. In eget lectus vitae purus volutpat consectetur suscipit ut justo.</p>

@@ -13,34 +13,39 @@ import java.util.List;
 @Service
 @Transactional
 public class NewsServiceImpl implements NewsService {
- 
-	NewsDAO nd;
-	
-	@Autowired
-	public void setNewsDAO(NewsDAO nd) {
-		this.nd = nd;
-	}
 
-	@Override
-	public void delete(int id) {
-		nd.delete(id);
-		
-	}
+    NewsDAO nd;
 
-	@Override
-	public void saveOrUpdate(News news) {
-		nd.saveOrUpdate(news);
-		
-	}
+    @Autowired
+    public void setNewsDAO(NewsDAO nd) {
+        this.nd = nd;
+    }
 
-	@Override
-	public void create(News news) {
-		nd.create(news);
-		
-	}
+    @Override
+    public void delete(int id) {
+        nd.delete(id);
 
-	@Override
-	public List getAllArticles() {
-		return nd.getAllArticles();
-	}
+    }
+
+    @Override
+    public void saveOrUpdate(News news) {
+        nd.saveOrUpdate(news);
+
+    }
+
+    @Override
+    public void create(News news) {
+        nd.create(news);
+
+    }
+
+    @Override
+    public News getArticleByID(int id) {
+        return nd.getArticleByID(id);
+    }
+
+    @Override
+    public List getAllArticles() {
+        return nd.getAllArticles();
+    }
 }
