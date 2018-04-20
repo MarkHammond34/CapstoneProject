@@ -26,6 +26,16 @@
     <link href="${introjsNassimCSS}" rel="stylesheet"/>
     <spring:url value="resources/css/introjs-rtl.css" var="introjsRtlCSS"/>
 
+    <!-- Notification JS & CSS -->
+    <spring:url value="resources/css/notification.css" var="notCSS"/>
+    <link href="${notCSS}" rel="stylesheet"/>
+    <spring:url value="resources/js/notification.js" var="notJS"/>
+    <script type="text/javascript" src="${notJS}"></script>
+
+    <!-- Fontawesome -->
+    <spring:url value="resources/js/fontawesome-all.js" var="fontAwesomeJS"/>
+    <script defer src="${fontAwesomeJS}"></script>
+
     <spring:url value="resources/css/uikit.css" var="uikitCSS"/>
     <spring:url value="resources/js/uikit.js" var="uikitJS"/>
     <spring:url value="resources/js/jquery.js" var="jquery"/>
@@ -63,19 +73,6 @@
             width: 18px;
             height: 18px;
             text-align: center;
-            line-height: 18px;
-            border-radius: 50%;
-            box-shadow: 0 0 1px #333;
-        }
-
-        .badge2 {
-            content: attr(data-badge);
-            position: absolute;
-            background: #ff695c;
-            left: 5px;
-            bottom: 40px;
-            width: 10px;
-            height: 10px;
             line-height: 18px;
             border-radius: 50%;
             box-shadow: 0 0 1px #333;
