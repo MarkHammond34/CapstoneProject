@@ -10,10 +10,11 @@
 
 <%@include file="jspf/header.jsp" %>
 
+
+<body>
 <div style="border: 20px solid white;
             margin: 0 auto;
             background: white;">
-    <body>
 
     <!-- style="background-color: #b0c4de; background-image: linear-gradient(52deg, #b0c4de 25%, #2c57ff 100%);" -->
 
@@ -109,21 +110,24 @@
         };
 
         var allListings = new List('allListings', options);
-
         var activeListings = new List('activeListings', options);
+        var inactiveListings = new List('inactiveListings', options);
+        var wonListings = new List('wonListings', options);
+        var lostListings = new List('lostListings', options);
 
         var meetups = new List('meetups', options);
-
         var offers = new List('offers', options);
-
         var transactions = new List('transactions', options);
 
-
     </script>
-    </body>
 </div>
+</body>
+
 
 <script type="text/javascript" src="resources/js/uikit.js"></script>
 <script type="text/javascript" src="resources/js/uikit-icons.js"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"
+        integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+"
+        crossorigin="anonymous"></script>
 
 </html>

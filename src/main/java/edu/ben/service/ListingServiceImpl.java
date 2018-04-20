@@ -1,15 +1,13 @@
 package edu.ben.service;
 
-import java.util.List;
-
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import edu.ben.dao.ListingDAO;
 import edu.ben.dao.UserDAO;
 import edu.ben.model.Listing;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -50,7 +48,9 @@ public class ListingServiceImpl implements ListingService {
     }
 
     @Override
-    public int save(Listing listing) { return ld.save(listing); }
+    public int save(Listing listing) {
+        return ld.save(listing);
+    }
 
 
     @Override
@@ -106,6 +106,10 @@ public class ListingServiceImpl implements ListingService {
     @Override
     public List getListingsWon(int userID) {
         return ld.getListingsWon(userID);
+    }
+
+    public List getListingsSold(int userID) {
+        return ld.getListingsSold(userID);
     }
 
     @Override
@@ -182,29 +186,31 @@ public class ListingServiceImpl implements ListingService {
         return ld.listingSearchLeastExpensive(search);
     }
 
-	@Override
-	public List<Listing> getAllListings() {
-		return ld.getAllListings();
-	}
+    @Override
+    public List<Listing> getAllListings() {
+        return ld.getAllListings();
+    }
 
-	@Override
-	public List<Listing> getActiveListingsByUserId(int id) {
-		return ld.getActiveListingsByUserId(id);
-	}
+    @Override
+    public List<Listing> getActiveListingsByUserId(int id) {
+        return ld.getActiveListingsByUserId(id);
+    }
 
-	@Override
-	public List<Listing> getInActiveListingsByUserId(int id) {
-		return ld.getInActiveListingsByUserId(id);
-	}
+    @Override
+    public List<Listing> getInActiveListingsByUserId(int id) {
+        return ld.getInActiveListingsByUserId(id);
+    }
 
     @Override
     public List listingsSearchDonations(String search) {
         return ld.listingsSearchDonations(search);
     }
 
-    public void deleteByListingId(int id)  {
+    public void deleteByListingId(int id) {
         ld.deleteByListingId(id);
     }
 
-    public void activateByListingId(int id) { ld.activateByListingId(id);}
+    public void activateByListingId(int id) {
+        ld.activateByListingId(id);
+    }
 }

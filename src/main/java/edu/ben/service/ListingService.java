@@ -1,8 +1,8 @@
 package edu.ben.service;
 
-import java.util.List;
-
 import edu.ben.model.Listing;
+
+import java.util.List;
 
 public interface ListingService {
 
@@ -35,6 +35,8 @@ public interface ListingService {
 	public List getListingsLost(int userID);
 
 	public List getListingsWon(int userID);
+
+    public List getListingsSold(int userID);
 
 	public List getActiveListings();
 

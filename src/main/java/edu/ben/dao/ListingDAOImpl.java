@@ -73,7 +73,7 @@ public class ListingDAOImpl implements ListingDAO {
 
 
     @SuppressWarnings("unchecked")
-	@Override
+    @Override
     public List<Listing> getListingsByBidCount() {
         Query q = getSession().createQuery("FROM listing WHERE bid_count > 0 ORDER BY bid_count");
         return (List<Listing>) q.list();
@@ -132,8 +132,15 @@ public class ListingDAOImpl implements ListingDAO {
         return q.list();
     }
 
+    @Override
+    public List getListingsSold(int userID) {
+        Query q = getSession().createQuery("FROM listing WHERE ended=1 AND highest_bid>0 AND userID=:userID");
+        q.setParameter("userID", userID);
+        return q.list();
+    }
+
     @SuppressWarnings("unchecked")
-	@Override
+    @Override
     public List<Listing> getActiveListings() {
         return getSession().createQuery("FROM listing WHERE active=1").list();
     }
@@ -278,25 +285,25 @@ public class ListingDAOImpl implements ListingDAO {
         return getSession().createQuery("FROM listing WHERE premium=1 AND active=1 AND ended=0 ORDER BY end_timestamp DESC").list();
     }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Listing> getActiveListingsByUserId(int id) {
-		
-		Query q = getSession().createQuery("FROM listing WHERE userID=:id AND active = 1");
-		q.setParameter("id", id);
-		
-		return q.list();
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Listing> getActiveListingsByUserId(int id) {
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Listing> getInActiveListingsByUserId(int id) {
-		
-		Query q = getSession().createQuery("FROM listing WHERE userID=:id AND active = 0");
-		q.setParameter("id", id);
-		
-		return q.list();
-	}
+        Query q = getSession().createQuery("FROM listing WHERE userID=:id AND active = 1");
+        q.setParameter("id", id);
+
+        return q.list();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Listing> getInActiveListingsByUserId(int id) {
+
+        Query q = getSession().createQuery("FROM listing WHERE userID=:id AND active = 0");
+        q.setParameter("id", id);
+
+        return q.list();
+    }
 
     public void deleteByListingId(int id) {
         Query q = getSession().createQuery("UPDATE listing SET active=0 WHERE id=:id");

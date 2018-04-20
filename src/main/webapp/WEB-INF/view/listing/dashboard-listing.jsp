@@ -16,12 +16,18 @@
                         <c:forEach items="${listing.images}" var="listingImages">
                             <div uk-lightbox>
                                 <li>
-                                    <div class="uk-position-center">
-
-                                        <a href="${pageContext.request.contextPath}/directory/${listingImages.image_path}/${listingImages.image_name}"
-                                           title="Image" class="thumbnail"><img
-                                                src="${pageContext.request.contextPath}/directory/${listingImages.image_path}/${listingImages.image_name}"
-                                                alt="Listing"></a>
+                                    <div class="uk-position-center uk-dark">
+                                        <img class="thumbnail"
+                                             src="${pageContext.request.contextPath}/directory/${listingImages.image_path}/${listingImages.image_name}"
+                                             alt="Listing"></a>
+                                        <div class="uk-visible-toggle">
+                                            <div class="uk-invisible-hover uk-overlay-default uk-position-cover">
+                                                <div class="uk-position-center">
+                                                    <a href="${pageContext.request.contextPath}/directory/${listingImages.image_path}/${listingImages.image_name}"
+                                                       title="Image"><span uk-icon="icon: search; ratio: 2"></span></a>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <input class="timestamp" data-timestamp="${listing.dateCreated.getTime()}"
                                                type="hidden">
 
@@ -63,25 +69,11 @@
                         <c:when test="${listing.delay < 0}">
                             <div class="price" style="font-size: 16px;">
                                 <span class="uk-badge">Current Bid: $${listing.highestBid}</span>
-                                <a
-                                        class="uk-button uk-button-text"
-                                        style="color: red; margin-left: 5px;"
-                                        id="bidButton${listing.id}">Place
-                                    Bid</a>
                             </div>
                         </c:when>
                         <c:otherwise>
                             <div class="price" style="font-size: 16px;">
                                 <span class="uk-badge">Current Bid: $${listing.highestBid}</span>
-                                <a
-                                        class="uk-button uk-button-text" style="color: cornflowerblue; margin-left: 5px"
-                                        uk-toggle="target: #placeBidModal${listing.id}" id="bidButton${listing.id}">Place
-                                    Bid</a>
-                                <c:if test="${listing.highestBidder.userID == sessionScope.user.userID}">
-                                    <a title="Cancel Bid" uk-icon="icon: ban"
-                                       uk-toggle="target: #cancelBid${listing.id}Modal"
-                                       style="margin-left: 10px; color: red;"></a>
-                                </c:if>
                             </div>
                         </c:otherwise>
                     </c:choose>
@@ -121,12 +113,6 @@
                     <div class="price" style="font-size: 16px;">
                             <span class="uk-badge"
                                   id="currentBid${listing.id}">Price: $${listing.price}</span>
-                        <button class="uk-button uk-button-default uk-button-small" style="margin-left: 5px"
-                                uk-toggle="target: #buyItNowModal${listing.id}">Buy now
-                        </button>
-                        <button class="uk-button uk-button-default uk-button-small" style="margin-left: 5px"
-                                uk-toggle="target: #buyItNowModal${listing.id}">Make an offer
-                        </button>
                     </div>
                 </c:when>
             </c:choose>
