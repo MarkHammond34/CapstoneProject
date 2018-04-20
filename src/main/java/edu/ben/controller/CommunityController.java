@@ -11,6 +11,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import edu.ben.model.Video;
 import edu.ben.service.EventsService;
 import edu.ben.service.VideoService;
@@ -51,7 +53,7 @@ public class CommunityController extends BaseController {
 
     @RequestMapping(value = "/communityPage", method = RequestMethod.GET)
     public ModelAndView community(HttpServletRequest request) {
-        ModelAndView model = new ModelAndView("/community2");
+        ModelAndView model = new ModelAndView("/community3");
 
         ArrayList<CalendarEvent> events = (ArrayList<CalendarEvent>) eventService.getAllEvents();
 
@@ -197,13 +199,13 @@ public class CommunityController extends BaseController {
             request.setAttribute("time", time);
         }
 
-        Video newestVideo = videoService.getNewestVideo();
-        Timestamp videoDateInt = newestVideo.getDateCreated();
-        String videoDate = Integer.toString(videoDateInt.getMonth() + 1) +"/" + Integer.toString(videoDateInt.getDate()+ 1)+ "/" + Integer.toString(videoDateInt.getYear() + 1900);
-        request.setAttribute("videoDate", videoDate);
-        System.out.println("video date: " + videoDate);
-        System.out.println("Path: " + newestVideo.getVideoPath());
-        request.setAttribute("newestVideo", newestVideo);
+//        Video newestVideo = videoService.getNewestVideo();
+//        Timestamp videoDateInt = newestVideo.getDateCreated();
+//        String videoDate = Integer.toString(videoDateInt.getMonth() + 1) +"/" + Integer.toString(videoDateInt.getDate()+ 1)+ "/" + Integer.toString(videoDateInt.getYear() + 1900);
+//        request.setAttribute("videoDate", videoDate);
+//        System.out.println("video date: " + videoDate);
+//        System.out.println("Path: " + newestVideo.getVideoPath());
+//        request.setAttribute("newestVideo", newestVideo);
 
 		return model;
 	}
@@ -419,8 +421,40 @@ public class CommunityController extends BaseController {
     }
 
     @RequestMapping(value = "/eventsNews", method = RequestMethod.GET)
-    public String viewEventsNews() {
-        return "admin/events-news";
+    public ModelAndView viewEventsNews(HttpServletRequest request) {
+        ModelAndView model = new ModelAndView("admin/events-news");
+
+        ArrayList<News> allArticles = (ArrayList<News>) newsService.getAllArticles();
+
+        JsonArray newsArticles = new JsonArray();
+
+        request.setAttribute("allArticles", allArticles);
+
+
+        JsonArray results = convertNewsToJson(allArticles, newsArticles);
+        System.out.println("JSON News Articles: " + results.size());
+
+        request.setAttribute("newsArticlesJson", results);
+
+        return model;
+
     }
+
+    public JsonArray convertNewsToJson(ArrayList<News> news, JsonArray results) {
+        for (int i = 0; i < news.size(); i++) {
+            JsonObject json = new JsonObject();
+
+            json.addProperty("newsID", String.valueOf(news.get(i).getNewsID()));
+            json.addProperty("title", String.valueOf(news.get(i).getTitle()));
+            json.addProperty("description", String.valueOf(news.get(i).getDescription()));
+            json.addProperty("displayType", String.valueOf(news.get(i).getDisplayType()));
+            json.addProperty("date", String.valueOf(news.get(i).getDateCreated()));
+
+            results.add(json);
+
+        }
+        return results;
+    }
+
 
 }
