@@ -43,6 +43,9 @@ public class HomeController extends BaseController {
     @Autowired
 	CategoryService categoryService;
 
+    @Autowired
+	RevenueService revenueService;
+
     /*
      * @Autowired FaqService faqService;
      */
@@ -66,6 +69,9 @@ public class HomeController extends BaseController {
 		model.addObject("categories", categoryService.getAllCategories());
 
 		User user = (User) request.getSession().getAttribute("user");
+
+		int price = revenueService.getHourlyRevenue(17);
+		System.out.println(price);
 
 	ListingRunner.run();
 
