@@ -82,6 +82,9 @@
                                         style="color: green;"
                                         href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Make
                                     offer</a>
+                                <p>
+                                <a href="${pageContext.request.contextPath}/reportListing?listingId=${listing.id}"
+                                   class="uk-icon-button uk-margin-small-right" uk-icon="warning" uk-tooltip="Report Listing"></a></p>
                             </c:if>
 
                         </div>
