@@ -7,8 +7,7 @@ import edu.ben.util.Email;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import edu.ben.model.User;
 
@@ -124,6 +123,17 @@ public class LoginController extends BaseController {
 		session.invalidate();
 		request.removeAttribute("user");
 		return "redirect:/";
+	}
+
+	@RequestMapping(value="loginValidEmail", method= RequestMethod.POST, produces="application/json")
+	public @ResponseBody
+	boolean loginValidEmail(HttpServletRequest request, @RequestParam("email") String email){
+		User usr = null;
+		usr =userService.findBySchoolEmail(email);
+		System.out.println(usr);
+		if(usr != null)
+			return true;
+		return false;
 	}
 
 	/*
