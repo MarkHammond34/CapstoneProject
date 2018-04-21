@@ -1874,6 +1874,7 @@ select.uk-form-width-xsmall {
   color: #333;
   border-color: #b2b2b2;
 }
+
 /* OnClick + Active */
 .uk-button-default:active,
 .uk-button-default.uk-active {
@@ -2171,7 +2172,7 @@ select.uk-form-width-xsmall {
  * Secondary
  */
 .uk-section-secondary {
-  background: #222;
+  background: #ff695c;
 }
 /* Overlap modifier
  ========================================================================== */
@@ -2687,6 +2688,7 @@ select.uk-form-width-xsmall {
 }
 .uk-card-footer {
   padding: 15px 30px;
+  background-color: #ff695c;
 }
 /* Desktop and bigger */
 @media (min-width: 1200px) {
@@ -7226,7 +7228,7 @@ iframe.uk-cover {
   background-color: #1e87f0;
 }
 .uk-background-secondary {
-  background-color: #222;
+  background-color: #ff695c;
 }
 /* Size
  ========================================================================== */

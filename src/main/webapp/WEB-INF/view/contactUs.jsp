@@ -24,7 +24,7 @@
 			<div id="form">
 				<form id="form" name="contactUs" action="sendEmail" class="uk-form"
 					method="POST">
-					<div class="uk-margin uk-position-center">
+					<div class="uk-margin uk-position-center uk-card">
 						<div class="uk-margin">
 							<input class="uk-input" type="text" placeholder="Full Name" required>
 						</div>
@@ -47,5 +47,5 @@
 		</div>
 	</div>
 </body>
-	<%@include file="jspf/footer.jspf"%>
+
 </html>
