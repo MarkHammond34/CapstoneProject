@@ -11,7 +11,7 @@
         <c:choose>
 
             <c:when test="${sessionScope.user != null}">
-                <a href="/viewProfile">Profile</a>
+                <a href="${pageContext.request.contextPath}/viewProfile?userId=${sessionScope.user.userID}">Profile</a>
                 <br>
                 <a href="/dashboard">Dashboard</a>
                 <br>
@@ -19,7 +19,7 @@
                 <br>
                 <a href="/createListing">Create A Listing</a>
                 <br>
-                <a href="/purchaseHistory">Purchase History</a>
+                <a href="/viewPurchaseHistory">Purchase History</a>
                 <br>
 
                 <c:if test="${sessionScope.user.gradeLevel == 1}">
@@ -32,6 +32,7 @@
                 <br>
                 <a href="/login">Login</a>
                 <br>
+                <a href="/banAppeal">User Ban Appeal</a>
             </c:otherwise>
 
         </c:choose>
@@ -41,8 +42,6 @@
         <h5><strong>Need Help?</strong></h5>
         <a href="/faqs" style="color: #ffffff; text-decoration: none;">Frequently
             Asked Questions</a>
-        <br>
-        <a href="" style="color: #ffffff; text-decoration: none;">Show Tutorial</a>
         <br>
         <a href="${pageContext.request.contextPath}/contactUs" style="color: #ffffff; text-decoration: none;">Contact
             Us</a> <br>
@@ -65,8 +64,7 @@
 
     <div class="uk-width-1-1 uk-text-center">
         <p>
-            &copy;U-ListIt -<a style="color: #ffffff; text-decoration: none;"
-                               href="${pageContext.request.contextPath}/contactUs"> Contact Us</a> - All rights reserved
+            &copy;U-ListIt - All rights reserved
             2018.
         </p>
     </div>

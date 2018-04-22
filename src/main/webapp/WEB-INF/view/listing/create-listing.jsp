@@ -15,6 +15,7 @@
         <div class="uk-width-3-4@m uk-width-1-1@s uk-align-center">
             <div class="uk-card uk-card-default uk-card-large uk-card-body uk-box-shadow-hover-large uk-border-rounded">
                 <h2 class="uk-text-center">Create A Listing</h2>
+                <a href="" class="uk-icon-button uk-float-right" uk-icon="file-edit" uk-tooltip="View Listing Drafts"></a>
                 <hr>
                 <div class="form-area">
                     <form method="POST" class="" uk-grid
@@ -121,10 +122,14 @@
                                     consectetur adipiscing elit, sed do eiusmod tempor incididunt.
                                 </div>
                             </div>
+                            <button class="uk-button-large uk-button-secondary uk-border-rounded uk-float-right" href="">
+                                Save as Draft
+                            </button>
                             <button type="submit" id="submit" name="submit"
-                                    class="uk-button-large uk-button-primary uk-border-rounded uk-float-right">
+                                    class="uk-button-large uk-button-primary uk-border-rounded uk-float-right uk-margin-right">
                                 Create
                             </button>
+
                         </div>
                     </form>
                 </div>

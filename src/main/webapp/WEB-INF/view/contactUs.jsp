@@ -17,7 +17,7 @@
 	<%@include file="jspf/navbar.jspf"%>
 
 	<div id="central">
-		<div class="form">
+		<div class="form uk-margin-left">
 			<h1>U-ListIt Contact Form</h1>
 			<p>Send your comments, questions, and concerns through this form
 				and we will get back to you as soon as possible.</p>
@@ -35,10 +35,12 @@
 							<input class="uk-input" type="tel" placeholder="Phone" required>
 						</div>
 						<div class="uk-margin">
-							<input class="uk-input" type="text" placeholder="Message" required>
+							<textarea class="uk-textarea" rows="5" cols="100"
+									  placeholder="Your reason for appealing your ban" name="appeal"
+									  required></textarea>
 						</div>
 						<div id="mail-status"></div>
-						<input type="submit" name="submit" value="Send Message"
+						<input type="submit" class="uk-button-primary uk-button" name="submit" value="Send Message"
 							id="send-message" style="clear: both;">
 						<%@include file="jspf/messages.jsp"%>
 					</div>
