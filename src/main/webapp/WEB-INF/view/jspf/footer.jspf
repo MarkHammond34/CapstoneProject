@@ -1,20 +1,73 @@
-<%@include file="header.jsp"%>
-<%@include file="tutorialModal.jsp"%>
-<div
-        class="uk-card-footer uk-background-secondary uk-light uk-text-center uk-text-small" hidden>
-    <p>
-        New to UListIt? See our<a
-            href="${pageContext.request.contextPath}/freshmanChecklist"
-            style="color: #ffffff; text-decoration: none;"> Freshman
-        Checklist Example</a> or our exclusive <a href="#myModal" uk-toggle>
-        How To Video</a>!
-    </p>
-    <p>
+<div class="uk-width-1-1 uk-padding-small uk-text-center" style="background-color: #333333">
+    <a href="" uk-totop uk-tooltip="title: Back To Top"></a>
+</div>
+
+<div class="uk-card-footer uk-background-secondary uk-light uk-text-small uk-grid uk-padding uk-padding-remove-bottom"
+     uk-grid
+     style="background-color: #2c3e50">
+
+    <div class="uk-width-1-4@m uk-width-1-4@l uk-width-1-2@s" style="color: #ffffff; text-decoration: none;">
+        <h5><strong>Account</strong></h5>
+        <c:choose>
+
+            <c:when test="${sessionScope.user != null}">
+                <a href="/viewProfile">Profile</a>
+                <br>
+                <a href="/dashboard">Dashboard</a>
+                <br>
+                <a href="/notifications">Notifications</a>
+                <br>
+                <a href="/createListing">Create A Listing</a>
+                <br>
+                <a href="/purchaseHistory">Purchase History</a>
+                <br>
+
+                <c:if test="${sessionScope.user.gradeLevel == 1}">
+                    <a href="/checklist">Freshman Checklist</a>
+                </c:if>
+            </c:when>
+
+            <c:otherwise>
+                <a href="/register">Register</a>
+                <br>
+                <a href="/login">Login</a>
+                <br>
+            </c:otherwise>
+
+        </c:choose>
+    </div>
+
+    <div class="uk-width-1-4@m uk-width-1-4@l uk-width-1-2@s">
+        <h5><strong>Need Help?</strong></h5>
         <a href="/faqs" style="color: #ffffff; text-decoration: none;">Frequently
             Asked Questions</a>
-    </p>
-    <p>
-        &copy;U-ListIt -<a style="color: #ffffff; text-decoration: none;"
-                           href="${pageContext.request.contextPath}/contactUs"> Contact Us</a> - All rights reserved 2018.
-    </p>
+        <br>
+        <a href="" style="color: #ffffff; text-decoration: none;">Show Tutorial</a>
+        <br>
+        <a href="${pageContext.request.contextPath}/contactUs" style="color: #ffffff; text-decoration: none;">Contact
+            Us</a> <br>
+        <a href="${pageContext.request.contextPath}/rules" style="color: #ffffff; text-decoration: none;">Rules</a>
+    </div>
+
+    <div class="uk-width-1-4@m uk-width-1-4@l uk-width-1-2@s">
+        <h5><strong>Get To Know Us</strong></h5>
+        <p>
+            <a href="/aboutUs" style="color: #ffffff; text-decoration: none;">About Us</a>
+        </p>
+    </div>
+
+    <div class="uk-width-1-4@m uk-width-1-4@l uk-width-1-2@s">
+        <h5><strong>More..</strong></h5>
+        <a href="/donate" style="color: #ffffff; text-decoration: none;">Donations</a>
+        <br>
+        <a href="/communityPage" style="color: #ffffff; text-decoration: none;">Community</a>
+    </div>
+
+    <div class="uk-width-1-1 uk-text-center">
+        <p>
+            &copy;U-ListIt -<a style="color: #ffffff; text-decoration: none;"
+                               href="${pageContext.request.contextPath}/contactUs"> Contact Us</a> - All rights reserved
+            2018.
+        </p>
+    </div>
 </div>
