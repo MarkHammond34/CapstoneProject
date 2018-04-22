@@ -1,5 +1,6 @@
 package edu.ben.controller;
 
+import com.google.gson.JsonObject;
 import edu.ben.model.*;
 import edu.ben.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +8,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -429,7 +427,7 @@ public class ListingController extends BaseController {
         if (listing == null) {
             addErrorMessage("Error Loading Listing");
             setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
+            return "redirect:/";
         }
 
         User user = (User) request.getSession().getAttribute("user");
@@ -449,66 +447,53 @@ public class ListingController extends BaseController {
 
             if (listing.getEnded() == 1) {
 
-                Transaction transaction = transactionService.getTransactionsByListingID(listingID);
+                // Check if pick up was started
+                PickUp pickUp = pickUpService.getPickUpByListingID(listingID);
 
-                // Check if transaction was cancelled
-                if (transaction.getTransactionType().equals("cancelled")) {
+                if (pickUp != null) {
 
-                    if (user.getUserID() == transaction.getBuyer().getUserID() || user.getUserID() == transaction.getSeller().getUserID()) {
-                        addWarningMessage("Transaction On This Listing Has Been Cancelled");
-                        request.setAttribute("viewTransaction", true);
-                    }
+                    // View Pick Up Page
+                    if (pickUp.getStatus().equals("IN REVIEW")) {
+                        request.setAttribute("viewPickUp", true);
 
-                } else {
+                    } else if (pickUp.getStatus().equals("PICK UP MISSED")) {
+                        addWarningMessage("Pick Up Missed");
+                        request.setAttribute("viewPickUp", true);
 
-                    // Check if pick up was started
-                    PickUp pickUp = pickUpService.getPickUpByListingID(listingID);
+                        // View Checkout Page
+                    } else if (pickUp.getStatus().equals("ACCEPTED")) {
+                        request.setAttribute("viewCheckout", true);
 
-                    if (pickUp != null) {
+                        // View Pick Up Page For Details
+                    } else if (pickUp.getStatus().equals("AWAITING PICK UP")) {
+                        request.setAttribute("viewPickUpDetails", true);
 
-                        // View Pick Up Page
-                        if (pickUp.getStatus().equals("IN REVIEW")) {
-                            request.setAttribute("viewPickUp", true);
+                        // View Verification or Transaction Page
+                    } else if (pickUp.getStatus().equals("PENDING VERIFICATION")) {
 
-                        } else if (pickUp.getStatus().equals("PICK UP MISSED")) {
-                            addWarningMessage("Pick Up Missed");
-                            request.setAttribute("viewPickUp", true);
+                        // User Logged In Is Seller And Has Not Verified
+                        if (pickUp.getTransaction().getSeller().getUserID() == user.getUserID() && pickUp.getSellerVerified() == 0) {
+                            request.setAttribute("viewVerification", true);
 
-                            // View Checkout Page
-                        } else if (pickUp.getStatus().equals("ACCEPTED")) {
-                            request.setAttribute("viewCheckout", true);
-
-                            // View Pick Up Page For Details
-                        } else if (pickUp.getStatus().equals("AWAITING PICK UP")) {
-                            request.setAttribute("viewPickUpDetails", true);
-
-                            // View Verification or Transaction Page
-                        } else if (pickUp.getStatus().equals("PENDING VERIFICATION")) {
-
-                            // User Logged In Is Seller And Has Not Verified
-                            if (pickUp.getTransaction().getSeller().getUserID() == user.getUserID() && pickUp.getSellerVerified() == 0) {
-                                request.setAttribute("viewVerification", true);
-
-                                // User Logged In Is Seller And Has Verified
-                            } else if (pickUp.getTransaction().getSeller().getUserID() == user.getUserID() && pickUp.getSellerVerified() == 1) {
-                                request.setAttribute("viewTransaction", true);
-
-                                // User Logged In Is Buyer And Has Not Verified
-                            } else if (pickUp.getTransaction().getBuyer().getUserID() == user.getUserID() && pickUp.getBuyerVerified() == 0) {
-                                request.setAttribute("viewVerification", true);
-
-                                // User Logged In Is Buyer And Has Verified
-                            } else if (pickUp.getTransaction().getBuyer().getUserID() == user.getUserID() && pickUp.getBuyerVerified() == 1) {
-                                request.setAttribute("viewTransaction", true);
-                            }
-
-                        } else if (pickUp.getStatus().equals("VERIFIED") &&
-                                pickUp.getTransaction().getSeller().getUserID() == user.getUserID()) {
+                            // User Logged In Is Seller And Has Verified
+                        } else if (pickUp.getTransaction().getSeller().getUserID() == user.getUserID() && pickUp.getSellerVerified() == 1) {
                             request.setAttribute("viewTransaction", true);
 
-                        } else if (pickUp.getStatus().equals("COMPLETED")) {
+                            // User Logged In Is Buyer And Has Not Verified
+                        } else if (pickUp.getTransaction().getBuyer().getUserID() == user.getUserID() && pickUp.getBuyerVerified() == 0) {
+                            request.setAttribute("viewVerification", true);
+
+                            // User Logged In Is Buyer And Has Verified
+                        } else if (pickUp.getTransaction().getBuyer().getUserID() == user.getUserID() && pickUp.getBuyerVerified() == 1) {
                             request.setAttribute("viewTransaction", true);
                         }
+
+                    } else if (pickUp.getStatus().equals("VERIFIED") &&
+                            pickUp.getTransaction().getSeller().getUserID() == user.getUserID()) {
+                        request.setAttribute("viewTransaction", true);
+
+                    } else if (pickUp.getStatus().equals("COMPLETED")) {
+                        request.setAttribute("viewTransaction", true);
                     }
                 }
             }
@@ -585,7 +570,7 @@ public class ListingController extends BaseController {
             addWarningMessage("Login To Cancel A Purchase");
             request.getSession().setAttribute("lastPage", "/cancel-overview?l=" + listingID);
             setRequest(request);
-            return "login";
+            return "redirect:/login";
         }
 
         Listing listing = listingService.getByListingID(listingID);
@@ -724,5 +709,43 @@ public class ListingController extends BaseController {
         Listing listing = listingService.getByListingID(id);
         request.setAttribute("listing", listing);
         return "reportListing";
+    }
+
+    @RequestMapping(value = "/getListingData", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody
+    String getListingData(HttpServletRequest request, @RequestParam("listingID") int listingID) {
+
+        JsonObject json = new JsonObject();
+
+        Listing listing = listingService.getByListingID(listingID);
+
+        if (listing != null) {
+
+            json.addProperty("id", listing.getId());
+            json.addProperty("name", listing.getName());
+            json.addProperty("description", listing.getDescription());
+            json.addProperty("price", listing.getPrice());
+            json.addProperty("paymentType", listing.getPaymentType());
+            json.addProperty("userID", listing.getUser().getUserID());
+            json.addProperty("type", listing.getType());
+            json.addProperty("category", listing.getCategory());
+            json.addProperty("subCategory", listing.getSubCategory());
+            json.addProperty("dateCreated", listing.getDateCreated().toString());
+            json.addProperty("highestBidderID", listing.getHighestBidder().getUserID());
+            json.addProperty("highestBidderUsername", listing.getHighestBidder().getUsername());
+            json.addProperty("highestBid", listing.getHighestBid());
+            json.addProperty("endTimestamp", listing.getEndTimestamp().toString());
+            json.addProperty("endTimestampInMilli", listing.getEndTimestampAsLong());
+            json.addProperty("bidCount", listing.getBidCount());
+            json.addProperty("active", listing.getActive());
+            json.addProperty("ended", listing.getEnded());
+            json.addProperty("startTimestamp", listing.getStartTimestamp().toString());
+            json.addProperty("startTimestampInMilli", listing.getStartTimestampAsLong());
+
+        } else {
+            json.addProperty("listing", "null");
+        }
+
+        return json.toString();
     }
 }

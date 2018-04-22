@@ -50,14 +50,14 @@ public class CheckoutController extends BaseController {
             if (transaction == null) {
                 addErrorMessage("Error Loading Transaction");
                 setRequest(request);
-                return "redirect:" + request.getHeader("Referer");
+                return "redirect:/";
             }
 
             // Verify user
             if (user.getUserID() != transaction.getBuyer().getUserID() && user.getUserID() != transaction.getSeller().getUserID()) {
                 addWarningMessage("Access Denied");
                 setRequest(request);
-                return "redirect:" + request.getHeader("Referer");
+                return "redirect:/";
             }
 
 

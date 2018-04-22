@@ -54,7 +54,7 @@ public class ChecklistDAOImpl implements ChecklistDAO {
         Query q = getSession().createQuery("FROM checklist WHERE user_id=:id AND type=:type AND active=1 ORDER BY status ASC");
         q.setParameter("id", userID);
         q.setParameter("type", type);
-        return (Checklist) q.list().get(0);
+        return (Checklist) q.uniqueResult();
     }
 
     @Override
@@ -71,6 +71,6 @@ public class ChecklistDAOImpl implements ChecklistDAO {
     public Checklist getByChecklistID(int id) {
         Query q = getSession().createQuery("FROM checklist WHERE checklist_id=:id AND active=1");
         q.setParameter("id", id);
-        return (Checklist) q.list().get(0);
+        return (Checklist) q.uniqueResult();
     }
 }

@@ -42,10 +42,6 @@ public class FaqDAOImpl implements FaqDAO {
 
     @Override
     public Faq getByFaqID(int id) {
-        try {
-           return (Faq) getSession().createQuery("FROM faq WHERE question_id=" + id).list().get(0);
-        } catch (IndexOutOfBoundsException e) {
-            return null;
-        }
+        return (Faq) getSession().createQuery("FROM faq WHERE question_id=" + id).uniqueResult();
     }
 }

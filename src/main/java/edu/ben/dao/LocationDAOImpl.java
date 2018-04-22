@@ -38,7 +38,7 @@ public class LocationDAOImpl implements LocationDAO {
     public Location getByName(String name) {
         Query q = getSession().createQuery("FROM pick_up_location WHERE name=:name");
         q.setParameter("name", name);
-        return (Location) q.list().get(0);
+        return (Location) q.uniqueResult();
     }
 
     @Override
@@ -50,6 +50,6 @@ public class LocationDAOImpl implements LocationDAO {
     public Location getByLocationID(int id) {
         Query q = getSession().createQuery("FROM pick_up_location WHERE location_id=:id");
         q.setParameter("id", id);
-        return (Location) q.list().get(0);
+        return (Location) q.uniqueResult();
     }
 }

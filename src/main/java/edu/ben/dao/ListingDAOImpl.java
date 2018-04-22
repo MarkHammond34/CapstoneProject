@@ -83,7 +83,7 @@ public class ListingDAOImpl implements ListingDAO {
     public Listing getByListingID(int listingID) {
         Query q = getSession().createQuery("FROM listing WHERE id=:listingID");
         q.setParameter("listingID", listingID);
-        return (Listing) q.list().get(0);
+        return (Listing) q.uniqueResult();
     }
 
     @SuppressWarnings("unchecked")

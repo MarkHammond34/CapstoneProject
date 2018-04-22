@@ -1,12 +1,11 @@
 package edu.ben.controller;
 
+import com.google.appengine.repackaged.com.google.gson.JsonObject;
 import edu.ben.model.User;
 import edu.ben.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,31 +27,31 @@ public class BidController extends BaseController {
     @Autowired
     UserService userService;
 
-    @PostMapping("/bid")
-    public String bid(@RequestParam("bidValue") int bidValue, @RequestParam int listingID,
-                      HttpServletRequest request) {
+
+    @RequestMapping(value = "/bid", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody
+    String bid(HttpServletRequest request, @RequestParam("bidValue") int bidValue, @RequestParam("listingID") int listingID) {
 
         User user = (User) request.getSession().getAttribute("user");
 
+        JsonObject json = new JsonObject();
+
         if (user == null) {
-            addWarningMessage("Login To Place A Bid");
-            request.getSession().setAttribute("lastPage", "/listing?l=" + listingID);
-            setRequest(request);
-            return "redirect:/login";
+            json.addProperty("result", "LOGIN");
+            return json.toString();
         }
 
         int results = listingBidService.placeBid(user.getUserID(), bidValue, listingService.getByListingID(listingID));
 
         if (results == -2) {
-            addErrorMessage("Bid Most Be Larger Than Highest Bid");
+            json.addProperty("result", "TOO SMALL");
         } else if (results == -1) {
-            addErrorMessage("Sorry, you didn't get your bid in on time!");
+            json.addProperty("result", "OVER");
         } else {
-            addSuccessMessage("Congrats! You're the highest bidder!");
+            json.addProperty("result", "WINNING");
         }
 
-        setRequest(request);
-        return "redirect:" + request.getHeader("Referer");
+        return json.toString();
     }
 
     @GetMapping("/cancelBid")

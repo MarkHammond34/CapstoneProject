@@ -34,14 +34,14 @@ public class PickUpDAOImpl implements PickUpDAO {
     public PickUp getPickUpByListingID(int id) {
         SQLQuery q = getSession().createSQLQuery
                 ("select p.* from pick_up as p inner join transaction as t on p.transaction_id=t.transaction_ID where t.listing_ID=" + id + ";").addEntity(PickUp.class);
-        return (PickUp) q.list().get(0);
+        return (PickUp) q.uniqueResult();
     }
 
     @Override
     public PickUp getPickUpByPickUpID(int id) {
         Query q = getSession().createQuery("FROM pick_up WHERE pick_up_id=:id");
         q.setParameter("id", id);
-        return (PickUp) q.list().get(0);
+        return (PickUp) q.uniqueResult();
     }
 
     @Override

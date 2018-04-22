@@ -27,15 +27,15 @@
 
     <div class="uk-overlay uk-position-large uk-position-top-left uk-width-1-2">
 
-        <h2 style="color: white; background-color: darkslategray; padding: 5px;"
+        <h2 style="color: white; background-color: #404040; padding: 5px;"
             class="uk-width-1-1 uk-align-left uk-text-bold uk-border-rounded">What to
             get rid of your stuff but
             don't think it's
             worth much?</h2>
-        <h3 style="color: white; background-color: darkslategray; padding: 5px;"
+        <h3 style="color: white; background-color: #404040; padding: 5px;"
             class="uk-width-3-4 uk-align-left uk-text-bold uk-border-rounded">Donate it to one of your
             classmates!</h3>
-        <h4 style="color: white; background-color: darkslategray; padding: 5px;"
+        <h4 style="color: white; background-color: #404040; padding: 5px;"
             class="uk-width-1-2 uk-align-left uk-text-bold uk-border-rounded">More information below.</h4>
 
     </div>
@@ -71,6 +71,7 @@
 
         <div class="uk-width-1-1">
 
+            <br>
             <div class="uk-margin-medium-top">
 
                 <h1 class="uk-heading-line uk-text-center uk-margin-medium-top"><span>How Donating Works</span></h1>
@@ -97,6 +98,7 @@
                 </div>
             </div>
 
+            <br>
             <div class="uk-margin-medium-top uk-margin-medium-bottom">
                 <h1 class="uk-heading-line uk-text-center"><span>Recently Donated Items</span>
                 </h1>
@@ -112,6 +114,7 @@
                 </c:if>
             </div>
 
+            <br>
             <div class="uk-margin-medium-top uk-margin-medium-bottom">
                 <h1 class="uk-heading-line uk-text-center">
                     <span>Search Donated Items By Category</span></h1>
