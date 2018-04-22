@@ -3,6 +3,7 @@ package edu.ben.controller;
 import com.google.gson.JsonObject;
 import edu.ben.model.*;
 import edu.ben.service.*;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +80,6 @@ public class ListingController extends BaseController {
                                     @RequestParam("premium") String premium, Model model,
                                     HttpServletRequest request) {
 
-//        System.out.println("Hit UploadListing Controller");
 //        if (price == null) {
 //            price = 0;
 //            // This is a dirty fix
@@ -94,9 +95,7 @@ public class ListingController extends BaseController {
 //        }
 
         String message = "";
-        //String error = "";
-
-        System.out.println(subCategory);
+        String error = "";
 
         User u = (User) request.getSession().getAttribute("user");
 
@@ -106,25 +105,10 @@ public class ListingController extends BaseController {
             return "login";
         }
 
-        // This is a dirty fix
-        Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
-
-        // Checks to make sure listing is for at least one hour
-        if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
-            addErrorMessage("Listings Must Be Last At Least One Hour");
+        if(name == null || name.isEmpty()){
+            addErrorMessage("Please use a valid Title");
             setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
-        }
-        // This is a dirty fix
-
-        if (request.getParameter("endDate") != null) {
-            // Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
-            // Checks to make sure listing is for at least one hour
-            if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
-                addErrorMessage("Listings Must Be Last At Least One Hour");
-                setRequest(request);
-                return "redirect:" + request.getHeader("Referer");
-            }
+            return "login";
         }
         if (price < 0) {
             addErrorMessage("Cannot have a negative price.");
@@ -140,7 +124,24 @@ public class ListingController extends BaseController {
         } else {
             listing.setType("fixed");
         }
-        System.out.println(premium);
+
+        if(category != null){
+            listing.setCategory(category);
+        }
+        else{
+            addErrorMessage("Need to select a valid category");
+            setRequest(request);
+            return "listing/create-listing";
+        }
+
+        if(subCategory != null){
+            listing.setSubCategory(subCategory);
+        }
+        else{
+            addErrorMessage("Need to select a valid sub-category");
+            setRequest(request);
+            return "listing/create-listing";
+        }
 
         if (premium.equals("yes")) {
             listing.setPremium(1);
@@ -148,133 +149,86 @@ public class ListingController extends BaseController {
             listing.setPremium(0);
         }
 
+        // This is a dirty fix
+
+        if (request.getParameter("endDate") != null) {
+             Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
+            // Checks to make sure listing is for at least one hour
+            if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
+                addErrorMessage("Listings Must Be Last At Least One Hour");
+                setRequest(request);
+                return "redirect:" + request.getHeader("Referer");
+            }
+        }
+
         if (!file.isEmpty()) {
             try {
-////                String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-////                listing.setUser(u);
-////                int listingId = listingService.save(listing);
-////                Listing lst = listingService.getByListingID(listingId);
-////
-////                String directory = System.getProperty("user.home");
-////                for (int i = 0; i < file.size(); i++) {
-////                    String fileType = FilenameUtils.getExtension(file.get(i).getOriginalFilename());
-////                    String fileName = FilenameUtils.getBaseName(file.get(i).getOriginalFilename());
-////                    if (fileType.equals("jpg") || fileType.equals("png") || fileType.equals("jpeg")) {
-////                        Image imgImport = new Image();
-////                        try {
-////                            // byte[] bytes = file.get(i).getBytes();
-////                            System.out.println("File Directory:   " + System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId);
-////                            File dir = new File(System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId);
-////                            if (!dir.exists())
-////                                dir.mkdirs();
-////                            System.out.println("Image Path:     " + "ulistitUsers" + "/" + u.getUserID() + "@" + u.getSchoolEmail() + "/" + "listings" + "/" + listingId);
-////                            imgImport.setImage_path("ulistitUsers" + "/" + u.getUserID() + "@" + u.getSchoolEmail() + "/" + "listings" + "/" + listingId);
-////                            imgImport.setListing(lst);
-////                            imgImport.setImage_name(fileName + "." + fileType);
-////                            if (i == 0)
-////                                imgImport.setMain(1);
-////                            imageService.save(imgImport);
-////                            System.out.println("Full File path:     " + System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId + File.separator + file.get(i).getOriginalFilename());
-////                            File serverFile = new File(System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId + File.separator + file.get(i).getOriginalFilename());
-////                            try {
-////                                //  BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-////                                stream.write(bytes);
-////                            } catch (FileNotFoundException e) {
-////                                e.printStackTrace();
-////                            }
-////
-////                        } catch (IOException e) {
-////                            e.printStackTrace();
-////                        }
-////                    }
-////                }
-//
-//                if (!file.isEmpty()) {
-//                    try {
-//                        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-//
-//                        System.out.println(extension);
-//
-//                        if (!extension.equals("jpg") && !extension.equals("png") && !extension.equals("jpeg")) {
-//                            addErrorMessage("Listing failed. You did not upload an image.");
-//                            setRequest(request);
-//                            return "createListing";
-//                        } else if (price < 0) {
-//                            addErrorMessage("Cannot have a negative price.");
-//                            setRequest(request);
-//                            return "createListing";
-//                        }
-//
-//                        byte[] bytes = file.getBytes();
-//
-//                        // Creating the directory to store file
-//                        File dir = new File(Path.url + File.separator + "listings");
-//                        if (!dir.exists())
-//                            dir.mkdirs();
-//
-//                        // Create the file on server
-//
-//                        System.out.println("Hit Controller 2");
-//                        File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
-//                        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-//                        stream.write(bytes);
-//
-//                        System.out.println("File Uploaded");
-//                        //Listing listing = new Listing(name, description, price, category, file.getOriginalFilename());// FIX
-//                        // LATER
-
-                if (type.equals("auction")) {
-                    listing.setType("auction");
-                    listing.setHighestBid(0);
-                } else {
-                    listing.setType("fixed");
-                }
-                System.out.println(premium);
-
-                if (premium.equals("yes")) {
-                    listing.setPremium(1);
-                } else {
-                    listing.setPremium(0);
-                }
-
                 listing.setUser(u);
-                System.out.println("Check to see if session exists: " + u.getUserID());
-                listingService.create(listing);
+                int listingId = listingService.save(listing);
+                Listing lst = listingService.getByListingID(listingId);
 
-                message = "Listing Uploaded Successfully";
-                model.addAttribute("message", message);
-                //stream.close();
-
-                // Listing l = new Listing(name, description, price, category, file );
-                // ld.create(l);
-                // Check for saved searches
-                ArrayList<SavedSearch> allSavedSearches = (ArrayList<SavedSearch>) savedSearchService
-                        .getAllSavedSearches();
-
-                System.out.println("Saved Search size: " + allSavedSearches.size());
-
-                if (allSavedSearches != null) {
-                    for (int i = 0; i < allSavedSearches.size(); i++) {
-                        if (description.toLowerCase().contains(allSavedSearches.get(i).getSearch().toLowerCase())
-                                || name.toLowerCase().contains(allSavedSearches.get(i).getSearch().toLowerCase())) {
-                            if (allSavedSearches.get(i).getUser().getUserID() != u.getUserID()) {
-                                notificationService.save(new Notification(
-                                        userService.getUserById(allSavedSearches.get(i).getUser().getUserID()),
-                                        listing.getId(), "New Listing Posted",
-                                        u.getUsername() + " has posting a listing\n\n pertaining to "
-                                                + allSavedSearches.get(i).getSearch() + ".",
-                                        1));
+                String directory = System.getProperty("user.home");
+                for (int i = 0; i < file.size(); i++) {
+                    String fileType = FilenameUtils.getExtension(file.get(i).getOriginalFilename());
+                    String fileName = FilenameUtils.getBaseName(file.get(i).getOriginalFilename());
+                    if (fileType.equals("jpg") || fileType.equals("png") || fileType.equals("jpeg")) {
+                        Image imgImport = new Image();
+                        try {
+                            byte[] bytes = file.get(i).getBytes();
+                            System.out.println("File Directory:   " + System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId);
+                            File dir = new File(System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId);
+                            if (!dir.exists())
+                                dir.mkdirs();
+                            System.out.println("Image Path:     " + "ulistitUsers" + "/" + u.getUserID() + "@" + u.getSchoolEmail() + "/" + "listings" + "/" + listingId);
+                            imgImport.setImage_path("ulistitUsers" + "/" + u.getUserID() + "@" + u.getSchoolEmail() + "/" + "listings" + "/" + listingId);
+                            imgImport.setListing(lst);
+                            imgImport.setImage_name(fileName + "." + fileType);
+                            if (i == 0)
+                                imgImport.setMain(1);
+                            imageService.save(imgImport);
+                            System.out.println("Full File path:     " + System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId + File.separator + file.get(i).getOriginalFilename());
+                            File serverFile = new File(System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId + File.separator + file.get(i).getOriginalFilename());
+                            try {
+                                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+                                stream.write(bytes);
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
                             }
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
-
+            } catch(Exception e){
+            e.printStackTrace();
                 return "listing/create-listing";
-            } catch (Exception e) {
-                e.printStackTrace();
-                return "You failed to upload " + name + " => " + e.getMessage();
             }
+            message = "Listing Uploaded Successfully";
+            model.addAttribute("message", message);
 
+
+            ArrayList<SavedSearch> allSavedSearches = (ArrayList<SavedSearch>) savedSearchService
+                    .getAllSavedSearches();
+
+            System.out.println("Saved Search size: " + allSavedSearches.size());
+
+            if (allSavedSearches != null) {
+                for (int i = 0; i < allSavedSearches.size(); i++) {
+                    if (description.toLowerCase().contains(allSavedSearches.get(i).getSearch().toLowerCase())
+                            || name.toLowerCase().contains(allSavedSearches.get(i).getSearch().toLowerCase())) {
+                        if (allSavedSearches.get(i).getUser().getUserID() != u.getUserID()) {
+                            notificationService.save(new Notification(
+                                    userService.getUserById(allSavedSearches.get(i).getUser().getUserID()),
+                                    listing.getId(), "New Listing Posted",
+                                    u.getUsername() + " has posting a listing\n\n pertaining to "
+                                            + allSavedSearches.get(i).getSearch() + ".",
+                                    1));
+                        }
+                    }
+                }
+            }
+            return "redirect:/";
         } else {
             return "You failed to upload " + name + " because the file was empty.";
         }
