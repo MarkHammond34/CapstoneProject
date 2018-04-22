@@ -112,6 +112,11 @@ public class LoginController extends BaseController {
 		return "emailReset";
 	}
 
+	@GetMapping("/banAppeal")
+	public String banAppeal() {
+		return "banAppeal";
+	}
+
 	@GetMapping("/email")
 	public String email() {
 		return "email";

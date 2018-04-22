@@ -1,7 +1,7 @@
 <%@include file="header.jsp"%>
 <%@include file="tutorialModal.jsp"%>
 <div
-        class="uk-card-footer uk-background-secondary uk-light uk-text-center uk-text-small">
+        class="uk-card-footer uk-background-secondary uk-light uk-text-center uk-text-small" hidden>
     <p>
         New to UListIt? See our<a
             href="${pageContext.request.contextPath}/freshmanChecklist"

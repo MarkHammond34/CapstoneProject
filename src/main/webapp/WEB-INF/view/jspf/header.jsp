@@ -798,7 +798,7 @@
         .date-as-calendar.size2x {
             font-size: 32px;
         }
-
+ 
         .date-as-calendar.size3x {
             font-size: 48px;
         }</style>
