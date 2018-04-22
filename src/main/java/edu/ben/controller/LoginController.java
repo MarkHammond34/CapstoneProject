@@ -131,13 +131,11 @@ public class LoginController extends BaseController {
 	}
 
 	@RequestMapping(value="loginValidEmail", method= RequestMethod.POST, produces="application/json")
-	public @ResponseBody
-	boolean loginValidEmail(HttpServletRequest request, @RequestParam("email") String email){
-		User usr = null;
-		usr =userService.findBySchoolEmail(email);
-		System.out.println(usr);
-		if(usr != null)
+	public @ResponseBody boolean loginValidEmail(HttpServletRequest request, @RequestParam("email") String email){
+		User usr = userService.findBySchoolEmail(email);
+		if(usr != null) {
 			return true;
+		}
 		return false;
 	}
 

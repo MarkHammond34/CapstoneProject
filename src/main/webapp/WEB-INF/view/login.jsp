@@ -8,25 +8,28 @@
 
 <div class="uk-grid uk-margin-large-bottom" uk-grid>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#emailInput').keyup(function () {
                 $.ajax({
                     url: 'loginValidEmail',
                     type: 'POST',
                     data: 'email=' + $(this).val(),
-                    success: function () {
-                        $("#messageShow").attr('class', 'uk-alert-success');
-                        $("#loginMessage").html("Email is valid");
-                        $("#messageShow").show();
-                        $("#passwordInput").prop("disabled", false);
-                        $("#loginSubmit").prop("disabled", false);
-                    },
-                    error: function () {
-                        $("#messageShow").attr('class', 'uk-alert-danger');
-                        $("#loginMessage").html("We have no account associate with that email");
-                        $("#messageShow").show()
-                        $("#passwordInput").prop("disabled", true);
-                        $("#loginSubmit").prop("disabled", true);
+                    success: function (valid) {
+                        if(valid == false){
+                            $("#messageShow").attr('class', 'uk-alert-danger');
+                            $("#loginMessage").html("We have no account associate with that email");
+                            $("#messageShow").show()
+                            $("#passwordInput").prop("disabled",true);
+                            $("#loginSubmit").prop("disabled",true);
+                        }
+                        else{
+                            console.log(valid);
+                            $("#messageShow").attr('class', 'uk-alert-success');
+                            $("#loginMessage").html("Email is valid");
+                            $("#messageShow").show();
+                            $("#passwordInput").prop("disabled",false);
+                            $("#loginSubmit").prop("disabled",false);
+                        }
                     }
                 });
             });
@@ -54,8 +57,7 @@
 
                 </div>
                 <div class="uk-width-1-1 uk-margin-small">
-                    <button id="loginSubmit" type="submit"
-                            class="uk-button uk-button-primary uk-border-rounded uk-float-right">Login
+                    <button id="loginSubmit" type="submit" class="uk-button uk-button-primary uk-border-rounded uk-float-right">Login
                     </button>
                     <br>
                     <br>
@@ -63,14 +65,11 @@
                         <a href="${pageContext.request.contextPath}/resetPage" class="uk-link-text uk-float-left">Forgot
                             Password</a>
                         <a href="${pageContext.request.contextPath}/unlock"
-                           class="uk-link-text uk-float-right">Unlock Account</a>
-                        <br>
-                        <a href="${pageContext.request.contextPath}/banAppeal" class="uk-link-text uk-float-right">User Ban Appeal</a>
+                           class="uk-link-text uk-float-right">Unlock</a>
+                    </span>
                 </div>
             </form>
-
         </div>
-
     </div>
 </div>
 </body>
