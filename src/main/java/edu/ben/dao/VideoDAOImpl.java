@@ -47,6 +47,6 @@ public class VideoDAOImpl implements VideoDAO  {
     public Video getNewestVideo() {
         Query q = getSession().createQuery("FROM video order by date_created desc");
 
-        return (Video) q.list().get(0);
+        return (Video) q.uniqueResult();
     }
 }

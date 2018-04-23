@@ -47,6 +47,9 @@ public class AdminController extends BaseController {
     FaqService faqService;
 
     @Autowired
+    NewsService newsService;
+
+    @Autowired
     CategoryService categoryService;
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
@@ -1062,4 +1065,47 @@ public class AdminController extends BaseController {
 
     }
 
+
+    @RequestMapping(value = "updateArticleType", method = RequestMethod.GET)
+    public String updateType(HttpServletRequest request, @RequestParam("displayType") String type, @RequestParam("id") int id) {
+
+        News news = newsService.getArticleByID(id);
+        news.setDisplayType(type);
+        newsService.saveOrUpdate(news);
+
+        return "redirect:" + request.getHeader("Referer");
+    }
+
+    @RequestMapping(value = "articleStatus", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody
+    String getArticleStatus(HttpServletRequest request) {
+        ArrayList<News> news = (ArrayList<News>) newsService.getAllArticles();
+
+        JsonArray newsArticles = new JsonArray();
+        System.out.println("JSON News Articles: " + newsArticles.size());
+
+        convertNewsToJson(news, newsArticles);
+
+        request.setAttribute("newsArticles", newsArticles);
+
+
+        return "events-news";
+    }
+
+    public void convertNewsToJson(ArrayList<News> news, JsonArray results) {
+        for (int i = 0; i < news.size(); i++) {
+            JsonObject json = new JsonObject();
+
+            json.addProperty("newsID", String.valueOf(news.get(i).getNewsID()));
+            json.addProperty("title", String.valueOf(news.get(i).getTitle()));
+            json.addProperty("description", String.valueOf(news.get(i).getDescription()));
+            json.addProperty("displayType", String.valueOf(news.get(i).getDisplayType()));
+            json.addProperty("date", String.valueOf(news.get(i).getDateCreated()));
+
+            results.add(json);
+
+
+
+        }
+    }
 }

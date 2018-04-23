@@ -1,140 +1,104 @@
 <%@include file="admin-header.jsp" %>
 
-<body class="uk-background-muted">
+<body onload="loadArticles(${allNewsArticles})">
 
 <%@include file="admin-navbar.jsp" %>
 
 <%@include file="../jspf/messages.jsp" %>
 
+
 <div class="uk-container">
-    <div uk-grid>
-        <div class="uk-card uk-width-1-3@m">
-            <div class="uk-card-body">
-                <legend class="uk-legend uk-text-primary uk-text-bold">Events</legend>
-                <form method="POST" action="createEvent"
-                      enctype="multipart/form-data">
-                    <fieldset class="uk-fieldset">
 
-                        <strong>Event Title</strong> <input class="uk-input" name="title"
-                                                            type="text"
-                                                            placeholder="Title">
-                        <br>
-                        <br>
-                        <strong>Choose A Location</strong><select class="uk-select"
-                                                                  name="location">
-                        <option value="birck">Birck Hall of Science</option>
-                        <option value="field">Football/Soccer Field</option>
-                        <option value="goodwin">Goodwin Hall of Business</option>
-                        <option value="krasa">Krasa Student Center</option>
-                        <option value="rice">Rice Center</option>
-                        <option value="abbey">St. Precopious Abbey</option>
-                        <option value="scholl">Scholl Hall</option>
-                    </select>
-                        <br>
-                        <br>
-                        <div id="dateStart">
-                            <strong>Start Date</strong><input type="datetime-local"
-                                                              class="uk-input" id="startDate"
-                                                              name="startDate"
-                                                              placeholder="End Date">
-                        </div>
-                        <br>
-                        <div id="dateEnd">
-                            <strong>End Date</strong><input type="datetime-local"
-                                                            class="uk-input" id="endDate"
-                                                            name="endDate"
-                                                            placeholder="End Date">
-                        </div>
-                        <br>
-                        <strong>Give a Description</strong>
-                        <div class="uk-margin">
-									<textarea class="uk-textarea" name="description" rows="5"
-                                              placeholder="Textarea"></textarea>
-                        </div>
-                        <br>
-                        <button type="submit"
-                                class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Create Event
-                        </button>
+    <h1 class="uk-heading-line uk-text-center"><span>Admin Community Page</span></h1>
+    <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+        <li><a href="#">Create</a></li>
+        <li><a href="#">Manage</a></li>
+    </ul>
 
+    <ul class="uk-switcher uk-margin">
 
-                    </fieldset>
-                </form>
+        <li>
+            <%@include file="create-news-events-videos.jsp" %>
+        </li>
+        <li>
+            <div uk-grid>
+                <div class="uk-width-2-3">
+                    <%@include file="manage-news-events-videos.jsp" %>
+                </div>
+                <div class="uk-width-1-3">
+                    <div class="uk-section-default uk-padding">
+                        <div class="uk-container">
+                            <h3>Community Page Outline</h3>
+                            <hr>
+                            <img src="${pageContext.request.contextPath}/resources/img/news/news_outline.png">
+                        </div>
+                    </div>
+                </div>
             </div>
-
-        </div>
-        <div class="uk-card uk-width-1-3@m">
-            <div class="uk-card-body">
-                <form method="POST" action="uploadNews"
-                      enctype="multipart/form-data">
-                    <fieldset class="uk-fieldset">
-
-                        <legend class="uk-legend uk-text-primary uk-text-bold">News</legend>
-
-                        <strong>News Article Title</strong>
-                        <div class="uk-margin">
-                            <input class="uk-input" name="title" type="text" placeholder="Title">
-                        </div>
-                        <br>
-
-                        <strong>Upload News Article:</strong> <input id="doc"
-                                                                     type="file" name="doc"> <span
-                            class="val_error"
-                            id="image_error"></span>
-
-                        <br>
-                        <strong>Upload News Article Image:</strong> <input id="image"
-                                                                           type="file" name="image"> <span
-                            class="val_error"
-                            id="image_error2"></span>
-                        <br>
-
-                        <strong>Description: </strong>
-                        <div class="uk-margin">
-									<textarea class="uk-textarea" name="description" rows="5"
-                                              placeholder="Textarea"></textarea>
-                        </div>
-
-                        <br>
-                        <button type="submit"
-                                class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Create News
-                        </button>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-        <div class="uk-card uk-width-1-3@m">
-            <div class="uk-card-body">
-                <form method="POST" action="uploadVideo"
-                      enctype="multipart/form-data">
-                    <fieldset class="uk-fieldset">
-
-                        <legend class="uk-legend uk-text-primary uk-text-bold">Video</legend>
-
-                        <strong>Video Title</strong>
-                        <div class="uk-margin">
-                            <input class="uk-input" name="videoTitle" type="text" placeholder="Title">
-                        </div>
-                        <br>
-
-                        <strong>Youtube URL: </strong>
-                        <div class="uk-margin">
-									<textarea class="uk-textarea" name="video" rows="5"
-                                              placeholder="Textarea"></textarea>
-                        </div>
-
-                        <br>
-                        <button type="submit"
-                                class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Upload Video
-                        </button>
-
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
+        </li>
+    </ul>
 </div>
+
+<script type="text/javascript">
+    var selected = [];
+
+    $('select').change(function () {
+
+
+        console.log("Hit Onload");
+
+        var value = $(this).val();
+
+        console.log("This: " + $(this));
+
+        $(".uk-margin").find('select').children('option').each(function () {
+            console.log("This value: " + $(this).val());
+            console.log("Value: " + value);
+
+
+            if ($(this).val() === value && $(this).val() != "none") {
+                selected.push($(this).value);
+
+                $(this).attr('disabled', true);
+                console.log("Push Size: " + selected.length);
+
+                for (var i = 0; i < selected.length; i++) {
+                    if (selected[i] === "main1") {
+
+                    } else if (selected[i] === "main2") {
+
+                    } else if (selected[i] === "main3") {
+
+                    }
+                    $(this).siblings().removeAttr('disabled');
+                }
+
+            }
+        });
+
+    });
+
+
+    function handleChangeMain(currentArticleValue, currentArticleID) {
+        console.log("Hit Servlet")
+
+
+    }
+
+    function loadArticles(allArticles) {
+        console.log("Hit Onload");
+        console.log("Articles" + allArticles.size);
+
+        for (var i = 0; i < allArticles.length(); i++) {
+            console.log("display Type: " + allArticles.get(i).displayType);
+        }
+
+
+
+
+    }
+</script>
+
 
 </body>
 </html>

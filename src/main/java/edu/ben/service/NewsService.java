@@ -11,5 +11,7 @@ public interface NewsService {
 
 	public void create(News news);
 
+	public News getArticleByID(int id);
+
 	public List getAllArticles();
 }

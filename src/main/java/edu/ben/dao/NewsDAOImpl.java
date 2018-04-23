@@ -42,6 +42,14 @@ public class NewsDAOImpl implements NewsDAO {
 	}
 
 	@Override
+	public News getArticleByID(int id) {
+		Query q = getSession().createQuery("FROM news WHERE newsID=:id");
+		q.setParameter("id", id);
+
+		return (News) q.uniqueResult();
+	}
+
+	@Override
 	public List getAllArticles() {
 		Query q = getSession().createQuery("FROM news");
 

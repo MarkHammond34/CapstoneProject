@@ -343,7 +343,6 @@
 </div>
 
 <script type="text/javascript">
-    console.log("Hello World");
 
     function checkTask(taskID) {
         console.log("Hit Function");
