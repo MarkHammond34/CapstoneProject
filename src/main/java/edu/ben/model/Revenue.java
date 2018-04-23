@@ -1,10 +1,13 @@
 package edu.ben.model;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Table(name = "revenue")
 @Entity(name = "revenue")
+@Transactional
 public class Revenue {
 
     @Id
@@ -15,11 +18,11 @@ public class Revenue {
     @Column(name = "transaction_price")
     private int transactionPrice;
 
-    @Column(name="date")
-    private Timestamp date;
+    @Column(name = "transaction_date")
+    private Timestamp transactionDate;
+
 
     public Revenue() {
-
     }
 
     public int getRevenueID() {
@@ -38,11 +41,11 @@ public class Revenue {
         this.transactionPrice = transactionPrice;
     }
 
-    public Timestamp getDate() {
-        return date;
+    public Timestamp getTransactionDate() {
+        return transactionDate;
     }
 
-    public void setDate(Timestamp date) {
-        this.date = date;
+    public void setTransactionDate(Timestamp transactionDate) {
+        this.transactionDate = transactionDate;
     }
 }

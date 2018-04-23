@@ -21,11 +21,6 @@ public class RevenueDAOImpl implements RevenueDAO {
     }
 
     @Override
-    public long getHourlyRevenue(int hour) {
-        return 0;
-    }
-
-    @Override
     public long getDailyRevenue(int hour, String date) {
         try {
             Query q = getSession().createQuery("SELECT SUM(transactionPrice) AS transactionPrice FROM revenue WHERE DATE_FORMAT(transactionDate, '%Y-%M-%d') = '"+ date +"' and  DATE_FORMAT(transactionDate, '%H') = " + hour + " GROUP BY DATE_FORMAT(transactionDate, '%Y-%M-%d')");
@@ -38,11 +33,9 @@ public class RevenueDAOImpl implements RevenueDAO {
 
     // done
     @Override
-    public long getWeeklyRevenue(int date) {
-
+    public long getWeeklyRevenue(String date) {
         try {
-            Query q = getSession().createQuery("Select sum(rev.transactionPrice) FROM revenue rev WHERE DAY(transactionDate) = DAY(:date)");
-            q.setParameter("date", date);
+            Query q = getSession().createQuery("SELECT SUM(transactionPrice) as transactionPrice FROM revenue WHERE DATE_FORMAT(transactionDate, '%Y-%M-%d') = '"+ date +"'");
             return (long) q.uniqueResult();
 
         } catch (NullPointerException e) {
@@ -65,12 +58,18 @@ public class RevenueDAOImpl implements RevenueDAO {
     }
 
     @Override
-    public Integer getYearlyRevenue(Integer date) {
-        return 0;
+    public long getYearlyRevenue(String date) {
+        try {
+            Query q = getSession().createQuery("SELECT SUM(transactionPrice) as transactionPrice FROM revenue WHERE DATE_FORMAT(transactionDate, \'%Y\') = '" + date + "' GROUP BY DATE_FORMAT(transactionDate, \'%Y\')");
+
+            return (long) q.uniqueResult();
+        } catch (NullPointerException e) {
+            return 0;
+        }
     }
 
     @Override
-    public Integer getTotalRevenue() {
+    public long getTotalRevenue() {
         return 0;
     }
 }

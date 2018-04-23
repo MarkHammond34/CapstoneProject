@@ -70,8 +70,6 @@ public class HomeController extends BaseController {
 
 		User user = (User) request.getSession().getAttribute("user");
 
-		int price = revenueService.getHourlyRevenue(17);
-		System.out.println(price);
 
 	ListingRunner.run();
 	/*ListingRunner.run();*/

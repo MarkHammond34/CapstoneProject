@@ -1,6 +1,6 @@
 <%@include file="admin-header.jsp" %>
 
-<body>
+<body onload="loadGraphs(${salesPerWeek}, ${salesPerHour}, ${salesPerMonth}, ${lastWeekSalesPerWeek}, ${lastWeekSalesPerHour}, ${lastMonthlySales}, ${yearlySale})">
 
 <%@include file="admin-navbar.jsp" %>
 
@@ -72,19 +72,23 @@
                     <div>
                         <ul class="uk-subnav uk-subnav-pill"
                             uk-switcher="animation: uk-animation-slide-left-medium, uk-animation-slide-right-medium">
+                            <li><a href="#">Yearly</a></li>
                             <li><a href="#">Monthy</a></li>
-                            <li><a href="#">Weekly</a></li>
                             <li><a href="#">Daily</a></li>
+                            <li><a href="#">Hourly</a></li>
                         </ul>
                         <ul class="uk-switcher uk-margin">
                             <li>
-                                <canvas id="months" width="300" height="200"></canvas>
+                                <canvas id="yearly" width="300" height="200"></canvas>
                             </li>
                             <li>
-                                <canvas id="weeks" width="300" height="200"></canvas>
+                                <canvas id="monthly" width="300" height="200"></canvas>
                             </li>
                             <li>
-                                <canvas id="day" width="300" height="200"></canvas>
+                                <canvas id="daily" width="300" height="200"></canvas>
+                            </li>
+                            <li>
+                                <canvas id="hourly" width="300" height="200"></canvas>
                             </li>
                         </ul>
                     </div>
@@ -382,138 +386,171 @@
     </div>
 </div>
 <script>
-    new Chart(document.getElementById("months"), {
-        type: 'line',
-        data: {
-            labels: ["Jenuary", "February", "March", "April", "May", "June", " July", "August", "September", "October", "November", "December"],
-            datasets: [{
-                data: [86, 114, 106, 106, 107, 111, 133, 221, 783, 2478, 3432, 2321],
-                label: "This Year",
-                borderColor: "#08AEEA",
-                fill: false
-            }, {
-                data: [282, 350, 411, 502, 635, 809, 947, 1402, 3700, 5267, 2324, 5321],
-                label: "Last Year",
-                borderColor: "#2AF598",
-                fill: false
-            }
-            ]
-        },
-        options: {
-            title: {
-                display: true,
-                text: 'Timeframe (Monthly)'
-            }
-        }
-    });
 
-    new Chart(document.getElementById("weeks"), {
-        type: 'line',
-        data: {
-            labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", " Saturday"],
-            datasets: [{
-                data: [86, 114, 106, 106, 107, 111, 133],
-                label: "This Week",
-                borderColor: "#08AEEA",
-                fill: false
-            }, {
-                data: [282, 350, 411, 502, 635, 809, 947],
-                label: "Last Week",
-                borderColor: "#2AF598",
-                fill: false
-            }
-            ]
-        },
-        options: {
-            title: {
-                display: true,
-                text: 'Timeframe (Daily)'
-            }
-        }
-    });
+    function loadGraphs(salesPerWeek, salesPerHour, salesPerMonth, salesPerWeekLastWeek, lastWeekSalesPerHour, lastMontlySales, yearlySale) {
+        var week = salesPerWeek;
+        var lastWeek = salesPerWeekLastWeek;
+        var hour = salesPerHour;
+        var lastHour = lastWeekSalesPerHour;
+        var month = salesPerMonth;
+        var lastMonth = lastMontlySales;
+        var year = yearlySale;
 
-    new Chart(document.getElementById("day"), {
-        type: 'line',
-        data: {
-            labels: ["1AM", "2AM", "3AM", "4AM", "5AM", "6AM", " 7AM", "8AM", "9AM", "10AM", "11AM", "12AM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", " 7PM", "8PM", "9PM", "10PM", "11PM", "12PM"],
-            datasets: [{
-                data: [86, 114, 106, 106, 107, 111, 133, 221, 783, 2478, 3432, 2321, 86, 114, 106, 106, 107, 111, 133, 221, 783, 2478, 3432, 2321],
-                label: "Today",
-                borderColor: "#08AEEA",
-                fill: false
-            }, {
-                data: [282, 350, 411, 502, 635, 809, 947, 1402, 3700, 5267, 2324, 5321, 282, 350, 411, 502, 635, 809, 947, 1402, 3700, 5267, 2324, 5321],
-                label: "This Day Last Week",
-                borderColor: "#2AF598",
-                fill: false
+        new Chart(document.getElementById("yearly"), {
+            type: 'line',
+            data: {
+                labels: ["2017", "2018", "2019",],
+                datasets: [{
+                    data: [year[0], year[1], 0],
+                    label: "2018",
+                    borderColor: "#2AF598",
+                    fill: false
+                },
+                ]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Timeframe (Yearly)'
+                }
             }
-            ]
-        },
-        options: {
-            title: {
-                display: true,
-                text: 'Timeframe (Today)'
-            }
-        }
-    });
+        });
 
-    new Chart(document.getElementById("monthSite"), {
-        type: 'doughnut',
-        data: {
-            labels: ["Home Page", "Community Page", "Profile Page", "About us"],
-            datasets: [
-                {
-                    label: "Population (millions)",
-                    backgroundColor: ["#B721FF", "#F3FF21", "#38FF21", "#FF0000"],
-                    data: [2478, 5267, 734, 784]
+
+        new Chart(document.getElementById("monthly"), {
+            type: 'line',
+            data: {
+                labels: ["Jenuary", "February", "March", "April", "May", "June", " July", "August", "September", "October", "November", "December"],
+                datasets: [{
+                    data: [month[0], month[1], month[2], month[3], month[4], month[5], month[6], month[7], month[8], month[9], month[10], month[11]],
+                    label: "2018",
+                    borderColor: "#2AF598",
+                    fill: false
+                } , {
+                    data: [lastMonth[0], lastMonth[1], lastMonth[2], lastMonth[3], lastMonth[4], lastMonth[5], lastMonth[6], lastMonth[7], lastMonth[8], lastMonth[9], lastMonth[10], lastMonth[11]],
+                    label: "2017",
+                    borderColor: "#08AEEA",
+                    fill: false
                 }
-            ]
-        },
-        options: {
-            title: {
-                display: true,
-                text: 'Timeframe(This Year)'
-            }
-        }
-    });
-    new Chart(document.getElementById("weeksSite"), {
-        type: 'doughnut',
-        data: {
-            labels: ["Home Page", "Community Page", "Profile Page", "About us"],
-            datasets: [
-                {
-                    label: "Population (millions)",
-                    backgroundColor: ["#B721FF", "#F3FF21", "#38FF21", "#FF0000"],
-                    data: [1278, 3267, 534, 284]
+                ]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Timeframe (Monthly)'
                 }
-            ]
-        },
-        options: {
-            title: {
-                display: true,
-                text: 'Timeframe(This Week)'
             }
-        }
-    });
-    new Chart(document.getElementById("daySite"), {
-        type: 'doughnut',
-        data: {
-            labels: ["Home Page", "Community Page", "Profile Page", "About us"],
-            datasets: [
-                {
-                    label: "Population (millions)",
-                    backgroundColor: ["#B721FF", "#F3FF21", "#38FF21", "#FF0000"],
-                    data: [690, 1432, 200, 205]
+        });
+
+        new Chart(document.getElementById("daily"), {
+            type: 'line',
+            data: {
+                labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", " Saturday"],
+                datasets: [{
+                    data: [week[0], week[1], week[2], week[3], week[4], week[5], week[6]],
+                    label: "This Week",
+                    borderColor: "#2AF598",
+                    fill: false
+                },
+                    {
+                        data: [lastWeek[0], lastWeek[1], lastWeek[2], lastWeek[3], lastWeek[4], lastWeek[5], lastWeek[6]],
+                        label: "Last Week",
+                        borderColor: "#08AEEA",
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Timeframe (Daily)'
                 }
-            ]
-        },
-        options: {
-            title: {
-                display: true,
-                text: 'Timeframe(Today)'
             }
-        }
-    });
+        });
+
+        new Chart(document.getElementById("hourly"), {
+            type: 'line',
+            data: {
+                labels: ["1AM", "2AM", "3AM", "4AM", "5AM", "6AM", " 7AM", "8AM", "9AM", "10AM", "11AM", "12AM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", " 7PM", "8PM", "9PM", "10PM", "11PM", "12PM"],
+                datasets: [{
+                    data: [hour[0], hour[1], hour[2], hour[3], hour[4], hour[5], hour[6], hour[7], hour[8], hour[9], hour[10], hour[11], hour[12], hour[13], hour[14], hour[15], hour[16], hour[17], hour[18], hour[19], hour[20], hour[21], hour[22], hour[23]],
+                    label: "Today",
+                    borderColor: "#2AF598",
+                    fill: false
+                } , {
+                    data: [lastHour[0], lastHour[1], lastHour[2], lastHour[3], lastHour[4], lastHour[5], lastHour[6], lastHour[7], lastHour[8], lastHour[9], lastHour[10], lastHour[11], lastHour[12], lastHour[13], lastHour[14], lastHour[15], lastHour[16], lastHour[17], lastHour[18], lastHour[19], lastHour[20], lastHour[21], lastHour[22], lastHour[23]],
+                    label: "Last Week",
+                    borderColor: "#08AEEA",
+                    fill: false
+                }
+                ]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Timeframe (Today)'
+                }
+            }
+        });
+
+        new Chart(document.getElementById("monthSite"), {
+            type: 'doughnut',
+            data: {
+                labels: ["Home Page", "Community Page", "Profile Page", "About us"],
+                datasets: [
+                    {
+                        label: "Population (millions)",
+                        backgroundColor: ["#B721FF", "#F3FF21", "#38FF21", "#FF0000"],
+                        data: [2478, 5267, 734, 784]
+                    }
+                ]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Timeframe(This Year)'
+                }
+            }
+        });
+        new Chart(document.getElementById("weeksSite"), {
+            type: 'doughnut',
+            data: {
+                labels: ["Home Page", "Community Page", "Profile Page", "About us"],
+                datasets: [
+                    {
+                        label: "Population (millions)",
+                        backgroundColor: ["#B721FF", "#F3FF21", "#38FF21", "#FF0000"],
+                        data: [1278, 3267, 534, 284]
+                    }
+                ]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Timeframe(This Week)'
+                }
+            }
+        });
+        new Chart(document.getElementById("daySite"), {
+            type: 'doughnut',
+            data: {
+                labels: ["Home Page", "Community Page", "Profile Page", "About us"],
+                datasets: [
+                    {
+                        label: "Population (millions)",
+                        backgroundColor: ["#B721FF", "#F3FF21", "#38FF21", "#FF0000"],
+                        data: [690, 1432, 200, 205]
+                    }
+                ]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Timeframe(Today)'
+                }
+            }
+        });
+    }
 
     function checkTask(taskID) {
         console.log("Hit Function");
