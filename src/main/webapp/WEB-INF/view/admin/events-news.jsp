@@ -1,6 +1,6 @@
 <%@include file="admin-header.jsp" %>
 
-<body onload="loadArticles(${allNewsArticles})">
+<body onload="loadArticles()">
 
 <%@include file="admin-navbar.jsp" %>
 
@@ -44,7 +44,6 @@
 
     $('select').change(function () {
 
-
         console.log("Hit Onload");
 
         var value = $(this).val();
@@ -86,11 +85,18 @@
     }
 
     function loadArticles(allArticles) {
-        console.log("Hit Onload");
-        console.log("Articles" + allArticles.size);
+        var articles = allArticles;
 
-        for (var i = 0; i < allArticles.length(); i++) {
-            console.log("display Type: " + allArticles.get(i).displayType);
+        var jsonArray = ${requestScope.newsArticlesJson};
+
+        for (var key in jsonArray) {
+           if (jsonArray[key].displayType  == 'main1') {
+               console.log("Article = main1");
+           }
+
+
+
+
         }
 
 
