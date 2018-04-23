@@ -28,6 +28,8 @@ public interface UserService {
 
 	public User findBySchoolEmail(String email);
 
+	public User findByUsername(String username);
+
 	public void update(User user);
 
 	public void updateAttemptedLogins(int loginAttempts, User user);

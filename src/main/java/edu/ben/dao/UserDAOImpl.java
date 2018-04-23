@@ -88,15 +88,24 @@ public class UserDAOImpl implements UserDAO {
     public void unlockBySchoolEmail(String email) {
     }
 
+    @Override
     public User findByEmail(String email) {
         Query q = getSession().createQuery("FROM user WHERE email=:email");
         q.setParameter("email", email);
         return (User) q.uniqueResult();
     }
 
+    @Override
     public User findBySchoolEmail(String email) {
         Query q = getSession().createQuery("FROM user WHERE school_email=:email");
         q.setParameter("email", email);
+        return (User) q.uniqueResult();
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        Query q = getSession().createQuery("FROM user WHERE username=:username");
+        q.setParameter("username", username);
         return (User) q.uniqueResult();
     }
 

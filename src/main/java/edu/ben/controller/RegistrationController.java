@@ -1,11 +1,13 @@
 package edu.ben.controller;
 
+import java.io.File;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import edu.ben.model.Image;
 import edu.ben.model.Tutorial;
 import edu.ben.service.ImageService;
 import edu.ben.service.TutorialService;
@@ -15,8 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import edu.ben.model.User;
 import edu.ben.service.UserService;
@@ -67,7 +68,13 @@ public class RegistrationController extends BaseController {
                     int id = userService.create(user);
                     user.setUserID(id);
 
-                    // Set the tutorial
+                    //Create default Profile Image
+					String imagePath = System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + "default";
+					Image profileImg = new Image(user, imagePath, "default.png", 1);
+
+					imageService.save(profileImg);
+
+					// Set the tutorial
                     tutorialService.save(new Tutorial(user));
 
                     user = userService.getUserById(id);
@@ -85,6 +92,33 @@ public class RegistrationController extends BaseController {
             return "registration/registration";
         }
     }
+
+	@RequestMapping(value="registerValidUsername", method= RequestMethod.POST, produces="application/json")
+	public @ResponseBody boolean registerValidUsername(HttpServletRequest request, @RequestParam("username") String username){
+		User usr = userService.findByUsername(username);
+		if(usr != null) {
+			return true;
+		}
+		return false;
+	}
+
+	@RequestMapping(value="registerValidSchoolEmail", method= RequestMethod.POST, produces="application/json")
+	public @ResponseBody boolean registerValidSchoolEmail(HttpServletRequest request, @RequestParam("email") String email){
+		User usr = userService.findBySchoolEmail(email);
+		if(usr != null) {
+			return true;
+		}
+		return false;
+	}
+
+	@RequestMapping(value="registerValidPersonalEmail", method= RequestMethod.POST, produces="application/json")
+	public @ResponseBody boolean registerValidPersonalEmail(HttpServletRequest request, @RequestParam("email") String email){
+		User usr = userService.findByEmail(email);
+		if(usr != null) {
+			return true;
+		}
+		return false;
+	}
 
     @GetMapping("/register")
     public String register(HttpServletRequest m) {

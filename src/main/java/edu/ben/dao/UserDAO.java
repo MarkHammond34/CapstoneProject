@@ -30,6 +30,8 @@ public interface UserDAO {
 
     public User findBySchoolEmail(String email);
 
+    public User findByUsername(String username);
+
     public void update(User user);
     
     public void updateSellerRating(int sellerRating, String email);

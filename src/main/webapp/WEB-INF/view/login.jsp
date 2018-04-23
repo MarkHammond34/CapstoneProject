@@ -16,19 +16,24 @@
                     data: 'email=' + $(this).val(),
                     success: function (valid) {
                         if(valid == false){
-                            $("#messageShow").attr('class', 'uk-alert-danger');
+                            //$("#messageShow").attr('class', 'uk-alert-danger');
                             $("#loginMessage").html("We have no account associate with that email");
-                            $("#messageShow").show()
+                           // $("#messageShow").show()
                             $("#passwordInput").prop("disabled",true);
                             $("#loginSubmit").prop("disabled",true);
+                            $("#emailInput").removeClass("uk-form-success").addClass("uk-form-danger")
+                            $('#emailInput').attr('uk-tooltip', 'We have no account associate with that email');
+
                         }
                         else{
                             console.log(valid);
-                            $("#messageShow").attr('class', 'uk-alert-success');
+                           // $("#messageShow").attr('class', 'uk-alert-success');
                             $("#loginMessage").html("Email is valid");
-                            $("#messageShow").show();
+                            //$("#messageShow").show();
                             $("#passwordInput").prop("disabled",false);
                             $("#loginSubmit").prop("disabled",false);
+                            $("#emailInput").removeClass("uk-form-danger").addClass("uk-form-success")
+                            $('#emailInput').attr('uk-tooltip', 'Email is valid');
                         }
                     }
                 });

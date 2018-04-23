@@ -3,14 +3,16 @@ package edu.ben.service;
 import edu.ben.dao.UserDAO;
 import edu.ben.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collection;
 import java.util.List;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService{
 
 	UserDAO userDAO;
 
@@ -76,6 +78,11 @@ public class UserServiceImpl implements UserService {
 		} catch (IndexOutOfBoundsException e) {
 			return null;
 		}
+	}
+
+	@Override
+	public User findByUsername(String username) {
+		return userDAO.findByUsername(username);
 	}
 
 	@Override
