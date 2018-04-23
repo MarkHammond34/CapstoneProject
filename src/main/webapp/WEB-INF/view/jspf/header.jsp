@@ -56,12 +56,6 @@
     <link href="${introjsNassimCSS}" rel="stylesheet"/>
     <spring:url value="resources/css/introjs-rtl.css" var="introjsRtlCSS"/>
 
-    <!-- Notification JS & CSS -->
-    <spring:url value="resources/css/notification.css" var="notCSS"/>
-    <link href="${notCSS}" rel="stylesheet"/>
-    <spring:url value="resources/js/notification.js" var="notJS"/>
-    <script type="text/javascript" src="${notJS}"></script>
-
     <!-- Fontawesome -->
     <spring:url value="resources/js/fontawesome-all.js" var="fontAwesomeJS"/>
     <script defer src="${fontAwesomeJS}"></script>
@@ -73,6 +67,9 @@
     <spring:url value="resources/css/main.css" var="mainCSS"/>
     <spring:url value="resources/css/index-listing.css" var="indexListingCSS"/>
     <spring:url value="resources/css/registration.css" var="regCSS"/>
+
+    <spring:url value="resources/css/notification.css" var="notCSS"/>
+    <spring:url value="resources/js/notification.js" var="notJS"/>
 
 
     <title>${title}</title>
@@ -798,11 +795,16 @@
         .date-as-calendar.size2x {
             font-size: 32px;
         }
- 
+
         .date-as-calendar.size3x {
             font-size: 48px;
         }</style>
+
+    <!-- Notification JS & CSS -->
+    <link href="${notCSS}" rel="stylesheet"/>
+
     <script type="text/javascript" src="${jquery}"></script>
+    <script type="text/javascript" src="${notJS}"></script>
     <script type="text/javascript" src="${uikitJS}"></script>
     <link href="${uikitCSS}" rel="stylesheet"/>
     <script type="text/javascript" src="${uikiticons}"></script>

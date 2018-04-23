@@ -1,11 +1,11 @@
 var notificationCount = 0;
 var newNotificationCount = 0;
 
-var notificationHeader = document.getElementById("notificationHeader");
-var notificationList = document.getElementById("notificationList");
-var notificationFooter = document.getElementById("notificationFooter");
+var notificationHeader;
+var notificationList;
+var notificationFooter;
 
-var badge1 = document.getElementById("badge1");
+var badge1;
 
 
 // Navbar Notification JS
@@ -54,8 +54,13 @@ $('#notificationDrop').on("hide", function () {
 
 });
 
-//Once page loads, refreshes notifications every 2 seconds
 window.addEventListener("load", function () {
+
+    notificationHeader = document.getElementById("notificationHeader");
+    notificationList = document.getElementById("notificationList");
+    notificationFooter = document.getElementById("notificationFooter");
+
+    badge1 = document.getElementById("badge1");
 
     // Initialize Notifications
     updateNotifications();
@@ -79,6 +84,7 @@ window.addEventListener("load", function () {
     setInterval(function () {
         updateNotifications();
     }, 2000);
+
 });
 
 function updateNotifications() {
