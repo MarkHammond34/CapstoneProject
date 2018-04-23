@@ -35,8 +35,8 @@ function dismissNav(notificationID) {
 
 }
 
+function hideNotifications() {
 
-$('#notificationDrop').on("hide", function () {
     $.ajax({
         type: 'GET',
         url: '/markAsViewed',
@@ -52,7 +52,7 @@ $('#notificationDrop').on("hide", function () {
 
     newNotificationCount = 0;
 
-});
+}
 
 window.addEventListener("load", function () {
 
