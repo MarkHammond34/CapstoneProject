@@ -658,7 +658,14 @@ public class ListingController extends BaseController {
 //    }
 
     @GetMapping("/reportListing")
-    public String reportListing(@RequestParam("listingId") int id, HttpServletRequest request) {
+    public String reportListing(@RequestParam("listingId") int id, HttpServletRequest request) { User u = (User) request.getSession().getAttribute("user");
+
+        if (u == null) {
+            addErrorMessage("Login To Report A Listing");
+            setRequest(request);
+            return "login";
+        }
+
         System.out.println(id);
         Listing listing = listingService.getByListingID(id);
         request.setAttribute("listing", listing);
