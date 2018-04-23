@@ -168,6 +168,9 @@
                                data-step="4"
                                uk-toggle="target: #cancelPurchaseModal">Having Second
                                 Thoughts?</a>
+                            <p>
+                                <a href="${pageContext.request.contextPath}/reportListing?listingId=${listing.id}"
+                                   class="uk-icon-button uk-margin-small-right" uk-icon="warning" uk-tooltip="Report Listing"></a></p>
                         </c:if>
                         </p>
                     </span>
@@ -264,6 +267,9 @@
                                data-step="4"
                                uk-toggle="target: #cancelPurchaseModal">Having Second
                                 Thoughts?</a>
+                            <p>
+                                <a href="${pageContext.request.contextPath}/reportListing?listingId=${listing.id}"
+                                   class="uk-icon-button uk-margin-small-right" uk-icon="warning" uk-tooltip="Report Listing"></a></p>
                         </c:if>
                         </p>
                     </span>
