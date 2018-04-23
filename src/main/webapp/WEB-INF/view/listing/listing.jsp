@@ -94,10 +94,11 @@
                                         style="color: green;"
                                         href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Make
                                     offer</a>
-                                <p>
-                                <a href="${pageContext.request.contextPath}/reportListing?listingId=${listing.id}"
-                                   class="uk-icon-button uk-margin-small-right" uk-icon="warning" uk-tooltip="Report Listing"></a></p>
                             </c:if>
+                            <p>
+                                <a href="${pageContext.request.contextPath}/reportListing?listingId=${listing.id}"
+                                   class="uk-icon-button uk-margin-small-right" uk-icon="warning"
+                                   uk-tooltip="Report Listing"></a></p>
 
                         </div>
 
@@ -170,9 +171,10 @@
                                 Thoughts?</a>
                             <p>
                                 <a href="${pageContext.request.contextPath}/reportListing?listingId=${listing.id}"
-                                   class="uk-icon-button uk-margin-small-right" uk-icon="warning" uk-tooltip="Report Listing"></a></p>
+                                   class="uk-icon-button uk-margin-small-right" uk-icon="warning"
+                                   uk-tooltip="Report Listing"></a></p>
                         </c:if>
-                        </p>
+                            </p>
                     </span>
 
                         <!-- Bid Section -->
@@ -269,9 +271,10 @@
                                 Thoughts?</a>
                             <p>
                                 <a href="${pageContext.request.contextPath}/reportListing?listingId=${listing.id}"
-                                   class="uk-icon-button uk-margin-small-right" uk-icon="warning" uk-tooltip="Report Listing"></a></p>
+                                   class="uk-icon-button uk-margin-small-right" uk-icon="warning"
+                                   uk-tooltip="Report Listing"></a></p>
                         </c:if>
-                        </p>
+                                </p>
                     </span>
 
                             <!-- Bid Section -->
