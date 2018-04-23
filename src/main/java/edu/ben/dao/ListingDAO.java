@@ -36,6 +36,8 @@ public interface ListingDAO {
 
     public List getListingsWon(int userID);
 
+    public List getListingsSold(int userID);
+
     public List getActiveListings();
 
     public List<Listing> getAllWeeklyPlusListings();

@@ -64,7 +64,7 @@ public class NotificationDAOImpl implements NotificationDAO {
     public Notification getByNotificationID(int id) {
         Query q = getSession().createQuery("FROM notification WHERE notification_id=:id");
         q.setParameter("id", id);
-        return (Notification) q.list().get(0);
+        return (Notification) q.uniqueResult();
     }
 
     @Override

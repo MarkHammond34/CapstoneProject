@@ -33,13 +33,13 @@ public class SearchHistoryServiceImpl implements SearchHistoryService {
     @Override
     public void save(SearchHistory searchHistory) {
 
-        try {
-            // If search already exists, update search count
-            SearchHistory existingSearch = searchHistoryDAO.exists(searchHistory);
+        // If search already exists, update search count
+        SearchHistory existingSearch = searchHistoryDAO.exists(searchHistory);
+        if (existingSearch != null) {
             existingSearch.setSearchCount(existingSearch.getSearchCount() + 1);
             searchHistoryDAO.update(existingSearch);
 
-        } catch (IndexOutOfBoundsException e) {
+        } else {
 
             // Get all words in search
             char[] searchArray = searchHistory.getSearch().toCharArray();
@@ -74,6 +74,7 @@ public class SearchHistoryServiceImpl implements SearchHistoryService {
             }
 
             searchHistoryDAO.save(searchHistory);
+
         }
     }
 

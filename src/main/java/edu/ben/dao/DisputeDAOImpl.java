@@ -35,7 +35,7 @@ public class DisputeDAOImpl implements DisputeDAO {
     public Dispute getByID(int id) {
         Query q = getSession().createQuery("FROM dispute WHERE dispute_id=:id");
         q.setParameter("id", id);
-        return (Dispute) q.list().get(0);
+        return (Dispute) q.uniqueResult();
     }
 
     @Override

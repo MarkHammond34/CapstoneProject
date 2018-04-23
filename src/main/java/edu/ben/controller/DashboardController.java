@@ -51,10 +51,16 @@ public class DashboardController extends BaseController {
             session = request.getSession();
             User user = (User) session.getAttribute("user");
 
+            // Switcher content
             List<Listing> listings = listingService.getAllListingsByUserID(user.getUserID());
             List<Listing> activeListings = listingService.getActiveListingsByUserId(user.getUserID());
-            System.out.println("Active listings size: " + activeListings.size());
             List<Listing> inactiveListings = listingService.getInActiveListingsByUserId(user.getUserID());
+            List<Listing> wonListings = listingService.getListingsWon(user.getUserID());
+            List<Listing> lostListings = listingService.getListingsLost(user.getUserID());
+            List<Listing> currentBidListings = listingService.getListingsInProgressUserBidOn(user.getUserID());
+            List<Listing> soldListings = listingService.getListingsSold(user.getUserID());
+
+            // Tables
             List<Offer> offers = offerService.getOffersByUserId(user.getUserID());
             List<Transaction> transactions = transactionService.getTransactionsByUserID(user.getUserID());
             List<PickUp> pickUps = pickUpService.getAllActive();
@@ -64,6 +70,10 @@ public class DashboardController extends BaseController {
             model.addObject("allListings", listings);
             model.addObject("activeListings", activeListings);
             model.addObject("inactiveListings", inactiveListings);
+            model.addObject("wonListings", wonListings);
+            model.addObject("lostListings", lostListings);
+            model.addObject("currentBidListings", currentBidListings);
+            model.addObject("soldListings", soldListings);
 
             model.addObject("offers", offers);
             model.addObject("pickUps", pickUps);
@@ -71,21 +81,5 @@ public class DashboardController extends BaseController {
 
             return model;
         }
-    }
-
-    @RequestMapping(value = "/dashboardTest", method = RequestMethod.GET)
-    public ModelAndView test() {
-
-        ModelAndView model = new ModelAndView("test");
-
-        List<Listing> listings = listingService.getAllListings();
-
-        System.out.println(listings.size());
-
-        model.addObject("title", "Dashboard");
-        model.addObject("listings", listings);
-
-        return model;
-
     }
 }

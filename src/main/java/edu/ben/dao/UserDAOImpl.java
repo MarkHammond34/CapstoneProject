@@ -69,7 +69,7 @@ public class UserDAOImpl implements UserDAO {
         q.setParameter("id", id);
 
         //return user;
-        return (User) q.list().get(0);
+        return (User) q.uniqueResult();
     }
 
     public void update(User user) {
@@ -91,13 +91,13 @@ public class UserDAOImpl implements UserDAO {
     public User findByEmail(String email) {
         Query q = getSession().createQuery("FROM user WHERE email=:email");
         q.setParameter("email", email);
-        return (User) q.list().get(0);
+        return (User) q.uniqueResult();
     }
 
     public User findBySchoolEmail(String email) {
         Query q = getSession().createQuery("FROM user WHERE school_email=:email");
         q.setParameter("email", email);
-        return (User) q.list().get(0);
+        return (User) q.uniqueResult();
     }
 
     public void deleteUser(int id) {

@@ -135,7 +135,7 @@ public class HomeController extends BaseController {
 			}
 		}
 		setRequest(request);
-		return "index";
+		return "redirect:/";
 	}
 	
 	@PostMapping("/reportListingEmail")

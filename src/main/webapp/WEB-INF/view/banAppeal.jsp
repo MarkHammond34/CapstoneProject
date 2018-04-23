@@ -18,29 +18,25 @@
 
 	<div id="central">
 		<div class="form uk-margin-left">
-			<h1>U-ListIt Contact Form</h1>
-			<p>Send your comments, questions, and concerns through this form
-				and we will get back to you as soon as possible.</p>
+			<h1>U-ListIt Ban Appeal Form</h1>
+			<p>State your reasoning below as to why you feel your account should be unbanned. Please ensure that the email address listed is that of a U-List It account.</p>
 			<div id="form">
-				<form id="form" name="contactUs" action="sendEmail" class="uk-form"
+				<form id="form" name="banAppeal" action="sendEmail" class="uk-form"
 					method="POST">
-					<div class="uk-margin uk-position-center uk-card">
+					<div class="uk-margin-left uk-position-center uk-card">
 						<div class="uk-margin">
 							<input class="uk-input" type="text" placeholder="Full Name" required>
 						</div>
 						<div class="uk-margin">
-							<input class="uk-input" type="email" placeholder="Email" required>
+							<input class="uk-input" type="email" placeholder="U-List It Email" required>
 						</div>
-						<div class="uk-margin">
-							<input class="uk-input" type="tel" placeholder="Phone" required>
-						</div>
-						<div class="uk-margin">
+                            <div class="uk-margin uk-margin-top">
 							<textarea class="uk-textarea" rows="5" cols="100"
-									  placeholder="Your reason for appealing your ban" name="appeal"
-									  required></textarea>
+                                      placeholder="Your reason for appealing your ban" name="appeal"
+                                      required></textarea>
 						</div>
 						<div id="mail-status"></div>
-						<input type="submit" class="uk-button-primary uk-button" name="submit" value="Send Message"
+						<input type="submit" class="uk-button uk-button-primary uk-border-rounded" name="submit" value="Send Appeal"
 							id="send-message" style="clear: both;">
 						<%@include file="jspf/messages.jsp"%>
 					</div>

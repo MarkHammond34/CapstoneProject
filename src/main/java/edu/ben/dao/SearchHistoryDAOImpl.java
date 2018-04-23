@@ -43,6 +43,6 @@ public class SearchHistoryDAOImpl implements SearchHistoryDAO {
         Query q = getSession().createQuery("FROM search_history WHERE user_id=:userID AND search=:search");
         q.setParameter("userID", searchHistory.getUser().getUserID());
         q.setParameter("search", searchHistory.getSearch());
-        return (SearchHistory) q.list().get(0);
+        return (SearchHistory) q.uniqueResult();
     }
 }

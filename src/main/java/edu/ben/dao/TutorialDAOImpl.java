@@ -37,10 +37,6 @@ public class TutorialDAOImpl implements TutorialDAO {
 
     @Override
     public Tutorial getByUserID(int id) {
-        try {
-            return (Tutorial) getSession().createQuery("FROM tutorial WHERE user_id=" + id).list().get(0);
-        } catch (Exception e) {
-            return null;
-        }
+        return (Tutorial) getSession().createQuery("FROM tutorial WHERE user_id=" + id).uniqueResult();
     }
 }

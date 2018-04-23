@@ -1,7 +1,7 @@
 <div class="uk-container">
     <div uk-grid="" class="uk-grid">
         <div class="uk-width-1-5 uk-first-column">
-            <h3>Welcome</h3>
+            <h3>${user.firstName}'s Dashboard</h3>
             <ul class="uk-list uk-list-divider">
                 <li>Text</li>
                 <li>Text</li>

@@ -95,7 +95,7 @@ public class PickUpController extends BaseController {
         User user = (User) request.getSession().getAttribute("user");
 
         if (user == null) {
-            addErrorMessage("Login To Create A Pick Up");
+            addErrorMessage("Login To View A Pick Up");
             setRequest(request);
             return "login";
         }
