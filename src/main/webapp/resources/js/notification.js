@@ -218,11 +218,15 @@ function remove(notificationID) {
         url: '/remove',
         data: {n: notificationID},
     });
+
+    // Remove From All
     document.getElementById("notification" + notificationID + "Item").style.display = "none";
+
+    // Remove From New
+    document.getElementById("notification" + notificationID + "ItemNew").style.display = "none";
 }
 
-// Desktop Notification Access
-
+// --Desktop Notification Access--
 // request permission on page load
 document.addEventListener('DOMContentLoaded', function () {
     if (!Notification) {
