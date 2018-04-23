@@ -1,5 +1,5 @@
 <div class="uk-width-1-1 uk-padding-small uk-text-center" style="background-color: #333333">
-    <a href="" uk-totop uk-tooltip="title: Back To Top"></a>
+    <a href="#" uk-totop uk-scroll uk-tooltip="title: Back To Top"></a>
 </div>
 
 <div class="uk-card-footer uk-background-secondary uk-light uk-text-small uk-grid uk-padding uk-padding-remove-bottom"
