@@ -74,6 +74,7 @@ public class HomeController extends BaseController {
 		System.out.println(price);
 
 	ListingRunner.run();
+	/*ListingRunner.run();*/
 
 		//PickUpRunner.run();
 

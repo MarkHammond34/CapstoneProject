@@ -18,32 +18,32 @@ public class RevenueServiceImpl implements RevenueService {
     }
 
     @Override
-    public int getHourlyRevenue(int hour) {
+    public long getHourlyRevenue(int hour) {
         return rd.getHourlyRevenue(hour);
     }
 
     @Override
-    public int getDailyRevenue(int day) {
-        return rd.getDailyRevenue(day);
+    public long getDailyRevenue(int day, String date) {
+        return rd.getDailyRevenue(day, date);
     }
 
     @Override
-    public int getWeeklyRevenue(int week) {
+    public long getWeeklyRevenue(int week) {
         return rd.getWeeklyRevenue(week);
     }
 
     @Override
-    public int getMonthlyRevenue(int month) {
-        return rd.getMonthlyRevenue(month);
+    public long getMonthlyRevenue(String input) {
+        return rd.getMonthlyRevenue(input);
     }
 
     @Override
-    public int getYearlyRevenue(int year) {
+    public Integer getYearlyRevenue(Integer year) {
         return rd.getYearlyRevenue(year);
     }
 
     @Override
-    public int getTotalRevenue() {
+    public Integer getTotalRevenue() {
         return rd.getTotalRevenue();
     }
 

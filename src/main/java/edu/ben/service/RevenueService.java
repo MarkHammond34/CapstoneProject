@@ -2,16 +2,15 @@ package edu.ben.service;
 
 public interface RevenueService {
 
-    public int getHourlyRevenue(int hour);
+    public long getHourlyRevenue(int date);
 
-    public int getDailyRevenue(int day);
+    public long getDailyRevenue(int hour, String date);
 
-    public int getWeeklyRevenue(int week);
+    public long getWeeklyRevenue(int date);
 
-    public int getMonthlyRevenue(int month);
+    public long getMonthlyRevenue(String input);
 
-    public int getYearlyRevenue(int year);
+    public Integer getYearlyRevenue(Integer date);
 
-    public int getTotalRevenue();
-
+    public Integer getTotalRevenue();
 }
