@@ -25,22 +25,22 @@ public class User {
 
     @Column(name = "first_name")
     @NotNull
-    @Size(min = 2, max = 30, message = "First Name Must Be Between 2 and 30 Characters")
+    @Size(min = 2, max = 15, message = "First Name Must Be Between 2 and 15 Characters")
     private String firstName;
 
     @Column(name = "last_name")
     @NotNull
-    @Size(min = 2, max = 30, message = "Last Name Must Be Between 2 and 30 Characters")
+    @Size(min = 2, max = 15, message = "Last Name Must Be Between 2 and 15 Characters")
     private String lastName;
 
     @Column(unique = true, name = "username")
     @NotNull
-    @Size(min = 6, max = 20, message = "First Name Must Be Between 6 and 20 Characters")
+    @Size(min = 6, max = 15, message = "First Name Must Be Between 6 and 15 Characters")
     private String username;
 
     @Column(name = "email")
     @Email
-    @Size(max = 40, message = "Invalid Email")
+    @Size( message = "Invalid Email")
     private String email;
 
     @Column(unique = true, name = "phone_number")
@@ -49,7 +49,7 @@ public class User {
     @Column(unique = true, name = "school_email")
     @NotNull
     @Email(message = "Invalid School Email")
-    @Size(min = 3, max = 40, message = "Invalid School Email")
+    @Size(message = "Invalid School Email")
     private String schoolEmail;
 
     @Column(name = "password")

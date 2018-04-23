@@ -11,13 +11,11 @@
             <div class="uk-modal-body">
                 <div class="uk-width-1-1">
                     <strong>Amount offered:</strong>
-                    <p>${offer.offerAmount}</p>
+                    <p id="offeramount"></p>
                 </div>
                 <div class="uk-width-1-1">
                     <strong> Offer Message:</strong>
-                    <p>${offer.offerMessage}</p>
-
-                    <input type="hidden" name="initial" value="${initial.offerID}">
+                    <p id="offermessage"></p>
                 </div>
 
                 <div class="uk-modal-footer">
@@ -32,3 +30,30 @@
         </div>
     </div>
 </div>
+
+<script>
+    function modalClick(offerdata) {
+
+        $.ajax({
+            url: '/offerDetails',
+            type: 'GET',
+            data: {offerId: offerdata},
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (result) {
+                document.getElementById("offeramount").innerText = result['offer-amount'];
+                document.getElementById("offermessage").innerText = result['offer-message'];
+                console.log(result['offer-amount']);
+                console.log(result);
+            }
+
+            // Add data to modal
+
+        });
+
+        // Open modal
+        //$('#offer${offer.offerID}').modal; // or .modal();
+
+    }
+</script>
+
