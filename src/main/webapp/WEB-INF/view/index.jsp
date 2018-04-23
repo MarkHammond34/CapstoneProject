@@ -1,8 +1,9 @@
 <%@include file="jspf/header.jsp" %>
+
+<body class="uk-background-muted">
 <div style="border: 20px solid white;
             margin: 0 auto;
             background: white;">
-    <body class="uk-background-muted">
 
     <%@include file="jspf/navbar.jspf" %>
 
@@ -227,9 +228,9 @@
             });
         });
     </script>
-
-    </body>
-
     <%@include file="jspf/footer.jspf" %>
 </div>
+</body>
+
+
 </html>

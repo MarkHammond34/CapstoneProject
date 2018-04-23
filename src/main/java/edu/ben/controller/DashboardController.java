@@ -1,11 +1,14 @@
 package edu.ben.controller;
 
+import com.google.gson.JsonObject;
 import edu.ben.model.*;
 import edu.ben.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -81,5 +84,38 @@ public class DashboardController extends BaseController {
 
             return model;
         }
+    }
+
+    @RequestMapping(value = "/offerDetails", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody
+    String showOfferDetails(HttpServletRequest request, @RequestParam("offerId") int offerid) {
+
+        System.out.println(offerid);
+        User user = (User) request.getSession().getAttribute("user");
+        Offer offer = offerService.getOfferById(offerid);
+
+        JsonObject json = new JsonObject();
+
+        json.addProperty("offer-id", offer.getOfferID());
+        json.addProperty("offer-amount", offer.getOfferAmount());
+        json.addProperty("offer-message", String.valueOf(offer.getOfferMessage()));
+        json.addProperty("offer-maker", offer.getOfferMaker().getUserID());
+        json.addProperty("offer-receiver", offer.getOfferReceiver().getUserID());
+        json.addProperty("offer-status", offer.getStatus());
+        json.addProperty("offer-active", offer.getActive());
+
+        return json.toString();
+    }
+
+    @RequestMapping(value = "/pickUpDetails", method = RequestMethod.GET)
+    public String showPickUpDetails() {
+
+        return "";
+    }
+
+    @RequestMapping(value = "/transactionDetails", method = RequestMethod.GET)
+    public String showTransactionDetails() {
+
+        return "";
     }
 }
