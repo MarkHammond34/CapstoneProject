@@ -1,9 +1,6 @@
 package edu.ben.controller;
 
-import edu.ben.model.Listing;
-import edu.ben.model.SearchHistory;
-import edu.ben.model.Tutorial;
-import edu.ben.model.User;
+import edu.ben.model.*;
 import edu.ben.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -30,6 +27,9 @@ public class DonationController extends BaseController {
     @Autowired
     SearchHistoryService searchHistoryService;
 
+    @Autowired
+    SalesTrafficService trafficService;
+
     @GetMapping("/donation")
     public String donation(HttpServletRequest request) {
         return "redirect:/donate";
@@ -47,6 +47,9 @@ public class DonationController extends BaseController {
         request.setAttribute("categories", categoryService.getAllCategories());
         request.setAttribute("title", "Donate");
 
+
+        SalesTraffic s = new SalesTraffic("Donation_Page");
+        trafficService.create(s);
         return "donation/donation";
 
     }

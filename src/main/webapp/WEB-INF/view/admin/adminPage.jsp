@@ -1,6 +1,6 @@
 <%@include file="admin-header.jsp" %>
 
-<body onload="loadGraphs(${salesPerWeek}, ${salesPerHour}, ${salesPerMonth}, ${lastWeekSalesPerWeek}, ${lastWeekSalesPerHour}, ${lastMonthlySales}, ${yearlySale})">
+<body onload="loadGraphs(${salesPerWeek}, ${salesPerHour}, ${salesPerMonth}, ${lastWeekSalesPerWeek}, ${lastWeekSalesPerHour}, ${lastMonthlySales}, ${yearlySale}, ${dailyCount}, ${weeklyCount}, ${monthlyCount}, ${yearlyCount})">
 
 <%@include file="admin-navbar.jsp" %>
 
@@ -72,23 +72,26 @@
                     <div>
                         <ul class="uk-subnav uk-subnav-pill"
                             uk-switcher="animation: uk-animation-slide-left-medium, uk-animation-slide-right-medium">
-                            <li><a href="#">Yearly</a></li>
-                            <li><a href="#">Monthy</a></li>
-                            <li><a href="#">Daily</a></li>
                             <li><a href="#">Hourly</a></li>
+                            <li><a href="#">Daily</a></li>
+                            <li><a href="#">Monthy</a></li>
+                            <li><a href="#">Yearly</a></li>
+
+
+
                         </ul>
                         <ul class="uk-switcher uk-margin">
                             <li>
-                                <canvas id="yearly" width="300" height="200"></canvas>
-                            </li>
-                            <li>
-                                <canvas id="monthly" width="300" height="200"></canvas>
+                                <canvas id="hourly" width="300" height="200"></canvas>
                             </li>
                             <li>
                                 <canvas id="daily" width="300" height="200"></canvas>
                             </li>
                             <li>
-                                <canvas id="hourly" width="300" height="200"></canvas>
+                                <canvas id="monthly" width="300" height="200"></canvas>
+                            </li>
+                            <li>
+                                <canvas id="yearly" width="300" height="200"></canvas>
                             </li>
                         </ul>
                     </div>
@@ -100,24 +103,34 @@
         </div>
         <div class="uk-width-2-5@s">
             <div class="uk-background-default uk-padding uk-panel">
-                <h2>Sales Traffic </h2>
+                <h2>Site Traffic </h2>
                 <hr>
                 <ul class="uk-subnav uk-subnav-pill"
                     uk-switcher="animation: uk-animation-slide-left-medium, uk-animation-slide-right-medium">
-                    <li><a href="#">Monthy</a></li>
-                    <li><a href="#">Weekly</a></li>
                     <li><a href="#">Daily</a></li>
+                    <li><a href="#">Weekly</a></li>
+                    <li><a href="#">Monthy</a></li>
+                    <li><a href="#">Yearly</a></li>
+
+
+
                 </ul>
                 <ul class="uk-switcher uk-margin">
                     <li>
-                        <canvas id="monthSite" width="800" height="900"></canvas>
+                        <canvas id="daySite" width="800" height="900"></canvas>
                     </li>
                     <li>
                         <canvas id="weeksSite" width="800" height="900"></canvas>
                     </li>
                     <li>
-                        <canvas id="daySite" width="800" height="900"></canvas>
+                        <canvas id="monthSite" width="800" height="900"></canvas>
                     </li>
+                    <li>
+                        <canvas id="yearSite" width="800" height="900"></canvas>
+                    </li>
+
+
+
                 </ul>
 
             </div>
@@ -387,7 +400,7 @@
 </div>
 <script>
 
-    function loadGraphs(salesPerWeek, salesPerHour, salesPerMonth, salesPerWeekLastWeek, lastWeekSalesPerHour, lastMontlySales, yearlySale) {
+    function loadGraphs(salesPerWeek, salesPerHour, salesPerMonth, salesPerWeekLastWeek, lastWeekSalesPerHour, lastMontlySales, yearlySale, dailyCount, weeklyCount, monthlyCount, yearlyCount) {
         var week = salesPerWeek;
         var lastWeek = salesPerWeekLastWeek;
         var hour = salesPerHour;
@@ -395,6 +408,12 @@
         var month = salesPerMonth;
         var lastMonth = lastMontlySales;
         var year = yearlySale;
+
+        var dCount = dailyCount;
+        var wCount = weeklyCount;
+        var mCount = monthlyCount;
+        var yCount = yearlyCount;
+        console.log("Year Count: " + yCount[0]);
 
         new Chart(document.getElementById("yearly"), {
             type: 'line',
@@ -493,15 +512,15 @@
             }
         });
 
-        new Chart(document.getElementById("monthSite"), {
+        new Chart(document.getElementById("yearSite"), {
             type: 'doughnut',
             data: {
-                labels: ["Home Page", "Community Page", "Profile Page", "About us"],
+                labels: [ "Community Page", "Home Page", "Landing Page", "Create a Listing", "Search Page", "Donation Page"],
                 datasets: [
                     {
                         label: "Population (millions)",
-                        backgroundColor: ["#B721FF", "#F3FF21", "#38FF21", "#FF0000"],
-                        data: [2478, 5267, 734, 784]
+                        backgroundColor: ["#B721FF", "#2AF598", "#F3FF21",  "#FF0000", "#52ACFF", "#FF3CAC"],
+                        data: [yCount[0], yCount[1], yCount[2], yCount[3], yCount[4], yCount[5]]
                     }
                 ]
             },
@@ -512,15 +531,35 @@
                 }
             }
         });
-        new Chart(document.getElementById("weeksSite"), {
+
+        new Chart(document.getElementById("monthSite"), {
             type: 'doughnut',
             data: {
-                labels: ["Home Page", "Community Page", "Profile Page", "About us"],
+                labels: ["Community Page", "Home Page", "Landing Page", "Create a Listing", "Search Page", "Donation Page"],
                 datasets: [
                     {
                         label: "Population (millions)",
-                        backgroundColor: ["#B721FF", "#F3FF21", "#38FF21", "#FF0000"],
-                        data: [1278, 3267, 534, 284]
+                        backgroundColor: ["#B721FF", "#2AF598", "#F3FF21",  "#FF0000", "#52ACFF", "#FF3CAC"],
+                        data: [mCount[0], mCount[1], mCount[2], mCount[3], mCount[4], mCount[5]]
+                    }
+                ]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Timeframe(This Month)'
+                }
+            }
+        });
+        new Chart(document.getElementById("weeksSite"), {
+            type: 'doughnut',
+            data: {
+                labels: ["Community Page", "Home Page", "Landing Page", "Create a Listing", "Search Page", "Donation Page"],
+                datasets: [
+                    {
+                        label: "Population (millions)",
+                        backgroundColor: ["#B721FF",  "#2AF598", "#F3FF21", "#FF0000", "#52ACFF", "#FF3CAC"],
+                        data: [wCount[0], wCount[1], wCount[2], wCount[3], wCount[4], wCount[5]]
                     }
                 ]
             },
@@ -534,12 +573,12 @@
         new Chart(document.getElementById("daySite"), {
             type: 'doughnut',
             data: {
-                labels: ["Home Page", "Community Page", "Profile Page", "About us"],
+                labels: ["Community Page", "Home Page", "Landing Page", "Create a Listing", "Search Page", "Donation Page"],
                 datasets: [
                     {
                         label: "Population (millions)",
-                        backgroundColor: ["#B721FF", "#F3FF21", "#38FF21", "#FF0000"],
-                        data: [690, 1432, 200, 205]
+                        backgroundColor: ["#B721FF", "#2AF598", "#F3FF21",  "#FF0000", "#52ACFF", "#FF3CAC"],
+                        data: [dCount[0], dCount[1], dCount[2], dCount[3], dCount[4], dCount[5]]
                     }
                 ]
             },

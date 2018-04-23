@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import edu.ben.model.SalesTraffic;
 import edu.ben.model.Video;
 import edu.ben.service.EventsService;
+import edu.ben.service.SalesTrafficService;
 import edu.ben.service.VideoService;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.openxml4j.opc.OPCPackage;
@@ -50,6 +52,9 @@ public class CommunityController extends BaseController {
 
     @Autowired
     VideoService videoService;
+
+    @Autowired
+    SalesTrafficService trafficService;
 
     @RequestMapping(value = "/communityPage", method = RequestMethod.GET)
     public ModelAndView community(HttpServletRequest request) {
@@ -206,6 +211,9 @@ public class CommunityController extends BaseController {
 //        System.out.println("video date: " + videoDate);
 //        System.out.println("Path: " + newestVideo.getVideoPath());
 //        request.setAttribute("newestVideo", newestVideo);
+
+        SalesTraffic s = new SalesTraffic("Community_Page");
+        trafficService.create(s);
 
 		return model;
 	}

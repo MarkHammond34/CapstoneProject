@@ -1,6 +1,7 @@
 package edu.ben.controller;
 
 import edu.ben.model.Listing;
+import edu.ben.model.SalesTraffic;
 import edu.ben.model.Tutorial;
 import edu.ben.model.User;
 import edu.ben.service.*;
@@ -45,6 +46,9 @@ public class HomeController extends BaseController {
 
     @Autowired
 	RevenueService revenueService;
+
+    @Autowired
+	SalesTrafficService trafficService;
 
     /*
      * @Autowired FaqService faqService;
@@ -99,6 +103,9 @@ public class HomeController extends BaseController {
             }
 
         }
+
+		SalesTraffic s = new SalesTraffic("Home_Page");
+		trafficService.create(s);
 
 		setModel(model);
 		return model;

@@ -66,6 +66,9 @@ public class ListingController extends BaseController {
     ImageService imageService;
 
     @Autowired
+    SalesTrafficService trafficService;
+
+    @Autowired
     TutorialService tutorialService;
 
     /**
@@ -241,6 +244,10 @@ public class ListingController extends BaseController {
 
         request.setAttribute("categories", categoryService.getAllCategories());
         request.setAttribute("subCategories", categoryService.getAllSubCategories());
+
+        SalesTraffic s = new SalesTraffic("Create_Listing");
+
+        trafficService.create(s);
 
         return "listing/create-listing";
     }
