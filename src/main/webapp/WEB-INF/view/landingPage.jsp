@@ -1,39 +1,79 @@
 <%@include file="jspf/header.jsp" %>
 
 <body class="uk-background-muted">
+<div style="border: 20px solid white;
+            margin: 0 auto;
+            background: white;">
 
-<%@include file="jspf/navbar.jspf" %>
+    <%@include file="jspf/navbar.jspf" %>
 
-<%@include file="jspf/messages.jsp" %>
+    <%@include file="jspf/messages.jsp" %>
 
-<div class="u-list-it-background">
     <div class="uk-section-default">
-        <div class="uk-section-large uk-overlay-default uk-background-cover"
-             style="background-image:url('${pageContext.request.contextPath}/resources/img/index2.jpeg');">
+        <div class="uk-section uk-section-xlarge uk-section-overlap uk-background-fixed uk-light uk-background-cover uk-background-overlay"
+             style="background-image: url(http://www.ben.edu/facilities-management-planning/images/BenU_1.jpg)">
+            <div class="uk-align-center uk-card uk-card-default uk-box-shadow-hover-large uk-align-center uk-border-rounded uk-padding-small uk-width-1-2">
+
+                <div class="uk-text-large uk-text-bold">
+                    <div class="uk-heading-line uk-text-center"><span>Welcome to U-ListIt.</span></div>
+                </div>
+
+            </div>
         </div>
     </div>
 
     <br>
-    <div class="uk-child-width-expand@s uk-text-center" uk-grid>
-        <div class="uk-width-1-5">
-            <h2>Tech</h2>
-            <div class="uk-card uk-card-default uk-card-body uk-grid-margin">
-                <div class="uk-section-large uk-overlay-default uk-background-cover"
-                     style="background-image:url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRGgYAyjatdAyzmTAP5e5zM5VQsCC-FTp_Mn76XNhtW4Ygo19j);">
+    <div class="uk-section-small uk-align-center uk-section-overlap uk-section-secondary">
+        <div class="uk-container">
+
+            <div class="uk-panel uk-align-center uk-text-center uk-light uk-margin-large">
+                <span uk-icon="icon: users; ratio: 3.5"></span><h3>A unique way to buy, sell, and give back back to your college community</h3>
+            </div>
+
+            <div class="uk-grid-match uk-child-width-expand@m" uk-grid>
+                <div>
+                    <div class="uk-card uk-border-rounded uk-card-default uk-card-body uk-padding-large">
+                        <p>U-ListIt is a buy, sell, and donation platform for colleges and universities around the globe. Are focus is fast and easy commercial exchange.</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-card uk-border-rounded uk-card-default uk-card-body uk-padding-large">
+                        <p>Forget the shipping - being on campus allows for the simple pick up of packages and items. No waiting, no worry! </p>
+                    </div>
                 </div>
             </div>
+
         </div>
-        <div class="uk-width-1-4">
-            <h2>Tech</h2>
-            <div class="uk-card uk-card-default uk-card-body uk-grid-margin">
-                <div class="uk-section-large uk-overlay-default uk-background-cover"
-                     style="background-image:url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRGgYAyjatdAyzmTAP5e5zM5VQsCC-FTp_Mn76XNhtW4Ygo19j);">
+    </div>
+    <div class="uk-section-default">
+        <div class="uk-section  uk-text-small uk-section-xlarge uk-section-overlap uk-background-fixed uk-light uk-background-cover uk-background-overlay"
+             style="background-image: url(https://az616578.vo.msecnd.net/files/2016/04/21/635968723277050082-897173380_thumbs%20up.jpg)">
+            <div class="uk-child-width-1-3@m uk-grid-small uk-padding-small uk-text-small uk-grid-match" uk-grid>
+                <div>
+                    <div class="uk-card uk-text-small uk-box-shadow-hover-large uk-border-rounded uk-card-default uk-card-body">
+                        <span uk-icon="icon: home; ratio: 3.5"></span><h3> <h4 class="uk-card-title">Moving in?</h4>
+                        <p>Fulfill all your dorming needs!</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-card uk-text-small uk-box-shadow-hover-large uk-border-rounded uk-card-default uk-card-body">
+                        <span uk-icon="icon: credit-card; ratio: 3.5"></span><h3><h4 class="uk-card-title">Putting on that cap and gown?</h4>
+                        <p>Make some cash before you grab that diploma!</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-card uk-text-small uk-box-shadow-hover-large uk-border-rounded uk-card-default uk-card-body">
+                        <span uk-icon="icon: world; ratio: 3.5"></span><h3><h4 class="uk-card-title">Be kind, donate!</h4>
+                        <p>Not in it for the money? Donate to the community!</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <br>
 </div>
+
 
 <%@include file="checklist/checklist-modal.jsp" %>
 
