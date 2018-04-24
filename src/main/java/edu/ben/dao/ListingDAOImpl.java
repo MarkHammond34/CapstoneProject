@@ -305,6 +305,12 @@ public class ListingDAOImpl implements ListingDAO {
         return q.list();
     }
 
+    @Override
+    public List getHottestListings() {
+        Query q = getSession().createQuery("FROM listing ORDER BY bidCount DESC");
+        return q.list();
+    }
+
     public void deleteByListingId(int id) {
         Query q = getSession().createQuery("UPDATE listing SET active=0 WHERE id=:id");
         q.setParameter("id", id);

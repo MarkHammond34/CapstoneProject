@@ -9,7 +9,7 @@
     <%@include file="jspf/messages.jsp" %>
 
     <div class="u-list-it-background uk-inline-clip">
-        <div class="uk-section-default">
+        <div class="uk-section-default uk-padding">
             <div class="uk-section uk-overlay-default uk-background-cover "
                  style="background-image:url('${pageContext.request.contextPath}/resources/img/index2.jpeg'); height: auto; max-height: 350px;  background-position: center;
                          background-repeat: no-repeat;
@@ -25,10 +25,9 @@
                 </div>
             </div>
         </div>
-        <div class="uk-section">
+        <div class="uk-section uk-padding">
             <div class="uk-child-width-1-6@m uk-grid-small uk-grid-match" uk-grid>
                 <c:forEach var="category" items="${categories}" varStatus="loop">
-
                     <div class="item uk-animation">
                         <a href="#"><img class="category-pic uk-border-circle uk-box-shadow-hover-xlarge"
                                          src="${pageContext.request.contextPath}/resources/img/category/${category.image}"></a>
@@ -40,104 +39,93 @@
 
         </div>
 
-        <br>
+        <div class="uk-section-default uk-padding">
+            <h1 class="uk-heading-line uk-padding"><span>Hot Listings</span></h1>
+            <div class="uk-position-relative uk-visible-toggle uk-light"
+                 uk-slider="autoplay: true">
 
-        <div class="uk-width-1-1"
-             data-intro="Browse listings by premium, trending, ending soon, and recently added."
-             data-step="6">
+                <ul
+                        class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@m uk-grid">
 
-            <ul class="uk-flex-center uk-subnav uk-subnav-pill"
-                uk-switcher="animation: uk-animation-slide-left-medium, uk-animation-slide-right-medium">
-                <c:if test="${premiumListings != null}">
-                    <li class="uk-active"><a href="#premium-listings"><span uk-icon="bolt"
-                                                                            style="color: yellow"></span>
-                        <b>Premium</b>
-                        <span uk-icon="bolt"
-                              style="color: yellow"></span></a>
-                    </li>
-                </c:if>
-                <c:if test="${relevantListings != null}">
-                    <li><a href="#relevant-listings">Recommended</a></li>
-                </c:if>
-                <li><a href="#trending-listings">Trending</a></li>
-                <li><a href="#ending-soon-listings">Ending Soon</a></li>
-                <li><a href="#recently-added-listings">Recently Added</a></li>
-
-            </ul>
-
-            <ul class="uk-switcher uk-margin">
-                <c:if test="${premiumListings != null}">
-                    <div id="premium-listings">
-                        <div uk-slider>
-                            <div class="uk-position-relative uk-visible-toggle uk-light">
-                                <ul class="uk-slider-items uk-child-width-1-4@s uk-grid uk-margin" uk-grid>
-                                    <c:forEach var="listing" items="${premiumListings}">
-                                        <%@include file="listing/index-listing.jsp" %>
-                                    </c:forEach>
-                                </ul>
+                    <c:forEach var="listing" items="${hottestListings}" varStatus="loop">
+                        <li>
+                            <div class="uk-panel">
+                                <a href="${pageContext.request.contextPath}/listing?listingId=${listing.id}"><img
+                                        class="uk-border-rounded uk-box-shadow-hover-large"
+                                        src="${pageContext.request.contextPath}/resources/img/sunset.jpg"
+                                        alt=""></a>
                             </div>
-                        </div>
-                    </div>
-                </c:if>
-                <c:if test="${relevantListings != null}">
-                    <div id="relevant-listings">
-                        <div uk-slider>
-                            <div class="uk-container">
-                                <div class="uk-position-relative uk-visible-toggle uk-light">
-                                    <ul class="uk-slider-items uk-child-width-1-4@s uk-grid uk-margin" uk-grid>
-                                        <c:forEach var="listing" items="${relevantListings}">
-                                            <%@include file="listing/index-listing.jsp" %>
-                                        </c:forEach>
-                                    </ul>
-                                </div>
+                            <div class="uk-position-center uk-panel">
+                                <!-- Maybe use this area for something later -->
                             </div>
-                        </div>
-                    </div>
-                </c:if>
-                <div id="trending-listings">
-                    <div uk-slider>
-                        <div class="uk-container">
-                            <div class="uk-position-relative uk-visible-toggle uk-light">
-                                <ul class="uk-slider-items uk-child-width-1-4@s uk-grid uk-margin" uk-grid>
+                        </li>
+                    </c:forEach>
+                </ul>
 
-                                    <c:forEach var="listing" items="${recentListings}">
-                                        <%@include file="listing/index-listing.jsp" %>
-                                    </c:forEach>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="ending-soon-listings">
-                    <div uk-slider>
-                        <div class="uk-container">
-                            <div class="uk-position-relative uk-visible-toggle uk-light">
-                                <ul class="uk-slider-items uk-child-width-1-4@s uk-grid uk-margin" uk-grid>
 
-                                    <c:forEach var="listing" items="${endingSoonListings}">
-                                        <%@include file="listing/index-listing.jsp" %>
-                                    </c:forEach>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="recently-added-listings">
-                    <div uk-slider>
-                        <div class="uk-container">
-                            <div class="uk-position-relative uk-visible-toggle uk-light">
-                                <ul class="uk-slider-items uk-child-width-1-4@s uk-grid uk-margin" uk-grid>
-                                    <c:forEach var="listing" items="${recentListings}">
-                                        <%@include file="listing/index-listing.jsp" %>
-                                    </c:forEach>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </ul>
-            <div class="uk-section"></div>
+                <a
+                        class="uk-position-center-left uk-position-small uk-hidden-hover"
+                        href="#" uk-slidenav-previous uk-slider-item="previous"></a> <a
+                    class="uk-position-center-right uk-position-small uk-hidden-hover"
+                    href="#" uk-slidenav-next uk-slider-item="next"></a>
+            </div>
         </div>
+
+
+        <div class="uk-section-default uk-padding">
+            <div class="uk-tile uk-tile-muted uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
+                <div class="uk-card-media-left uk-cover-container">
+                    <img src="${pageContext.request.contextPath}/resources/img/community.jpeg" alt="" uk-cover>
+                    <canvas width="600" height="400"></canvas>
+                </div>
+                <div>
+                    <div class="uk-card-body">
+                        <h1 class="uk-heading-line uk-text-center uk-padding"><span>Community Page</span></h1>
+                        <p style="font-size: 14px;">Come view our community page. Here you can see all of your schools
+                            latest events and news. Click here for more details.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <c:if test="${sessionScope.user != null}">
+            <div class="uk-section-default">
+                <h1 class="uk-heading-line uk-padding"><span>Suggested For You</span></h1>
+                <div class="uk-position-relative uk-visible-toggle uk-light"
+                     uk-slider="autoplay: true">
+
+                    <ul
+                            class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@m uk-grid">
+
+                        <c:forEach begin="1" end="10">
+                            <li>
+                                <div class="uk-panel">
+                                    <a href="${pageContext.request.contextPath}/listing?listingId=${listing.id}"><img
+                                            class="uk-border-rounded uk-box-shadow-hover-large"
+                                            src="${pageContext.request.contextPath}/resources/img/sunset.jpg"
+                                            alt=""></a>
+                                </div>
+                                <div class="uk-position-center uk-panel">
+                                    <!-- Maybe use this area for something later -->
+                                </div>
+                            </li>
+                        </c:forEach>
+                    </ul>
+
+
+                    <a
+                            class="uk-position-center-left uk-position-small uk-hidden-hover"
+                            href="#" uk-slidenav-previous uk-slider-item="previous"></a> <a
+                        class="uk-position-center-right uk-position-small uk-hidden-hover"
+                        href="#" uk-slidenav-next uk-slider-item="next"></a>
+
+
+                </div>
+            </div>
+        </c:if>
+        <br>
+        <br>
+        <br>
 
     </div>
 

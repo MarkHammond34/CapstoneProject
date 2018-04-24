@@ -72,6 +72,11 @@ public class HomeController extends BaseController {
 
 		model.addObject("categories", categoryService.getAllCategories());
 
+		model.addObject("hottestListings", listingService.getHottestListings());
+
+		List<Listing> f = listingService.getHottestListings();
+		System.out.println("Hottest Listings: " + f.size());
+
 		User user = (User) request.getSession().getAttribute("user");
 
 
