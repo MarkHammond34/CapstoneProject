@@ -27,10 +27,8 @@
 
     <div class="uk-card-body uk-padding-small">
         <div class="name uk-margin-remove-top uk-margin-small-bottom" style="font-size: 22px;">
-
-            <a href="/listing?l=${listing.id}"><strong class="uk-text-danger">${listing.name}</strong></a>
-            <c:if test="${listing.user.getUserID() != sessionScope.user.userID }">
-                <div
+                <c:if test="${listing.user.getUserID() != sessionScope.user.userID }">
+                    <div
                         class="watch-item color1 uk-position-medium uk-position-top-right"
                         id="${listing.id}">
                     <a uk-icon="icon: star; ratio: 1"></a>

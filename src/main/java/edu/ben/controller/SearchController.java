@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -115,6 +116,29 @@ public class SearchController extends BaseController {
             System.out.println("Search Result Saved");
             savedSearchService.create(s);
         }
+
+        return "searchResults";
+    }
+
+    @GetMapping(value = "/categorySearch")
+    public String searchCategoryHomePage(@RequestParam("search") String search, HttpServletRequest request, Model model) {
+        List<Listing> listingSearch = listingService.listingSearch(search);
+
+        List<Listing> endingLatest = listingService.listingsSearchEndingLatest(search);
+
+
+        List<Listing> endingSoonest = listingService.listingsSearchEndingSoonest(search);
+
+        List<Listing> mostExpensive = listingService.listingSearchMostExpensive(search);
+        System.out.println("Most expensive size: " + mostExpensive.size());
+        List<Listing> leastExpensive = listingService.listingSearchLeastExpensive(search);
+
+        request.setAttribute("search", search);
+        request.setAttribute("listingSearch", listingSearch);
+        request.setAttribute("endingLatest", endingLatest);
+        request.setAttribute("endingSoonest", endingSoonest);
+        request.setAttribute("mostExpensive", mostExpensive);
+        request.setAttribute("leastExpensive", leastExpensive);
 
         return "searchResults";
     }

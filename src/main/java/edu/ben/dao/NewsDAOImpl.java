@@ -42,6 +42,34 @@ public class NewsDAOImpl implements NewsDAO {
 	}
 
 	@Override
+	public List sortNewsByDateASC() {
+		Query q = getSession().createQuery("FROM news ORDER BY dateCreated ASC");
+
+		return q.list();
+	}
+
+	@Override
+	public List sortNewsByDateDESC() {
+		Query q = getSession().createQuery("FROM news ORDER BY dateCreated DESC");
+
+		return q.list();
+	}
+
+	@Override
+	public List sortNewsArticlesByNameASC() {
+		Query q = getSession().createQuery("FROM news ORDER BY title ASC");
+
+		return q.list();
+	}
+
+	@Override
+	public List sortNewsArticlesByNameDESC() {
+		Query q = getSession().createQuery("FROM news ORDER BY title DESC");
+
+		return q.list();
+	}
+
+	@Override
 	public News getArticleByID(int id) {
 		Query q = getSession().createQuery("FROM news WHERE newsID=:id");
 		q.setParameter("id", id);

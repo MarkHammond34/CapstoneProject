@@ -48,4 +48,24 @@ public class NewsServiceImpl implements NewsService {
     public List getAllArticles() {
         return nd.getAllArticles();
     }
+
+    @Override
+    public List sortNewsByDateASC() {
+        return nd.sortNewsByDateASC();
+    }
+
+    @Override
+    public List sortNewsByDateDESC() {
+        return nd.sortNewsByDateDESC();
+    }
+
+    @Override
+    public List sortNewsArticlesByNameASC() {
+        return nd.sortNewsByDateASC();
+    }
+
+    @Override
+    public List sortNewsArticlesByNameDESC() {
+        return nd.sortNewsByDateDESC();
+    }
 }
