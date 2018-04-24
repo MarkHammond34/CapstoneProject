@@ -73,12 +73,15 @@
                         <p class="uk-article-meta">Listed by <b><a
                                 href="/viewProfile?id=${listing.user.userID}"
                                 data-intro="Click see more about the seller." data-step="5">${listing.user.username}</a></b>
+                            <a href="${pageContext.request.contextPath}/reportListing?listingId=${listing.id}"
+                               class="uk-icon-button uk-margin-small-right" uk-icon="warning"
+                               uk-tooltip="Report Listing"></a>
                         </p>
 
-                        <div class="uk-grid-small uk-child-width-auto uk-tile-default uk-border-rounded uk-padding uk-padding-remove-left"
+                        <div class="uk-grid-small uk-child-width-auto uk-tile-default uk-border-rounded uk-padding"
                              uk-grid>
 
-                            <ul class="uk-grid-small uk-width-2-3 uk-float-left" uk-grid>
+                            <ul class="uk-grid-small uk-float-left uk-width-1-2" uk-grid>
                                 <li class="uk-width-1-1">
 
                                 <span class="uk-float-left"><strong>Asking Price</strong>
@@ -87,52 +90,65 @@
                                 </li>
                             </ul>
 
-                            <c:if test="${listing.ended == 0}">
-                                <a
-                                        <c:if test="${hasOffer}">onclick="return confirm('You have already made an offer for this listing. Making a new one will replace the current one. Is this okay?');"</c:if>
-                                        class="uk-button uk-button-text uk-float-right"
-                                        style="color: green;"
-                                        href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Make
-                                    offer</a>
-                            </c:if>
-                            <a href="${pageContext.request.contextPath}/reportListing?listingId=${listing.id}"
-                               class="uk-icon-button uk-margin-small-right" uk-icon="warning"
-                               uk-tooltip="Report Listing"></a>
+                            <div class="uk-float-right uk-width-1-2">
+                                <c:if test="${listing.ended == 0}">
+                                    <span class="uk-width-1-1">
+                                    <a
+                                            <c:if test="${hasOffer}">onclick="return confirm('You have already made an offer for this listing. Making a new one will replace the current one. Is this okay?');"</c:if>
+                                            class="uk-button uk-button-text uk-align-right"
+                                            style="color: green;"
+                                            href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Make
+                                        offer</a>
+                                        <a class="uk-button uk-button-text uk-align-right"
+                                           href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Buy Now</a>
+                                        </span>
+                                </c:if>
+                            </div>
+
 
                         </div>
 
                         <!-- Countdown and Progress Bar -->
-                        <div class="uk-grid-small" uk-grid>
-                            <div class=" uk-width-1-1 uk-align-center">
-                                <p class="uk-margin-small-bottom uk-margin-small-top uk-align-center listing-ended"
-                                   style="color: red; font-size: 16px; display: none;">
-                                    Listing Ended</p>
+                        <div class="uk-grid-small" uk-grid data-intro="Place your bid before the time runs out!"
+                             data-step="2">
+                            <div class="uk-width-1-1 uk-align-center">
+                                <strong class="uk-margin-small-bottom uk-margin-small-top uk-align-center listing-ended"
+                                        style="color: red; font-size: 16px; display: none;">
+                                    Listing Ended</strong>
                                 <div class="uk-grid-small uk-countdown uk-margin-remove uk-align-center" uk-grid
                                      uk-countdown="date: ${listing.endTimestamp}">
                                                 <span class="uk-days">
-                                                    <strong class="uk-countdown-number uk-countdown-days"></strong>
-                                                    <strong class="uk-countdown-label uk-margin-small-top uk-margin-left">Days</strong>
+                                                    <strong class="uk-countdown-number uk-countdown-days"
+                                                            style="font-size: 22px;"></strong>
+                                                    <strong class="uk-countdown-label uk-margin-small-top uk-margin-left"
+                                                            style="font-size: 22px;">Days</strong>
                                                 </span>
                                     <span class="uk-hours">
-                                                        <strong class="uk-countdown-number uk-countdown-hours"></strong>
-                                                        <strong class="uk-countdown-label uk-margin-small-top uk-margin-left">Hours</strong>
+                                                        <strong class="uk-countdown-number uk-countdown-hours"
+                                                                style="font-size: 22px;"></strong>
+                                                        <strong class="uk-countdown-label uk-margin-small-top uk-margin-left"
+                                                                style="font-size: 22px;">Hours</strong>
+
                                                 </span>
                                     <span class="uk-minutes">
-                                                        <strong class="uk-countdown-number uk-countdown-minutes"></strong>
-                                                        <strong class="uk-countdown-label uk-margin-small-top uk-margin-left">Minutes</strong>
+                                                        <strong class="uk-countdown-number uk-countdown-minutes"
+                                                                style="font-size: 22px;"></strong>
+                                                        <strong class="uk-countdown-label uk-margin-small-top uk-margin-left"
+                                                                style="font-size: 22px;">Minutes</strong>
                                                 </span>
                                     <span class="uk-seconds">
-                                                        <strong class="uk-countdown-number uk-countdown-seconds"></strong>
-                                                        <strong class="uk-countdown-label uk-margin-small-top uk-margin-left">Seconds</strong>
+                                                        <strong class="uk-countdown-number uk-countdown-seconds"
+                                                                style="font-size: 22px;"></strong>
+                                                        <strong class="uk-countdown-label uk-margin-small-top uk-margin-left"
+                                                                style="font-size: 22px;">Seconds</strong>
                                                 </span>
                                     <span>
-                                <strong>Remaining</strong>
-                            </span>
+                                <strong style="font-size: 22px;">Remaining</strong>
+                                </span>
                                 </div>
                                 <progress class="uk-progress uk-margin-remove-top" value="${listing.percentLeft}"
                                           max="100">
                                 </progress>
-
                             </div>
                         </div>
                     </div>
