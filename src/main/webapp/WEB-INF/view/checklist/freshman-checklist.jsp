@@ -134,31 +134,32 @@
                 </div>
             </div>
         </div>
-
-        <%@include file="checklist-sidenav.jsp" %>
-
-        <%@include file="../jspf/footer.jspf" %>
-
     </div>
+</div>
 
-    <script>
+<%@include file="checklist-sidenav.jsp" %>
 
-        // Start Tutorial
-        window.addEventListener("load", function () {
-            $.ajax({
-                type: 'GET',
-                url: '/checkForTutorial',
-                data: {page: "checklist"},
-            }).done(function (response) {
-                if (response.showTutorial == 'YES') {
-                    setTimeout(function () {
-                        introJs(".checklist-tutorial").start();
-                    }, 1500);
-                }
-            });
+<%@include file="../jspf/footer.jspf" %>
+
+
+<script>
+
+    // Start Tutorial
+    window.addEventListener("load", function () {
+        $.ajax({
+            type: 'GET',
+            url: '/checkForTutorial',
+            data: {page: "checklist"},
+        }).done(function (response) {
+            if (response.showTutorial == 'YES') {
+                setTimeout(function () {
+                    introJs(".checklist-tutorial").start();
+                }, 1500);
+            }
         });
+    });
 
-    </script>
+</script>
 
 
 </body>
