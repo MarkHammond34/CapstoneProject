@@ -6,16 +6,19 @@
                     class="uk-table uk-table-hover uk-table-middle uk-table-divider">
                 <thead>
                 <tr>
-                    <th>User</th>
-                    <th>Listing</th>
-                    <th>Amount</th>
+                    <th>Buyer</th>
+                    <th>Seller</th>
+                    <!--<th>Listing</th>-->
+                    <!--<th>Amount</th>-->
+                    <th>Status</th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach var="transaction" items="${transactions}">
                     <tr>
-                        <td class="uk-table-link">${transaction.listingID.name}</td>
-                        <td class="uk-preserve-width">${transaction.offerID.offerAmount}</td>
+                        <td class="uk-table-link">${transaction.buyer.username}</td>
+                        <td class="uk-table-link">${transaction.seller.username}</td>
+                        <!--<td class="uk-preserve-width">${transaction.offerID.offerAmount}</td>-->
                         <c:if test="${transaction.completed == 0}">
                             <td class="uk-text-nowrap">In Progress</td>
                         </c:if>

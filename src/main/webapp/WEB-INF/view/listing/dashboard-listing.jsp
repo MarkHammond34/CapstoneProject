@@ -4,7 +4,8 @@
     <div class="uk-float-left">
         <ul class="uk-iconnav uk-iconnav-vertical">
             <li><a href="#" uk-icon="icon: plus"></a></li>
-            <li><a href="edit?listing=${listing.id}" uk-icon="icon: file-edit"></a></li>
+            <li uk-tooltip="title: Edit; pos: left"><a href="edit?listing=${listing.id}" uk-icon="icon: file-edit"></a>
+            </li>
             <li><a href="#" uk-icon="icon: copy"></a></li>
             <li><a href="#" uk-icon="icon: trash"></a></li>
         </ul>
@@ -24,7 +25,8 @@
                                         <div class="uk-invisible-hover uk-overlay-default uk-position-cover">
                                             <div class="uk-position-center">
                                                 <a href="${pageContext.request.contextPath}/directory/${listingImages.image_path}/${listingImages.image_name}"
-                                                   title="Image"><span uk-icon="icon: search; ratio: 2"></span></a>
+                                                   title="Image"><span uk-tooltip="title: View Image"
+                                                                       uk-icon="icon: search; ratio: 2"></span></a>
                                             </div>
                                         </div>
                                     </div>
@@ -111,7 +113,7 @@
                     </div>
                 </c:when>
                 <c:when test="${listing.type == 'fixed'}">
-                    <div class="price" style="font-size: 60%;">
+                    <div class="price" style="font-size: 80%;">
                             <span class="uk-badge"
                                   id="currentBid${listing.id}" style="font-size: 90%;">Price: $${listing.price}</span>
                     </div>

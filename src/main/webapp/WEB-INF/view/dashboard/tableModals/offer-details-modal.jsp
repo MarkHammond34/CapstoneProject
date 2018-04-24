@@ -21,9 +21,6 @@
                 <div class="uk-modal-footer">
                     <div class="uk-text-right">
                         <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                        <button type="submit" id="submit" name="submit"
-                                class="btn btn-primary pull-right">Submit Form
-                        </button>
                     </div>
                 </div>
             </div>

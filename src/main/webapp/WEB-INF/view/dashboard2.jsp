@@ -56,6 +56,7 @@
                             <li aria-expanded="false"><a href="#">Lost</a></li>
                             <!--<li aria-expanded="false"><a href="#">Current bids</a></li>-->
                             <li aria-expanded="false"><a href="#">Sold</a></li>
+                            <li aria-expanded="false"><a href="#">Watching</a></li>
                         </ul>
                         <!-- "My" listings (active, inactive, etc), listings won, listings lost, current bids, listings sold (subsection of my listings) -->
                     </div>
@@ -85,6 +86,9 @@
 
                         <!-- 7th set of content: Sold listings -->
                         <%@include file="dashboard/switcher-content/sold-listings.jsp" %>
+
+                        <!-- 8th set of content: Watched listings -->
+                        <%@include file="dashboard/switcher-content/watched-listings.jsp" %>
 
                     </ul>
                     <!-- End content switcher -->
@@ -129,8 +133,8 @@
         var transactions = new List('transactions', options);
 
     </script>
+    <!--<%@include file="jspf/footer.jspf" %>-->
 </div>
-<%@include file="jspf/footer.jspf" %>
 </body>
 
 
@@ -139,5 +143,5 @@
 <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"
         integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+"
         crossorigin="anonymous"></script>
-
+<script type="text/javascript" src="date.js"></script>
 </html>
