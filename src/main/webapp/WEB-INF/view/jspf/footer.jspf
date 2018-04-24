@@ -2,7 +2,7 @@
     <a href="#" uk-totop uk-scroll uk-tooltip="title: Back To Top"></a>
 </div>
 
-<div class="uk-card-footer uk-background-secondary uk-light uk-text-small uk-grid uk-padding uk-padding-remove-bottom"
+<div class="uk-text-center uk-card-footer uk-background-secondary uk-light uk-text-small uk-grid uk-padding uk-padding-remove-bottom"
      uk-grid
      style="background-color: #2c3e50">
 
