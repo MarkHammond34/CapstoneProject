@@ -1,9 +1,9 @@
 <%@include file="jspf/header.jsp" %>
+
+<body class="uk-background-muted">
 <div style="border: 20px solid white;
             margin: 0 auto;
             background: white;">
-    <body class="uk-background-muted">
-
     <%@include file="jspf/navbar.jspf" %>
 
     <%@include file="jspf/messages.jsp" %>
@@ -121,7 +121,7 @@
                                                 Listing Ended</p>
                                             <div class="uk-grid-small uk-countdown uk-margin-remove-top uk-margin-remove-adjacent uk-align-top"
                                                  uk-grid
-                                                 uk-countdown="date: ${listing.endTimestamp}" >
+                                                 uk-countdown="date: ${listing.endTimestamp}">
                         <span class="uk-days">
                             <strong class="uk-countdown-number uk-countdown-days" style="font-size: 14px"></strong>
                             <strong class="uk-countdown-label uk-margin-left"
@@ -222,9 +222,14 @@
     </div>
 </div>
 
+<%@include file="jspf/footer.jspf" %>
+
 <%@include file="checklist/checklist-modal.jsp" %>
 
 <%@include file="checklist/checklist-sidenav.jsp" %>
+
+</div>
+</body>
 
 <script>
 
@@ -293,21 +298,20 @@
 
 <script>
 
-        // Start Tutorial
-        window.addEventListener("load", function () {
-            $.ajax({
-                type: 'GET',
-                url: '/checkForTutorial',
-                data: {page: "home"},
-            }).done(function (response) {
-                if (response.showTutorial == 'YES') {
-                    setTimeout(function () {
-                        introJs(".homepage-tutorial").start();
-                    }, 1500);
-                }
-            });
+    // Start Tutorial
+    window.addEventListener("load", function () {
+        $.ajax({
+            type: 'GET',
+            url: '/checkForTutorial',
+            data: {page: "home"},
+        }).done(function (response) {
+            if (response.showTutorial == 'YES') {
+                setTimeout(function () {
+                    introJs(".homepage-tutorial").start();
+                }, 1500);
+            }
         });
-    </script>
-    </body><%@include file="jspf/footer.jspf" %>
-</div>
+    });
+</script>
+
 </html>

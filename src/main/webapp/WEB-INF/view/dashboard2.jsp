@@ -113,8 +113,9 @@
 
             </div>
         </div>
-
     </div>
+
+    <%@include file="jspf/footer.jspf" %>
 
     <script type="text/javascript">
 
@@ -133,7 +134,6 @@
         var transactions = new List('transactions', options);
 
     </script>
-    <!--<%@include file="jspf/footer.jspf" %>-->
 </div>
 </body>
 
