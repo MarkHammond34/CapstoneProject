@@ -266,38 +266,6 @@
             text-decoration: underline;
         }
 
-        /* MAIN NAV MENU */
-
-        #nav ul {
-            float: left;
-            margin: 0;
-            padding: 0 10px;
-            list-style: none;
-        }
-
-        #nav li {
-            display: inline;
-            font-size: 1.0em;
-            line-height: 44px;
-            text-transform: uppercase;
-            margin: 0 29px 0 0;
-            padding: 0;
-        }
-
-        #nav li.last {
-            margin: 0;
-        }
-
-        #nav li a {
-            color: #fff;
-            text-decoration: none;
-        }
-
-        #nav li a:hover {
-            color: #000;
-            text-decoration: none;
-        }
-
         /* MAIN SUB-NAV MENU */
 
         #sub-nav ul {

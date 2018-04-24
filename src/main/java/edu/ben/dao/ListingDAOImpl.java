@@ -287,6 +287,15 @@ public class ListingDAOImpl implements ListingDAO {
 
     @SuppressWarnings("unchecked")
     @Override
+    public List<Listing> getUserDrafts(int id) {
+        Query q = getSession().createQuery("FROM listing WHERE userID=:id AND draft=1");
+        q.setParameter("id", id);
+
+        return q.list();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
     public List<Listing> getActiveListingsByUserId(int id) {
 
         Query q = getSession().createQuery("FROM listing WHERE userID=:id AND active = 1");

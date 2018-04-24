@@ -9,7 +9,7 @@
             <li><a href="#" uk-icon="icon: trash"></a></li>
         </ul>
     </div>
-    <div class="uk-card uk-card-default uk-border-rounded uk-float-left" style="max-width: 55%">
+    <div class="uk-card uk-card-default uk-float-left uk-box-shadow-hover-large" style="height: auto; width: 80%">
         <div class="uk-card-media-top">
             <div uk-slideshow="autoplay-interval: 2000" uk-slideshow>
                 <ul class="uk-slideshow-items">
@@ -17,7 +17,7 @@
                         <div uk-lightbox>
                             <li>
                                 <div class="uk-position-center uk-dark">
-                                    <img class="thumbnail"
+                                    <img
                                          src="${pageContext.request.contextPath}/directory/${listingImages.image_path}/${listingImages.image_name}"
                                          alt="Listing">
                                     <div class="uk-visible-toggle">
@@ -45,8 +45,8 @@
         </div>
         <div class="uk-card-body">
             <!-- Name -->
-            <h3 class="uk-card-title" style="font-size: medium"><a href="/listing?l=${listing.id}"
-                                                                   class="uk-text-danger">${listing.name}</a></h3>
+            <h3 class="uk-card-title" style="font-size: 100%"><a href="/listing?l=${listing.id}"
+                                                                 class="uk-text-danger">${listing.name}</a></h3>
             <c:if test="${listing.user.getUserID() != sessionScope.user.userID }">
                 <div
                         class="watch-item color1 uk-position-medium uk-position-top-right"
@@ -111,9 +111,9 @@
                     </div>
                 </c:when>
                 <c:when test="${listing.type == 'fixed'}">
-                    <div class="price" style="font-size: 16px;">
+                    <div class="price" style="font-size: 60%;">
                             <span class="uk-badge"
-                                  id="currentBid${listing.id}">Price: $${listing.price}</span>
+                                  id="currentBid${listing.id}" style="font-size: 90%;">Price: $${listing.price}</span>
                     </div>
                 </c:when>
             </c:choose>

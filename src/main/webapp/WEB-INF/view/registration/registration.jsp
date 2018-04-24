@@ -72,7 +72,7 @@
 
                         <div class="uk-width-1-2@m uk-width-1-1@s">
                             <label class="uk-form-label uk-text-large">Confirm Your Password</label>
-                            <input type="password" name="passwordConfirm" id="passwordConfirm" class="uk-input" required>
+                            <input type="password" name="passwordConfirm" id="passwordConfirm" class="uk-input" disabled="true" required>
                         </div>
 
                         <div class="uk-width-1-1 uk-position-relative uk-position-bottom">
@@ -167,12 +167,13 @@
             });
 
             $('#schoolEmail').keyup(function () {
+                var email = $(this).val()
                 $.ajax({
                     url: 'registerValidSchoolEmail',
                     type: 'POST',
                     data: 'email=' + $(this).val(),
                     success: function (valid) {
-                        if(valid == true && validateEmail($(this).val()) == false){
+                        if(valid == true || validateEmail(email) == false){
                             $("#registerButton").prop("disabled",true);
                             //$("#loginSubmit").prop("disabled",true);
                             $("#schoolEmail").removeClass("uk-form-success").addClass("uk-form-danger")
@@ -189,12 +190,13 @@
             });
 
             $('#email').keyup(function () {
+                var email = $(this).val()
                 $.ajax({
                     url: 'registerValidPersonalEmail',
                     type: 'POST',
                     data: 'email=' + $(this).val(),
                     success: function (valid) {
-                        if(valid == true && validateEmail($(this).val()) == false){
+                        if(valid == true || validateEmail(email) == false){
                             $("#registerButton").prop("disabled",true);
                             //$("#loginSubmit").prop("disabled",true);
                             $("#email").removeClass("uk-form-success").addClass("uk-form-danger")
@@ -208,6 +210,48 @@
                         }
                     }
                 });
+            });
+
+            $('#phoneNumber').keyup(function () {
+                if($(this).val().length == 10){
+                    $("#registerButton").prop("disabled",false);
+                    $("#phoneNumber").removeClass("uk-form-danger").addClass("uk-form-success")
+                    $('#phoneNumber').attr('uk-tooltip', 'Phone Number is valid');
+                }
+                else{
+                    $("#registerButton").prop("disabled",true);
+                    $("#phoneNumber").removeClass("uk-form-success").addClass("uk-form-danger")
+                    $('#phoneNumber').attr('uk-tooltip', 'Phone Number is invalid');
+                }
+            });
+
+            $('#password').keyup(function () {
+                if($(this).val().length < 5 || $(this).val().length > 20){
+                    $("#registerButton").prop("disabled",true);
+                    $("#password").removeClass("uk-form-success").addClass("uk-form-danger")
+                    $('#password').attr('uk-tooltip', 'Password must be greater than 3 and less than 20 characters');
+                }
+                else{
+                    $("#registerButton").prop("disabled",false);
+                    $("#password").removeClass("uk-form-danger").addClass("uk-form-success")
+
+                    $('#password').attr('uk-tooltip', 'Password is Valid');
+                    $("#passwordConfirm").prop("disabled",false);
+                }
+            });
+
+            $('#passwordConfirm').keyup(function () {
+                if($(this).val() != $('#password').val() ){
+                    $("#registerButton").prop("disabled",true);
+                    $("#passwordConfirm").removeClass("uk-form-success").addClass("uk-form-danger")
+
+                    $('#passwordConfirm').attr('uk-tooltip', 'Passwords do not match');
+                }
+                else{
+                    $("#registerButton").prop("disabled",false);
+                    $("#passwordConfirm").removeClass("uk-form-danger").addClass("uk-form-success")
+                    $('#passwordConfirm').attr('uk-tooltip', 'Passwords match');
+                }
             });
 
             function validateEmail(email) {

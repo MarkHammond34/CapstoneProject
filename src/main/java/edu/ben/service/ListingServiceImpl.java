@@ -152,6 +152,11 @@ public class ListingServiceImpl implements ListingService {
     }
 
     @Override
+    public List<Listing> getUserDrafts(int id) {
+        return ld.getUserDrafts(id);
+    }
+
+    @Override
     public List<Listing> listingSearch(String search) {
         return ld.listingSearch(search);
     }

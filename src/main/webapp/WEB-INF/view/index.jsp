@@ -220,77 +220,78 @@
         <br>
 
     </div>
+</div>
 
-    <%@include file="checklist/checklist-modal.jsp" %>
+<%@include file="checklist/checklist-modal.jsp" %>
 
-    <%@include file="checklist/checklist-sidenav.jsp" %>
+<%@include file="checklist/checklist-sidenav.jsp" %>
 
-    <script>
+<script>
 
-        // Add something to given element placeholder
-        function addToPlaceholder(toAdd, el) {
-            el.attr('placeholder', el.attr('placeholder') + toAdd);
-            // Delay between symbols "typing"
-            return new Promise(resolve => setTimeout(resolve, 100));
-        }
+    // Add something to given element placeholder
+    function addToPlaceholder(toAdd, el) {
+        el.attr('placeholder', el.attr('placeholder') + toAdd);
+        // Delay between symbols "typing"
+        return new Promise(resolve => setTimeout(resolve, 100));
+    }
 
-        // Cleare placeholder attribute in given element
-        function clearPlaceholder(el) {
-            el.attr("placeholder", "");
-        }
+    // Cleare placeholder attribute in given element
+    function clearPlaceholder(el) {
+        el.attr("placeholder", "");
+    }
 
-        // Print one phrase
-        function printPhrase(phrase, el) {
-            return new Promise(resolve => {
-                // Clear placeholder before typing next phrase
-                clearPlaceholder(el);
-                let letters = phrase.split('');
-                // For each letter in phrase
-                letters.reduce(
-                    (promise, letter, index) => promise.then(_ => {
-                        // Resolve promise when all letters are typed
-                        if (index === letters.length - 1) {
-                            // Delay before start next phrase "typing"
-                            setTimeout(resolve, 1000);
-                        }
-                        return addToPlaceholder(letter, el);
-                    }),
-                    Promise.resolve()
-                );
-            });
-        }
-
-        // Print given phrases to element
-        function printPhrases(phrases, el) {
-            // For each phrase
-            // wait for phrase to be typed
-            // before start typing next
-            phrases.reduce(
-                (promise, phrase) => promise.then(_ => printPhrase(phrase, el)),
+    // Print one phrase
+    function printPhrase(phrase, el) {
+        return new Promise(resolve => {
+            // Clear placeholder before typing next phrase
+            clearPlaceholder(el);
+            let letters = phrase.split('');
+            // For each letter in phrase
+            letters.reduce(
+                (promise, letter, index) => promise.then(_ => {
+                    // Resolve promise when all letters are typed
+                    if (index === letters.length - 1) {
+                        // Delay before start next phrase "typing"
+                        setTimeout(resolve, 1000);
+                    }
+                    return addToPlaceholder(letter, el);
+                }),
                 Promise.resolve()
             );
-        }
+        });
+    }
 
-        // Start typing
-        function run() {
-            let phrases = [
-                "Looking to furnish your new place?",
-                "We got what you need!",
-                "Need books or school supplies?",
-                "You came to the right place!",
-                "Dont know what you're looking for?",
-                "Browse through our categories",
-                "Search..."
-            ];
+    // Print given phrases to element
+    function printPhrases(phrases, el) {
+        // For each phrase
+        // wait for phrase to be typed
+        // before start typing next
+        phrases.reduce(
+            (promise, phrase) => promise.then(_ => printPhrase(phrase, el)),
+            Promise.resolve()
+        );
+    }
 
-            printPhrases(phrases, $('#search'));
-        }
+    // Start typing
+    function run() {
+        let phrases = [
+            "Looking to furnish your new place?",
+            "We got what you need!",
+            "Need books or school supplies?",
+            "You came to the right place!",
+            "Dont know what you're looking for?",
+            "Browse through our categories",
+            "Search..."
+        ];
 
-        run();
+        printPhrases(phrases, $('#search'));
+    }
 
-    </script>
+    run();
 
-    <script>
+</script>
+
+<script>
 
         // Start Tutorial
         window.addEventListener("load", function () {
@@ -307,9 +308,6 @@
             });
         });
     </script>
-
-    </body>
-
-    <%@include file="jspf/footer.jspf" %>
+    </body><%@include file="jspf/footer.jspf" %>
 </div>
 </html>

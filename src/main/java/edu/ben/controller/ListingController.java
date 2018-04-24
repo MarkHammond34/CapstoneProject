@@ -79,9 +79,9 @@ public class ListingController extends BaseController {
                                     @RequestParam("subCategory") String subCategory,
                                     @RequestParam(value = "price", required = false) int price,
                                     @RequestParam("description") String description, @RequestParam("file") List<MultipartFile> file,
-                                    @RequestParam("type") String type, @RequestParam(value = "paymentType") String paymentType,
-                                    @RequestParam("premium") String premium, Model model,
+                                    @RequestParam("type") String type, @RequestParam(value = "paymentType") String paymentType, @RequestParam(value = "draft", required = false) String draft, Model model,
                                     HttpServletRequest request) {
+        System.out.println(draft);
 
 //        if (price == null) {
 //            price = 0;
@@ -108,7 +108,7 @@ public class ListingController extends BaseController {
             return "login";
         }
 
-        if(name == null || name.isEmpty()){
+        if (name == null || name.isEmpty()) {
             addErrorMessage("Please use a valid Title");
             setRequest(request);
             return "login";
@@ -128,34 +128,33 @@ public class ListingController extends BaseController {
             listing.setType("fixed");
         }
 
-        if(category != null){
+        if (category != null) {
             listing.setCategory(category);
-        }
-        else{
+        } else {
             addErrorMessage("Need to select a valid category");
             setRequest(request);
             return "listing/create-listing";
         }
 
-        if(subCategory != null){
+        if (subCategory != null) {
             listing.setSubCategory(subCategory);
-        }
-        else{
+        } else {
             addErrorMessage("Need to select a valid sub-category");
             setRequest(request);
             return "listing/create-listing";
         }
 
-        if (premium.equals("yes")) {
-            listing.setPremium(1);
+
+        if (draft != null) {
+            listing.setDraft(1);
         } else {
-            listing.setPremium(0);
+            listing.setDraft(0);
         }
 
         // This is a dirty fix
 
         if (request.getParameter("endDate") != null) {
-             Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
+            Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
             // Checks to make sure listing is for at least one hour
             if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
                 addErrorMessage("Listings Must Be Last At Least One Hour");
@@ -203,8 +202,8 @@ public class ListingController extends BaseController {
                         }
                     }
                 }
-            } catch(Exception e){
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
                 return "listing/create-listing";
             }
             message = "Listing Uploaded Successfully";
@@ -231,15 +230,50 @@ public class ListingController extends BaseController {
                     }
                 }
             }
+            addSuccessMessage("Listing Successful!");
+            setRequest(request);
             return "redirect:/";
         } else {
             return "You failed to upload " + name + " because the file was empty.";
         }
     }
 
+    @RequestMapping(value = "/uploadListingDraft", method = RequestMethod.POST)
+    public String uploadFileHandlerDraft(@RequestParam("title") String name, @RequestParam("category") String category,
+                                         @RequestParam("subCategory") String subCategory,
+                                         @RequestParam(value = "price", required = false) int price,
+                                         @RequestParam("description") String description,
+                                         @RequestParam("type") String type, @RequestParam(value = "paymentType") String paymentType, @RequestParam("id") int id, Model model,
+                                         HttpServletRequest request) {
+
+        Listing listing = listingService.getByListingID(id);
+        listing.setCategory(category);
+        listing.setDescription(description);
+        listing.setName(name);
+        listing.setSubCategory(subCategory);
+        listing.setPaymentType(paymentType);
+        listing.setType(type);
+        listing.setPrice(price);
+        listing.setDraft(0);
+        listing.setActive(1);
+
+
+        listingService.saveOrUpdate(listing);
+
+        addSuccessMessage("Listing Successful!");
+        setRequest(request);
+        return "redirect:/viewListingDrafts";
+    }
+
 
     @RequestMapping("/createListing")
     public String listingPage(HttpServletRequest request) {
+        User u = (User) request.getSession().getAttribute("user");
+        if (u == null) {
+            addErrorMessage("Login To Create A Listing");
+            setRequest(request);
+            return "login";
+        }
         setRequest(request);
 
         request.setAttribute("categories", categoryService.getAllCategories());
@@ -252,10 +286,53 @@ public class ListingController extends BaseController {
         return "listing/create-listing";
     }
 
+    @GetMapping("/createListingDraft")
+    public String createListingDraft(HttpServletRequest request, @RequestParam("id") int id) {
+        User u = (User) request.getSession().getAttribute("user");
+        if (u == null) {
+            addErrorMessage("Login To Create A Listing");
+            setRequest(request);
+            return "login";
+        }
+        setRequest(request);
+
+        request.setAttribute("categories", categoryService.getAllCategories());
+        request.setAttribute("subCategories", categoryService.getAllSubCategories());
+        System.out.println(id);
+        request.setAttribute("listing", listingService.getByListingID(id));
+        request.setAttribute("isDraft", true);
+        return "listing/create-listing";
+    }
+
+
     @RequestMapping("/displayListing")
     public String displayListing(HttpServletRequest request) {
         setRequest(request);
         return "displayListing";
+    }
+
+    @RequestMapping("/listingDrafts")
+    public String listingDrafts(HttpServletRequest request) {
+        setRequest(request);
+        return "listingDrafts";
+    }
+
+    @RequestMapping(value = "/viewListingDrafts", method = RequestMethod.GET)
+    public String viewListingDrafts(HttpServletRequest request) {
+        User session = (User) request.getSession().getAttribute("user");
+
+        if (session == null) {
+            addWarningMessage("Login To View Your Drafts");
+            setRequest(request);
+            return "login";
+        }
+
+        List<Listing> userDrafts = listingService.getUserDrafts(session.getUserID());
+        System.out.println("size " + userDrafts.size());
+        request.setAttribute("user", session);
+        request.setAttribute("userDrafts", userDrafts);
+
+        return "listingDrafts";
     }
 
     @RequestMapping("/displayListingByCategory")
@@ -665,7 +742,8 @@ public class ListingController extends BaseController {
 //    }
 
     @GetMapping("/reportListing")
-    public String reportListing(@RequestParam("listingId") int id, HttpServletRequest request) { User u = (User) request.getSession().getAttribute("user");
+    public String reportListing(@RequestParam("listingId") int id, HttpServletRequest request) {
+        User u = (User) request.getSession().getAttribute("user");
 
         if (u == null) {
             addErrorMessage("Login To Report A Listing");

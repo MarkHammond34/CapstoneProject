@@ -66,6 +66,9 @@ public interface ListingService {
 
 	public List getPremiumListings();
 
+	public List getUserDrafts(int id);
+
+
 	public List<Listing> getAllListings();
 
 	public List<Listing> getActiveListingsByUserId(int id);

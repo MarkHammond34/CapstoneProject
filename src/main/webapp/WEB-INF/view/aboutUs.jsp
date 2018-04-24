@@ -22,7 +22,7 @@
 
     <div id="central">
         <div class="uk-margin uk-card uk-card-default uk-card-body">
-            <div class="uk-text-bold uk-text-uppercase uk-text-large"> About the Developers</div>
+            <h2 class="uk-heading-line uk-text-center"><span>About the Developers</span></h2>
         </div>
         <div id="central">
             <table
@@ -206,7 +206,8 @@
             </table>
         </div>
     </div>
-    </body>
-    <%@include file="jspf/footer.jspf" %>
+</div>
+</body>
+<%@include file="jspf/footer.jspf" %>
 </div>
 </html>

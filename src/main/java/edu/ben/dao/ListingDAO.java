@@ -67,6 +67,8 @@ public interface ListingDAO {
     public List getRelevantListingsByUserID(int userID);
 
     public List getPremiumListings();
+
+    public List getUserDrafts(int id);
     
     public List<Listing> getAllListings();
     
