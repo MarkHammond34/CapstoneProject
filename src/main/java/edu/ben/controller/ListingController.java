@@ -777,8 +777,15 @@ public class ListingController extends BaseController {
             json.addProperty("category", listing.getCategory());
             json.addProperty("subCategory", listing.getSubCategory());
             json.addProperty("dateCreated", listing.getDateCreated().toString());
-            json.addProperty("highestBidderID", listing.getHighestBidder().getUserID());
-            json.addProperty("highestBidderUsername", listing.getHighestBidder().getUsername());
+
+            if (listing.getHighestBidder() == null) {
+                json.addProperty("highestBidderID", "null");
+                json.addProperty("highestBidderUsername", "null");
+            } else {
+                json.addProperty("highestBidderID", listing.getHighestBidder().getUserID());
+                json.addProperty("highestBidderUsername", listing.getHighestBidder().getUsername());
+            }
+
             json.addProperty("highestBid", listing.getHighestBid());
             json.addProperty("endTimestamp", listing.getEndTimestamp().toString());
             json.addProperty("endTimestampInMilli", listing.getEndTimestampAsLong());

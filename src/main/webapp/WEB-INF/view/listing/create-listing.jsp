@@ -1,6 +1,6 @@
 <%@include file="../jspf/header.jsp" %>
 
-<body class="uk-background-muted">
+<body class="uk-height-viewport">
 <div style="border: 20px solid white;
             margin: 0 auto;
             background: white;">
@@ -9,7 +9,7 @@
 
     <%@include file="../jspf/messages.jsp" %>
 
-    <div class="uk-container">
+    <div class="uk-section uk-background-muted">
 
         <div class="uk-margin-medium-top" uk-grid>
 
@@ -19,10 +19,10 @@
                     <a href="${pageContext.request.contextPath}/viewListingDrafts" class="uk-icon-button uk-float-right"
                        uk-icon="file-edit"
                        uk-tooltip="View Listing Drafts"></a>
+
             <h2 class="uk-heading-line uk-text-center"><span>Create Listing</span></h2>
 
                 </span>
-                    <hr>
                     <div class="form-area">
                         <c:choose>
                         <c:when test="${isDraft == true}">

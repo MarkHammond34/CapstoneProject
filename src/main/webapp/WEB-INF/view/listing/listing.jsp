@@ -1,6 +1,6 @@
 <%@include file="../jspf/header.jsp" %>
 
-<body class="uk-background-muted listing-tutorial">
+<body class="listing-tutorial">
 <div style="border: 20px solid white;
             margin: 0 auto;
             background: white;">
@@ -9,7 +9,7 @@
 
     <%@include file="../jspf/messages.jsp" %>
 
-    <div class="uk-container">
+    <div class="uk-section uk-background-muted">
 
         <div class="uk-section uk-padding-small" uk-grid>
 
@@ -95,10 +95,9 @@
                                         href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Make
                                     offer</a>
                             </c:if>
-                            <p>
-                                <a href="${pageContext.request.contextPath}/reportListing?listingId=${listing.id}"
-                                   class="uk-icon-button uk-margin-small-right" uk-icon="warning"
-                                   uk-tooltip="Report Listing"></a></p>
+                            <a href="${pageContext.request.contextPath}/reportListing?listingId=${listing.id}"
+                               class="uk-icon-button uk-margin-small-right" uk-icon="warning"
+                               uk-tooltip="Report Listing"></a>
 
                         </div>
 
@@ -169,10 +168,9 @@
                                data-step="4"
                                uk-toggle="target: #cancelPurchaseModal">Having Second
                                 Thoughts?</a>
-                            <p>
-                                <a href="${pageContext.request.contextPath}/reportListing?listingId=${listing.id}"
-                                   class="uk-icon-button uk-margin-small-right" uk-icon="warning"
-                                   uk-tooltip="Report Listing"></a></p>
+                            <a href="${pageContext.request.contextPath}/reportListing?listingId=${listing.id}"
+                               class="uk-icon-button uk-margin-small-right" uk-icon="warning"
+                               uk-tooltip="Report Listing"></a>
                         </c:if>
                             </p>
                     </span>
@@ -269,10 +267,9 @@
                                data-step="4"
                                uk-toggle="target: #cancelPurchaseModal">Having Second
                                 Thoughts?</a>
-                            <p>
-                                <a href="${pageContext.request.contextPath}/reportListing?listingId=${listing.id}"
-                                   class="uk-icon-button uk-margin-small-right" uk-icon="warning"
-                                   uk-tooltip="Report Listing"></a></p>
+                            <a href="${pageContext.request.contextPath}/reportListing?listingId=${listing.id}"
+                               class="uk-icon-button uk-margin-small-right" uk-icon="warning"
+                               uk-tooltip="Report Listing"></a>
                         </c:if>
                                 </p>
                     </span>
@@ -332,10 +329,12 @@
 
                                             <div class="uk-margin uk-float-left" id="bidForm" style="display: none;">
                                                 <div class="uk-inline">
+                                                    <span class="uk-form-icon">$</span>
                                                     <a class="uk-form-icon uk-form-icon-flip"
                                                        uk-icon="icon: check; ratio: 1.5" uk-tooltip="title: Place Bid"
                                                        onclick="placeBid(parseInt(document.getElementById('bidValue').value))"></a>
-                                                    <input class="uk-input" name="bidValue" type="number"
+                                                    <input class="uk-input" style="padding-left: 30px;" name="bidValue"
+                                                           type="number"
                                                            min="${listing.highestBid}" id="bidValue">
                                                 </div>
                                             </div>
@@ -425,8 +424,7 @@
                                 <strong style="font-size: 22px;">Remaining</strong>
                                 </span>
                                     </div>
-                                    <progress id="js-progressbar"
-                                              class="uk-progress uk-margin-remove-top" value="${listing.percentLeft}"
+                                    <progress class="uk-progress uk-margin-remove-top" value="${listing.percentLeft}"
                                               max="100">
                                     </progress>
                                 </div>
@@ -438,10 +436,17 @@
             </div>
         </div>
     </div>
-</body>
+
+</div>
+
 <%@include file="bid-buy-modals.jsp" %>
 <%@include file="cancel-purchase-modal.jsp" %>
 <%@include file="../pickup/pick-up-verification-modal.jsp" %>
+
+<%@include file="../jspf/footer.jspf" %>
+
+</body>
+
 <script>
     function toggleBid() {
         if (document.getElementById("bidForm").style.display == 'inline') {
@@ -454,11 +459,15 @@
     var listing;
     var userLoggedIn;
 
-    var bidCountElement = document.getElementById("bidCount");
-    var highestBidElement = document.getElementById("highestBid");
-    var highestBidderElement = document.getElementById("highestBidder");
+    var bidCountElement;
+    var highestBidElement;
+    var highestBidderElement;
 
     window.addEventListener("load", function () {
+
+        bidCountElement = document.getElementById("bidCount");
+        highestBidElement = document.getElementById("highestBid");
+        highestBidderElement = document.getElementById("highestBidder");
 
         // Check For Tutorial
         $.ajax({
@@ -548,10 +557,16 @@
     });
 
     function updateDataOnPage() {
+
         bidCountElement.innerText = listing.bidCount;
-        highestBidderElement.innerText = listing.highestBidderUsername;
-        highestBidElement.innerText = '$' + listing.highestBid;
-        document.getElementById("bidValue").min = listing.highestBid;
+        if (listing.highestBidderID == "null") {
+            highestBidderElement.innerText = "";
+            highestBidElement.innerText = '$0';
+        } else {
+            highestBidderElement.innerText = listing.highestBidderUsername;
+            highestBidElement.innerText = '$' + listing.highestBid;
+        }
+        document.getElementById("bidValue").value = listing.highestBid + 1;
     }
 
     function placeBid(bidAmount) {
@@ -559,7 +574,7 @@
         document.getElementById("bidForm").style.display = "none";
         document.getElementById("bidValue").value = 0;
 
-        if (bidAmount <= listing.highestBid) {
+        if (listing.highestBidderID != "null" && bidAmount <= listing.highestBid) {
             displayWarningMessage("Your Bid Is Too Small");
 
         } else {
