@@ -208,7 +208,9 @@
                          uk-grid>
                         <c:forEach var="listing" items="${userListings}">
                             <c:if test="${listing.active == 1}">
-                                <%@include file="listing/index-listing.jsp" %>
+                                <c:if test="${listing.draft == 0}">
+                                    <%@include file="listing/index-listing.jsp" %>
+                                </c:if>
                             </c:if>
                         </c:forEach>
 

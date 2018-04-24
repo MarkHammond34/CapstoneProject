@@ -75,6 +75,9 @@ public class Listing implements java.io.Serializable {
     @Column(name = "premium")
     private int premium;
 
+    @Column(name = "draft")
+    private int draft;
+
     @OneToMany(mappedBy = "listingId",  fetch = FetchType.EAGER)
     private List<Image> images;
 
@@ -111,6 +114,19 @@ public class Listing implements java.io.Serializable {
         this.highestBid = 0;
         this.bidCount = 0;
         this.active = 1;
+    }
+
+    public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank int price, String category, @NotBlank String paymentType, int draft) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.category = category;
+        this.paymentType = paymentType;
+        this.highestBid = 0;
+        this.bidCount = 0;
+        this.active = 1;
+        this.draft = 1;
     }
 
     public Listing(@NotBlank String name, String description, @NotBlank int price, @NotBlank String paymentType) {
@@ -311,6 +327,14 @@ public class Listing implements java.io.Serializable {
 
     public void setPremium(int premium) {
         this.premium = premium;
+    }
+
+    public int getDraft() {
+        return draft;
+    }
+
+    public void setDraft(int draft) {
+        this.draft = draft;
     }
 
 	public String getPercentLeft() {

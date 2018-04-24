@@ -2,6 +2,7 @@
     <div class="uk-card-media-top">
         <div class="uk-align-center" uk-slideshow="autoplay-interval: 2000" uk-slideshow>
             <ul class="uk-slideshow-items">
+
                 <c:forEach items="${listing.images}" var="listingImages">
                     <div uk-lightbox>
                         <li>

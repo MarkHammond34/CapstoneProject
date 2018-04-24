@@ -24,7 +24,7 @@
 			<div id="form">
 				<form id="form" name="contactUs" action="sendEmail" class="uk-form"
 					method="POST">
-					<div class="uk-margin uk-position-center uk-card">
+					<div class="uk-margin uk-position-center uk-card uk-margin-top">
 						<div class="uk-margin">
 							<input class="uk-input" type="text" placeholder="Full Name" required>
 						</div>
@@ -40,7 +40,7 @@
 									  required></textarea>
 						</div>
 						<div id="mail-status"></div>
-						<input type="submit" class="uk-button-primary uk-button" name="submit" value="Send Message"
+						<input type="submit" class="uk-button-primary uk-button uk-border-rounded" name="submit" value="Send Message"
 							id="send-message" style="clear: both;">
 						<%@include file="jspf/messages.jsp"%>
 					</div>

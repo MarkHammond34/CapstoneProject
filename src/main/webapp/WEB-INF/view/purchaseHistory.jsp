@@ -42,7 +42,7 @@
                             <td>${transaction.listingID.name}</td>
                             <td>${transaction.listingID.description}</td>
                             <td>${transaction.listingID.category}</td>
-                            <td>${transaction.listingID.price}</td>
+                            <td>$${transaction.listingID.price}</td>
                             <td>${transaction.listingID.dateCreated}</td>
                             <td>${transaction.seller.username}</td>
                             <c:choose>

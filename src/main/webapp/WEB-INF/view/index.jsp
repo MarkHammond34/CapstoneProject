@@ -71,9 +71,15 @@
                         <div uk-slider>
                             <div class="uk-position-relative uk-visible-toggle uk-light">
                                 <ul class="uk-slider-items uk-child-width-1-4@s uk-grid uk-margin" uk-grid>
+
                                     <c:forEach var="listing" items="${premiumListings}">
-                                        <%@include file="listing/index-listing.jsp" %>
+                                        <c:if test="${listing.active == 1}">
+                                            <c:if test="${listing.draft == 0}">
+                                                <%@include file="listing/index-listing.jsp" %>
+                                            </c:if>
+                                        </c:if>
                                     </c:forEach>
+
                                 </ul>
                             </div>
                         </div>
@@ -85,8 +91,13 @@
                             <div class="uk-container">
                                 <div class="uk-position-relative uk-visible-toggle uk-light">
                                     <ul class="uk-slider-items uk-child-width-1-4@s uk-grid uk-margin" uk-grid>
+
                                         <c:forEach var="listing" items="${relevantListings}">
-                                            <%@include file="listing/index-listing.jsp" %>
+                                            <c:if test="${listing.active == 1}">
+                                                <c:if test="${listing.draft == 0}">
+                                                    <%@include file="listing/index-listing.jsp" %>
+                                                </c:if>
+                                            </c:if>
                                         </c:forEach>
                                     </ul>
                                 </div>
@@ -99,9 +110,12 @@
                         <div class="uk-container">
                             <div class="uk-position-relative uk-visible-toggle uk-light">
                                 <ul class="uk-slider-items uk-child-width-1-4@s uk-grid uk-margin" uk-grid>
-
                                     <c:forEach var="listing" items="${recentListings}">
-                                        <%@include file="listing/index-listing.jsp" %>
+                                        <c:if test="${listing.active == 1}">
+                                            <c:if test="${listing.draft == 0}">
+                                                <%@include file="listing/index-listing.jsp" %>
+                                            </c:if>
+                                        </c:if>
                                     </c:forEach>
                                 </ul>
                             </div>
@@ -113,9 +127,12 @@
                         <div class="uk-container">
                             <div class="uk-position-relative uk-visible-toggle uk-light">
                                 <ul class="uk-slider-items uk-child-width-1-4@s uk-grid uk-margin" uk-grid>
-
                                     <c:forEach var="listing" items="${endingSoonListings}">
-                                        <%@include file="listing/index-listing.jsp" %>
+                                        <c:if test="${listing.active == 1}">
+                                            <c:if test="${listing.draft == 0}">
+                                                <%@include file="listing/index-listing.jsp" %>
+                                            </c:if>
+                                        </c:if>
                                     </c:forEach>
                                 </ul>
                             </div>
@@ -128,7 +145,11 @@
                             <div class="uk-position-relative uk-visible-toggle uk-light">
                                 <ul class="uk-slider-items uk-child-width-1-4@s uk-grid uk-margin" uk-grid>
                                     <c:forEach var="listing" items="${recentListings}">
-                                        <%@include file="listing/index-listing.jsp" %>
+                                        <c:if test="${listing.active == 1}">
+                                            <c:if test="${listing.draft == 0}">
+                                                <%@include file="listing/index-listing.jsp" %>
+                                            </c:if>
+                                        </c:if>
                                     </c:forEach>
                                 </ul>
                             </div>
