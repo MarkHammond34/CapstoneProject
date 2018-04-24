@@ -1,8 +1,9 @@
 <%@include file="jspf/header.jsp" %>
+
+<body class="uk-background-muted">
 <div style="border: 20px solid white;
             margin: 0 auto;
             background: white;">
-    <body class="uk-background-muted">
 
     <%@include file="jspf/navbar.jspf" %>
 
@@ -29,8 +30,8 @@
             <div class="uk-child-width-1-6@m uk-grid-small uk-grid-match" uk-grid>
                 <c:forEach var="category" items="${categories}" varStatus="loop">
 
-                    <div class="item uk-animation-toggle">
-                        <a href="#"><img class="category-pic uk-border-circle uk-box-shadow-xlarge uk-animation-shake"
+                    <div class="item uk-animation">
+                        <a href="#"><img class="category-pic uk-border-circle uk-box-shadow-hover-xlarge"
                                          src="${pageContext.request.contextPath}/resources/img/category/${category.image}"></a>
                         <span class="caption">${category.category}</span>
                     </div>
@@ -248,9 +249,9 @@
             });
         });
     </script>
-
-    </body>
-
     <%@include file="jspf/footer.jspf" %>
 </div>
+</body>
+
+
 </html>

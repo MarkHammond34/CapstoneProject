@@ -2,7 +2,9 @@ package edu.ben.controller;
 
 import com.google.appengine.repackaged.org.joda.time.DateTime;
 import edu.ben.model.Revenue;
+import edu.ben.model.SalesTraffic;
 import edu.ben.service.RevenueService;
+import edu.ben.service.SalesTrafficService;
 import edu.ben.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.Callable;
 
 @Controller
 public class RevenueController {
@@ -27,6 +30,9 @@ public class RevenueController {
 
     @Autowired
     RevenueService revenueService;
+
+    @Autowired
+    SalesTrafficService trafficService;
 
 
     @RequestMapping(value = "getAdminSales")
@@ -41,6 +47,13 @@ public class RevenueController {
         ArrayList<Integer> lastSalesPerMonth = new ArrayList<>();
         ArrayList<Integer> yearlySale = new ArrayList<>();
 
+        ArrayList<Integer> dailyCount = new ArrayList<>();
+        ArrayList<Integer> weeklyCount = new ArrayList<>();
+        ArrayList<Integer> monthlyCount = new ArrayList<>();
+        ArrayList<Integer> yearlyCount = new ArrayList<>();
+
+        String[] pages = {"Community_Page", "Home_Page", "Landing_Page", "Create_Listing", "Search_Page", "Donation_Page"};
+
         Calendar day = Calendar.getInstance();
         Calendar month = Calendar.getInstance();
         Calendar lastMonth = Calendar.getInstance();
@@ -49,6 +62,12 @@ public class RevenueController {
         Calendar lastWeekHours = Calendar.getInstance();
 
         Calendar year = Calendar.getInstance();
+
+        Calendar trafficDay = Calendar.getInstance();
+        Calendar trafficFirstDayWeek = Calendar.getInstance();
+        Calendar trafficLastDayWeek = Calendar.getInstance();
+        Calendar trafficMonth = Calendar.getInstance();
+
 
         // Set the calendar to Sunday of the current week
         week.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
@@ -166,6 +185,49 @@ public class RevenueController {
             yearlySale.add(yearSale);
         }
 
+        String currentDay = new SimpleDateFormat("dd").format(trafficDay.getTime());
+
+        trafficFirstDayWeek.set(Calendar.DAY_OF_WEEK, week.getFirstDayOfWeek());
+        trafficLastDayWeek.set(Calendar.DAY_OF_WEEK, week.getFirstDayOfWeek());
+        trafficLastDayWeek.add(Calendar.DATE, 6);
+
+        String beginningOfWeek = new SimpleDateFormat("dd").format(trafficFirstDayWeek.getTime());
+        String endOfWeek = new SimpleDateFormat("dd").format(trafficLastDayWeek.getTime());
+        String currentMonth = getMonth2(trafficMonth.get(Calendar.MONTH));
+        String currentYear = new SimpleDateFormat("YYYY").format(year.getTime());
+
+
+        for (int i = 0; i < pages.length; i++) {
+
+            String currentDayFormat = currentYear + "-" + currentMonth + "-" + currentDay;
+            String beginningOfWeekFormat =  currentYear + "-" + currentMonth + "-" + beginningOfWeek;
+            String endOfWeekFormat =  currentYear + "-" + currentMonth + "-" + endOfWeek;
+            String monthFormat =  currentYear + "-" + currentMonth;
+
+            long trafficDayCount = trafficService.getCountByPageByDay(pages[i], currentDayFormat);
+            long trafficWeekCount = trafficService.getCountByPageByWeek(pages[i], beginningOfWeekFormat, endOfWeekFormat);
+            long trafficMonthCount = trafficService.getCountByPageByMonth(pages[i], monthFormat);
+            long trafficYearCount = trafficService.getCountByPageByYear(pages[i], currentYear);
+
+            Integer dayCount = (int)(long) trafficDayCount;
+            dailyCount.add(dayCount);
+            Integer weekCount = (int)(long) trafficWeekCount;
+            weeklyCount.add(weekCount);
+            Integer monthCount = (int)(long) trafficMonthCount;
+            monthlyCount.add(monthCount);
+            Integer yearCount = (int)(long) trafficYearCount;
+            yearlyCount.add(yearCount);
+
+            System.out.println("current Day: " + currentDay + " - " + dayCount);
+            System.out.println("Current Week: " + beginningOfWeek + "-" + endOfWeek + " - " + weekCount);
+            System.out.println("current month: " + currentMonth + " - " + monthCount);
+            System.out.println("current year: " + currentYear + " - " + yearCount);
+
+
+        }
+
+
+
 
         request.setAttribute("salesPerHour", salesPerHour);
         request.setAttribute("salesPerWeek", salesOfTheWeek);
@@ -174,6 +236,11 @@ public class RevenueController {
         request.setAttribute("lastWeekSalesPerHour", salesPerHourLastWeek);
         request.setAttribute("lastMonthlySales", lastSalesPerMonth);
         request.setAttribute("yearlySale", yearlySale);
+
+        request.setAttribute("dailyCount", dailyCount);
+        request.setAttribute("weeklyCount", weeklyCount);
+        request.setAttribute("monthlyCount", monthlyCount);
+        request.setAttribute("yearlyCount", yearlyCount);
 
 
         return "admin/adminPage";

@@ -41,7 +41,7 @@
                     <li>
                         <a uk-icon="icon: bell" class="homepage-tutorial"
                            data-intro="Click here to see your recent notifications"
-                           data-step="3" id="notificationBell">
+                           data-step="3" id="notificationBell" onclick="hideNotifications()">
                             <span class="badge1"
                                   id="badge1"
                                   data-badge="0" style="display: none;"></span>

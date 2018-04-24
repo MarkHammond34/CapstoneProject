@@ -31,6 +31,9 @@ public class SearchController extends BaseController {
     @Autowired
     TutorialService tutorialService;
 
+    @Autowired
+    SalesTrafficService trafficService;
+
     @RequestMapping(value = "/searchResults", method = RequestMethod.POST)
     public String searchCategory(@RequestParam("search") String search, HttpServletRequest request, Model model) {
         String saved = "";
@@ -86,6 +89,9 @@ public class SearchController extends BaseController {
         request.setAttribute("user", user);
         request.setAttribute("saved", saved);
         request.setAttribute("userSearch", userSearch);
+
+        SalesTraffic s = new SalesTraffic("Search_Page");
+        trafficService.create(s);
 
         return "searchResults";
 

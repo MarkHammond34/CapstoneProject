@@ -1,5 +1,6 @@
 package edu.ben.dao;
 
+import edu.ben.model.Revenue;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,6 +20,16 @@ public class RevenueDAOImpl implements RevenueDAO {
     private Session getSession() {
         return sessionFactory.getCurrentSession();
     }
+
+//    @Override
+//    public int create(Revenue r) {
+//        return getSession().save(r);
+//    }
+//
+//    @Override
+//    public void saveOrUpdate(Revenue r) {
+//
+//    }
 
     @Override
     public long getDailyRevenue(int hour, String date) {

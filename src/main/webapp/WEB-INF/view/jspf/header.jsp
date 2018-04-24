@@ -239,12 +239,6 @@
             padding: 20px 0;
         }
 
-        #footer {
-            width: 980px;
-            height: 60px;
-            margin: 0 auto;
-        }
-
         /* TOP MENU */
 
         #top ul {
