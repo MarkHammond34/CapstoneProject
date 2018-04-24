@@ -307,7 +307,7 @@ public class ListingDAOImpl implements ListingDAO {
 
     @Override
     public List getHottestListings() {
-        Query q = getSession().createQuery("FROM listing ORDER BY bidCount DESC");
+        Query q = getSession().createQuery("FROM listing WHERE type='auction' ORDER BY bidCount DESC");
         return q.list();
     }
 
