@@ -44,7 +44,7 @@
                                     <strong>Title of Product</strong> <input type="text"
                                                                              class="uk-input" id="titleId" name="title"
                                                                              value="${listing.name}"
-                                                                             placeholder="Title">
+                                                                             placeholder="Title" required>
                                     <span class="val_error" id="title_error"></span>
                                 </div>
 
@@ -63,8 +63,7 @@
 
                                 <div class="uk-width-1-2">
                                     <strong>Category</strong><select id="category" name="category"
-                                                                     class="uk-select" onchange="changeCategory(this);"
-                                                                     required>
+                                                                     class="uk-select" onchange="changeCategory(this);">
                                     <c:choose>
                                         <c:when test="${isDraft == true}">
                                             <c:forEach var="category" items="${categories}">
@@ -123,7 +122,7 @@
                                 <div class="uk-width-1-2@m uk-width-1-1@s">
                                     <strong>Type</strong>
                                     <select id="type" name="type"
-                                            class="uk-select" onchange="typeChange(this);" required>
+                                            class="uk-select" onchange="typeChange(this);">
                                         <c:choose>
                                             <c:when test="${isDraft == true}">
                                                 <c:choose>
@@ -172,7 +171,7 @@
                                 <div class="uk-width-1-1" id="paymentTypeDiv">
                                     <strong>Payment Type</strong>
                                     <select id="paymentType" name="paymentType"
-                                            class="uk-select" required>
+                                            class="uk-select">
                                         <c:choose>
                                             <c:when test="${isDraft == true}">
                                                 <c:choose>
@@ -296,7 +295,7 @@
             document.getElementById('title_error').textContent = "";
         }
         // Image Checking
-        if (${isDraft != true}) {
+        if (${listing.isDraft != true}) {
             if (extension != "jpeg" && extension != "png" && extension != "jpg") {
                 document.getElementById('image_error').textContent = "* Must upload an image file.";
                 document.getElementById('image_error').style.color = "red";

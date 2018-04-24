@@ -124,8 +124,11 @@ public class ListingController extends BaseController {
         if (type.equals("auction")) {
             listing.setType("auction");
             listing.setHighestBid(0);
-        } else {
+        }else if(type.equals("fixed")){
             listing.setType("fixed");
+        }
+        else {
+            listing.setType("donation");
         }
 
         if (category != null) {
@@ -140,6 +143,22 @@ public class ListingController extends BaseController {
             listing.setSubCategory(subCategory);
         } else {
             addErrorMessage("Need to select a valid sub-category");
+            setRequest(request);
+            return "listing/create-listing";
+        }
+
+        if (type != null) {
+            listing.setType(type);
+        } else {
+            addErrorMessage("Need to select a valid type");
+            setRequest(request);
+            return "listing/create-listing";
+        }
+
+        if (paymentType != null) {
+            listing.setPaymentType(paymentType);
+        } else {
+            addErrorMessage("Need to select a valid payment type");
             setRequest(request);
             return "listing/create-listing";
         }
