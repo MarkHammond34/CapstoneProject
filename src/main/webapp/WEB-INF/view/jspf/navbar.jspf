@@ -3,20 +3,48 @@
      data-intro="Welcome to U-ListIt! Here is a quick tour of our home page."
      data-step="1">
     <div class="uk-position-relativetop">
-        <nav class="uk-navbar-container" style="color: rgba(238, 238, 238, 0)" uk-navbar>
-            <div class="uk-navbar-left">
+
+        <nav class="uk-navbar-container" style="color: rgba(238, 238, 238, 0)"
+             uk-navbar>
+
+            <!-- Left Side Desktop -->
+            <div class="uk-navbar-left uk-visible@m uk-visible@l">
+                <ul class="uk-navbar-nav">
+                    <li><a class="uk-active" href="/">Home</a></li>
+                    <li><a href="/communityPage">Community</a></li>
+                    <li><a href="/donate">Donations</a></li>
+                    <li><a href="/createListing">Create Listing</a></li>
+                </ul>
+            </div>
+
+            <!-- Left Side Mobile -->
+            <div class="uk-navbar-left uk-hidden@m uk-hidden@l">
                 <a class="uk-navbar-toggle homepage-tutorial" uk-navbar-toggle-icon
                    uk-toggle="target: #offcanvas-slide"
                    data-intro="Click here to see more options."
                    data-step="4"></a>
             </div>
-            <div class="uk-navbar-center">
-                <a href="/" class="uk-navbar-item uk-align-center"><img
-                        src="${pageContext.request.contextPath}/resources/img/logo.png"
-                        style="margin-top: 10%; width: 25%; display: block; margin: auto;"></a>
+
+            <!-- Center Desktop -->
+            <div class="uk-navbar-center uk-visible@m uk-visible@l">
+                <div class="uk-padding-small" style="margin-top: 25px">
+                    <img class="uk-align-center" src="${pageContext.request.contextPath}/resources/img/logo.png"
+                         style="width: 25%; display: block; margin: auto;">
+                </div>
             </div>
-            <div class="uk-navbar-right">
+
+            <!-- Center Mobile -->
+            <div class="uk-navbar-center uk-hidden@m uk-hidden@l">
+                <div class="uk-padding-small" style="margin-top: 12px">
+                    <img class="uk-align-center" src="${pageContext.request.contextPath}/resources/img/logo.png"
+                         style="width: 75%; display: block; margin: auto;">
+                </div>
+            </div>
+
+            <!-- Right Side Desktop -->
+            <div class="uk-navbar-right uk-visible@m uk-visible@l">
                 <div>
+                    <!-- Search -->
                     <a class="uk-navbar-toggle homepage-tutorial" uk-search-icon href="#"
                        data-intro="Click here to search for listings or users."
                        data-step="2"></a>
@@ -119,29 +147,41 @@
                     </c:choose>
                 </ul>
             </div>
+
+            <!-- Right Side Mobile -->
+            <div class="uk-navbar-right uk-hidden@m uk-hidden@l">
+
+                <!-- Search -->
+                <a class="uk-navbar-toggle" href="#search-overlay" uk-search-icon uk-toggle></a>
+
+                <a class="uk-navbar-toggle" uk-toggle="target: #right-side-nav" uk-icon="icon: user"></a>
+
+            </div>
+
         </nav>
+
     </div>
 </div>
 
-<!--Side Nav Menu -->
-<div id="offcanvas-slide" uk-offcanvas="overlay: true">
-    <div class="uk-offcanvas-bar uk-flex uk-flex-column">
+<!-- Search Popup -->
+<div id="search-overlay" class="uk-overlay uk-light uk-align-center uk-border-rounded uk-padding-small"
+     style="width:85%;background: rgba(34,34,34,0.85);" hidden>
+    <form class="uk-search uk-search-navbar">
+        <span uk-search-icon></span>
+        <input class="uk-search-input" type="search" name="mainSearch" placeholder="Search...">
+    </form>
+</div>
 
-        <ul
-                class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical">
+<!-- Left Side Nav Menu -->
+<div id="offcanvas-slide" uk-offcanvas="overlay: true">
+    <div class="uk-offcanvas-bar">
+
+        <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical">
             <li><a href="${pageContext.request.contextPath}/"><span
                     class="uk-margin-small-right" uk-icon="icon: home"></span>Home</a></li>
+            <li class="uk-nav-divider"></li>
 
             <c:if test="${sessionScope.user != null}">
-                <li class="uk-nav-divider"></li>
-                <li><a
-                        href="${pageContext.request.contextPath}/viewProfile?id=${sessionScope.user.userID}"><span
-                        class="uk-margin-small-right" uk-icon="icon: user"></span>Profile</a></li>
-                <li class="uk-nav-divider"></li>
-                <li><a
-                        href="${pageContext.request.contextPath}/viewUserListings?id=${sessionScope.user.userID}"><span
-                        class="uk-margin-small-right" uk-icon="icon: thumbnails"></span>Listings</a></li>
-                <li class="uk-nav-divider"></li>
                 <li><a href="${pageContext.request.contextPath}/createListing"><span
                         class="uk-margin-small-right" uk-icon="icon: plus-circle"></span>Create
                     Listing</a></li>
@@ -166,6 +206,56 @@
 
         </ul>
 
+    </div>
+</div>
+
+<!-- Right Side Nav Menu -->
+<div id="right-side-nav" uk-offcanvas="flip: true; overlay: true">
+    <div class="uk-offcanvas-bar">
+        <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical">
+
+            <c:choose>
+                <c:when test="${sessionScope.user == null}">
+                    <!-- No User -->
+                    <li><a href="/login"><span
+                            class="uk-margin-small-right" uk-icon="icon: sign-in"></span>Login</a></li>
+                    <li class="uk-nav-divider"></li>
+
+                    <li><a href="${pageContext.request.contextPath}/register"><span
+                            class="uk-margin-small-right" uk-icon="icon: user"></span>Register</a></li>
+                    <li class="uk-nav-divider"></li>
+                </c:when>
+                <c:otherwise>
+
+                    <li><h3>Welcome, ${sessionScope.user.firstName}</h3></li>
+                    <!-- User Logged In -->
+                    <li class="uk-nav-divider"></li>
+
+                    <li><a
+                            href="${pageContext.request.contextPath}/viewProfile?userId=${sessionScope.user.userID}"><span
+                            class="uk-margin-small-right" uk-icon="icon: user"></span>Profile</a></li>
+                    <li class="uk-nav-divider"></li>
+
+                    <li><a
+                            href="${pageContext.request.contextPath}/dashboard"><span
+                            class="uk-margin-small-right" uk-icon="icon: thumbnails"></span>Dashboard</a></li>
+                    <li class="uk-nav-divider"></li>
+
+
+                    <li><a href="${pageContext.request.contextPath}/notifications"><span
+                            class="uk-margin-small-right" uk-icon="icon: bell"></span>Notifications</a></li>
+                    <li class="uk-nav-divider"></li>
+
+                    <c:if test="${checklist != null}">
+                        <li><a href="${pageContext.request.contextPath}/checklist"><span
+                                class="uk-margin-small-right" uk-icon="icon: list"></span>Checklist</a></li>
+                        <li class="uk-nav-divider"></li>
+                    </c:if>
+
+                </c:otherwise>
+            </c:choose>
+
+        </ul>
     </div>
 </div>
 
