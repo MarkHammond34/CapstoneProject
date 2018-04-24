@@ -77,4 +77,7 @@ public interface ListingService {
 
 	public List listingsSearchDonations(String search);
 
+	public List getHottestListings();
+
+
 }

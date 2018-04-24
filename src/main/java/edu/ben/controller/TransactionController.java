@@ -123,9 +123,18 @@ public class TransactionController extends BaseController {
 	@PostMapping("/reviewRateSeller")
 	public String reviewRateSeller(@RequestParam("id") int id, HttpServletRequest request) {
 
+
+
+
 		Transaction transaction = transactionService.getTransaction(id);
 		int transRating = Integer.parseInt(request.getParameter("transRating"));
 		String transReview = request.getParameter("transReview");
+
+		if (transaction.getFeedbackLeft() == 1) {
+			addErrorMessage("Feedback has already been left for this transaction!");
+			setRequest(request);
+			return "redirect:/viewPurchaseHistory";
+		}
 
 		transactionService.updateTransRating(transRating, transaction);
 		transactionService.updateTransReview(transReview, transaction);

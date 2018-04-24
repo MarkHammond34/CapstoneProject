@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -71,6 +72,24 @@ public class HomeController extends BaseController {
 		model.addObject("premiumListings", listingService.getPremiumListings());
 
 		model.addObject("categories", categoryService.getAllCategories());
+
+		ArrayList<Listing> hottestListings = new ArrayList<>();
+
+		ArrayList<Listing> temp = (ArrayList<Listing>) listingService.getHottestListings();
+		int size;
+		if (temp.size() > 7 ) {
+			size = 7;
+		} else {
+			size = temp.size();
+		}
+
+		for (int i = 0; i < size; i++) {
+			hottestListings.add(temp.get(i));
+		}
+
+		request.setAttribute("hottestListings", hottestListings);
+
+
 
 		User user = (User) request.getSession().getAttribute("user");
 

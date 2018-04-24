@@ -76,4 +76,6 @@ public interface ListingDAO {
     
     public List<Listing> getInActiveListingsByUserId(int id);
 
+    public List getHottestListings();
+
 }

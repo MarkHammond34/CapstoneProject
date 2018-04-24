@@ -744,12 +744,20 @@ public class ListingController extends BaseController {
     @GetMapping("/reportListing")
     public String reportListing(@RequestParam("listingId") int id, HttpServletRequest request) {
         User u = (User) request.getSession().getAttribute("user");
+        Listing l = listingService.getByListingID(id);
 
         if (u == null) {
             addErrorMessage("Login To Report A Listing");
             setRequest(request);
             return "login";
         }
+
+        if (u.getUserID() == l.getUser().getUserID()) {
+            addErrorMessage("You cannot report your own listing!");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
 
         System.out.println(id);
         Listing listing = listingService.getByListingID(id);

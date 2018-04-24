@@ -211,6 +211,11 @@ public class ListingServiceImpl implements ListingService {
         return ld.listingsSearchDonations(search);
     }
 
+    @Override
+    public List getHottestListings() {
+        return ld.getHottestListings();
+    }
+
     public void deleteByListingId(int id) {
         ld.deleteByListingId(id);
     }

@@ -54,7 +54,7 @@ public class User {
 
     @Column(name = "password")
     @NotNull
-    @Size(min = 3, max = 20, message = "Password Must Be Between 6 and 20 Characters")
+    @Size(min = 5, max = 20, message = "Password Must Be Between 6 and 20 Characters")
     private String password;
 
     @Transient

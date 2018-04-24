@@ -6,8 +6,8 @@
                         class="uk-table uk-table-hover uk-table-middle uk-table-divider">
                     <thead>
                     <tr>
-                        <th>User</th>
-                        <!--<th>Listing</th>-->
+                        <!--<th>User</th>-->
+                        <th>Listing</th>
                         <th>Amount</th>
                         <th>Status</th>
                     </tr>
@@ -15,11 +15,11 @@
                     <tbody>
                     <c:forEach var="offer" items="${offers}">
                         <tr>
-                            <td><img class="uk-preserve-width uk-border-circle"
+                            <!--<td><img class="uk-preserve-width uk-border-circle"
                                      uk-tooltip="${offer.offerMaker.username}"
                                      src="${pageContext.request.contextPath}/resources/img/listings/default.jpeg"
-                                     height="auto" width="40" alt=""></td>
-                            <!--<td class="uk-text-truncate">${offer.listingID.name}</td>-->
+                                     height="auto" width="40" alt=""></td>-->
+                            <td class="uk-text-truncate">${offer.listingID.name}</td>
                             <td class="uk-preserve-width">${offer.offerAmount}</td>
                             <td class="uk-text-nowrap">${offer.status}</td>
                             <td class="uk-text-nowrap">
