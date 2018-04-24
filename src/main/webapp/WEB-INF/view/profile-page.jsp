@@ -7,16 +7,17 @@
     <%@include file="jspf/navbar.jspf" %>
     <div class="uk-container">
         <div class="row">
-            <div class="fb-profile">
+            <div class="fb-profile uk-align-center">
                 <a href="${pageContext.request.contextPath}/editUser?id=${user.userID}"><img
                         align="left" style="border-radius: 50%"
                         class="fb-image-profile thumbnail"
                         src="https://media-exp2.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAO7AAAAJDVkYzc5Y2UzLWM2YzktNGVhMi05YWJjLTdlYjVlNzc1Nzk4OQ.jpg"
                         alt="Profile image example" uk-tooltip="Edit Profile Data"/></a>
-                <div class="fb-profile-text">
+                <div class="uk-align-center fb-profile-text uk-padding-small uk-width-2-3">
                     <h1>
                         <strong class="uk-text-danger">${user.username}</strong>
                     </h1>
+                    <p></p><i><strong><div class="uk-padding-small uk-text-left uk-text-uppercase uk-text-bold">${user.firstName} ${user.lastName}</div></strong></i></p>
                 </div>
             </div>
         </div>
