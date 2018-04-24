@@ -24,29 +24,28 @@
                 <div class="uk-dropdown-grid uk-child-width-1-2@m" uk-grid>
                     <div>
                         <ul class="uk-nav uk-dropdown-nav">
-                            <li class="uk-active"><a href="#">Active</a></li>
-                            <li><a href="#">Item</a></li>
+                            <li class="uk-active">Active</li>
+                            <li>Item</li>
                             <li class="uk-nav-header">Header</li>
-                            <li><a href="#">Item</a></li>
-                            <li><a href="#">Item</a></li>
+                            <li>Item</li>
+                            <li>Item</li>
                             <li class="uk-nav-divider"></li>
-                            <li><a href="#">Item</a></li>
+                            <li>Item</li>
                         </ul>
                     </div>
                     <div>
                         <ul class="uk-nav uk-dropdown-nav">
-                            <li class="uk-active"><a href="#">Active</a></li>
-                            <li><a href="#">Item</a></li>
+                            <li class="uk-active">Active</li>
+                            <li>Item</li>
                             <li class="uk-nav-header">Header</li>
-                            <li><a href="#">Item</a></li>
-                            <li><a href="#">Item</a></li>
+                            <li>Item</li>
+                            <li>Item</li>
                             <li class="uk-nav-divider"></li>
-                            <li><a href="#">Item</a></li>
+                            <li>Item</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>

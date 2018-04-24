@@ -8,15 +8,16 @@
              uk-navbar>
 
             <!-- Left Side Desktop -->
-            <div class="uk-navbar-left uk-visible@m uk-visible@l">
-                <ul class="uk-navbar-nav">
-                    <li><a class="uk-active" href="/">Home</a></li>
-                    <li><a href="/communityPage">Community</a></li>
-                    <li><a href="/donate">Donations</a></li>
-                    <li><a href="/createListing">Create Listing</a></li>
-                </ul>
-            </div>
-
+            <c:if test="${sessionScope.user != null}">
+                <div class="uk-navbar-left uk-visible@m uk-visible@l">
+                    <ul class="uk-navbar-nav">
+                        <li><a class="uk-active" href="/">Home</a></li>
+                        <li><a href="/communityPage">Community</a></li>
+                        <li><a href="/donate">Donations</a></li>
+                        <li><a href="/createListing">Create Listing</a></li>
+                    </ul>
+                </div>
+            </c:if>
             <!-- Left Side Mobile -->
             <div class="uk-navbar-left uk-hidden@m uk-hidden@l">
                 <a class="uk-navbar-toggle homepage-tutorial" uk-navbar-toggle-icon

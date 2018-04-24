@@ -744,12 +744,20 @@ public class ListingController extends BaseController {
     @GetMapping("/reportListing")
     public String reportListing(@RequestParam("listingId") int id, HttpServletRequest request) {
         User u = (User) request.getSession().getAttribute("user");
+        Listing l = listingService.getByListingID(id);
 
         if (u == null) {
             addErrorMessage("Login To Report A Listing");
             setRequest(request);
             return "login";
         }
+
+        if (u.getUserID() == l.getUser().getUserID()) {
+            addErrorMessage("You cannot report your own listing!");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
 
         System.out.println(id);
         Listing listing = listingService.getByListingID(id);
@@ -777,8 +785,15 @@ public class ListingController extends BaseController {
             json.addProperty("category", listing.getCategory());
             json.addProperty("subCategory", listing.getSubCategory());
             json.addProperty("dateCreated", listing.getDateCreated().toString());
-            json.addProperty("highestBidderID", listing.getHighestBidder().getUserID());
-            json.addProperty("highestBidderUsername", listing.getHighestBidder().getUsername());
+
+            if (listing.getHighestBidder() == null) {
+                json.addProperty("highestBidderID", "null");
+                json.addProperty("highestBidderUsername", "null");
+            } else {
+                json.addProperty("highestBidderID", listing.getHighestBidder().getUserID());
+                json.addProperty("highestBidderUsername", listing.getHighestBidder().getUsername());
+            }
+
             json.addProperty("highestBid", listing.getHighestBid());
             json.addProperty("endTimestamp", listing.getEndTimestamp().toString());
             json.addProperty("endTimestampInMilli", listing.getEndTimestampAsLong());
