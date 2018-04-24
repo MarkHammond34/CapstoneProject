@@ -124,8 +124,11 @@ public class ListingController extends BaseController {
         if (type.equals("auction")) {
             listing.setType("auction");
             listing.setHighestBid(0);
-        } else {
+        }else if(type.equals("fixed")){
             listing.setType("fixed");
+        }
+        else {
+            listing.setType("donation");
         }
 
         if (category != null) {

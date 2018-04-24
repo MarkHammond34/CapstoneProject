@@ -33,6 +33,7 @@
                             </div>
                         </td>
                     </tr>
+
                     <%@include file="tableModals/transaction-details-modal.jsp" %>
                 </c:forEach>
                 </tbody>

@@ -11,6 +11,14 @@ public interface NewsDAO {
 
 	public void create(News news);
 
+	public List sortNewsByDateASC();
+
+	public List sortNewsByDateDESC();
+
+	public List sortNewsArticlesByNameASC();
+
+	public List sortNewsArticlesByNameDESC();
+
 	public News getArticleByID(int id);
 
 	public List getAllArticles();

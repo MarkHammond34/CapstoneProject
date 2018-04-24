@@ -14,4 +14,12 @@ public interface NewsService {
 	public News getArticleByID(int id);
 
 	public List getAllArticles();
+
+	public List sortNewsByDateASC();
+
+	public List sortNewsByDateDESC();
+
+	public List sortNewsArticlesByNameASC();
+
+	public List sortNewsArticlesByNameDESC();
 }
