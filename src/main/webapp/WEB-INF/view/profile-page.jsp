@@ -1,9 +1,9 @@
 <%@include file="jspf/header.jsp" %>
 <%@include file="jspf/messages.jsp" %>
+<body class="uk-height-viewport uk-background-muted">
 <div style="border: 20px solid white;
             margin: 0 auto;
             background: white;">
-    <body>
     <%@include file="jspf/navbar.jspf" %>
     <div class="uk-container">
         <div class="row">
@@ -17,7 +17,9 @@
                     <h1>
                         <strong class="uk-text-danger">${user.username}</strong>
                     </h1>
-                    <p></p><i><strong><div class="uk-heading-line uk-padding-small uk-text-left uk-text-uppercase uk-text-bold">${user.firstName} ${user.lastName}</div></strong></i></p>
+                    <p></p><i><strong>
+                    <div class="uk-heading-line uk-padding-small uk-text-left uk-text-uppercase uk-text-bold">${user.firstName} ${user.lastName}</div>
+                </strong></i></p>
                 </div>
             </div>
         </div>
@@ -215,64 +217,64 @@
                             </c:if>
                         </c:forEach>
 
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        $(".watch-item").click(function () {
-            var id = $(this).attr('id')
-            $(this).toggleClass('watch-item');
-            console.log("Hit Ajax")
-            $.ajax({
-                type: "POST",
-                url: "watchListing",
-                data: {
-                    listingID: id
-                },
-                success: function () {
-                    console.log("Complete")
-                },
+</div>
+<script type="text/javascript">
+    $(".watch-item").click(function () {
+        var id = $(this).attr('id')
+        $(this).toggleClass('watch-item');
+        console.log("Hit Ajax")
+        $.ajax({
+            type: "POST",
+            url: "watchListing",
+            data: {
+                listingID: id
+            },
+            success: function () {
+                console.log("Complete")
+            },
 
-            });
-        })
+        });
+    })
 
-        function follow() {
-            document.getElementById('unfollow').style.display = "inline";
-            document.getElementById('follow').style.display = "none";
-            document.getElementById('followingTotalNew').style.display = "inline";
-            document.getElementById('followingTotal').style.display = "none";
-            var userID = document.getElementById('followUser').value;
-            $.ajax({
-                type: 'GET',
-                url: 'followUser',
-                data: {
-                    result: "follow",
-                    followerId: userID
-                }
-            });
-        }
+    function follow() {
+        document.getElementById('unfollow').style.display = "inline";
+        document.getElementById('follow').style.display = "none";
+        document.getElementById('followingTotalNew').style.display = "inline";
+        document.getElementById('followingTotal').style.display = "none";
+        var userID = document.getElementById('followUser').value;
+        $.ajax({
+            type: 'GET',
+            url: 'followUser',
+            data: {
+                result: "follow",
+                followerId: userID
+            }
+        });
+    }
 
-        function unfollow() {
-            document.getElementById('unfollow').style.display = "none";
-            document.getElementById('follow').style.display = "inline";
-            document.getElementById('followingTotalNew').style.display = "none";
-            document.getElementById('followingTotal').style.display = "inline";
-            var userID = document.getElementById('unfollowUser').value;
-            $.ajax({
-                type: 'GET',
-                url: 'followUser',
-                data: {
-                    result: "unfollow",
-                    followerId: userID
+    function unfollow() {
+        document.getElementById('unfollow').style.display = "none";
+        document.getElementById('follow').style.display = "inline";
+        document.getElementById('followingTotalNew').style.display = "none";
+        document.getElementById('followingTotal').style.display = "inline";
+        var userID = document.getElementById('unfollowUser').value;
+        $.ajax({
+            type: 'GET',
+            url: 'followUser',
+            data: {
+                result: "unfollow",
+                followerId: userID
 
-                }
-            });
-        }
-    </script>
-    </body>
-    <%@include file="jspf/footer.jspf" %>
+            }
+        });
+    }
+</script>
+</body>
+<%@include file="jspf/footer.jspf" %>
 </div>
 </html>

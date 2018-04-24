@@ -132,11 +132,11 @@
             </div>
 
         </div>
-
-
     </div>
 
-    <%@include file="../jspf/footer.jspf" %>
+</div>
+
+<%@include file="../jspf/footer.jspf" %>
 
 </div>
 

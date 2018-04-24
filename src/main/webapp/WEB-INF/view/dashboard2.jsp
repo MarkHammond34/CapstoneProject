@@ -130,6 +130,7 @@
 
     </script>
 </div>
+<%@include file="jspf/footer.jspf" %>
 </body>
 
 

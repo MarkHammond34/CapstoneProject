@@ -1,12 +1,15 @@
 <%@include file="jspf/header.jsp" %>
-    <body class="uk-height-viewport uk-background-muted">
+<body class="uk-height-viewport uk-background-muted">
+<div style="border: 20px solid white;
+            margin: 0 auto;
+            background: white;">
 
     <%@include file="jspf/navbar.jspf" %>
 
     <%@include file="jspf/messages.jsp" %>
 
     <div class="uk-align-center uk-section uk-background-muted">
-        <div class="uk-margin uk-card uk-card-default uk-card-body">
+        <div class="uk-margin">
             <h2 class="uk-heading-line uk-text-center"><span>Purchase History</span></h2>
         </div>
         <div class="uk-width-5-6 uk-align-center">
@@ -118,8 +121,9 @@
             </script>
         </div>
     </div>
-    </body>
-    <%@include file="jspf/footer.jspf" %>
+</div>
+</body>
+<%@include file="jspf/footer.jspf" %>
 </div>
 
 </html>

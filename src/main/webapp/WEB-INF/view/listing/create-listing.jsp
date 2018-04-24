@@ -16,7 +16,9 @@
                     <a href="${pageContext.request.contextPath}/viewListingDrafts" class="uk-icon-button uk-float-right"
                        uk-icon="file-edit"
                        uk-tooltip="View Listing Drafts"></a>
-                <h2 class="uk-text-center uk-text-bold">Create Listing</h2>
+                <div class="uk-margin">
+            <h2 class="uk-heading-line uk-text-center"><span>Create Listing</span></h2>
+        </div>
                 </span>
                 <hr>
                 <div class="form-area">

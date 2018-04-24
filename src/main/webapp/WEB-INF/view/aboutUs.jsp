@@ -206,7 +206,8 @@
             </table>
         </div>
     </div>
-    </body>
-    <%@include file="jspf/footer.jspf" %>
+</div>
+</body>
+<%@include file="jspf/footer.jspf" %>
 </div>
 </html>
