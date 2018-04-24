@@ -63,7 +63,7 @@
 
                                 <div class="uk-width-1-2">
                                     <strong>Category</strong><select id="category" name="category"
-                                                                     class="uk-select" onchange="changeCategory(this);">
+                                                                     class="uk-select" onchange="changeCategory(this);" required>
                                     <c:choose>
                                         <c:when test="${isDraft == true}">
                                             <c:forEach var="category" items="${categories}">
@@ -94,7 +94,7 @@
                                     <c:choose>
                                     <c:when test="${isDraft == true}">
                                     <select id="subCategorySelect"
-                                            name="subCategory" class="uk-select">
+                                            name="subCategory" class="uk-select" required>
                                         <c:forEach var="subCategory" items="${subCategories}">
                                         <c:choose>
                                         <c:when test="${listing.subCategory == subCategory.subCategory}">
@@ -122,7 +122,7 @@
                                 <div class="uk-width-1-2@m uk-width-1-1@s">
                                     <strong>Type</strong>
                                     <select id="type" name="type"
-                                            class="uk-select" onchange="typeChange(this);">
+                                            class="uk-select" onchange="typeChange(this);" required>
                                         <c:choose>
                                             <c:when test="${isDraft == true}">
                                                 <c:choose>
