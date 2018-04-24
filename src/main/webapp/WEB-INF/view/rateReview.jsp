@@ -7,9 +7,7 @@
 
 <div class="uk-align-center uk-section uk-background-muted">
     <div class="uk-margin uk-card uk-card-default uk-card-body">
-        <h2><strong>
-            <div class="uk-text-bold uk-margin-top uk-text-center uk-text-uppercase"> Review/Rating Form</div>
-        </strong></h2>
+        <h2 class="uk-heading-line uk-text-center"><span>Review/Rating Form</span></h2>
     </div>
     <div class="uk-margin-top uk-align-center uk-text-center">
         <p>Please leave a review for this seller. Leave a rating from 1

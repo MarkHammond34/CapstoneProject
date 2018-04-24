@@ -8,7 +8,7 @@
 
 <div class="uk-align-center uk-section uk-background-muted">
     <div class="uk-margin uk-card uk-card-default uk-card-body">
-        <h2><strong><div class="uk-text-bold uk-text-center uk-text-uppercase"> Seller Reviews</div></strong></h2>
+        <h2 class="uk-heading-line uk-text-center"><span>Seller Reviews</span></h2>
     </div>
     <div class="uk-width-3-4 uk-align-center">
         <h3><strong class="uk-text-danger uk-text-large"> ${user.username}</strong> has <strong

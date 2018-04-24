@@ -7,7 +7,7 @@
 
     <div class="uk-align-center uk-section uk-background-muted">
         <div class="uk-margin uk-card uk-card-default uk-card-body">
-            <h2><strong><div class="uk-text-bold uk-text-center uk-text-uppercase"> Purchase History</div></strong></h2>
+            <h2 class="uk-heading-line uk-text-center"><span>Purchase History</span></h2>
         </div>
         <div class="uk-width-5-6 uk-align-center">
             <h3>You have made <strong

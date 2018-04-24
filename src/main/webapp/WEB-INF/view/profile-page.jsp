@@ -17,7 +17,7 @@
                     <h1>
                         <strong class="uk-text-danger">${user.username}</strong>
                     </h1>
-                    <p></p><i><strong><div class="uk-padding-small uk-text-left uk-text-uppercase uk-text-bold">${user.firstName} ${user.lastName}</div></strong></i></p>
+                    <p></p><i><strong><div class="uk-heading-line uk-padding-small uk-text-left uk-text-uppercase uk-text-bold">${user.firstName} ${user.lastName}</div></strong></i></p>
                 </div>
             </div>
         </div>
