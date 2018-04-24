@@ -5,7 +5,7 @@
         <div class="uk-width-3-5@m uk-width-1-1@s uk-first-column">
             <div class="uk-child-width-1-2@m uk-child-width-1-1@s uk-grid-match uk-grid-large" uk-grid>
                 <div>
-                    <!--<h3>My Bids</h3>-->
+                    <h3>My Bids</h3>
                     <div class="uk-card uk-card-default">
                         <div class="uk-card-media-top">
                             <img
@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div>
-                    <!--<h3>Their Bids</h3>-->
+                    <h3>Their Bids</h3>
                     <div class="uk-card uk-card-default">
                         <div id="image-top" class="uk-card-media-top">
                             <img
@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="uk-width-2-5@m uk-width-1-1@s">
-            <!--<h3>Relevant Posts For Me</h3>-->
+            <h3>Relevant Posts For Me</h3>
             <div>
                 <!--<h3>Relevant Posts For Me</h3>-->
                 <div class="uk-card uk-card-default">

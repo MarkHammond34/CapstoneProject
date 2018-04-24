@@ -266,6 +266,7 @@ public class OfferController extends BaseController {
 
 			// Update old offer
 			initialOffer.setStatus("countered");
+            initialOffer.setActive(0);
 			offerService.saveOrUpdate(initialOffer);
 
 			// Save new offer

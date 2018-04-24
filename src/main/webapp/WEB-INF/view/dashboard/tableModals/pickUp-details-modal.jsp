@@ -4,11 +4,13 @@
         <form method="post" action="/bid">
             <div class="uk-child-width-1-2@s" uk-grid>
                 <div>
-                    <h4>Name: ${listing.name}</h4>
-                    <h4>Highest Bid: $${listing.highestBid}</h4>
-                    <h4>Seller: <a
-                            href="/viewProfile?id=${listing.user.userID}">${listing.user.username}</a>
+                    <h4>Listing: <!----></h4>
+                    <h4>Buyer: <!--<a href="/viewProfile?id=}</a>--></h4>
+                    <h4>Seller: <!--<a
+                            href="/viewProfile?id=</a>-->
                     </h4>
+                    <h4>Pickup time: <!----></h4>
+                    <h4>Pickup location: <!----></h4>
                 </div>
             </div>
             <p class="uk-text-right">

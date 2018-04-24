@@ -10,12 +10,16 @@
 
             <div class="uk-modal-body">
                 <div class="uk-width-1-1">
-                    <strong>Transaction:</strong>
+                    <strong>Buyer:</strong>
                     <p id="#"></p>
                 </div>
                 <div class="uk-width-1-1">
-                    <strong> Transaction stuff:</strong>
+                    <strong>Seller:</strong>
                     <p id="&"></p>
+                </div>
+                <div class="uk-width-1-1">
+                    <strong>Listing:</strong>
+                    <p id="^"></p>
                 </div>
 
                 <div class="uk-modal-footer">
