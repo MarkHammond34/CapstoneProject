@@ -76,9 +76,19 @@
                 <div>
                     <div class="uk-card-body">
                         <h1 class="uk-heading-line uk-text-center uk-padding"><span>Community Page</span></h1>
-                        <p style="font-size: 14px;">Come view our community page. Here you can see all of your schools
+                        <p class="uk-text-middle" style="font-size: 16px;">Come view our community page. Here you can
+                            see all of your schools
                             latest events and news. Click here for more details.</p>
+
+                        <br>
+                        <br>
+                        <a href="/communityPage">
+                            <button class="uk-button uk-button-default uk-width-1-1 uk-margin-small-bottom">View Our
+                                Community Page
+                            </button>
+                        </a>
                     </div>
+
                 </div>
             </div>
         </div>
