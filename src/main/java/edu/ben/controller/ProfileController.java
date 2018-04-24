@@ -120,7 +120,7 @@ public class ProfileController extends BaseController {
     }
 
     @RequestMapping(value="/profileImageUpload", method=RequestMethod.POST)
-    public String profileImageUploadPost(@RequestParam("file") MultipartFile file,@RequestParam("imageMain") String imageMain, HttpServletRequest request){
+    public String profileImageUploadPost(@RequestParam("file") MultipartFile file,@RequestParam(value ="imageMain", required = false) String imageMain, HttpServletRequest request){
         User u = (User) request.getSession().getAttribute("user");
 	    String fileType = FilenameUtils.getExtension(file.getOriginalFilename());
         String fileName = FilenameUtils.getBaseName(file.getOriginalFilename());
@@ -137,7 +137,7 @@ public class ProfileController extends BaseController {
                 imgImport.setImage_path("ulistitUsers" + "/" + u.getUserID()+"@"+u.getSchoolEmail() + "/" + "profile");
                 imgImport.setUser(u);
                 imgImport.setImage_name(fileName + "." + fileType);
-                if (imageMain.equals("yes")) {
+                if (imageMain != null) {
                     imageService.removeAllMainImages(u.getUserID());
                     imgImport.setMain(1);
                 } else {
