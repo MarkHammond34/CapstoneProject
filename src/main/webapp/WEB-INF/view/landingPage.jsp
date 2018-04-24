@@ -33,7 +33,8 @@
             <div class="uk-grid-match uk-child-width-expand@m" uk-grid>
                 <div>
                     <div class="uk-card uk-border-rounded uk-card-default uk-card-body uk-padding-large">
-                        <p>U-ListIt is a buy, sell, and donation platform for colleges and universities around the globe. Are focus is fast and easy commercial exchange.</p>
+                        <p>U-ListIt is a buy, sell, and donation platform for colleges and universities around the globe.
+                            Our focus is fast and easy commercial exchange.</p>
                     </div>
                 </div>
                 <div>
