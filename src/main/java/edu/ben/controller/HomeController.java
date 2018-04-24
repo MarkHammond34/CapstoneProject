@@ -73,9 +73,35 @@ public class HomeController extends BaseController {
 
 		model.addObject("categories", categoryService.getAllCategories());
 
-		ArrayList<Listing> hottestListings = new ArrayList<>();
+        User user = (User) request.getSession().getAttribute("user");
+
+
+        ArrayList<Listing> hottestListings = new ArrayList<>();
+		ArrayList<Listing> relevent = new ArrayList<>();
 
 		ArrayList<Listing> temp = (ArrayList<Listing>) listingService.getHottestListings();
+
+		if (request.getSession().getAttribute("user") != null) {
+            System.out.println("Session not null");
+		    User user2 = (User) request.getSession().getAttribute("user");
+            ArrayList<Listing> temp2 = (ArrayList<Listing>) listingService.getRelevantListingsByUserID(user2.getUserID());
+
+            int size;
+            if (temp2.size() > 7 ) {
+                size = 7;
+            } else {
+                size = temp2.size();
+            }
+
+            for (int i = 0; i < size; i++) {
+                relevent.add(temp2.get(i));
+            }
+
+            System.out.println("Relevant Size: " + relevent.size());
+
+            request.setAttribute("relevent", relevent);
+
+        }
 		int size;
 		if (temp.size() > 7 ) {
 			size = 7;
@@ -90,8 +116,7 @@ public class HomeController extends BaseController {
 		request.setAttribute("hottestListings", hottestListings);
 
 
-
-		User user = (User) request.getSession().getAttribute("user");
+//		User user = (User) request.getSession().getAttribute("user");
 
 
 	ListingRunner.run();
@@ -104,6 +129,7 @@ public class HomeController extends BaseController {
 			List<Listing> relevantListings = listingService.getRelevantListingsByUserID(user.getUserID());
 
 			if (relevantListings.size() > 3) {
+                System.out.println(relevantListings.get(0).getName());
 				model.addObject("relevantListings", relevantListings);
 			} else {
 				model.addObject("relevantListings", null);
