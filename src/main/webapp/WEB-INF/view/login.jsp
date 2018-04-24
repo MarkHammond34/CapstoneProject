@@ -66,7 +66,7 @@
                     </div>
                     <div class="uk-width-1-1 uk-margin-small">
                         <button id="loginSubmit" type="submit"
-                                class="uk-button uk-button-primary uk-border-rounded uk-float-right">Login
+                                class="uk-button uk-button-secondary uk-border-rounded uk-float-right">Login
                         </button>
                         <br>
                         <br>

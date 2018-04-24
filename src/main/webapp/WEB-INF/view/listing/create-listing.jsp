@@ -22,7 +22,6 @@
             <h2 class="uk-heading-line uk-text-center"><span>Create Listing</span></h2>
 
                 </span>
-                    <hr>
                     <div class="form-area">
                         <c:choose>
                         <c:when test="${isDraft == true}">
