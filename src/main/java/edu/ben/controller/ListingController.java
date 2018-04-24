@@ -144,6 +144,22 @@ public class ListingController extends BaseController {
             return "listing/create-listing";
         }
 
+        if (type != null) {
+            listing.setType(type);
+        } else {
+            addErrorMessage("Need to select a valid type");
+            setRequest(request);
+            return "listing/create-listing";
+        }
+
+        if (paymentType != null) {
+            listing.setPaymentType(paymentType);
+        } else {
+            addErrorMessage("Need to select a valid payment type");
+            setRequest(request);
+            return "listing/create-listing";
+        }
+
 
         if (draft != null) {
             listing.setDraft(1);
