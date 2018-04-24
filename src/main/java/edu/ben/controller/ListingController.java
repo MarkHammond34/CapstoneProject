@@ -77,25 +77,25 @@ public class ListingController extends BaseController {
     @RequestMapping(value = "/uploadListing", method = RequestMethod.POST)
     public String uploadFileHandler(@RequestParam("title") String name, @RequestParam("category") String category,
                                     @RequestParam("subCategory") String subCategory,
-                                    @RequestParam(value = "price", required = false) int price,
+                                    @RequestParam(value = "price", required = false) Integer price,
                                     @RequestParam("description") String description, @RequestParam("file") List<MultipartFile> file,
                                     @RequestParam("type") String type, @RequestParam(value = "paymentType") String paymentType, @RequestParam(value = "draft", required = false) String draft, Model model,
                                     HttpServletRequest request) {
         System.out.println(draft);
 
-//        if (price == null) {
-//            price = 0;
-//            // This is a dirty fix
-//            Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
-//
-//            // Checks to make sure listing is for at least one hour
-//            if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
-//                addErrorMessage("Listings Must Be Last At Least One Hour");
-//                setRequest(request);
-//                return "redirect:" + request.getHeader("Referer");
-//
-//            }
-//        }
+        if (price == null) {
+            price = 0;
+            // This is a dirty fix
+            Timestamp endTimestamp = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00.0");
+
+            // Checks to make sure listing is for at least one hour
+            if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600000))) {
+                addErrorMessage("Listings Must Be Last At Least One Hour");
+                setRequest(request);
+                return "redirect:" + request.getHeader("Referer");
+
+            }
+        }
 
         String message = "";
         String error = "";
