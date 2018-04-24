@@ -31,6 +31,15 @@
     <!-- 2nd Section: Listings/Content -->
 
     <div class="uk-section">
+        <!--
+        <nav class="uk-navbar-container" nav>
+            <div class="uk-navbar-center-right">
+                <ul class="uk-navbar-nav">
+                    <li><a class="sort" data-sort="timestamp" href="#">Sort date</a></li>
+                </ul>
+            </div>
+        </nav>-->
+        <!--<button class="sort" data-sort="timestamp">Sort date</button>-->
 
         <div class="uk-container uk-container-expand">
             <!-- class="uk-grid-large" -->
@@ -45,7 +54,7 @@
                             <li aria-expanded="false"><a href="#">InActive</a></li>
                             <li aria-expanded="false"><a href="#">Won</a></li>
                             <li aria-expanded="false"><a href="#">Lost</a></li>
-                            <li aria-expanded="false"><a href="#">Current bids</a></li>
+                            <!--<li aria-expanded="false"><a href="#">Current bids</a></li>-->
                             <li aria-expanded="false"><a href="#">Sold</a></li>
                         </ul>
                         <!-- "My" listings (active, inactive, etc), listings won, listings lost, current bids, listings sold (subsection of my listings) -->
@@ -72,7 +81,7 @@
                         <%@include file="dashboard/switcher-content/lost-listings.jsp" %>
 
                         <!-- 6th set of content: Current-bid listings -->
-                        <%@include file="dashboard/switcher-content/current-bid-listings.jsp" %>
+                        <!--<%@include file="dashboard/switcher-content/current-bid-listings.jsp" %>-->
 
                         <!-- 7th set of content: Sold listings -->
                         <%@include file="dashboard/switcher-content/sold-listings.jsp" %>
@@ -92,7 +101,7 @@
          style="box-sizing: border-box; min-height: 100vh; height: 100vh;">
         <!-- uk-height-viewport="min-height:300" -->
         <div class="uk-container uk-container-expand">
-            <div class="uk-grid-small uk-child-width-1-2@m uk-child-width-1-3@l uk-padding-small uk-grid" uk-grid="">
+            <div class="uk-grid-small uk-child-width-1-2@m uk-child-width-1-3@l uk-padding-small uk-grid-match" uk-grid>
 
                 <%@include file="dashboard/dashboard-offers.jsp" %>
                 <%@include file="dashboard/dashboard-meetings.jsp" %>
