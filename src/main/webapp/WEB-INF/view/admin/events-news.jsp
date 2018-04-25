@@ -40,46 +40,91 @@
 </div>
 
 <script type="text/javascript">
-    var selected = [];
-
-    $('select').change(function () {
-
-        console.log("Hit Onload");
-
-        var value = $(this).val();
-
-        console.log("This: " + $(this));
-
-        $(".uk-margin").find('select').children('option').each(function () {
-            console.log("This value: " + $(this).val());
-            console.log("Value: " + value);
 
 
-            if ($(this).val() === value && $(this).val() != "none") {
-                selected.push($(this).value);
-
-                $(this).attr('disabled', true);
-                console.log("Push Size: " + selected.length);
-
-                for (var i = 0; i < selected.length; i++) {
-                    if (selected[i] === "main1") {
-
-                    } else if (selected[i] === "main2") {
-
-                    } else if (selected[i] === "main3") {
-
-                    }
-                    $(this).siblings().removeAttr('disabled');
-                }
-
-            }
-        });
-
-    });
-
-
-    function handleChangeMain(currentArticleValue, currentArticleID) {
+    function handleChangeMain(newsArticle, articleType) {
         console.log("Hit Servlet")
+
+        var article = newsArticle.value.split(",");
+        var id = article[0];
+        var newIndex = parseInt(article[1]) + 1;
+
+        var noneIndex;
+        var count = false;
+
+        var type = articleType;
+
+        console.log("");
+        console.log("Type: " + type);
+        console.log("ID: " + id);
+        console.log("New Index: " + newIndex);
+
+        var jsonArray = ${requestScope.newsArticlesJson};
+
+        for (var key in jsonArray) {
+            var index = parseInt(key) + 1;
+            var previousArticle;
+
+
+
+            if (jsonArray[key].displayType == type) {
+                console.log("Hit If Check")
+                document.getElementById("main1").options[index].disabled = false;
+                document.getElementById("main2").options[index].disabled = false;
+                document.getElementById("main3").options[index].disabled = false;
+                document.getElementById("feature1").options[index].disabled = false;
+                document.getElementById("feature2").options[index].disabled = false;
+                document.getElementById("feature3").options[index].disabled = false;
+                document.getElementById("feature4").options[index].disabled = false;
+
+                document.getElementById(type).selectedIndex = newIndex;
+                document.getElementById("main1").options[newIndex].disabled = true;
+                document.getElementById("main2").options[newIndex].disabled = true;
+                document.getElementById("main3").options[newIndex].disabled = true;
+                document.getElementById("feature1").options[newIndex].disabled = true;
+                document.getElementById("feature2").options[newIndex].disabled = true;
+                document.getElementById("feature3").options[newIndex].disabled = true;
+                document.getElementById("feature4").options[newIndex].disabled = true;
+
+            } else if (id == 'none' && count == false) {
+                noneIndex = index + 1;
+                console.log("NoneCount: " + noneIndex);
+                count = true;
+            } else {
+                document.getElementById(type).selectedIndex = newIndex;
+                document.getElementById("main1").options[newIndex].disabled = true;
+                document.getElementById("main2").options[newIndex].disabled = true;
+                document.getElementById("main3").options[newIndex].disabled = true;
+                document.getElementById("feature1").options[newIndex].disabled = true;
+                document.getElementById("feature2").options[newIndex].disabled = true;
+                document.getElementById("feature3").options[newIndex].disabled = true;
+                document.getElementById("feature4").options[newIndex].disabled = true;
+            }
+            index++;
+
+        }
+        if (id == 'none') {
+            console.log("hit none");
+            console.log("index: " + index);
+            document.getElementById("main1").options[noneIndex].disabled = false;
+            document.getElementById("main2").options[noneIndex].disabled = false;
+            document.getElementById("main3").options[noneIndex].disabled = false;
+            document.getElementById("feature1").options[noneIndex].disabled = false;
+            document.getElementById("feature2").options[noneIndex].disabled = false;
+            document.getElementById("feature3").options[noneIndex].disabled = false;
+            document.getElementById("feature4").options[noneIndex].disabled = false;
+
+        }
+        // Set none to enabled
+        document.getElementById("main1").options[0].disabled = false;
+        document.getElementById("main2").options[0].disabled = false;
+        document.getElementById("main3").options[0].disabled = false;
+        document.getElementById("feature1").options[0].disabled = false;
+        document.getElementById("feature2").options[0].disabled = false;
+        document.getElementById("feature3").options[0].disabled = false;
+        document.getElementById("feature4").options[0].disabled = false;
+
+        console.log("Select Index: " + index);
 
 
     }
@@ -96,20 +141,75 @@
             if (jsonArray[key].displayType == 'main1') {
                 console.log("Article = main1");
                 document.getElementById("main1").selectedIndex = index;
-                document.getElementById("main2").options[index].disabled();
-                document.getElementById("main3").options[index].disabled();
+                document.getElementById("main2").options[index].disabled = true;
+                document.getElementById("main3").options[index].disabled = true;
+                document.getElementById("feature1").options[index].disabled = true;
+                document.getElementById("feature2").options[index].disabled = true;
+                document.getElementById("feature3").options[index].disabled = true;
+                document.getElementById("feature4").options[index].disabled = true;
 
             } else if (jsonArray[key].displayType == 'main2') {
                 console.log("Article = main2");
                 document.getElementById("main2").selectedIndex = index;
+                document.getElementById("main1").options[index].disabled = true;
+                document.getElementById("main3").options[index].disabled = true;
+                document.getElementById("feature1").options[index].disabled = true;
+                document.getElementById("feature2").options[index].disabled = true;
+                document.getElementById("feature3").options[index].disabled = true;
+                document.getElementById("feature4").options[index].disabled = true;
 
             } else if (jsonArray[key].displayType == 'main3') {
                 console.log("Article = main3");
                 document.getElementById("main3").selectedIndex = index;
+                document.getElementById("main2").options[index].disabled = true;
+                document.getElementById("main1").options[index].disabled = true;
+                document.getElementById("feature1").options[index].disabled = true;
+                document.getElementById("feature2").options[index].disabled = true;
+                document.getElementById("feature3").options[index].disabled = true;
+                document.getElementById("feature4").options[index].disabled = true;
+
+            } else if (jsonArray[key].displayType == 'feature1') {
+                console.log("Article = feature 1");
+                document.getElementById("feature1").selectedIndex = index;
+                document.getElementById("main1").options[index].disabled = true;
+                document.getElementById("main2").options[index].disabled = true;
+                document.getElementById("main3").options[index].disabled = true;
+                document.getElementById("feature2").options[index].disabled = true;
+                document.getElementById("feature3").options[index].disabled = true;
+                document.getElementById("feature4").options[index].disabled = true;
 
             }
-        }
+            else if (jsonArray[key].displayType == 'feature2') {
+                console.log("Article = feature 2");
+                document.getElementById("feature2").selectedIndex = index;
+                document.getElementById("main1").options[index].disabled = true;
+                document.getElementById("main2").options[index].disabled = true;
+                document.getElementById("main3").options[index].disabled = true;
+                document.getElementById("feature1").options[index].disabled = true;
+                document.getElementById("feature3").options[index].disabled = true;
+                document.getElementById("feature4").options[index].disabled = true;
 
+            } else if (jsonArray[key].displayType == 'feature3') {
+                console.log("Article = feature 3");
+                document.getElementById("feature3").selectedIndex = index;
+                document.getElementById("main1").options[index].disabled = true;
+                document.getElementById("main2").options[index].disabled = true;
+                document.getElementById("main3").options[index].disabled = true;
+                document.getElementById("feature1").options[index].disabled = true;
+                document.getElementById("feature2").options[index].disabled = true;
+                document.getElementById("feature4").options[index].disabled = true;
+
+            } else if (jsonArray[key].displayType == 'feature1') {
+                console.log("Article = feature 4");
+                document.getElementById("feature4").selectedIndex = index;
+                document.getElementById("main1").options[index].disabled = true;
+                document.getElementById("main2").options[index].disabled = true;
+                document.getElementById("main3").options[index].disabled = true;
+                document.getElementById("feature1").options[index].disabled = true;
+                document.getElementById("feature2").options[index].disabled = true;
+                document.getElementById("feature3").options[index].disabled = true;
+            }
+        }
 
     }
 </script>

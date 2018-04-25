@@ -19,22 +19,22 @@
                         <tr>
                             <td><label class="uk-form-label" for="main1"></label>
                                 <div class="uk-form-controls">
-                                    <select name="select" class="uk-select" id="main1">
-                                        <option> None</option>
+                                    <select name="select" class="uk-select" id="main1" onchange="handleChangeMain(this,'main1')">
+                                        <option value = "none,-1"> None</option>
                                         <c:forEach var="article" items="${allArticles}" varStatus="loop">
                                             <option id="${article.newsID}"
-                                                    value="${article.newsID}">${article.title}</option>
+                                                    value="${article.newsID},${loop.index}">${article.title}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
                             </td>
                             <td><label class="uk-form-label" for="main2"></label>
                                 <div class="uk-form-controls">
-                                    <select name="select" class="uk-select" id="main2">
-                                        <option> None</option>
+                                    <select name="select" class="uk-select" id="main2" onchange="handleChangeMain(this,'main2')">
+                                        <option value = "none,-1"> None</option>
                                         <c:forEach var="article" items="${allArticles}" varStatus="loop">
                                             <option id="${article.newsID}"
-                                                    value="${article.newsID}">${article.title}</option>
+                                                    value="${article.newsID},${loop.index}">${article.title}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
@@ -42,11 +42,11 @@
                             <td>
                                 <label class="uk-form-label" for="main3"></label>
                                 <div class="uk-form-controls">
-                                    <select name="select" class="uk-select" id="main3">
-                                        <option> None</option>
+                                    <select name="select" class="uk-select" id="main3" onchange="handleChangeMain(this,'main3')">
+                                        <option value = "none,-1"> None</option>
                                         <c:forEach var="article" items="${allArticles}" varStatus="loop">
                                             <option id="${article.newsID}"
-                                                    value="${article.newsID}">${article.title}</option>
+                                                    value="${article.newsID},${loop.index}">${article.title}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
@@ -78,44 +78,44 @@
                     <tr>
                         <td><label class="uk-form-label" for="feature1"></label>
                             <div class="uk-form-controls">
-                                <select name="select" class="uk-select" id="feature1">
-                                    <option> None</option>
+                                <select name="select" class="uk-select" id="feature1" onchange="handleChangeMain(this,'feature1')">
+                                    <option value = "none,-1"> None</option>
                                     <c:forEach var="article" items="${allArticles}" varStatus="loop">
                                         <option id="${article.newsID}"
-                                                value="${article.newsID}">${article.title}</option>
+                                                value="${article.newsID},${loop.index}">${article.title}</option>
                                     </c:forEach>
                                 </select>
                             </div>
                         </td>
                         <td><label class="uk-form-label" for="feature2"></label>
                             <div class="uk-form-controls">
-                                <select name="select" class="uk-select" id="feature2">
-                                    <option> None</option>
+                                <select name="select" class="uk-select" id="feature2" onchange="handleChangeMain(this,'feature2')">
+                                    <option value = "none,-1"> None</option>
                                     <c:forEach var="article" items="${allArticles}" varStatus="loop">
                                         <option id="${article.newsID}"
-                                                value="${article.newsID}">${article.title}</option>
+                                                value="${article.newsID},${loop.index}">${article.title}</option>
                                     </c:forEach>
                                 </select>
                             </div>
                         </td>
                         <td><label class="uk-form-label" for="feature3"></label>
                             <div class="uk-form-controls">
-                                <select name="select" class="uk-select" id="feature3">
-                                    <option> None</option>
+                                <select name="select" class="uk-select" id="feature3" onchange="handleChangeMain(this,'feature3')">
+                                    <option value = "none,-1"> None</option>
                                     <c:forEach var="article" items="${allArticles}" varStatus="loop">
                                         <option id="${article.newsID}"
-                                                value="${article.newsID}">${article.title}</option>
+                                                value="${article.newsID},${loop.index}">${article.title}</option>
                                     </c:forEach>
                                 </select>
                             </div>
                         </td>
                         <td><label class="uk-form-label" for="feature4"></label>
                             <div class="uk-form-controls">
-                                <select name="select" class="uk-select" id="feature4">
-                                    <option> None</option>
+                                <select name="select" class="uk-select" id="feature4" onchange="handleChangeMain(this,'feature4')">
+                                    <option value = "none,-1"> None</option>
                                     <c:forEach var="article" items="${allArticles}" varStatus="loop">
                                         <option id="${article.newsID}"
-                                                value="${article.newsID}">${article.title}</option>
+                                                value="${article.newsID},${loop.index}">${article.title}</option>
                                     </c:forEach>
                                 </select>
                             </div>
