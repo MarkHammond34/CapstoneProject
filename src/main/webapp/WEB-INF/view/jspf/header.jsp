@@ -68,9 +68,12 @@
     <spring:url value="resources/css/index-listing.css" var="indexListingCSS"/>
     <spring:url value="resources/css/registration.css" var="regCSS"/>
 
+    <!-- Notification -->
     <spring:url value="resources/css/notification.css" var="notCSS"/>
     <spring:url value="resources/js/notification.js" var="notJS"/>
 
+    <!-- Create Listing -->
+    <spring:url value="resources/js/create-listing.js" var="cretJS"/>
 
     <title>${title}</title>
 
@@ -773,6 +776,7 @@
 
     <script type="text/javascript" src="${jquery}"></script>
     <script type="text/javascript" src="${notJS}"></script>
+    <script type="text/javascript" src="${cretJS}"></script>
     <script type="text/javascript" src="${uikitJS}"></script>
     <link href="${uikitCSS}" rel="stylesheet"/>
     <script type="text/javascript" src="${uikiticons}"></script>

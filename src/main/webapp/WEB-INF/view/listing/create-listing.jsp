@@ -48,22 +48,40 @@
                                     <span class="val_error" id="title_error"></span>
                                 </div>
 
-                                <div class="uk-width-1-3@m uk-width-1-2@s" uk-form-custom>
+                                <div class="uk-width-1-3@m uk-width-1-2@s" uk-form-custom id="uploadDiv">
                                     <br>
-                                    <input id="image" type="file" name="file" multiple/>
+                                    <input id="image" type="file" name="file" multiple
+                                           onchange="updateFile()"/>
                                     <span class="val_error" id="image_error"></span>
                                     <button class="uk-button uk-button-default uk-width-1-1" type="button"
-                                            tabindex="-1">Upload
-                                        Images
+                                            tabindex="-1" id="uploadButton">Upload Images
                                     </button>
-                                    <span><c:forEach items="${listing.images}" var="image">
-                                        ${image.image_name}
-                                    </c:forEach></span>
+                                </div>
+
+                                <!-- Image Badges -->
+                                <div class="uk-width-1-1 uk-margin-small-top">
+                                    <div class="uk-width-1-3@m uk-width-1-2@s uk-align-right" id="imageBadges">
+                                        <c:if test="${isDraft == true}">
+                                            <c:forEach items="${listing.images}" var="image">
+                                                <span class="uk-badge uk-padding-small"
+                                                      style="background-color: lightslategray; margin: 5px;"
+                                                      id="image${image.id}">
+                                                    ${image.image_name}
+                                                    <a class="uk-margin-small-left"
+                                                       uk-icon="icon: close; ratio: 0.75"
+                                                       onclick="removeImage(${listing.id}, ${isDraft}, ${image.id})"></a>
+                                                </span>
+                                                ${image.image_name}
+                                            </c:forEach>
+                                        </c:if>
+                                    </div>
                                 </div>
 
                                 <div class="uk-width-1-2">
                                     <strong>Category</strong><select id="category" name="category"
-                                                                     class="uk-select" onchange="changeCategory(this);" required>
+                                                                     class="uk-select"
+                                                                     onchange="changeCategory(this);"
+                                                                     required>
                                     <c:choose>
                                         <c:when test="${isDraft == true}">
                                             <c:forEach var="category" items="${categories}">
@@ -127,7 +145,8 @@
                                             <c:when test="${isDraft == true}">
                                                 <c:choose>
                                                     <c:when test="${listing.type == 'fixed'}">
-                                                        <option value="${listing.type}" selected>Fixed Price</option>
+                                                        <option value="${listing.type}" selected>Fixed Price
+                                                        </option>
                                                     </c:when>
                                                     <c:otherwise>
                                                         <option value="${listing.type}">Fixed Price</option>
@@ -176,7 +195,8 @@
                                             <c:when test="${isDraft == true}">
                                                 <c:choose>
                                                     <c:when test="${listing.paymentType == 'PAYPAL'}">
-                                                        <option value="${listing.paymentType}" selected>PayPal</option>
+                                                        <option value="${listing.paymentType}" selected>PayPal
+                                                        </option>
                                                     </c:when>
                                                     <c:otherwise>
                                                         <option value="${listing.paymentType}">PayPal</option>
@@ -184,7 +204,8 @@
                                                 </c:choose>
                                                 <c:choose>
                                                     <c:when test="${listing.paymentType == 'CASH'}">
-                                                        <option value="${listing.paymentType}" selected>Cash</option>
+                                                        <option value="${listing.paymentType}" selected>Cash
+                                                        </option>
                                                     </c:when>
                                                     <c:otherwise>
                                                         <option value="${listing.paymentType}">Cash</option>
@@ -192,13 +213,15 @@
                                                 </c:choose>
                                                 <c:choose>
                                                     <c:when test="${listing.paymentType == 'EITHER'}">
-                                                        <option value="${listing.type}" selected>Doesn't Matter (Buyer
+                                                        <option value="${listing.type}" selected>Doesn't Matter
+                                                            (Buyer
                                                             Chooses
                                                             Cash or PayPal)
                                                         </option>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <option value="${listing.type}">Doesn't Matter (Buyer Chooses
+                                                        <option value="${listing.type}">Doesn't Matter (Buyer
+                                                            Chooses
                                                             Cash or
                                                             PayPal)
                                                         </option>
@@ -217,11 +240,18 @@
                                 </div>
 
 
-                                <div class="uk-width-1-1" id="dateEnd">
-                                    <strong>End Date</strong><input type="datetime-local"
+                                <div class="uk-width-1-2@m uk-width-1-1@s" id="dateEnd">
+                                    <strong>End Date</strong><input type="date"
                                                                     class="uk-input" id="endDate"
-                                                                    value="${listing.endDate}" name=" endDate"
+                                                                    value="${listing.endDate}" name="endDate"
                                                                     placeholder="End Date" disabled>
+                                </div>
+
+                                <div class="uk-width-1-2@m uk-width-1-1@s" id="timeEnd">
+                                    <strong>End Time</strong><input type="time"
+                                                                    class="uk-input" id="endTime"
+                                                                    value="${listing.endTime}" name="endTime"
+                                                                    placeholder="End Time" disabled>
                                 </div>
 
                                 <div class="uk-width-1-1">
@@ -236,7 +266,8 @@
                                 <div class="uk-width-1-1">
                                     <div class="uk-width-1-1">
                                         <c:if test="${isDraft != true}">
-                                            <label><input class="uk-checkbox" style="margin-bottom: 5px" type="checkbox"
+                                            <label><input class="uk-checkbox" style="margin-bottom: 5px"
+                                                          type="checkbox"
                                                           name="draft"
                                                           value="yes" onclick="draftToggle(this)"> Save as Draft
                                             </label>
@@ -248,6 +279,7 @@
                                         </button>
                                     </div>
                                 </div>
+                                <input type="hidden" name="filesToIgnore" value="" id="filesToIgnore">
                             </form>
                     </div>
                 </div>
@@ -258,18 +290,7 @@
 <%@include file="../jspf/footer.jspf" %>
 </body>
 
-<script type="text/javascript">
-    function draftToggle(checkbox) {
-        if (checkbox.checked) {
-            document.getElementById("submit").classList.remove("uk-button-primary");
-            document.getElementById("submit").classList.add("uk-button-secondary");
-            document.getElementById("submit").innerText = "Save Draft";
-        } else {
-            document.getElementById("submit").classList.remove("uk-button-secondary");
-            document.getElementById("submit").classList.add("uk-button-primary");
-            document.getElementById("submit").innerText = "Create Listing";
-        }
-    }
+<script>
 
     function validateForm() {
         var title_error = document.getElementById("title_error");
@@ -322,34 +343,6 @@
             document.getElementById('price_error').textContent = "";
         }
 
-    }
-
-    function changeCategory(option) {
-
-        var allSubCategories = document.getElementsByClassName("sub-category");
-
-        for (var i = 0; i < allSubCategories.length; i++) {
-            if (allSubCategories[i].classList.contains(option.value)) {
-                allSubCategories[i].style.display = "inline";
-            } else {
-                allSubCategories[i].style.display = "none";
-            }
-        }
-
-        document.getElementById("subCategorySelect").removeAttribute("disabled");
-    }
-
-    function typeChange(type) {
-        if (type.value == "auction") {
-            document.getElementById("endDate").disabled = false;
-            document.getElementById("price").disabled = true;
-        } else if (type.value == "fixed") {
-            document.getElementById("endDate").disabled = true;
-            document.getElementById("price").disabled = false;
-        } else if (type.value == "donation") {
-            document.getElementById("endDate").disabled = true;
-            document.getElementById("price").disabled = true;
-        }
     }
 </script>
 
