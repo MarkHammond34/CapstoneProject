@@ -9,7 +9,7 @@
 
 <div class="uk-container">
 
-    <h1 class="uk-heading-line uk-text-center"><span>Admin Community Page</span></h1>
+    <h1 class="uk-heading-line uk-text-center uk-padding-small"><span>Admin Community Page</span></h1>
     <ul class="uk-subnav uk-subnav-pill" uk-switcher>
         <li><a href="#">Create</a></li>
         <li><a href="#">Manage</a></li>
@@ -90,16 +90,25 @@
         var jsonArray = ${requestScope.newsArticlesJson};
 
         for (var key in jsonArray) {
-           if (jsonArray[key].displayType  == 'main1') {
-               console.log("Article = main1");
-           }
 
+            var index = parseInt(key) + 1;
 
+            if (jsonArray[key].displayType == 'main1') {
+                console.log("Article = main1");
+                document.getElementById("main1").selectedIndex = index;
+                document.getElementById("main2").options[index].disabled();
+                document.getElementById("main3").options[index].disabled();
 
+            } else if (jsonArray[key].displayType == 'main2') {
+                console.log("Article = main2");
+                document.getElementById("main2").selectedIndex = index;
 
+            } else if (jsonArray[key].displayType == 'main3') {
+                console.log("Article = main3");
+                document.getElementById("main3").selectedIndex = index;
+
+            }
         }
-
-
 
 
     }

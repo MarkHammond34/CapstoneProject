@@ -30,7 +30,7 @@
                                 <div class="uk-overlay uk-overlay-primary uk-position-top">
                                     <p class="uk-text-center">Default Lorem ipsum dolor sit amet, consectetur
                                         adipiscing
-                                        elit.</p>
+                                        elit... <a href="#">View more</a></p>
                                 </div>
                             </li>
                             <li class="uk-border-rounded">
@@ -40,7 +40,7 @@
                                 <div class="uk-overlay uk-overlay-primary uk-position-top">
                                     <p class="uk-text-center">Default Lorem ipsum dolor sit amet, consectetur
                                         adipiscing
-                                        elit.</p>
+                                        elit... <a href="#">View more</a></p>
                                 </div>
                             </li>
                             <li class="uk-border-rounded">
@@ -50,7 +50,7 @@
                                 <div class="uk-overlay uk-overlay-primary uk-position-top">
                                     <p class="uk-text-center">Default Lorem ipsum dolor sit amet, consectetur
                                         adipiscing
-                                        elit.</p>
+                                        elit... <a href="#">View more</a></p>
                                 </div>
                             </li>
                         </ul>
@@ -67,7 +67,7 @@
             </div>
             <div class="uk-width-1-3@s">
                 <div class="uk-section-default uk-padding-small">
-                    <h4 class="uk-heading-bullet">Benedictine Tweets</h4>
+                    <h3 class="uk-heading-bullet">Benedictine Tweets</h3>
                     <hr>
 
                     <div class="uk-background-default uk-panel uk-border-rounded">
@@ -193,6 +193,7 @@
         <div class="videos">
             <h3 class="uk-heading-bullet">Videos</h3>
             <hr>
+            <p><a href="${pageContext.request.contextPath}/allVideos">View All</a></p>
             <div class="uk-child-width-1-2@m uk-grid-small uk-grid-match" uk-grid>
                 <div>
                     <iframe width="560" height="315" src="https://www.youtube.com/embed/yzlLspaUaBw" frameborder="0"
@@ -211,7 +212,7 @@
                     <p class="author"><span>${videoDate}</span></p>
                 </div>
             </div>
-            <p><a href="${pageContext.request.contextPath}/allVideos">More videos</a></p>
+
 
         </div>
     </div>
