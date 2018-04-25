@@ -760,7 +760,13 @@
 
         .date-as-calendar.size3x {
             font-size: 48px;
-        }</style>
+        }
+        img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+    </style>
 
     <!-- Notification JS & CSS -->
     <link href="${notCSS}" rel="stylesheet"/>
