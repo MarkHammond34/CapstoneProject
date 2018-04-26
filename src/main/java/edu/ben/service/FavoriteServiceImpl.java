@@ -22,9 +22,8 @@ public class FavoriteServiceImpl implements FavoriteService {
 	}
 
 	@Override
-	public int watchListing(int listingID, int userID) {
-		fd.watchListing(listingID, userID);
-		return 0;
+	public Favorite findFavorite(int listingID, int userID) {
+		return fd.findFavorite(listingID, userID);
 	}
 
 	@Override
@@ -40,8 +39,8 @@ public class FavoriteServiceImpl implements FavoriteService {
 	}
 
 	@Override
-	public void deleteFavorite(int id) {
-		fd.deleteFavorite(id);
+	public void delete(int id) {
+		fd.delete(id);
 		
 	}
 

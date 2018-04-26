@@ -30,6 +30,9 @@ public class DisputeController extends BaseController {
     @Autowired
     TransactionService transactionService;
 
+    @Autowired
+    TaskService service;
+
     @PostMapping("/submit-dispute")
     public String fileDispute(HttpServletRequest request, @RequestParam("complaint") String complaint,
                               @RequestParam("listingID") int listingID) {
@@ -75,11 +78,15 @@ public class DisputeController extends BaseController {
 
                 notificationService.save(adminNotifications);
 
-                addSuccessMessage("Dispute Successfully Filed. An Administrator Will Review Your Complaint.");
-                return "redirect:/";
+
+                Task task = new Task("File Dispute", dispute.getAccuser().getFirstName() + " " + dispute.getAccuser().getLastName() + "is filing a dispute against " + dispute.getDefender().getFirstName() + " " + dispute.getDefender().getLastName() + ". Complaint: " + dispute.getComplaint(), 0, "normal");
+                service.create(task);
             }
+            addSuccessMessage("Dispute Successfully Filed. An Administrator Will Review Your Complaint.");
+            return "redirect:/";
         }
     }
+
 
     @GetMapping("/file-dispute")
     public String getDispute(HttpServletRequest request, int l) {

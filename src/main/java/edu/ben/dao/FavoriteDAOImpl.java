@@ -32,19 +32,19 @@ public class FavoriteDAOImpl implements FavoriteDAO {
 		getSession().saveOrUpdate(favorite);
 	}
 
-	public void deleteFavorite(int id) {
-		Listing listing = (Listing) getSession().get(Listing.class, id);
-		getSession().delete(listing);
+	public void delete(int id) {
+		Favorite f = (Favorite) getSession().get(Favorite.class, id);
+		getSession().delete(f);
 
 	}
 
 	@Override
-	public int watchListing(int listingID, int userID) {
-		Query query = getSession().createSQLQuery(
-				"INSERT INTO ulistit.favorite(userID, listingID) VALUES (" + userID + ", " + listingID + ")");
+	public Favorite findFavorite(int listingID, int userID) {
+		Query query = getSession().createQuery(
+				"From favorite WHERE listingID=" + listingID + " AND userID=" + userID + "");
 		int result = query.executeUpdate();
 
-		return result;
+		return (Favorite)query.uniqueResult();
 	}
 
 	@Override

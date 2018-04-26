@@ -27,17 +27,20 @@
 
     <div class="uk-card-body uk-padding-small">
         <div class="name uk-margin-remove-top uk-margin-small-bottom" style="font-size: 22px;">
+            <c:if test="${sessionScope.user.userID != null}">
                 <c:if test="${listing.user.getUserID() != sessionScope.user.userID }">
-                    <div
-                        class="watch-item color1 uk-position-medium uk-position-top-right"
-                        id="${listing.id}">
-                    <a uk-icon="icon: star; ratio: 1"></a>
-                </div>
-                <div
-                        class="watch-item color2 uk-position-medium uk-position-top-right"
-                        id="${listing.id}" style="display: none;">
-                    <a uk-icon="icon: star; ratio: 2"></a>
-                </div>
+                    <div class="uk-padding-small uk-position-top-right"
+                         id="${listing.id}watch">
+                        <a onclick="watch(${listing.id})"> <i style="color: red;" class="far fa-heart"></i></a>
+
+
+                    </div>
+                    <div class="uk-padding-small uk-position-top-right"
+                         id="${listing.id}unwatch" style="display: none;">
+                        <a onclick="unwatch(${listing.id})"> <i style="font-size: 1.5em; color: red;"
+                                                                class="fas fa-heart"></i></a>
+                    </div>
+                </c:if>
             </c:if>
         </div>
 

@@ -449,37 +449,39 @@ public class ListingController extends BaseController {
     }
 
 
-    @RequestMapping(value = "/watchListing", method = RequestMethod.POST)
-    public String updateListing(HttpServletRequest request, ModelAndView model) {
-        String listingIDString = request.getParameter("listingID");
-        int listingID = Integer.parseInt(listingIDString);
+    @RequestMapping(value = "/watch", method = RequestMethod.GET)
+    public String watch(HttpServletRequest request, @RequestParam("listingID") String id) {
 
-        User user = (User) request.getSession().getAttribute("user");
-        Listing listing = listingService.getByListingID(listingID);
+       int listingID = Integer.parseInt(id);
+       Listing listing = listingService.getByListingID(listingID);
+       User u = (User) request.getSession().getAttribute("user");
 
-        Favorite f = new Favorite();
+       Favorite f = new Favorite();
+        f.setUser(u);
         f.setListing(listing);
-        f.setUser(user);
 
-        // if it exists. (change name later)
-        if (favoriteService.isWatched(listingID, user.getUserID())) {
-            System.out.println("Unwatching a Listing");
-            favoriteService.unwatchListing(listingID, user.getUserID());
-        } else {
-            System.out.println("Watching a listing");
-            favoriteService.watchListing(listingID, user.getUserID());
-        }
+        System.out.println(f.getUser().getUserID());
 
-        List<Listing> recent = listingService.getRecentListings();
-        model.addObject("recentListings", recent);
+       favoriteService.create(f);
 
-        List<Listing> endingSoon = listingService.getRecentListings();
-        model.addObject("endingSoonListings", endingSoon);
+        return "index";
+    }
 
-        List<Listing> trending = listingService.getListingsByBidCount();
-        model.addObject("trendingListings", trending);
+    @RequestMapping(value = "/unwatch", method = RequestMethod.GET)
+    public String unwatch(HttpServletRequest request, @RequestParam("listingID") String id) {
+        int listingID = Integer.parseInt(id);
+        Listing listing = listingService.getByListingID(listingID);
+        User u = (User) request.getSession().getAttribute("user");
 
-        return "redirect:/";
+      ArrayList<Favorite> list = (ArrayList<Favorite>) favoriteService.findAllFavoritesByUser(u.getUserID());
+
+      for (int i = 0; i < list.size(); i++) {
+          if(list.get(i).getListing().getId() == listingID) {
+
+              favoriteService.delete(list.get(i).getId());
+          }
+      }
+        return "index";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)

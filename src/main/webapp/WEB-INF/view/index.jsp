@@ -221,4 +221,35 @@
     });
 </script>
 
+<script>
+
+    function watch(listingID) {
+        console.log("Hit Watch");
+        var id = listingID;
+
+        $.ajax({
+            type: 'GET',
+            url: '/watch',
+            data: {"listingID": id},
+        })
+
+        document.getElementById(id + 'watch').style.display = "none";
+        document.getElementById(id + 'unwatch').style.display = "inline";
+    }
+
+    function unwatch(listingID) {
+        console.log("Hit Watch");
+        var id = listingID;
+
+        $.ajax({
+            type: 'GET',
+            url: '/unwatch',
+            data: {"listingID": id},
+        })
+
+        document.getElementById(id + 'watch').style.display = "inline";
+        document.getElementById(id + 'unwatch').style.display = "none";
+    }
+</script>
+
 </html>

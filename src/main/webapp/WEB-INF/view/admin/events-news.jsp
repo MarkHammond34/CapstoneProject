@@ -41,30 +41,27 @@
 
 <script type="text/javascript">
 
+    var lastID;
+
+
     function handleChangeMain(newsArticle, articleType) {
         console.log("Hit Servlet")
 
         var article = newsArticle.value.split(",");
+
         var id = article[0];
         var newIndex = parseInt(article[1]) + 1;
 
         var noneIndex;
         var count = false;
-        var type;
-        if (id == 'none') {
-            type = 'none';
-            newIndex = article[1];
-        } else {
-            type = articleType;
-            lastID = id;
-        }
+        var type = articleType;
 
         var jsonArray = ${requestScope.newsArticlesJson};
 
         for (var key in jsonArray) {
             var index = parseInt(key) + 1;
 
-            if (jsonArray[key].displayType == type && type != 'none') {
+            if (jsonArray[key].displayType == type) {
                 document.getElementById("main1").options[index].disabled = false;
                 document.getElementById("main2").options[index].disabled = false;
                 document.getElementById("main3").options[index].disabled = false;
@@ -82,13 +79,7 @@
                 document.getElementById("feature3").options[newIndex].disabled = true;
                 document.getElementById("feature4").options[newIndex].disabled = true;
 
-            } else if (id == 'none' && count == false) {
-                noneIndex = index;
-                console.log("NoneCount: " + noneIndex);
-                count = true;
-                type = 'none';
             } else {
-                if (type != 'none') {
                     document.getElementById(type).selectedIndex = newIndex;
                     document.getElementById("main1").options[newIndex].disabled = true;
                     document.getElementById("main2").options[newIndex].disabled = true;
@@ -98,49 +89,19 @@
                     document.getElementById("feature3").options[newIndex].disabled = true;
                     document.getElementById("feature4").options[newIndex].disabled = true;
                 }
-
             }
             index++;
 
         }
-        if (type == 'none') {
-            console.log("hit none");
-            console.log("index: " + noneIndex);
-            document.getElementById("main1").options[noneIndex].disabled = false;
-            document.getElementById("main2").options[noneIndex].disabled = false;
-            document.getElementById("main3").options[noneIndex].disabled = false;
-            document.getElementById("feature1").options[noneIndex].disabled = false;
-            document.getElementById("feature2").options[noneIndex].disabled = false;
-            document.getElementById("feature3").options[noneIndex].disabled = false;
-            document.getElementById("feature4").options[noneIndex].disabled = false;
-
-
-        }
-        // Set none to enabled
-        document.getElementById("main1").options[0].disabled = false;
-        document.getElementById("main2").options[0].disabled = false;
-        document.getElementById("main3").options[0].disabled = false;
-        document.getElementById("feature1").options[0].disabled = false;
-        document.getElementById("feature2").options[0].disabled = false;
-        document.getElementById("feature3").options[0].disabled = false;
-        document.getElementById("feature4").options[0].disabled = false;
 
         console.log("Select Index: " + index);
-        if (type != 'none') {
+        if ( type != 'none') {
             $.ajax({
                 type: 'GET',
                 url: 'updateNews',
                 data: {"newsID": id, "type": type},
             })
-        } else {
-            console.log("Hit None AJAx");
-            console.log("NewIndex: " + newIndex);
-            $.ajax({
-                type: 'GET',
-                url: 'updateNewsNone',
-                data: {"type": newIndex},
-            })
-        }
+
 
 
     }

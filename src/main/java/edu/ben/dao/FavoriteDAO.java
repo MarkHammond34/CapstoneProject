@@ -8,7 +8,7 @@ import edu.ben.model.User;
 
 public interface FavoriteDAO {
 
-	public int watchListing(int listingID, int userID);
+	public Favorite findFavorite(int listingID, int userID);
 
 	public int unwatchListing(int listingID, int userID);
 
@@ -16,7 +16,7 @@ public interface FavoriteDAO {
 	
 	public List<Favorite> findAllFavoritesByUser(int userID);
 
-	public void deleteFavorite(int id);
+	public void delete(int id);
 
 	public void saveOrUpdate(Favorite favorite);
 

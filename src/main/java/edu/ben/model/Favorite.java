@@ -33,15 +33,12 @@ public class Favorite {
 	private int favorited;
 	
 	public Favorite () {
-		this.favorited = 0;
-		
+
 	}
 
-	public Favorite (int userID, int listingID, int favorited) {
-		user.setUserID(userID);
-		listing.setId(listingID);
-		this.favorited = 0;
-	}
+//	public Favorite (int userID, int listingID) {
+//		listing.setId(listingID);
+//	}
 
 	public int getId() {
 		return id;
