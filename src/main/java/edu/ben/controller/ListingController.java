@@ -484,6 +484,8 @@ public class ListingController extends BaseController {
         return "index";
     }
 
+
+
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public ModelAndView edit(@RequestParam("listing") int listingID) {
 

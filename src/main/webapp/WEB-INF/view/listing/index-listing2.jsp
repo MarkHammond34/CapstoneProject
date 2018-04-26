@@ -3,8 +3,8 @@
         <div uk-slideshow="autoplay-interval: 2000" uk-slideshow>
             <ul class="uk-slideshow-items">
                 <c:forEach items="${listing.images}" var="listingImages">
-                    <div uk-lightbox>
-                        <li>
+                    <div class="uk-border-rounded" uk-lightbox >
+                        <li >
                             <a href="${pageContext.request.contextPath}/directory/${listingImages.image_path}/${listingImages.image_name}"
                                title="Image" class="thumbnail">
                                 <img class="uk-align-center"
@@ -29,6 +29,8 @@
         <div class="name uk-margin-remove-top uk-margin-small-bottom" style="font-size: 22px;">
             <c:if test="${sessionScope.user.userID != null}">
                 <c:if test="${listing.user.getUserID() != sessionScope.user.userID }">
+
+
                     <div class="uk-padding-small uk-position-top-right"
                          id="${listing.id}watch">
                         <a onclick="watch(${listing.id})"> <i style="color: red;" class="far fa-heart"></i></a>

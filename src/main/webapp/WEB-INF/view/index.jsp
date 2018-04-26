@@ -1,6 +1,6 @@
 <%@include file="jspf/header.jsp" %>
 
-<body class="uk-background-muted">
+<body onload="findFavorites()" class="uk-background-muted">
 <div style="border: 20px solid white;
             margin: 0 auto;
             background: white;">
@@ -222,6 +222,14 @@
 </script>
 
 <script>
+
+    function findFavorites() {
+        var jsonArray = ${requestScope.favoritedListings};
+
+        for (var key in jsonArray) {
+            document.getElementById(jsonArray[key].listingID + 'unwatch').style = "inline";
+        }
+    }
 
     function watch(listingID) {
         console.log("Hit Watch");

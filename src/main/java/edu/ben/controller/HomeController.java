@@ -1,9 +1,8 @@
 package edu.ben.controller;
 
-import edu.ben.model.Listing;
-import edu.ben.model.SalesTraffic;
-import edu.ben.model.Tutorial;
-import edu.ben.model.User;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import edu.ben.model.*;
 import edu.ben.service.*;
 import edu.ben.util.Email;
 import edu.ben.util.ListingRunner;
@@ -51,27 +50,15 @@ public class HomeController extends BaseController {
     @Autowired
 	SalesTrafficService trafficService;
 
+    @Autowired
+	FavoriteService favoriteService;
+
     /*
      * @Autowired FaqService faqService;
      */
 
-	@GetMapping("/")
-	public String landingPage() {
-		return "landingPage";
-	}
-
-	@GetMapping("/contactUs")
-	public String contactUs() {
-		return "contactUs";
-	}
-	
-	@GetMapping("/aboutUs")
-	public String aboutUs() {
-		return "aboutUs";
-	}
-
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public ModelAndView index(HttpServletRequest request) {
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ModelAndView home(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("index");
 
 
@@ -88,45 +75,45 @@ public class HomeController extends BaseController {
 
 		model.addObject("categories", categoryService.getAllCategories());
 
-	User user = (User) request.getSession().getAttribute("user");
+        User user = (User) request.getSession().getAttribute("user");
 
 
-	ArrayList<Listing> hottestListings = new ArrayList<>();
-	ArrayList<Listing> relevent = new ArrayList<>();
+        ArrayList<Listing> hottestListings = new ArrayList<>();
+		ArrayList<Listing> relevent = new ArrayList<>();
 
-	ArrayList<Listing> temp = (ArrayList<Listing>) listingService.getHottestListings();
+		ArrayList<Listing> temp = (ArrayList<Listing>) listingService.getHottestListings();
 
 		if (request.getSession().getAttribute("user") != null) {
-		System.out.println("Session not null");
-		User user2 = (User) request.getSession().getAttribute("user");
-		ArrayList<Listing> temp2 = (ArrayList<Listing>) listingService.getRelevantListingsByUserID(user2.getUserID());
+            System.out.println("Session not null");
+		    User user2 = (User) request.getSession().getAttribute("user");
+            ArrayList<Listing> temp2 = (ArrayList<Listing>) listingService.getRelevantListingsByUserID(user2.getUserID());
 
+            int size;
+            if (temp2.size() > 7 ) {
+                size = 7;
+            } else {
+                size = temp2.size();
+            }
+
+            for (int i = 0; i < size; i++) {
+                relevent.add(temp2.get(i));
+            }
+
+            System.out.println("Relevant Size: " + relevent.size());
+
+            request.setAttribute("relevent", relevent);
+
+        }
 		int size;
-		if (temp2.size() > 7 ) {
+		if (temp.size() > 7 ) {
 			size = 7;
 		} else {
-			size = temp2.size();
+			size = temp.size();
 		}
 
 		for (int i = 0; i < size; i++) {
-			relevent.add(temp2.get(i));
+			hottestListings.add(temp.get(i));
 		}
-
-		System.out.println("Relevant Size: " + relevent.size());
-
-		request.setAttribute("relevent", relevent);
-
-	}
-	int size;
-		if (temp.size() > 7 ) {
-		size = 7;
-	} else {
-		size = temp.size();
-	}
-
-		for (int i = 0; i < size; i++) {
-		hottestListings.add(temp.get(i));
-	}
 
 		request.setAttribute("hottestListings", hottestListings);
 
@@ -137,39 +124,79 @@ public class HomeController extends BaseController {
 	ListingRunner.run();
 	/*ListingRunner.run();*/
 
-	//PickUpRunner.run();
+		//PickUpRunner.run();
 
 		if (user != null) {
 
-		List<Listing> relevantListings = listingService.getRelevantListingsByUserID(user.getUserID());
+			List<Listing> relevantListings = listingService.getRelevantListingsByUserID(user.getUserID());
 
-		if (relevantListings.size() > 3) {
-			System.out.println(relevantListings.get(0).getName());
-			model.addObject("relevantListings", relevantListings);
-		} else {
-			model.addObject("relevantListings", null);
-		}
-
-		try {
-			request.getSession().setAttribute("checklist", checklistService.getByUserIDAndType(user.getUserID(), "FRESHMAN"));
-		} catch (Exception e) {
-			if (user.getGradeLevel() == 1 &&
-					user.getDateCreated().before(new Timestamp(System.currentTimeMillis() + 600000))) {
-				request.setAttribute("newUser", true);
+			if (relevantListings.size() > 3) {
+                System.out.println(relevantListings.get(0).getName());
+				model.addObject("relevantListings", relevantListings);
 			} else {
-				request.setAttribute("newUser", false);
+				model.addObject("relevantListings", null);
 			}
-			request.getSession().setAttribute("checklist", null);
-		}
 
-	}
+            try {
+                request.getSession().setAttribute("checklist", checklistService.getByUserIDAndType(user.getUserID(), "FRESHMAN"));
+            } catch (Exception e) {
+                if (user.getGradeLevel() == 1 &&
+                        user.getDateCreated().before(new Timestamp(System.currentTimeMillis() + 600000))) {
+                    request.setAttribute("newUser", true);
+                } else {
+                    request.setAttribute("newUser", false);
+                }
+                request.getSession().setAttribute("checklist", null);
+            }
 
-	SalesTraffic s = new SalesTraffic("Home_Page");
+        }
+
+        ArrayList<Favorite> f = (ArrayList<Favorite>)favoriteService.findAllFavorites();
+		request.setAttribute("favorites", f);
+
+		JsonArray favorites = new JsonArray();
+
+		request.setAttribute("allfavorites", favorites);
+
+
+		JsonArray results = convertNewsToJson(f, favorites);
+
+		System.out.println("JSON News Articles: " + results.size());
+
+		request.setAttribute("favoritedListings", results);
+
+
+		SalesTraffic s = new SalesTraffic("Home_Page");
 		trafficService.create(s);
 
-	setModel(model);
+		setModel(model);
 		return model;
-}
+	}
+
+
+	public JsonArray convertNewsToJson(ArrayList<Favorite> favorites, JsonArray results) {
+		for (int i = 0; i < favorites.size(); i++) {
+			JsonObject json = new JsonObject();
+
+			json.addProperty("favoriteID", String.valueOf(favorites.get(i).getId()));
+			json.addProperty("listingID", String.valueOf(favorites.get(i).getListing().getId()));
+			json.addProperty("userID", String.valueOf(favorites.get(i).getUser().getUserID()));
+
+			results.add(json);
+
+		}
+		return results;
+	}
+
+	@GetMapping("/contactUs")
+	public String contactUs() {
+		return "contactUs";
+	}
+	
+	@GetMapping("/aboutUs")
+	public String aboutUs() {
+		return "aboutUs";
+	}
 
 	@PostMapping("/sendEmail")
 	public String sendEmail(HttpServletRequest request) {
