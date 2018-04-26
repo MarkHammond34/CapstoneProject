@@ -57,8 +57,8 @@ public class HomeController extends BaseController {
      * @Autowired FaqService faqService;
      */
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView home(HttpServletRequest request) {
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
+	public ModelAndView index(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("index");
 
 
@@ -196,6 +196,11 @@ public class HomeController extends BaseController {
 	@GetMapping("/aboutUs")
 	public String aboutUs() {
 		return "aboutUs";
+	}
+
+	@GetMapping("/")
+	public String landingPage() {
+		return "landingPage";
 	}
 
 	@PostMapping("/sendEmail")
