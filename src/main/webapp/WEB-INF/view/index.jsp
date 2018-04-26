@@ -8,7 +8,7 @@
 
     <%@include file="jspf/messages.jsp" %>
 
-    <div class="u-list-it-background uk-inline-clip">
+    <div class="u-list-it-background uk-background-muted uk-inline-clip">
         <div class="uk-section-default uk-padding">
             <div class="uk-section uk-overlay-default uk-background-cover "
                  style="background-image:url('${pageContext.request.contextPath}/resources/img/index2.jpeg'); height: auto; max-height: 350px;  background-position: center;
