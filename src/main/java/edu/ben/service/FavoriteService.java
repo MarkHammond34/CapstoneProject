@@ -8,7 +8,7 @@ public interface FavoriteService {
 	
 	public Favorite findFavorite(int listingID, int userID);
 	
-	public int unwatchListing(int listingID, int userID);
+	public List findAllFavorites();
 	
 	public boolean isWatched(int listingID, int userID);
 	

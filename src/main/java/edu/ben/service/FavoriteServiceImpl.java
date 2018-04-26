@@ -27,9 +27,8 @@ public class FavoriteServiceImpl implements FavoriteService {
 	}
 
 	@Override
-	public int unwatchListing(int listingID, int userID) {
-		fd.unwatchListing(listingID, userID);
-		return 0;
+	public List findAllFavorites() {
+		return fd.findAllFavorites();
 	}
 
 	@Override

@@ -1,9 +1,8 @@
 package edu.ben.controller;
 
-import edu.ben.model.Listing;
-import edu.ben.model.SalesTraffic;
-import edu.ben.model.Tutorial;
-import edu.ben.model.User;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import edu.ben.model.*;
 import edu.ben.service.*;
 import edu.ben.util.Email;
 import edu.ben.util.ListingRunner;
@@ -50,6 +49,9 @@ public class HomeController extends BaseController {
 
     @Autowired
 	SalesTrafficService trafficService;
+
+    @Autowired
+	FavoriteService favoriteService;
 
     /*
      * @Autowired FaqService faqService;
@@ -149,11 +151,41 @@ public class HomeController extends BaseController {
 
         }
 
+        ArrayList<Favorite> f = (ArrayList<Favorite>)favoriteService.findAllFavorites();
+		request.setAttribute("favorites", f);
+
+		JsonArray favorites = new JsonArray();
+
+		request.setAttribute("allfavorites", favorites);
+
+
+		JsonArray results = convertNewsToJson(f, favorites);
+
+		System.out.println("JSON News Articles: " + results.size());
+
+		request.setAttribute("favoritedListings", results);
+
+
 		SalesTraffic s = new SalesTraffic("Home_Page");
 		trafficService.create(s);
 
 		setModel(model);
 		return model;
+	}
+
+
+	public JsonArray convertNewsToJson(ArrayList<Favorite> favorites, JsonArray results) {
+		for (int i = 0; i < favorites.size(); i++) {
+			JsonObject json = new JsonObject();
+
+			json.addProperty("favoriteID", String.valueOf(favorites.get(i).getId()));
+			json.addProperty("listingID", String.valueOf(favorites.get(i).getListing().getId()));
+			json.addProperty("userID", String.valueOf(favorites.get(i).getUser().getUserID()));
+
+			results.add(json);
+
+		}
+		return results;
 	}
 
 	@GetMapping("/contactUs")

@@ -48,12 +48,10 @@ public class FavoriteDAOImpl implements FavoriteDAO {
 	}
 
 	@Override
-	public int unwatchListing(int listingID, int userID) {
-		Query query = getSession().createQuery("delete from favorite where userID= :userID AND listingID= :listingID");
-		query.setParameter("listingID", listingID);
-		query.setParameter("userID", userID);
-		int result = query.executeUpdate();
-		return result;
+	public List findAllFavorites() {
+		Query query = getSession().createQuery("From favorite");
+
+		return query.list();
 	}
 
 	@Override
