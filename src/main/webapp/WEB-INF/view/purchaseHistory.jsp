@@ -17,7 +17,7 @@
                     class="uk-text-danger uk-text-large"> ${userTransactions.size()}</strong> purchase(s)</h3>
             <div class="uk-tile uk-padding-remove-top uk-padding-remove-bottom uk-padding-remove-right uk-padding-remove-left uk-box-shadow-medium uk-box-shadow-hover-large uk-tile-default">
                 <table
-                        class="uk-table uk-margin-remove-top uk-table-hover uk-table-striped">
+                        class="uk-table uk-margin-remove-top uk-padding-small uk-table-hover uk-table-striped">
                     <thead>
                     <tr>
                         <th>Item Name</th>
@@ -69,25 +69,30 @@
                                     <td>${transaction.seller.username}</td>
                                     <c:choose>
                                         <c:when test="${transaction.transRating == 1}">
-                                            <td><span uk-icon="star"></span></td>
+                                            <td><i class="fas fa-star"></i><i class="far fa-star"></i><i
+                                                    class="far fa-star"></i><i class="far fa-star"></i><i
+                                                    class="far fa-star"></i></td>
                                         </c:when>
                                         <c:when test="${transaction.transRating == 2}">
-                                            <td><span uk-icon="star"></span><span uk-icon="star"></span></td>
+                                            <td><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                    class="far fa-star"></i><i
+                                                    class="far fa-star"></i><i class="far fa-star"></i></td>
                                         </c:when>
                                         <c:when test="${transaction.transRating == 3}">
-                                            <td><span uk-icon="star"></span><span uk-icon="star"></span><span
-                                                    uk-icon="star"></span>
+                                            <td><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                    class="fas fa-star"></i><i class="far fa-star"></i><i
+                                                    class="far fa-star"></i>
                                             </td>
                                         </c:when>
                                         <c:when test="${transaction.transRating == 4}">
-                                            <td><span uk-icon="star"></span><span uk-icon="star"></span><span
-                                                    uk-icon="star"></span><span
-                                                    uk-icon="star"></span></td>
+                                            <td><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                    class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                    class="far fa-star"></i></td>
                                         </c:when>
                                         <c:when test="${transaction.transRating == 5}">
-                                            <td><span uk-icon="star"></span><span uk-icon="star"></span><span
-                                                    uk-icon="star"></span><span
-                                                    uk-icon="star"></span><span uk-icon="star"></span></td>
+                                            <td><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                    class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                    class="fas fa-star"></i></td>
                                         </c:when>
                                     </c:choose>
                                     <td>${transaction.transReview}</td>

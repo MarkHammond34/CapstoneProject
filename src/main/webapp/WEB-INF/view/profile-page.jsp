@@ -51,30 +51,37 @@
                             <c:otherwise>
                                 <c:choose>
                                     <c:when test="${user.sellerRating == 1}">
-                                        <td><span uk-icon="star"></span></td>
+                                        <td><i class="fas fa-star"></i><i class="far fa-star"></i><i
+                                                class="far fa-star"></i><i class="far fa-star"></i><i
+                                                class="far fa-star"></i></td>
                                     </c:when>
                                     <c:when test="${user.sellerRating == 2}">
-                                        <td><span uk-icon="star"></span><span uk-icon="star"></span></td>
+                                        <td><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                class="far fa-star"></i><i
+                                                class="far fa-star"></i><i class="far fa-star"></i></td>
                                     </c:when>
                                     <c:when test="${user.sellerRating == 3}">
-                                        <td><span uk-icon="star"></span><span uk-icon="star"></span><span
-                                                uk-icon="star"></span></td>
+                                        <td><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                class="fas fa-star"></i><i class="far fa-star"></i><i
+                                                class="far fa-star"></i>
+                                        </td>
                                     </c:when>
                                     <c:when test="${user.sellerRating == 4}">
-                                        <td><span uk-icon="star"></span><span uk-icon="star"></span><span
-                                                uk-icon="star"></span><span uk-icon="star"></span></td>
+                                        <td><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                class="far fa-star"></i></td>
                                     </c:when>
                                     <c:when test="${user.sellerRating == 5}">
-                                        <td><span uk-icon="star"></span><span uk-icon="star"></span><span
-                                                uk-icon="star"></span><span uk-icon="star"></span><span
-                                                uk-icon="star"></span></td>
+                                        <td><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                class="fas fa-star"></i></td>
                                     </c:when>
                                 </c:choose>
                                 <dd></dd>
                                 <dd class="uk-margin-top">
                                     <a
                                             href="${pageContext.request.contextPath}/sellerReviews?id=${user.userID}"
-                                            class="uk-button uk-button-small uk-button-primary">View
+                                            class="uk-button uk-button-small uk-border-rounded uk-button-secondary">View
                                         Seller Reviews</a>
                                 </dd>
                             </c:otherwise>
