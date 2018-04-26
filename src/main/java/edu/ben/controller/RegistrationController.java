@@ -181,7 +181,7 @@ public class RegistrationController extends BaseController {
                 req.getSession().removeAttribute("tempUser");
                 req.getSession().setAttribute("user", user);
                 setRequest(req);
-                return "redirect:/";
+                return "redirect:/index";
 
             } else {
 

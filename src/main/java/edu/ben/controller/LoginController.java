@@ -55,7 +55,7 @@ public class LoginController extends BaseController {
                             request.getSession().removeAttribute("lastPage");
                             return "redirect:" + lastPage;
                         }
-                        return "redirect:/";
+                        return "redirect:/index";
 
 					} else {
 						request.setAttribute("email", email);
@@ -127,7 +127,7 @@ public class LoginController extends BaseController {
 		HttpSession session = request.getSession();
 		session.invalidate();
 		request.removeAttribute("user");
-		return "redirect:/";
+		return "redirect:/index";
 	}
 
 	@RequestMapping(value="loginValidEmail", method= RequestMethod.POST, produces="application/json")

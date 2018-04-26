@@ -13,7 +13,7 @@
 
                     <div class="uk-navbar-left uk-visible@m uk-visible@l">
                         <ul class="uk-navbar-nav">
-                            <li><a class="uk-active" href="/">Home</a></li>
+                            <li><a class="uk-active" href="/index">Home</a></li>
                             <li><a href="/communityPage">Community</a></li>
                             <li><a href="/donate">Donations</a></li>
                             <li><a href="/createListing">Create Listing</a></li>
@@ -23,7 +23,7 @@
                 <c:otherwise>
                     <div class="uk-navbar-left uk-visible@m uk-visible@l">
                         <ul class="uk-navbar-nav">
-                            <li><a class="uk-active" href="/">Home</a></li>
+                            <li><a class="uk-active" href="/index">Home</a></li>
                             <li><a href="/communityPage">Community</a></li>
                             <li><a href="/donate">Donations</a></li>
                         </ul>
@@ -190,7 +190,7 @@
     <div class="uk-offcanvas-bar">
 
         <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical">
-            <li><a href="${pageContext.request.contextPath}/"><span
+            <li><a href="${pageContext.request.contextPath}/index"><span
                     class="uk-margin-small-right" uk-icon="icon: home"></span>Home</a></li>
             <li class="uk-nav-divider"></li>
 
