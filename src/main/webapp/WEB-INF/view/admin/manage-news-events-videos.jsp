@@ -19,8 +19,9 @@
                         <tr>
                             <td><label class="uk-form-label" for="main1"></label>
                                 <div class="uk-form-controls">
-                                    <select name="select" class="uk-select" id="main1" onchange="handleChangeMain(this,'main1')">
-                                        <option value = "none,-1"> None</option>
+                                    <select name="select" class="uk-select" id="main1"
+                                            onchange="handleChangeMain(this,'main1')">
+                                        <option value="none,main1"> None</option>
                                         <c:forEach var="article" items="${allArticles}" varStatus="loop">
                                             <option id="${article.newsID}"
                                                     value="${article.newsID},${loop.index}">${article.title}</option>
@@ -30,8 +31,9 @@
                             </td>
                             <td><label class="uk-form-label" for="main2"></label>
                                 <div class="uk-form-controls">
-                                    <select name="select" class="uk-select" id="main2" onchange="handleChangeMain(this,'main2')">
-                                        <option value = "none,-1"> None</option>
+                                    <select name="select" class="uk-select" id="main2"
+                                            onchange="handleChangeMain(this,'main2')">
+                                        <option value="none,main2"> None</option>
                                         <c:forEach var="article" items="${allArticles}" varStatus="loop">
                                             <option id="${article.newsID}"
                                                     value="${article.newsID},${loop.index}">${article.title}</option>
@@ -42,8 +44,9 @@
                             <td>
                                 <label class="uk-form-label" for="main3"></label>
                                 <div class="uk-form-controls">
-                                    <select name="select" class="uk-select" id="main3" onchange="handleChangeMain(this,'main3')">
-                                        <option value = "none,-1"> None</option>
+                                    <select name="select" class="uk-select" id="main3"
+                                            onchange="handleChangeMain(this,'main3')">
+                                        <option value="none,main3"> None</option>
                                         <c:forEach var="article" items="${allArticles}" varStatus="loop">
                                             <option id="${article.newsID}"
                                                     value="${article.newsID},${loop.index}">${article.title}</option>
@@ -78,8 +81,9 @@
                     <tr>
                         <td><label class="uk-form-label" for="feature1"></label>
                             <div class="uk-form-controls">
-                                <select name="select" class="uk-select" id="feature1" onchange="handleChangeMain(this,'feature1')">
-                                    <option value = "none,-1"> None</option>
+                                <select name="select" class="uk-select" id="feature1"
+                                        onchange="handleChangeMain(this,'feature1')">
+                                    <option value="none,feature1"> None</option>
                                     <c:forEach var="article" items="${allArticles}" varStatus="loop">
                                         <option id="${article.newsID}"
                                                 value="${article.newsID},${loop.index}">${article.title}</option>
@@ -89,8 +93,9 @@
                         </td>
                         <td><label class="uk-form-label" for="feature2"></label>
                             <div class="uk-form-controls">
-                                <select name="select" class="uk-select" id="feature2" onchange="handleChangeMain(this,'feature2')">
-                                    <option value = "none,-1"> None</option>
+                                <select name="select" class="uk-select" id="feature2"
+                                        onchange="handleChangeMain(this,'feature2')">
+                                    <option value="none,feature2"> None</option>
                                     <c:forEach var="article" items="${allArticles}" varStatus="loop">
                                         <option id="${article.newsID}"
                                                 value="${article.newsID},${loop.index}">${article.title}</option>
@@ -100,8 +105,9 @@
                         </td>
                         <td><label class="uk-form-label" for="feature3"></label>
                             <div class="uk-form-controls">
-                                <select name="select" class="uk-select" id="feature3" onchange="handleChangeMain(this,'feature3')">
-                                    <option value = "none,-1"> None</option>
+                                <select name="select" class="uk-select" id="feature3"
+                                        onchange="handleChangeMain(this,'feature3')">
+                                    <option value="none,feature3"> None</option>
                                     <c:forEach var="article" items="${allArticles}" varStatus="loop">
                                         <option id="${article.newsID}"
                                                 value="${article.newsID},${loop.index}">${article.title}</option>
@@ -111,8 +117,9 @@
                         </td>
                         <td><label class="uk-form-label" for="feature4"></label>
                             <div class="uk-form-controls">
-                                <select name="select" class="uk-select" id="feature4" onchange="handleChangeMain(this,'feature4')">
-                                    <option value = "none,-1"> None</option>
+                                <select name="select" class="uk-select" id="feature4"
+                                        onchange="handleChangeMain(this,'feature4')">
+                                    <option value="none,feature4"> None</option>
                                     <c:forEach var="article" items="${allArticles}" varStatus="loop">
                                         <option id="${article.newsID}"
                                                 value="${article.newsID},${loop.index}">${article.title}</option>
@@ -127,12 +134,14 @@
             </div>
 
         </div>
-    </div>
-</div>
-<div class="uk-section-default uk-padding-small">
-    <div class="uk-container">
-        <h3>Videos</h3>
-        <hr>
+        <div class="uk-section-default uk-padding-small">
+            <div class="uk-container">
+                <h3>Videos</h3>
+                <hr>
+                </table>
+            </div>
+
+        </div>
         <div uk-grid>
             <div class="uk-width-1-1">
                 <table class="uk-table uk-table-hover uk-table-divider">

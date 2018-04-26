@@ -79,8 +79,8 @@ public class CommunityController extends BaseController {
             String hour;
             String minute;
             String am_pm;
-            System.out.println("Hour: " + events.get(i).getStartTime().getHours() );
-            System.out.println("Minute: " + events.get(i).getStartTime().getMinutes() );
+            System.out.println("Hour: " + events.get(i).getStartTime().getHours());
+            System.out.println("Minute: " + events.get(i).getStartTime().getMinutes());
             if (events.get(i).getStartTime().getHours() > 12) {
                 hour = Integer.toString(events.get(i).getStartTime().getHours() - 12);
                 am_pm = "PM";
@@ -95,7 +95,7 @@ public class CommunityController extends BaseController {
                 minute = Integer.toString(events.get(i).getStartTime().getMinutes());
             }
 
-            timeString = hour +":" + minute + am_pm;
+            timeString = hour + ":" + minute + am_pm;
             time.add(timeString);
 
             switch (events.get(i).getStartTime().getMonth()) {
@@ -215,11 +215,11 @@ public class CommunityController extends BaseController {
         SalesTraffic s = new SalesTraffic("Community_Page");
         trafficService.create(s);
 
-		return model;
-	}
+        return model;
+    }
 
-	@RequestMapping(value = "/feedback", method = RequestMethod.POST)
-	public ModelAndView feedback() {
+    @RequestMapping(value = "/feedback", method = RequestMethod.POST)
+    public ModelAndView feedback() {
 
         return new ModelAndView("redirect:/community");
     }
@@ -349,14 +349,14 @@ public class CommunityController extends BaseController {
         return "admin/events-news";
     }
 
-    @RequestMapping(value="/searchNews")
+    @RequestMapping(value = "/searchNews")
     public String searchNews(HttpServletRequest request, @RequestParam("Seaerch") String search) {
         System.out.println(search);
         ArrayList<News> news = (ArrayList<News>) newsService.getAllArticles();
         ArrayList<News> searchResults = new ArrayList<>();
 
 
-        for (int i = 0;  i < news.size(); i++ ) {
+        for (int i = 0; i < news.size(); i++) {
             boolean searchFound = false;
             Resource resource = new ClassPathResource(news.get(i).getFilePath());
             // File file = new File(classLoader.getResource("El Norte.docx").getFile());
@@ -392,7 +392,7 @@ public class CommunityController extends BaseController {
                     request.setAttribute("footer", footer);
                     System.out.println(footer.getText());
 
-                    if(footer.getText().toLowerCase().contains(search) && (searchFound = false)) {
+                    if (footer.getText().toLowerCase().contains(search) && (searchFound = false)) {
                         System.out.println("Search found in footer");
                         searchResults.add(news.get(i));
                         searchFound = true;
@@ -462,6 +462,43 @@ public class CommunityController extends BaseController {
 
         }
         return results;
+    }
+
+    @RequestMapping(value = "/updateNews", method = RequestMethod.GET)
+    public String updateNews(HttpServletRequest request, @RequestParam("newsID") String newsID, @RequestParam("type") String type) {
+        int id = Integer.parseInt(newsID);
+        System.out.println("Hit update News");
+
+        News n = newsService.getArticleByID(id);
+        ArrayList<News> allArticles = (ArrayList<News>) newsService.getAllArticles();
+
+        for (int i = 0; i < allArticles.size(); i++) {
+            if (allArticles.get(i).getDisplayType().equals(type)) {
+                allArticles.get(i).setDisplayType("none");
+                newsService.saveOrUpdate(allArticles.get(i));
+            }
+        }
+
+        n.setDisplayType(type);
+
+        newsService.saveOrUpdate(n);
+
+        return "admin/events-news";
+    }
+
+    @RequestMapping(value = "/updateNewsNone", method = RequestMethod.GET)
+    public String updateNewsNone(HttpServletRequest request,@RequestParam("type") String type) {
+        System.out.println("Hit update News None");
+        System.out.println("Type: " + type);
+
+        ArrayList<News> allArticles = (ArrayList<News>) newsService.getAllArticles();
+        for (int i = 0; i < allArticles.size(); i++) {
+            if (allArticles.get(i).getDisplayType().equals(type)) {
+                allArticles.get(i).setDisplayType("none");
+                newsService.saveOrUpdate(allArticles.get(i));
+            }
+        }
+        return "admin/events-news";
     }
 
 
