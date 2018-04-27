@@ -25,8 +25,8 @@
                 <div class="uk-dropdown-grid uk-child-width-1-2@m" uk-grid>
                     <div>
                         <ul class="uk-nav uk-dropdown-nav">
-                            <li class="uk-active">Active</li>
-                            <li>Item</li>
+                            <li class="uk-nav-header">What is an offer?</li>
+                            <li>Offer definition: Something of value for someone to accept or reject as desired.</li>
                             <li class="uk-nav-header">Header</li>
                             <li>Item</li>
                             <li>Item</li>

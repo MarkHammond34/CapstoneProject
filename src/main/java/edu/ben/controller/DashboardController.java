@@ -45,7 +45,9 @@ public class DashboardController extends BaseController {
         if (request.getSession(false) == null || session.getAttribute("user") == null) {
 
             addErrorMessage("Please log in or sign up");
-            return new ModelAndView("redirect:login"); // Might change to different page later. Maybe login page.
+            setModel(new ModelAndView("redirect:login"));
+            return new ModelAndView("redirect:login");
+
         } else {
             //System.out.println("Already a session"); // For testing
 
@@ -90,7 +92,7 @@ public class DashboardController extends BaseController {
     public @ResponseBody
     String showOfferDetails(HttpServletRequest request, @RequestParam("offerId") int offerid) {
 
-        System.out.println(offerid);
+        System.out.println("Offer id: " + offerid);
         User user = (User) request.getSession().getAttribute("user");
         Offer offer = offerService.getOfferById(offerid);
 
@@ -108,14 +110,25 @@ public class DashboardController extends BaseController {
     }
 
     @RequestMapping(value = "/pickUpDetails", method = RequestMethod.GET)
-    public String showPickUpDetails() {
+    public String showPickUpDetails(HttpServletRequest request, @RequestParam("pickupId") int pickupId) {
 
-        return "";
+        System.out.println("Pickup id: " + pickupId);
+        User user = (User) request.getSession().getAttribute("user");
+
+        JsonObject json = new JsonObject();
+
+        // Set json properties
+
+        return json.toString();
     }
 
     @RequestMapping(value = "/transactionDetails", method = RequestMethod.GET)
     public String showTransactionDetails() {
 
-        return "";
+        JsonObject json = new JsonObject();
+
+        // Set json properties
+
+        return json.toString();
     }
 }

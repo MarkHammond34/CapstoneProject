@@ -93,15 +93,22 @@
                             <div class="uk-float-right uk-width-1-2">
                                 <c:if test="${listing.ended == 0}">
                                     <span class="uk-width-1-1">
-                                    <a
+                                    <!--<a
                                             <c:if test="${hasOffer}">onclick="return confirm('You have already made an offer for this listing. Making a new one will replace the current one. Is this okay?');"</c:if>
                                             class="uk-button uk-button-text uk-align-right"
                                             style="color: green;"
                                             href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Make
+                                        offer</a>-->
+                                        <a
+                                                class="uk-button uk-button-text uk-align-right"
+                                                style="color: green;"
+                                                onclick="UIkit.modal('#make-offer${listing.id}').show();">Make
                                         offer</a>
-                                        <a class="uk-button uk-button-text uk-align-right"
-                                           href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Buy Now</a>
+
+                                        <!--<a class="uk-button uk-button-text uk-align-right"
+                                           href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Buy Now</a>-->
                                         </span>
+                                    <%@include file="../offer-modals/make-offer.jsp" %>
                                 </c:if>
                             </div>
 
@@ -360,7 +367,6 @@
 
                                         <c:otherwise>
                                             <c:if test="${sessionScope.user.userID == listing.highestBidder.userID || sessionScope.user.userID == listing.user.userID}">
-
                                                 <c:choose>
                                                     <c:when test="${viewCheckout == true}">
                                                         <a href="/checkout?l=${listing.id}"
@@ -374,6 +380,13 @@
                                                            data-intro="Click here view your pick up" data-step="1"
                                                            style="color: cornflowerblue; margin-left: 5px;">View Pick
                                                             Up</a>
+                                                    </c:when>
+                                                    <c:when test="${viewPickUpDetails == true}">
+                                                        <a href="/pick-up-review?l=${listing.id}"
+                                                           class="uk-button uk-button-text"
+                                                           data-intro="Click here view your pick up" data-step="1"
+                                                           style="color: cornflowerblue; margin-left: 5px;">View Pick Up
+                                                            Details</a>
                                                     </c:when>
                                                     <c:when test="${viewVerification == true}">
                                                         <a uk-toggle="target: #verifyPickUpModal"

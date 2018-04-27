@@ -1,21 +1,13 @@
 package edu.ben.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
+import edu.ben.model.User;
 import edu.ben.service.UserService;
-import edu.ben.util.Email;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import edu.ben.model.User;
-
-import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import edu.ben.dao.UserDAO;
-import edu.ben.dao.UserDAOImpl;
 
 @Controller
 public class LoginController extends BaseController {
@@ -48,7 +40,6 @@ public class LoginController extends BaseController {
                     if (user.getPassword() != null && user.getPassword().equals(password)) {
                         request.getSession().setAttribute("user", user);
                         userService.updateAttemptedLogins(0, user);
-                        System.out.println("pass match");
 
                         HttpSession session = request.getSession();
                         // Set the timeout for one hour
@@ -68,7 +59,6 @@ public class LoginController extends BaseController {
 					} else {
 						request.setAttribute("email", email);
 						int loginAttempts = user.getLoginAttempts() + 1;
-						System.out.println(loginAttempts);
 						userService.updateAttemptedLogins(loginAttempts, user);
 
 						if (loginAttempts >= 5) {

@@ -1,22 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-         pageEncoding="ISO-8859-1" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
-
-<!DOCTYPE html>
-<html>
-
 <%@include file="jspf/header.jsp" %>
-
 
 <body>
 <div style="border: 20px solid white;
             margin: 0 auto;
             background: white;">
-
-    <!-- style="background-color: #b0c4de; background-image: linear-gradient(52deg, #b0c4de 25%, #2c57ff 100%);" -->
 
     <%@include file="jspf/navbar.jspf" %>
 
@@ -54,11 +41,8 @@
                             <li aria-expanded="false"><a href="#">InActive</a></li>
                             <li aria-expanded="false"><a href="#">Won</a></li>
                             <li aria-expanded="false"><a href="#">Lost</a></li>
-                            <!--<li aria-expanded="false"><a href="#">Current bids</a></li>-->
                             <li aria-expanded="false"><a href="#">Sold</a></li>
-                            <li aria-expanded="false"><a href="#">Watching</a></li>
                         </ul>
-                        <!-- "My" listings (active, inactive, etc), listings won, listings lost, current bids, listings sold (subsection of my listings) -->
                     </div>
                 </div>
                 <div class="uk-width-expand@m uk-width-2-3@s">
@@ -81,14 +65,8 @@
                         <!-- 5th set of content: Lost listings -->
                         <%@include file="dashboard/switcher-content/lost-listings.jsp" %>
 
-                        <!-- 6th set of content: Current-bid listings -->
-                        <!--<%@include file="dashboard/switcher-content/current-bid-listings.jsp" %>-->
-
-                        <!-- 7th set of content: Sold listings -->
+                        <!-- 6th set of content: Sold listings -->
                         <%@include file="dashboard/switcher-content/sold-listings.jsp" %>
-
-                        <!-- 8th set of content: Watched listings -->
-                        <%@include file="dashboard/switcher-content/watched-listings.jsp" %>
 
                     </ul>
                     <!-- End content switcher -->
@@ -115,8 +93,6 @@
         </div>
     </div>
 
-    <%@include file="jspf/footer.jspf" %>
-
     <script type="text/javascript">
 
         var options = {
@@ -135,6 +111,7 @@
 
     </script>
 </div>
+<%@include file="jspf/footer.jspf" %>
 </body>
 
 

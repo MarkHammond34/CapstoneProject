@@ -65,48 +65,39 @@
             <!-- Price -->
             <c:choose>
                 <c:when test="${listing.type == 'auction'}">
-                    <div class="price" style="font-size: 16px;">
-                        <span class="uk-badge">Highest Bid: $${listing.highestBid}</span>
+                    <!-- Shows the highest bid for a listing that is an auction -->
+                    <div class="price" style="font-size: 80%;">
+                        <span class="uk-badge" style="font-size: 90%;">Highest Bid: $${listing.highestBid}</span>
                     </div>
-                    <c:choose>
-                        <c:when test="${listing.ended = 0}">
-                            <div class="price" style="font-size: 16px;">
-                                <span class="uk-badge">Current Bid: $${listing.currentBid}</span>
-                            </div>
-                        </c:when>
-                        <c:otherwise>
-                            <div class="price" style="font-size: 16px;">
-                                <span class="uk-badge">Current Bid: $${listing.highestBid}</span>
-                            </div>
-                        </c:otherwise>
-                    </c:choose>
+                    <!-- Countdown for auctions -->
                     <div class="uk-grid-small" uk-grid>
                         <div class=" uk-width-1-1 uk-align-center uk-margin-remove-bottom">
                             <p class="uk-margin-medium-top uk-align-center listing-ended"
-                               style="color: red; font-size: 16px; display: none;">
+                               style="color: red; font-size: 90%; display: none;">
                                 <br>
                                 Listing Ended</p>
-                            <div class="uk-grid-small uk-countdown uk-margin-remove uk-align-center" uk-grid
+                            <div class="uk-grid uk-countdown uk-margin-remove uk-float-left uk-padding-remove-left uk-align-center"
+                                 uk-grid
                                  uk-countdown="date: ${listing.endTimestamp}">
                         <span class="uk-days">
-                            <strong class="uk-countdown-number uk-countdown-days" style="font-size: 18px"></strong>
-                            <strong class="uk-countdown-label uk-margin-small-top uk-margin-left"
-                                    style="font-size: 18px">Days</strong>
+                            <strong class="uk-countdown-number uk-countdown-days" style="font-size: 80%"></strong>
+                            <strong class="uk-countdown-label uk-margin-small-top "
+                                    style="font-size: 70%">Days</strong>
                         </span>
                                 <span class="uk-hours">
-                            <strong class="uk-countdown-number uk-countdown-hours" style="font-size: 18px"></strong>
-                            <strong class="uk-countdown-label uk-margin-small-top uk-margin-left"
-                                    style="font-size: 18px">Hours</strong>
+                            <strong class="uk-countdown-number uk-countdown-hours" style="font-size: 80%"></strong>
+                            <strong class="uk-countdown-label uk-margin-small-top "
+                                    style="font-size: 70%">Hours</strong>
                         </span>
                                 <span class="uk-minutes">
-                            <strong class="uk-countdown-number uk-countdown-minutes" style="font-size: 18px"></strong>
-                            <strong class="uk-countdown-label uk-margin-small-top uk-margin-left"
-                                    style="font-size: 18px">Minutes</strong>
+                            <strong class="uk-countdown-number uk-countdown-minutes" style="font-size: 80%"></strong>
+                            <strong class="uk-countdown-label uk-margin-small-top "
+                                    style="font-size: 70%">Minutes</strong>
                         </span>
                                 <span class="uk-seconds">
-                            <strong class="uk-countdown-number uk-countdown-seconds" style="font-size: 18px"></strong>
-                            <strong class="uk-countdown-label uk-margin-small-top uk-margin-left"
-                                    style="font-size: 18px">Seconds</strong></strong>
+                            <strong class="uk-countdown-number uk-countdown-seconds" style="font-size: 80%"></strong>
+                            <strong class="uk-countdown-label uk-margin-small-top "
+                                    style="font-size: 70%">Seconds</strong></strong>
                         </span>
                             </div>
                         </div>
