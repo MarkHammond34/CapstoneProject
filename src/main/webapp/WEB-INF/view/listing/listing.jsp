@@ -360,6 +360,7 @@
 
                                         <c:otherwise>
                                             <c:if test="${sessionScope.user.userID == listing.highestBidder.userID || sessionScope.user.userID == listing.user.userID}">
+
                                                 <c:choose>
                                                     <c:when test="${viewCheckout == true}">
                                                         <a href="/checkout?l=${listing.id}"
@@ -373,13 +374,6 @@
                                                            data-intro="Click here view your pick up" data-step="1"
                                                            style="color: cornflowerblue; margin-left: 5px;">View Pick
                                                             Up</a>
-                                                    </c:when>
-                                                    <c:when test="${viewPickUpDetails == true}">
-                                                        <a href="/pick-up-review?l=${listing.id}"
-                                                           class="uk-button uk-button-text"
-                                                           data-intro="Click here view your pick up" data-step="1"
-                                                           style="color: cornflowerblue; margin-left: 5px;">View Pick Up
-                                                            Details</a>
                                                     </c:when>
                                                     <c:when test="${viewVerification == true}">
                                                         <a uk-toggle="target: #verifyPickUpModal"

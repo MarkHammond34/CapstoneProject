@@ -24,6 +24,7 @@ public interface MessageService {
 
     public Conversation getConversationByID(int conversationID);
 
+    public Conversation getMostRecent(User u1, User u2);
 
 
 }

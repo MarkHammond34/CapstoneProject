@@ -89,6 +89,9 @@ public class User {
     @Column(name = "banned")
     private int banned;
 
+    @Column(name = "logged_in")
+    private int loggedIn;
+
     @Formula("(select avg(transaction.trans_rating) from transaction where transaction.seller_ID=user_ID)")
     @Column(name = "seller_rating")
     private Integer sellerRating;
@@ -349,4 +352,11 @@ public class User {
         return null;
     }
 
+    public int getLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(int loggedIn) {
+        this.loggedIn = loggedIn;
+    }
 }

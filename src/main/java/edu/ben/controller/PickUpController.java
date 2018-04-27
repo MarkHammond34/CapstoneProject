@@ -1,17 +1,19 @@
 package edu.ben.controller;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import edu.ben.model.*;
 import edu.ben.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.List;
 
 @SuppressWarnings("AppEngineForbiddenCode")
 @Controller
@@ -43,6 +45,9 @@ public class PickUpController extends BaseController {
 
     @Autowired
     TutorialService tutorialService;
+
+    @Autowired
+    SalesTrafficService salesTrafficService;
 
     @PostMapping("/pick-up-accept")
     public String pickUpConfirm(HttpServletRequest request, @RequestParam("pickUpID") int pickUpID) {
@@ -124,9 +129,10 @@ public class PickUpController extends BaseController {
             Listing listing = listingService.getByListingID(listingID);
 
             // Create new conversation
-            Conversation conversation = new Conversation(listing.getUser(), listing.getHighestBidder());
-            int conversationID = messageService.createConversation(conversation);
-            conversation = messageService.getConversationByID(conversationID);
+            Conversation conversation = new Conversation(transaction.getSeller(), transaction.getBuyer());
+            messageService.createConversation(conversation);
+            conversation = messageService.getMostRecent(transaction.getSeller(), transaction.getBuyer());
+
 
             // Create default location
             Location location = new Location("TBD",
@@ -147,16 +153,10 @@ public class PickUpController extends BaseController {
                         "Pick up details have been created for the listing you are selling.", 1, "PICKUP"));
 
                 // If buyer goes to page first, add appropriate message and send buyer notification
-            } else if (transaction.getSeller().getUserID() == user.getUserID()) {
+            } else {
                 addWarningMessage("Set the pick up date, time, and location.");
                 notificationService.save(new Notification(transaction.getBuyer(), transaction.getListingID().getId(), "Pick Up Details Created",
                         "Pick up details have been created for the listing you are buying.", 1, "PICKUP"));
-
-                // Fail safe for a none authorized user trying to get to the page
-            } else {
-                addErrorMessage("Access Denied");
-                setRequest(request);
-                return "redirect:" + request.getHeader("Referer");
             }
 
             // If pickup exists
@@ -176,6 +176,8 @@ public class PickUpController extends BaseController {
             addWarningMessage("Pickup time missed! Accept the new date and time to continue.");
         }
 
+        // Add site traffic record
+        salesTrafficService.create(new SalesTraffic("Pickup_Page", user.getUserID()));
 
         request.setAttribute("pickUp", pickUp);
 
@@ -335,43 +337,38 @@ public class PickUpController extends BaseController {
         }
     }
 
-    @PostMapping("/sendPickUpMessage")
-    public String sendPickUpMessage(HttpServletRequest request, @RequestParam("pickUpID") int pickUpID,
-                                    @RequestParam("message") String message) {
+    @RequestMapping(value = "/sendPickUpMessage", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody
+    String sendPickUpMessage(HttpServletRequest request, @RequestParam("pickUpID") int pickUpID,
+                             @RequestParam("message") String message) {
+
+        JsonObject json = new JsonObject();
 
         User user = (User) request.getSession().getAttribute("user");
 
         if (user == null) {
-            addErrorMessage("Login To Send A Message");
-            setRequest(request);
-            return "login";
+            json.addProperty("result", "USER NULL");
+            return json.toString();
         }
 
         PickUp pickUp = pickUpService.getPickUpByPickUpID(pickUpID);
 
         if (pickUp == null) {
-            addErrorMessage("Error Loading Pick Up");
-            setRequest(request);
-            return "redirect:/";
+            json.addProperty("result", "PICK UP NULL");
+            return json.toString();
         }
 
         // If user logged in is not the seller or buyer
         if (user.getUserID() != pickUp.getTransaction().getSeller().getUserID() && user.getUserID() != pickUp.getTransaction().getBuyer().getUserID()) {
-            addErrorMessage("Access Denied");
-            setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
+            json.addProperty("result", "USER NULL");
+            return json.toString();
         }
 
         // Send message
         messageService.sendMessage(user, message, pickUp.getConversation());
+        json.addProperty("result", "MESSAGE SENT");
+        return json.toString();
 
-        request.setAttribute("pickUp", pickUp);
-        request.setAttribute("title", "Review Pick Up");
-
-        request.setAttribute("latitude", environment.getProperty("school.latitude"));
-        request.setAttribute("longitude", environment.getProperty("school.longitude"));
-
-        return "redirect:" + request.getHeader("Referer");
     }
 
 
@@ -456,4 +453,125 @@ public class PickUpController extends BaseController {
         return "redirect:" + request.getHeader("Referer");
     }
 
+    @RequestMapping(value = "/updatePickupMessages", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody
+    String updatePickupMessages(HttpServletRequest request, @RequestParam("pickUpID") int id) {
+
+        JsonObject json = new JsonObject();
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            json.addProperty("result", "USER NULL");
+            return json.toString();
+        }
+
+        PickUp pickUp = pickUpService.getPickUpByPickUpID(id);
+
+        if (pickUp == null) {
+            json.addProperty("result", "PICK UP NULL");
+            return json.toString();
+        }
+
+        JsonArray array = new JsonArray();
+
+        List<Message> messages = pickUp.getConversation().getMessages();
+        Collections.sort(messages);
+
+        for (Message m : messages) {
+
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("messageID", m.getId());
+            jsonObject.addProperty("userID", m.getUser().getUserID());
+            jsonObject.addProperty("messageBody", m.getMessageBody());
+            jsonObject.addProperty("dateSent", m.getDateSent().toString());
+            jsonObject.addProperty("formattedDateSent", m.getFormattedDateSent());
+
+            array.add(jsonObject);
+
+        }
+
+        return array.toString();
+    }
+
+    @RequestMapping(value = "/checkForPickupUpdates", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody
+    String checkForPickupUpdates(HttpServletRequest request, @RequestParam("pickUpID") int id) {
+
+        JsonObject json = new JsonObject();
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            json.addProperty("result", "USER NULL");
+            return json.toString();
+        }
+
+        PickUp pickUp = pickUpService.getPickUpByPickUpID(id);
+
+        if (pickUp == null) {
+            json.addProperty("result", "PICK UP NULL");
+            return json.toString();
+        }
+
+        json.addProperty("pickUpID", pickUp.getPickUpID());
+        json.addProperty("buyerID", pickUp.getTransaction().getBuyer().getUserID());
+        json.addProperty("sellerID", pickUp.getTransaction().getSeller().getUserID());
+        json.addProperty("locationLat", pickUp.getLocation().getLatitude());
+        json.addProperty("locationLng", pickUp.getLocation().getLongitude());
+        json.addProperty("locationName", pickUp.getLocation().getName());
+        json.addProperty("pickUpTime", pickUp.getPickUpTime());
+        json.addProperty("pickUpDate", pickUp.getPickUpDate());
+        json.addProperty("pickUpTimestampAsLong", pickUp.getPickUpTimestamp().getTime());
+        json.addProperty("buyerAccept", pickUp.getBuyerAccept());
+        json.addProperty("status", pickUp.getStatus());
+
+        return json.toString();
+    }
+
+    @RequestMapping(value = "/checkForPickupUser", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody
+    String checkForPickupUser(HttpServletRequest request, @RequestParam("pickUpID") int id) {
+
+        JsonObject json = new JsonObject();
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            json.addProperty("result", "USER NULL");
+            return json.toString();
+        }
+
+        PickUp pickUp = pickUpService.getPickUpByPickUpID(id);
+
+        if (pickUp == null) {
+            json.addProperty("result", "PICK UP NULL");
+            return json.toString();
+        }
+
+        if (pickUp.getTransaction().getSeller().getUserID() == user.getUserID()) {
+            List<String> results = salesTrafficService.getMostRecentPage(pickUp.getTransaction().getBuyer().getUserID());
+            // If most recent page is pickup and the user is still active
+            if (results != null && results.get(0).equals("Pickup_Page") && pickUp.getTransaction().getBuyer().getLoggedIn() == 1) {
+                json.addProperty("result", "USER ACTIVE");
+
+            } else {
+                json.addProperty("result", "USER INACTIVE");
+            }
+
+        } else if (pickUp.getTransaction().getBuyer().getUserID() == user.getUserID()) {
+            List<String> results = salesTrafficService.getMostRecentPage(pickUp.getTransaction().getSeller().getUserID());
+            // If most recent page is pickup and the user is still active
+            if (results != null && results.get(0).equals("Pickup_Page") && pickUp.getTransaction().getSeller().getLoggedIn() == 1) {
+                json.addProperty("result", "USER ACTIVE");
+
+            } else {
+                json.addProperty("result", "USER INACTIVE");
+            }
+
+        } else {
+            json.addProperty("result", "USER NULL");
+        }
+        return json.toString();
+    }
 }

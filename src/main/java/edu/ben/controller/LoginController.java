@@ -50,6 +50,14 @@ public class LoginController extends BaseController {
                         userService.updateAttemptedLogins(0, user);
                         System.out.println("pass match");
 
+                        HttpSession session = request.getSession();
+                        // Set the timeout for one hour
+                        session.setMaxInactiveInterval(3600);
+                        session.setAttribute("user", user);
+
+                        user.setLoggedIn(1);
+                        userService.update(user);
+
                         if (request.getSession().getAttribute("lastPage") != null) {
                             String lastPage = (String) request.getSession().getAttribute("lastPage");
                             request.getSession().removeAttribute("lastPage");
@@ -122,13 +130,28 @@ public class LoginController extends BaseController {
 		return "email";
 	}
 
-	@GetMapping("/logout")
-	public String logout(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		session.invalidate();
-		request.removeAttribute("user");
-		return "redirect:/index";
-	}
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+
+        User u = (User) request.getSession().getAttribute("user");
+
+        if (u == null) {
+            addErrorMessage("No User Logged In");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        HttpSession session = request.getSession();
+        session.invalidate();
+
+        // Mark user as logged out in db
+        u.setLoggedIn(0);
+        userService.update(u);
+
+        request.removeAttribute("user");
+        return "redirect:/";
+
+    }
 
 	@RequestMapping(value="loginValidEmail", method= RequestMethod.POST, produces="application/json")
 	public @ResponseBody boolean loginValidEmail(HttpServletRequest request, @RequestParam("email") String email){

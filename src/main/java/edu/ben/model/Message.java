@@ -6,11 +6,14 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 @Entity(name = "message")
 @Table(name = "message")
 @Transactional
-public class Message implements Serializable {
+public class Message implements Serializable, Comparable<Message> {
 
     @Id
     @Column(name = "message_ID")
@@ -84,5 +87,22 @@ public class Message implements Serializable {
 
     public void setDateSent(Timestamp dateSent) {
         this.dateSent = dateSent;
+    }
+
+    @Override
+    public int compareTo(Message m) {
+        return dateSent.compareTo(m.getDateSent());
+    }
+
+    public String getFormattedDateSent() {
+        Date date = new Date();
+        date.setTime(dateSent.getTime());
+        // Set calendar to a week ago
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -7);
+        if (cal.getTimeInMillis() > dateSent.getTime()) {
+            return new SimpleDateFormat("MMM d, hh:mm a").format(date);
+        }
+        return new SimpleDateFormat("E, hh:mm a").format(date);
     }
 }

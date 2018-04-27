@@ -34,7 +34,8 @@ public class MessageDAOImpl implements MessageDAO {
 
     @Override
     public int createConversation(Conversation conversation) {
-        return (int) getSession().save(conversation);
+        getSession().save(conversation);
+        return (Integer) getSession().getIdentifier(conversation);
     }
 
     @SuppressWarnings("unchecked")
@@ -76,5 +77,17 @@ public class MessageDAOImpl implements MessageDAO {
         Query q = getSession().createQuery("FROM conversation WHERE conversation_ID:=id");
         q.setParameter("id", conversationID);
         return (Conversation) q.list().get(0);
+    }
+
+    @Override
+    public Conversation getMostRecent(User u1, User u2) {
+        Query q = getSession().createQuery("FROM conversation WHERE userId_1=:u1 AND userId_2=:u2 ORDER BY date_created DESC");
+        q.setParameter("u1", u1.getUserID());
+        q.setParameter("u2", u2.getUserID());
+        List<Conversation> conversations = q.list();
+        if (conversations.size() > 0) {
+            return conversations.get(0);
+        }
+        return null;
     }
 }

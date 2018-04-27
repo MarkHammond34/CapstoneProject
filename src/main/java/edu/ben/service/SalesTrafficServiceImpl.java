@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -46,5 +47,10 @@ public class SalesTrafficServiceImpl implements SalesTrafficService {
     @Override
     public long getCountByPageByYear(String pageName, String date) {
         return sd.getCountByPageByYear(pageName, date);
+    }
+
+    @Override
+    public List<String> getMostRecentPage(int userID) {
+        return sd.getMostRecentPage(userID);
     }
 }

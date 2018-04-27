@@ -65,4 +65,9 @@ public class MessageServiceImpl implements MessageService {
             return null;
         }
     }
+
+    @Override
+    public Conversation getMostRecent(User u1, User u2) {
+        return msgDAO.getMostRecent(u1, u2);
+    }
 }
