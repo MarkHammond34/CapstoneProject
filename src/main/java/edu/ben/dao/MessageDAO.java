@@ -23,4 +23,6 @@ public interface MessageDAO {
     public void sendMessage(Message message);
 
     public Conversation getConversationByID(int conversationID);
+
+    public Conversation getMostRecent(User u1, User u2);
 }

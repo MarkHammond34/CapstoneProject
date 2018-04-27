@@ -93,15 +93,22 @@
                             <div class="uk-float-right uk-width-1-2">
                                 <c:if test="${listing.ended == 0}">
                                     <span class="uk-width-1-1">
-                                    <a
+                                    <!--<a
                                             <c:if test="${hasOffer}">onclick="return confirm('You have already made an offer for this listing. Making a new one will replace the current one. Is this okay?');"</c:if>
                                             class="uk-button uk-button-text uk-align-right"
                                             style="color: green;"
                                             href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Make
+                                        offer</a>-->
+                                        <a
+                                                class="uk-button uk-button-text uk-align-right"
+                                                style="color: green;"
+                                                onclick="UIkit.modal('#make-offer${listing.id}').show();">Make
                                         offer</a>
-                                        <a class="uk-button uk-button-text uk-align-right"
-                                           href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Buy Now</a>
+
+                                        <!--<a class="uk-button uk-button-text uk-align-right"
+                                           href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Buy Now</a>-->
                                         </span>
+                                    <%@include file="../offer-modals/make-offer.jsp" %>
                                 </c:if>
                             </div>
 

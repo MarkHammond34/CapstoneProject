@@ -75,6 +75,9 @@
     <!-- Create Listing -->
     <spring:url value="resources/js/create-listing.js" var="cretJS"/>
 
+    <!-- Pickup -->
+    <spring:url value="resources/css/pick-up.css" var="pickCSS"/>
+
     <title>${title}</title>
 
     <!-- <link href="${mainCSS}" rel="stylesheet"/> -->
@@ -779,6 +782,7 @@
     <script type="text/javascript" src="${cretJS}"></script>
     <script type="text/javascript" src="${uikitJS}"></script>
     <link href="${uikitCSS}" rel="stylesheet"/>
+    <link href="${pickCSS}" rel="stylesheet"/>
     <script type="text/javascript" src="${uikiticons}"></script>
 </head>
 <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>

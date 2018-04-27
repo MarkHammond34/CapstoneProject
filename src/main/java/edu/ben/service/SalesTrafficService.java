@@ -2,6 +2,8 @@ package edu.ben.service;
 
 import edu.ben.model.SalesTraffic;
 
+import java.util.List;
+
 public interface SalesTrafficService {
 
     public int create(SalesTraffic s);
@@ -15,4 +17,6 @@ public interface SalesTrafficService {
     public long getCountByPageByMonth(String pageName, String date);
 
     public long getCountByPageByYear(String pageName, String date);
+
+    public List<String> getMostRecentPage(int userID);
 }

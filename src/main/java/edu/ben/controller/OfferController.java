@@ -1,20 +1,17 @@
 package edu.ben.controller;
 
-import edu.ben.model.Listing;
-import edu.ben.model.Offer;
-import edu.ben.model.Transaction;
-import edu.ben.model.User;
+import com.google.gson.JsonObject;
+import edu.ben.model.*;
 import edu.ben.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -78,18 +75,66 @@ public class OfferController extends BaseController {
 
 	}
 
+    @RequestMapping(value = "/makeOfferAjax", method = RequestMethod.POST, produces = "application/json")
+    public @ResponseBody
+    String makeOfferAjax(HttpServletRequest request, @RequestParam("listing") int id, @RequestParam("offer-amount") int offerAmount,
+                         @RequestParam("offer-message") String message) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            addErrorMessage("You must be logged in to make an offer.");
+            setRequest(request);
+            return "redirect:/login";
+        }
+
+        Listing listing = listingService.getByListingID(id);
+        Offer existingOffer;
+
+        try {
+
+            existingOffer = offerService.getOfferByUserAndListingId(user.getUserID(), listing.getId());
+            if (existingOffer == null) {
+
+                JsonObject json = new JsonObject();
+
+                Offer newOffer = new Offer(offerAmount, message, user, listing.getUser(), listing);
+                offerService.createOffer(newOffer);
+
+                // Notify seller
+                String notificationMessage = user.getUsername() + " has made an offer on " + listing.getName() + "!";
+                Notification notification = new Notification(listing.getUser(), listing.getId(), notificationMessage);
+                notificationService.save(notification);
+
+                json.addProperty("offer-amount", newOffer.getOfferAmount());
+                json.addProperty("offer.message", newOffer.getOfferMessage());
+//				json.addProperty("offer-maker", newOffer.getOfferMaker());
+//				json.addProperty("offer-receiver", newOffer.getOfferReceiver());
+//				json.addProperty("offer-listing", newOffer.getListingID());
+
+                return json.toString();
+
+            } else {
+
+                addErrorMessage("You have already made an offer on this listing!");
+                setRequest(request);
+                return "redirect:/listing";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            addErrorMessage("An error occurred. Please try again.");
+            setRequest(request);
+            return "redirect:/listing";
+        }
+
+    }
+
 	@RequestMapping(value = "/confirmOffer", method = RequestMethod.POST)
 	public ModelAndView confirmOffer(@RequestParam("listing") int id, @RequestParam("offer-amount") int price,
 			@RequestParam("offer-message") String message, HttpServletRequest request) {
 
 		ModelAndView model = new ModelAndView("redirect:/listing");
-
-		// Money is defaulted to $0. Can make money offer, message offer for something,
-		// or both.
-
-		// Maybe confirm offer popup
-
-		// Notify seller
 
 		Listing listing;
 		Offer offer;
@@ -107,14 +152,10 @@ public class OfferController extends BaseController {
 			checkExistingOffer(id, offer, sender);
 
 			// Notify seller
-			String subject = "You have a new offer!";
 			String notificationMessage = sender.getUsername() + " has made an offer on " + listing.getName() + "!";
-			Date date = new Date();
-			Timestamp timeSent = new Timestamp(date.getTime());
 
-			// Notification notification = new Notification(receiver, listing.getId(),
-			// subject, notificationMessage, timeSent, 1);
-			// notificationService.save(notification);
+            Notification notification = new Notification(receiver, listing.getId(), notificationMessage);
+            notificationService.save(notification);
 
 		} catch (Exception e) {
 			
@@ -143,15 +184,11 @@ public class OfferController extends BaseController {
 		// maybe popup confirming that you want to accept an offer
 
 		// notify offerer
-		String subject = "Congratulations!";
 		String notificationMessage = "Your offer of " + offer.getOfferAmount() + " on " + listing.getName()
 				+ " has been accepted by " + lister.getUsername() + "!";
-		Date date = new Date();
-		Timestamp timeSent = new Timestamp(date.getTime());
 
-		// Notification notification = new Notification(receiver, listing.getId(),
-		// subject, notificationMessage, timeSent, 1);
-		// notificationService.save(notification);
+        Notification notification = new Notification(receiver, listing.getId(), notificationMessage);
+        notificationService.save(notification);
 
 		// remove all offers from offer page for this listing
 		List<Offer> offers = offerService.getOffersByListingId(listing.getId()); 
@@ -163,15 +200,11 @@ public class OfferController extends BaseController {
 		
 		for (Offer offerr: offers) {
 			// notify losers
-			subject = "Better luck next time";
 			notificationMessage = "Your offer of " + offer.getOfferAmount() + " on " + listing.getName()
 					+ " has been rejected by " + lister.getUsername() + "!";
-			date = new Date();
-			timeSent = new Timestamp(date.getTime());
 
-			// Notification notification = new Notification(receiver, listing.getId(),
-			// subject, notificationMessage, timeSent, 1);
-			// notificationService.save(notification);
+            notification = new Notification(receiver, listing.getId(), notificationMessage);
+            notificationService.save(notification);
 			
 			// remove listing from selling view 
 			offerr.setActive(0);
@@ -192,24 +225,29 @@ public class OfferController extends BaseController {
 		Offer offer = offerService.getOfferByUserAndListingId(id, listingID);
 		Listing listing = listingService.getByListingID(listingID);
 
-		// Are you sure you want to reject this?
-
-		// no? - cancel popup
-
-		// yes?
-
 		// send notification to offerer that their offer was rejected
 
-		// Notify seller
-		String subject = "Better luck next time!";
-		String notificationMessage = "Your offer of " + offer.getOfferAmount() + " on " + listing.getName()
-				+ " has been rejected by " + lister.getUsername() + ".";
-		Date date = new Date();
-		Timestamp timeSent = new Timestamp(date.getTime());
+        String notificationMessage;
+        Notification notification;
 
-		// Notification notification = new Notification(receiver, listing.getId(),
-		// subject, notificationMessage, timeSent, 1);
-		// notificationService.save(notification);
+        // For regular offer
+        if (offer.getOfferReceiver().getUserID() != lister.getUserID()) {
+
+            // Notify seller
+            notificationMessage = "Your offer of " + offer.getOfferAmount() + " on " + listing.getName()
+                    + " has been rejected by " + lister.getUsername() + ".";
+
+            notification = new Notification(lister, listing.getId(), notificationMessage);
+            notificationService.save(notification);
+
+        } else {
+
+            // For counter offer
+            notificationMessage = "";
+            notification = new Notification(offer.getOfferMaker(), listing.getId(), notificationMessage);
+            notificationService.save(notification);
+
+        }
 
 		offer.setActive(0);
 		offer.setStatus("rejected");
@@ -250,8 +288,6 @@ public class OfferController extends BaseController {
 		ModelAndView model = new ModelAndView("redirect:/dashboard");
 
 		Offer initialOffer = offerService.getOfferById(initial);
-		System.out.println();
-		System.out.println("Initial offer ID: " + initialOffer.getOfferID());
 		User offerMaker = (User) request.getSession().getAttribute("user");
 		Offer newOffer;
 
@@ -260,12 +296,8 @@ public class OfferController extends BaseController {
             User offerReceiver = userService.getUserById(initialOffer.getOfferMaker().getUserID());
 			newOffer = new Offer(price, message, offerMaker, offerReceiver, initialOffer.getListingID(), "pending");
 
-			System.out.println("Offer maker ID: " + offerMaker.getUserID());
-			System.out.println("Offer receiver ID: " + offerReceiver.getUserID());
-			System.out.println("New offer: " + newOffer);
-
 			// Update old offer
-			initialOffer.setStatus("countered");
+            initialOffer.setStatus("counter");
             initialOffer.setActive(0);
 			offerService.saveOrUpdate(initialOffer);
 
@@ -273,14 +305,10 @@ public class OfferController extends BaseController {
 			offerService.createOffer(newOffer);
 
 			// Notify seller
-			String subject = "You have a new offer!";
 			String notificationMessage = offerMaker.getUsername() + " has made an offer on " + newOffer.getListingID().getName() + "!";
-			Date date = new Date();
-			Timestamp timeSent = new Timestamp(date.getTime());
 
-			// Notification notification = new Notification(receiver, listing.getId(),
-			// subject, notificationMessage, timeSent, 1);
-			// notificationService.save(notification);
+            Notification notification = new Notification(initialOffer.getOfferReceiver(), initialOffer.getListingID().getId(), notificationMessage);
+            notificationService.save(notification);
 
 		} catch (Exception e) {
 

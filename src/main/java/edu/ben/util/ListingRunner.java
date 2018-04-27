@@ -92,6 +92,10 @@ public class ListingRunner {
                                     }
 
                                     // Create new transaction
+                                    Transaction transaction = new Transaction(l, 0);
+                                    transaction.setSeller(l.getUser());
+                                    transaction.setBuyer(l.getHighestBidder());
+                                    transaction.setTransactionType("pending");
                                     transactionService.createTransaction(new Transaction(l, 0));
                                 }
                             } else {
@@ -142,6 +146,12 @@ public class ListingRunner {
                     if (l.getHighestBidder() == null) {
                         // Send notification to seller that no one placed a big
                         newNotifications.add(new Notification(l.getUser(), l.getId(), "Listing Ended", "Listing: " + l.getName() + " ended without any bids.", 1, "NO_BIDDER"));
+
+                        // Create new transaction
+                        Transaction transaction = new Transaction(l, 0);
+                        transaction.setTransactionType("no winner");
+                        transactionService.createTransaction(transaction);
+
                     } else {
                         // Create notification for buyer
                         newNotifications.add(new Notification(l.getHighestBidder(), l.getId(), "You Won!", "You Won! \n Listing: " + l.getName(), 1, "WON"));
@@ -153,6 +163,13 @@ public class ListingRunner {
                         for (User u : losers) {
                             newNotifications.add(new Notification(u, l.getId(), "You Lost!", "You Lost! \n Listing: " + l.getName(), 1, "LOST"));
                         }
+
+                        // Create new transaction
+                        Transaction transaction = new Transaction(l, 0);
+                        transaction.setSeller(l.getUser());
+                        transaction.setBuyer(l.getHighestBidder());
+                        transaction.setTransactionType("pending");
+                        transactionService.createTransaction(new Transaction(l, 0));
                     }
 
                     // Batch update for efficiency

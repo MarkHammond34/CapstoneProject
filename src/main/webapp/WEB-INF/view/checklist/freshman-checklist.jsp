@@ -12,7 +12,7 @@
 
     <div class="uk-section uk-background-muted">
 
-        <div class="uk-width-3-4@l uk-width-3-4@m uk-width-1-1@s uk-align-center">
+        <div class="uk-width-3-4@l uk-width-3-4@m uk-width-1-1@s uk-align-center uk-padding-small">
 
             <h1 data-intro="Keep track of things you need to buy with our Freshman Checklist" data-step="1"
                 class="uk-heading-line uk-text-center"><span> Freshman Checklist</span></h1>
@@ -25,7 +25,7 @@
                     <!-- Still Need Table -->
                     <h2 class="uk-heading-bullet">Still Need <a
                             uk-toggle="target: #createNewItem; animation: uk-animation-fade; queued: true"
-                            uk-icon="icon: plus; ratio: 1.2" style="color: dodgerblue" uk-tooltip="title: Add New Item"
+                            uk-icon="icon: plus; ratio: 1.2" style="color: dodgerblue" uk-tooltip="Add New Item"
                             data-intro="Want to add a new item to the checklist, click here and type it below."
                             data-step="5"></a>
                     </h2>
@@ -59,6 +59,7 @@
                         </thead>
                         <tbody>
 
+                        <c:set var="stillNeedCount" value="0" scope="page"/>
                         <c:forEach items="${sessionScope.checklist.items}" var="item">
                             <tr>
                                 <c:if test="${item.status == 'STILL_NEED'}">
@@ -66,32 +67,47 @@
                                         <p>${item.name}</p>
                                     </td>
                                     <td class="uk-table-small">
-                                        <form action="/update-checklist" method="post" id="dontNeedForm">
+                                        <form action="/update-checklist" method="post" id="dontNeedForm${item.itemID}">
                                             <input type="hidden" name="newStatus" value="DONT_NEED">
                                             <input type="hidden" name="itemID" value="${item.itemID}">
                                             <input type="hidden" name="checklistID"
                                                    value="${sessionScope.checklist.checklistID}">
                                             <a class="uk-icon-button" style="color: red" title="Don't Need"
-                                               uk-icon="icon: close; ratio: 1.2" onclick="$('#dontNeedForm').submit();"
+                                               uk-icon="icon: close; ratio: 1.2"
+                                               onclick="$('#dontNeedForm${item.itemID}').submit();"
                                                data-intro="Don't need an item? Click here to remove it from the list."
                                                data-step="3"></a>
                                         </form>
                                     </td>
                                     <td class="uk-table-small">
-                                        <form action="/update-checklist" method="post" id="boughtForm">
+                                        <form action="/update-checklist" method="post" id="boughtForm${item.itemID}">
                                             <input type="hidden" name="newStatus" value="JUST_BOUGHT">
                                             <input type="hidden" name="itemID" value="${item.itemID}">
                                             <input type="hidden" name="checklistID"
                                                    value="${sessionScope.checklist.checklistID}">
                                             <a class=" uk-icon-button" style="color: green" title="Just Bought"
-                                               uk-icon="icon: cart; ratio: 1.2" onclick="$('#boughtForm').submit();"
+                                               uk-icon="icon: cart; ratio: 1.2"
+                                               onclick="$('#boughtForm${item.itemID}').submit();"
                                                data-intro="Bought this item? Click here to cross it off the list."
                                                data-step="4"></a>
                                         </form>
                                     </td>
+                                    <c:set var="stillNeedCount" value="${stillNeedCount + 1}" scope="page"/>
                                 </c:if>
                             </tr>
                         </c:forEach>
+
+                        <!-- No Still Need Items -->
+                        <c:if test="${stillNeedCount == 0}">
+                            <tr>
+                                <td class="uk-table-justify">
+                                    All Checked Off!
+                                </td>
+                                <td class="uk-table-small"></td>
+                                <td class="uk-table-small"></td>
+                            </tr>
+                        </c:if>
+
                         </tbody>
                     </table>
 
@@ -110,6 +126,7 @@
                         </tr>
                         </thead>
                         <tbody>
+                        <c:set var="justBoughtCount" value="0" scope="page"/>
                         <c:forEach items="${sessionScope.checklist.items}" var="item">
                             <tr>
                                 <c:if test="${item.status == 'JUST_BOUGHT'}">
@@ -126,9 +143,22 @@
                                            title="Just Bought"
                                            uk-icon="icon: cart; ratio: 1.2"></a>
                                     </td>
+                                    <c:set var="justBoughtCount" value="${justBoughtCount + 1}" scope="page"/>
                                 </c:if>
                             </tr>
                         </c:forEach>
+
+                        <!-- No Still Need Items -->
+                        <c:if test="${justBoughtCount == 0}">
+                            <tr>
+                                <td class="uk-table-justify">
+                                    All Checked Off!
+                                </td>
+                                <td class="uk-table-small"></td>
+                                <td class="uk-table-small"></td>
+                            </tr>
+                        </c:if>
+
                         </tbody>
                     </table>
                 </div>

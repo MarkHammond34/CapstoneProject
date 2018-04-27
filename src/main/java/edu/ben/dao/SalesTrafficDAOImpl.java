@@ -77,4 +77,10 @@ public class SalesTrafficDAOImpl implements SalesTrafficDAO {
             return 0;
         }
     }
+
+    @Override
+    public List<String> getMostRecentPage(int userID) {
+        return (List<String>) getSession().createQuery("SELECT pageVisited FROM sales_traffic WHERE userID=" + userID +
+        " ORDER BY dateCreated DESC").list();
+    }
 }

@@ -49,6 +49,8 @@ public class Offer {
         this.offerMaker = offerMaker;
         this.offerReceiver = offerReceiver;
         this.listingID = listingID;
+        this.status = "pending";
+        this.active = 1;
     }
 
     public Offer(int offerAmount, String offerMessage, User offerMaker, User offerReceiver, Listing listingID, @NotBlank String status) {
@@ -58,6 +60,7 @@ public class Offer {
         this.offerReceiver = offerReceiver;
         this.listingID = listingID;
         this.status = status;
+        this.active = 1;
     }
 
     public Offer(int offerID, int offerAmount, String offerMessage, User offerMaker, User offerReceiver, Listing listingID, @NotBlank String status) {
@@ -68,6 +71,7 @@ public class Offer {
         this.offerReceiver = offerReceiver;
         this.listingID = listingID;
         this.status = status;
+        this.active = 1;
     }
 
     // Getters and setters

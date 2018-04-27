@@ -18,7 +18,6 @@
                     <tr>
                         <td class="uk-table-link">${transaction.buyer.username}</td>
                         <td class="uk-table-link">${transaction.seller.username}</td>
-                        <!--<td class="uk-preserve-width">${transaction.offerID.offerAmount}</td>-->
                         <c:if test="${transaction.completed == 0}">
                             <td class="uk-text-nowrap">In Progress</td>
                         </c:if>

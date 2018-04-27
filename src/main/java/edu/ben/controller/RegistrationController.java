@@ -65,11 +65,11 @@ public class RegistrationController extends BaseController {
 						user.setSecurityLevel(3);
 					}
 
-                    int id = userService.create(user);
-                    user.setUserID(id);
+					int id = userService.save(user);
+					user.setUserID(id);
 
-                    //Create default Profile Image
-					String imagePath = System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + "default";
+					//Create default Profile Image
+					String imagePath = "ulistitUsers" + File.separator + "default";
 					Image profileImg = new Image(user, imagePath, "default.png", 1);
 
 					imageService.save(profileImg);

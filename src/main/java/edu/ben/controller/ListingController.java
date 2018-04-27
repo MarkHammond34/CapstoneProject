@@ -566,49 +566,35 @@ public class ListingController extends BaseController {
                 // Check if pick up was started
                 PickUp pickUp = pickUpService.getPickUpByListingID(listingID);
 
-                if (pickUp != null) {
+                if (pickUp == null || pickUp.getStatus().equals("IN REVIEW") || pickUp.getStatus().equals("AWAITING PICK UP") || pickUp.getStatus().equals("CREATED")) {
+                    request.setAttribute("viewPickUp", true);
 
-                    // View Pick Up Page
-                    if (pickUp.getStatus().equals("IN REVIEW")) {
-                        request.setAttribute("viewPickUp", true);
+                } else if (pickUp.getStatus().equals("PICK UP MISSED")) {
+                    addWarningMessage("Pick Up Missed");
+                    request.setAttribute("viewPickUp", true);
 
-                    } else if (pickUp.getStatus().equals("PICK UP MISSED")) {
-                        addWarningMessage("Pick Up Missed");
-                        request.setAttribute("viewPickUp", true);
+                } else if (pickUp.getStatus().equals("ACCEPTED")) {
+                    request.setAttribute("viewCheckout", true);
 
-                        // View Checkout Page
-                    } else if (pickUp.getStatus().equals("ACCEPTED")) {
-                        request.setAttribute("viewCheckout", true);
+                } else if (pickUp.getStatus().equals("VERIFIED") || pickUp.getStatus().equals("COMPLETED")) {
+                    request.setAttribute("viewTransaction", true);
 
-                        // View Pick Up Page For Details
-                    } else if (pickUp.getStatus().equals("AWAITING PICK UP")) {
-                        request.setAttribute("viewPickUpDetails", true);
+                } else if (pickUp.getStatus().equals("PENDING VERIFICATION")) {
 
-                        // View Verification or Transaction Page
-                    } else if (pickUp.getStatus().equals("PENDING VERIFICATION")) {
+                    // User Logged In Is Seller And Has Not Verified
+                    if (pickUp.getTransaction().getSeller().getUserID() == user.getUserID() && pickUp.getSellerVerified() == 0) {
+                        request.setAttribute("viewVerification", true);
 
-                        // User Logged In Is Seller And Has Not Verified
-                        if (pickUp.getTransaction().getSeller().getUserID() == user.getUserID() && pickUp.getSellerVerified() == 0) {
-                            request.setAttribute("viewVerification", true);
-
-                            // User Logged In Is Seller And Has Verified
-                        } else if (pickUp.getTransaction().getSeller().getUserID() == user.getUserID() && pickUp.getSellerVerified() == 1) {
-                            request.setAttribute("viewTransaction", true);
-
-                            // User Logged In Is Buyer And Has Not Verified
-                        } else if (pickUp.getTransaction().getBuyer().getUserID() == user.getUserID() && pickUp.getBuyerVerified() == 0) {
-                            request.setAttribute("viewVerification", true);
-
-                            // User Logged In Is Buyer And Has Verified
-                        } else if (pickUp.getTransaction().getBuyer().getUserID() == user.getUserID() && pickUp.getBuyerVerified() == 1) {
-                            request.setAttribute("viewTransaction", true);
-                        }
-
-                    } else if (pickUp.getStatus().equals("VERIFIED") &&
-                            pickUp.getTransaction().getSeller().getUserID() == user.getUserID()) {
+                        // User Logged In Is Seller And Has Verified
+                    } else if (pickUp.getTransaction().getSeller().getUserID() == user.getUserID() && pickUp.getSellerVerified() == 1) {
                         request.setAttribute("viewTransaction", true);
 
-                    } else if (pickUp.getStatus().equals("COMPLETED")) {
+                        // User Logged In Is Buyer And Has Not Verified
+                    } else if (pickUp.getTransaction().getBuyer().getUserID() == user.getUserID() && pickUp.getBuyerVerified() == 0) {
+                        request.setAttribute("viewVerification", true);
+
+                        // User Logged In Is Buyer And Has Verified
+                    } else if (pickUp.getTransaction().getBuyer().getUserID() == user.getUserID() && pickUp.getBuyerVerified() == 1) {
                         request.setAttribute("viewTransaction", true);
                     }
                 }

@@ -108,7 +108,7 @@
                                         <div class="uk-card-body uk-padding-remove" id="notificationList"></div>
 
                                         <!-- Card Footer -->
-                                        <div class="uk-card-footer" id="notificationFooter">
+                                        <div class="uk-card-footer uk-background-default" id="notificationFooter">
                                             <a href="${pageContext.request.contextPath}/notifications"
                                                class="uk-button uk-button-text">See More</a>
                                         </div>

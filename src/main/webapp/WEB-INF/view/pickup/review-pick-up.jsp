@@ -1,50 +1,92 @@
 <%@include file="../jspf/header.jsp" %>
 
-<body class="uk-background-muted">
+<body class="uk-height-viewport">
 
-<%@include file="../jspf/navbar.jspf" %>
+<div style="border: 20px solid white;
+            margin: 0 auto;
+            background: white;">
 
-<%@include file="../jspf/messages.jsp" %>
+    <%@include file="../jspf/navbar.jspf" %>
 
-<div class="uk-container pickup-tutorial">
-    <div class="uk-margin-large-bottom">
+    <%@include file="../jspf/messages.jsp" %>
 
-        <ul class="uk-breadcrumb">
+    <div class="uk-section pickup-tutorial uk-background-muted uk-padding-remove-top">
+
+        <div class="uk-float-right uk-padding-small">
+            <a uk-tooltip="Need Help?" style="color: lightslategray; font-size: 1.5em;" class="fas fa-question-circle"
+               onclick="startTutorial()"></a>
+        </div>
+
+        <ul class="uk-breadcrumb uk-padding uk-padding-small-top uk-padding-remove-bottom">
             <li><a href="/">Home</a></li>
             <li><a href="/listing?l=${pickUp.transaction.listingID.id}">Listing</a></li>
             <li><span>Pick Up</span></li>
         </ul>
 
-        <div class="uk-child-width-expand@s" uk-grid>
+        <div class="uk-grid uk-padding uk-padding-remove-bottom" uk-grid>
 
             <!-- Left Side -->
-            <div class="uk-width-2-3@m uk-width-1-1@s" style="height: 100%">
+            <div class="uk-width-2-3@m uk-width-1-1@s uk-section uk-padding-remove-top" style="height: 100%"
+                 data-intro="Here you can review the pick up info."
+                 data-step="1">
                 <form action="/pick-up-edit" method="post">
-                    <h2 class="uk-heading">Pick Up Details
-                        <c:if test="${sessionScope.user.userID == pickUp.transaction.seller.userID}">
-                            <a onclick="toggleEditDetails();" uk-icon="icon: pencil"></a>
-                        </c:if>
-                    </h2>
-                    <div class="uk-card uk-card-default"
-                         data-intro="Here you can review the pick up info and chat to pick the best time and place for your."
-                         data-step="1">
+
+                    <div class="uk-width-1-1 uk-grid-small" uk-grid>
+                        <div class="uk-width-1-2">
+                            <h2 class="uk-heading">Pick Up Details
+                                <c:if test="${sessionScope.user.userID == pickUp.transaction.seller.userID}">
+                                    <a data-intro="Click here to edit the pick up date and/or time."
+                                       data-step="2" onclick="toggleEditDetails();" uk-icon="icon: pencil"></a>
+                                </c:if>
+                            </h2>
+                        </div>
+
+                        <!-- User Icon -->
+                        <div class="uk-width-1-2">
+                            <div class="inactive-user-icon uk-float-right uk-margin-small-bottom"
+                                 id="user-icon"
+                                 data-intro="This icon lets you know if the other person is on the page too."
+                                 data-step="3">
+                                <c:choose>
+                                    <c:when test="${sessionScope.user.userID == pickUp.transaction.seller.userID}">
+                                        <!-- Seller Image -->
+                                        <img class="uk-border-circle" id="user-icon-img"
+                                             src="https://media-exp2.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAO7AAAAJDVkYzc5Y2UzLWM2YzktNGVhMi05YWJjLTdlYjVlNzc1Nzk4OQ.jpg"
+                                            <%--src="${pageContext.request.contextPath}/directory/${pickUp.transaction.seller.mainProfileImage.image_path}/${pickUp.transaction.seller.mainProfileImage.image_name}"--%>
+                                             uk-tooltip="${pickUp.transaction.seller.username} Is Inactive"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img class="uk-border-circle" id="user-icon-img"
+                                             src="https://media-exp2.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAO7AAAAJDVkYzc5Y2UzLWM2YzktNGVhMi05YWJjLTdlYjVlNzc1Nzk4OQ.jpg"
+                                            <%--src="${pageContext.request.contextPath}/directory/${pickUp.transaction.buyer.mainProfileImage.image_path}/${pickUp.transaction.buyer.mainProfileImage.image_name}"--%>
+                                             uk-tooltip="${pickUp.transaction.buyer.username} Is Inactive"/>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location Section -->
+                    <div class="uk-card uk-card-default">
                         <div class="uk-card-body" uk-grid>
                             <div class="uk-width-1-1 uk-margin-auto-vertical">
                                 <span class="uk-align-center">
-                                <c:choose>
-                                    <c:when test="${sessionScope.user.userID == pickUp.transaction.seller.userID}">
-                                        <span class="uk-width-1-3@m uk-width-1-1@s uk-padding-small">
+                                    <span class="uk-width-1-3@m uk-width-1-1@s uk-padding-small">
                                             <span class="uk-text-large">
-                                            <strong style="color: #ff695c">Location: </strong>${pickUp.location.name}
+                                            <strong style="color: #ff695c">Location: </strong><b
+                                                    id="locationName">${pickUp.location.name}</b>
+                                            <c:if test="${sessionScope.user.userID == pickUp.transaction.seller.userID}">
                                                 <input id="editLocationName" style="display: none;" type="text"
                                                        class="uk-input"
                                                        name="newName" value="${pickUp.location.name}">
+                                            </c:if>
                                             </span>
                                         </span>
-                                        <span class="uk-width-1-3@m uk-width-1-1@s uk-padding-small"><span
-                                                class="uk-text-large">
-                                        <strong
-                                                style="color: #ff695c">Date: </strong>
+                                        <br class="uk-hidden@m uk-hidden@l">
+                                        <span class="uk-width-1-3@m uk-width-1-1@s uk-padding-small">
+                                            <span class="uk-text-large">
+                                        <strong style="color: #ff695c">Date: </strong>
+                                            <b id="pickUpDate">
                                             <c:choose>
                                                 <c:when test="${pickUp.pickUpDate == null}">
                                                     TBD
@@ -53,12 +95,18 @@
                                                     ${pickUp.pickUpDate}
                                                 </c:otherwise>
                                             </c:choose>
+                                            </b>
                                         </span>
+                                        <c:if test="${sessionScope.user.userID == pickUp.transaction.seller.userID}">
                                             <input id="editDate" style="display: none;" type="date" class="uk-input"
-                                                   name="newDate"></span>
+                                                   name="newDate">
+                                        </c:if>
+                                        </span>
+                                        <br class="uk-hidden@m uk-hidden@l">
                                         <span class="uk-width-1-3@m uk-width-1-1@s uk-padding-small"><span
                                                 class="uk-text-large"><strong
                                                 style="color: #ff695c">Time: </strong>
+                                                <b id="pickUpTime">
                                                 <c:choose>
                                                     <c:when test="${pickUp.pickUpTime == null}">
                                                         TBD
@@ -67,34 +115,26 @@
                                                         ${pickUp.pickUpTime}
                                                     </c:otherwise>
                                                 </c:choose>
+                                                </b>
+                                        </span>
+                                        <c:if test="${sessionScope.user.userID == pickUp.transaction.seller.userID}">
                                         <input id="editTime" style="display: none;" type="time" class="uk-input"
-                                               name="newTime"></span>
+                                               name="newTime">
+                                        </c:if>
                                         </span>
-                                        <input type="hidden" value="${pickUp.pickUpID}" name="pickUpID">
-                                        <input type="hidden" id="newPosition" value="" name="newPosition">
-                                    </c:when>
-                                    <c:otherwise>
-                                        <span class="uk-width-1-3@m uk-width-1-1@s uk-padding-small"><span
-                                                class="uk-text-large"><strong
-                                                style="color: #ff695c">Location: </strong>${pickUp.location.name}</span>
-                                        </span>
-                                        <span class="uk-width-1-3@m uk-width-1-1@s uk-padding-small"><span
-                                                class="uk-text-large"><strong
-                                                style="color: #ff695c">Date: </strong>${pickUp.pickUpDate}</span>
-                                        </span>
-                                        <span class="uk-width-1-3@m uk-width-1-1@s uk-padding-small"><span
-                                                class="uk-text-large"><strong
-                                                style="color: #ff695c">Time: </strong>${pickUp.pickUpTime}</span>
-                                        </span>
-                                    </c:otherwise>
-                                </c:choose>
+                                <input type="hidden" value="${pickUp.pickUpID}" name="pickUpID">
+                                <input type="hidden" id="newPosition" value="" name="newPosition">
                                 </span>
                             </div>
+
+                            <!-- Map -->
                             <div class="uk-width-1-1">
                                 <div id="map" style="width:100%;height:400px;"></div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Edit Button -->
                     <button id="editButton" style="display: none;" type="submit" onclick="setLatAndLong();"
                             class="uk-float-left uk-margin-medium-left uk-margin-small-top uk-button-large uk-border-rounded uk-button-primary uk-box-shadow-hover-large">
                         Edit
@@ -103,60 +143,30 @@
             </div>
 
             <!-- Right Side -->
-            <div class="uk-width-1-3@m uk-width-1-1@s">
-                <h2 class="uk-heading">Messages</h2>
-                <div class="uk-card uk-card-default">
-                    <div class="uk-card-header">
-                        <a class="uk-float-right" onclick="refreshPage(500);" title="Refresh"
-                           uk-icon="icon: refresh"></a>
-                    </div>
-                    <div class="uk-panel-scrollable uk-height-medium">
-                        <div class="uk-border-rounded uk-margin">
-                            <c:choose>
-                                <c:when test="${pickUp.conversation.messages == null}">
-                                    <div>
-                                        <div class="uk-float-right uk-width-3-4 uk-background-muted uk-border-rounded uk-padding-small"
-                                             style="border-style: solid; border-width: 2px; border-color: darkgray">
-                                            Be The First To Send A Message
-                                        </div>
-                                    </div>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:forEach items="${pickUp.conversation.messages}" var="message">
-                                        <c:choose>
-                                            <c:when test="${sessionScope.user.userID != message.user.userID}">
-                                                <div>
-                                                    <div class="uk-float-left uk-width-3-4 uk-text-left uk-background-primary uk-border-rounded uk-padding-small"
-                                                         style="color: white;">${message.messageBody}
-                                                    </div>
-                                                    <p class="uk-align-left uk-margin-remove-top uk-margin-small-left"
-                                                       style="font-size: 12px;">${message.dateSent}</p>
-                                                </div>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <div>
-                                                    <div class="uk-float-right uk-width-3-4 uk-background-muted uk-border-rounded uk-padding-small"
-                                                         style="border-style: solid; border-width: 2px; border-color: darkgray">
-                                                            ${message.messageBody}
-                                                    </div>
-                                                    <p class="uk-align-right uk-margin-remove-top uk-margin-small-right"
-                                                       style="font-size: 12px;">${message.dateSent}</p>
-                                                </div>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </c:forEach>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
+            <div class="uk-width-1-3@m uk-width-3-4@s uk-section uk-padding-remove-top">
+                <h2 class="uk-heading uk-margin-medium-bottom">Messages</h2>
+
+                <div class="uk-card uk-card-default" id="scrollCard"
+                     data-intro="Here you can chat with the other person to find a pick up time that works best for both of you."
+                     data-step="4">
+                    <div class="uk-card-header" id="messagesHeader"></div>
+                    <div class="uk-panel-scrollable uk-height-medium" id="scroll">
+
+                        <!-- Conversation -->
+                        <div class="uk-border-rounded uk-margin" id="conversation"></div>
+
                     </div>
 
                     <!-- Send Message -->
-                    <div class="uk-card-footer uk-grid-small" uk-grid>
-                        <input class="uk-input uk-background-muted uk-border-rounded uk-width-4-5" type="text"
-                               name="message" placeholder="Send A Message" id="message">
-                        <a class="uk-width-1-5" title="Send"
-                           uk-icon="icon: chevron-right; ratio: 2"
-                           onclick="sendMessage();"></a>
+                    <div class="uk-card-footer uk-grid-small uk-background-default uk-margin-remove-left">
+                        <div class="uk-grid-small" id="sendMessageDiv" uk-grid>
+                            <input class="uk-input uk-background-muted uk-border-rounded uk-width-4-5"
+                                   type="text"
+                                   name="message" placeholder="Send A Message" id="message">
+                            <a class="uk-width-1-5" uk-tooltip="Send Message"
+                               uk-icon="icon: chevron-right; ratio: 2"
+                               onclick="sendMessage();"></a>
+                        </div>
                     </div>
                 </div>
 
@@ -176,7 +186,9 @@
                         <c:when test="${pickUp.buyerAccept == 0 && pickUp.transaction.buyer.userID == sessionScope.user.userID}">
                             <!-- Display Accept Button -->
                             <button title="Accept" uk-toggle="target: #acceptModal"
-                                    class="uk-button-primary uk-button-large uk-border-rounded uk-margin-large-top uk-float-right uk-box-shadow-hover-large">
+                                    class="uk-button-primary uk-button-large uk-border-rounded uk-margin-large-top uk-float-right uk-box-shadow-hover-large"
+                                    data-intro="Click here to accept the pick up and confirm the pick up time and location."
+                                    data-step="5">
                                 Accept Pick Up
                             </button>
                         </c:when>
@@ -187,7 +199,9 @@
                                 <input name="l" type="hidden"
                                        value="${pickUp.transaction.listingID.id}">
                                 <button title="Checkout" type="submit"
-                                        class="uk-button-primary uk-button-large uk-border-rounded uk-margin-large-top uk-float-right uk-box-shadow-hover-large">
+                                        class="uk-button-primary uk-button-large uk-border-rounded uk-margin-large-top uk-float-right uk-box-shadow-hover-large"
+                                        data-intro="Click here to go to the checkout page."
+                                        data-step="5">
                                     Checkout
                                 </button>
                             </form>
@@ -199,34 +213,43 @@
     </div>
 </div>
 
+<%@include file="../jspf/footer.jspf" %>
+
 <div id="acceptModal" uk-modal>
     <div class="uk-modal-dialog uk-modal-body">
         <div class="uk-modal-header">
-            <h2 class="uk-modal-title">Accept Pick Up</h2>
-            <a class="uk-link-muted uk-modal-close uk-position-top-right uk-padding"
-               type="button"> <strong>X</strong></a>
+            <h2 class="uk-modal-title uk-text-center">Accept Pick Up</h2>
         </div>
-        <div class="uk-modal-body uk-margin-auto-vertical">
-            <ul class="uk-list uk-text-center">
-                <li class="uk-width-1-1"><span class="uk-text-large"><strong
-                        style="color: #ff695c">Location: </strong>${pickUp.location.name}</span>
-                </li>
-                <li class="uk-width-1-1 uk-margin-large-top"><span class="uk-text-large"><strong
-                        style="color: #ff695c">Date: </strong>${pickUp.pickUpDate}</span>
-                </li>
-                <li class="uk-width-1-1 uk-margin-large-top"><span class="uk-text-large"><strong
-                        style="color: #ff695c">Time: </strong>${pickUp.pickUpTime}</span>
-                </li>
-            </ul>
-        </div>
-        <form action="/pick-up-accept" method="post">
-            <div class="uk-modal-footer">
-                <input name="pickUpID" type="hidden" value="${pickUp.pickUpID}">
-                <button class="uk-button-primary uk-float-right uk-button-large uk-border-rounded" type="submit">Accept
-                </button>
+        <div class="uk-modal-body uk-grid-small" uk-grid>
+            <div class="uk-width-1-1"><span class="uk-text-large">
+                <strong class="uk-float-left" style="color: #ff695c">Location</strong>
+                <b class="uk-float-right"
+                   id="modalLocationName">${pickUp.location.name}</b></span>
             </div>
-        </form>
+            <div class="uk-width-1-1"><span class="uk-text-large">
+                <strong class="uk-float-left" style="color: #ff695c">Date</strong>
+                <b class="uk-float-right"
+                   id="modalPickupDate">${pickUp.pickUpDate}</b></span>
+            </div>
+            <div class="uk-width-1-1"><span class="uk-text-large">
+                <strong class="uk-float-left" style="color: #ff695c">Time</strong>
+                <b class="uk-float-right"
+                   id="modalPickupTime">${pickUp.pickUpTime}</b></span>
+            </div>
+        </div>
+        <div class="uk-card-footer uk-background-default">
+            <a class="uk-button-default uk-float-left uk-button-large uk-border-rounded uk-modal-close">
+                Cancel
+            </a>
+            <form action="/pick-up-accept" method="post">
+                <input name="pickUpID" type="hidden" value="${pickUp.pickUpID}">
+                <button class="uk-button-primary uk-float-right uk-button-large uk-border-rounded" type="submit">
+                    Accept
+                </button>
+            </form>
+        </div>
     </div>
+
 </div>
 
 <script>
@@ -252,18 +275,14 @@
 
     function sendMessage() {
         $.ajax({
-            type: 'POST',
+            type: 'GET',
             url: '/sendPickUpMessage',
             data: {message: document.getElementById("message").value, pickUpID: ${pickUp.pickUpID}},
-        })
-
-        refreshPage(1000);
-    }
-
-    function refreshPage(timeout) {
-        setTimeout(function () {
-            location.reload();
-        }, timeout);
+        }).done(function () {
+            document.getElementById("sendMessageDiv").classList.add("uk-animation-slide-right-small");
+            document.getElementById("message").value = "";
+            updateMessages();
+        });
     }
 
     function toggleEditDetails() {
@@ -307,20 +326,207 @@
         });
     }
 
-    // Start Tutorial
+    function startTutorial() {
+        if (tutorialName != null) {
+            introJs(tutorialName).start();
+        }
+    }
+
+    var currentUserID;
+    var pickup;
+    var otherUserIsThere;
+    var tutorialName = ".pickup-tutorial";
+
     window.addEventListener("load", function () {
+
+        // Check for tutorial
         $.ajax({
             type: 'GET',
-            url: '/donateAnItem',
+            url: '/checkForTutorial',
             data: {page: "pickup"},
         }).done(function (response) {
             if (response.showTutorial == 'YES') {
                 setTimeout(function () {
-                    introJs(".pickup-tutorial").start();
+                    startTutorial();
                 }, 1500);
             }
         });
+
+        currentUserID = ${sessionScope.user.userID};
+        otherUserIsThere = false;
+
+        // Initialize pickup
+        $.ajax({
+            type: 'GET',
+            url: '/checkForPickupUpdates',
+            data: {pickUpID: ${pickUp.pickUpID}},
+        }).done(function (response) {
+            pickup = response;
+        });
+
+        // Initialize messages
+        updateMessages();
+
+        checkForUser();
+
+        // Check for other user
+        setInterval(function () {
+            checkForUser();
+            if (otherUserIsThere) {
+                checkForUpdates();
+            }
+        }, 2000);
+
+        // Check for new messages
+        setInterval(function () {
+            updateMessages();
+        }, 2000);
+
     });
+
+    function checkForUser() {
+        $.ajax({
+            type: 'GET',
+            url: '/checkForPickupUser',
+            data: {pickUpID: ${pickUp.pickUpID}},
+        }).done(function (response) {
+
+            // Other user is on page
+            if (response.result == 'USER ACTIVE') {
+                document.getElementById("user-icon").classList.remove("inactive-user-icon");
+                document.getElementById("user-icon").classList.add("active-user-icon");
+                otherUserIsThere = true;
+
+                // Update tooltip
+                if (${sessionScope.user.userID} == ${pickUp.transaction.buyer.userID}) {
+                    document.getElementById("user-icon-img").setAttribute("uk-tooltip", "${pickUp.transaction.seller.username} Is Active");
+                } else {
+                    document.getElementById("user-icon-img").setAttribute("uk-tooltip", "${pickUp.transaction.buyer.username} Is Active");
+                }
+
+                // Other user is not on page
+            } else {
+                document.getElementById("user-icon").classList.remove("active-user-icon");
+                document.getElementById("user-icon").classList.add("inactive-user-icon");
+                otherUserIsThere = false;
+
+                // Update tooltip
+                if (${sessionScope.user.userID} == ${pickUp.transaction.buyer.userID}) {
+                    document.getElementById("user-icon-img").setAttribute("uk-tooltip", "${pickUp.transaction.seller.username} Is Inactive");
+                } else {
+                    document.getElementById("user-icon-img").setAttribute("uk-tooltip", "${pickUp.transaction.buyer.username} Is Inactive");
+                }
+            }
+        });
+    }
+
+    function checkForUpdates() {
+        $.ajax({
+            type: 'GET',
+            url: '/checkForPickupUpdates',
+            data: {pickUpID: ${pickUp.pickUpID}},
+        }).done(function (response) {
+
+            var changeCount = 0;
+
+            // Lat and/or Lng Changed
+            if (pickup.locationLat != response.locationLat || pickup.locationLng != response.locationLng) {
+                //displayWarningMessage("Pick Up Location Was Edited");
+                marker.setMap(null);
+                markerPosition = new google.maps.LatLng(response.locationLat, response.locationLng);
+                marker = new google.maps.Marker({
+                    position: markerPosition,
+                    map: map,
+                    animation: google.maps.Animation.DROP,
+                    title: 'Meeting Location'
+                });
+                alert("LOCATION CHANGED");
+                changeCount++;
+            }
+
+            // Location Name Changed
+            if (pickup.locationName != response.locationName) {
+                //displayWarningMessage("Pick Up Location Name Was Edited");
+                document.getElementById("locationName").innerText = response.locationName;
+                document.getElementById("modalLocationName").innerText = response.locationName;
+                changeCount++;
+            }
+
+            // Date and/or Time Changed
+            if (pickup.pickUpTimestampAsLong != response.pickUpTimestampAsLong) {
+                //displayWarningMessage("Pick Up Date And Time Were Edited");
+                document.getElementById("pickUpDate").innerText = response.pickUpDate;
+                document.getElementById("modalPickupDate").innerText = response.pickUpDate;
+                document.getElementById("pickUpTime").innerText = response.pickUpTime;
+                document.getElementById("modalPickupTime").innerText = response.pickUpTime;
+                changeCount++;
+            }
+
+            // Buyer Accept Changed
+            if (pickup.buyerAccept != response.buyerAccept) {
+                //displayWarningMessage("Buyer Has Accepted The Pick Up");
+                changeCount++;
+            }
+
+            // Status Changed
+            if (pickup.status != response.status) {
+                //displayWarningMessage("Pick Up Status Has Changed");
+                changeCount++;
+            }
+
+            if (changeCount > 0) {
+                pickup = response;
+            }
+        });
+    }
+
+    function updateMessages() {
+
+        $.ajax({
+            type: 'GET',
+            url: '/updatePickupMessages',
+            data: {pickUpID: ${pickUp.pickUpID}},
+        }).done(function (response) {
+
+            var newMessageCount = 0;
+
+            for (var key in response) {
+
+                if (!document.getElementById("message" + response[key].messageID)) {
+
+                    var messageHTML = '<div id="message' + response[key].messageID + '">';
+
+                    // Message sent from user not logged in
+                    if (currentUserID != response[key].userID) {
+                        messageHTML += '<div class="uk-float-left uk-width-3-4 uk-text-left uk-background-primary uk-border-rounded uk-padding-small" style="color: white;">'
+                        messageHTML += response[key].messageBody + '</div>';
+                        messageHTML += '<p class="uk-align-left uk-margin-remove-top uk-margin-small-left" style="font-size: 12px;">';
+
+                        // Message sent from user logged in
+                    } else {
+                        messageHTML += '<div class="uk-float-right uk-width-3-4 uk-background-muted uk-border-rounded uk-padding-small" ';
+                        messageHTML += 'style="border-style: solid; border-width: 2px; border-color: darkgray">';
+                        messageHTML += response[key].messageBody + '</div>';
+                        messageHTML += '<p class="uk-align-right uk-margin-remove-top uk-margin-small-right" style="font-size: 12px;">';
+                    }
+
+                    messageHTML += response[key].formattedDateSent + '</p></div>';
+
+                    $('#conversation').append(messageHTML);
+
+                    newMessageCount++;
+
+                }
+
+                if (newMessageCount > 0) {
+                    $('#messagesHeader').innerText = 'Messages (' + newMessageCount + ')';
+
+                    $("#scroll").animate({scrollTop: $('#scroll').prop("scrollHeight")}, 100);
+                }
+
+            }
+        });
+    }
 
 </script>
 
