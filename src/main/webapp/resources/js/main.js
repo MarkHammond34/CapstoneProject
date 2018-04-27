@@ -12,5 +12,16 @@ function cancelBid(listingID) {
 }
 
 function displayErrorMessage(message) {
+    UIkit.notification({message: message, status: 'danger'});
+    $('#dangerButton').click();
+}
 
+function displayWarningMessage(message) {
+    UIkit.notification({message: message, status: 'warning'});
+    $('#warningButton').click();
+}
+
+function displaySuccessMessage(message) {
+    UIkit.notification({message: message, status: 'success'});
+    $('#successButton').click();
 }
