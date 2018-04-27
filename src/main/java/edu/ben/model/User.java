@@ -1,5 +1,6 @@
 package edu.ben.model;
 
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -339,5 +340,13 @@ public class User {
         this.tutorial = tutorial;
     }
 
+    public String getMainImage(){
+        for(int i =0; i < profileImages.size(); i++){
+            if(profileImages.get(i).getMain() == 1){
+                return getProfileImages().get(i).getImage_path() + File.separator + getProfileImages().get(i).getImage_name();
+            }
+        }
+        return null;
+    }
 
 }
