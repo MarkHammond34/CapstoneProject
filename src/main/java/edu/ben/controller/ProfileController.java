@@ -158,7 +158,9 @@ public class ProfileController extends BaseController {
             }
             request.getSession().setAttribute("user",(User) userService.getUserById(u.getUserID()));
         }
-        return "redirect:/profileImageUpload";
+        addSuccessMessage("Profile image uploaded successfully!");
+        setRequest(request);
+        return "redirect:" + request.getHeader("Referer");
     }
 
     @RequestMapping(value="/changeImageMain", method=RequestMethod.POST)
@@ -167,7 +169,9 @@ public class ProfileController extends BaseController {
         imageService.removeAllMainImages(u.getUserID());
         imageService.changeMain(mainImage, 1);
         request.getSession().setAttribute("user",(User) userService.getUserById(u.getUserID()));
-	    return "redirect:/profileImageUpload";
+        addSuccessMessage("Main profile picture changed!");
+        setRequest(request);
+        return "redirect:" + request.getHeader("Referer");
     }
 
 }

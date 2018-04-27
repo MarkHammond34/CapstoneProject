@@ -2,17 +2,22 @@
 <%@include file="jspf/messages.jsp" %>
 <body class="uk-height-viewport uk-background-muted">
 <div style="border: 20px solid white;
-            margin: 0 auto;
-            background: white;">
+margin: 0 auto;
+background: white;">
     <%@include file="jspf/navbar.jspf" %>
     <div class="uk-container">
         <div class="row">
             <div class="fb-profile uk-align-center">
-                <a href="${pageContext.request.contextPath}/editUser?id=${user.userID}"><img
-                        align="left" style="border-radius: 50%"
-                        class="fb-image-profile thumbnail"
-                        src="https://media-exp2.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAO7AAAAJDVkYzc5Y2UzLWM2YzktNGVhMi05YWJjLTdlYjVlNzc1Nzk4OQ.jpg"
-                        alt="Profile image example" uk-tooltip="Edit Profile Data"/></a>
+                <c:forEach items="${user.profileImages}" var="images">
+                    <c:if test="${images.main == 1}">
+                        <a href="${pageContext.request.contextPath}/editUser?id=${user.userID}"><img
+                                align="left" style="border-radius: 50%"
+                                class="fb-image-profile thumbnail"
+                                src="${pageContext.request.contextPath}/directory/${images.image_path}/${images.image_name}"
+                                width="190" height="190"
+                                alt="Profile Image" uk-tooltip="Edit Profile Data"/></a>
+                    </c:if>
+                </c:forEach>
                 <div class="uk-align-center fb-profile-text uk-padding-small uk-width-2-3">
                     <h1>
                         <strong class="uk-text-danger">${user.username}</strong>

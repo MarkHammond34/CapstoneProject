@@ -135,36 +135,20 @@ public class UserController extends BaseController {
     public String updateUser(HttpServletRequest request,
                              @RequestParam(value = "username", required = false) String username,
                              @RequestParam(value = "firstName", required = false) String firstName,
-                             @RequestParam(value = "lastName", required = false) String lastName,
-                             @RequestParam(value = "password", required = false) String password,
-                             @RequestParam(value = "confirmPassword", required = false) String confirmPassword) {
+                             @RequestParam(value = "lastName", required = false) String lastName){
 
         System.out.println("first name: " + firstName);
         System.out.println("last name: " + lastName);
         User user = (User) request.getSession().getAttribute("user");
 
-        if (!password.equals(confirmPassword)) {
-            addErrorMessage("Passwords do not match! Please re-enter your password");
-            setRequest(request);
-            System.out.println(password);
-            System.out.println(confirmPassword);
-            System.out.println("pass not match");
-            return "redirect:/editUser?id=" + user.getUserID();
-        } else {
-            addSuccessMessage("Profile Updated!");
-            setRequest(request);
-            user.setFirstName(firstName);
-            user.setLastName(lastName);
-            user.setUsername(username);
-            user.setPassword(password);
-            user.setPasswordConfirm(confirmPassword);
-            System.out.println(password);
-            System.out.println(confirmPassword);
-            System.out.println("pass match");
+        addSuccessMessage("Profile Updated!");
+        setRequest(request);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setUsername(username);
 
-            userService.saveOrUpdate(user);
-            return "redirect:/viewProfile?id=" + user.getUserID();
-        }
+        userService.saveOrUpdate(user);
+        return "redirect:/viewProfile?id=" + user.getUserID();
 
 
     }

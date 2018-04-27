@@ -128,7 +128,7 @@
                 <li class="uk-nav-divider"></li>
 
                 <li><a href="${pageContext.request.contextPath}/eventsNews"><span
-                        class="uk-margin-small-right" uk-icon="icon: calendar"></span>Manage Community Page</a></li>
+                        class="uk-margin-small-right" uk-icon="icon: calendar"></span>Manage Comm. Page</a></li>
                 <li class="uk-nav-divider"></li>
 
                 <li><a href="${pageContext.request.contextPath}/adminFaqs"><span
@@ -144,7 +144,7 @@
                 <li class="uk-nav-divider"></li>
 
 
-                <li><a href="${pageContext.request.contextPath}/"><span
+                <li><a href="${pageContext.request.contextPath}/index"><span
                         class="uk-margin-small-right" uk-icon="icon: reply"></span>Homepage</a></li>
                 <li class="uk-nav-divider"></li>
 
