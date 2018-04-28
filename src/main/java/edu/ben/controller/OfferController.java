@@ -1,6 +1,5 @@
 package edu.ben.controller;
 
-import com.google.gson.JsonObject;
 import edu.ben.model.*;
 import edu.ben.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,18 +74,14 @@ public class OfferController extends BaseController {
 
 	}
 
-    @RequestMapping(value = "/makeOfferAjax", method = RequestMethod.POST, produces = "application/json")
-    public @ResponseBody
-    String makeOfferAjax(HttpServletRequest request, @RequestParam("listing") int id, @RequestParam("offer-amount") int offerAmount,
-                         @RequestParam("offer-message") String message) {
-
+	@RequestMapping(value = "makeOfferAjax", method = RequestMethod.POST, produces = "application/json")
+	public @ResponseBody
+	boolean makeOfferAjax(HttpServletRequest request, @RequestParam("listing") int id, @RequestParam("offerAmount") int offerAmount,
+						  @RequestParam("offerMessage") String message) {
+		System.out.println(id);
+		System.out.println(offerAmount);
+		System.out.println(message);
         User user = (User) request.getSession().getAttribute("user");
-
-        if (user == null) {
-            addErrorMessage("You must be logged in to make an offer.");
-            setRequest(request);
-            return "redirect:/login";
-        }
 
         Listing listing = listingService.getByListingID(id);
         Offer existingOffer;
@@ -94,9 +89,8 @@ public class OfferController extends BaseController {
         try {
 
             existingOffer = offerService.getOfferByUserAndListingId(user.getUserID(), listing.getId());
+			System.out.println(existingOffer);
             if (existingOffer == null) {
-
-                JsonObject json = new JsonObject();
 
                 Offer newOffer = new Offer(offerAmount, message, user, listing.getUser(), listing);
                 offerService.createOffer(newOffer);
@@ -106,26 +100,17 @@ public class OfferController extends BaseController {
                 Notification notification = new Notification(listing.getUser(), listing.getId(), notificationMessage);
                 notificationService.save(notification);
 
-                json.addProperty("offer-amount", newOffer.getOfferAmount());
-                json.addProperty("offer.message", newOffer.getOfferMessage());
-//				json.addProperty("offer-maker", newOffer.getOfferMaker());
-//				json.addProperty("offer-receiver", newOffer.getOfferReceiver());
-//				json.addProperty("offer-listing", newOffer.getListingID());
+				System.out.println("New offer created successfully");
 
-                return json.toString();
+				return true;
 
             } else {
-
-                addErrorMessage("You have already made an offer on this listing!");
-                setRequest(request);
-                return "redirect:/listing";
+				return false;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            addErrorMessage("An error occurred. Please try again.");
-            setRequest(request);
-            return "redirect:/listing";
+			return false;
         }
 
     }
