@@ -5,8 +5,7 @@
         <div class="uk-container">
             <div class="uk-grid uk-margin-medium-bottom uk-align-center" uk-grid>
 
-                <form role="form" data-toggle="validator" method="POST" class="uk-form uk-grid"
-                      action="/makeOfferAjax" name="uploadListingForm" uk-grid>
+                <div class="uk-grid" uk-grid>
 
                     <h2>Make an offer</h2>
 
@@ -23,27 +22,27 @@
                                       id="message" placeholder="" maxlength="140" rows="7"></textarea>
                             <span class="help-block"><p id="characterLeft"
                                                         class="help-block "></span>
-                            <input type="hidden" name="listing" value="${listing.id}">
+                            <input type="hidden" id="listing" name="listing" value="${listing.id}">
                         </div>
 
                     </div>
 
                     <div class="uk-width-1-1 uk-margin-large-bottom uk-margin-small-top uk-padding-remove uk-align-center">
-                        <button id="offerButton" type="submit" value="confirmOffer" name="submit"
-                                class="uk-button-primary uk-border-rounded uk-button-large"
-                                onclick="modalClick(${listing.id})">Confirm offer
+                        <button id="offerButton" class="uk-button-primary uk-border-rounded uk-button-large"
+                                value="${listing.id}">Confirm offer
                         </button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <script>
 
-    $(document).load(function () {
+    $(document).ready(function () {
         $('#price').keyup(function () {
-            if ($(this).value > 0) {
+            console.log($(this).val());
+            if ($(this).val() > 0) {
                 $("#offerButton").prop("disabled", false);
                 $("#price").removeClass("uk-form-danger").addClass("uk-form-success")
                 $('#price').attr('uk-tooltip', 'Offer amount is valid');
@@ -56,22 +55,28 @@
         });
     });
 
-    function modalClick(offerdata) {
-
+    $("#offerButton").click(function (e) {
+        console.log($(this).val());
         $.ajax({
-            url: '/makeOfferAjax',
+            url: 'makeOfferAjax',
             type: 'POST',
-            data: {listingId: offerdata},
-            dataType: 'json',
-            contentType: 'application/json',
+            data: {listing: $(this).val(), offerAmount: $("#price").val(), offerMessage: $("#message").val()},
             success: function (result) {
-
-
+                console.log(result);
+                if (result) {
+                    UIkit.modal("#make-offer${listing.id}").hide();
+                    UIkit.notification({message: 'Your offer has been sent!', status: 'success'})
+                }
+                else {
+                    UIkit.notification({
+                        message: 'An error occurred while sending your offer. Please contact an admin.',
+                        status: 'danger'
+                    })
+                }
             }
 
             // Add data to modal
 
         });
-
-    }
+    });
 </script>
