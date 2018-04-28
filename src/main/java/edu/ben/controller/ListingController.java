@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import edu.ben.model.*;
 import edu.ben.service.*;
 import edu.ben.util.ListingRunner;
+import edu.ben.util.PickUpRunner;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -498,6 +499,9 @@ public class ListingController extends BaseController {
         listing.setDescription(description);
         listing.setCategory(category);
 
+        // LEAVE THIS LINE ALONE
+        ListingRunner.run();
+
         listingService.saveOrUpdate(listing);
         return "redirect:/adminListing";
     }
@@ -798,6 +802,9 @@ public class ListingController extends BaseController {
         pickUp.setActive(0);
         pickUpService.update(pickUp);
 
+        // LEAVE THIS LINE ALONE
+        PickUpRunner.run();
+
         notificationService.save(notification);
 
         addSuccessMessage("Purchase Cancelled");
@@ -829,6 +836,9 @@ public class ListingController extends BaseController {
             listing.setActive(0);
             listing.setEnded(1);
             listingService.saveOrUpdate(listing);
+
+            // LEAVE THIS LINE ALONE
+            ListingRunner.run();
 
         }
         return model;
