@@ -1,6 +1,6 @@
 <%@include file="../jspf/header.jsp" %>
 
-<body class="listing-tutorial">
+<body class="uk-height-viewport">
 <div style="border: 20px solid white;
             margin: 0 auto;
             background: white;">
@@ -9,7 +9,7 @@
 
     <%@include file="../jspf/messages.jsp" %>
 
-    <div class="uk-section uk-background-muted">
+    <div class="uk-section uk-background-muted listing-tutorial">
 
         <div class="uk-section uk-padding-small" uk-grid>
 
@@ -59,8 +59,12 @@
             </div>
 
             <!-- RIGHT SIDE -->
-            <c:if test="${listing.type.equals('fixed')}">
-                <div class="uk-width-3-5@m uk-width-1-1@s">
+            <div class="uk-width-3-5@m uk-width-1-1@s">
+
+                <!-- Help Link -->
+                <%@include file="../jspf/help-icon.jsp" %>
+
+                <c:if test="${listing.type.equals('fixed')}">
 
                     <div class="uk-card uk-card-body">
 
@@ -159,27 +163,25 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </c:if>
+                </c:if>
 
-            <c:if test="${listing.type.equals('donation')}">
-            <div class="uk-width-3-5@m uk-width-1-1@s">
+                <c:if test="${listing.type.equals('donation')}">
 
-                <div class="uk-padding-small uk-margin-small-left uk-margin-small-right">
-                    <article class="uk-article uk-margin-large">
+                    <div class="uk-padding-small uk-margin-small-left uk-margin-small-right">
+                        <article class="uk-article uk-margin-large">
 
-                        <div class="notification-nav-icon nav-notification-icon-donation uk-text-center uk-align-right"
-                             uk-tooltip="title: Donated Item">
-                            <i class="fas fa-hand-holding-heart"></i>
-                        </div>
+                            <div class="notification-nav-icon nav-notification-icon-donation uk-text-center uk-align-right"
+                                 uk-tooltip="title: Donated Item">
+                                <i class="fas fa-hand-holding-heart"></i>
+                            </div>
 
-                        <h1 class="uk-article-title uk-margin-remove-top">
-                            <p>${listing.name}</p>
-                        </h1>
+                            <h1 class="uk-article-title uk-margin-remove-top">
+                                <p>${listing.name}</p>
+                            </h1>
 
-                        <p class="uk-text-lead">${listing.description}</p>
+                            <p class="uk-text-lead">${listing.description}</p>
 
-                        <span class="uk-width-1-1">
+                            <span class="uk-width-1-1">
                         <p class="uk-article-meta">Listed by <b><a
                                 href="/viewProfile?id=${listing.user.userID}"
                                 data-intro="Click here to see more about the seller."
@@ -198,14 +200,14 @@
                             </p>
                     </span>
 
-                        <!-- Bid Section -->
-                        <div class="uk-grid-small uk-child-width-auto uk-tile-default uk-border-rounded uk-padding
+                            <!-- Bid Section -->
+                            <div class="uk-grid-small uk-child-width-auto uk-tile-default uk-border-rounded uk-padding
                     uk-box-shadow-hover-large uk-box-shadow-medium"
-                             uk-grid>
+                                 uk-grid>
 
-                            <!-- Highest Bid Section -->
-                            <ul class="uk-grid-small uk-width-1-1 uk-float-left" uk-grid>
-                                <li class="uk-width-1-1">
+                                <!-- Highest Bid Section -->
+                                <ul class="uk-grid-small uk-width-1-1 uk-float-left" uk-grid>
+                                    <li class="uk-width-1-1">
                                     <span class="uk-width-1-1">
                                         <h4 class="uk-float-left">Interested in taking this item?</h4>
                                         <a class="uk-button uk-button-text uk-float-right"
@@ -213,61 +215,60 @@
                                            data-intro="Want to take this donated item? Click here!"
                                            data-step="1">Yes</a>
                                     </span>
-                                </li>
-                            </ul>
-                        </div>
+                                    </li>
+                                </ul>
+                            </div>
 
-                        <!-- Countdown and Progress Bar -->
-                        <div class="uk-grid-small" uk-grid data-intro="Place your bid before the time runs out!"
-                             data-step="2">
-                            <div class="uk-width-1-1 uk-align-center">
-                                <strong class="uk-margin-small-bottom uk-margin-small-top uk-align-center listing-ended"
-                                        style="color: red; font-size: 16px; display: none;">
-                                    Listing Ended</strong>
-                                <div class="uk-grid-small uk-countdown uk-margin-remove uk-align-center" uk-grid
-                                     uk-countdown="date: ${listing.endTimestamp}">
+                            <!-- Countdown and Progress Bar -->
+                            <div class="uk-grid-small" uk-grid data-intro="Place your bid before the time runs out!"
+                                 data-step="2">
+                                <div class="uk-width-1-1 uk-align-center">
+                                    <strong class="uk-margin-small-bottom uk-margin-small-top uk-align-center listing-ended"
+                                            style="color: red; font-size: 16px; display: none;">
+                                        Listing Ended</strong>
+                                    <div class="uk-grid-small uk-countdown uk-margin-remove uk-align-center" uk-grid
+                                         uk-countdown="date: ${listing.endTimestamp}">
                                                 <span class="uk-days">
                                                     <strong class="uk-countdown-number uk-countdown-days"
                                                             style="font-size: 22px;"></strong>
                                                     <strong class="uk-countdown-label uk-margin-small-top uk-margin-left"
                                                             style="font-size: 22px;">Days</strong>
                                                 </span>
-                                    <span class="uk-hours">
+                                        <span class="uk-hours">
                                                         <strong class="uk-countdown-number uk-countdown-hours"
                                                                 style="font-size: 22px;"></strong>
                                                         <strong class="uk-countdown-label uk-margin-small-top uk-margin-left"
                                                                 style="font-size: 22px;">Hours</strong>
 
                                                 </span>
-                                    <span class="uk-minutes">
+                                        <span class="uk-minutes">
                                                         <strong class="uk-countdown-number uk-countdown-minutes"
                                                                 style="font-size: 22px;"></strong>
                                                         <strong class="uk-countdown-label uk-margin-small-top uk-margin-left"
                                                                 style="font-size: 22px;">Minutes</strong>
                                                 </span>
-                                    <span class="uk-seconds">
+                                        <span class="uk-seconds">
                                                         <strong class="uk-countdown-number uk-countdown-seconds"
                                                                 style="font-size: 22px;"></strong>
                                                         <strong class="uk-countdown-label uk-margin-small-top uk-margin-left"
                                                                 style="font-size: 22px;">Seconds</strong>
                                                 </span>
-                                    <span>
+                                        <span>
                                 <strong style="font-size: 22px;">Remaining</strong>
                                 </span>
+                                    </div>
+                                    <progress id="js-progressbar"
+                                              class="uk-progress uk-margin-remove-top" value="${listing.percentLeft}"
+                                              max="100">
+                                    </progress>
                                 </div>
-                                <progress id="js-progressbar"
-                                          class="uk-progress uk-margin-remove-top" value="${listing.percentLeft}"
-                                          max="100">
-                                </progress>
                             </div>
-                        </div>
-                    </article>
-                </div>
+                        </article>
+                    </div>
                 </c:if>
 
 
                 <c:if test="${listing.type.equals('auction')}">
-                <div class="uk-width-3-5@m uk-width-1-1@s">
 
                     <div class="uk-padding-small uk-margin-small-left uk-margin-small-right">
                         <article class="uk-article uk-margin-large">
@@ -454,11 +455,11 @@
                             </div>
                         </article>
                     </div>
-                    </c:if>
-                </div>
+                </c:if>
             </div>
         </div>
     </div>
+</div>
 
 </div>
 
@@ -500,7 +501,7 @@
         }).done(function (response) {
             if (response.showTutorial == 'YES') {
                 setTimeout(function () {
-                    introJs(".listing-tutorial").start();
+                    startTutorial();
                 }, 1500);
             }
         });
@@ -637,6 +638,10 @@
     function displayWarningMessage(message) {
         UIkit.notification({message: message, status: 'warning'});
         $('#warningButton').click();
+    }
+
+    function startTutorial() {
+        introJs(".listing-tutorial").start();
     }
 
 

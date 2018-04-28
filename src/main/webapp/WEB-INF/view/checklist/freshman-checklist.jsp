@@ -1,6 +1,6 @@
 <%@include file="../jspf/header.jsp" %>
 
-<body class="checklist-tutorial">
+<body class="uk-height-viewport">
 
 <div style="border: 20px solid white;
             margin: 0 auto;
@@ -10,12 +10,15 @@
 
     <%@include file="../jspf/messages.jsp" %>
 
-    <div class="uk-section uk-background-muted">
+    <div class="uk-section uk-background-muted checklist-tutorial">
 
         <div class="uk-width-3-4@l uk-width-3-4@m uk-width-1-1@s uk-align-center uk-padding-small">
 
+            <!-- Help Link -->
+            <%@include file="../jspf/help-icon.jsp" %>
+
             <h1 data-intro="Keep track of things you need to buy with our Freshman Checklist" data-step="1"
-                class="uk-heading-line uk-text-center"><span> Freshman Checklist</span></h1>
+                class="uk-heading-line uk-text-center uk-width-1-1"><span> Freshman Checklist</span></h1>
 
 
             <div class="uk-tile uk-tile-default uk-border-rounded uk-box-shadow-medium uk-box-shadow-hover-large">
@@ -183,11 +186,15 @@
         }).done(function (response) {
             if (response.showTutorial == 'YES') {
                 setTimeout(function () {
-                    introJs(".checklist-tutorial").start();
+                   startTutorial();
                 }, 1500);
             }
         });
     });
+
+    function startTutorial() {
+        introJs(".checklist-tutorial").start();
+    }
 
 </script>
 

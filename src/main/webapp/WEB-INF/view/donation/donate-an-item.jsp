@@ -12,7 +12,11 @@
 
     <div class="uk-section uk-background-muted donate-an-item-tutorial">
 
-        <div class="uk-margin-medium-top" uk-grid>
+        <div class="uk-margin-small-top" uk-grid>
+
+            <div class="uk-width-1-1 uk-margin-remove">
+                <%@include file="../jspf/help-icon.jsp" %>
+            </div>
 
             <div class="uk-width-3-4@m uk-width-1-1@s uk-align-center">
                 <div class="uk-card uk-card-default uk-card-large uk-card-body uk-box-shadow-hover-large uk-border-rounded">
@@ -42,7 +46,11 @@
                                 <button class="uk-button uk-button-default uk-width-1-1" id="uploadButton" type="button"
                                         tabindex="-1">Upload Images
                                 </button>
-                                <span id="fileNames"></span>
+                            </div>
+
+                            <div class="uk-width-1-1 uk-margin-remove-bottom uk-margin-remove-top">
+                                <div class="uk-float-right uk-width-1-3@m  uk-width-1-3@l  uk-width-1-2@s"
+                                     id="imageBadges"></div>
                             </div>
 
                             <div class="uk-width-1-2">
@@ -183,30 +191,40 @@
         }).done(function (response) {
             if (response.showTutorial == 'YES') {
                 setTimeout(function () {
-                    introJs(".donate-an-item-tutorial").start();
+                    startTutorial();
                 }, 1500);
             }
         });
     });
 
-    var fileNames = "";
+    function startTutorial() {
+        introJs(".donate-an-item-tutorial").start();
+    }
+
+    var uploadedFileNames = new Array();
     var fileCount = 0;
 
-    function updateFile(file) {
-        if (file.value.length > 0) {
-            fileNames += file.value.substr(12) + "\n";
-            document.getElementById("fileNames").innerText = fileNames;
+    function updateFile() {
 
-            fileCount++;
-            document.getElementById("uploadButton").innerText = "UPLOAD IMAGES (" + fileCount + ")";
+        var files = document.getElementById('image').files;
+
+        for (var i = 0; i < files.length; i++) {
+            // If new file
+            if (!uploadedFileNames.includes(files[i].name)) {
+                // Add file name to array
+                uploadedFileNames.push(files[i].name);
+                // Add badge
+                var span = '<span class="uk-badge uk-padding-small" style="background-color: lightslategray; margin: 5px;" id="image' + fileCount + '">' + files[i].name;
+                span += ' <a class="uk-margin-small-left" uk-icon="icon: close; ratio: 0.75" onclick="removeImage(false, ' + fileCount + ', -1)"></a></span>';
+
+                $('#imageBadges').prepend(span);
+
+                fileCount++;
+            }
         }
     }
 
 
 </script>
-
-<c:if test="${showTutorial == true}">
-    <p id="yes" style="display: inline;"></p>
-</c:if>
 
 </html>

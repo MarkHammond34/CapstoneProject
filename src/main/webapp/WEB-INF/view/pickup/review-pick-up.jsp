@@ -12,10 +12,8 @@
 
     <div class="uk-section pickup-tutorial uk-background-muted uk-padding-remove-top">
 
-        <div class="uk-float-right uk-padding-small">
-            <a uk-tooltip="Need Help?" style="color: lightslategray; font-size: 1.5em;" class="fas fa-question-circle"
-               onclick="startTutorial()"></a>
-        </div>
+        <!-- Help Link -->
+        <%@include file="../jspf/help-icon.jsp" %>
 
         <ul class="uk-breadcrumb uk-padding uk-padding-small-top uk-padding-remove-bottom">
             <li><a href="/">Home</a></li>
@@ -327,15 +325,12 @@
     }
 
     function startTutorial() {
-        if (tutorialName != null) {
-            introJs(tutorialName).start();
-        }
+        introJs(".pickup-tutorial").start();
     }
 
     var currentUserID;
     var pickup;
     var otherUserIsThere;
-    var tutorialName = ".pickup-tutorial";
 
     window.addEventListener("load", function () {
 
@@ -440,7 +435,6 @@
                     animation: google.maps.Animation.DROP,
                     title: 'Meeting Location'
                 });
-                alert("LOCATION CHANGED");
                 changeCount++;
             }
 

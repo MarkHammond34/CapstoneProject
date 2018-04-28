@@ -33,9 +33,7 @@
             <!-- Left Side Mobile -->
             <div class="uk-navbar-left uk-hidden@m uk-hidden@l">
                 <a class="uk-navbar-toggle homepage-tutorial" uk-navbar-toggle-icon
-                   uk-toggle="target: #offcanvas-slide"
-                   data-intro="Click here to see more options."
-                   data-step="4"></a>
+                   uk-toggle="target: #offcanvas-slide"></a>
             </div>
 
             <!-- Center Desktop -->

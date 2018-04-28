@@ -1,12 +1,14 @@
 <%@include file="jspf/header.jsp" %>
 
-<body onload="findFavorites()" class="uk-background-muted">
+<body onload="findFavorites()" class="uk-background-muted homepage-tutorial">
 <div style="border: 20px solid white;
             margin: 0 auto;
             background: white;">
     <%@include file="jspf/navbar.jspf" %>
 
     <%@include file="jspf/messages.jsp" %>
+
+    <%@include file="jspf/help-icon.jsp" %>
 
     <div class="u-list-it-background uk-background-muted uk-inline-clip">
         <div class="uk-section-default uk-padding">
@@ -17,7 +19,7 @@
                 <div class="uk-overlay uk-light uk-align-center uk-border-rounded"
                      style="width:75%;background: rgba(34,34,34,0.85);"
                      data-intro="You can also search here."
-                     data-step="5">
+                     data-step="4">
                     <form class=" uk-search uk-search-large uk-width-">
                         <span uk-search-icon></span>
                         <input id="search" class="uk-search-input" type="search" name="mainSearch">
@@ -25,8 +27,11 @@
                 </div>
             </div>
         </div>
-        <div class="uk-section uk-padding">
-            <div class="uk-child-width-1-6@m uk-grid-small uk-grid-match" uk-grid>
+
+        <!-- Category Section -->
+        <div class="uk-section uk-padding" data-intro="Click here to search listings by category."
+             data-step="5">
+            <div class=" uk-child-width-1-6@m uk-grid-small uk-grid-match" uk-grid>
                 <c:forEach var="category" items="${categories}" varStatus="loop">
                     <div class="item uk-animation">
                         <a href="/categorySearch?search=${category.category}"><img class="category-pic uk-border-circle uk-box-shadow-hover-xlarge"
@@ -39,7 +44,10 @@
 
         </div>
 
-        <div class="uk-section-default">
+        <!-- Hottest Listings -->
+        <div class="uk-section-default" data-intro="Check out some of our hot listings!"
+             data-step="6">
+
             <h1 class="uk-heading-line uk-padding"><span>Hottest Listings</span></h1>
             <div class="uk-position-relative uk-visible-toggle uk-light"
                  uk-slider="autoplay: true">
@@ -67,7 +75,10 @@
             </div>
         </div>
 
-        <div class="uk-section-default uk-padding">
+        <!-- Community Section -->
+        <div class="uk-section-default uk-padding"
+             data-intro="Interested in events and news around your campus? Check out our community page."
+             data-step="7">
             <div class="uk-tile uk-tile- uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
                 <div class="uk-card-media-left uk-cover-container">
                     <img src="${pageContext.request.contextPath}/resources/img/community.jpeg" alt="" uk-cover>
@@ -214,11 +225,15 @@
         }).done(function (response) {
             if (response.showTutorial == 'YES') {
                 setTimeout(function () {
-                    introJs(".homepage-tutorial").start();
+                    startTutorial();
                 }, 1500);
             }
         });
     });
+
+    function startTutorial() {
+        introJs(".homepage-tutorial").start();
+    }
 </script>
 
 <script>
