@@ -124,10 +124,6 @@ public class HomeController extends BaseController {
 
 //		User user = (User) request.getSession().getAttribute("user");
 
-        //ListingRunner.run();
-
-		//PickUpRunner.run();
-
 		if (user != null) {
 
 			List<Listing> relevantListings = listingService.getRelevantListingsByUserID(user.getUserID());

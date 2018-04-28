@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import edu.ben.model.*;
 import edu.ben.service.*;
+import edu.ben.util.PickUpRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
@@ -84,6 +85,9 @@ public class PickUpController extends BaseController {
 
             pickUpService.update(pickUp);
 
+            // LEAVE THIS LINE ALONE
+            PickUpRunner.run();
+
             setRequest(request);
             return "redirect:/checkout?l=" + pickUp.getTransaction().getListingID().getId();
 
@@ -145,6 +149,9 @@ public class PickUpController extends BaseController {
             pickUp.setStatus("CREATED");
             pickUpService.save(pickUp);
             pickUp = pickUpService.getPickUpByListingID(listing.getId());
+
+            // LEAVE THIS LINE ALONE
+            PickUpRunner.run();
 
             // If seller goes to page first, add appropriate message and send seller notification
             if (transaction.getBuyer().getUserID() == user.getUserID()) {
@@ -308,9 +315,9 @@ public class PickUpController extends BaseController {
 
                 // Notify buyer that the pick up has been modified
                 notificationService.save(new Notification(pickUp.getTransaction().getBuyer(), pickUp.getTransaction().getListingID().getId(),
-                        "Reaccept Pick Up", "Pick up details have been edited for the listing " +
+                        "Re-accept Pick Up", "Pick up details have been edited for the listing " +
                         pickUp.getTransaction().getListingID().getName() +
-                        ".\nTo continue with the pick up, please reaccept.", 1, "PICKUP"));
+                        ".\nTo continue with the pick up, please re-accept.", 1, "PICKUP"));
 
                 pickUp.setBuyerAccept(0);
 
@@ -324,6 +331,9 @@ public class PickUpController extends BaseController {
             }
 
             pickUpService.update(pickUp);
+
+            // LEAVE THIS LINE ALONE
+            PickUpRunner.run();
 
             request.setAttribute("pickUp", pickUp);
             request.setAttribute("title", "Review Pick Up");
@@ -448,6 +458,9 @@ public class PickUpController extends BaseController {
         }
 
         pickUpService.update(pickUp);
+
+        // LEAVE THIS LINE ALONE
+        PickUpRunner.run();
 
         setRequest(request);
         return "redirect:" + request.getHeader("Referer");

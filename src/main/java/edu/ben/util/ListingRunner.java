@@ -74,11 +74,6 @@ public class ListingRunner {
                                     // Send notification to seller that no one placed a big
                                     newNotifications.add(new Notification(l.getUser(), l.getId(), "Your Listing Ended", "Listing: " + l.getName() + " ended without any bids.", 1));
 
-                                    // Create new transaction
-                                    Transaction transaction = new Transaction(l, 0);
-                                    transaction.setTransactionType("no winner");
-                                    transactionService.createTransaction(transaction);
-
                                 } else {
                                     // Create notification for buyer
                                     newNotifications.add(new Notification(l.getHighestBidder(), l.getId(), "You Won!", "You Won! \n Listing: " + l.getName(), 1, "WON"));
@@ -147,11 +142,6 @@ public class ListingRunner {
                         // Send notification to seller that no one placed a big
                         newNotifications.add(new Notification(l.getUser(), l.getId(), "Listing Ended", "Listing: " + l.getName() + " ended without any bids.", 1, "NO_BIDDER"));
 
-                        // Create new transaction
-                        Transaction transaction = new Transaction(l, 0);
-                        transaction.setTransactionType("no winner");
-                        transactionService.createTransaction(transaction);
-
                     } else {
                         // Create notification for buyer
                         newNotifications.add(new Notification(l.getHighestBidder(), l.getId(), "You Won!", "You Won! \n Listing: " + l.getName(), 1, "WON"));
@@ -179,6 +169,7 @@ public class ListingRunner {
 
                     l.setEnded(1);
                     listingService.saveOrUpdate(l);
+
                 }
             }
         }

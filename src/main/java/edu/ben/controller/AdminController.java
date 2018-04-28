@@ -6,6 +6,8 @@ import com.google.gson.JsonObject;
 import edu.ben.model.*;
 import edu.ben.service.*;
 import edu.ben.util.Email;
+import edu.ben.util.ListingRunner;
+import edu.ben.util.PickUpRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
@@ -69,6 +71,10 @@ public class AdminController extends BaseController {
     public String admin(HttpServletRequest request) {
 
         User user = (User) request.getSession().getAttribute("user");
+
+        ListingRunner.run();
+
+        PickUpRunner.run();
 
         if (user == null) {
             setRequest(request);

@@ -3,6 +3,7 @@ package edu.ben.controller;
 import com.google.gson.JsonObject;
 import edu.ben.model.*;
 import edu.ben.service.*;
+import edu.ben.util.ListingRunner;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -333,6 +334,9 @@ public class ListingController extends BaseController {
                 }
             }
 
+            // LEAVE THIS LINE ALONE
+            ListingRunner.run();
+
             request.getSession().removeAttribute("listing");
             addSuccessMessage("Listing Uploaded Successfully");
             setRequest(request);
@@ -502,17 +506,17 @@ public class ListingController extends BaseController {
     @RequestMapping(value = "/watch", method = RequestMethod.GET)
     public String watch(HttpServletRequest request, @RequestParam("listingID") String id) {
 
-       int listingID = Integer.parseInt(id);
-       Listing listing = listingService.getByListingID(listingID);
-       User u = (User) request.getSession().getAttribute("user");
+        int listingID = Integer.parseInt(id);
+        Listing listing = listingService.getByListingID(listingID);
+        User u = (User) request.getSession().getAttribute("user");
 
-       Favorite f = new Favorite();
+        Favorite f = new Favorite();
         f.setUser(u);
         f.setListing(listing);
 
         System.out.println(f.getUser().getUserID());
 
-       favoriteService.create(f);
+        favoriteService.create(f);
 
         return "index";
     }
@@ -523,17 +527,16 @@ public class ListingController extends BaseController {
         Listing listing = listingService.getByListingID(listingID);
         User u = (User) request.getSession().getAttribute("user");
 
-      ArrayList<Favorite> list = (ArrayList<Favorite>) favoriteService.findAllFavoritesByUser(u.getUserID());
+        ArrayList<Favorite> list = (ArrayList<Favorite>) favoriteService.findAllFavoritesByUser(u.getUserID());
 
-      for (int i = 0; i < list.size(); i++) {
-          if(list.get(i).getListing().getId() == listingID) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getListing().getId() == listingID) {
 
-              favoriteService.delete(list.get(i).getId());
-          }
-      }
+                favoriteService.delete(list.get(i).getId());
+            }
+        }
         return "index";
     }
-
 
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
