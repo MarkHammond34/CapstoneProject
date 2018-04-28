@@ -54,18 +54,65 @@ function updateFile() {
 }
 
 function typeChange(type) {
+
+
     if (type.value == "auction") {
         document.getElementById("endDate").disabled = false;
+        var required = document.createAttribute("required");
+        document.getElementById("endDate").setAttributeNode(required);
+
         document.getElementById("endTime").disabled = false;
+        required = document.createAttribute("required");
+        document.getElementById("endTime").setAttributeNode(required);
+
         document.getElementById("price").disabled = true;
+        if (document.getElementById("price").hasAttribute("required")) {
+            document.getElementById("price").removeAttribute("required");
+        }
+
+        document.getElementById("paymentType").disabled = false;
+        required = document.createAttribute("required");
+        document.getElementById("paymentType").setAttributeNode(required);
+
     } else if (type.value == "fixed") {
-        document.getElementById("endDate").disabled = true;
-        document.getElementById("endTime").disabled = true;
+
+        document.getElementById("endDate").disabled = false;
+        var required = document.createAttribute("required");
+        document.getElementById("endDate").setAttributeNode(required);
+
+        document.getElementById("endTime").disabled = false;
+        required = document.createAttribute("required");
+        document.getElementById("endTime").setAttributeNode(required);
+
         document.getElementById("price").disabled = false;
+        required = document.createAttribute("required");
+        document.getElementById("price").setAttributeNode(required);
+
+        document.getElementById("paymentType").disabled = false;
+        required = document.createAttribute("required");
+        document.getElementById("paymentType").setAttributeNode(required);
+
     } else if (type.value == "donation") {
+
         document.getElementById("endDate").disabled = true;
+        if (document.getElementById("endDate").hasAttribute("required")) {
+            document.getElementById("endDate").removeAttribute("required");
+        }
+
         document.getElementById("endTime").disabled = true;
+        if (document.getElementById("endTime").hasAttribute("required")) {
+            document.getElementById("endTime").removeAttribute("required");
+        }
+
         document.getElementById("price").disabled = true;
+        if (document.getElementById("endTime").hasAttribute("required")) {
+            document.getElementById("price").removeAttribute("required");
+        }
+
+        document.getElementById("paymentType").disabled = true;
+        if (document.getElementById("paymentType").hasAttribute("required")) {
+            document.getElementById("paymentType").removeAttribute("required");
+        }
     }
 }
 
@@ -79,6 +126,10 @@ function changeCategory(option) {
         } else {
             allSubCategories[i].style.display = "none";
         }
+    }
+
+    if (option != 'Other') {
+        document.getElementById("OtherSubcat").style.display = "inline";
     }
 
     document.getElementById("subCategorySelect").removeAttribute("disabled");
@@ -95,3 +146,43 @@ function draftToggle(checkbox) {
         document.getElementById("submit").innerText = "Create Listing";
     }
 }
+
+window.addEventListener("load", function () {
+
+    // Set min date to today
+    var date = new Date();
+    var dd = date.getDate();
+    var mm = date.getMonth() + 1; //January is 0!
+    var yyyy = date.getFullYear();
+
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+
+    var curDate = yyyy + '-' + mm + '-' + dd;
+    document.getElementById("endDate").min = curDate;
+    document.getElementById("endDate").value = curDate;
+
+    // Set min time to one hour from right now
+    var hh = date.getHours() + 1;
+    var mm = date.getMinutes();
+
+    if (hh < 10) {
+        hh = '0' + hh;
+    }
+
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+
+
+    var time = hh + ':' + mm;
+
+    document.getElementById("endTime").min = time;
+    document.getElementById("endTime").value = time;
+
+});

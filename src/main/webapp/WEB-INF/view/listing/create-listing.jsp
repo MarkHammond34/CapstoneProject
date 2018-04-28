@@ -25,7 +25,7 @@
                 </span>
                     <div class="form-area">
                         <c:choose>
-                        <c:when test="${isDraft == true}">
+                        <c:when test="${listing != null}">
                         <form method="POST" class="" uk-grid
                               onsubmit="return validateForm()" action="uploadListingDraft"
                               enctype="multipart/form-data" name="uploadListingForm" uk-grid>
@@ -51,7 +51,7 @@
                                 <div class="uk-width-1-3@m uk-width-1-2@s" uk-form-custom id="uploadDiv">
                                     <br>
                                     <input id="image" type="file" name="file" multiple
-                                           onchange="updateFile()"/>
+                                           onchange="updateFile()" required/>
                                     <span class="val_error" id="image_error"></span>
                                     <button class="uk-button uk-button-default uk-width-1-1" type="button"
                                             tabindex="-1" id="uploadButton">Upload Images
@@ -61,7 +61,7 @@
                                 <!-- Image Badges -->
                                 <div class="uk-width-1-1 uk-margin-small-top">
                                     <div class="uk-width-1-3@m uk-width-1-2@s uk-align-right" id="imageBadges">
-                                        <c:if test="${isDraft == true}">
+                                        <c:if test="${listing != null}">
                                             <c:forEach items="${listing.images}" var="image">
                                                 <span class="uk-badge uk-padding-small"
                                                       style="background-color: lightslategray; margin: 5px;"
@@ -83,7 +83,7 @@
                                                                      onchange="changeCategory(this);"
                                                                      required>
                                     <c:choose>
-                                        <c:when test="${isDraft == true}">
+                                        <c:when test="${listing != null}">
                                             <c:forEach var="category" items="${categories}">
                                                 <c:choose>
                                                     <c:when test="${listing.category == category.category}">
@@ -110,7 +110,7 @@
                                 <div class="uk-width-1-2">
                                     <strong>Sub-Category</strong>
                                     <c:choose>
-                                    <c:when test="${isDraft == true}">
+                                    <c:when test="${listing != null}">
                                     <select id="subCategorySelect"
                                             name="subCategory" class="uk-select" required>
                                         <c:forEach var="subCategory" items="${subCategories}">
@@ -127,13 +127,15 @@
                                         </c:when>
                                         <c:otherwise>
                                         <select id="subCategorySelect"
-                                                name="subCategory" class="uk-select" disabled>
+                                                name="subCategory" class="uk-select" disabled required>
                                             <option value="" disabled selected>Select Category</option>
                                             <c:forEach var="subCategory" items="${subCategories}">
-                                                <option value="${subCategory.subCategory}">${subCategory.subCategory}</option>
+                                                <option class="sub-category ${subCategory.category.category}"
+                                                        value="${subCategory.subCategory}">${subCategory.subCategory}</option>
                                             </c:forEach>
                                             </c:otherwise>
                                             </c:choose>
+                                            <option id="OtherSubcat" value="Other" style="display: none">Other</option>
                                         </select>
                                 </div>
 
@@ -142,7 +144,7 @@
                                     <select id="type" name="type"
                                             class="uk-select" onchange="typeChange(this);" required>
                                         <c:choose>
-                                            <c:when test="${isDraft == true}">
+                                            <c:when test="${listing != null}">
                                                 <c:choose>
                                                     <c:when test="${listing.type == 'fixed'}">
                                                         <option value="${listing.type}" selected>Fixed Price
@@ -190,9 +192,9 @@
                                 <div class="uk-width-1-1" id="paymentTypeDiv">
                                     <strong>Payment Type</strong>
                                     <select id="paymentType" name="paymentType"
-                                            class="uk-select">
+                                            class="uk-select" required>
                                         <c:choose>
-                                            <c:when test="${isDraft == true}">
+                                            <c:when test="${listing != null}">
                                                 <c:choose>
                                                     <c:when test="${listing.paymentType == 'PAYPAL'}">
                                                         <option value="${listing.paymentType}" selected>PayPal
@@ -232,8 +234,6 @@
                                                 <option value="" disabled selected>Select Payment Type</option>
                                                 <option value="PAYPAL">PayPal</option>
                                                 <option value="CASH">Cash</option>
-                                                <option value="EITHER">Doesn't Matter (Buyer Chooses Cash or PayPal)
-                                                </option>
                                             </c:otherwise>
                                         </c:choose>
                                     </select>
@@ -243,14 +243,14 @@
                                 <div class="uk-width-1-2@m uk-width-1-1@s" id="dateEnd">
                                     <strong>End Date</strong><input type="date"
                                                                     class="uk-input" id="endDate"
-                                                                    value="${listing.endDate}" name="endDate"
-                                                                    placeholder="End Date" disabled>
+                                                                    value="${endDate}" name="endDate"
+                                                                    placeholder="End Date" disabled min="">
                                 </div>
 
                                 <div class="uk-width-1-2@m uk-width-1-1@s" id="timeEnd">
                                     <strong>End Time</strong><input type="time"
                                                                     class="uk-input" id="endTime"
-                                                                    value="${listing.endTime}" name="endTime"
+                                                                    value="${endTime}" name="endTime"
                                                                     placeholder="End Time" disabled>
                                 </div>
 
@@ -258,7 +258,7 @@
                                     <strong>Description </strong>
                                     <textarea class="uk-textarea" type="textarea" name="description"
                                               id="message" placeholder="Description" maxlength="140"
-                                              rows="7">${listing.description}</textarea>
+                                              rows="7" required>${listing.description}</textarea>
                                     <span class="help-block"><p id="characterLeft"
                                                                 class="help-block "></span>
                                 </div>

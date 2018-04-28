@@ -96,25 +96,37 @@ public class ListingController extends BaseController {
             price = 0;
         }
 
+        Listing temp = new Listing();
+        temp.setName(name);
+        temp.setCategory(category);
+        temp.setSubCategory(subCategory);
+        temp.setPrice(price);
+        temp.setType(type);
+        temp.setPaymentType(paymentType);
+        temp.setDescription(description);
+
         Timestamp endTimestamp;
 
         // Empty Date and Time
         if (endDate == null && endTime == null) {
             addErrorMessage("Invalid End Date & Time");
             setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
+            request.setAttribute("listing", temp);
+            return "listing/create-listing";
 
             // Empty Time
         } else if (endTime == null) {
             addErrorMessage("Invalid End Time");
             setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
+            request.setAttribute("listing", temp);
+            return "listing/create-listing";
 
             // Empty Date
         } else if (endDate == null) {
             addErrorMessage("Invalid End Time");
             setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
+            request.setAttribute("listing", temp);
+            return "listing/create-listing";
 
             // Date and Time Not Empty
         } else {
@@ -136,19 +148,38 @@ public class ListingController extends BaseController {
             } catch (Exception e) {
                 addErrorMessage("Date & Time Error");
                 setRequest(request);
-                return "redirect:" + request.getHeader("Referer");
+                request.setAttribute("listing", temp);
+                request.setAttribute("endDate", endDate);
+                request.setAttribute("endTime", endTime);
+                return "listing/create-listing";
             }
 
+        }
+
+        // Make sure listing is longer than an hour
+        if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600)) && type != null && type.equals("auction")) {
+            addErrorMessage("Listing must last at least an hour.");
+            setRequest(request);
+            request.setAttribute("listing", temp);
+            request.setAttribute("endDate", endDate);
+            request.setAttribute("endTime", endTime);
+            return "listing/create-listing";
         }
 
         if (name == null || name.isEmpty()) {
             addErrorMessage("Please use a valid Title");
             setRequest(request);
+            request.setAttribute("listing", temp);
+            request.setAttribute("endDate", endDate);
+            request.setAttribute("endTime", endTime);
             return "listing/create-listing";
         }
         if (price < 0) {
             addErrorMessage("Cannot have a negative price.");
             setRequest(request);
+            request.setAttribute("listing", temp);
+            request.setAttribute("endDate", endDate);
+            request.setAttribute("endTime", endTime);
             return "listing/create-listing";
         }
 
@@ -171,6 +202,9 @@ public class ListingController extends BaseController {
         } else {
             addErrorMessage("Need to select a valid category");
             setRequest(request);
+            request.setAttribute("listing", temp);
+            request.setAttribute("endDate", endDate);
+            request.setAttribute("endTime", endTime);
             return "listing/create-listing";
         }
 
@@ -179,6 +213,9 @@ public class ListingController extends BaseController {
         } else {
             addErrorMessage("Need to select a valid sub-category");
             setRequest(request);
+            request.setAttribute("listing", temp);
+            request.setAttribute("endDate", endDate);
+            request.setAttribute("endTime", endTime);
             return "listing/create-listing";
         }
 
@@ -187,6 +224,9 @@ public class ListingController extends BaseController {
         } else {
             addErrorMessage("Need to select a valid type");
             setRequest(request);
+            request.setAttribute("listing", temp);
+            request.setAttribute("endDate", endDate);
+            request.setAttribute("endTime", endTime);
             return "listing/create-listing";
         }
 
@@ -195,6 +235,9 @@ public class ListingController extends BaseController {
         } else {
             addErrorMessage("Need to select a valid payment type");
             setRequest(request);
+            request.setAttribute("listing", temp);
+            request.setAttribute("endDate", endDate);
+            request.setAttribute("endTime", endTime);
             return "listing/create-listing";
         }
 
@@ -263,6 +306,9 @@ public class ListingController extends BaseController {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                request.setAttribute("listing", temp);
+                request.setAttribute("endDate", endDate);
+                request.setAttribute("endTime", endTime);
                 return "listing/create-listing";
             }
 
@@ -287,6 +333,7 @@ public class ListingController extends BaseController {
                 }
             }
 
+            request.getSession().removeAttribute("listing");
             addSuccessMessage("Listing Uploaded Successfully");
             setRequest(request);
             return "redirect:/";
@@ -294,7 +341,10 @@ public class ListingController extends BaseController {
         } else {
             addErrorMessage("File Upload Failed. Try Again.");
             setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
+            request.setAttribute("listing", temp);
+            request.setAttribute("endDate", endDate);
+            request.setAttribute("endTime", endTime);
+            return "listing/create-listing";
         }
     }
 
