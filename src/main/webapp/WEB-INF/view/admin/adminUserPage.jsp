@@ -37,8 +37,6 @@
                                 <th>First Name</th>
                                 <th>Last Name</th>
                                 <th>Unlock</th>
-                                <th>Password Reset</th>
-                                <th>Delete</th>
                                 <th>Edit</th>
                                 <th>Ban</th>
 
@@ -78,20 +76,6 @@
                                     <%
                                         }
                                     %>
-                                </td>
-                                <td>
-                                    <form method="Post" action="adminPasswordReset">
-                                        <button name="email"
-                                                value="<%=allUsers.get(i).getSchoolEmail()%>"
-                                                type="submit" uk-icon="icon: mail"></button>
-                                    </form>
-                                </td>
-                                <td>
-                                    <form method="Post" action="adminDeleteUser">
-                                        <button name="delete"
-                                                value="<%=allUsers.get(i).getSchoolEmail()%>"
-                                                type="submit" uk-icon="icon: trash"></button>
-                                    </form>
                                 </td>
                                 <td><a href="#<%=allUsers.get(i).getUsername()%>"
                                        uk-icon="icon: file-edit" uk-toggle></a></td>
