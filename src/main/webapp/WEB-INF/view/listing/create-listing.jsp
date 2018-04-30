@@ -174,7 +174,7 @@
                                             <c:otherwise>
                                                 <option value="" disabled selected>Select Listing Type</option>
                                                 <option value="auction">Auction</option>
-                                                <option value="donation">Donation</option>
+                                                <option id="donation" value="donation">Donation</option>
                                                 <option value="fixed">Fixed Price</option>
                                             </c:otherwise>
                                         </c:choose>
@@ -344,6 +344,42 @@
         }
 
     }
+
+
+    window.addEventListener("load", function () {
+
+        var isDonation = ${isDonation};
+        if (isDonation == true) {
+
+            document.getElementById("endDate").disabled = true;
+            if (document.getElementById("endDate").hasAttribute("required")) {
+                document.getElementById("endDate").removeAttribute("required");
+            }
+
+            document.getElementById("endTime").disabled = true;
+            if (document.getElementById("endTime").hasAttribute("required")) {
+                document.getElementById("endTime").removeAttribute("required");
+            }
+
+            document.getElementById("price").disabled = true;
+            if (document.getElementById("endTime").hasAttribute("required")) {
+                document.getElementById("price").removeAttribute("required");
+            }
+
+            document.getElementById("paymentType").disabled = true;
+            if (document.getElementById("paymentType").hasAttribute("required")) {
+                document.getElementById("paymentType").removeAttribute("required");
+            }
+
+            var selected = document.createAttribute("selected");
+            document.getElementById("donation").setAttributeNode(selected);
+
+            document.getElementById("endDate").value = "";
+            document.getElementById("endTime").value = "";
+
+        }
+    });
+
 </script>
 
 </html>
