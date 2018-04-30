@@ -149,7 +149,7 @@ background: white;">
                             <c:if test="${sessionScope.user.userID == user.userID }">
                             <script>
                                 $(document).ready(function () {
-                                    var text= "";
+                                    var text = "";
                                     $.ajax({
                                         url: 'getFollowers',
                                         type: 'GET',
@@ -158,12 +158,12 @@ background: white;">
                                         success: function (result) {
                                             console.log(result);
                                             listings = result;
-                                            for(var key in result){
+                                            for (var key in result) {
                                                 text += '<div class="uk-card uk-card-default uk-card-body uk-card-small uk-margin-small-top">' +
-                                                    '<img class="uk-border-circle uk-align-left uk-margin-auto-vertical" src="/directory/'+ result[key].followerImage +'" height="75" width="75" alt="Border circle">' +
-                                                    '<span class="uk-flex-top uk-flex-left uk-text-danger" style="font-size:large">'+ result[key].followerUserName +'</span>' +
+                                                    '<img class="uk-border-circle uk-align-left uk-margin-auto-vertical" src="/directory/' + result[key].followerImage + '" height="75" width="75" alt="Border circle">' +
+                                                    '<span class="uk-flex-top uk-flex-left uk-text-danger" style="font-size:large">' + result[key].followerUserName + '</span>' +
                                                     '<span class="uk-flex-top uk-flex-right"> </span>' +
-                                                    '<span class="uk-flex-left">'+ result[key].followerFirstName + ' '+ result[key].followerLastName +'</span>' +
+                                                    '<span class="uk-flex-left">' + result[key].followerFirstName + ' ' + result[key].followerLastName + '</span>' +
                                                     '</div>'
                                             }
 
@@ -180,12 +180,12 @@ background: white;">
                                         success: function (result) {
                                             console.log(result);
                                             listings = result;
-                                            for(var key in result){
+                                            for (var key in result) {
                                                 text += '<div class="uk-card uk-card-default uk-card-body uk-card-small uk-margin-small-top">' +
-                                                    '<img class="uk-border-circle uk-align-left uk-margin-auto-vertical" src="/directory/'+ result[key].followerImage +'" height="75" width="75" alt="Border circle">' +
-                                                    '<span class="uk-flex-top uk-flex-left uk-text-danger" style="font-size:large">'+ result[key].followerUserName +'</span>' +
-                                                    '<button value="'+ result[key].followerId +'"><span class="uk-flex-top uk-flex-right uk-align-right" uk-icon="minus-circle"></span><button>' +
-                                                    '<span class="uk-flex-left">'+ result[key].followerFirstName + ' '+ result[key].followerLastName +'</span>' +
+                                                    '<img class="uk-border-circle uk-align-left uk-margin-auto-vertical" src="/directory/' + result[key].followerImage + '" height="75" width="75" alt="Border circle">' +
+                                                    '<span class="uk-flex-top uk-align-left uk-text-danger" style="font-size:large">' + result[key].followerUsername + '</span>' +
+                                                    '<button class="uk-flex-top uk-flex-right uk-align-right" uk-icon="minus-circle" value="' + result[key].followerId + '"></button>' +
+                                                    '<span class="uk-flex-left">' + result[key].followerFirstName + ', ' + result[key].followerLastName + '</span>' +
                                                     '</div>'
                                             }
 
@@ -193,6 +193,7 @@ background: white;">
                                             $('#followingContainer').append(text);
                                         }
                                     });
+                                });
 
                             </script>
                             <ul class="uk-subnav uk-subnav-pill" uk-switcher="animation: uk-animation-fade">
