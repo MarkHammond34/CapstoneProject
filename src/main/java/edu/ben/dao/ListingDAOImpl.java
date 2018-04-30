@@ -281,17 +281,27 @@ public class ListingDAOImpl implements ListingDAO {
     }
 
     @Override
-    public List getRelevantListingsFromRecentPurchaseByUserID(int userID) {
-        String sql = "SELECT * FROM listing WHERE id IN (SELECT listing.id FROM listing INNER JOIN search_history " +
-                "ON description LIKE CONCAT('%' + search + '%') WHERE search_history.user_id = :userID) OR sub_category " +
-                "IN (SELECT search_subcategory FROM search_history AS s1 WHERE user_id = :userID GROUP BY search_subcategory " +
-                "ORDER BY search_count , date_created , (SELECT COUNT(*) FROM search_history AS s2 WHERE " +
-                "s1.search_subcategory = s2.search_subcategory AND user_id = :userID)) AND active = 1 AND ended = 0 " +
-                "ORDER BY end_timestamp DESC LIMIT 50;";
+    public List getRelevantListingsFromRecentPurchaseByUserID(int userID, String category) {
+        String sql = "select * from listing where category IN (select listing.category from listing, offer, listing_bid where " +
+                "offer.offer_maker_id=:userID or listing_bid.user_id=:userID GROUP BY listing.category " +
+                "order by MAX((offer.date_created or listing_bid.created_on))) and category =:category and ended = 0 and active = 1 limit 1;";
         SQLQuery q = getSession().createSQLQuery(sql)
                 .addEntity(Listing.class);
         q.setParameter("userID", userID);
+        q.setParameter("category", category);
         return q.list();
+    }
+
+    @Override
+    public Listing getRecentListingWithOfferOrBidByUserID(int userID) {
+
+        String sql = "select MAX(listing.date_created), listing.category from listing, offer, listing_bid where " +
+                "listing.userID = offer.offer_maker_id or listing.userID = listing_bid.user_id and ended = 0 and listing.active = 1;";
+        SQLQuery q = getSession().createSQLQuery(sql)
+                .addEntity(Listing.class);
+        q.setParameter("userID", userID);
+
+        return (Listing) q.list().get(0);
     }
 
     @Override

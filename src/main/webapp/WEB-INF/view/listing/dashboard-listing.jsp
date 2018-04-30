@@ -7,11 +7,10 @@
             <li uk-tooltip="title: Edit; pos: left"><a href="edit?listing=${listing.id}" uk-icon="icon: file-edit"></a>
             </li>
             <li><a href="#" uk-icon="icon: copy"></a></li>
-            <li><a href="#" uk-icon="icon: trash"></a></li>
-            <c:if test="${listing.type=='auction'}">
-            <li><button uk-toggle="target: #modal${listing.id}" uk-icon="icon: refresh" type="button"></button></li>
-            </c:if>
+            <li uk-tooltip="title: Cancel; pos: left"><a onclick="UIkit.modal('#cancel-auction${listing.id}').show();"
+                                                         uk-icon="icon: close"></a></li>
         </ul>
+        <%@include file="../listing/cancel-auction.jsp" %>
     </div>
     <div class="uk-card uk-card-default uk-float-left uk-box-shadow-hover-large" style="height: auto; width: 80%">
         <div class="uk-card-media-top">

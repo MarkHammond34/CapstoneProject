@@ -48,4 +48,5 @@ public class PickUpDAOImpl implements PickUpDAO {
     public List getAllActive() {
         return getSession().createQuery("FROM pick_up WHERE active=1").list();
     }
+
 }

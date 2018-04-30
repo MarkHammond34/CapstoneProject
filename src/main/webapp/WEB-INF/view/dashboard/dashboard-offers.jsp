@@ -21,9 +21,8 @@
                             <td class="uk-text-nowrap">
                                 <div class="uk-text-right uk-float-right uk-flex-right"
                                      uk-tooltip="title: More info">
-                                    <a onclick="modalClick(${offer.offerID})"><i
+                                    <a onclick="UIkit.modal('#offer${offer.offerID}').show()"><i
                                             class="fas fa-ellipsis-v"></i></a>
-                                    <!--<button value="${offer.offerID}" class="uk-button" onclick="modalClick(this.value)">Button</button>-->
                                 </div>
                             </td>
                         </tr>

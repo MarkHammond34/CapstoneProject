@@ -66,7 +66,9 @@ public interface ListingDAO {
 
     public List getRelevantListingsByUserID(int userID);
 
-    public List getRelevantListingsFromRecentPurchaseByUserID(int userID);
+    public List getRelevantListingsFromRecentPurchaseByUserID(int userID, String category);
+
+    public Listing getRecentListingWithOfferOrBidByUserID(int userID);
 
     public List getPremiumListings();
 
