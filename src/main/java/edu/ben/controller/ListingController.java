@@ -83,8 +83,8 @@ public class ListingController extends BaseController {
                                     @RequestParam(value = "price", required = false) Integer price,
                                     @RequestParam("description") String description, @RequestParam("file") List<MultipartFile> file,
                                     @RequestParam("type") String type, @RequestParam(value = "paymentType") String paymentType,
-                                    @RequestParam(value = "draft", required = false) String draft, @RequestParam("endTime") String endTime,
-                                    @RequestParam("endDate") String endDate, HttpServletRequest request) {
+                                    @RequestParam(value = "draft", required = false) String draft, @RequestParam(value = "endTime", required = false) String endTime,
+                                    @RequestParam(value = "endDate", required = false) String endDate, HttpServletRequest request) {
 
         User u = (User) request.getSession().getAttribute("user");
 
@@ -404,6 +404,10 @@ public class ListingController extends BaseController {
             return "login";
         }
         setRequest(request);
+
+        if (request.getParameter("t") != null && request.getParameter("t").equals("donation")) {
+            request.setAttribute("isDonation", true);
+        }
 
         request.setAttribute("categories", categoryService.getAllCategories());
         request.setAttribute("subCategories", categoryService.getAllSubCategories());
