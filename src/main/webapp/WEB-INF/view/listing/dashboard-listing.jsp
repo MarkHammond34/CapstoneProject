@@ -9,6 +9,10 @@
             <li><a href="#" uk-icon="icon: copy"></a></li>
             <li uk-tooltip="title: Cancel; pos: left"><a onclick="UIkit.modal('#cancel-auction${listing.id}').show();"
                                                          uk-icon="icon: close"></a></li>
+            <li><a href="#" uk-icon="icon: trash"></a></li>
+            <c:if test="${listing.type=='auction'}">
+            <li><button uk-toggle="target: #modal${listing.id}" uk-icon="icon: refresh" type="button"></button></li>
+            </c:if>
         </ul>
         <%@include file="../listing/cancel-auction.jsp" %>
     </div>

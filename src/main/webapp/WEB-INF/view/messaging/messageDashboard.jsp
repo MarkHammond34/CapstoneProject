@@ -16,12 +16,7 @@
         <h1>Messages</h1>
         <div class="uk-grid uk-child-width-1-1\@m">
             <div>
-                <button id="chatModal" class="uk-button uk-button-default" type="button"
-                        uk-toggle="target: #chat-offcanvas">Side Chat
-                </button>
-                <button id="messageModal" class="uk-button uk-button-default" type="button"
-                        uk-toggle="target: #view-Message">Side Chat 2
-                </button>
+                <button id="chatModal" class="uk-button uk-button-default" type="button" uk-toggle="target: #chat-offcanvas">Side Chat</button>
             </div>
         </div>
     </div>
@@ -37,26 +32,26 @@
 
     jQuery(document).ready(updateConversation());
 
-    function updateConversation() {
+    function updateConversation(){
         $.ajax({
             url: 'getConversation',
             type: 'GET',
             dataType: 'json',
             contentType: 'application/json',
-            success: function (result) {
+            success: function(result){
                 var sessionUser = ${sessionScope.user.userID};
                 var text = "";
-                text += '<div class="uk-offcanvas-bar">' +
-                    '<ul class="uk-nav uk-nav-default">' +
-                    '<li>' +
-                    '<form class="uk-search uk-search-default">' +
-                    '<input class="uk-search-input uk-border-rounded" style="width:100%;" type="search" placeholder="Search Users">' +
-                    '<a href="" uk-search-icon></a>' +
-                    '</form>' +
-                    '</li>' +
+                text += '<div class="uk-offcanvas-bar">'+
+                    '<ul class="uk-nav uk-nav-default">'+
+                    '<li>'+
+                    '<form class="uk-search uk-search-default">'+
+                    '<input class="uk-search-input uk-border-rounded" style="width:100%;" type="search" placeholder="Search Users">'+
+                    '<a href="" uk-search-icon></a>'+
+                    '</form>'+
+                    '</li>'+
                     '<hr class="uk-divider">';
-                for (var key in result) {
-                    text += '<li>' +
+                for(var key in result){
+                    text +=  '<li>'+
                         '<div class="uk-card uk-card-default uk-width-1-3\@l" style="background: rgba(34,34,34,0.85);">' +
                         '<div class="uk-card-header">' +
                         '<div class="uk-grid-small uk-flex-middle" uk-grid>' +
@@ -65,27 +60,27 @@
                         '</div>' +
                         '<div class="uk-width-expand"> ';
 
-                    if (sessionUser == result[key].user1Id) {
-                        text += '<h4 class="uk-card-title uk-margin-remove-bottom uk-text-muted">' + result[key].user2Username + '</h4>' +
-                            '<p class="uk-text-meta uk-margin-remove-top uk-text-muted">' + result[key].user2FirstName + ' ' + result[key].user2LastName + '</p>' +
-                            '</div>' +
-                            '<div>' +
+                    if(sessionUser == result[key].user1Id ){
+                        text += '<h4 class="uk-card-title uk-margin-remove-bottom uk-text-muted">' + result[key].user2Username + '</h4>'+
+                            '<p class="uk-text-meta uk-margin-remove-top uk-text-muted">' + result[key].user2FirstName + ' ' + result[key].user2LastName +'</p>'+
+                            '</div>'+
+                            '<div>'+
                             '<button uk-icon="icon: comment" value="' + result[key].user2SchoolEmail + '" onClick="getMessage(this.value)"></button>';
                     }
-                    else {
-                        text += '<h4 class="uk-card-title uk-margin-remove-bottom uk-text-muted">' + result[key].user1Username + '</h4>' +
-                            '<p class="uk-text-meta uk-margin-remove-top uk-text-muted">' + result[key].user1FirstName + ' ' + result[key].user1LastName + '</p>' +
-                            '</div>' +
-                            '<div>' +
-                            '<button  uk-icon="icon: comment" value="' + result[key].user1SchoolEmail + '" onClick="getMessage(this.value)"></button>';
+                    else{
+                        text += '<h4 class="uk-card-title uk-margin-remove-bottom uk-text-muted">' + result[key].user1Username +'</h4>'+
+                            '<p class="uk-text-meta uk-margin-remove-top uk-text-muted">'+ result[key].user1FirstName + ' ' + result[key].user1LastName +'</p>'+
+                            '</div>'+
+                            '<div>'+
+                            '<button  uk-icon="icon: comment" value="'+ result[key].user1SchoolEmail + '" onClick="getMessage(this.value)"></button>';
                     }
                     text +=
-                        '</div>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>' +
+                        '</div>'+
+                        '</div>'+
+                        '</div>'+
+                        '</div>'+
 
-                        '</li>' +
+                        '</li>'+
                         '<hr class="uk-divider">';
                 }
                 text += '</ul>' + '</div>';
@@ -95,68 +90,72 @@
     }
 
 
-    function getMessage(email) {
+
+    function getMessage(email){
         console.log(email);
         $.ajax({
             url: 'getMessages',
             type: 'GET',
-            data: {schoolEmail: email},
+            data:{schoolEmail:email},
             dataType: 'json',
             contentType: 'application/json',
             success: function (result) {
                 var sessionUser = ${sessionScope.user.userID};
                 var text = "";
-                text += '<div class="uk-offcanvas-bar">' +
-                    '<a onClick="updateConversation();"><span uk-icon="icon: reply"></span></a>' +
-                    '<div class="uk-card uk-card-default uk-border-rounded uk-margin-large-top uk-panel-scrollable uk-margin-small-left uk-margin-small-right uk-height-max-large" style="height:100%;">' +
+                text +=  '<div class="uk-offcanvas-bar">'+
+                    '<a onClick="updateConversation();"><span uk-icon="icon: reply"></span></a>'+
+                    '<div class="uk-card uk-card-default uk-border-rounded uk-margin-large-top uk-panel-scrollable uk-margin-small-left uk-margin-small-right uk-height-max-large" style="height:100%;">'+
                     '<div class="uk-card-body uk-padding-small">';
-                if (result == null || result == "") {
+                if(result == null || result == ""){
                     text = '<p> No Messages have been sent between you two</p>';
-                } else {
+                }else{
 
                     for (var key in result) {
                         console.log(result[key]);
-                        if (sessionUser == result[key].UserId) {
-                            text += '<div class="me uk-grid-small uk-flex-bottom uk-flex-right uk-text-right" uk-grid>' +
-                                '<div class="uk-width-auto uk-margin-remove">' +
-                                '<div class="uk-card uk-card-body uk-card-small uk-card-primary uk-border-rounded">' +
-                                '<div class="uk-panel uk-panel-box uk-text-break uk-margin-remove">' + result[key].messageBody + '</div>' +
-                                '</div>' +
-                                '<div class="uk-text-small">' + result[key].dateSent + '</div>' +
-                                '<div class="uk-width-auto">' +
-                                '<img class="uk-border-circle" width="32" height="32" src="https://getuikit.com/docs/images/avatar.jpg">' +
-                                '</div>' +
-                                '</div>' +
+                        if(sessionUser == result[key].UserId){
+                            text += '<div class="me uk-grid-small uk-flex-bottom uk-flex-right uk-text-right" uk-grid>'+
+                                '<div class="uk-width-auto uk-margin-remove">'+
+                                '<div class="uk-card uk-card-body uk-card-small uk-card-primary uk-border-rounded">'+
+                                '<div class="uk-panel uk-panel-box uk-text-break uk-margin-remove">'+ result[key].messageBody +'</div>'+
+                                '</div>'+
+                                '<div class="uk-text-small">'+ result[key].dateSent +'</div>'+
+                                '<div class="uk-width-auto">'+
+                                '<img class="uk-border-circle" width="32" height="32" src="https://getuikit.com/docs/images/avatar.jpg">'+
+                                '</div>'+
+                                '</div>'+
                                 '</div>';
-                        } else {
-                            text += '<div class="guest uk-grid-small uk-flex-bottom uk-flex-left" uk-grid>' +
-                                '<div class="uk-width-auto">' +
-                                '<div class="uk-width-auto uk-margin-remove">' +
-                                '<img class="uk-border-circle" width="32" height="32" src="https://getuikit.com/docs/images/avatar.jpg">' +
-                                '</div>' +
-                                '<div class="uk-card uk-card-body uk-card-small uk-card-default uk-border-rounded">' +
-                                '<div class="uk-panel uk-panel-box uk-text-break uk-margin-remove">' + result[key].messageBody + '</div>' +
-                                '</div>' +
-                                '<div class="uk-text-small">' + result[key].dateSent + '</div>' +
-                                '</div>' +
+                        }else{
+                            text+= '<div class="guest uk-grid-small uk-flex-bottom uk-flex-left" uk-grid>'+
+                                '<div class="uk-width-auto">'+
+                                '<div class="uk-width-auto uk-margin-remove">'+
+                                '<img class="uk-border-circle" width="32" height="32" src="https://getuikit.com/docs/images/avatar.jpg">'+
+                                '</div>'+
+                                '<div class="uk-card uk-card-body uk-card-small uk-card-default uk-border-rounded">'+
+                                '<div class="uk-panel uk-panel-box uk-text-break uk-margin-remove">'+ result[key].messageBody +'</div>'+
+                                '</div>'+
+                                '<div class="uk-text-small">'+ result[key].dateSent +'</div>'+
+                                '</div>'+
                                 '</div>';
                         }
                     }
                 }
-                text += '</div>' + '</div>' +
-                    '<div class="uk-card-footer uk-padding-remove">' +
-                    '<div class="uk-grid-small uk-flex-middle" uk-grid>' +
-                    '<div class="uk-width-expand">' +
-                    '<div class="uk-padding-small uk-padding-remove-horizontal">' +
-                    '<input class="uk-input uk-width-1-2 uk-padding-remove uk-border-remove" rows="1" placeholder="Send a Message"></input>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="uk-width-auto">' +
-                    '<button id="sendMessage" class="uk-button-primary" value="" >Send</button>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
+                text += '</div>'+ '</div>'+
+                    '<div class="uk-card-footer uk-padding-remove">'+
+                    '<form id="messageSend" method="POST" action="sendMessages">'+
+                    '<div class="uk-grid-small uk-flex-middle" uk-grid>'+
+                    '<div class="uk-width-expand">'+
+                    '<div class="uk-padding-small uk-padding-remove-horizontal">'+
+                    '<input name="messageBody" class="uk-input uk-width-1-1 uk-padding-remove uk-border-remove" rows="1" placeholder="Send a Message"></input>'+
+                    '<input name="sendEmail" value="'+ email +'" hidden></input>'+
+                    '</div>'+
+                    '</div>'+
+                    '<div class="uk-width-auto">'+
+                    '<button name="sendMessage" class="uk-button-primary" type="submit" >Send</button>'+
+                    '</div>'+
+                    '</div>'+
+                    '</form>'+
+                    '</div>'+
+                    '</div>'+
                     '</div>';
 
                 $('#chat-offcanvas').empty();
@@ -168,18 +167,25 @@
     }
 
 
-    function sendMessage(email) {
+    $('#messageSend').submit(function(event) {
+        event.preventDefault();
+        var data =.serialize();
+        console.log(form.serialize());
         $.ajax({
-            url: 'getMessages',
-            type: 'GET',
-            data: {schoolEmail: email},
-            dataType: 'json',
-            contentType: 'application/json',
-            success: function (result) {
+            type: 'POST',
+            url: 'sendMessages',
+            data: JSON.stringify(data),
+            contentType: 'application/json'
+        }).done(function(data) {
 
-            }
+        }).fail(function(data) {
 
-        }
+        });
+        return false;
+    });
+
+
+
 </script>
 <hr class="uk-divider-icon">
 <div class="uk-section uk-section-muted">
@@ -207,7 +213,7 @@
                             Message
                         </button>
                         <%
-                        } else if (conversations.get(i).getUser2().getUserID() == usr.getUserID()) {
+                        }else if (conversations.get(i).getUser2().getUserID() == usr.getUserID()) {
                         %>
                         <span><%=conversations.get(i).getUser2().getUsername()%></span>
                         <button class="uk-button uk-button-default uk-position-right"
@@ -248,20 +254,16 @@
         <a onClick="updateConversation();"><span uk-icon="icon: reply"></span></a>
         <h2>Username</h2>
         <hr class="uk-divider">
-        <div class="uk-card uk-card-default uk-border-rounded uk-margin-large-top uk-panel-scrollable uk-margin-small-left uk-margin-small-right uk-height-max-large"
-             style="height:100%;">
+        <div class="uk-card uk-card-default uk-border-rounded uk-margin-large-top uk-panel-scrollable uk-margin-small-left uk-margin-small-right uk-height-max-large" style="height:100%;">
             <div class="uk-card-body uk-padding-small">
 
                 <div class="guest uk-grid-small uk-flex-bottom uk-flex-left" uk-grid>
                     <div class="uk-width-auto">
                         <div class="uk-width-auto uk-margin-remove">
-                            <img class="uk-border-circle" width="32" height="32"
-                                 src="https://getuikit.com/docs/images/avatar.jpg">
+                            <img class="uk-border-circle" width="32" height="32" src="https://getuikit.com/docs/images/avatar.jpg">
                         </div>
                         <div class="uk-card uk-card-body uk-card-small uk-card-default uk-border-rounded">
-                            <div class="uk-panel uk-panel-box uk-text-break uk-margin-remove">Wassup whats going on Home
-                                whats up
-                            </div>
+                            <div class="uk-panel uk-panel-box uk-text-break uk-margin-remove">Wassup whats going on Home whats up</div>
                         </div>
                         <div class="uk-text-small">10:50 AM</div>
 
@@ -271,14 +273,11 @@
                 <div class="me uk-grid-small uk-flex-bottom uk-flex-right uk-text-right" uk-grid>
                     <div class="uk-width-auto uk-margin-remove">
                         <div class="uk-card uk-card-body uk-card-small uk-card-primary uk-border-rounded">
-                            <div class="uk-panel uk-panel-box uk-text-break uk-margin-remove">Hey whats going on home.
-                                What you doing?
-                            </div>
+                            <div class="uk-panel uk-panel-box uk-text-break uk-margin-remove">Hey whats going on home. What you doing? </div>
                         </div>
                         <div class="uk-text-small">10:50 AM</div>
                         <div class="uk-width-auto">
-                            <img class="uk-border-circle" width="32" height="32"
-                                 src="https://getuikit.com/docs/images/avatar.jpg">
+                            <img class="uk-border-circle" width="32" height="32" src="https://getuikit.com/docs/images/avatar.jpg">
                         </div>
                     </div>
 
@@ -290,8 +289,7 @@
             <div class="uk-grid-small uk-flex-middle" uk-grid>
                 <div class="uk-width-expand">
                     <div class="uk-padding-small uk-padding-remove-horizontal">
-                        <input class="uk-input uk-width-1-2 uk-padding-remove uk-border-remove" rows="1"
-                               placeholder="Send a Message"></input>
+                        <input class="uk-input uk-width-1-2 uk-padding-remove uk-border-remove" rows="1" placeholder="Send a Message"></input>
                     </div>
                 </div>
                 <div class="uk-width-auto">
