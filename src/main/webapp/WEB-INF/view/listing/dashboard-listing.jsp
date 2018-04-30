@@ -8,6 +8,9 @@
             </li>
             <li><a href="#" uk-icon="icon: copy"></a></li>
             <li><a href="#" uk-icon="icon: trash"></a></li>
+            <c:if test="${listing.type=='auction'}">
+            <li><button uk-toggle="target: #modal${listing.id}" uk-icon="icon: refresh" type="button"></button></li>
+            </c:if>
         </ul>
     </div>
     <div class="uk-card uk-card-default uk-float-left uk-box-shadow-hover-large" style="height: auto; width: 80%">
@@ -113,3 +116,38 @@
         </div>
     </div>
 </div>
+<c:if test="${listing.type=='auction'}">
+<div id="modal${listing.id}" uk-modal>
+    <div class="uk-modal-dialog">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="uk-modal-header">
+            <h2 class="uk-modal-title">Relist a Listing</h2>
+        </div>
+        <form method="post" action="/relistListing">
+        <div class="uk-modal-body">
+            <div class="uk-width-1-2@m uk-width-1-1@s" id="dateEnd">
+                <strong>Change End Date</strong><input type="date"
+                                                class="uk-input" id="endDate"
+                                                name="endDate"
+                                                placeholder="End Date"  min="">
+            </div>
+            <div class="uk-width-1-2@m uk-width-1-1@s" id="timeEnd">
+                <strong>Change End Time</strong><input type="time"
+                                                class="uk-input" id="endTime"
+                                                name="endTime"
+                                                placeholder="End Time">
+            </div>
+
+            <input type="number" value="${listing.id}" name="listingId" hidden>
+
+        </div>
+        <div class="uk-modal-footer uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+            <button class="uk-button uk-button-primary" type="submit">Save</button>
+        </div>
+        </form>
+    </div>
+</div>
+</c:if>
+
+

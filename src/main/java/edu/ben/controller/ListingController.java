@@ -936,4 +936,34 @@ public class ListingController extends BaseController {
 
         return json.toString();
     }
+
+    @RequestMapping(value = "/relistListing", method = RequestMethod.POST)
+    public String uploadFileHandler(@RequestParam("endTime") String endTime,
+                                    @RequestParam("endDate") String endDate,
+                                    @RequestParam("listingId") int listingId,
+                                    HttpServletRequest request) {
+        User u = (User) request.getSession().getAttribute("user");
+        Listing l = listingService.getByListingID(listingId);
+        Timestamp endTimestamp;
+
+        // Get year, month, day, hour, and minutes from endDate and endTime
+        int year = Integer.parseInt(endDate.substring(0, 4));
+        // Timestamp adds an extra month
+        int mon = Integer.parseInt(endDate.substring(5, 7)) - 1;
+        int day = Integer.parseInt(endDate.substring(8, 10));
+        int hours = Integer.parseInt(endTime.substring(0, 2));
+        int min = Integer.parseInt(endTime.substring(3, 5));
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, mon, day, hours, min, 0);
+        endTimestamp = new Timestamp((calendar.getTimeInMillis()));
+
+        l.setEndTimestamp(endTimestamp);
+        l.setActive(1);
+        l.setStartTimestamp(null);
+
+        listingService.saveOrUpdate(l);
+        return "redirect:/dashboard";
+    }
+
 }
