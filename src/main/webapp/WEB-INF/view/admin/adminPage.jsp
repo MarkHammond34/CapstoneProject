@@ -374,7 +374,7 @@
                             <div class="uk-grid-margin-medium uk-flex-middle" uk-grid>
                                 <div class="uk-width-auto">
                                     <img class="profile-pic uk-border-circle" width="40" height="40"
-                                         src="${pageContext.request.contextPath}/resources/img/profile-pic/default.jpeg">
+                                         src="${pageContext.request.contextPath}/directory/${member.getMainImage()}">
                                 </div>
                                 <div>
                                     <h5 class="uk-margin-remove-bottom">${member.firstName} ${member.lastName}</h5>

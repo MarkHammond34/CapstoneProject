@@ -23,8 +23,8 @@ public class UserDAOImpl implements UserDAO {
 
     @SuppressWarnings("unchecked")
     public List<User> getAllUsers() {
-        Criteria criteria = getSession().createCriteria(User.class);
-        return (List<User>) criteria.list();
+        Query q = getSession().createQuery("From user");
+        return q.list();
     }
 
     public int save(User user) {
