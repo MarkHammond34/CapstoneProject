@@ -78,6 +78,12 @@ public class NewsDAOImpl implements NewsDAO {
 	}
 
 	@Override
+	public News getArticleByType(String type) {
+		Query q = getSession().createQuery("From news WHERE displayType='" + type +"'");
+		return (News) q.uniqueResult();
+	}
+
+	@Override
 	public List getAllArticles() {
 		Query q = getSession().createQuery("FROM news");
 

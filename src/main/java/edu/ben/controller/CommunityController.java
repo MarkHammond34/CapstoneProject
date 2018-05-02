@@ -215,6 +215,18 @@ public class CommunityController extends BaseController {
         SalesTraffic s = new SalesTraffic("Community_Page");
         trafficService.create(s);
 
+        ArrayList<News> displayArticles = (ArrayList<News>)newsService.getAllDisplayedArticles();
+        System.out.println("Display Articles: " + displayArticles.size());
+
+        ArrayList<Video> displayVideos = (ArrayList<Video>) videoService.getDisplayVideos();
+        request.setAttribute("displayVideos", displayVideos);
+
+        System.out.println("Display Videos: " + displayVideos.get(1).getVideoPath());
+        System.out.println("Display Videos: " + displayVideos.size());
+
+        request.setAttribute("displayArticles", displayArticles);
+        displayArticles.get(0).getImagePath();
+
         return model;
     }
 
@@ -471,6 +483,18 @@ public class CommunityController extends BaseController {
 
         request.setAttribute("newsArticlesJson", results);
 
+        ArrayList<Video> video = (ArrayList<Video>) videoService.getAllVideos();
+
+        JsonArray allVideos = new JsonArray();
+
+        request.setAttribute("allVideos", video);
+
+
+        JsonArray results2 = convertVideoToJson(video, allVideos);
+        System.out.println("JSON videos: " + results.size());
+
+        request.setAttribute("videosJson", results2);
+
         return model;
 
     }
@@ -484,6 +508,22 @@ public class CommunityController extends BaseController {
             json.addProperty("description", String.valueOf(news.get(i).getDescription()));
             json.addProperty("displayType", String.valueOf(news.get(i).getDisplayType()));
             json.addProperty("date", String.valueOf(news.get(i).getDateCreated()));
+
+            results.add(json);
+
+        }
+        return results;
+    }
+
+    public JsonArray convertVideoToJson(ArrayList<Video> videos, JsonArray results) {
+        for (int i = 0; i < videos.size(); i++) {
+            JsonObject json = new JsonObject();
+
+            json.addProperty("videoID", String.valueOf(videos.get(i).getVideoID()));
+            json.addProperty("title", String.valueOf(videos.get(i).getTitle()));
+            json.addProperty("url", String.valueOf(videos.get(i).getVideoPath()));
+            json.addProperty("type", String.valueOf(videos.get(i).getType()));
+            json.addProperty("date", String.valueOf(videos.get(i).getDateCreated()));
 
             results.add(json);
 
@@ -514,21 +554,5 @@ public class CommunityController extends BaseController {
 
         return "admin/events-news";
     }
-
-    @RequestMapping(value = "/updateNewsNone", method = RequestMethod.GET)
-    public String updateNewsNone(HttpServletRequest request,@RequestParam("type") String type) {
-        System.out.println("Hit update News None");
-        System.out.println("Type: " + type);
-
-        ArrayList<News> allArticles = (ArrayList<News>) newsService.getAllArticles();
-        for (int i = 0; i < allArticles.size(); i++) {
-            if (allArticles.get(i).getDisplayType().equals(type)) {
-                allArticles.get(i).setDisplayType("none");
-                newsService.saveOrUpdate(allArticles.get(i));
-            }
-        }
-        return "admin/events-news";
-    }
-
 
 }

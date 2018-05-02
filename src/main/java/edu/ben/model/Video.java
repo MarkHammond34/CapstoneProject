@@ -25,6 +25,9 @@ public class Video {
     @Column(name = "date_created")
     private Timestamp dateCreated;
 
+    @Column(name = "type")
+    private String type;
+
     public Video() {
 
     }
@@ -77,5 +80,13 @@ public class Video {
 
     public void setDateCreated(Timestamp dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

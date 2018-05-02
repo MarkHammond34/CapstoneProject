@@ -14,6 +14,10 @@ public interface VideoService {
 
     public void create(Video video);
 
+    public Video getVideoByID(int id);
+
+    public List getDisplayVideos();
+
     public Video getNewestVideo();
 
 }

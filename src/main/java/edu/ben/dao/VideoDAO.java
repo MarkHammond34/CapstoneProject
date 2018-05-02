@@ -15,4 +15,10 @@ public interface VideoDAO {
     public void create(Video video);
 
     public Video getNewestVideo();
+
+    public Video getVideoByID(int id);
+
+    public Video getVideoByType(String type);
+
+
 }

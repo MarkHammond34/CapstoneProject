@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import edu.ben.dao.NewsDAO;
 import edu.ben.model.News;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -62,6 +63,20 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public List sortNewsArticlesByNameASC() {
         return nd.sortNewsByDateASC();
+    }
+
+    @Override
+    public List getAllDisplayedArticles() {
+        ArrayList<News> displayArticles = new ArrayList<>();
+        displayArticles.add(nd.getArticleByType("main1"));
+        displayArticles.add(nd.getArticleByType("main2"));
+        displayArticles.add(nd.getArticleByType("main3"));
+        displayArticles.add(nd.getArticleByType("feature1"));
+        displayArticles.add(nd.getArticleByType("feature2"));
+        displayArticles.add(nd.getArticleByType("feature3"));
+        displayArticles.add(nd.getArticleByType("feature4"));
+
+        return displayArticles;
     }
 
     @Override

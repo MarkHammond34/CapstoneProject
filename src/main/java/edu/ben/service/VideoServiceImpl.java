@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,6 +38,20 @@ public class VideoServiceImpl implements VideoService{
     @Override
     public void create(Video video) {
         videoDAO.create(video);
+    }
+
+    @Override
+    public Video getVideoByID(int id) {
+        return videoDAO.getVideoByID(id);
+    }
+
+    @Override
+    public List getDisplayVideos() {
+        ArrayList<Video> displayVideos = new ArrayList<>();
+        displayVideos.add(videoDAO.getVideoByType("video1"));
+        displayVideos.add(videoDAO.getVideoByType("video2"));
+
+        return displayVideos;
     }
 
     @Override

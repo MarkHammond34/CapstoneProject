@@ -103,7 +103,40 @@
         })
 
 
+    }
 
+    function handleChangeVideo(video, videoType) {
+        var split = video.value.split(",");
+
+        var id = split[0];
+        var newIndex = parseInt(split[1]);
+
+        var videos = ${requestScope.videosJson};
+
+        for (var key in videos) {
+            var index = parseInt(key);
+            if (videos[key].type == videoType) {
+                document.getElementById("video1").options[index].disabled = false;
+                document.getElementById("video2").options[index].disabled = false;
+
+                document.getElementById(videoType).selectedIndex = newIndex;
+                document.getElementById("video1").options[newIndex].disabled = true;
+                document.getElementById("video2").options[newIndex].disabled = true;
+
+            } else {
+                document.getElementById(videoType).selectedIndex = newIndex;
+                document.getElementById("video1").options[newIndex].disabled = true;
+                document.getElementById("video2").options[newIndex].disabled = true;
+
+
+            }
+            index++;
+        }
+        $.ajax({
+            type: 'GET',
+            url: 'updateVideo',
+            data: {"videoID": id, "type": videoType},
+        })
 
     }
 
@@ -111,6 +144,8 @@
         var articles = allArticles;
 
         var jsonArray = ${requestScope.newsArticlesJson};
+
+        var videos = ${requestScope.videosJson};
 
         var counter = 0;
         for (var key in jsonArray) {
@@ -186,6 +221,18 @@
                 document.getElementById("feature1").options[index].disabled = true;
                 document.getElementById("feature2").options[index].disabled = true;
                 document.getElementById("feature3").options[index].disabled = true;
+            }
+        }
+
+        for (var key in videos) {
+            var index = parseInt(key);
+
+            if (videos[key].type == 'video1') {
+                document.getElementById("video1").selectedIndex = index;
+                document.getElementById("video2").options[index].disabled = true;
+            } else if (videos[key].type == 'video2') {
+                document.getElementById("video2").selectedIndex = index;
+                document.getElementById("video1").options[index].disabled = true;
             }
         }
 

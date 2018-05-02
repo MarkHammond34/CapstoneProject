@@ -21,5 +21,7 @@ public interface NewsDAO {
 
 	public News getArticleByID(int id);
 
+	public News getArticleByType(String type);
+
 	public List getAllArticles();
 }

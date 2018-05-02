@@ -49,4 +49,18 @@ public class VideoDAOImpl implements VideoDAO  {
 
         return (Video) q.uniqueResult();
     }
+
+    @Override
+    public Video getVideoByID(int id) {
+        Query q = getSession().createQuery("FROM video WHERE videoID=" + id);
+
+        return (Video) q.uniqueResult();
+    }
+
+    @Override
+    public Video getVideoByType(String type) {
+        Query q = getSession().createQuery("FROM video WHERE type='" + type +"'");
+
+        return (Video) q.uniqueResult();
+    }
 }

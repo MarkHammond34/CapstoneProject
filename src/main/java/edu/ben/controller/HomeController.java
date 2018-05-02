@@ -157,7 +157,7 @@ public class HomeController extends BaseController {
 		request.setAttribute("allfavorites", favorites);
 
 
-		JsonArray results = convertNewsToJson(f, favorites);
+		JsonArray results = convertFavoriteToJson(f, favorites);
 		System.out.println("JSON News Articles: " + results.size());
 
 		request.setAttribute("favoritedListings", results);
@@ -171,7 +171,7 @@ public class HomeController extends BaseController {
 	}
 
 
-	public JsonArray convertNewsToJson(ArrayList<Favorite> favorites, JsonArray results) {
+	public JsonArray convertFavoriteToJson(ArrayList<Favorite> favorites, JsonArray results) {
 		for (int i = 0; i < favorites.size(); i++) {
 			JsonObject json = new JsonObject();
 

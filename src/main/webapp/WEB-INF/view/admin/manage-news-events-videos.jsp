@@ -63,7 +63,7 @@
     <div class="uk-container">
         <div uk-grid>
             <div class="uk-width-1-1">
-                <table class="uk-table uk-table-hover uk-table-divider">
+                <table class="uk-table uk-table-hover uk-table-divider uk-table-striped">
                     <thead>
                     <tr>
                         <th>Feature Article 1</th>
@@ -135,7 +135,7 @@
         </div>
         <div uk-grid>
             <div class="uk-width-1-1">
-                <table class="uk-table uk-table-hover uk-table-divider">
+                <table class="uk-table uk-table-hover uk-table-divider uk-table-striped">
                     <thead>
                     <tr>
                         <th>Video 1</th>
@@ -146,22 +146,22 @@
                     <tr>
                         <td><label class="uk-form-label" for="video1"></label>
                             <div class="uk-form-controls">
-                                <select name="select" class="uk-select" id="video1">
-                                    <option>None</option>
-                                    <c:forEach var="article" items="${allArticles}" varStatus="loop">
-                                        <option id="${article.newsID}"
-                                                value="${article.newsID}">${article.title}</option>
+                                <select name="select" class="uk-select" id="video1"
+                                        onchange="handleChangeVideo(this,'video1')">
+                                    <c:forEach var="video" items="${allVideos}" varStatus="loop">
+                                        <option id="${video.videoID}"
+                                                value="${video.videoID},${loop.index}">${video.title}</option>
                                     </c:forEach>
                                 </select>
                             </div>
                         </td>
                         <td><label class="uk-form-label" for="video2"></label>
                             <div class="uk-form-controls">
-                                <select name="select" class="uk-select" id="video2">
-                                    <option> None</option>
-                                    <c:forEach var="article" items="${allArticles}" varStatus="loop">
-                                        <option id="${article.newsID}"
-                                                value="${article.newsID}">${article.title}</option>
+                                <select name="select" class="uk-select" id="video2"
+                                        onchange="handleChangeVideo(this,'video2')">
+                                    <c:forEach var="video" items="${allVideos}" varStatus="loop">
+                                        <option id="${video.videoID}"
+                                                value="${video.videoID},${loop.index}">${video.title}</option>
                                     </c:forEach>
                                 </select>
                             </div>

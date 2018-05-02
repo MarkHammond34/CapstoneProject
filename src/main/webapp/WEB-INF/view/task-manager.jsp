@@ -570,7 +570,7 @@
                                                                 <c:if test="${task.taskID == admin.getTask().getTaskID()}">
                                                                     <img class="profile-pic uk-border-circle uk-padding-small uk-margin-left"
                                                                          uk-tooltip="${admin.getUser().getFirstName()} ${admin.getUser().getLastName()}"
-                                                                         src="">
+                                                                         src="${pageContext.request.contextPath}/directory/${admin.getUser().getMainImage()}">
                                                                 </c:if>
                                                             </c:forEach>
                                                         </div>

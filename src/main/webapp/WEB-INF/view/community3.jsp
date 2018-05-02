@@ -25,32 +25,26 @@
 
                             <li class="uk-border-rounded">
                                 <img alt=""
-                                     src="https://picsum.photos/600/800/?image=122"
+                                     src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(0).getImagePath()}"
                                      uk-cover>
                                 <div class="uk-overlay uk-overlay-primary uk-position-top">
-                                    <p class="uk-text-center">Default Lorem ipsum dolor sit amet, consectetur
-                                        adipiscing
-                                        elit... <a href="#">View more</a></p>
+                                    <p class="uk-text-center">${displayArticles.get(0).description} ... <a href="#">View more</a></p>
                                 </div>
                             </li>
                             <li class="uk-border-rounded">
                                 <img alt=""
-                                     src="https://picsum.photos/600/800/?image=65"
+                                     src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(1).getImagePath()}"
                                      uk-cover>
                                 <div class="uk-overlay uk-overlay-primary uk-position-top">
-                                    <p class="uk-text-center">Default Lorem ipsum dolor sit amet, consectetur
-                                        adipiscing
-                                        elit... <a href="#">View more</a></p>
+                                    <p class="uk-text-center">${displayArticles.get(1).description} ... <a href="#">View more</a></p>
                                 </div>
                             </li>
                             <li class="uk-border-rounded">
                                 <img alt=""
-                                     src="https://picsum.photos/600/800/?image=0"
+                                     src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(2).getImagePath()}"
                                      uk-cover>
                                 <div class="uk-overlay uk-overlay-primary uk-position-top">
-                                    <p class="uk-text-center">Default Lorem ipsum dolor sit amet, consectetur
-                                        adipiscing
-                                        elit... <a href="#">View more</a></p>
+                                    <p class="uk-text-center">${displayArticles.get(2).description} ... <a href="#">View more</a></p>
                                 </div>
                             </li>
                         </ul>
@@ -102,11 +96,9 @@
                             <div class="uk-border-rounded uk-display-inline"
                                  style="height: 250px; width: 320px; overflow: hidden">
                                 <img alt=""
-                                     src="https://picsum.photos/1200/1000?image=1">
+                                     src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(3).getImagePath()}">
                             </div>
-                            <p class="uk-text-center">Default Lorem ipsum dolor sit amet, consectetur
-                                adipiscing
-                                elit... <a href="#">View more</a></p>
+                            <p class="uk-text-center">${displayArticles.get(3).description} ... <a href="#">View more</a></p>
                         </div>
                     </div>
                     <div class="uk-width-1-2@s uk-border-rounded">
@@ -114,12 +106,10 @@
                             <div class="uk-border-rounded uk-display-inline"
                                  style="height: 250px; width: 320px; overflow: hidden">
                                 <img alt=""
-                                     src="https://picsum.photos/1200/1000?image=9">
+                                     src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(4).getImagePath()}">
 
                             </div>
-                            <p class="uk-text-center">Default Lorem ipsum dolor sit amet, consectetur
-                                adipiscing
-                                elit... <a href="#">View more</a></p>
+                            <p class="uk-text-center">${displayArticles.get(4).description} ... <a href="#">View more</a></p>
                         </div>
                     </div>
                 </div>
@@ -130,11 +120,9 @@
                             <div class="uk-display-inline uk-border-rounded"
                                  style="height: 250px; width: 320px; overflow: hidden">
                                 <img alt=""
-                                     src="https://picsum.photos/1232/1000?image=19">
+                                     src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(5).getImagePath()}">
                             </div>
-                            <p class="uk-text-center">Default Lorem ipsum dolor sit amet, consectetur
-                                adipiscing
-                                elit... <a href="#">View more</a></p>
+                            <p class="uk-text-center">${displayArticles.get(5).description} ... <a href="#">View more</a></p>
                         </div>
 
                     </div>
@@ -143,11 +131,9 @@
                             <div class="uk-border-rounded uk-display-inline"
                                  style="height: 250px; width: 320px; overflow: hidden">
                                 <img alt=""
-                                     src="https://picsum.photos/1200/1000?image=5">
+                                     src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(6).getImagePath()}">
                             </div>
-                            <p class="uk-text-center">Default Lorem ipsum dolor sit amet, consectetur
-                                adipiscing
-                                elit... <a href="#">View more</a></p>
+                            <p class="uk-text-center">${displayArticles.get(6).description} ... <a href="#">View more</a></p>
 
                         </div>
                     </div>
@@ -196,7 +182,7 @@
             <p><a href="${pageContext.request.contextPath}/allVideos">View All</a></p>
             <div class="uk-child-width-1-2@m uk-grid-small uk-grid-match" uk-grid>
                 <div>
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/yzlLspaUaBw" frameborder="0"
+                    <iframe width="560" height="315" src="${displayVideos.get(0).getVideoPath()}" frameborder="0"
                             allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
                     <br>
@@ -204,7 +190,7 @@
                     <p class="author"><span>${videoDate}</span></p>
                 </div>
                 <div>
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/tYhI4f0vlvc" frameborder="0"
+                    <iframe width="560" height="315" src="${displayVideos.get(1).getVideoPath()}" frameborder="0"
                             allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
                     <br>

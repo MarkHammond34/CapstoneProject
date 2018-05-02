@@ -163,7 +163,7 @@
                                         </script>
                                         <img class="profile-pic uk-border-circle"
                                              style="height: 60px; width: 60px; overflow: hidden"
-                                             src="${pageContext.request.contextPath}/directory/${admin.mainImagePath()}">
+                                             src="${pageContext.request.contextPath}/directory/${admin.getMainImage()}">
                                     </div>
                                     <div>
                                         <h5 class="uk-margin-remove-bottom">${admin.firstName} ${admin.lastName}</h5>
@@ -370,7 +370,7 @@
                                 <div class="uk-width-auto">
                                     <img class="profile-pic uk-border-circle"
                                          style="height: 60px; width: 60px; overflow: hidden"
-                                         src="${pageContext.request.contextPath}/directory/${member.mainImagePath()}">
+                                         src="${pageContext.request.contextPath}/directory/${member.getMainImage()}">
                                 </div>
                                 <div>
                                     <h5 class="uk-margin-remove-bottom">${member.firstName} ${member.lastName}</h5>

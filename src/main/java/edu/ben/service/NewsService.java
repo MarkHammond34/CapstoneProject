@@ -21,5 +21,7 @@ public interface NewsService {
 
 	public List sortNewsArticlesByNameASC();
 
+	public List getAllDisplayedArticles();
+
 	public List sortNewsArticlesByNameDESC();
 }

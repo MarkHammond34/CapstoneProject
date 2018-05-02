@@ -34,8 +34,9 @@
             <div class=" uk-child-width-1-6@m uk-grid-small uk-grid-match" uk-grid>
                 <c:forEach var="category" items="${categories}" varStatus="loop">
                     <div class="item uk-animation">
-                        <a href="/categorySearch?search=${category.category}"><img class="category-pic uk-border-circle uk-box-shadow-hover-xlarge"
-                                         src="${pageContext.request.contextPath}/resources/img/category/${category.image}"></a>
+                        <a href="/categorySearch?search=${category.category}"><img
+                                class="category-pic uk-border-circle uk-box-shadow-hover-xlarge"
+                                src="${pageContext.request.contextPath}/resources/img/category/${category.image}"></a>
                         <span class="caption">${category.category}</span>
                     </div>
 
@@ -241,8 +242,15 @@
     function findFavorites() {
         var jsonArray = ${requestScope.favoritedListings};
 
+        var userID = ${sessionScope.user.userID};
+        console.log(userID);
+
         for (var key in jsonArray) {
-            document.getElementById(jsonArray[key].listingID + 'unwatch').style = "inline";
+            if (jsonArray[key].userID == userID) {
+                console.log("Hit");
+                document.getElementById(jsonArray[key].listingID + 'unwatch').style = "inline";
+            }
+
         }
     }
 
