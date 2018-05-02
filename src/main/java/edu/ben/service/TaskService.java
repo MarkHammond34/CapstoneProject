@@ -14,4 +14,7 @@ public interface TaskService {
     public List getAllTasks();
 
     public Task getAllTasksByTaskID(int id);
+
+    public List getAllTasksPerUser(int id);
+
 }

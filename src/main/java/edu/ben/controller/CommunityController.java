@@ -432,14 +432,41 @@ public class CommunityController extends BaseController {
     public ModelAndView viewEventsNews(HttpServletRequest request) {
         ModelAndView model = new ModelAndView("admin/events-news");
 
-        ArrayList<News> allArticles = (ArrayList<News>) newsService.getAllArticles();
+        ArrayList<News> news = (ArrayList<News>) newsService.getAllArticles();
+
+        int count = 0;
+        for (int i = 0; i < 8; i++) {
+            if (news.get(i).getDisplayType() == null) {
+                count++;
+            }
+            System.out.println(news.get(i).getTitle());
+        }
+        System.out.println("Count :" + count);
+
+        if (count >= 7 ) {
+            System.out.println("Hit count");
+            news.get(0).setDisplayType("main1");
+            newsService.saveOrUpdate(news.get(0));
+            news.get(1).setDisplayType("main2");
+            newsService.saveOrUpdate(news.get(1));
+            news.get(2).setDisplayType("main3");
+            newsService.saveOrUpdate(news.get(2));
+            news.get(3).setDisplayType("feature1");
+            newsService.saveOrUpdate(news.get(3));
+            news.get(4).setDisplayType("feature2");
+            newsService.saveOrUpdate(news.get(4));
+            news.get(5).setDisplayType("feature3");
+            newsService.saveOrUpdate(news.get(5));
+            news.get(6).setDisplayType("feature4");
+            newsService.saveOrUpdate(news.get(6));
+        }
 
         JsonArray newsArticles = new JsonArray();
 
-        request.setAttribute("allArticles", allArticles);
+        request.setAttribute("allArticles", news);
 
 
-        JsonArray results = convertNewsToJson(allArticles, newsArticles);
+        JsonArray results = convertNewsToJson(news, newsArticles);
         System.out.println("JSON News Articles: " + results.size());
 
         request.setAttribute("newsArticlesJson", results);
@@ -475,6 +502,8 @@ public class CommunityController extends BaseController {
         for (int i = 0; i < allArticles.size(); i++) {
             if (allArticles.get(i).getDisplayType().equals(type)) {
                 allArticles.get(i).setDisplayType("none");
+                n.setDisplayType(type);
+                newsService.saveOrUpdate(n);
                 newsService.saveOrUpdate(allArticles.get(i));
             }
         }

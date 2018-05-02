@@ -12,11 +12,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -131,7 +133,6 @@ public class AdminController extends BaseController {
 
             String lastWeekByHour = new SimpleDateFormat("dd").format(lastWeekHours.getTime());
 
-            System.out.println("Hour Day: " + currentDay);
 
             String lastWeekDate = currentYear + "-" + currentMonth + "-" + lastWeekByHour;
             String date = currentYear + "-" + currentMonth + "-" + currentDay;
@@ -171,8 +172,6 @@ public class AdminController extends BaseController {
             long temp = revenueService.getWeeklyRevenue(currentWeek);
             long temp2 = revenueService.getWeeklyRevenue(lastWeekDate);
 
-            System.out.println("This Week: " + currentWeek);
-            System.out.println("Last Week: " + lastWeekDate);
 
             Integer dailySale = (int) (long) temp;
             Integer lastWeekDailySale = (int) (long) temp2;
@@ -202,8 +201,6 @@ public class AdminController extends BaseController {
 
             Integer monthlySale = (int) (long) monthlyRevenue;
             Integer lastYearMonthlySale = (int) (long) lastYearMonthlyRevenue;
-
-            System.out.println("Last Month Sales: " + lastYearMonthlyRevenue);
 
             lastSalesPerMonth.add(lastYearMonthlySale);
             salesPerMonth.add(monthlySale);
@@ -244,29 +241,23 @@ public class AdminController extends BaseController {
         for (int i = 0; i < pages.length; i++) {
 
             String currentDayFormat = currentYear + "-" + currentMonth + "-" + currentDay;
-            String beginningOfWeekFormat =  currentYear + "-" + currentMonth + "-" + beginningOfWeek;
-            String endOfWeekFormat =  currentYear + "-" + currentMonth + "-" + endOfWeek;
-            String monthFormat =  currentYear + "-" + currentMonth;
+            String beginningOfWeekFormat = currentYear + "-" + currentMonth + "-" + beginningOfWeek;
+            String endOfWeekFormat = currentYear + "-" + currentMonth + "-" + endOfWeek;
+            String monthFormat = currentYear + "-" + currentMonth;
 
             long trafficDayCount = trafficService.getCountByPageByDay(pages[i], currentDayFormat);
             long trafficWeekCount = trafficService.getCountByPageByWeek(pages[i], beginningOfWeekFormat, endOfWeekFormat);
             long trafficMonthCount = trafficService.getCountByPageByMonth(pages[i], monthFormat);
             long trafficYearCount = trafficService.getCountByPageByYear(pages[i], currentYear);
 
-            Integer dayCount = (int)(long) trafficDayCount;
+            Integer dayCount = (int) (long) trafficDayCount;
             dailyCount.add(dayCount);
-            Integer weekCount = (int)(long) trafficWeekCount;
+            Integer weekCount = (int) (long) trafficWeekCount;
             weeklyCount.add(weekCount);
-            Integer monthCount = (int)(long) trafficMonthCount;
+            Integer monthCount = (int) (long) trafficMonthCount;
             monthlyCount.add(monthCount);
-            Integer yearCount = (int)(long) trafficYearCount;
+            Integer yearCount = (int) (long) trafficYearCount;
             yearlyCount.add(yearCount);
-
-            System.out.println("current Day: " + currentDay + " - " + dayCount);
-            System.out.println("Current Week: " + beginningOfWeek + "-" + endOfWeek + " - " + weekCount);
-            System.out.println("current month: " + currentMonth + " - " + monthCount);
-            System.out.println("current year: " + currentYear + " - " + yearCount);
-
 
         }
 
@@ -284,20 +275,43 @@ public class AdminController extends BaseController {
         request.setAttribute("yearlyCount", yearlyCount);
 
 
-
-        List<User> recentUsers = userService.getRecentUsers();
+        List<User> recentUsers = userService.getAllUsers();
         List<User> getAllMembers = userService.getAllUsers();
+        List<String> memberDateCreated = new ArrayList<>();
+
+        for (int i = 0; i < getAllMembers.size(); i++) {
+            Calendar cal = Calendar.getInstance();
+
+            Timestamp t = (Timestamp) getAllMembers.get(i).getDateCreated();
+
+            Date date = new Date(t.getTime());
+
+            cal.setTime(date);
+
+            String userMonth = getMonth2(cal.get(Calendar.MONTH));
+            String userYear = new SimpleDateFormat("YYYY").format(cal.getTime());
+            String userDay = new SimpleDateFormat("dd").format(cal.getTime());
+
+            String currentUserDate = currentMonth + " " + userDay + ", " + userYear;
+
+            memberDateCreated.add(currentUserDate);
+
+            System.out.println("User created on: " + currentUserDate);
+        }
+        System.out.println("All Members: " + getAllMembers.size());
         List<Listing> recentListings = listingService.getRecentListings();
         ArrayList<User> admins = (ArrayList<User>) userService.getAllAdmins();
         ArrayList<String> status = new ArrayList<>();
         ArrayList<Task> tasks = (ArrayList<Task>) taskService.getAllTasks();
 
-        for (int i = 0; i < recentUsers.size(); i++) {
-            if (recentUsers.get(i).getAdminLevel() < 10 && recentUsers.get(i).getAdminLevel() > 0) {
+
+        for (int i = 0; i < admins.size(); i++) {
+            System.out.println("Name: " + admins.get(i).getFirstName() + " Admin Lvel: " + admins.get(i).getAdminLevel() );
+            if (admins.get(i).getAdminLevel() == 0) {
                 status.add("Customer");
-            } else if (recentUsers.get(i).getAdminLevel() >= 10 && recentUsers.get(i).getAdminLevel() < 20) {
+            } else if (admins.get(i).getAdminLevel() == 10) {
                 status.add("Low-Level Admin");
-            } else if (recentUsers.get(i).getAdminLevel() >= 20 && recentUsers.get(i).getAdminLevel() < 30) {
+            } else if (admins.get(i).getAdminLevel() == 20) {
                 status.add("Mid-Level Admin");
             } else {
                 status.add("High-Level Admin");
@@ -309,8 +323,34 @@ public class AdminController extends BaseController {
         request.getSession().setAttribute("admins", admins);
         request.getSession().setAttribute("status", status);
         request.getSession().setAttribute("tasks", tasks);
+        request.setAttribute("userDate", memberDateCreated);
 
         System.out.println("Member Size: " + getAllMembers.size());
+
+        ArrayList<User> activeUsers = (ArrayList<User>) userService.getActiveUsers();
+        request.setAttribute("activeUsers", activeUsers);
+
+        ArrayList<Listing> activeListings = (ArrayList<Listing>) listingService.getActiveListings();
+        System.out.println("Active Listings: " + activeListings.size());
+        request.setAttribute("activeListings", activeListings);
+
+        Calendar c = Calendar.getInstance();
+
+        String d = new SimpleDateFormat("dd").format(c.getTime());
+        String m = getMonth2(c.get(Calendar.MONTH));
+        String y = new SimpleDateFormat("YYYY").format(c.getTime());
+
+        String dFormat = y+"-"+ m + "-" + d;
+        System.out.println(dFormat);
+
+        long dailyRevenue = revenueService.getWeeklyRevenue(dFormat);
+
+        Integer dRev = (int) (long) dailyRevenue;
+        System.out.println("Daily Revenue: " + dRev);
+
+        request.setAttribute("dailyRevenue", dRev);
+
+
         return "admin/adminPage";
     }
 
@@ -1097,10 +1137,23 @@ public class AdminController extends BaseController {
 
     @RequestMapping(value = "taskManager", method = RequestMethod.GET)
     public String taskPage(HttpServletRequest request) {
+        User u = (User) request.getSession().getAttribute("user");
         ArrayList<User> admins = (ArrayList<User>) userService.getAllAdmins();
         ArrayList<Task> tasks = (ArrayList<Task>) taskService.getAllTasks();
 
         ArrayList<AdminTask> adminTasks = (ArrayList<AdminTask>) adminTaskService.getAllAdminTasks();
+        ArrayList<Task> getAllYourTasks = new ArrayList<>();
+
+        for (int i = 0; i < adminTasks.size(); i++) {
+            if(adminTasks.get(i).getUser().getUserID() == u.getUserID()) {
+               Task t = taskService.getAllTasksByTaskID(adminTasks.get(i).getTask().getTaskID());
+                getAllYourTasks.add(t);
+                System.out.println("Priority: " + t.getPriority());
+            }
+        }
+        System.out.println("All your tasks: " + getAllYourTasks.size());
+
+
 
         System.out.println("Task size: " + tasks.size());
         System.out.println("admins: " + admins.size());
@@ -1108,6 +1161,7 @@ public class AdminController extends BaseController {
         request.setAttribute("admins", admins);
         request.setAttribute("tasks", tasks);
         request.setAttribute("adminTasks", adminTasks);
+        request.setAttribute("yourTasks", getAllYourTasks);
         return "task-manager";
     }
 
@@ -1297,10 +1351,38 @@ public class AdminController extends BaseController {
     String getArticleStatus(HttpServletRequest request) {
         ArrayList<News> news = (ArrayList<News>) newsService.getAllArticles();
 
+        int count = 0;
+        for (int i = 0; i < 8; i++) {
+            if (news.get(i).getDisplayType() == null) {
+                count++;
+            }
+        }
+        System.out.println("Count :" + count);
+
+        if (count >= 7 ) {
+            System.out.println("Hit count");
+            news.get(0).setDisplayType("main1");
+            newsService.saveOrUpdate(news.get(0));
+            news.get(1).setDisplayType("main2");
+            newsService.saveOrUpdate(news.get(1));
+            news.get(2).setDisplayType("main3");
+            newsService.saveOrUpdate(news.get(2));
+            news.get(3).setDisplayType("feature1");
+            newsService.saveOrUpdate(news.get(3));
+            news.get(4).setDisplayType("feature2");
+            newsService.saveOrUpdate(news.get(4));
+            news.get(5).setDisplayType("feature3");
+            newsService.saveOrUpdate(news.get(5));
+            news.get(6).setDisplayType("feature4");
+            newsService.saveOrUpdate(news.get(6));
+        }
+
         JsonArray newsArticles = new JsonArray();
-        System.out.println("JSON News Articles: " + newsArticles.size());
+        System.out.println("JSON News Articles3232: " + newsArticles.size());
 
         convertNewsToJson(news, newsArticles);
+
+
 
         request.setAttribute("newsArticles", newsArticles);
 
@@ -1321,9 +1403,9 @@ public class AdminController extends BaseController {
             results.add(json);
 
 
-
         }
     }
+
     public String getMonth(int month) {
         return new DateFormatSymbols().getMonths()[month - 1];
     }

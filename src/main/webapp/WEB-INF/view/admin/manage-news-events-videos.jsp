@@ -61,8 +61,6 @@
 </div>
 <div class="uk-section-default uk-padding-small">
     <div class="uk-container">
-        <h3>Events</h3>
-        <hr>
         <div uk-grid>
             <div class="uk-width-1-1">
                 <table class="uk-table uk-table-hover uk-table-divider">
@@ -149,7 +147,7 @@
                         <td><label class="uk-form-label" for="video1"></label>
                             <div class="uk-form-controls">
                                 <select name="select" class="uk-select" id="video1">
-                                    <option> None</option>
+                                    <option>None</option>
                                     <c:forEach var="article" items="${allArticles}" varStatus="loop">
                                         <option id="${article.newsID}"
                                                 value="${article.newsID}">${article.title}</option>

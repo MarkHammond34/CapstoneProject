@@ -45,5 +45,10 @@ public class TaskServiceImpl implements TaskService {
         return taskDAO.getAllTasksByTaskID(id);
     }
 
+    @Override
+    public List getAllTasksPerUser(int id) {
+        return taskDAO.getAllTasksPerUser(id);
+    }
+
 
 }

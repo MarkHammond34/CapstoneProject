@@ -1,5 +1,6 @@
 package edu.ben.model;
 
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -320,6 +321,7 @@ public class User {
         this.profileImages = profileImages;
     }
 
+
     public String getTruncatedDate() {
         java.sql.Date date = new java.sql.Date(dateCreated.getTime());
         return new SimpleDateFormat("MM/dd/yyyy").format(date);
@@ -339,5 +341,13 @@ public class User {
         this.tutorial = tutorial;
     }
 
+    public String mainImagePath(){
+        for(int i = 0; i < profileImages.size(); i++){
+            if(profileImages.get(i).getMain() == 1){
+                return profileImages.get(i).getImage_path() + "/" + profileImages.get(i).getImage_name();
+            }
+        }
+        return null;
+    }
 
 }

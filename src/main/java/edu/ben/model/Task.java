@@ -26,6 +26,9 @@ public class Task {
     @Column(name="priority")
     private String priority;
 
+//    @OneToMany
+//    private ArrayList<User>
+
     public Task() {
 
     }

@@ -48,6 +48,8 @@ public interface UserDAO {
 
     public List<User> getDisputeResolvingAdmins();
 
+    public List getActiveUsers();
+
     public List getAllAdmins();
 
 }

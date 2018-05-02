@@ -137,9 +137,9 @@
         </c:if>
 
     </div>
-    <div class="uk-container uk-margin-remove-right">
+    <div class="uk-container uk-padding-remove-top uk-margin-remove-right">
         <hr>
-        <div class="uk-section uk-margin-remove-right">
+        <div class="uk-section uk-padding-remove-top uk-margin-remove-right">
             <div class="uk-grid">
                 <div class="uk-width-3-4">
                     <div id="listingSection">
@@ -208,18 +208,18 @@
                                     <div class="uk-grid-large uk-child-width-1-3 uk-text-center"
                                          uk-grid>
                                         <c:forEach var="users" items="${userSearch}">
-                                            <div class="uk-clearfix" style="font-size: 14px;">
-
-                                                <a href="${pageContext.request.contextPath}/viewProfile?userId=${users.userID}"><img
-                                                        class="uk-align-center uk-border-circle"
-                                                        src="<%=request.getContextPath()%>/resources/img/profile-pic/${users.image_path}"
-                                                        width="250" height="250" alt="Border circle"></a>
-                                                <ul class="uk-list">
-                                                    <li class="uk-width-1-1" uk-icon="icon: user">${users.firstName}
-                                                        "${users.username}" ${users.lastName}</li>
-                                                    <li class="uk-width-1-1"
-                                                        uk-icon="icon: mail">${users.schoolEmail}</li>
-                                                </ul>
+                                            <div class="uk-tile uk-padding-small uk-tile-muted uk-width-1-2@m">
+                                                <div class="uk-tile uk-padding-remove-top">
+                                                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                                                        <div class="uk-width-auto">
+                                                            <img class="uk-border-circle"   style="height: 100px; width: 100px; overflow: hidden" src="${pageContext.request.contextPath}/directory/${users.mainImagePath()}">
+                                                        </div>
+                                                        <div class="uk-width-expand">
+                                                            <h3 class="uk-card-title uk-margin-remove-bottom">${users.firstName} ${users.lastName}</h3>
+                                                            <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">${users.username}</time></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </c:forEach>
                                     </div>

@@ -22,6 +22,8 @@
     <spring:url value="resources/js/jquery.js" var="jquery"/>
     <spring:url value="resources/js/uikit-icons.js" var="uikiticons"/>
     <spring:url value="resources/js/Chart.js" var="chart"/>
+    <spring:url value="resources/js/fontawesome-all.js" var="fontAwesomeJS"/>
+    <script defer src="${fontAwesomeJS}"></script>
     <link href="${uikitCSS}" rel="stylesheet"/>
     <script type="text/javascript" src="${uikitJS}"></script>
     <script type="text/javascript" src="${jquery}"></script>
@@ -99,6 +101,10 @@
             background-color: #a59d9d;
             background-image: linear-gradient(138deg, #a59d9d 0%, #ffffff 100%);
 
+        }
+        img {
+            max-width: 100%;
+            max-height: 100%;
         }
     </style>
 

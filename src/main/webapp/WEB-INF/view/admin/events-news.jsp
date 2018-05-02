@@ -45,21 +45,21 @@
 
 
     function handleChangeMain(newsArticle, articleType) {
-        console.log("Hit Servlet")
+        console.log("Hit Servlet");
 
         var article = newsArticle.value.split(",");
 
         var id = article[0];
-        var newIndex = parseInt(article[1]) + 1;
+        var newIndex = parseInt(article[1]);
 
-        var noneIndex;
-        var count = false;
         var type = articleType;
+
+        console.log(type);
 
         var jsonArray = ${requestScope.newsArticlesJson};
 
         for (var key in jsonArray) {
-            var index = parseInt(key) + 1;
+            var index = parseInt(key);
 
             if (jsonArray[key].displayType == type) {
                 document.getElementById("main1").options[index].disabled = false;
@@ -88,19 +88,20 @@
                     document.getElementById("feature2").options[newIndex].disabled = true;
                     document.getElementById("feature3").options[newIndex].disabled = true;
                     document.getElementById("feature4").options[newIndex].disabled = true;
-                }
+
             }
             index++;
 
         }
 
         console.log("Select Index: " + index);
-        if ( type != 'none') {
-            $.ajax({
-                type: 'GET',
-                url: 'updateNews',
-                data: {"newsID": id, "type": type},
-            })
+
+        $.ajax({
+            type: 'GET',
+            url: 'updateNews',
+            data: {"newsID": id, "type": type},
+        })
+
 
 
 
@@ -111,9 +112,9 @@
 
         var jsonArray = ${requestScope.newsArticlesJson};
 
+        var counter = 0;
         for (var key in jsonArray) {
-
-            var index = parseInt(key) + 1;
+            var index = parseInt(key);
 
             if (jsonArray[key].displayType == 'main1') {
                 console.log("Article = main1");
@@ -176,7 +177,7 @@
                 document.getElementById("feature2").options[index].disabled = true;
                 document.getElementById("feature4").options[index].disabled = true;
 
-            } else if (jsonArray[key].displayType == 'feature1') {
+            } else if (jsonArray[key].displayType == 'feature4') {
                 console.log("Article = feature 4");
                 document.getElementById("feature4").selectedIndex = index;
                 document.getElementById("main1").options[index].disabled = true;

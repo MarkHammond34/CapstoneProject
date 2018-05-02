@@ -20,7 +20,7 @@
                     </div>
                     <div class="uk-text-right">
                         <div class="uk-container">
-                            <span class="active-users-number"><strong>20,456</strong></span>
+                            <span class="active-users-number"><strong>${activeUsers.size()}</strong></span>
                             <div>Active Members</div>
                         </div>
                     </div>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="uk-text-right">
                         <div class="uk-container">
-                            <span class="active-users-number"><strong>$6,234.76</strong></span>
+                            <span class="active-users-number"><strong>$${dailyRevenue}</strong></span>
                             <div>Today's Sales</div>
                         </div>
                     </div>
@@ -49,8 +49,8 @@
                         <span uk-icon="icon: image; ratio: 4.5"></span>
                     </div>
                     <div class="uk-text-right">
-                        <div class="uk-container">
-                            <span class="active-users-number"><strong>2,134</strong></span>
+                        <div class="uk-container" style="font-size: 16px;">
+                            <span class="active-users-number"><strong>${activeListings.size()}</strong></span>
                             <div>Active Listings</div>
                         </div>
                     </div>
@@ -76,7 +76,6 @@
                             <li><a href="#">Daily</a></li>
                             <li><a href="#">Monthy</a></li>
                             <li><a href="#">Yearly</a></li>
-
 
 
                         </ul>
@@ -113,7 +112,6 @@
                     <li><a href="#">Yearly</a></li>
 
 
-
                 </ul>
                 <ul class="uk-switcher uk-margin">
                     <li>
@@ -128,7 +126,6 @@
                     <li>
                         <canvas id="yearSite" width="800" height="900"></canvas>
                     </li>
-
 
 
                 </ul>
@@ -162,8 +159,11 @@
                             <td>
                                 <div class="uk-grid-margin-medium uk-flex-middle" uk-grid>
                                     <div class="uk-width-auto">
-                                        <img class="profile-pic uk-border-circle" width="40" height="40"
-                                             src="${pageContext.request.contextPath}/resources/img/profile-pic/default.jpeg">
+                                        <script>
+                                        </script>
+                                        <img class="profile-pic uk-border-circle"
+                                             style="height: 60px; width: 60px; overflow: hidden"
+                                             src="${pageContext.request.contextPath}/directory/${admin.mainImagePath()}">
                                     </div>
                                     <div>
                                         <h5 class="uk-margin-remove-bottom">${admin.firstName} ${admin.lastName}</h5>
@@ -318,7 +318,6 @@
                                                                 <span id="name${task.taskID}"
                                                                       style="text-decoration: line-through;">${task.name}</span>
                                                             </label>
-
                                                         </div>
                                                     </c:otherwise>
                                                 </c:choose>
@@ -326,13 +325,8 @@
                                         </c:when>
                                         <c:otherwise>Error</c:otherwise>
                                     </c:choose>
-
                                 </div>
-
-
                             </td>
-
-
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -353,6 +347,7 @@
 </div>
 
 <br>
+
 <div class="uk-container">
     <div uk-grid-margin>
         <div class="uk-card uk-card-default uk-card-hover uk-card-body uk-width-1-1">
@@ -362,8 +357,8 @@
                 <tr>
                     <th>Member</th>
                     <th>Email</th>
-                    <th>Level</th>
                     <th>Seller Rating</th>
+                    <th>Active</th>
                     <th>Date Joined</th>
                 </tr>
                 </thead>
@@ -373,8 +368,9 @@
                         <td>
                             <div class="uk-grid-margin-medium uk-flex-middle" uk-grid>
                                 <div class="uk-width-auto">
-                                    <img class="profile-pic uk-border-circle" width="40" height="40"
-                                         src="${pageContext.request.contextPath}/resources/img/profile-pic/default.jpeg">
+                                    <img class="profile-pic uk-border-circle"
+                                         style="height: 60px; width: 60px; overflow: hidden"
+                                         src="${pageContext.request.contextPath}/directory/${member.mainImagePath()}">
                                 </div>
                                 <div>
                                     <h5 class="uk-margin-remove-bottom">${member.firstName} ${member.lastName}</h5>
@@ -384,10 +380,60 @@
                                 </div>
                             </div>
                         </td>
-                        <td>${member.schoolEmail}</td>
-                        <td>${status.get(loop.index)}</td>
-                        <td>${member.sellerRating}/5</td>
-                        <td>Table Data</td>
+                        <td><div style="color: blue;">
+                                ${member.schoolEmail}
+                        </div>
+                        </td>
+                        <c:choose>
+                            <c:when
+                                    test="${user.sellerRating == null || user.sellerRating == 0}">
+                                <th><h5>none</h5></th>
+                            </c:when>
+                            <c:otherwise>
+                                <c:choose>
+                                    <c:when test="${user.sellerRating == 1}">
+                                        <th class="uk-text-center"><span uk-icon="star"></span></th>
+                                    </c:when>
+                                    <c:when test="${user.sellerRating == 2}">
+                                        <th class="uk-text-center"><span uk-icon="star"></span><span
+                                                uk-icon="star"></span></th>
+                                    </c:when>
+                                    <c:when test="${user.sellerRating == 3}">
+                                        <th class="uk-text-center"><span uk-icon="star"></span><span
+                                                uk-icon="star"></span><span
+                                                uk-icon="star"></span></th>
+                                    </c:when>
+                                    <c:when test="${user.sellerRating == 4}">
+                                        <th class="uk-text-center"><span uk-icon="star"></span><span
+                                                uk-icon="star"></span><span
+                                                uk-icon="star"></span><span uk-icon="star"></span></th>
+                                    </c:when>
+                                    <c:when test="${user.sellerRating == 5}">
+                                        <th class="uk-text-center"><span uk-icon="star"></span><span
+                                                uk-icon="star"></span><span
+                                                uk-icon="star"></span><span uk-icon="star"></span><span
+                                                uk-icon="star"></span></th>
+                                    </c:when>
+                                </c:choose>
+                                <dd></dd>
+                                <dd class="uk-margin-top">
+                                    <a
+                                            href="${pageContext.request.contextPath}/sellerReviews?id=${user.userID}"
+                                            class="uk-button uk-button-small uk-button-primary">View
+                                        Seller Reviews</a>
+                                </dd>
+                            </c:otherwise>
+                        </c:choose>
+                        <th class="uk-text-center">
+                            <c:choose>
+                                <c:when test="${user.active == 1}">
+                                    <i class="fas fa-check" style="color: green; font-size: 24px;"></i>
+                                </c:when>
+                                <c:otherwise>
+                                    <i class="far fa-times" style="color: red; font-size: 24px;"></i>
+                                </c:otherwise>
+                            </c:choose></th>
+                        <td>${userDate.get(loop.index)}</td>
 
                     </tr>
                 </c:forEach>
@@ -445,7 +491,7 @@
                     label: "2018",
                     borderColor: "#2AF598",
                     fill: false
-                } , {
+                }, {
                     data: [lastMonth[0], lastMonth[1], lastMonth[2], lastMonth[3], lastMonth[4], lastMonth[5], lastMonth[6], lastMonth[7], lastMonth[8], lastMonth[9], lastMonth[10], lastMonth[11]],
                     label: "2017",
                     borderColor: "#08AEEA",
@@ -496,7 +542,7 @@
                     label: "Today",
                     borderColor: "#2AF598",
                     fill: false
-                } , {
+                }, {
                     data: [lastHour[0], lastHour[1], lastHour[2], lastHour[3], lastHour[4], lastHour[5], lastHour[6], lastHour[7], lastHour[8], lastHour[9], lastHour[10], lastHour[11], lastHour[12], lastHour[13], lastHour[14], lastHour[15], lastHour[16], lastHour[17], lastHour[18], lastHour[19], lastHour[20], lastHour[21], lastHour[22], lastHour[23]],
                     label: "Last Week",
                     borderColor: "#08AEEA",
@@ -515,11 +561,11 @@
         new Chart(document.getElementById("yearSite"), {
             type: 'doughnut',
             data: {
-                labels: [ "Community Page", "Home Page", "Landing Page", "Create a Listing", "Search Page", "Donation Page"],
+                labels: ["Community Page", "Home Page", "Landing Page", "Create a Listing", "Search Page", "Donation Page"],
                 datasets: [
                     {
                         label: "Population (millions)",
-                        backgroundColor: ["#B721FF", "#2AF598", "#F3FF21",  "#FF0000", "#52ACFF", "#FF3CAC"],
+                        backgroundColor: ["#B721FF", "#2AF598", "#F3FF21", "#FF0000", "#52ACFF", "#FF3CAC"],
                         data: [yCount[0], yCount[1], yCount[2], yCount[3], yCount[4], yCount[5]]
                     }
                 ]
@@ -539,7 +585,7 @@
                 datasets: [
                     {
                         label: "Population (millions)",
-                        backgroundColor: ["#B721FF", "#2AF598", "#F3FF21",  "#FF0000", "#52ACFF", "#FF3CAC"],
+                        backgroundColor: ["#B721FF", "#2AF598", "#F3FF21", "#FF0000", "#52ACFF", "#FF3CAC"],
                         data: [mCount[0], mCount[1], mCount[2], mCount[3], mCount[4], mCount[5]]
                     }
                 ]
@@ -558,7 +604,7 @@
                 datasets: [
                     {
                         label: "Population (millions)",
-                        backgroundColor: ["#B721FF",  "#2AF598", "#F3FF21", "#FF0000", "#52ACFF", "#FF3CAC"],
+                        backgroundColor: ["#B721FF", "#2AF598", "#F3FF21", "#FF0000", "#52ACFF", "#FF3CAC"],
                         data: [wCount[0], wCount[1], wCount[2], wCount[3], wCount[4], wCount[5]]
                     }
                 ]
@@ -577,7 +623,7 @@
                 datasets: [
                     {
                         label: "Population (millions)",
-                        backgroundColor: ["#B721FF", "#2AF598", "#F3FF21",  "#FF0000", "#52ACFF", "#FF3CAC"],
+                        backgroundColor: ["#B721FF", "#2AF598", "#F3FF21", "#FF0000", "#52ACFF", "#FF3CAC"],
                         data: [dCount[0], dCount[1], dCount[2], dCount[3], dCount[4], dCount[5]]
                     }
                 ]

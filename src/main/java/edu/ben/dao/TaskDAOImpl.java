@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.OneToOne;
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
@@ -50,6 +51,12 @@ public class TaskDAOImpl implements TaskDAO {
         Query q = getSession().createQuery("FROM task_manager WHERE task_ID=:id");
         q.setParameter("id", id);
         return (Task) q.uniqueResult();
+    }
+
+    @Override
+    public List getAllTasksPerUser(int id) {
+        Query q = getSession().createQuery("FROM admin_task WHERE userID=" + id +")");
+        return q.list();
     }
 
 }

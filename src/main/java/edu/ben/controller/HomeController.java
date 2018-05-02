@@ -160,7 +160,6 @@ public class HomeController extends BaseController {
 
 
 		JsonArray results = convertNewsToJson(f, favorites);
-
 		System.out.println("JSON News Articles: " + results.size());
 
 		request.setAttribute("favoritedListings", results);

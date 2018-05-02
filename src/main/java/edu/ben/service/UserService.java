@@ -46,5 +46,7 @@ public interface UserService {
 
 	public List<User> getDisputeResolvingAdmins();
 
+	public List getActiveUsers();
+
 	public List getAllAdmins();
 }

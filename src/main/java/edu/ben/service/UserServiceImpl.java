@@ -117,6 +117,11 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
+	public List getActiveUsers() {
+		return userDAO.getActiveUsers();
+	}
+
+	@Override
 	public List searchUser(String search) {
 		return userDAO.searchUser(search);
 	}

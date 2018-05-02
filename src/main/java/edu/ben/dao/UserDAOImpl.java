@@ -23,8 +23,8 @@ public class UserDAOImpl implements UserDAO {
 
     @SuppressWarnings("unchecked")
     public List<User> getAllUsers() {
-        Criteria criteria = getSession().createCriteria(User.class);
-        return (List<User>) criteria.list();
+        Query q = getSession().createQuery("FROM user ORDER BY date_created DESC");
+        return q.list();
     }
 
     public int save(User user) {
@@ -178,6 +178,14 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public List<User> getDisputeResolvingAdmins() {
         return getSession().createQuery("FROM user WHERE admin_level >= 10").list();
+    }
+
+    @Override
+    public List getActiveUsers() {
+        Query q = getSession().createQuery("FROM user WHERE active=1 and adminLevel < 10");
+
+        return q.list();
+
     }
 
     @Override
