@@ -44,18 +44,20 @@ public class PickUpRunner {
         List<PickUp> pickups = pickUpService.getAllActive();
 
         for (final PickUp p : pickups) {
-            try {
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        sendNotifications(p);
-                    }
-                    // Run 2 hours after pick up
-                }, p.getDelay() - 7200000);
+            if (p.getBuyerAccept() == 1) {
+                try {
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            sendNotifications(p);
+                        }
+                        // Run 2 hours after pick up
+                    }, p.getDelay() - 7200000);
 
-                // Fail safe
-            } catch (IllegalArgumentException e) {
-                sendNotifications(p);
+                    // Fail safe
+                } catch (IllegalArgumentException e) {
+                    sendNotifications(p);
+                }
             }
         }
     }

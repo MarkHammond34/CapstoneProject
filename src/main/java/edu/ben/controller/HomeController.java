@@ -126,7 +126,9 @@ public class HomeController extends BaseController {
 
 		if (user != null) {
 
-			List<Listing> relevantListings = listingService.getRelevantListingsByUserID(user.getUserID());
+            trafficService.create(new SalesTraffic("Home_Page", user.getUserID()));
+
+            List<Listing> relevantListings = listingService.getRelevantListingsByUserID(user.getUserID());
 
 			if (relevantListings.size() > 3) {
                 System.out.println(relevantListings.get(0).getName());
@@ -147,6 +149,8 @@ public class HomeController extends BaseController {
                 request.getSession().setAttribute("checklist", null);
             }
 
+        } else {
+            trafficService.create(new SalesTraffic("Home_Page"));
         }
 
         ArrayList<Favorite> f = (ArrayList<Favorite>)favoriteService.findAllFavorites();
@@ -163,12 +167,9 @@ public class HomeController extends BaseController {
 		request.setAttribute("favoritedListings", results);
 
 
-		SalesTraffic s = new SalesTraffic("Home_Page");
-		trafficService.create(s);
-
-		setModel(model);
-		return model;
-	}
+        setModel(model);
+        return model;
+    }
 
 
 	public JsonArray convertFavoriteToJson(ArrayList<Favorite> favorites, JsonArray results) {

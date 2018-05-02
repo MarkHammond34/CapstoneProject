@@ -32,7 +32,7 @@
         <div class="uk-overlay uk-position-large uk-position-top-left uk-width-1-2">
 
             <h2 style="color: white; background-color: #404040; padding: 5px;"
-                class="uk-width-1-1 uk-align-left uk-text-bold uk-border-rounded">What to
+                class="uk-width-1-1 uk-align-left uk-text-bold uk-border-rounded">Want to
                 get rid of your stuff but
                 don't think it's
                 worth much?</h2>
@@ -46,10 +46,9 @@
 
         <div class="uk-overlay uk-position-large uk-position-top-right uk-width-1-2" style="height: 275px">
 
-            <a href="/donate-an-item"
+            <a href="/createListing?t=donation"
                class="uk-button uk-button-large uk-border-rounded uk-button-danger uk-width-1-2 uk-position-bottom-right">
-                Donate
-                An Item
+                Donate An Item
             </a>
 
         </div>

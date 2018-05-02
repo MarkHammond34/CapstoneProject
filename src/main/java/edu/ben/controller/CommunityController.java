@@ -13,8 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import edu.ben.model.SalesTraffic;
-import edu.ben.model.Video;
+import edu.ben.model.*;
 import edu.ben.service.EventsService;
 import edu.ben.service.SalesTrafficService;
 import edu.ben.service.VideoService;
@@ -212,8 +211,14 @@ public class CommunityController extends BaseController {
 //        System.out.println("Path: " + newestVideo.getVideoPath());
 //        request.setAttribute("newestVideo", newestVideo);
 
-        SalesTraffic s = new SalesTraffic("Community_Page");
-        trafficService.create(s);
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            trafficService.create(new SalesTraffic("Community_Page", user.getUserID()));
+        } else {
+            trafficService.create(new SalesTraffic("Community_Page"));
+        }
+
 
         ArrayList<News> displayArticles = (ArrayList<News>)newsService.getAllDisplayedArticles();
         System.out.println("Display Articles: " + displayArticles.size());

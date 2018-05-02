@@ -86,35 +86,97 @@
                         <div class="uk-grid-small uk-child-width-auto uk-tile-default uk-border-rounded uk-padding"
                              uk-grid>
 
-                            <ul class="uk-grid-small uk-float-left uk-width-1-2" uk-grid>
+                            <ul class="uk-grid-small uk-float-left uk-width-1-3 uk-padding-small uk-padding-remove-left"
+                                uk-grid>
                                 <li class="uk-width-1-1">
-
                                 <span class="uk-float-left"><strong>Asking Price</strong>
                                     <span class="uk-badge">$${listing.price}</span>
                                 </span>
                                 </li>
+
+                                <c:if test="${sessionScope.user.userID == listing.user.userID}">
+                                    <!-- Listing Views -->
+                                    <li class="uk-width-1-1">
+                                        <span uk-tooltip="View Count">
+                                            <strong>5</strong>
+                                            <i class="fas fa-eye" style="font-size: 1.5em;"></i>
+                                        </span>
+                                    </li>
+
+                                    <!-- Users Favoriting -->
+                                    <li class="uk-width-1-1">
+                                        <span uk-tooltip="Favorite Count">
+                                            <strong>2</strong>
+                                            <i class="fas fa-heart" style="font-size: 1.5em; color: red"></i>
+                                        </span>
+                                    </li>
+                                </c:if>
+
                             </ul>
 
-                            <div class="uk-float-right uk-width-1-2">
-                                <c:if test="${listing.ended == 0}">
-                                    <span class="uk-width-1-1">
-                                    <a
-                                            <c:if test="${hasOffer}">onclick="return confirm('You have already made an offer for this listing. Making a new one will replace the current one. Is this okay?');"</c:if>
-                                            class="uk-button uk-button-text uk-align-right"
-                                            style="color: green;"
-                                            href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Make
-                                        offer</a>
-                                        <a
-                                                class="uk-button uk-button-text uk-align-right"
-                                                style="color: green;"
-                                                onclick="UIkit.modal('#make-offer${listing.id}').show();">Make
-                                        offer</a>
+                            <div class="uk-float-right uk-width-2-3 uk-grid-small" uk-grid>
+                                <div class="uk-width-1-1">
+                                    <c:choose>
+                                        <c:when test="${listing.ended == 0}">
+                                            <c:if test="${sessionScope.user.userID != listing.user.userID}">
+                                                <!-- Make Offer -->
+                                                <a class="uk-button uk-button-text uk-align-right"
+                                                   style="color: green;"
+                                                   onclick="UIkit.modal('#make-offer${listing.id}').show();">Make
+                                                    offer</a>
 
-                                       <a class="uk-button uk-button-text uk-align-right"
-                                          href="${pageContext.request.contextPath}/makeOffer?listing=${listing.id}">Buy Now</a>
-                                        </span>
-                                    <%@include file="../offer-modals/make-offer.jsp" %>
-                                </c:if>
+                                                <!-- Buy Now -->
+                                                <a class="uk-button uk-button-text uk-align-right"
+                                                   onclick="UIkit.modal('#buyItNowModal${listing.id}').show()">Buy Now</a>
+
+                                                <%@include file="../offer-modals/make-offer.jsp" %>
+                                                <%@include file="bid-buy-modals.jsp" %>
+
+                                            </c:if>
+                                        </c:when>
+
+                                        <c:otherwise>
+                                            <c:if test="${sessionScope.user.userID == transaction.buyer.userID || sessionScope.user.userID == listing.user.userID}">
+                                                <c:choose>
+                                                    <c:when test="${viewCheckout == true}">
+                                                        <a href="/checkout?l=${listing.id}"
+                                                           class="uk-button uk-button-text uk-align-right"
+                                                           data-intro="Click here to checkout" data-step="1"
+                                                           style="color: cornflowerblue; margin-left: 5px;">Checkout</a>
+                                                    </c:when>
+                                                    <c:when test="${viewPickUp == true}">
+                                                        <a href="/pick-up-review?l=${listing.id}"
+                                                           class="uk-button uk-button-text uk-align-right"
+                                                           data-intro="Click here view your pick up" data-step="1"
+                                                           style="color: cornflowerblue; margin-left: 5px;">View Pick
+                                                            Up</a>
+                                                    </c:when>
+                                                    <c:when test="${viewPickUpDetails == true}">
+                                                        <a href="/pick-up-review?l=${listing.id}"
+                                                           class="uk-button uk-button-text uk-align-right"
+                                                           data-intro="Click here view your pick up" data-step="1"
+                                                           style="color: cornflowerblue; margin-left: 5px;">View Pick Up
+                                                            Details</a>
+                                                    </c:when>
+                                                    <c:when test="${viewVerification == true}">
+                                                        <a uk-toggle="target: #verifyPickUpModal"
+                                                           class="uk-button uk-button-text uk-align-right"
+                                                           data-intro="Click here view your pick up" data-step="1"
+                                                           style="color: cornflowerblue; margin-left: 5px;">Verify Pick
+                                                            Up</a>
+                                                    </c:when>
+                                                    <c:when test="${viewTransaction == true}">
+                                                        <a href="/viewPurchaseHistory"
+                                                           class="uk-button uk-button-text uk-align-right"
+                                                           data-intro="Click here view your transaction" data-step="1"
+                                                           style="color: cornflowerblue; margin-left: 5px;">View
+                                                            Transaction</a>
+                                                    </c:when>
+                                                </c:choose>
+                                            </c:if>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
                             </div>
 
 

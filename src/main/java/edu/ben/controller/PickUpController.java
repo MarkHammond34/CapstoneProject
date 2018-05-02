@@ -109,7 +109,16 @@ public class PickUpController extends BaseController {
             return "login";
         }
 
-        Transaction transaction = transactionService.getTransactionsByListingID(listingID);
+        Transaction transaction = null;
+
+        List<Transaction> transactions = transactionService.getTransactionsByUserID(user.getUserID());
+        if (transactions != null && transactions.size() > 0) {
+            for (Transaction t : transactions) {
+                if (t.getListingID().getId() == listingID) {
+                    transaction = t;
+                }
+            }
+        }
 
         // Verify transaction was created
         if (transaction == null) {

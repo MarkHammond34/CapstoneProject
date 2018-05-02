@@ -91,7 +91,7 @@ public class ListingRunner {
                                     transaction.setSeller(l.getUser());
                                     transaction.setBuyer(l.getHighestBidder());
                                     transaction.setTransactionType("pending");
-                                    transactionService.createTransaction(new Transaction(l, 0));
+                                    transactionService.createTransaction(transaction);
                                 }
                             } else {
                                 //Offer stuff
@@ -159,7 +159,7 @@ public class ListingRunner {
                         transaction.setSeller(l.getUser());
                         transaction.setBuyer(l.getHighestBidder());
                         transaction.setTransactionType("pending");
-                        transactionService.createTransaction(new Transaction(l, 0));
+                        transactionService.createTransaction(transaction);
                     }
 
                     // Batch update for efficiency

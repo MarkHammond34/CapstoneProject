@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import edu.ben.model.Tutorial;
-import edu.ben.service.TutorialService;
+import edu.ben.model.*;
+import edu.ben.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,8 +38,11 @@ public class TransactionController extends BaseController {
     @Autowired
 	TutorialService tutorialService;
 
-	@RequestMapping(value = "/button", method = RequestMethod.GET)
-	public ModelAndView checkoutTest(@RequestParam("listing") int listingID, HttpServletRequest request) {
+    @Autowired
+    SalesTrafficService salesTrafficService;
+
+    @RequestMapping(value = "/button", method = RequestMethod.GET)
+    public ModelAndView checkoutTest(@RequestParam("listing") int listingID, HttpServletRequest request) {
 
 		Listing listing = listingService.getByListingID(listingID);
 		User user = (User) request.getSession().getAttribute("user");
@@ -101,9 +104,12 @@ public class TransactionController extends BaseController {
 
         if (session == null) {
             addWarningMessage("Login To View Purchase History");
+            salesTrafficService.create(new SalesTraffic("Purchase_History_Page"));
             setRequest(request);
             return "login";
         }
+
+        salesTrafficService.create(new SalesTraffic("Purchase_History_Page", session.getUserID()));
 
         List<Transaction> userTransactions = transactionService.getTransactionsByBuyerID(session.getUserID());
         System.out.println("size " + userTransactions.size());

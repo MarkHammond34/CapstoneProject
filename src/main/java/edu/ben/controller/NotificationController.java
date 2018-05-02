@@ -4,8 +4,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import edu.ben.model.Conversation;
 import edu.ben.model.Notification;
+import edu.ben.model.SalesTraffic;
 import edu.ben.model.User;
 import edu.ben.service.NotificationService;
+import edu.ben.service.SalesTrafficService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,12 +25,16 @@ public class NotificationController extends BaseController {
     @Autowired
     NotificationService notificationService;
 
+    @Autowired
+    SalesTrafficService salesTrafficService;
+
     @GetMapping("/notifications")
     public String getNotificationsPage(HttpServletRequest request) {
 
         User user = (User) request.getSession().getAttribute("user");
 
         if (user == null) {
+            salesTrafficService.create(new SalesTraffic("Profile_Page"));
             addWarningMessage("Login To See Notifications");
             request.getSession().setAttribute("lastPage", "/notifications");
             setRequest(request);
@@ -37,6 +43,9 @@ public class NotificationController extends BaseController {
 
         List<Notification> activeNotifications = notificationService.getActiveByUserID(user.getUserID());
         request.setAttribute("active", activeNotifications);
+
+        // Add site traffic record
+        salesTrafficService.create(new SalesTraffic("Notification_Page", user.getUserID()));
 
         request.setAttribute("title", "Notifications");
         setRequest(request);

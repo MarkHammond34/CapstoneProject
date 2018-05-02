@@ -1,20 +1,39 @@
 <!-- This is the modal -->
 <div id="buyItNowModal${listing.id}" uk-modal>
     <div class="uk-modal-dialog uk-modal-body">
-        <h2 class="uk-modal-title">Buy It Now</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-            ut labore et dolore
-            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea
-            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-            dolore eu fugiat
-            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-            officia deserunt mollit
-            anim id est laborum.</p>
-        <p class="uk-text-right">
-            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-            <button class="uk-button uk-button-primary" type="button">Buy</button>
-        </p>
+        <form method="get" action="/buy">
+            <h2 class="uk-modal-title uk-text-center">Buy Listing <strong
+                    class="uk-text-danger">${listing.name}</strong> For
+                <strong class="uk-text-danger">$${listing.price}</strong></h2>
+            <hr>
+
+            <div class="uk-position-relative uk-visible-toggle uk-light uk-margin-medium" uk-slider="center: true">
+
+                <ul class="uk-slider-items uk-grid">
+                    <c:forEach items="${listing.images}" var="image" varStatus="loop">
+                        <li class="uk-width-3-4">
+                            <div class="uk-panel">
+                                <img src="${pageContext.request.contextPath}/directory/${image.image_path}/${image.image_name}"
+                                     alt="Listing" style="height: auto; width: auto">
+                            </div>
+                        </li>
+                    </c:forEach>
+                </ul>
+
+                <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous
+                   uk-slider-item="previous" style="color: black"></a>
+                <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next
+                   uk-slider-item="next" style="color: black"></a>
+
+            </div>
+            <div class="uk-modal-footer uk-margin-small-bottom">
+                <input type="hidden" value="${listing.id}" name="l">
+                <button class="uk-button uk-button-muted uk-modal-close uk-border-rounded uk-align-left"
+                        type="button">Cancel
+                </button>
+                <button class="uk-button uk-button-primary uk-border-rounded uk-align-right" type="submit">Yes</button>
+            </div>
+        </form>
     </div>
 </div>
 

@@ -1,10 +1,12 @@
 package edu.ben.controller;
 
 import edu.ben.model.PickUp;
+import edu.ben.model.SalesTraffic;
 import edu.ben.model.Transaction;
 import edu.ben.model.User;
 import edu.ben.service.ListingService;
 import edu.ben.service.PickUpService;
+import edu.ben.service.SalesTrafficService;
 import edu.ben.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -31,6 +33,9 @@ public class CheckoutController extends BaseController {
     @Autowired
     ListingService listingService;
 
+    @Autowired
+    SalesTrafficService salesTrafficService;
+
     @GetMapping("/checkout")
     public String checkoutPageGet(HttpServletRequest request, @RequestParam("l") int listingID) {
 
@@ -38,11 +43,16 @@ public class CheckoutController extends BaseController {
             User user = (User) request.getSession().getAttribute("user");
 
             if (user == null) {
+
+                salesTrafficService.create(new SalesTraffic("Checkout_Page"));
+
                 addWarningMessage("Login To Checkout");
                 setRequest(request);
                 request.getSession().setAttribute("lastPage", "/checkout?l=" + listingID);
                 return "redirect:/login";
             }
+
+            salesTrafficService.create(new SalesTraffic("Checkout_Page", user.getUserID()));
 
             Transaction transaction = transactionService.getTransactionsByListingID(listingID);
 

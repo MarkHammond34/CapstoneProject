@@ -45,21 +45,22 @@
                                  id="user-icon"
                                  data-intro="This icon lets you know if the other person is on the page too."
                                  data-step="3">
+
                                 <c:choose>
                                     <c:when test="${sessionScope.user.userID == pickUp.transaction.seller.userID}">
                                         <!-- Seller Image -->
                                         <img class="uk-border-circle" id="user-icon-img"
-                                             src="https://media-exp2.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAO7AAAAJDVkYzc5Y2UzLWM2YzktNGVhMi05YWJjLTdlYjVlNzc1Nzk4OQ.jpg"
-                                            <%--src="${pageContext.request.contextPath}/directory/${pickUp.transaction.seller.mainProfileImage.image_path}/${pickUp.transaction.seller.mainProfileImage.image_name}"--%>
+                                             src="${pageContext.request.contextPath}/directory/${user.mainImage}"
                                              uk-tooltip="${pickUp.transaction.seller.username} Is Inactive"/>
                                     </c:when>
                                     <c:otherwise>
+                                        <!-- Buyer Image -->
                                         <img class="uk-border-circle" id="user-icon-img"
-                                             src="https://media-exp2.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAO7AAAAJDVkYzc5Y2UzLWM2YzktNGVhMi05YWJjLTdlYjVlNzc1Nzk4OQ.jpg"
-                                            <%--src="${pageContext.request.contextPath}/directory/${pickUp.transaction.buyer.mainProfileImage.image_path}/${pickUp.transaction.buyer.mainProfileImage.image_name}"--%>
+                                             src="${pageContext.request.contextPath}/directory/${user.mainImage}"
                                              uk-tooltip="${pickUp.transaction.buyer.username} Is Inactive"/>
                                     </c:otherwise>
                                 </c:choose>
+
                             </div>
                         </div>
                     </div>
