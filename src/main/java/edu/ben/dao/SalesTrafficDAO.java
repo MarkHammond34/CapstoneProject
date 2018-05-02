@@ -18,7 +18,7 @@ public interface SalesTrafficDAO {
 
     public long getCountByPageByYear(String pageName, String date);
 
-
+    public List<String> getMostRecentPage(int userID);
 
 
 

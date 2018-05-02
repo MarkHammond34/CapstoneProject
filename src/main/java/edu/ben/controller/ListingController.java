@@ -3,6 +3,8 @@ package edu.ben.controller;
 import com.google.gson.JsonObject;
 import edu.ben.model.*;
 import edu.ben.service.*;
+import edu.ben.util.ListingRunner;
+import edu.ben.util.PickUpRunner;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -81,8 +83,8 @@ public class ListingController extends BaseController {
                                     @RequestParam(value = "price", required = false) Integer price,
                                     @RequestParam("description") String description, @RequestParam("file") List<MultipartFile> file,
                                     @RequestParam("type") String type, @RequestParam(value = "paymentType") String paymentType,
-                                    @RequestParam(value = "draft", required = false) String draft, @RequestParam("endTime") String endTime,
-                                    @RequestParam("endDate") String endDate, HttpServletRequest request) {
+                                    @RequestParam(value = "draft", required = false) String draft, @RequestParam(value = "endTime", required = false) String endTime,
+                                    @RequestParam(value = "endDate", required = false) String endDate, HttpServletRequest request) {
 
         User u = (User) request.getSession().getAttribute("user");
 
@@ -96,25 +98,37 @@ public class ListingController extends BaseController {
             price = 0;
         }
 
+        Listing temp = new Listing();
+        temp.setName(name);
+        temp.setCategory(category);
+        temp.setSubCategory(subCategory);
+        temp.setPrice(price);
+        temp.setType(type);
+        temp.setPaymentType(paymentType);
+        temp.setDescription(description);
+
         Timestamp endTimestamp;
 
         // Empty Date and Time
         if (endDate == null && endTime == null) {
             addErrorMessage("Invalid End Date & Time");
             setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
+            request.setAttribute("listing", temp);
+            return "listing/create-listing";
 
             // Empty Time
         } else if (endTime == null) {
             addErrorMessage("Invalid End Time");
             setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
+            request.setAttribute("listing", temp);
+            return "listing/create-listing";
 
             // Empty Date
         } else if (endDate == null) {
             addErrorMessage("Invalid End Time");
             setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
+            request.setAttribute("listing", temp);
+            return "listing/create-listing";
 
             // Date and Time Not Empty
         } else {
@@ -136,19 +150,38 @@ public class ListingController extends BaseController {
             } catch (Exception e) {
                 addErrorMessage("Date & Time Error");
                 setRequest(request);
-                return "redirect:" + request.getHeader("Referer");
+                request.setAttribute("listing", temp);
+                request.setAttribute("endDate", endDate);
+                request.setAttribute("endTime", endTime);
+                return "listing/create-listing";
             }
 
+        }
+
+        // Make sure listing is longer than an hour
+        if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600)) && type != null && type.equals("auction")) {
+            addErrorMessage("Listing must last at least an hour.");
+            setRequest(request);
+            request.setAttribute("listing", temp);
+            request.setAttribute("endDate", endDate);
+            request.setAttribute("endTime", endTime);
+            return "listing/create-listing";
         }
 
         if (name == null || name.isEmpty()) {
             addErrorMessage("Please use a valid Title");
             setRequest(request);
+            request.setAttribute("listing", temp);
+            request.setAttribute("endDate", endDate);
+            request.setAttribute("endTime", endTime);
             return "listing/create-listing";
         }
         if (price < 0) {
             addErrorMessage("Cannot have a negative price.");
             setRequest(request);
+            request.setAttribute("listing", temp);
+            request.setAttribute("endDate", endDate);
+            request.setAttribute("endTime", endTime);
             return "listing/create-listing";
         }
 
@@ -171,6 +204,9 @@ public class ListingController extends BaseController {
         } else {
             addErrorMessage("Need to select a valid category");
             setRequest(request);
+            request.setAttribute("listing", temp);
+            request.setAttribute("endDate", endDate);
+            request.setAttribute("endTime", endTime);
             return "listing/create-listing";
         }
 
@@ -179,6 +215,9 @@ public class ListingController extends BaseController {
         } else {
             addErrorMessage("Need to select a valid sub-category");
             setRequest(request);
+            request.setAttribute("listing", temp);
+            request.setAttribute("endDate", endDate);
+            request.setAttribute("endTime", endTime);
             return "listing/create-listing";
         }
 
@@ -187,6 +226,9 @@ public class ListingController extends BaseController {
         } else {
             addErrorMessage("Need to select a valid type");
             setRequest(request);
+            request.setAttribute("listing", temp);
+            request.setAttribute("endDate", endDate);
+            request.setAttribute("endTime", endTime);
             return "listing/create-listing";
         }
 
@@ -195,6 +237,9 @@ public class ListingController extends BaseController {
         } else {
             addErrorMessage("Need to select a valid payment type");
             setRequest(request);
+            request.setAttribute("listing", temp);
+            request.setAttribute("endDate", endDate);
+            request.setAttribute("endTime", endTime);
             return "listing/create-listing";
         }
 
@@ -263,6 +308,9 @@ public class ListingController extends BaseController {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                request.setAttribute("listing", temp);
+                request.setAttribute("endDate", endDate);
+                request.setAttribute("endTime", endTime);
                 return "listing/create-listing";
             }
 
@@ -287,6 +335,10 @@ public class ListingController extends BaseController {
                 }
             }
 
+            // LEAVE THIS LINE ALONE
+            ListingRunner.run();
+
+            request.getSession().removeAttribute("listing");
             addSuccessMessage("Listing Uploaded Successfully");
             setRequest(request);
             return "redirect:/";
@@ -294,7 +346,10 @@ public class ListingController extends BaseController {
         } else {
             addErrorMessage("File Upload Failed. Try Again.");
             setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
+            request.setAttribute("listing", temp);
+            request.setAttribute("endDate", endDate);
+            request.setAttribute("endTime", endTime);
+            return "listing/create-listing";
         }
     }
 
@@ -349,6 +404,10 @@ public class ListingController extends BaseController {
             return "login";
         }
         setRequest(request);
+
+        if (request.getParameter("t") != null && request.getParameter("t").equals("donation")) {
+            request.setAttribute("isDonation", true);
+        }
 
         request.setAttribute("categories", categoryService.getAllCategories());
         request.setAttribute("subCategories", categoryService.getAllSubCategories());
@@ -444,6 +503,9 @@ public class ListingController extends BaseController {
         listing.setDescription(description);
         listing.setCategory(category);
 
+        // LEAVE THIS LINE ALONE
+        ListingRunner.run();
+
         listingService.saveOrUpdate(listing);
         return "redirect:/adminListing";
     }
@@ -452,17 +514,17 @@ public class ListingController extends BaseController {
     @RequestMapping(value = "/watch", method = RequestMethod.GET)
     public String watch(HttpServletRequest request, @RequestParam("listingID") String id) {
 
-       int listingID = Integer.parseInt(id);
-       Listing listing = listingService.getByListingID(listingID);
-       User u = (User) request.getSession().getAttribute("user");
+        int listingID = Integer.parseInt(id);
+        Listing listing = listingService.getByListingID(listingID);
+        User u = (User) request.getSession().getAttribute("user");
 
-       Favorite f = new Favorite();
+        Favorite f = new Favorite();
         f.setUser(u);
         f.setListing(listing);
 
         System.out.println(f.getUser().getUserID());
 
-       favoriteService.create(f);
+        favoriteService.create(f);
 
         return "index";
     }
@@ -473,17 +535,16 @@ public class ListingController extends BaseController {
         Listing listing = listingService.getByListingID(listingID);
         User u = (User) request.getSession().getAttribute("user");
 
-      ArrayList<Favorite> list = (ArrayList<Favorite>) favoriteService.findAllFavoritesByUser(u.getUserID());
+        ArrayList<Favorite> list = (ArrayList<Favorite>) favoriteService.findAllFavoritesByUser(u.getUserID());
 
-      for (int i = 0; i < list.size(); i++) {
-          if(list.get(i).getListing().getId() == listingID) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getListing().getId() == listingID) {
 
-              favoriteService.delete(list.get(i).getId());
-          }
-      }
+                favoriteService.delete(list.get(i).getId());
+            }
+        }
         return "index";
     }
-
 
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
@@ -566,49 +627,35 @@ public class ListingController extends BaseController {
                 // Check if pick up was started
                 PickUp pickUp = pickUpService.getPickUpByListingID(listingID);
 
-                if (pickUp != null) {
+                if (pickUp == null || pickUp.getStatus().equals("IN REVIEW") || pickUp.getStatus().equals("AWAITING PICK UP") || pickUp.getStatus().equals("CREATED")) {
+                    request.setAttribute("viewPickUp", true);
 
-                    // View Pick Up Page
-                    if (pickUp.getStatus().equals("IN REVIEW")) {
-                        request.setAttribute("viewPickUp", true);
+                } else if (pickUp.getStatus().equals("PICK UP MISSED")) {
+                    addWarningMessage("Pick Up Missed");
+                    request.setAttribute("viewPickUp", true);
 
-                    } else if (pickUp.getStatus().equals("PICK UP MISSED")) {
-                        addWarningMessage("Pick Up Missed");
-                        request.setAttribute("viewPickUp", true);
+                } else if (pickUp.getStatus().equals("ACCEPTED")) {
+                    request.setAttribute("viewCheckout", true);
 
-                        // View Checkout Page
-                    } else if (pickUp.getStatus().equals("ACCEPTED")) {
-                        request.setAttribute("viewCheckout", true);
+                } else if (pickUp.getStatus().equals("VERIFIED") || pickUp.getStatus().equals("COMPLETED")) {
+                    request.setAttribute("viewTransaction", true);
 
-                        // View Pick Up Page For Details
-                    } else if (pickUp.getStatus().equals("AWAITING PICK UP")) {
-                        request.setAttribute("viewPickUpDetails", true);
+                } else if (pickUp.getStatus().equals("PENDING VERIFICATION")) {
 
-                        // View Verification or Transaction Page
-                    } else if (pickUp.getStatus().equals("PENDING VERIFICATION")) {
+                    // User Logged In Is Seller And Has Not Verified
+                    if (pickUp.getTransaction().getSeller().getUserID() == user.getUserID() && pickUp.getSellerVerified() == 0) {
+                        request.setAttribute("viewVerification", true);
 
-                        // User Logged In Is Seller And Has Not Verified
-                        if (pickUp.getTransaction().getSeller().getUserID() == user.getUserID() && pickUp.getSellerVerified() == 0) {
-                            request.setAttribute("viewVerification", true);
-
-                            // User Logged In Is Seller And Has Verified
-                        } else if (pickUp.getTransaction().getSeller().getUserID() == user.getUserID() && pickUp.getSellerVerified() == 1) {
-                            request.setAttribute("viewTransaction", true);
-
-                            // User Logged In Is Buyer And Has Not Verified
-                        } else if (pickUp.getTransaction().getBuyer().getUserID() == user.getUserID() && pickUp.getBuyerVerified() == 0) {
-                            request.setAttribute("viewVerification", true);
-
-                            // User Logged In Is Buyer And Has Verified
-                        } else if (pickUp.getTransaction().getBuyer().getUserID() == user.getUserID() && pickUp.getBuyerVerified() == 1) {
-                            request.setAttribute("viewTransaction", true);
-                        }
-
-                    } else if (pickUp.getStatus().equals("VERIFIED") &&
-                            pickUp.getTransaction().getSeller().getUserID() == user.getUserID()) {
+                        // User Logged In Is Seller And Has Verified
+                    } else if (pickUp.getTransaction().getSeller().getUserID() == user.getUserID() && pickUp.getSellerVerified() == 1) {
                         request.setAttribute("viewTransaction", true);
 
-                    } else if (pickUp.getStatus().equals("COMPLETED")) {
+                        // User Logged In Is Buyer And Has Not Verified
+                    } else if (pickUp.getTransaction().getBuyer().getUserID() == user.getUserID() && pickUp.getBuyerVerified() == 0) {
+                        request.setAttribute("viewVerification", true);
+
+                        // User Logged In Is Buyer And Has Verified
+                    } else if (pickUp.getTransaction().getBuyer().getUserID() == user.getUserID() && pickUp.getBuyerVerified() == 1) {
                         request.setAttribute("viewTransaction", true);
                     }
                 }
@@ -759,6 +806,9 @@ public class ListingController extends BaseController {
         pickUp.setActive(0);
         pickUpService.update(pickUp);
 
+        // LEAVE THIS LINE ALONE
+        PickUpRunner.run();
+
         notificationService.save(notification);
 
         addSuccessMessage("Purchase Cancelled");
@@ -790,6 +840,9 @@ public class ListingController extends BaseController {
             listing.setActive(0);
             listing.setEnded(1);
             listingService.saveOrUpdate(listing);
+
+            // LEAVE THIS LINE ALONE
+            ListingRunner.run();
 
         }
         return model;
@@ -887,4 +940,34 @@ public class ListingController extends BaseController {
 
         return json.toString();
     }
+
+    @RequestMapping(value = "/relistListing", method = RequestMethod.POST)
+    public String uploadFileHandler(@RequestParam("endTime") String endTime,
+                                    @RequestParam("endDate") String endDate,
+                                    @RequestParam("listingId") int listingId,
+                                    HttpServletRequest request) {
+        User u = (User) request.getSession().getAttribute("user");
+        Listing l = listingService.getByListingID(listingId);
+        Timestamp endTimestamp;
+
+        // Get year, month, day, hour, and minutes from endDate and endTime
+        int year = Integer.parseInt(endDate.substring(0, 4));
+        // Timestamp adds an extra month
+        int mon = Integer.parseInt(endDate.substring(5, 7)) - 1;
+        int day = Integer.parseInt(endDate.substring(8, 10));
+        int hours = Integer.parseInt(endTime.substring(0, 2));
+        int min = Integer.parseInt(endTime.substring(3, 5));
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, mon, day, hours, min, 0);
+        endTimestamp = new Timestamp((calendar.getTimeInMillis()));
+
+        l.setEndTimestamp(endTimestamp);
+        l.setActive(1);
+        l.setStartTimestamp(null);
+
+        listingService.saveOrUpdate(l);
+        return "redirect:/dashboard";
+    }
+
 }

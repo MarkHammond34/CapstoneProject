@@ -38,6 +38,11 @@ public class UserServiceImpl implements UserService{
 		userDAO.deleteUser(id);
 	}
 
+	@Override
+	public int save(User user) {
+		return userDAO.save(user);
+	}
+
 	public void saveOrUpdate(User user) {
 		userDAO.saveOrUpdate(user);
 	}

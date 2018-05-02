@@ -16,9 +16,15 @@
                 <tbody>
                 <c:forEach var="transaction" items="${transactions}">
                     <tr>
-                        <td class="uk-table-link">${transaction.buyer.username}</td>
-                        <td class="uk-table-link">${transaction.seller.username}</td>
-                        <!--<td class="uk-preserve-width">${transaction.offerID.offerAmount}</td>-->
+
+                        <td><img class="uk-preserve-width uk-border-circle"
+                                 uk-tooltip="${transaction.buyer.username}"
+                                 src="${pageContext.request.contextPath}/resources/img/listings/default.jpeg"
+                                 height="auto" width="40" alt=""></td>
+                        <td><img class="uk-preserve-width uk-border-circle"
+                                 uk-tooltip="${transaction.seller.username}"
+                                 src="${pageContext.request.contextPath}/resources/img/listings/default.jpeg"
+                                 height="auto" width="40" alt=""></td>
                         <c:if test="${transaction.completed == 0}">
                             <td class="uk-text-nowrap">In Progress</td>
                         </c:if>

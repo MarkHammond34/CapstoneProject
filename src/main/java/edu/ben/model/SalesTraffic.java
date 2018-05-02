@@ -15,13 +15,21 @@ public class SalesTraffic {
     private int salesTrafficID;
 
     @Column(name = "page_visited")
-    String pageVisited;
+    private String pageVisited;
 
     @Column(name = "date_created")
     Timestamp dateCreated;
 
+    @Column(name = "user_id")
+    int userID;
+
     public SalesTraffic() {
 
+    }
+
+    public SalesTraffic(String pageVisited, int userID) {
+        this.pageVisited = pageVisited;
+        this.userID = userID;
     }
 
     public SalesTraffic(String pageVisited) {
@@ -48,4 +56,17 @@ public class SalesTraffic {
     public void setDateCreated(Timestamp dateCreated) {
         this.dateCreated = dateCreated;
     }
+
+    public void setPageVisited(String pageVisited) {
+        this.pageVisited = pageVisited;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
 }
+

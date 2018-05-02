@@ -12,11 +12,9 @@ import edu.ben.service.PickUpService;
 import edu.ben.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpOutputMessage;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -69,7 +67,7 @@ public class MessageController extends BaseController {
         request.getSession().setAttribute("conversationUser", sendTo);
         return "messaging/messagePage";
     }
-
+    /*
     @RequestMapping(value = "sendMessage", method = RequestMethod.POST)
     public String sendMessage(HttpServletRequest request) {
         User sendBy = (User) request.getSession().getAttribute("user");
@@ -81,6 +79,7 @@ public class MessageController extends BaseController {
         request.getSession().setAttribute("conversationUser", sendTo);
         return "messaging/messagePage";
     }
+    */
 
     @RequestMapping(value = "getConversation", method = RequestMethod.GET, produces="application/json")
     public @ResponseBody String getConversation(HttpServletRequest request) {
@@ -133,6 +132,13 @@ public class MessageController extends BaseController {
             return result.toString();
         }
         return null;
+    }
+
+    @RequestMapping(value="sendMessages", method= RequestMethod.POST, consumes={MediaType.APPLICATION_JSON_VALUE})
+    public String sendMessages(HttpServletRequest request, @RequestBody String data){
+        System.out.println(data);
+        System.out.println("Hit Send message controller");
+        return"redirect:/message";
     }
 
 }

@@ -1,22 +1,12 @@
 package edu.ben.model;
 
-import java.sql.Time;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import javax.annotation.Nullable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-import org.springframework.transaction.annotation.Transactional;
 
 @Entity(name = "notification")
 @Table(name = "notification")
@@ -67,13 +57,13 @@ public class Notification {
 
     }
 
-    public Notification(User user, int listingID, String message, int active) {
+    public Notification(User user, int listingID, String message) {
         this.user = user;
         this.listingID = listingID;
         this.message = message;
         this.subject = "U-ListIt Notification";
         this.sendTimestamp = new Timestamp(System.currentTimeMillis());
-        this.active = active;
+        this.active = 1;
         this.type = "DEFAULT";
     }
 

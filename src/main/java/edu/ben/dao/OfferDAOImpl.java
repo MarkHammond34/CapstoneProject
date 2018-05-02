@@ -88,7 +88,7 @@ public class OfferDAOImpl implements OfferDAO {
 	@Override
 	public Offer getOfferByUserAndListingId(int userID, int listingID) {
 
-        Query q = getSession().createQuery("FROM offer WHERE offer_maker_id=:userID OR offer_receiver_id=:userID AND listing_id=:listingID");
+        Query q = getSession().createQuery("FROM offer WHERE (offer_maker_id=:userID OR offer_receiver_id=:userID) AND listing_id=:listingID");
 		q.setParameter("userID", userID);
 		q.setParameter("listingID", listingID);
 		

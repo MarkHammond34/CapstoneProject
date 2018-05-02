@@ -2,17 +2,22 @@
 <%@include file="jspf/messages.jsp" %>
 <body class="uk-height-viewport uk-background-muted">
 <div style="border: 20px solid white;
-            margin: 0 auto;
-            background: white;">
+margin: 0 auto;
+background: white;">
     <%@include file="jspf/navbar.jspf" %>
     <div class="uk-container">
         <div class="row">
             <div class="fb-profile uk-align-center">
-                <a href="${pageContext.request.contextPath}/editUser?id=${user.userID}"><img
-                        align="left" style="border-radius: 50%"
-                        class="fb-image-profile thumbnail"
-                        src="https://media-exp2.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAO7AAAAJDVkYzc5Y2UzLWM2YzktNGVhMi05YWJjLTdlYjVlNzc1Nzk4OQ.jpg"
-                        alt="Profile image example" uk-tooltip="Edit Profile Data"/></a>
+                <c:forEach items="${user.profileImages}" var="images">
+                    <c:if test="${images.main == 1}">
+                        <a href="${pageContext.request.contextPath}/editUser?id=${user.userID}"><img
+                                align="left" style="border-radius: 50%"
+                                class="fb-image-profile thumbnail"
+                                src="${pageContext.request.contextPath}/directory/${images.image_path}/${images.image_name}"
+                                width="190" height="190"
+                                alt="Profile Image" uk-tooltip="Edit Profile Data"/></a>
+                    </c:if>
+                </c:forEach>
                 <div class="uk-align-center fb-profile-text uk-padding-small uk-width-2-3">
                     <h1>
                         <strong class="uk-text-danger">${user.username}</strong>
@@ -51,30 +56,37 @@
                             <c:otherwise>
                                 <c:choose>
                                     <c:when test="${user.sellerRating == 1}">
-                                        <td><span uk-icon="star"></span></td>
+                                        <td><i class="fas fa-star"></i><i class="far fa-star"></i><i
+                                                class="far fa-star"></i><i class="far fa-star"></i><i
+                                                class="far fa-star"></i></td>
                                     </c:when>
                                     <c:when test="${user.sellerRating == 2}">
-                                        <td><span uk-icon="star"></span><span uk-icon="star"></span></td>
+                                        <td><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                class="far fa-star"></i><i
+                                                class="far fa-star"></i><i class="far fa-star"></i></td>
                                     </c:when>
                                     <c:when test="${user.sellerRating == 3}">
-                                        <td><span uk-icon="star"></span><span uk-icon="star"></span><span
-                                                uk-icon="star"></span></td>
+                                        <td><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                class="fas fa-star"></i><i class="far fa-star"></i><i
+                                                class="far fa-star"></i>
+                                        </td>
                                     </c:when>
                                     <c:when test="${user.sellerRating == 4}">
-                                        <td><span uk-icon="star"></span><span uk-icon="star"></span><span
-                                                uk-icon="star"></span><span uk-icon="star"></span></td>
+                                        <td><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                class="far fa-star"></i></td>
                                     </c:when>
                                     <c:when test="${user.sellerRating == 5}">
-                                        <td><span uk-icon="star"></span><span uk-icon="star"></span><span
-                                                uk-icon="star"></span><span uk-icon="star"></span><span
-                                                uk-icon="star"></span></td>
+                                        <td><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                class="fas fa-star"></i></td>
                                     </c:when>
                                 </c:choose>
                                 <dd></dd>
                                 <dd class="uk-margin-top">
                                     <a
                                             href="${pageContext.request.contextPath}/sellerReviews?id=${user.userID}"
-                                            class="uk-button uk-button-small uk-button-primary">View
+                                            class="uk-button uk-button-small uk-border-rounded uk-button-secondary">View
                                         Seller Reviews</a>
                                 </dd>
                             </c:otherwise>
@@ -134,8 +146,100 @@
 
                             </c:if>
                             <br>
+                            <c:if test="${sessionScope.user.userID == user.userID }">
+                            <script>
+                                $(document).ready(function () {
+                                    var text = "";
+                                    $.ajax({
+                                        url: 'getFollowers',
+                                        type: 'GET',
+                                        dataType: 'json',
+                                        contentType: 'application/json',
+                                        success: function (result) {
+                                            console.log(result);
+                                            listings = result;
+                                            for (var key in result) {
+                                                text += '<div class="uk-card uk-card-default uk-card-body uk-card-small uk-margin-small-top">' +
+                                                    '<img class="uk-border-circle uk-align-left uk-margin-auto-vertical" src="/directory/' + result[key].followerImage + '" height="75" width="75" alt="Border circle">' +
+                                                    '<span class="uk-flex-top uk-flex-left uk-text-danger" style="font-size:large">' + result[key].followerUserName + '</span>' +
+                                                    '<span class="uk-flex-top uk-flex-right"> </span>' +
+                                                    '<span class="uk-flex-left">' + result[key].followerFirstName + ' ' + result[key].followerLastName + '</span>' +
+                                                    '</div>'
+                                            }
 
+                                            $('#followersContainer').empty();
+                                            $('#followersContainer').append(text);
+                                        }
+                                    });
 
+                                    $.ajax({
+                                        url: 'getFollowing',
+                                        type: 'GET',
+                                        dataType: 'json',
+                                        contentType: 'application/json',
+                                        success: function (result) {
+                                            console.log(result);
+                                            listings = result;
+                                            for (var key in result) {
+                                                text += '<div class="uk-card uk-card-default uk-card-body uk-card-small uk-margin-small-top">' +
+                                                    '<img class="uk-border-circle uk-align-left uk-margin-auto-vertical" src="/directory/' + result[key].followerImage + '" height="75" width="75" alt="Border circle">' +
+                                                    '<span class="uk-flex-top uk-align-left uk-text-danger" style="font-size:large">' + result[key].followerUsername + '</span>' +
+                                                    '<button class="uk-flex-top uk-flex-right uk-align-right" uk-icon="minus-circle" value="' + result[key].followerId + '"></button>' +
+                                                    '<span class="uk-flex-left">' + result[key].followerFirstName + ', ' + result[key].followerLastName + '</span>' +
+                                                    '</div>'
+                                            }
+
+                                            $('#followingContainer').empty();
+                                            $('#followingContainer').append(text);
+                                        }
+                                    });
+                                });
+
+                            </script>
+                            <ul class="uk-subnav uk-subnav-pill" uk-switcher="animation: uk-animation-fade">
+                                <li><a href="#">Followers</a></li>
+                                <li><a href="#">Following</a></li>
+                            </ul>
+
+                            <ul class="uk-switcher uk-margin">
+                                <li>
+                                    <div class="uk-grid-small uk-child-width-expand uk-text-center" uk-grid>
+                                        <div class="uk-panel uk-panel-scrollable uk-resize-vertical uk-height-large uk-padding-remove uk-background-muted uk-border-rounded uk-margin-large-bottom">
+                                            <div id="followersContainer" class="uk-flex uk-flex-column uk-width-1-1">
+                                                <div class="uk-card uk-card-default uk-card-body uk-card-small uk-margin-small-top">
+                                                    <img class="uk-border-circle uk-align-left uk-margin-auto-vertical" src="/resources/img/sunset.jpg" height="75" width="75" alt="Border circle">
+                                                    <span class="uk-flex-top uk-flex-left uk-text-danger" style="font-size:large">Lorem ipsum</span>
+                                                    <span class="uk-flex-top uk-flex-right uk-align-right" uk-icon="minus-circle"></span>
+                                                    <span>test123</span>
+                                                </div>
+                                                <div class="uk-card uk-card-default uk-card-body uk-card-small uk-margin-small-top">
+                                                    <img class="uk-border-circle uk-align-left uk-margin-auto-vertical" src="/resources/img/sunset.jpg" height="75" width="75" alt="Border circle">
+                                                    <p>Lorem ipsum</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="uk-grid-small uk-child-width-expand uk-text-center" uk-grid>
+                                        <div id="allListings" class="uk-panel uk-panel-scrollable uk-resize-vertical uk-height-large uk-padding-remove uk-background-muted uk-border-rounded uk-margin-large-bottom">
+                                            <div id="followingContainer" class="uk-flex uk-flex-column uk-width-1-1">
+                                                <div class="uk-card uk-card-default uk-card-body uk-card-small uk-margin-small-top">
+                                                    <img class="uk-border-circle uk-align-left uk-margin-auto-vertical" src="/resources/img/sunset.jpg" height="75" width="75" alt="Border circle">
+                                                    <span class="uk-flex-top uk-flex-left uk-text-danger" style="font-size:large">Lorem ipsum</span>
+                                                    <span class="uk-flex-top uk-flex-right"> </span>
+                                                    <span class="uk-flex-left">test123</span>
+                                                </div>
+                                                <div class="uk-card uk-card-default uk-card-body uk-card-small uk-margin-small-top">
+                                                    <img class="uk-border-circle uk-align-left uk-margin-auto-vertical" src="/resources/img/sunset.jpg" height="75" width="75" alt="Border circle">
+                                                    <p>Lorem ipsum</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                    </c:if>
                             <c:choose>
                                 <c:when test="${isFollowing == 'following' }">
                                     <div class="uk-clearfix" id="followingTotal">

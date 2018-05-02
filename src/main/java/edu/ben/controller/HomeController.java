@@ -2,14 +2,18 @@ package edu.ben.controller;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import edu.ben.model.*;
+import edu.ben.model.Favorite;
+import edu.ben.model.Listing;
+import edu.ben.model.SalesTraffic;
+import edu.ben.model.User;
 import edu.ben.service.*;
 import edu.ben.util.Email;
-import edu.ben.util.ListingRunner;
-import edu.ben.util.PickUpRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -57,8 +61,8 @@ public class HomeController extends BaseController {
      * @Autowired FaqService faqService;
      */
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView home(HttpServletRequest request) {
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
+	public ModelAndView index(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("index");
 
 
@@ -119,12 +123,6 @@ public class HomeController extends BaseController {
 
 
 //		User user = (User) request.getSession().getAttribute("user");
-
-
-	ListingRunner.run();
-	/*ListingRunner.run();*/
-
-		//PickUpRunner.run();
 
 		if (user != null) {
 
@@ -195,6 +193,11 @@ public class HomeController extends BaseController {
 	@GetMapping("/aboutUs")
 	public String aboutUs() {
 		return "aboutUs";
+	}
+
+	@GetMapping("/")
+	public String landingPage() {
+		return "landingPage";
 	}
 
 	@PostMapping("/sendEmail")

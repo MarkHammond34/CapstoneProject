@@ -89,6 +89,9 @@ public class User {
     @Column(name = "banned")
     private int banned;
 
+    @Column(name = "logged_in")
+    private int loggedIn;
+
     @Formula("(select avg(transaction.trans_rating) from transaction where transaction.seller_ID=user_ID)")
     @Column(name = "seller_rating")
     private Integer sellerRating;
@@ -341,13 +344,20 @@ public class User {
         this.tutorial = tutorial;
     }
 
-    public String mainImagePath(){
-        for(int i = 0; i < profileImages.size(); i++){
+    public String getMainImage(){
+        for(int i =0; i < profileImages.size(); i++){
             if(profileImages.get(i).getMain() == 1){
-                return profileImages.get(i).getImage_path() + "/" + profileImages.get(i).getImage_name();
+                return getProfileImages().get(i).getImage_path() + File.separator + getProfileImages().get(i).getImage_name();
             }
         }
         return null;
     }
 
+    public int getLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(int loggedIn) {
+        this.loggedIn = loggedIn;
+    }
 }

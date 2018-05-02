@@ -1,21 +1,13 @@
 package edu.ben.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
+import edu.ben.model.User;
 import edu.ben.service.UserService;
-import edu.ben.util.Email;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import edu.ben.model.User;
-
-import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import edu.ben.dao.UserDAO;
-import edu.ben.dao.UserDAOImpl;
 
 @Controller
 public class LoginController extends BaseController {
@@ -48,19 +40,25 @@ public class LoginController extends BaseController {
                     if (user.getPassword() != null && user.getPassword().equals(password)) {
                         request.getSession().setAttribute("user", user);
                         userService.updateAttemptedLogins(0, user);
-                        System.out.println("pass match");
+
+                        HttpSession session = request.getSession();
+                        // Set the timeout for one hour
+                        session.setMaxInactiveInterval(3600);
+                        session.setAttribute("user", user);
+
+                        user.setLoggedIn(1);
+                        userService.update(user);
 
                         if (request.getSession().getAttribute("lastPage") != null) {
                             String lastPage = (String) request.getSession().getAttribute("lastPage");
                             request.getSession().removeAttribute("lastPage");
                             return "redirect:" + lastPage;
                         }
-                        return "redirect:/";
+                        return "redirect:/index";
 
 					} else {
 						request.setAttribute("email", email);
 						int loginAttempts = user.getLoginAttempts() + 1;
-						System.out.println(loginAttempts);
 						userService.updateAttemptedLogins(loginAttempts, user);
 
 						if (loginAttempts >= 5) {
@@ -122,13 +120,28 @@ public class LoginController extends BaseController {
 		return "email";
 	}
 
-	@GetMapping("/logout")
-	public String logout(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		session.invalidate();
-		request.removeAttribute("user");
-		return "redirect:/";
-	}
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+
+        User u = (User) request.getSession().getAttribute("user");
+
+        if (u == null) {
+            addErrorMessage("No User Logged In");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        HttpSession session = request.getSession();
+        session.invalidate();
+
+        // Mark user as logged out in db
+        u.setLoggedIn(0);
+        userService.update(u);
+
+        request.removeAttribute("user");
+        return "redirect:/";
+
+    }
 
 	@RequestMapping(value="loginValidEmail", method= RequestMethod.POST, produces="application/json")
 	public @ResponseBody boolean loginValidEmail(HttpServletRequest request, @RequestParam("email") String email){

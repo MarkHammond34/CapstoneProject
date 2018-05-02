@@ -59,6 +59,8 @@
                 <a href="/donate" style="color: #ffffff; text-decoration: none;">Donations</a>
                 <br>
                 <a href="/communityPage" style="color: #ffffff; text-decoration: none;">Community</a>
+                <br>
+                <a href="/" style="color: #ffffff; text-decoration: none;">Landing Page</a>
             </div>
 
             <div class="uk-width-1-1 uk-text-center uk-padding-remove">

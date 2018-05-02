@@ -23,7 +23,7 @@ public class UserDAOImpl implements UserDAO {
 
     @SuppressWarnings("unchecked")
     public List<User> getAllUsers() {
-        Query q = getSession().createQuery("FROM user ORDER BY date_created DESC");
+        Query q = getSession().createQuery("From user");
         return q.list();
     }
 

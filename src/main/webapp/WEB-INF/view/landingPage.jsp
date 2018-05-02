@@ -27,18 +27,20 @@
         <div class="uk-container">
 
             <div class="uk-panel uk-align-center uk-text-center uk-light uk-margin-large">
-                <span uk-icon="icon: users; ratio: 3.5"></span><h3>A unique way to buy, sell, and give back back to your college community</h3>
+                <span uk-icon="icon: users; ratio: 3.5"></span><h2>A unique way to buy, sell, and give back back to your college community</h2>
             </div>
 
             <div class="uk-grid-match uk-child-width-expand@m" uk-grid>
                 <div>
                     <div class="uk-card uk-border-rounded uk-card-default uk-card-body uk-padding-large">
+                        <i class="uk-align-center fas fa-shopping-cart" style="font-size: 4em"></i>
                         <p>U-ListIt is a buy, sell, and donation platform for colleges and universities around the globe.
                             Our focus is fast and easy commercial exchange.</p>
                     </div>
                 </div>
                 <div>
                     <div class="uk-card uk-border-rounded uk-card-default uk-card-body uk-padding-large">
+                        <i class="uk-align-center fas fa-truck" style="font-size: 4em"></i>
                         <p>Forget the shipping - being on campus allows for the simple pick up of packages and items. No waiting, no worry! </p>
                     </div>
                 </div>
@@ -52,20 +54,23 @@
             <div class="uk-child-width-1-3@m uk-grid-small uk-padding-small uk-text-small uk-grid-match" uk-grid>
                 <div>
                     <div class="uk-card uk-text-small uk-box-shadow-hover-large uk-border-rounded uk-card-default uk-card-body">
-                        <span uk-icon="icon: home; ratio: 3.5"></span><h3> <h4 class="uk-card-title">Moving in?</h4>
+                        <i class="fas fa-home" style="font-size: 4em"></i><h4 class="uk-card-title">Moving in? Need some stuff?</h4>
                         <p>Fulfill all your dorming needs!</p>
+                        <p><a class="uk-button uk-button-primary uk-border-rounded uk-button-small" href="${pageContext.request.contextPath}/index">View Listings</a></p>
                     </div>
                 </div>
                 <div>
                     <div class="uk-card uk-text-small uk-box-shadow-hover-large uk-border-rounded uk-card-default uk-card-body">
-                        <span uk-icon="icon: credit-card; ratio: 3.5"></span><h3><h4 class="uk-card-title">Putting on that cap and gown?</h4>
+                        <i class="fas fa-dollar-sign" style="font-size: 4em"></i><h4 class="uk-card-title">Putting on that cap and gown?</h4>
                         <p>Make some cash before you grab that diploma!</p>
+                        <p><a class="uk-button uk-button-primary uk-border-rounded uk-button-small" href="${pageContext.request.contextPath}/createListing">Create a Listing</a></p>
                     </div>
                 </div>
                 <div>
                     <div class="uk-card uk-text-small uk-box-shadow-hover-large uk-border-rounded uk-card-default uk-card-body">
-                        <span uk-icon="icon: world; ratio: 3.5"></span><h3><h4 class="uk-card-title">Be kind, donate!</h4>
+                        <i class="fas fa-recycle" style="font-size: 4em"></i><h4 class="uk-card-title">Be kind, donate!</h4>
                         <p>Not in it for the money? Donate to the community!</p>
+                        <p><a class="uk-button uk-button-primary uk-border-rounded uk-button-small" href="${pageContext.request.contextPath}/donations">Donations Page</a></p>
                     </div>
                 </div>
             </div>

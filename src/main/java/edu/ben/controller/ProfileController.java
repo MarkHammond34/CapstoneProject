@@ -6,16 +6,15 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import edu.ben.model.*;
 
 import edu.ben.service.*;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -158,7 +157,9 @@ public class ProfileController extends BaseController {
             }
             request.getSession().setAttribute("user",(User) userService.getUserById(u.getUserID()));
         }
-        return "redirect:/profileImageUpload";
+        addSuccessMessage("Profile image uploaded successfully!");
+        setRequest(request);
+        return "redirect:" + request.getHeader("Referer");
     }
 
     @RequestMapping(value="/changeImageMain", method=RequestMethod.POST)
@@ -167,7 +168,57 @@ public class ProfileController extends BaseController {
         imageService.removeAllMainImages(u.getUserID());
         imageService.changeMain(mainImage, 1);
         request.getSession().setAttribute("user",(User) userService.getUserById(u.getUserID()));
-	    return "redirect:/profileImageUpload";
+        addSuccessMessage("Main profile picture changed!");
+        setRequest(request);
+        return "redirect:" + request.getHeader("Referer");
     }
+
+    @RequestMapping(value ="getFollowing", method = RequestMethod.GET, produces="application/json")
+    public @ResponseBody String getFollowing(HttpServletRequest request){
+        User u = (User) request.getSession().getAttribute("user");
+        List<Follow> followers = (List<Follow>) followService.findAllFollowersByUserId(u.getUserID());
+
+        if(followers != null || !followers.isEmpty()) {
+            JsonArray result = new JsonArray();
+            for (int i = 0; i < followers.size(); i++) {
+                if(followers.get(i).getUser().getActive() == 1) {
+                    JsonObject addJson = new JsonObject();
+                    addJson.addProperty("followerId", followers.get(i).getFollower().getUserID());
+                    addJson.addProperty("followerUsername", followers.get(i).getFollower().getUsername());
+                    addJson.addProperty("followerFirstName", followers.get(i).getFollower().getUsername());
+                    addJson.addProperty("followerLastName", followers.get(i).getFollower().getLastName());
+                    addJson.addProperty("followerImage", followers.get(i).getFollower().getMainImage());
+                    result.add(addJson);
+                }
+            }
+            return result.toString();
+        }
+        return null;
+    }
+
+    @RequestMapping(value ="getFollowers", method = RequestMethod.GET, produces="application/json")
+    public @ResponseBody String getFollowers(HttpServletRequest request){
+        User u = (User) request.getSession().getAttribute("user");
+        List<Follow> followers = (List<Follow>) followService.findAllPeopleFollowingYou(u.getUserID());
+
+        if(followers != null || !followers.isEmpty()) {
+            JsonArray result = new JsonArray();
+            for (int i = 0; i < followers.size(); i++) {
+                if(followers.get(i).getUser().getActive() == 1) {
+                    JsonObject addJson = new JsonObject();
+                    addJson.addProperty("followerId", followers.get(i).getUser().getUserID());
+                    addJson.addProperty("followerUsername", followers.get(i).getUser().getUsername());
+                    addJson.addProperty("followerFirstName", followers.get(i).getUser().getUsername());
+                    addJson.addProperty("followerLastName", followers.get(i).getUser().getLastName());
+                    addJson.addProperty("followerImage", followers.get(i).getUser().getMainImage());
+                    result.add(addJson);
+                }
+            }
+            return result.toString();
+        }
+
+        return null;
+    }
+
 
 }

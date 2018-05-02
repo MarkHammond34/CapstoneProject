@@ -281,6 +281,30 @@ public class ListingDAOImpl implements ListingDAO {
     }
 
     @Override
+    public List getRelevantListingsFromRecentPurchaseByUserID(int userID, String category) {
+        String sql = "select * from listing where category IN (select listing.category from listing, offer, listing_bid where " +
+                "offer.offer_maker_id=:userID or listing_bid.user_id=:userID GROUP BY listing.category " +
+                "order by MAX((offer.date_created or listing_bid.created_on))) and category =:category and ended = 0 and active = 1 limit 1;";
+        SQLQuery q = getSession().createSQLQuery(sql)
+                .addEntity(Listing.class);
+        q.setParameter("userID", userID);
+        q.setParameter("category", category);
+        return q.list();
+    }
+
+    @Override
+    public Listing getRecentListingWithOfferOrBidByUserID(int userID) {
+
+        String sql = "select MAX(listing.date_created), listing.category from listing, offer, listing_bid where " +
+                "listing.userID = offer.offer_maker_id or listing.userID = listing_bid.user_id and ended = 0 and listing.active = 1;";
+        SQLQuery q = getSession().createSQLQuery(sql)
+                .addEntity(Listing.class);
+        q.setParameter("userID", userID);
+
+        return (Listing) q.list().get(0);
+    }
+
+    @Override
     public List getPremiumListings() {
         return getSession().createQuery("FROM listing WHERE premium=1 AND active=1 AND ended=0 ORDER BY end_timestamp DESC").list();
     }

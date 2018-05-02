@@ -197,9 +197,28 @@ public class Listing implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Listing [id=" + id + ", name=" + name + ", description=" + description + ", category=" /* + category */
-                + ", price=" + price + ", dateCreated=" + dateCreated + ", user=" + user
-                + "]";
+        return "Listing{" +
+                "id=" + id +
+                ", user=" + user +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", category='" + category + '\'' +
+                ", subCategory='" + subCategory + '\'' +
+                ", price=" + price +
+                ", dateCreated=" + dateCreated +
+                ", type='" + type + '\'' +
+                ", highestBidder=" + highestBidder +
+                ", highestBid=" + highestBid +
+                ", bidCount=" + bidCount +
+                ", startTimestamp=" + startTimestamp +
+                ", endTimestamp=" + endTimestamp +
+                ", ended=" + ended +
+                ", active=" + active +
+                ", premium=" + premium +
+                ", draft=" + draft +
+                ", images=" + images +
+                ", paymentType='" + paymentType + '\'' +
+                '}';
     }
 
     public String getEndDate() {

@@ -1,10 +1,15 @@
 <%@include file="jspf/header.jsp" %>
 
-<body class="uk-background-muted uk-height-viewport">
+<body class="uk-background-muted">
 
 <%@include file="jspf/navbar.jspf" %>
 
-<div class="search-tutorial" id="listingResults">
+<div class="search-tutorial uk-height-viewport" id="listingResults">
+
+    <c:if test="${listingSearch.size() == 0}">
+        <%@include file="jspf/help-icon.jsp" %>
+    </c:if>
+
     <div class="uk-container">
         <div style="float: left;">
             <h1>Results</h1>
@@ -317,11 +322,15 @@
         }).done(function (response) {
             if (response.showTutorial == 'YES') {
                 setTimeout(function () {
-                    introJs(".search-tutorial").start();
+                    startTutorial();
                 }, 1500);
             }
         });
     });
+
+    function startTutorial() {
+        introJs(".search-tutorial").start();
+    }
 
 </script>
 

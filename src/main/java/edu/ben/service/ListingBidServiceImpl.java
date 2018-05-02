@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -152,7 +151,7 @@ public class ListingBidServiceImpl implements ListingBidService {
 
         // If current highest bidder is getting outbid, send notification
         if (listing.getHighestBidder() != null && biddingUserID != listing.getHighestBidder().getUserID()) {
-            notificationService.save(new Notification(listing.getHighestBidder(), listing.getId(), "You've Be Outbit! Listing: " + listing.getName(), 1));
+            notificationService.save(new Notification(listing.getHighestBidder(), listing.getId(), "You've Be Outbit! Listing: " + listing.getName()));
         }
 
         listing.setHighestBid(bidValue);

@@ -32,25 +32,30 @@
                             <td>${transaction.buyer.username}</td>
                             <c:choose>
                                 <c:when test="${transaction.transRating == 1}">
-                                    <td><span uk-icon="star"></span></td>
+                                    <td><i class="fas fa-star"></i><i class="far fa-star"></i><i
+                                            class="far fa-star"></i><i class="far fa-star"></i><i
+                                            class="far fa-star"></i></td>
                                 </c:when>
                                 <c:when test="${transaction.transRating == 2}">
-                                    <td><span uk-icon="star"></span><span uk-icon="star"></span></td>
+                                    <td><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                            class="far fa-star"></i><i
+                                            class="far fa-star"></i><i class="far fa-star"></i></td>
                                 </c:when>
                                 <c:when test="${transaction.transRating == 3}">
-                                    <td><span uk-icon="star"></span><span uk-icon="star"></span><span
-                                            uk-icon="star"></span>
+                                    <td><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                            class="fas fa-star"></i><i class="far fa-star"></i><i
+                                            class="far fa-star"></i>
                                     </td>
                                 </c:when>
                                 <c:when test="${transaction.transRating == 4}">
-                                    <td><span uk-icon="star"></span><span uk-icon="star"></span><span
-                                            uk-icon="star"></span><span
-                                            uk-icon="star"></span></td>
+                                    <td><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                            class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                            class="far fa-star"></i></td>
                                 </c:when>
                                 <c:when test="${transaction.transRating == 5}">
-                                    <td><span uk-icon="star"></span><span uk-icon="star"></span><span
-                                            uk-icon="star"></span><span
-                                            uk-icon="star"></span><span uk-icon="star"></span></td>
+                                    <td><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                            class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                            class="fas fa-star"></i></td>
                                 </c:when>
                             </c:choose>
                             <td>${transaction.transReview}</td>

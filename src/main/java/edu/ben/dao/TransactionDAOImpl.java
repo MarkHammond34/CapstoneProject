@@ -1,7 +1,6 @@
 package edu.ben.dao;
 
-import java.util.List;
-
+import edu.ben.model.Transaction;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.ben.model.Transaction;
+import java.util.List;
 
 @Transactional
 @Repository
@@ -68,7 +67,7 @@ public class TransactionDAOImpl implements TransactionDAO {
     @Override
     public List<Transaction> getTransactionsByUserID(int id) {
 
-        Query q = getSession().createQuery("FROM transaction WHERE buyer_ID =:id OR seller_ID=:id");
+        Query q = getSession().createQuery("FROM transaction WHERE buyer_ID=:id OR seller_ID=:id");
         q.setParameter("id", id);
 
         return q.list();

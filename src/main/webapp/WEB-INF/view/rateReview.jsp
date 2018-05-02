@@ -29,20 +29,26 @@
                 </div>
                 <div class="uk-margin-left uk-margin-top uk-grid-small uk-child-width-auto uk-grid">
                     <div class="uk-form-controls">
-                        <label><input class="uk-radio" type="radio" name="transRating" value="5" checked> <span
-                                uk-icon="icon: star"></span><span uk-icon="icon: star"></span><span
-                                uk-icon="icon: star"></span><span uk-icon="icon: star"></span><span
-                                uk-icon="icon: star"></span></label><br>
-                        <label><input class="uk-radio" type="radio" name="transRating" value="4"> <span
-                                uk-icon="icon: star"></span><span uk-icon="icon: star"></span><span
-                                uk-icon="icon: star"></span><span uk-icon="icon: star"></span></label><br>
-                        <label><input class="uk-radio" type="radio" name="transRating" value="3"> <span
-                                uk-icon="icon: star"></span><span uk-icon="icon: star"></span><span
-                                uk-icon="icon: star"></span></label><br>
-                        <label><input class="uk-radio" type="radio" name="transRating" value="2"> <span
-                                uk-icon="icon: star"></span><span uk-icon="icon: star"></span></label><br>
-                        <label><input class="uk-radio" type="radio" name="transRating" value="1"> <span
-                                uk-icon="icon: star"></span>
+                        <label><input class="uk-radio" type="radio" name="transRating" value="5" checked> <i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i></label><br>
+                        <label><input class="uk-radio" type="radio" name="transRating" value="4"> <i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="far fa-star"></i></label><br>
+                        <label><input class="uk-radio" type="radio" name="transRating" value="3"> <i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="far fa-star"></i><i
+                                class="far fa-star"></i></label><br>
+                        <label><input class="uk-radio" type="radio" name="transRating" value="2"> <i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="far fa-star"></i><i
+                                class="far fa-star"></i><i class="far fa-star"></i></label><br>
+                        <label><input class="uk-radio" type="radio" name="transRating" value="1"> <i
+                                class="fas fa-star"></i><i class="far fa-star"></i><i
+                                class="far fa-star"></i><i class="far fa-star"></i><i
+                                class="far fa-star"></i>
                         </label><br>
                     </div>
                 </div>

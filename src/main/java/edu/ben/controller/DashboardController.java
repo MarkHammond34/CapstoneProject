@@ -45,7 +45,9 @@ public class DashboardController extends BaseController {
         if (request.getSession(false) == null || session.getAttribute("user") == null) {
 
             addErrorMessage("Please log in or sign up");
-            return new ModelAndView("redirect:login"); // Might change to different page later. Maybe login page.
+            setModel(new ModelAndView("redirect:login"));
+            return new ModelAndView("redirect:login");
+
         } else {
             //System.out.println("Already a session"); // For testing
 
@@ -86,36 +88,98 @@ public class DashboardController extends BaseController {
         }
     }
 
+    @RequestMapping(value = "/relevantListing", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody
+    String showRelevantRecommendations(HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        Listing recentListing = listingService.getRecentListingWithOfferOrBidByUserID(user.getUserID());
+        Listing relevantListing = (Listing) listingService.getRelevantListingsFromRecentPurchaseByUserID(user.getUserID(), recentListing.getCategory()).get(0);
+
+        JsonObject json = new JsonObject();
+
+        json.addProperty("listingName", relevantListing.getName());
+        json.addProperty("listingDescription", relevantListing.getDescription());
+        json.addProperty("listingPrice", String.valueOf(relevantListing.getPrice()));
+        json.addProperty("listingCategory", relevantListing.getCategory());
+
+        return json.toString();
+    }
+
     @RequestMapping(value = "/offerDetails", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
     String showOfferDetails(HttpServletRequest request, @RequestParam("offerId") int offerid) {
 
-        System.out.println(offerid);
         User user = (User) request.getSession().getAttribute("user");
         Offer offer = offerService.getOfferById(offerid);
 
         JsonObject json = new JsonObject();
 
-        json.addProperty("offer-id", offer.getOfferID());
-        json.addProperty("offer-amount", offer.getOfferAmount());
-        json.addProperty("offer-message", String.valueOf(offer.getOfferMessage()));
-        json.addProperty("offer-maker", offer.getOfferMaker().getUserID());
-        json.addProperty("offer-receiver", offer.getOfferReceiver().getUserID());
-        json.addProperty("offer-status", offer.getStatus());
-        json.addProperty("offer-active", offer.getActive());
+        json.addProperty("offerId", offer.getOfferID());
+        json.addProperty("offerAmount", offer.getOfferAmount());
+        json.addProperty("offerMessage", String.valueOf(offer.getOfferMessage()));
+        json.addProperty("offerMaker", offer.getOfferMaker().getUserID());
+        json.addProperty("offerReceiver", offer.getOfferReceiver().getUserID());
+        json.addProperty("offerStatus", offer.getStatus());
+        json.addProperty("offerActive", offer.getActive());
 
         return json.toString();
     }
 
-    @RequestMapping(value = "/pickUpDetails", method = RequestMethod.GET)
-    public String showPickUpDetails() {
+    @RequestMapping(value = "cancelAuction", method = RequestMethod.POST, produces = "application/json")
+    public @ResponseBody
+    boolean cancelAuctionAjax(HttpServletRequest request, @RequestParam("listing") int id) {
 
-        return "";
+        User user = (User) request.getSession().getAttribute("user");
+
+        Listing listing = listingService.getByListingID(id);
+
+        try {
+            System.out.println("trying");
+            if (listing == null) {
+                System.out.println("checking");
+                if (listing.getBidCount() > 0) {
+                    return false;
+                }
+                System.out.println("setting");
+                listing.setActive(0);
+                listing.setEnded(1);
+                listingService.saveOrUpdate(listing);
+
+                return true;
+
+            } else {
+                return false;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    @RequestMapping(value = "/pickUpDetails", method = RequestMethod.GET)
+    public String showPickUpDetails(HttpServletRequest request, @RequestParam("pickupId") int pickupId) {
+
+        System.out.println("Pickup id: " + pickupId);
+        User user = (User) request.getSession().getAttribute("user");
+
+        JsonObject json = new JsonObject();
+
+        // Set json properties
+
+        return json.toString();
     }
 
     @RequestMapping(value = "/transactionDetails", method = RequestMethod.GET)
     public String showTransactionDetails() {
 
-        return "";
+        JsonObject json = new JsonObject();
+
+        // Set json properties
+
+        return json.toString();
     }
 }

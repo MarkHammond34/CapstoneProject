@@ -8,16 +8,21 @@
 
     <%@include file="jspf/messages.jsp" %>
 
-    <div class="uk-align-center uk-section uk-background-muted">
+    <div class="uk-align-center uk-section uk-background-muted purchase-history-tutorial">
+
+        <!-- Help Icon -->
+        <%@include file="jspf/help-icon.jsp" %>
+
         <div class="uk-margin">
             <h2 class="uk-heading-line uk-text-center"><span>Purchase History</span></h2>
         </div>
-        <div class="uk-width-5-6 uk-align-center">
+        <div class="uk-width-5-6 uk-align-center" data-step="1"
+             data-intro="On your purchase history page you can view your transactions, and leave a quick rating and review of users you've interacted with.">
             <h3>You have made <strong
                     class="uk-text-danger uk-text-large"> ${userTransactions.size()}</strong> purchase(s)</h3>
             <div class="uk-tile uk-padding-remove-top uk-padding-remove-bottom uk-padding-remove-right uk-padding-remove-left uk-box-shadow-medium uk-box-shadow-hover-large uk-tile-default">
                 <table
-                        class="uk-table uk-margin-remove-top uk-table-hover uk-table-striped">
+                        class="uk-table uk-margin-remove-top uk-padding-small uk-table-hover uk-table-striped">
                     <thead>
                     <tr>
                         <th>Item Name</th>
@@ -69,25 +74,30 @@
                                     <td>${transaction.seller.username}</td>
                                     <c:choose>
                                         <c:when test="${transaction.transRating == 1}">
-                                            <td><span uk-icon="star"></span></td>
+                                            <td><i class="fas fa-star"></i><i class="far fa-star"></i><i
+                                                    class="far fa-star"></i><i class="far fa-star"></i><i
+                                                    class="far fa-star"></i></td>
                                         </c:when>
                                         <c:when test="${transaction.transRating == 2}">
-                                            <td><span uk-icon="star"></span><span uk-icon="star"></span></td>
+                                            <td><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                    class="far fa-star"></i><i
+                                                    class="far fa-star"></i><i class="far fa-star"></i></td>
                                         </c:when>
                                         <c:when test="${transaction.transRating == 3}">
-                                            <td><span uk-icon="star"></span><span uk-icon="star"></span><span
-                                                    uk-icon="star"></span>
+                                            <td><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                    class="fas fa-star"></i><i class="far fa-star"></i><i
+                                                    class="far fa-star"></i>
                                             </td>
                                         </c:when>
                                         <c:when test="${transaction.transRating == 4}">
-                                            <td><span uk-icon="star"></span><span uk-icon="star"></span><span
-                                                    uk-icon="star"></span><span
-                                                    uk-icon="star"></span></td>
+                                            <td><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                    class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                    class="far fa-star"></i></td>
                                         </c:when>
                                         <c:when test="${transaction.transRating == 5}">
-                                            <td><span uk-icon="star"></span><span uk-icon="star"></span><span
-                                                    uk-icon="star"></span><span
-                                                    uk-icon="star"></span><span uk-icon="star"></span></td>
+                                            <td><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                    class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                    class="fas fa-star"></i></td>
                                         </c:when>
                                     </c:choose>
                                     <td>${transaction.transReview}</td>
@@ -112,15 +122,20 @@
                     }).done(function (response) {
                         if (response.showTutorial == 'YES') {
                             setTimeout(function () {
-                                introJs(".purchase-history-tutorial").start();
+                                startTutorial();
                             }, 1500);
                         }
                     });
                 });
 
+                function startTutorial() {
+                    introJs(".purchase-history-tutorial").start();
+                }
+
             </script>
         </div>
     </div>
+
 </div>
 </body>
 <%@include file="jspf/footer.jspf" %>

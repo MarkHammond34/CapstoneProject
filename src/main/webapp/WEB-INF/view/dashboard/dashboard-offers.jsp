@@ -15,19 +15,14 @@
                     <tbody>
                     <c:forEach var="offer" items="${offers}">
                         <tr>
-                            <!--<td><img class="uk-preserve-width uk-border-circle"
-                                     uk-tooltip="${offer.offerMaker.username}"
-                                     src="${pageContext.request.contextPath}/resources/img/listings/default.jpeg"
-                                     height="auto" width="40" alt=""></td>-->
                             <td class="uk-text-truncate">${offer.listingID.name}</td>
                             <td class="uk-preserve-width">${offer.offerAmount}</td>
                             <td class="uk-text-nowrap">${offer.status}</td>
                             <td class="uk-text-nowrap">
                                 <div class="uk-text-right uk-float-right uk-flex-right"
                                      uk-tooltip="title: More info">
-                                    <a onclick="modalClick(${offer.offerID}), UIkit.modal('#offer${offer.offerID}').show();"><i
+                                    <a onclick="UIkit.modal('#offer${offer.offerID}').show()"><i
                                             class="fas fa-ellipsis-v"></i></a>
-                                    <!--<button value="${offer.offerID}" class="uk-button" onclick="modalClick(this.value)">Button</button>-->
                                 </div>
                             </td>
                         </tr>
