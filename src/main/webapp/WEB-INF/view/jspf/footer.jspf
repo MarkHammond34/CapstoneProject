@@ -1,4 +1,4 @@
-<div class="uk-width-1-1 uk-padding-small uk-text-center" style="background-color: #333333">
+<div class="uk-width-1-1 uk-padding-small uk-text-center" style="background-color: #333333" id="footer">
     <a href="#" uk-totop uk-scroll uk-tooltip="title: Back To Top"></a>
 </div>
 <div class="uk-section uk-section-large" style="background-color: #2c3e50">

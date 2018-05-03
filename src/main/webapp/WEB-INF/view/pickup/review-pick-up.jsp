@@ -19,6 +19,9 @@
             <li><a href="/">Home</a></li>
             <li><a href="/listing?l=${pickUp.transaction.listingID.id}">Listing</a></li>
             <li><span>Pick Up</span></li>
+            <c:if test="${pickUp.buyerAccept == 1}">
+                <li><a href="/checkout?l=${pickUp.transaction.listingID.id}">Checkout</a></li>
+            </c:if>
         </ul>
 
         <div class="uk-grid uk-padding uk-padding-remove-bottom" uk-grid>
@@ -50,13 +53,13 @@
                                     <c:when test="${sessionScope.user.userID == pickUp.transaction.seller.userID}">
                                         <!-- Seller Image -->
                                         <img class="uk-border-circle" id="user-icon-img"
-                                             src="${pageContext.request.contextPath}/directory/${user.mainImage}"
+                                             src="${pageContext.request.contextPath}/directory/${pickUp.transaction.seller.mainImage}"
                                              uk-tooltip="${pickUp.transaction.seller.username} Is Inactive"/>
                                     </c:when>
                                     <c:otherwise>
                                         <!-- Buyer Image -->
                                         <img class="uk-border-circle" id="user-icon-img"
-                                             src="${pageContext.request.contextPath}/directory/${user.mainImage}"
+                                             src="${pageContext.request.contextPath}/directory/${pickUp.transaction.buyer.mainImage}"
                                              uk-tooltip="${pickUp.transaction.buyer.username} Is Inactive"/>
                                     </c:otherwise>
                                 </c:choose>

@@ -676,7 +676,20 @@ public class ListingController extends BaseController {
                     request.setAttribute("viewPickUp", true);
 
                 } else if (pickUp.getStatus().equals("ACCEPTED")) {
-                    request.setAttribute("viewCheckout", true);
+
+                    if (user.getUserID() == pickUp.getTransaction().getBuyer().getUserID() &&
+                            pickUp.getTransaction().getTransactionType().equals("buyer_finished") ||
+                            pickUp.getTransaction().getTransactionType().equals("fully_finished")) {
+                        request.setAttribute("viewPickUpDetails", true);
+
+                    } else if (user.getUserID() == pickUp.getTransaction().getSeller().getUserID() &&
+                            pickUp.getTransaction().getTransactionType().equals("seller_finished") ||
+                            pickUp.getTransaction().getTransactionType().equals("fully_finished")) {
+                        request.setAttribute("viewPickUpDetails", true);
+
+                    } else {
+                        request.setAttribute("viewCheckout", true);
+                    }
 
                 } else if (pickUp.getStatus().equals("VERIFIED") || pickUp.getStatus().equals("COMPLETED")) {
                     request.setAttribute("viewTransaction", true);
