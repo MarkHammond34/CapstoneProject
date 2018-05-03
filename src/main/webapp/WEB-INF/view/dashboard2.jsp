@@ -31,8 +31,9 @@
                             <li id="dashboardActive" aria-expanded="false"><a onclick="activeListingsDashboardLoad()">Active</a></li>
                             <li id="dashboardInactive" aria-expanded="false"><a onclick="inactiveListingsDashboardLoad()">Inactive</a></li>
                             <li id="dashboardWon" aria-expanded="false"><a onclick="wonListingsDashboardLoad()">Won</a></li>
-                            <li id="dashboardLost" aria-expanded="false"><a href="#">Lost</a></li>
-                            <li id="dashboardSold" aria-expanded="false"><a href="#">Sold</a></li>
+                            <li id="dashboardLost" aria-expanded="false"><a onclick="lostListingsDashboardLoad()">Lost</a></li>
+                            <li id="dashboardSold" aria-expanded="false"><a onclick="soldListingsDashboardLoad()">Sold</a></li>
+                            <li id="dashboardFavorite" aria-expanded="false"><a onclick="favoriteListingsDashboardLoad()">Favorited</a></li>
                         </ul>
                     </div>
                 </div>
@@ -58,6 +59,9 @@
 
                         <!-- 6th set of content: Sold listings -->
                         <%@include file="dashboard/switcher-content/sold-listings.jsp" %>
+
+                        <!-- 7th set of content: Favorited listings -->
+                        <%@include file="dashboard/switcher-content/favorite-listings.jsp" %>
 
                     </ul>
                     <!-- End content switcher -->

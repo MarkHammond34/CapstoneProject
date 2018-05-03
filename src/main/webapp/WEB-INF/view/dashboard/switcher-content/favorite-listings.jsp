@@ -1,10 +1,10 @@
 <li>
     <script>
-        function soldListingsDashboardLoad(){
-            $("#soldListingsLoad:hidden").show();
+        function favoriteListingsDashboardLoad(){
+            $("#favoriteListingsLoad:hidden").show();
             var text="";
             $.ajax({
-                url: 'dashboardSoldListings',
+                url: 'dashboardFavoriteListings',
                 type: 'GET',
                 dataType: 'json',
                 contentType: 'application/json',
@@ -12,7 +12,7 @@
                     var text = "";
                     var sessionUsr = ${sessionScope.user.userID};
                     if(Object.keys(result).length == 0){
-                        text += '<li class="uk-position-center"><h2>You have no listings you sold</h2></li>';
+                        text += '<li class="uk-position-center"><h2>You have no favorited listings</h2></li>';
                     }else{
                         for (var key in result) {
                             text += '<li class="uk-padding-small uk-first-column">'+
@@ -125,18 +125,18 @@
                                 '</div></li>';
                         }
                     }
-                    $("#soldListings").empty();
-                    $("#soldListingsLoad").hide();
-                    $("#soldListings").append(text);
+                    $("#favoriteListings").empty();
+                    $("#favoriteListingsLoad").hide();
+                    $("#favoriteListings").append(text);
                 }
             });
         }
     </script>
     <div
             class="uk-panel uk-panel-scrollable uk-resize-vertical uk-height-large uk-padding-remove uk-background-muted uk-border-rounded">
-        <div id="soldListingsLoad" class="uk-position-center" uk-spinner="ratio: 3"></div>
-        <a class="uk-icon-button uk-position-top-right" onclick="soldListingsDashboardLoad()"><span uk-icon="refresh" ></span></a>
-        <ul id="soldListings" class="uk-nav uk-nav-default uk-child-width-1-4@m uk-grid-small uk-grid-match list" uk-grid>
+        <div id="favoriteListingsLoad" class="uk-position-center" uk-spinner="ratio: 3"></div>
+        <a class="uk-icon-button uk-position-top-right" onclick="favoriteListingsDashboardLoad()"><span uk-icon="refresh" ></span></a>
+        <ul id="favoriteListings" class="uk-nav uk-nav-default uk-child-width-1-4@m uk-grid-small uk-grid-match list" uk-grid>
 
         </ul>
     </div>

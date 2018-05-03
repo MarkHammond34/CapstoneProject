@@ -9,9 +9,11 @@
                 dataType: 'json',
                 contentType: 'application/json',
                 success: function (result) {
-                    console.log(result);
                     var text = "";
                     var sessionUsr = ${sessionScope.user.userID};
+                    if(Object.keys(result).length == 0){
+                        text += '<li class="uk-position-center"><h2>You have no active listings</h2></li>';
+                    }else{
                     for (var key in result) {
                         text += '<li class="uk-padding-small uk-first-column">'+
                             '<div>' +
@@ -121,6 +123,7 @@
                         text += '        </div>' +
                             '    </div>' +
                             '</div></li>';
+                    }
                     }
                     $("#activeListings").empty();
                     $("#activeListingsLoad").hide();
