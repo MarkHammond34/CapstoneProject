@@ -310,7 +310,7 @@ public class ListingDAOImpl implements ListingDAO {
     @Override
     public List<Listing> getRecentListingsWithOffersOrBidsForUserByUserID(int userID) {
         System.out.println("User id = " + userID);
-        String sql = "";
+        String sql = "select * from listing where listing.userID=:userID and listing.bid_count > 0;";
         SQLQuery q = getSession().createSQLQuery(sql)
                 .addEntity(Listing.class);
         q.setParameter("userID", userID);

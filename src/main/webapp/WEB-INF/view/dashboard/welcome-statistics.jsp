@@ -4,8 +4,8 @@
     <div class="uk-grid" style="padding-top: 5%" uk-grid>
         <div class="uk-width-3-5">
             <div class="uk-child-width-1-2 uk-grid-match uk-grid-large" uk-grid>
-                <h3>My Bids</h3>
-                <h3>Their Bids</h3>
+                <h3>Listings I've Bid On</h3>
+                <h3>Listings Of Mine With Bids</h3>
             </div>
         </div>
         <div class="uk-width-2-5">
@@ -19,7 +19,7 @@
         <div class="uk-grid-divider uk-grid-match uk-padding-small uk-margin-small-top" uk-grid>
 
             <div class="uk-width-3-5@m uk-width-1-1@s uk-first-column">
-                <div class="uk-child-width-1-2@m uk-child-width-1-1@s uk-grid-match uk-grid-large" uk-grid>
+                <div class="uk-child-width-1-2@m uk-child-width-1-1@s uk-grid-match uk-grid-large">
 
                     <div class="uk-float-left uk-padding-remove-left">
 
@@ -54,7 +54,7 @@
 
                     </div>
 
-                    <div>
+                    <div class="uk-padding-remove-right">
 
                         <!-- Begin slider -->
                         <div class="uk-position-relative uk-visible-toggle uk-light" uk-slideshow="animation: fade">
@@ -88,26 +88,26 @@
                     </div>
 
                 </div>
-                <div class="uk-width-2-5@m uk-width-1-1@s">
+            </div>
+            <div class="uk-width-2-5@m uk-width-1-1@s uk-float-right">
 
-                    <div>
+                <div>
 
-                        <div id="relevantListingCard" class="uk-card uk-card-default">
-                            <div id="relevant-image-top" class="uk-card-media-top">
-                                <img style="height: auto; width: auto; width: 100%"
-                                     src="${pageContext.request.contextPath}/resources/img/listings/duder.png"
-                                     alt="Listing">
-                            </div>
-                            <div class="uk-card-body">
-                                <h3 class="uk-card-title">Headline</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt.</p>
-                            </div>
+                    <div id="relevantListingCard" class="uk-card uk-card-default">
+                        <div id="relevant-image-top" class="uk-card-media-top">
+                            <img style="height: auto; width: auto; width: 100%"
+                                 src="${pageContext.request.contextPath}/resources/img/listings/duder.png"
+                                 alt="Listing">
                         </div>
-
+                        <div class="uk-card-body">
+                            <h3 class="uk-card-title">Headline</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                incididunt.</p>
+                        </div>
                     </div>
 
                 </div>
+
             </div>
         </div>
     </div>
