@@ -38,7 +38,10 @@ public class ProfileController extends BaseController {
 	@Autowired
     ImageService imageService;
 
-	@RequestMapping(value = "/viewProfile", method = RequestMethod.GET)
+    @Autowired
+    SalesTrafficService salesTrafficService;
+
+    @RequestMapping(value = "/viewProfile", method = RequestMethod.GET)
     public String viewProfile(HttpServletRequest request, @RequestParam("id") int id) {
 
         List<Listing> userListings = listingService.getAllListingsByUserID(id);
@@ -57,7 +60,16 @@ public class ProfileController extends BaseController {
         request.setAttribute("transactions", buyerTransactions);
         request.setAttribute("transactions", sellerTransactions);
         request.setAttribute("offers", myOffers);
-        
+
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            // Add site traffic record
+            salesTrafficService.create(new SalesTraffic("Profile_Page"));
+        } else {
+            // Add site traffic record
+            salesTrafficService.create(new SalesTraffic("Profile_Page", user.getUserID()));
+        }
+
         return "profile-page";
     }
 

@@ -419,6 +419,45 @@ public class ListingController extends BaseController {
         return "listing/create-listing";
     }
 
+    @RequestMapping(value = "/editAdminListing", method = RequestMethod.POST)
+    public String uploadFileHandlerListing(@RequestParam("title") String name, @RequestParam("category") String category,
+                                         @RequestParam("subCategory") String subCategory,
+                                         @RequestParam(value = "price", required = false) int price,
+                                         @RequestParam("description") String description,
+                                         @RequestParam("type") String type, @RequestParam(value = "paymentType") String paymentType, @RequestParam("id") int id, Model model,
+                                         HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            addWarningMessage("Login To Publish A Listing");
+            setRequest(request);
+            return "redirect:/login";
+        }
+
+        Listing listing = listingService.getByListingID(id);
+
+        if (listing == null) {
+            addWarningMessage("Error Loading Listing");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        listing.setCategory(category);
+        listing.setDescription(description);
+        listing.setName(name);
+        listing.setSubCategory(subCategory);
+        listing.setPaymentType(paymentType);
+        listing.setType(type);
+        listing.setPrice(price);
+
+        listingService.saveOrUpdate(listing);
+
+        addSuccessMessage("Listing Successful!");
+        setRequest(request);
+        return "redirect:/adminListing";
+    }
+
     @GetMapping("/createListingDraft")
     public String createListingDraft(HttpServletRequest request, @RequestParam("id") int id) {
         User u = (User) request.getSession().getAttribute("user");
@@ -562,6 +601,8 @@ public class ListingController extends BaseController {
 
     @GetMapping("/editListing")
     public String editListing(HttpServletRequest request, @RequestParam("id") int id) {
+        request.setAttribute("categories", categoryService.getAllCategories());
+        request.setAttribute("subCategories", categoryService.getAllSubCategories());
         System.out.println(id);
         request.setAttribute("listing", listingService.getByListingID(id));
         return "editListing";
@@ -662,8 +703,19 @@ public class ListingController extends BaseController {
             }
         }
 
-        request.setAttribute("listing", listing);
+        // Transaction rollback work around
+        if (!listing.getType().equals("auction") && listing.getEnded() == 1) {
+            List<Transaction> transactions = transactionService.getTransactionsByBuyerID(user.getUserID());
+            if (transactions != null && transactions.size() > 0) {
+                for (Transaction t : transactions) {
+                    if (t.getListingID().getId() == listingID) {
+                        request.setAttribute("transaction", t);
+                    }
+                }
+            }
+        }
 
+        request.setAttribute("listing", listing);
         request.setAttribute("title", "Listing");
 
         setRequest(request);
@@ -968,6 +1020,86 @@ public class ListingController extends BaseController {
 
         listingService.saveOrUpdate(l);
         return "redirect:/dashboard";
+    }
+
+    @GetMapping("buy")
+    public String buyItNow(HttpServletRequest request, @RequestParam("l") int listingID) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            addErrorMessage("Login To Buy A Listing");
+            setRequest(request);
+            return "redirect:/login";
+        }
+
+        Listing listing = listingService.getByListingID(listingID);
+
+        // Listing doesn't exist
+        if (listing == null) {
+            addErrorMessage("Error Loading Listing");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        // Listing ended already
+        if (listing.getEnded() == 1) {
+            addErrorMessage("This listing was already purchased, sorry.");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        // User tries to buy own listing
+        if (listing.getUser().getUserID() == user.getUserID()) {
+            addErrorMessage("You Can't Buy Your Own Listing");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        // Listing is not fixed
+        if (!listing.getType().equals("fixed")) {
+            addErrorMessage("You Can Only Buy Fixed Priced Listings");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        List<Notification> newNotifications = new ArrayList<Notification>(10);
+
+        // Notify seller
+        newNotifications.add(new Notification(listing.getUser(), listingID, "Sold", user.getUsername() +
+                " has bought you listing " + listing.getName() + " for $" + listing.getPrice()
+                + ". Checkout the listing page to set up a pickup date and time.", 1, "SOLD"));
+
+        // Notify users who made offers
+        List<Offer> offersMade = offerService.getActiveOffersByListingId(listingID);
+        if (offersMade != null && offersMade.size() > 0) {
+            for (Offer o : offersMade) {
+                if (o.getOfferMaker().getUserID() != user.getUserID()) {
+                    // Notify user who made offer
+                    newNotifications.add(new Notification(o.getOfferMaker(), listingID, "Listing Sold",
+                            "The listing " + listing.getName() + " has sold to another user. Better luck next time!", 1, "LOST"));
+
+                }
+            }
+        }
+
+        // Mark as ended
+        listing.setEnded(1);
+        listingService.saveOrUpdate(listing);
+
+        // Start transaction
+        Transaction transaction = new Transaction(listing, 0);
+        transaction.setSeller(listing.getUser());
+        transaction.setBuyer(user);
+        transaction.setTransactionType("pending");
+        transactionService.createTransaction(transaction);
+
+        // Redirect to listing page
+        addSuccessMessage(listing.getName() + " is yours!");
+        setRequest(request);
+        return "redirect:/listing?l=" + listingID;
+
+
     }
 
 }

@@ -1,10 +1,8 @@
 package edu.ben.controller;
 
-import edu.ben.model.Checklist;
-import edu.ben.model.ChecklistItem;
-import edu.ben.model.Tutorial;
-import edu.ben.model.User;
+import edu.ben.model.*;
 import edu.ben.service.ChecklistService;
+import edu.ben.service.SalesTrafficService;
 import edu.ben.service.TutorialService;
 import edu.ben.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +26,16 @@ public class ChecklistController extends BaseController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    SalesTrafficService salesTrafficService;
+
     @GetMapping("/checklist")
     public String createChecklist(HttpServletRequest request) {
 
         User user = (User) request.getSession().getAttribute("user");
 
         if (user == null) {
+            salesTrafficService.create(new SalesTraffic("Checklist_Page"));
             addWarningMessage("Login To Create A Checklist");
             request.getSession().setAttribute("lastPage", "/checklist");
             setRequest(request);
@@ -79,6 +81,8 @@ public class ChecklistController extends BaseController {
                 }
             }
         }
+
+        salesTrafficService.create(new SalesTraffic("Checkout_Page", user.getUserID()));
 
         request.setAttribute("title", "Checklist");
         request.setAttribute("checklist", checklist);

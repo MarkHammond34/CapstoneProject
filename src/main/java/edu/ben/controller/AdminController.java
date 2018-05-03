@@ -90,6 +90,8 @@ public class AdminController extends BaseController {
             return "redirect:" + request.getHeader("Referer");
         }
 
+        trafficService.create(new SalesTraffic("Admin_Page", user.getUserID()));
+
 
         ArrayList<Integer> salesPerHour = new ArrayList<>();
         ArrayList<Integer> salesPerHourLastWeek = new ArrayList<>();

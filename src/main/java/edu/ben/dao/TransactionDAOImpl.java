@@ -75,8 +75,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     @Override
     public Transaction getTransactionsByListingID(int id) {
-        Query q = getSession().createQuery("FROM transaction WHERE listing_ID=:id");
-        q.setParameter("id", id);
+        Query q = getSession().createQuery("SELECT * FROM transaction WHERE listingID=" + id + " LIMIT 1");
         return (Transaction) q.uniqueResult();
     }
 

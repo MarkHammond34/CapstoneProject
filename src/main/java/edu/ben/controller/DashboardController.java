@@ -39,10 +39,15 @@ public class DashboardController extends BaseController {
     @Autowired
     PickUpService pickUpService;
 
+    @Autowired
+    SalesTrafficService salesTrafficService;
+
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public ModelAndView showDashboard(HttpServletRequest request, HttpSession session) {
 
         if (request.getSession(false) == null || session.getAttribute("user") == null) {
+
+            salesTrafficService.create(new SalesTraffic("Dashboard_Page"));
 
             addErrorMessage("Please log in or sign up");
             setModel(new ModelAndView("redirect:login"));
@@ -83,6 +88,8 @@ public class DashboardController extends BaseController {
             model.addObject("offers", offers);
             model.addObject("pickUps", pickUps);
             model.addObject("transactions", transactions);
+
+            salesTrafficService.create(new SalesTraffic("Dashboard_Page", user.getUserID()));
 
             return model;
         }

@@ -47,9 +47,16 @@ public class DonationController extends BaseController {
         request.setAttribute("categories", categoryService.getAllCategories());
         request.setAttribute("title", "Donate");
 
+        User user = (User) request.getSession().getAttribute("user");
 
-        SalesTraffic s = new SalesTraffic("Donation_Page");
-        trafficService.create(s);
+        if (user == null) {
+            // Add site traffic record
+            trafficService.create(new SalesTraffic("Donation_Page"));
+        } else {
+            // Add site traffic record
+            trafficService.create(new SalesTraffic("Donation_Page", user.getUserID()));
+        }
+
         return "donation/donation";
 
     }
