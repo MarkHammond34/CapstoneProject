@@ -9,11 +9,11 @@
 
                     <strong>Event Title</strong> <input class="uk-input" name="title"
                                                         type="text"
-                                                        placeholder="Title">
+                                                        placeholder="Title" required>
                     <br>
                     <br>
                     <strong>Choose A Location</strong><select class="uk-select"
-                                                              name="location">
+                                                              name="location" required>
                     <option value="birck">Birck Hall of Science</option>
                     <option value="field">Football/Soccer Field</option>
                     <option value="goodwin">Goodwin Hall of Business</option>
@@ -28,14 +28,14 @@
                         <strong>Start Date</strong><input type="datetime-local"
                                                           class="uk-input" id="startDate"
                                                           name="startDate"
-                                                          placeholder="End Date">
+                                                          placeholder="End Date" required>
                     </div>
                     <br>
                     <div id="dateEnd">
                         <strong>End Date</strong><input type="datetime-local"
                                                         class="uk-input" id="endDate"
                                                         name="endDate"
-                                                        placeholder="End Date">
+                                                        placeholder="End Date" required>
                     </div>
                     <br>
                     <strong>Give a Description</strong>
@@ -62,19 +62,19 @@
                 <fieldset class="uk-fieldset">
 
                     <strong>News Article Title</strong>
-                    <input class="uk-input" name="title" type="text" placeholder="Title">
+                    <input class="uk-input" name="title" type="text" placeholder="Title" required>
                     <br>
                     <br>
 
                     <strong>Upload News Article:</strong> <input id="doc"
-                                                                 type="file" name="doc"> <span
+                                                                 type="file" name="doc" required> <span
                         class="val_error"
                         id="image_error"></span>
 
                     <br>
                     <br>
                     <strong>Upload News Article Image:</strong> <input id="image"
-                                                                       type="file" name="image"> <span
+                                                                       type="file" name="image" required> <span
                         class="val_error"
                         id="image_error2"></span>
                     <br>
@@ -82,7 +82,7 @@
 
                     <strong>Description: </strong>
                     <textarea class="uk-textarea" name="description" rows="5"
-                              placeholder="Textarea"></textarea>
+                              placeholder="Textarea" required></textarea>
 
                     <br>
                     <br>

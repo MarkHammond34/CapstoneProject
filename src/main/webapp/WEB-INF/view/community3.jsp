@@ -4,6 +4,7 @@
             margin: 0 auto;
             background: white;">
     <%@include file="jspf/navbar.jspf" %>
+
     <div class="uk-cover-container uk-height-large uk-border-rounded">
         <img src="${pageContext.request.contextPath}/resources/img/community-header.jpg"
              uk-cover>
@@ -22,7 +23,6 @@
                     <div class="uk-position-relative uk-visible-toggle uk-light"
                          uk-slideshow="animation: scale">
                         <ul class="uk-slideshow-items">
-
                             <li class="uk-border-rounded">
                                 <img alt=""
                                      src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(0).getImagePath()}"
@@ -165,11 +165,9 @@
 
                                         <div style="font-weight: 300; font-size: 0.80rem">${time.get(loop.index)}</div>
                                     </div>
-
                                 </div>
                             </c:forEach>
                             <br>
-
                         </div>
                         <br>
                     </div>

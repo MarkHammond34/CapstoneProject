@@ -239,10 +239,23 @@ public class CommunityController extends BaseController {
     @RequestMapping(value = "/uploadNews", method = RequestMethod.POST)
     public String viewEventsNews(HttpServletRequest request, @RequestParam("title") String title, @RequestParam("doc") MultipartFile doc,
                                  @RequestParam("image") MultipartFile image, @RequestParam("description") String description) throws IOException {
+
         if (!doc.isEmpty()) {
             try {
                 String extension = FilenameUtils.getExtension(doc.getOriginalFilename());
+                System.out.println("Doc Extension: " + extension);
                 String imageExtension = FilenameUtils.getExtension(image.getOriginalFilename());
+                System.out.println("Image Extension: " + imageExtension);
+
+                if (!(imageExtension.equals("jpg") || imageExtension.equals("png") || imageExtension.equals("jpeg"))) {
+                    addErrorMessage("You did not upload an image.");
+                    setRequest(request);
+                }
+
+                if (!(extension.equals("docx"))) {
+                    addErrorMessage("Please uplaod a word document.");
+                    setRequest(request);
+                }
 
 //				System.out.println(extension);
 
@@ -289,6 +302,7 @@ public class CommunityController extends BaseController {
 
     @RequestMapping(value = "/viewNews")
     public String viewNews(HttpServletRequest request) {
+
         Resource resource = new ClassPathResource("TempNews1.docx");
         // File file = new File(classLoader.getResource("El Norte.docx").getFile());
         System.out.println("Please dont fail " + resource.getFilename());
@@ -345,8 +359,33 @@ public class CommunityController extends BaseController {
                               @RequestParam("description") String description, HttpServletRequest request) throws IOException {
         System.out.println("Hit Servlet");
 
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         Timestamp startDate = Timestamp.valueOf(request.getParameter("startDate").replace('T', ' ') + ":00");
+
+        System.out.println(currentTime.getTime());
+        System.out.println(startDate.getTime());
+
+
+
+        if (startDate.getTime() < currentTime.getTime()) {
+            addErrorMessage("Cannot select date that already happened.");
+            setRequest(request);
+            return "admin/events-news";
+        }
         Timestamp endDate = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00");
+
+        System.out.println(endDate.getTime());
+        if (endDate.getTime() < currentTime.getTime()) {
+            addErrorMessage("Cannot select date that already happened.");
+            setRequest(request);
+            return "admin/events-news";
+        }
+
+        if (endDate.getTime() < startDate.getTime()) {
+            addErrorMessage("End date cannot happen before the start date");
+            setRequest(request);
+            return "admin/events-news";
+        }
 
         CalendarEvent event = new CalendarEvent(title, location, startDate, endDate, description, 0);
 
