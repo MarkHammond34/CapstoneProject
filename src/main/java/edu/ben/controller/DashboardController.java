@@ -1,5 +1,6 @@
 package edu.ben.controller;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import edu.ben.model.*;
 import edu.ben.service.*;
@@ -188,5 +189,194 @@ public class DashboardController extends BaseController {
         // Set json properties
 
         return json.toString();
+    }
+
+    @RequestMapping(value = "dashboardAllListings", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody String dashboardAllListings(HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("user");
+        List<Listing> allListings = listingService.getAllListingsByUserID(user.getUserID());
+
+        if(allListings != null || !allListings.isEmpty()) {
+            JsonArray result = new JsonArray();
+            for (int i = 0; i < allListings.size(); i++) {
+                if(allListings.get(i).getDraft() == 0) {
+                    JsonObject addJson = new JsonObject();
+                    List<Image> temp = allListings.get(i).getImages();
+                    addJson.addProperty("listingId", allListings.get(i).getId());
+                    addJson.addProperty("listingName", allListings.get(i).getName());
+                    addJson.addProperty("listingCategory", allListings.get(i).getCategory());
+                    addJson.addProperty("listingPrice", allListings.get(i).getPrice());
+                    addJson.addProperty("listingEndTime", allListings.get(i).getEndTimestamp().toString());
+                    addJson.addProperty("listingCreatedTime", allListings.get(i).getDateCreated().toString());
+                    addJson.addProperty("listingBids", allListings.get(i).getBidCount());
+                    addJson.addProperty("listingHighestBids", allListings.get(i).getHighestBid());
+                    JsonArray images = new JsonArray();
+                    for(int j = 0; j < temp.size(); j++) {
+                        JsonObject image = new JsonObject();
+                        image.addProperty("image", temp.get(j).getImage_path() + "/" + temp.get(j).getImage_name());
+                        images.add(image);
+                    }
+
+                    addJson.addProperty("listingImages", images.toString());
+
+                    if(allListings.get(i).getEndTimestamp() == null) {
+                        addJson.addProperty("listingType", "Auction");
+                    }
+                    else if(allListings.get(i).getPrice() == 0){
+                        addJson.addProperty("listingType", "Donation");
+                    }
+                    else{
+                        addJson.addProperty("listingType", "Fixed Price");
+                    }
+                    result.add(addJson);
+                }
+            }
+            return result.toString();
+        }
+
+        return null;
+
+    }
+
+    @RequestMapping(value = "dashboardActiveListings", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody String dashboardActiveListings(HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("user");
+        List<Listing> allListings = listingService.getAllListingsByUserID(user.getUserID());
+
+        if(allListings != null || !allListings.isEmpty()) {
+            JsonArray result = new JsonArray();
+            for (int i = 0; i < allListings.size(); i++) {
+                if(allListings.get(i).getDraft() == 0 && allListings.get(i).getActive() == 1) {
+                    JsonObject addJson = new JsonObject();
+                    List<Image> temp = allListings.get(i).getImages();
+                    addJson.addProperty("listingId", allListings.get(i).getId());
+                    addJson.addProperty("listingName", allListings.get(i).getName());
+                    addJson.addProperty("listingCategory", allListings.get(i).getCategory());
+                    addJson.addProperty("listingPrice", allListings.get(i).getPrice());
+                    addJson.addProperty("listingEndTime", allListings.get(i).getEndTimestamp().toString());
+                    addJson.addProperty("listingCreatedTime", allListings.get(i).getDateCreated().toString());
+                    addJson.addProperty("listingBids", allListings.get(i).getBidCount());
+                    addJson.addProperty("listingHighestBids", allListings.get(i).getHighestBid());
+                    JsonArray images = new JsonArray();
+                    for(int j = 0; j < temp.size(); j++) {
+                        JsonObject image = new JsonObject();
+                        image.addProperty("image", temp.get(j).getImage_path() + "/" + temp.get(j).getImage_name());
+                        images.add(image);
+                    }
+
+                    addJson.addProperty("listingImages", images.toString());
+
+                    if(allListings.get(i).getEndTimestamp() == null) {
+                        addJson.addProperty("listingType", "Auction");
+                    }
+                    else if(allListings.get(i).getPrice() == 0){
+                        addJson.addProperty("listingType", "Donation");
+                    }
+                    else{
+                        addJson.addProperty("listingType", "Fixed Price");
+                    }
+                    result.add(addJson);
+                }
+            }
+            return result.toString();
+        }
+
+        return null;
+
+    }
+
+    @RequestMapping(value = "dashboardInactiveListings", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody String dashboardInactiveListings(HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("user");
+        List<Listing> allListings = listingService.getAllListingsByUserID(user.getUserID());
+
+        if(allListings != null || !allListings.isEmpty()) {
+            JsonArray result = new JsonArray();
+            for (int i = 0; i < allListings.size(); i++) {
+                if(allListings.get(i).getDraft() == 0 && allListings.get(i).getActive() == 0) {
+                    JsonObject addJson = new JsonObject();
+                    List<Image> temp = allListings.get(i).getImages();
+                    addJson.addProperty("listingId", allListings.get(i).getId());
+                    addJson.addProperty("listingName", allListings.get(i).getName());
+                    addJson.addProperty("listingCategory", allListings.get(i).getCategory());
+                    addJson.addProperty("listingPrice", allListings.get(i).getPrice());
+                    addJson.addProperty("listingEndTime", allListings.get(i).getEndTimestamp().toString());
+                    addJson.addProperty("listingCreatedTime", allListings.get(i).getDateCreated().toString());
+                    addJson.addProperty("listingBids", allListings.get(i).getBidCount());
+                    addJson.addProperty("listingHighestBids", allListings.get(i).getHighestBid());
+                    JsonArray images = new JsonArray();
+                    for(int j = 0; j < temp.size(); j++) {
+                        JsonObject image = new JsonObject();
+                        image.addProperty("image", temp.get(j).getImage_path() + "/" + temp.get(j).getImage_name());
+                        images.add(image);
+                    }
+
+                    addJson.addProperty("listingImages", images.toString());
+
+                    if(allListings.get(i).getEndTimestamp() == null) {
+                        addJson.addProperty("listingType", "Auction");
+                    }
+                    else if(allListings.get(i).getPrice() == 0){
+                        addJson.addProperty("listingType", "Donation");
+                    }
+                    else{
+                        addJson.addProperty("listingType", "Fixed Price");
+                    }
+                    result.add(addJson);
+                }
+            }
+            return result.toString();
+        }
+
+
+        return null;
+
+    }
+
+    @RequestMapping(value = "dashboardWonListings", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody String dashboardWonListings(HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("user");
+        List<Listing> allListings = listingService.getListingsWon(user.getUserID());
+
+        if(allListings != null || !allListings.isEmpty()) {
+            JsonArray result = new JsonArray();
+            for (int i = 0; i < allListings.size(); i++) {
+
+                    JsonObject addJson = new JsonObject();
+                    List<Image> temp = allListings.get(i).getImages();
+                    addJson.addProperty("listingId", allListings.get(i).getId());
+                    addJson.addProperty("listingName", allListings.get(i).getName());
+                    addJson.addProperty("listingCategory", allListings.get(i).getCategory());
+                    addJson.addProperty("listingPrice", allListings.get(i).getPrice());
+                    addJson.addProperty("listingEndTime", allListings.get(i).getEndTimestamp().toString());
+                    addJson.addProperty("listingCreatedTime", allListings.get(i).getDateCreated().toString());
+                    addJson.addProperty("listingBids", allListings.get(i).getBidCount());
+                    addJson.addProperty("listingHighestBids", allListings.get(i).getHighestBid());
+                    JsonArray images = new JsonArray();
+                    for(int j = 0; j < temp.size(); j++) {
+                        JsonObject image = new JsonObject();
+                        image.addProperty("image", temp.get(j).getImage_path() + "/" + temp.get(j).getImage_name());
+                        images.add(image);
+                    }
+
+                    addJson.addProperty("listingImages", images.toString());
+
+                    if(allListings.get(i).getEndTimestamp() == null) {
+                        addJson.addProperty("listingType", "Auction");
+                    }
+                    else if(allListings.get(i).getPrice() == 0){
+                        addJson.addProperty("listingType", "Donation");
+                    }
+                    else{
+                        addJson.addProperty("listingType", "Fixed Price");
+                    }
+                    result.add(addJson);
+
+            }
+            return result.toString();
+        }
+
+        return null;
+
     }
 }

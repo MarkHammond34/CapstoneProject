@@ -15,6 +15,8 @@
 
     </div>
 
+
+
     <!-- 2nd Section: Listings/Content -->
 
     <div class="uk-section">
@@ -36,12 +38,12 @@
                     <div class="uk-padding-small uk-border-rounded">
                         <ul class="uk-nav uk-nav-default"
                             uk-switcher="connect: #seller-content; animation: uk-animation-fade; toggle: > :not(.uk-nav-header)">
-                            <li aria-expanded="true" class="uk-active"><a href="#">All</a></li>
-                            <li aria-expanded="false"><a href="#">Active</a></li>
-                            <li aria-expanded="false"><a href="#">InActive</a></li>
-                            <li aria-expanded="false"><a href="#">Won</a></li>
-                            <li aria-expanded="false"><a href="#">Lost</a></li>
-                            <li aria-expanded="false"><a href="#">Sold</a></li>
+                            <li id="dashboardAll" aria-expanded="true" class="uk-active"><a onclick="allListingsDashboardLoad()">All</a></li>
+                            <li id="dashboardActive" aria-expanded="false"><a onclick="activeListingsDashboardLoad()">Active</a></li>
+                            <li id="dashboardInactive" aria-expanded="false"><a onclick="inactiveListingsDashboardLoad()">Inactive</a></li>
+                            <li id="dashboardWon" aria-expanded="false"><a onclick="wonListingsDashboardLoad()">Won</a></li>
+                            <li id="dashboardLost" aria-expanded="false"><a href="#">Lost</a></li>
+                            <li id="dashboardSold" aria-expanded="false"><a href="#">Sold</a></li>
                         </ul>
                     </div>
                 </div>
@@ -99,7 +101,7 @@
             valueNames: ['name', {attr: 'data-timestamp', name: 'timestamp'}, 'category', 'price', 'type']
         };
 
-        var allListings = new List('allListings', options);
+        /*var allListings = new List('allListings', options);
         var activeListings = new List('activeListings', options);
         var inactiveListings = new List('inactiveListings', options);
         var wonListings = new List('wonListings', options);
@@ -108,6 +110,7 @@
         var meetups = new List('meetups', options);
         var offers = new List('offers', options);
         var transactions = new List('transactions', options);
+        */
 
     </script>
 </div>

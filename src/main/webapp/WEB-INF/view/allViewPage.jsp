@@ -122,7 +122,7 @@
                     '<div class="uk-card uk-card-default">' +
                     '<div class="uk-card-media-top">'+
                     '<img class="uk-align-center" src="directory/'+ result[key].listingImages + '" alt="">'+
-                    '<div class="uk-card-body"> <h3 class="uk-card-title">'+ result[key].listingName +'</h3>'+
+                    '<div class="uk-card-body"> <a href="/listing?l='+result[key].listingId +'"> <h3 class="uk-card-title">'+ result[key].listingName +'</h3></a> '+
                     '<p>Category: ' + result[key].listingCategory + '</p>' +
                     '<p>Price: ' + result[key].listingPrice + '</p>'+
                     '</div></div></li>';
@@ -253,7 +253,7 @@
                 '<div class="uk-card uk-card-default">' +
                 '<div class="uk-card-media-top">'+
                 '<img class="uk-align-center" src="directory/'+ result[key].listingImages + '" alt="">'+
-                '<div class="uk-card-body"> <h3 class="uk-card-title">'+ result[key].listingName +'</h3>'+
+                '<div class="uk-card-body"> <a href="/listing?l='+result[key].listingId +'"> <h3 class="uk-card-title">'+ result[key].listingName +'</h3></a> '+
                 '<p>Category: ' + result[key].listingCategory + '</p>' +
                 '<p>Price: ' + result[key].listingPrice + '</p>'+
                 '</div></div></li>';
@@ -271,7 +271,7 @@
                     '<div class="uk-card uk-card-default">' +
                     '<div class="uk-card-media-top">' +
                     '<img class="uk-align-center" src="directory/' + result[key].listingImages + '" alt="">' +
-                    '<div class="uk-card-body"> <h3 class="uk-card-title">' + result[key].listingName + '</h3>' +
+                    '<div class="uk-card-body"> <a href="/listing?l='+result[key].listingId +'"> <h3 class="uk-card-title">'+ result[key].listingName +'</h3></a> '+
                     '<p>Category: ' + result[key].listingCategory + '</p>' +
                     '<p>Price: ' + result[key].listingPrice + '</p>' +
                     '</div></div></li>';
