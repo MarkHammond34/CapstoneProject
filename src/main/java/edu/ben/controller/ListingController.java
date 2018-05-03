@@ -419,6 +419,45 @@ public class ListingController extends BaseController {
         return "listing/create-listing";
     }
 
+    @RequestMapping(value = "/editAdminListing", method = RequestMethod.POST)
+    public String uploadFileHandlerListing(@RequestParam("title") String name, @RequestParam("category") String category,
+                                         @RequestParam("subCategory") String subCategory,
+                                         @RequestParam(value = "price", required = false) int price,
+                                         @RequestParam("description") String description,
+                                         @RequestParam("type") String type, @RequestParam(value = "paymentType") String paymentType, @RequestParam("id") int id, Model model,
+                                         HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            addWarningMessage("Login To Publish A Listing");
+            setRequest(request);
+            return "redirect:/login";
+        }
+
+        Listing listing = listingService.getByListingID(id);
+
+        if (listing == null) {
+            addWarningMessage("Error Loading Listing");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        listing.setCategory(category);
+        listing.setDescription(description);
+        listing.setName(name);
+        listing.setSubCategory(subCategory);
+        listing.setPaymentType(paymentType);
+        listing.setType(type);
+        listing.setPrice(price);
+
+        listingService.saveOrUpdate(listing);
+
+        addSuccessMessage("Listing Successful!");
+        setRequest(request);
+        return "redirect:/adminListing";
+    }
+
     @GetMapping("/createListingDraft")
     public String createListingDraft(HttpServletRequest request, @RequestParam("id") int id) {
         User u = (User) request.getSession().getAttribute("user");
@@ -562,6 +601,8 @@ public class ListingController extends BaseController {
 
     @GetMapping("/editListing")
     public String editListing(HttpServletRequest request, @RequestParam("id") int id) {
+        request.setAttribute("categories", categoryService.getAllCategories());
+        request.setAttribute("subCategories", categoryService.getAllSubCategories());
         System.out.println(id);
         request.setAttribute("listing", listingService.getByListingID(id));
         return "editListing";
