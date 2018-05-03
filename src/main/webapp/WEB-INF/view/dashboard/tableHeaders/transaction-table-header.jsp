@@ -24,24 +24,27 @@
                 <div class="uk-dropdown-grid uk-child-width-1-2@m" uk-grid>
                     <div>
                         <ul class="uk-nav uk-dropdown-nav">
-                            <li class="uk-active">Active</li>
-                            <li>Item</li>
-                            <li class="uk-nav-header">Header</li>
-                            <li>Item</li>
-                            <li>Item</li>
+                            <li class="uk-nav-header">What is a transaction?</li>
+                            <li>Transaction definition:</li>
+                            <li>An instance of buying or selling something.</li>
                             <li class="uk-nav-divider"></li>
-                            <li>Item</li>
+
+                            <li class="uk-nav-header">What do the headers mean?</li>
+                            <li>Listing:</li>
+                            <li>The item that an offer was made on.</li>
+                            <li class="uk-nav-divider"></li>
+
+                            <li>Amount:</li>
+                            <li>The monetary value offered for a listing.</li>
+                            <li class="uk-nav-divider"></li>
+
+                            <li>Status:</li>
+                            <li>Shows if a transaction has been completed or is in progress.</li>
                         </ul>
                     </div>
                     <div>
                         <ul class="uk-nav uk-dropdown-nav">
-                            <li class="uk-active">Active</li>
-                            <li>Item</li>
-                            <li class="uk-nav-header">Header</li>
-                            <li>Item</li>
-                            <li>Item</li>
-                            <li class="uk-nav-divider"></li>
-                            <li>Item</li>
+
                         </ul>
                     </div>
                 </div>

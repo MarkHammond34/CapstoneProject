@@ -10,7 +10,11 @@
     <%@include file="../jspf/messages.jsp" %>
 
     <div class="uk-section uk-background-muted listing-tutorial">
-
+        <div class="uk-padding-small">
+            <button class="uk-button uk-button-primary uk-text-center" onclick="goBack()"><span
+                    class="uk-padding-remove-left" uk-icon="arrow-left"></span>Go Back
+            </button>
+        </div>
         <div class="uk-section uk-padding-small" uk-grid>
 
             <!-- LEFT SIDE -->
@@ -18,7 +22,7 @@
 
                 <div class="uk-margin-small-left uk-margin-small-right" uk-slideshow="animation: fade">
 
-                    <ul class="uk-slideshow-items" style="min-height: 400px">
+                    <ul class="uk-slideshow-items" style="min-height: 350px">
 
                         <c:forEach items="${listing.images}" var="image">
                             <li>
@@ -32,7 +36,7 @@
 
                     <br>
 
-                    <div class="uk-position-relative uk-visible-toggle uk-light uk-tile-muted uk-border-rounded uk-padding"
+                    <div class="uk-position-relative uk-visible-toggle uk-light uk-tile-muted uk-border-rounded"
                          uk-slider>
 
                         <ul class="uk-slider-items uk-child-width-1-3">
@@ -43,7 +47,7 @@
                                         <img class="uk-align-center"
                                              src="${pageContext.request.contextPath}/directory/${image.image_path}/${image.image_name}"
                                              alt="Listing"
-                                             style="height: auto; max-height: 100px; max-width: 100%; width: auto;"></a>
+                                             style="height: auto; max-height: 60%; max-width: 100%; width: auto;"></a>
                                 </li>
                             </c:forEach>
 
@@ -86,9 +90,9 @@
                         <div class="uk-grid-small uk-child-width-auto uk-tile-default uk-border-rounded uk-padding"
                              uk-grid>
 
-                            <ul class="uk-grid-small uk-float-left uk-width-1-3 uk-padding-small uk-padding-remove-left"
-                                uk-grid>
+                            <ul class="uk-grid-small uk-float-left uk-width-1-2" uk-grid>
                                 <li class="uk-width-1-1">
+
                                 <span class="uk-float-left"><strong>Asking Price</strong>
                                     <span class="uk-badge">$${listing.price}</span>
                                 </span>
@@ -114,27 +118,39 @@
 
                             </ul>
 
-                            <div class="uk-float-right uk-width-2-3 uk-grid-small" uk-grid>
-                                <div class="uk-width-1-1">
-                                    <c:choose>
-                                        <c:when test="${listing.ended == 0}">
-                                            <c:if test="${sessionScope.user.userID != listing.user.userID}">
-                                                <!-- Make Offer -->
-                                                <a class="uk-button uk-button-text uk-align-right"
-                                                   style="color: green;"
-                                                   onclick="UIkit.modal('#make-offer${listing.id}').show();">Make
-                                                    offer</a>
+                            <div class="uk-float-right uk-width-1-2">
+                                <c:if test="${listing.ended == 0}">
+                                    <span class="uk-width-1-1">
+                                        <a
+                                                class="uk-button uk-button-text uk-align-right"
+                                                style="color: green;"
+                                                onclick="UIkit.modal('#make-offer${listing.id}').show();">Make
+                                        offer</a>
+                                    </span>
+                                    <%@include file="../offer-modals/make-offer.jsp" %>
+                                </c:if>
+                            </div>
 
-                                                <!-- Buy Now -->
-                                                <a class="uk-button uk-button-text uk-align-right"
-                                                   onclick="UIkit.modal('#buyItNowModal${listing.id}').show()">Buy Now</a>
+                        </div>
+                        <div class="uk-width-1-1">
+                            <c:choose>
+                                <c:when test="${listing.ended == 0}">
+                                    <c:if test="${sessionScope.user.userID != listing.user.userID}">
+                                        <!-- Make Offer -->
+                                        <a class="uk-button uk-button-text uk-align-right"
+                                           style="color: green;"
+                                           onclick="UIkit.modal('#make-offer${listing.id}').show();">Make
+                                            offer</a>
 
-                                                <%@include file="../offer-modals/make-offer.jsp" %>
-                                                <%@include file="bid-buy-modals.jsp" %>
+                                        <!-- Buy Now -->
+                                        <a class="uk-button uk-button-text uk-align-right"
+                                           onclick="UIkit.modal('#buyItNowModal${listing.id}').show()">Buy Now</a>
 
-                                            </c:if>
-                                        </c:when>
+                                        <%@include file="../offer-modals/make-offer.jsp" %>
+                                        <%@include file="bid-buy-modals.jsp" %>
 
+                                    </c:if>
+                                </c:when>
                                         <c:otherwise>
                                             <c:if test="${sessionScope.user.userID == transaction.buyer.userID || sessionScope.user.userID == listing.user.userID}">
                                                 <c:choose>
@@ -612,6 +628,9 @@
         introJs(".listing-tutorial").start();
     }
 
+    function goBack() {
+        window.history.back();
+    }
 
 </script>
 

@@ -1,16 +1,12 @@
 package edu.ben.controller;
 
-import java.io.File;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
 import edu.ben.model.Image;
 import edu.ben.model.Tutorial;
+import edu.ben.model.User;
 import edu.ben.service.ImageService;
 import edu.ben.service.TutorialService;
+import edu.ben.service.UserService;
+import edu.ben.util.Email;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,9 +15,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
-import edu.ben.model.User;
-import edu.ben.service.UserService;
-import edu.ben.util.Email;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.io.File;
+import java.util.List;
 
 @Controller
 public class RegistrationController extends BaseController {
@@ -46,7 +43,7 @@ public class RegistrationController extends BaseController {
 			if ((User) request.getSession().getAttribute("user") != null) {
 				addWarningMessage("Please Logout Before Registering");
 				setRequest(request);
-				return "redirect:/home";
+                return "redirect:/index";
 			} else {
 
 				if (bindingResult.hasErrors()) {
@@ -149,7 +146,8 @@ public class RegistrationController extends BaseController {
         if (action.equals("sendCode") || action.equals("matchCode")) {
 
             req.getSession().setAttribute("action", "matchCode");
-            //req.getSession().setAttribute("code", Email.studentVerification(user.getSchoolEmail()));
+            System.out.println("Student validating");
+            req.getSession().setAttribute("code", Email.studentVerification(user.getSchoolEmail())); // Validation code to finish registration
             setRequest(req);
             return "registration/student-validation";
 

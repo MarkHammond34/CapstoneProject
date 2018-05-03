@@ -77,7 +77,7 @@
 
                         <div class="uk-width-1-1 uk-position-relative uk-position-bottom">
 
-                            <p>By clicking <span class="uk-badge uk-padding-small">Registration</span>,
+                            <p>By clicking <span class="uk-badge uk-padding-small">Register</span>,
                                 you agree to the
                                 <a uk-toggle="target: #termsAndConditionsModal">Terms and Conditions</a>
                                 set out by this site, including our Cookie Use.</p>

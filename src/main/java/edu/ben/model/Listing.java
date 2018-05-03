@@ -92,6 +92,16 @@ public class Listing implements java.io.Serializable {
         this.bidCount = 0;
     }
 
+    public Listing(int id, String name, int highestBid, String type, int price, Timestamp endTimeStamp, int active) {
+        this.id = id;
+        this.name = name;
+        this.highestBid = highestBid;
+        this.type = type;
+        this.price = price;
+        this.endTimestamp = endTimeStamp;
+        this.active = active;
+    }
+
     public Listing(@NotBlank int id, @NotBlank String name, String description, @NotBlank int price, @NotBlank String paymentType) {
         this.id = id;
         this.name = name;

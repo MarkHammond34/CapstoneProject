@@ -26,23 +26,26 @@
                     <div>
                         <ul class="uk-nav uk-dropdown-nav">
                             <li class="uk-nav-header">What is an offer?</li>
-                            <li>Offer definition: Something of value for someone to accept or reject as desired.</li>
-                            <li class="uk-nav-header">Header</li>
-                            <li>Item</li>
-                            <li>Item</li>
+                            <li>Offer definition:</li>
+                            <li>Something of value for someone to accept or reject as desired.</li>
                             <li class="uk-nav-divider"></li>
-                            <li>Item</li>
+
+                            <li class="uk-nav-header">What do the headers mean?</li>
+                            <li>Listing:</li>
+                            <li>The item that an offer was made on.</li>
+                            <li class="uk-nav-divider"></li>
+
+                            <li>Amount:</li>
+                            <li>The monetary value offered for a listing.</li>
+                            <li class="uk-nav-divider"></li>
+
+                            <li>Status:</li>
+                            <li>Shows if an offer has been accepted, rejected, or is pending.</li>
                         </ul>
                     </div>
                     <div>
                         <ul class="uk-nav uk-dropdown-nav">
-                            <li class="uk-active">Active</li>
-                            <li>Item</li>
-                            <li class="uk-nav-header">Header</li>
-                            <li>Item</li>
-                            <li>Item</li>
-                            <li class="uk-nav-divider"></li>
-                            <li>Item</li>
+
                         </ul>
                     </div>
                 </div>
