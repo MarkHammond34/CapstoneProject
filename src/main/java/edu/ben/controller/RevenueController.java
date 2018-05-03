@@ -1,8 +1,8 @@
 package edu.ben.controller;
 
-import com.google.appengine.repackaged.org.joda.time.DateTime;
+//import com.google.appengine.repackaged.org.joda.time.DateTime;
+
 import edu.ben.model.Revenue;
-import edu.ben.model.SalesTraffic;
 import edu.ben.service.RevenueService;
 import edu.ben.service.SalesTrafficService;
 import edu.ben.service.UserService;
@@ -11,16 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.concurrent.Callable;
 
 @Controller
 public class RevenueController {

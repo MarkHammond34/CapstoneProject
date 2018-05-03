@@ -70,6 +70,8 @@ public interface ListingDAO {
 
     public Listing getRecentListingWithOfferOrBidByUserID(int userID);
 
+    public List<Listing> getRecentListingsWithOffersOrBidsForUserByUserID(int userID);
+
     public List getPremiumListings();
 
     public List getUserDrafts(int id);

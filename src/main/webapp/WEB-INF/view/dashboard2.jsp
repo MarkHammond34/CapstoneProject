@@ -18,30 +18,22 @@
     <!-- 2nd Section: Listings/Content -->
 
     <div class="uk-section">
-        <!--
-        <nav class="uk-navbar-container" nav>
-            <div class="uk-navbar-center-right">
-                <ul class="uk-navbar-nav">
-                    <li><a class="sort" data-sort="timestamp" href="#">Sort date</a></li>
-                </ul>
-            </div>
-        </nav>-->
-        <!--<button class="sort" data-sort="timestamp">Sort date</button>-->
 
         <div class="uk-container uk-container-expand">
-            <!-- class="uk-grid-large" -->
+
             <div uk-grid="" class="uk-grid">
                 <div class="uk-width-auto@m uk-width-1-3@s uk-first-column">
-                    <!-- uk-padding-small uk-background-muted -->
+
                     <div class="uk-padding-small uk-border-rounded">
                         <ul class="uk-nav uk-nav-default"
                             uk-switcher="connect: #seller-content; animation: uk-animation-fade; toggle: > :not(.uk-nav-header)">
-                            <li aria-expanded="true" class="uk-active"><a href="#">All</a></li>
-                            <li aria-expanded="false"><a href="#">Active</a></li>
-                            <li aria-expanded="false"><a href="#">InActive</a></li>
-                            <li aria-expanded="false"><a href="#">Won</a></li>
-                            <li aria-expanded="false"><a href="#">Lost</a></li>
-                            <li aria-expanded="false"><a href="#">Sold</a></li>
+                            <li id="dashboardAll" aria-expanded="true" class="uk-active"><a onclick="allListingsDashboardLoad()">All</a></li>
+                            <li id="dashboardActive" aria-expanded="false"><a onclick="activeListingsDashboardLoad()">Active</a></li>
+                            <li id="dashboardInactive" aria-expanded="false"><a onclick="inactiveListingsDashboardLoad()">Inactive</a></li>
+                            <li id="dashboardWon" aria-expanded="false"><a onclick="wonListingsDashboardLoad()">Won</a></li>
+                            <li id="dashboardLost" aria-expanded="false"><a onclick="lostListingsDashboardLoad()">Lost</a></li>
+                            <li id="dashboardSold" aria-expanded="false"><a onclick="soldListingsDashboardLoad()">Sold</a></li>
+                            <li id="dashboardFavorite" aria-expanded="false"><a onclick="favoriteListingsDashboardLoad()">Favorited</a></li>
                         </ul>
                     </div>
                 </div>
@@ -68,6 +60,9 @@
                         <!-- 6th set of content: Sold listings -->
                         <%@include file="dashboard/switcher-content/sold-listings.jsp" %>
 
+                        <!-- 7th set of content: Favorited listings -->
+                        <%@include file="dashboard/switcher-content/favorite-listings.jsp" %>
+
                     </ul>
                     <!-- End content switcher -->
                 </div>
@@ -78,10 +73,8 @@
 
     <!-- 3rd Section: Tables -->
 
-    <!-- uk-height-viewport="expand: true" -->
     <div class="uk-section uk-background-muted" uk-height-viewport="min-height:300"
          style="box-sizing: border-box; min-height: 100vh; height: 100vh;">
-        <!-- uk-height-viewport="min-height:300" -->
         <div class="uk-container uk-container-expand">
             <div class="uk-grid-small uk-child-width-1-2@m uk-child-width-1-3@l uk-padding-small uk-grid-match" uk-grid>
 
@@ -93,32 +86,13 @@
         </div>
     </div>
 
-    <script type="text/javascript">
-
-        var options = {
-            valueNames: ['name', {attr: 'data-timestamp', name: 'timestamp'}, 'category', 'price', 'type']
-        };
-
-        var allListings = new List('allListings', options);
-        var activeListings = new List('activeListings', options);
-        var inactiveListings = new List('inactiveListings', options);
-        var wonListings = new List('wonListings', options);
-        var lostListings = new List('lostListings', options);
-
-        var meetups = new List('meetups', options);
-        var offers = new List('offers', options);
-        var transactions = new List('transactions', options);
-
-    </script>
 </div>
 <%@include file="jspf/footer.jspf" %>
 </body>
-
 
 <script type="text/javascript" src="resources/js/uikit.js"></script>
 <script type="text/javascript" src="resources/js/uikit-icons.js"></script>
 <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"
         integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+"
         crossorigin="anonymous"></script>
-<script type="text/javascript" src="date.js"></script>
 </html>

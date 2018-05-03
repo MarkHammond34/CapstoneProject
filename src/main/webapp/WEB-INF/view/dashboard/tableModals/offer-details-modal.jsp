@@ -44,10 +44,6 @@
 
 <script>
 
-    // $(document).ready(function() {
-    //
-    // });
-
     document.getElementById("offer${offer.offerID}").addEventListener("load", offerClick(${offer.offerID}));
 
     // Fills the modal with data
@@ -100,8 +96,6 @@
                 }
             }
 
-            // Add data to modal
-
         });
     });
 
@@ -125,8 +119,6 @@
                     })
                 }
             }
-
-            // Add data to modal
 
         });
     });

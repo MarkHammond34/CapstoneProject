@@ -75,8 +75,6 @@
                 }
             }
 
-            // Add data to modal
-
         });
     });
 </script>

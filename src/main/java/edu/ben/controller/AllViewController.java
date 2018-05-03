@@ -50,6 +50,7 @@ public class AllViewController extends BaseController {
                     addJson.addProperty("listingPrice", allListings.get(i).getPrice());
                     addJson.addProperty("listingEndTime", allListings.get(i).getEndTimestamp().toString());
                     addJson.addProperty("listingBids", allListings.get(i).getBidCount());
+                    addJson.addProperty("listingHighestBids", allListings.get(i).getHighestBid());
                     for(int j = 0; j < temp.size(); j++) {
                         if (temp.get(j).getMain() == 1)
                             addJson.addProperty("listingImages", temp.get(j).getImage_path() + "/" + temp.get(j).getImage_name());

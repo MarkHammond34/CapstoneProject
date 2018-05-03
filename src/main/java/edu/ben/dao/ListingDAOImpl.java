@@ -294,14 +294,28 @@ public class ListingDAOImpl implements ListingDAO {
 
     @Override
     public Listing getRecentListingWithOfferOrBidByUserID(int userID) {
-
-        String sql = "select MAX(listing.date_created), listing.category from listing, offer, listing_bid where " +
-                "listing.userID = offer.offer_maker_id or listing.userID = listing_bid.user_id and ended = 0 and listing.active = 1;";
+        System.out.println("User id = " + userID);
+        String sql = "select DISTINCT listing.id, listing.name, listing.highest_bid, listing.type, listing.price, listing.end_timestamp, " +
+                "listing.active, listing.bid_count, listing.category, listing.description, listing.draft, listing.ended, listing.highest_bid_userID, " +
+                "listing.payment_type, listing.sub_category, listing.date_created, listing.premium, listing.start_timestamp, listing.userID " +
+                "from listing, offer, listing_bid where listing.date_created = (select MAX(listing.date_created) from listing " +
+                "where (offer.offer_maker_id=:userID or listing_bid.user_id=:userID) and ended = 0 and listing.active = 1);";
         SQLQuery q = getSession().createSQLQuery(sql)
                 .addEntity(Listing.class);
         q.setParameter("userID", userID);
 
         return (Listing) q.list().get(0);
+    }
+
+    @Override
+    public List<Listing> getRecentListingsWithOffersOrBidsForUserByUserID(int userID) {
+        System.out.println("User id = " + userID);
+        String sql = "";
+        SQLQuery q = getSession().createSQLQuery(sql)
+                .addEntity(Listing.class);
+        q.setParameter("userID", userID);
+
+        return q.list();
     }
 
     @Override

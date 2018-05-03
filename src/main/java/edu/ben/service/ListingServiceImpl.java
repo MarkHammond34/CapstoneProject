@@ -155,6 +155,10 @@ public class ListingServiceImpl implements ListingService {
         return ld.getRecentListingWithOfferOrBidByUserID(userID);
     }
 
+    public List<Listing> getRecentListingsWithOffersOrBidsForUserByUserID(int userID) {
+        return ld.getRecentListingsWithOffersOrBidsForUserByUserID(userID);
+    }
+
     @Override
     public List getPremiumListings() {
         return ld.getPremiumListings();
