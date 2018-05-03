@@ -239,9 +239,9 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function showDesktopNotification(notificationTitle, notificationBody, notificationRedirect) {
-    if (Notification.permission !== "granted")
+    if (Notification.permission !== "granted") {
         Notification.requestPermission();
-    else {
+    } else {
         var notification = new Notification(notificationTitle, {
             icon: 'resources/img/logo.png',
             body: notificationBody,
@@ -250,5 +250,10 @@ function showDesktopNotification(notificationTitle, notificationBody, notificati
         notification.onclick = function () {
             window.open(notificationRedirect);
         };
+
+        $.ajax({
+            type: 'GET',
+            url: '/markAsViewed',
+        });
     }
 }
