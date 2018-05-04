@@ -20,7 +20,7 @@
                                 '    <div class="uk-float-left">' +
                                 '        <ul class="uk-iconnav uk-iconnav-vertical">' +
                                 '            <li><a href="#" uk-icon="icon: plus"></a></li>' +
-                                '            <li uk-tooltip="title: Edit; pos: left"><a href="edit?listing='+ result[key].listingID + '" uk-icon="icon: file-edit"></a>' +
+                                '            <li uk-tooltip="title: Edit; pos: left"><a href="edit?listing='+ result[key].listingId + '" uk-icon="icon: file-edit"></a>' +
                                 '            </li>' +
                                 '            <li><a href="#" uk-icon="icon: copy"></a></li>' +
                                 '            <li uk-tooltip="title: Cancel; pos: left"><a onclick="UIkit.modal("#cancel-auction").show();"' +
@@ -61,13 +61,13 @@
                                 '</div>' +
                                 '<div class="uk-card-body">' +
                                 '<!-- Name -->' +
-                                '<h3 class="uk-card-title" style="font-size: 100%"><a href="/listing?l='+ result[key].listingID +'"' +
+                                '<h3 class="uk-card-title" style="font-size: 100%"><a href="/listing?l='+ result[key].listingId +'"' +
                                 '                                                                 class="uk-text-danger">'+ result[key].listingName +'</a></h3>';
 
-                            if(result[key].listingID != sessionUsr){
-                                text+='<div class="watch-item color1 uk-position-medium uk-position-top-right" id="'+ result[key].listingID +'>' +
+                            if(result[key].listingId != sessionUsr){
+                                text+='<div class="watch-item color1 uk-position-medium uk-position-top-right" id="'+ result[key].listingId +'>' +
                                     '<a uk-icon="icon: star; ratio: 1"></a></div>' +
-                                    '<div class="watch-item color2 uk-position-medium uk-position-top-right" id="'+ result[key].listingID +'" style="display: none;">' +
+                                    '<div class="watch-item color2 uk-position-medium uk-position-top-right" id="'+ result[key].listingId +'" style="display: none;">' +
                                     '<a uk-icon="icon: star; ratio: 2"></a></div>';
                             }
 
@@ -115,7 +115,7 @@
                                     text +='';
                                     break;
                                 case "Fixed Price":
-                                    text += '<div class="price" style="font-size: 80%;"><span class="uk-badge" id="currentBid'+ result[key].listingID +'" style="font-size: 90%;">Price: $'+ result[key].listingPrice +'</span></div>';
+                                    text += '<div class="price" style="font-size: 80%;"><span class="uk-badge" id="currentBid'+ result[key].listingId +'" style="font-size: 90%;">Price: $'+ result[key].listingPrice +'</span></div>';
                                     break;
 
                             }
