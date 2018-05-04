@@ -231,6 +231,4 @@ public class ProfileController extends BaseController {
 
         return null;
     }
-
-
 }

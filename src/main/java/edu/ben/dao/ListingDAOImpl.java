@@ -294,7 +294,6 @@ public class ListingDAOImpl implements ListingDAO {
 
     @Override
     public Listing getRecentListingWithOfferOrBidByUserID(int userID) {
-        System.out.println("User id = " + userID);
         String sql = "select DISTINCT listing.id, listing.name, listing.highest_bid, listing.type, listing.price, listing.end_timestamp, " +
                 "listing.active, listing.bid_count, listing.category, listing.description, listing.draft, listing.ended, listing.highest_bid_userID, " +
                 "listing.payment_type, listing.sub_category, listing.date_created, listing.premium, listing.start_timestamp, listing.userID " +
@@ -309,7 +308,6 @@ public class ListingDAOImpl implements ListingDAO {
 
     @Override
     public List<Listing> getRecentListingsWithOffersOrBidsForUserByUserID(int userID) {
-        System.out.println("User id = " + userID);
         String sql = "select * from listing where listing.userID=:userID and listing.bid_count > 0;";
         SQLQuery q = getSession().createSQLQuery(sql)
                 .addEntity(Listing.class);

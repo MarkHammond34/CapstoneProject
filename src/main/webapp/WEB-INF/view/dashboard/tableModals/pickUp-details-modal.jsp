@@ -1,22 +1,80 @@
-<div id="pickUp${pickup.pickUpID}" uk-modal>
-    <div class="uk-modal-dialog uk-modal-body">
-        <h2 class="uk-modal-title">Pickup Details</h2>
-        <form method="post" action="/bid">
-            <div class="uk-child-width-1-2@s" uk-grid>
-                <div>
-                    <h4>Listing: <!----></h4>
-                    <h4>Buyer: <!--<a href="/viewProfile?id=}</a>--></h4>
-                    <h4>Seller: <!--<a
-                            href="/viewProfile?id=</a>-->
-                    </h4>
-                    <h4>Pickup time: <!----></h4>
-                    <h4>Pickup location: <!----></h4>
-                </div>
+<div id="pickUp${pickup.pickUpID}" class="uk-flex-top" uk-modal>
+    <div class="uk-modal-dialog uk-margin-auto-vertical">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+
+        <div class="uk-container uk-container-large uk-flex-middle uk-align-center">
+
+            <div class="uk-modal-header uk-text-center">
+                <h2 class="uk-modal-title"><strong>Pickup Details</strong></h2>
             </div>
-            <p class="uk-text-right">
-                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel
-                </button>
-            </p>
-        </form>
+
+            <div class="uk-modal-body">
+
+                <div class="uk-grid uk-text-center" uk-grid>
+
+                    <div class="uk-width-1-2">
+                        <strong>Buyer: <!--<a href="/viewProfile?id=}</a>--></strong>
+                    </div>
+
+                    <div class="uk-width-1-2">
+                        <strong>Seller: <!--<a href="/viewProfile?id=</a>--></strong>
+                    </div>
+
+                    <div class="uk-width-1-2">
+                        <strong>Date: </strong>
+                    </div>
+
+                    <div class="uk-width-1-2">
+                        <strong>Time: <!----></strong>
+                    </div>
+
+                    <div class="uk-width-1-2">
+                        <strong>Location: <!----></strong>
+                    </div>
+
+                    <div class="uk-width-1-2">
+                        <strong>Item: <!----></strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="uk-modal-footer"></div>
+
+        </div>
+
     </div>
 </div>
+<script>
+    document.getElementById("offer${pickup.pickUpID}").addEventListener("load", offerClick(${pickup.pickUpID}));
+
+    // Fills the modal with data
+    function pickupClick(pickupdata) {
+
+        $.ajax({
+            url: 'transactionDetails',
+            type: 'GET',
+            data: {pickupId: pickupdata},
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (result) {
+
+                var pickup = result;
+                var amount = window.document.getElementById('amount');
+                var message = window.document.getElementById('message');
+
+                console.log(document.getElementById('amount').innerText);
+
+                amount.innerHTML = pickup['offerAmount'];
+                message.textContent = pickup.offerMessage;
+                console.log(pickup.offerAmount);
+                console.log(pickup);
+
+                console.log(document.getElementById('amount').innerText);
+
+            }
+
+        });
+    }
+</script>
