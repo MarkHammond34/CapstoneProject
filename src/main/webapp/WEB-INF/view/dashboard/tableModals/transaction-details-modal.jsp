@@ -1,33 +1,69 @@
-<div id="transaction${transaction.id}" uk-modal>
-    <div class="uk-modal-dialog">
+<div id="transaction${transaction.id}" class="uk-flex-top" uk-modal>
+    <div class="uk-modal-dialog uk-margin-auto-vertical">
         <button class="uk-modal-close-default" type="button" uk-close></button>
 
-        <div class="uk-grid" uk-grid>
+        <div class="uk-container uk-container-large uk-flex-middle uk-align-center">
 
-            <div class="uk-modal-header">
-                <h2 class="uk-modal-title">Transaction details</h2>
+            <div class="uk-modal-header uk-text-center">
+                <h2 class="uk-modal-title"><strong>Transaction details</strong></h2>
             </div>
 
             <div class="uk-modal-body">
-                <div class="uk-width-1-1">
-                    <strong>Buyer:</strong>
-                    <p id="#"></p>
-                </div>
-                <div class="uk-width-1-1">
-                    <strong>Seller:</strong>
-                    <p id="&"></p>
-                </div>
-                <div class="uk-width-1-1">
-                    <strong>Listing:</strong>
-                    <p id="^"></p>
+
+                <div class="uk-grid uk-text-center" uk-grid>
+
+                    <div class="uk-width-1-2">
+                        <strong>Buyer:</strong>
+                        <p id="#"></p>
+                    </div>
+                    <div class="uk-width-1-2">
+                        <strong>Seller:</strong>
+                        <p id="&"></p>
+                    </div>
+                    <div class="uk-width-1-2">
+                        <strong>Listing:</strong>
+                        <p id="^"></p>
+                    </div>
+
                 </div>
 
-                <div class="uk-modal-footer">
-                    <div class="uk-text-right">
-                        <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                    </div>
-                </div>
             </div>
+
+            <div class="uk-modal-footer"></div>
+
         </div>
+
     </div>
 </div>
+<script>
+    document.getElementById("offer${transaction.id}").addEventListener("load", offerClick(${transaction.id}));
+
+    // Fills the modal with data
+    function transactionClick(transactiondata) {
+
+        $.ajax({
+            url: 'transactionDetails',
+            type: 'GET',
+            data: {transactionId: transactiondata},
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (result) {
+
+                var transaction = result;
+                var amount = window.document.getElementById('amount');
+                var message = window.document.getElementById('message');
+
+                console.log(document.getElementById('amount').innerText);
+
+                amount.innerHTML = transaction['offerAmount'];
+                message.textContent = transaction.offerMessage;
+                console.log(transaction.offerAmount);
+                console.log(transaction);
+
+                console.log(document.getElementById('amount').innerText);
+
+            }
+
+        });
+    }
+</script>

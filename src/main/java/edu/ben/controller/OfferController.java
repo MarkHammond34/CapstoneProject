@@ -16,71 +16,28 @@ import java.util.List;
 @Controller
 public class OfferController extends BaseController {
 
-	@Autowired
-	OfferService offerService;
+    @Autowired
+    OfferService offerService;
 
-	@Autowired
-	ListingService listingService;
+    @Autowired
+    ListingService listingService;
 
-	@Autowired
-	UserService userService;
+    @Autowired
+    UserService userService;
 
-	@Autowired
-	NotificationService notificationService;
+    @Autowired
+    NotificationService notificationService;
 
-	@Autowired
-	TransactionService transactionService;
+    @Autowired
+    TransactionService transactionService;
 
-	@RequestMapping(value = "/myOffers", method = RequestMethod.GET) // An offers page for each listing
-	public ModelAndView showOffers(@RequestParam("id") int id) {
-
-		ModelAndView model = new ModelAndView("dashboard2");
-
-		Listing listing = listingService.getByListingID(id);
-		List<Offer> offers = offerService.getPendingOffersByListingId(listing.getId());
-		
-		model.addObject("offers", offers);
-
-		return model;
-
-	}
-
-	@RequestMapping(value = "/makeOffer", method = RequestMethod.GET)
-	public ModelAndView makeOffer(@RequestParam("listing") int id, HttpServletRequest request) {
-
-		User user = (User) request.getSession().getAttribute("user");
-
-		if (user == null) {
-			return new ModelAndView("redirect:/login");
-		}
-
-		ModelAndView model = new ModelAndView("makeOffer");
-
-		Listing listing;
-
-		try {
-
-			listing = listingService.getByListingID(id);
-
-		} catch (Exception e) {
-			System.out.println("Error"); // Do something with error messaging here
-			e.printStackTrace();
-			return model;
-		}
-
-		model.addObject("listing", listing);
-
-		return model;
-
-	}
-
-	@RequestMapping(value = "makeOfferAjax", method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody
-	boolean makeOfferAjax(HttpServletRequest request, @RequestParam("listing") int id, @RequestParam("offerAmount") int offerAmount,
-						  @RequestParam("offerMessage") String message) {
-		System.out.println(id);
-		System.out.println(offerAmount);
-		System.out.println(message);
+    @RequestMapping(value = "makeOfferAjax", method = RequestMethod.POST, produces = "application/json")
+    public @ResponseBody
+    boolean makeOfferAjax(HttpServletRequest request, @RequestParam("listing") int id, @RequestParam("offerAmount") int offerAmount,
+                          @RequestParam("offerMessage") String message) {
+        System.out.println(id);
+        System.out.println(offerAmount);
+        System.out.println(message);
         User user = (User) request.getSession().getAttribute("user");
 
         Listing listing = listingService.getByListingID(id);
@@ -89,7 +46,7 @@ public class OfferController extends BaseController {
         try {
 
             existingOffer = offerService.getOfferByUserAndListingId(user.getUserID(), listing.getId());
-			System.out.println(existingOffer);
+            System.out.println(existingOffer);
             if (existingOffer == null) {
 
                 Offer newOffer = new Offer(offerAmount, message, user, listing.getUser(), listing);
@@ -100,117 +57,248 @@ public class OfferController extends BaseController {
                 Notification notification = new Notification(listing.getUser(), listing.getId(), notificationMessage);
                 notificationService.save(notification);
 
-				System.out.println("New offer created successfully");
+                System.out.println("New offer created successfully");
 
-				return true;
+                return true;
 
             } else {
-				return false;
+                return false;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-			return false;
+            return false;
         }
 
     }
 
-	@RequestMapping(value = "/confirmOffer", method = RequestMethod.POST)
-	public ModelAndView confirmOffer(@RequestParam("listing") int id, @RequestParam("offer-amount") int price,
-			@RequestParam("offer-message") String message, HttpServletRequest request) {
+    @RequestMapping(value = "acceptOfferAjax", method = RequestMethod.POST, produces = "application/json")
+    public @ResponseBody
+    boolean acceptOfferAjax(HttpServletRequest request, @RequestParam("offer") int offerID, @RequestParam("listing") int listingID) {
 
-		ModelAndView model = new ModelAndView("redirect:/listing");
+        try {
 
-		Listing listing;
-		Offer offer;
-		User sender = (User) request.getSession().getAttribute("user");
-		model.addObject("listingId", id);
+            User lister = (User) request.getSession().getAttribute("user");
+            Listing listing = listingService.getByListingID(listingID);
+            Offer offer = offerService.getOfferByUserAndListingId(lister.getUserID(), listingID);
+            System.out.println("Offer: " + offer);
+            User receiver = offer.getOfferMaker();
 
-		try {
-
-			listing = listingService.getByListingID(id);
-			User receiver = userService.getUserById(listing.getUser().getUserID());
-			offer = new Offer(price, message, sender, receiver, listing); // Adjust for new offer setup
-
-			// do an if check here for an existing offer to update
-
-			checkExistingOffer(id, offer, sender);
-
-			// Notify seller
-			String notificationMessage = sender.getUsername() + " has made an offer on " + listing.getName() + "!";
+            // notify offerer
+            String notificationMessage = "Your offer of " + offer.getOfferAmount() + " on " + listing.getName()
+                    + " has been accepted by " + lister.getUsername() + "!";
 
             Notification notification = new Notification(receiver, listing.getId(), notificationMessage);
             notificationService.save(notification);
 
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-			ModelAndView model2 = new ModelAndView("makeOffer");
-			addErrorMessage("An error occurred processing your request. Please try again.");
-			return model2;
-			
-		}
+            // remove all offers from offer page for this listing
+            List<Offer> offers = offerService.getOffersByListingId(listing.getId());
+            listingService.updateListingActiveStatusByID(0, listingID);
 
-		return model;
+            // move offer/listing to current transaction page
+            Transaction transaction = new Transaction(lister, receiver, listing, 0, offer);
+            System.out.println("Transaction: " + transaction);
+            transactionService.createTransaction(transaction);
 
-	}
+            for (Offer offerr : offers) {
+                // notify losers
+                notificationMessage = "Your offer of " + offer.getOfferAmount() + " on " + listing.getName()
+                        + " has been rejected by " + lister.getUsername() + "!";
 
-	@RequestMapping(value = "/acceptOffer", method = RequestMethod.GET)
-	public ModelAndView acceptOffer(@RequestParam("offererID") int id, @RequestParam("listing") int listingID,
-			HttpServletRequest request) {
+                notification = new Notification(receiver, listing.getId(), notificationMessage);
+                notificationService.save(notification);
 
-		ModelAndView model = new ModelAndView("dashboard2");
+                // remove listing from selling view
+                offerr.setActive(0);
+                offerr.setStatus("accepted");
+                offerService.saveOrUpdate(offerr);
+            }
 
-		User lister = (User) request.getSession().getAttribute("user");
-		Listing listing = listingService.getByListingID(listingID);
-		Offer offer = offerService.getOfferByUserAndListingId(id, listingID);
-		User receiver = userService.getUserById(offer.getOfferReceiver().getUserID());
+            return true;
 
-		// maybe popup confirming that you want to accept an offer
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
-		// notify offerer
-		String notificationMessage = "Your offer of " + offer.getOfferAmount() + " on " + listing.getName()
-				+ " has been accepted by " + lister.getUsername() + "!";
+    @RequestMapping(value = "rejectOfferAjax", method = RequestMethod.POST, produces = "application/json")
+    public @ResponseBody
+    boolean rejectOfferAjax(HttpServletRequest request, @RequestParam("offer") int offerID, @RequestParam("listing") int listingID) {
+
+        try {
+
+            User lister = (User) request.getSession().getAttribute("user");
+            Offer offer = offerService.getOfferByUserAndListingId(offerID, listingID);
+
+            // send notification to offerer that their offer was rejected
+
+            String notificationMessage;
+            Notification notification;
+
+            // Notify seller
+            notificationMessage = "Your offer of " + offer.getOfferAmount() + " on " + offer.getListingID().getName()
+                    + " has been rejected by " + lister.getUsername() + ".";
+
+            notification = new Notification(offer.getOfferMaker(), offer.getListingID().getId(), notificationMessage);
+            notificationService.save(notification);
+
+
+            offer.setActive(0);
+            offer.setStatus("rejected");
+            offerService.saveOrUpdate(offer);
+
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+
+    // OLD STUFF BELOW
+
+    @RequestMapping(value = "/myOffers", method = RequestMethod.GET) // An offers page for each listing
+    public ModelAndView showOffers(@RequestParam("id") int id) {
+
+        ModelAndView model = new ModelAndView("dashboard2");
+
+        Listing listing = listingService.getByListingID(id);
+        List<Offer> offers = offerService.getPendingOffersByListingId(listing.getId());
+
+        model.addObject("offers", offers);
+
+        return model;
+
+    }
+
+    @RequestMapping(value = "/makeOffer", method = RequestMethod.GET)
+    public ModelAndView makeOffer(@RequestParam("listing") int id, HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            return new ModelAndView("redirect:/login");
+        }
+
+        ModelAndView model = new ModelAndView("makeOffer");
+
+        Listing listing;
+
+        try {
+
+            listing = listingService.getByListingID(id);
+
+        } catch (Exception e) {
+            System.out.println("Error"); // Do something with error messaging here
+            e.printStackTrace();
+            return model;
+        }
+
+        model.addObject("listing", listing);
+
+        return model;
+
+    }
+
+    @RequestMapping(value = "/confirmOffer", method = RequestMethod.POST)
+    public ModelAndView confirmOffer(@RequestParam("listing") int id, @RequestParam("offer-amount") int price,
+                                     @RequestParam("offer-message") String message, HttpServletRequest request) {
+
+        ModelAndView model = new ModelAndView("redirect:/listing");
+
+        Listing listing;
+        Offer offer;
+        User sender = (User) request.getSession().getAttribute("user");
+        model.addObject("listingId", id);
+
+        try {
+
+            listing = listingService.getByListingID(id);
+            User receiver = userService.getUserById(listing.getUser().getUserID());
+            offer = new Offer(price, message, sender, receiver, listing); // Adjust for new offer setup
+
+            // do an if check here for an existing offer to update
+
+            //checkExistingOffer(id, offer, sender);
+
+            // Notify seller
+            String notificationMessage = sender.getUsername() + " has made an offer on " + listing.getName() + "!";
+
+            Notification notification = new Notification(receiver, listing.getId(), notificationMessage);
+            notificationService.save(notification);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            ModelAndView model2 = new ModelAndView("makeOffer");
+            addErrorMessage("An error occurred processing your request. Please try again.");
+            return model2;
+
+        }
+
+        return model;
+
+    }
+
+    @RequestMapping(value = "/acceptOffer", method = RequestMethod.GET)
+    public ModelAndView acceptOffer(@RequestParam("offererID") int id, @RequestParam("listing") int listingID,
+                                    HttpServletRequest request) {
+
+        ModelAndView model = new ModelAndView("dashboard2");
+
+        User lister = (User) request.getSession().getAttribute("user");
+        Listing listing = listingService.getByListingID(listingID);
+        Offer offer = offerService.getOfferByUserAndListingId(id, listingID);
+        User receiver = userService.getUserById(offer.getOfferReceiver().getUserID());
+
+        // maybe popup confirming that you want to accept an offer
+
+        // notify offerer
+        String notificationMessage = "Your offer of " + offer.getOfferAmount() + " on " + listing.getName()
+                + " has been accepted by " + lister.getUsername() + "!";
 
         Notification notification = new Notification(receiver, listing.getId(), notificationMessage);
         notificationService.save(notification);
 
-		// remove all offers from offer page for this listing
-		List<Offer> offers = offerService.getOffersByListingId(listing.getId()); 
-		listingService.updateListingActiveStatusByID(0, listingID); 
-		
-		// move offer/listing to current transaction page
-		Transaction transaction = new Transaction(lister.getUserID(), receiver.getUserID(), listing, offer);
-		transactionService.createTransaction(transaction);
-		
-		for (Offer offerr: offers) {
-			// notify losers
-			notificationMessage = "Your offer of " + offer.getOfferAmount() + " on " + listing.getName()
-					+ " has been rejected by " + lister.getUsername() + "!";
+        // remove all offers from offer page for this listing
+        List<Offer> offers = offerService.getOffersByListingId(listing.getId());
+        listingService.updateListingActiveStatusByID(0, listingID);
+
+        // move offer/listing to current transaction page
+        Transaction transaction = new Transaction(lister, receiver, listing, 0, offer);
+        transactionService.createTransaction(transaction);
+
+        for (Offer offerr : offers) {
+            // notify losers
+            notificationMessage = "Your offer of " + offer.getOfferAmount() + " on " + listing.getName()
+                    + " has been rejected by " + lister.getUsername() + "!";
 
             notification = new Notification(receiver, listing.getId(), notificationMessage);
             notificationService.save(notification);
-			
-			// remove listing from selling view 
-			offerr.setActive(0);
-			offerService.saveOrUpdate(offerr);
-		}
 
-		return model;
+            // remove listing from selling view
+            offerr.setActive(0);
+            offerService.saveOrUpdate(offerr);
+        }
 
-	}
+        return model;
 
-	@RequestMapping(value = "/rejectOffer", method = RequestMethod.GET)
-	public ModelAndView rejectOffer(@RequestParam("offererID") int id, @RequestParam("listing") int listingID,
-									HttpServletRequest request) {
+    }
 
-		ModelAndView model = new ModelAndView("dashboard2");
+    @RequestMapping(value = "/rejectOffer", method = RequestMethod.GET)
+    public ModelAndView rejectOffer(@RequestParam("offererID") int id, @RequestParam("listing") int listingID,
+                                    HttpServletRequest request) {
 
-		User lister = (User) request.getSession().getAttribute("user");
-		Offer offer = offerService.getOfferByUserAndListingId(id, listingID);
-		Listing listing = listingService.getByListingID(listingID);
+        ModelAndView model = new ModelAndView("dashboard2");
 
-		// send notification to offerer that their offer was rejected
+        User lister = (User) request.getSession().getAttribute("user");
+        Offer offer = offerService.getOfferByUserAndListingId(id, listingID);
+        Listing listing = listingService.getByListingID(listingID);
+
+        // send notification to offerer that their offer was rejected
 
         String notificationMessage;
         Notification notification;
@@ -234,99 +322,99 @@ public class OfferController extends BaseController {
 
         }
 
-		offer.setActive(0);
-		offer.setStatus("rejected");
-		offerService.saveOrUpdate(offer);
-		//offerService.saveOrUpdate(new Offer(offer.getOfferID(), offer.getOfferAmount(), offer.getOfferMessage(), offer.getOfferMaker(), offer.getOfferReceiver(), listing, "rejected"));
+        offer.setActive(0);
+        offer.setStatus("rejected");
+        offerService.saveOrUpdate(offer);
+        //offerService.saveOrUpdate(new Offer(offer.getOfferID(), offer.getOfferAmount(), offer.getOfferMessage(), offer.getOfferMaker(), offer.getOfferReceiver(), listing, "rejected"));
 
-		// maybe ask offerer when they receive notification if they want to re-offer? -
-		// possibly in a different controller
+        // maybe ask offerer when they receive notification if they want to re-offer? -
+        // possibly in a different controller
 
-		List<Offer> offers = offerService.getOffersByListingId(listing.getId());
+        List<Offer> offers = offerService.getOffersByListingId(listing.getId());
 
-		model.addObject("offers", offers);
+        model.addObject("offers", offers);
 
-		System.out.println("Rejected");
+        System.out.println("Rejected");
 
-		return model;
+        return model;
 
-	}
+    }
 
-	@RequestMapping(value = "/counterOffer", method = RequestMethod.GET)
-	public ModelAndView counterOffer(@RequestParam("offerID") int offerID) {
+    @RequestMapping(value = "/counterOffer", method = RequestMethod.GET)
+    public ModelAndView counterOffer(@RequestParam("offerID") int offerID) {
 
-		ModelAndView model = new ModelAndView("makeCounterOffer");
+        ModelAndView model = new ModelAndView("makeCounterOffer");
 
-		Offer initial = offerService.getOfferById(offerID);
+        Offer initial = offerService.getOfferById(offerID);
 
-		System.out.println("Initial= " + initial);
+        System.out.println("Initial= " + initial);
 
-		model.addObject("initial", initial);
+        model.addObject("initial", initial);
 
-		return model;
-	}
+        return model;
+    }
 
-	@RequestMapping(value = "/confirmCounterOffer", method = RequestMethod.POST)
-	public ModelAndView confirmCounterOffer(@RequestParam("initial") int initial, @RequestParam("offer-amount") int price,
-											@RequestParam("offer-message") String message, HttpServletRequest request) {
+    @RequestMapping(value = "/confirmCounterOffer", method = RequestMethod.POST)
+    public ModelAndView confirmCounterOffer(@RequestParam("initial") int initial, @RequestParam("offer-amount") int price,
+                                            @RequestParam("offer-message") String message, HttpServletRequest request) {
 
-		ModelAndView model = new ModelAndView("redirect:/dashboard");
+        ModelAndView model = new ModelAndView("redirect:/dashboard");
 
-		Offer initialOffer = offerService.getOfferById(initial);
-		User offerMaker = (User) request.getSession().getAttribute("user");
-		Offer newOffer;
+        Offer initialOffer = offerService.getOfferById(initial);
+        User offerMaker = (User) request.getSession().getAttribute("user");
+        Offer newOffer;
 
-		try {
+        try {
 
             User offerReceiver = userService.getUserById(initialOffer.getOfferMaker().getUserID());
-			newOffer = new Offer(price, message, offerMaker, offerReceiver, initialOffer.getListingID(), "pending");
+            newOffer = new Offer(price, message, offerMaker, offerReceiver, initialOffer.getListingID(), "pending");
 
-			// Update old offer
+            // Update old offer
             initialOffer.setStatus("counter");
             initialOffer.setActive(0);
-			offerService.saveOrUpdate(initialOffer);
+            offerService.saveOrUpdate(initialOffer);
 
-			// Save new offer
-			offerService.createOffer(newOffer);
+            // Save new offer
+            offerService.createOffer(newOffer);
 
-			// Notify seller
-			String notificationMessage = offerMaker.getUsername() + " has made an offer on " + newOffer.getListingID().getName() + "!";
+            // Notify seller
+            String notificationMessage = offerMaker.getUsername() + " has made an offer on " + newOffer.getListingID().getName() + "!";
 
             Notification notification = new Notification(initialOffer.getOfferReceiver(), initialOffer.getListingID().getId(), notificationMessage);
             notificationService.save(notification);
 
-		} catch (Exception e) {
+        } catch (Exception e) {
 
-			e.printStackTrace();
-			ModelAndView model2 = new ModelAndView("makeCounterOffer");
-			addErrorMessage("An error occurred processing your request. Please try again.");
-			return model2;
+            e.printStackTrace();
+            ModelAndView model2 = new ModelAndView("makeCounterOffer");
+            addErrorMessage("An error occurred processing your request. Please try again.");
+            return model2;
 
-		}
+        }
 
-		return model;
+        return model;
 
-	}
+    }
 
-	private void checkExistingOffer(@RequestParam("listing") int id, Offer offer, User sender) {
-
-		if (offerService.getOfferByUserAndListingId(sender.getUserID(), id) == null) {
-
-			// Create a new offer in the database
-			System.out.println("Creating");
-			// Need to update the old offer as well
-			offer.setStatus("pending");
-			offerService.createOffer(offer);
-
-		} else {
-
-			// Replace current offer
-			System.out.println("Updating");
-			offer.setStatus("pending");
-			// Need to update the old offer as well
-			offerService.saveOrUpdate(offer);
-			offerService.deleteOffer(offerService.getOfferByUserAndListingId(sender.getUserID(), id));
-
-		}
-	}
+//	private void checkExistingOffer(@RequestParam("listing") int id, Offer offer, User sender) {
+//
+//		if (offerService.getOfferByUserAndListingId(sender.getUserID(), id) == null) {
+//
+//			// Create a new offer in the database
+//			System.out.println("Creating");
+//			// Need to update the old offer as well
+//			offer.setStatus("pending");
+//			offerService.createOffer(offer);
+//
+//		} else {
+//
+//			// Replace current offer
+//			System.out.println("Updating");
+//			offer.setStatus("pending");
+//			// Need to update the old offer as well
+//			offerService.saveOrUpdate(offer);
+//			offerService.deleteOffer(offerService.getOfferByUserAndListingId(sender.getUserID(), id));
+//
+//		}
+//	}
 }

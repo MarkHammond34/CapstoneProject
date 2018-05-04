@@ -2,14 +2,14 @@
     <h1 class="uk-heading-line uk-text-center"><span>${user.firstName}'s Dashboard</span></h1>
 
     <div class="uk-grid" style="padding-top: 5%" uk-grid>
-        <div class="uk-width-3-5">
+        <div class="uk-width-4-5">
             <div class="uk-child-width-1-2 uk-grid-match uk-grid-large" uk-grid>
-                <h3>Listings I've Bid On</h3>
-                <h3>Listings Of Mine With Bids</h3>
+                <h4>Listings I've Bid On</h4>
+                <h4>Listings Of Mine With Bids</h4>
             </div>
         </div>
-        <div class="uk-width-2-5">
-            <h3>Relevant Posts For Me</h3>
+        <div class="uk-width-1-5">
+            <h4>Relevant Posts For Me</h4>
         </div>
     </div>
 
@@ -18,7 +18,7 @@
         <!-- Grid for first section content -->
         <div class="uk-grid-divider uk-grid-match uk-padding-small uk-margin-small-top" uk-grid>
 
-            <div class="uk-width-3-5@m uk-width-1-1@s uk-first-column">
+            <div class="uk-width-4-5@m uk-width-1-1@s uk-first-column">
                 <div class="uk-child-width-1-2@m uk-child-width-1-1@s uk-grid-match uk-grid-large">
 
                     <div class="uk-float-left uk-padding-remove-left">
@@ -89,7 +89,7 @@
 
                 </div>
             </div>
-            <div class="uk-width-2-5@m uk-width-1-1@s uk-float-right">
+            <div class="uk-width-1-5@m uk-width-1-1@s uk-float-right">
 
                 <div>
 

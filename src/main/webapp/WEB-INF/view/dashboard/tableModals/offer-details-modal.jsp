@@ -1,45 +1,69 @@
-<div id="offer${offer.offerID}" uk-modal>
-    <div class="uk-modal-dialog">
+<div id="offer${offer.offerID}" class="uk-flex-top" uk-modal>
+    <div class="uk-modal-dialog uk-margin-auto-vertical">
         <button class="uk-modal-close-default" type="button" uk-close></button>
 
         <div class="uk-container uk-container-large uk-flex-middle uk-align-center">
-            <div class="uk-grid" uk-grid>
 
-                <div class="uk-modal-header">
-                    <h2 class="uk-modal-title">Offer details</h2>
-                </div>
+            <div class="uk-modal-header uk-text-center">
+                <h2 class="uk-modal-title"><strong>Offer details</strong></h2>
+            </div>
 
-                <div class="uk-modal-body">
-                    <div class="uk-width-1-1">
+            <div class="uk-modal-body">
+
+                <div class="uk-grid uk-text-center" uk-grid>
+
+                    <div class="uk-width-1-2">
+                        <strong>Offer maker:</strong>
+                        <p id="offerMaker"></p>
+                    </div>
+                    <div class="uk-width-1-2">
+                        <strong> Status:</strong>
+                        <p id="status"></p>
+                    </div>
+
+                    <!-- Split -->
+
+                    <div class="uk-width-1-2">
+                        <strong>Listing:</strong>
+                        <p id="listing-offer"></p>
+                    </div>
+                    <div class="uk-width-1-2">
+                        <strong>Date offer was made:</strong>
+                        <p id="date"></p>
+                    </div>
+
+                    <!-- Split -->
+
+                    <div class="uk-width-1-2">
                         <strong>Amount offered:</strong>
                         <p id="amount"></p>
                     </div>
-                    <div class="uk-width-1-1">
+                    <div class="uk-width-1-2">
                         <strong> Offer Message:</strong>
                         <p id="message"></p>
                     </div>
-                    <div class="uk-modal-footer">
 
-                        <div class="uk-grid-match" uk-grid>
-
-                            <div class="uk-text-right">
-                                <button id="acceptButton" class="uk-button uk-border-rounded"
-                                        style="background-color: #5cb85c"
-                                        value="${listing.id}"><strong>Accept offer</strong>
-                                </button>
-                            </div>
-                            <div class="uk-text-right">
-                                <button id="rejectButton" class="uk-button uk-border-rounded"
-                                        style="background-color: #f3565d"
-                                        value="${listing.id}"><strong>Reject offer</strong>
-                                </button>
-                            </div>
-
-                        </div>
-
-                    </div>
                 </div>
+
             </div>
+
+            <div class="uk-modal-footer">
+
+                <div class="uk-float-left uk-padding-remove">
+                    <button id="rejectButton" class="uk-button uk-border-rounded"
+                            style="background-color: #f3565d"
+                            value="${offer.listingID.id}"><strong>Reject offer</strong>
+                    </button>
+                </div>
+                <div class="uk-float-right uk-padding-remove">
+                    <button id="acceptButton" class="uk-button uk-border-rounded"
+                            style="background-color: #5cb85c" name="listing"
+                            value="${offer.listingID.id}"><strong>Accept offer</strong>
+                    </button>
+                </div>
+
+            </div>
+
         </div>
     </div>
 </div>
@@ -60,15 +84,24 @@
             success: function (result) {
 
                 var offer = result;
+
+                var offerMaker = window.document.getElementById('offerMaker')
                 var amount = window.document.getElementById('amount');
                 var message = window.document.getElementById('message');
+                var dateCreated = window.document.getElementById('date');
+                var status = window.document.getElementById('status');
+                var listing = window.document.getElementById('listing');
 
                 console.log(document.getElementById('amount').innerText);
 
+                offerMaker.textContent = offer.offerMaker;
                 amount.innerHTML = offer['offerAmount'];
                 message.textContent = offer.offerMessage;
-                console.log(offer.offerAmount);
-                console.log(offer);
+                dateCreated.textContent = offer.offerDateCreated;
+                status.textContent = offer.offerStatus;
+                listing.textContent = offer.offerListing;
+
+                console.log(offer)
 
                 console.log(document.getElementById('amount').innerText);
 
@@ -81,18 +114,18 @@
     $("#acceptButton").click(function (e) {
         console.log($(this).val());
         $.ajax({
-            url: 'makeOfferAjax',
+            url: 'acceptOfferAjax',
             type: 'POST',
-            data: {listing: $(this).val(), offerAmount: $("#price").val(), offerMessage: $("#message").val()},
+            data: {listing: $(this).val(), offer: ${offer.offerID}},
             success: function (result) {
                 console.log(result);
                 if (result) {
-                    UIkit.modal("#make-offer${listing.id}").hide();
-                    UIkit.notification({message: 'Your offer has been sent!', status: 'success'})
+                    UIkit.modal("#offer${offer.offerID}").hide();
+                    UIkit.notification({message: 'Congratulations!', status: 'success'})
                 }
                 else {
                     UIkit.notification({
-                        message: 'An error occurred while sending your offer. Please contact an admin.',
+                        message: 'An error occurred while accepting this offer. Please contact an admin.',
                         status: 'danger'
                     })
                 }
@@ -105,14 +138,14 @@
     $("#rejectButton").click(function (e) {
         console.log($(this).val());
         $.ajax({
-            url: 'makeOfferAjax',
+            url: 'rejectOfferAjax',
             type: 'POST',
-            data: {listing: $(this).val(), offerAmount: $("#price").val(), offerMessage: $("#message").val()},
+            data: {listing: $(this).val(), offer: ${offer.offerID}},
             success: function (result) {
                 console.log(result);
                 if (result) {
-                    UIkit.modal("#make-offer${listing.id}").hide();
-                    UIkit.notification({message: 'Your offer has been sent!', status: 'success'})
+                    UIkit.modal("#offer${offer.offerID}").hide();
+                    UIkit.notification({message: 'Offer has been rejected.', status: 'success'})
                 }
                 else {
                     UIkit.notification({
