@@ -142,100 +142,101 @@
         </c:if>
 
     </div>
-    <div class="uk-container uk-padding-remove-top uk-margin-remove-right">
+    <div class="uk-padding-remove-top uk-margin-remove-right">
         <hr>
         <div class="uk-section uk-padding-remove-top uk-margin-remove-right">
-            <div class="uk-grid">
-                <div class="uk-width-3-4">
-                    <div id="listingSection">
-
-                        <div id="allListings" style="display: inline">
-                            <div class="uk-container uk-container-small">
-                                <div class="uk-grid-large uk-child-width-1-3 uk-text-center"
-                                     uk-grid>
-                                    <c:forEach var="listing" items="${listingSearch}">
-                                        <%@include file="listing/index-listing.jsp" %>
-                                    </c:forEach>
-                                </div>
+            <div id="listingSection">
+                <div id="allListings" style="display: inline">
+                    <div class="uk-child-width-1-3@m uk-grid uk-margin-left">
+                        <c:forEach var="listing" items="${listingSearch}">
+                            <div class="uk-panel">
+                                <%@include file="listing/search-listing.jsp" %>
                             </div>
-                        </div>
-
-                        <!-- Hide If Donation Search -->
-                        <c:if test="${donationSearch != true}">
-                            <div id="soonestListings" style="display: none">
-                                <div class="uk-container uk-container-small">
-                                    <div class="uk-grid-large uk-child-width-1-3 uk-text-center"
-                                         uk-grid>
-                                        <c:forEach var="listing" items="${endingSoonest}">
-                                            <%@include file="listing/index-listing.jsp" %>
-                                        </c:forEach>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="latestListings" style="display: none">
-                                <div class="uk-container uk-container-small">
-                                    <div class="uk-grid-large uk-child-width-1-3 uk-text-center"
-                                         uk-grid>
-                                        <c:forEach var="listing" items="${endingLatest}">
-                                            <%@include file="listing/index-listing.jsp" %>
-                                        </c:forEach>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="mostExpensiveListings" style="display: none">
-                                <div class="uk-container uk-container-small">
-                                    <div class="uk-grid-large uk-child-width-1-3 uk-text-center"
-                                         uk-grid>
-                                        <c:forEach var="listing" items="${mostExpensive}">
-                                            <%@include file="listing/index-listing.jsp" %>
-                                        </c:forEach>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="leastExpensiveListings" style="display: none">
-                                <div class="uk-container uk-container-small">
-                                    <div class="uk-grid-large uk-child-width-1-3 uk-text-center"
-                                         uk-grid>
-                                        <c:forEach var="listing" items="${leastExpensive}">
-                                            <%@include file="listing/index-listing.jsp" %>
-                                        </c:forEach>
-                                    </div>
-                                </div>
-                            </div>
-                        </c:if>
+                        </c:forEach>
                     </div>
-
-                    <!-- Hide If Donation Search -->
-                    <c:if test="${donationSearch != true}">
-                        <div id="userSection" style="display: none;">
-                            <div id="userSearch">
-                                <div class="uk-container uk-container-small">
-                                    <div class="uk-grid-large uk-child-width-1-3 uk-text-center"
-                                         uk-grid>
-                                        <c:forEach var="users" items="${userSearch}">
-                                            <div class="uk-tile uk-padding-small uk-tile-muted uk-width-1-2@m">
-                                                <div class="uk-tile uk-padding-remove-top">
-                                                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                                                        <div class="uk-width-auto">
-                                                            <img class="uk-border-circle"   style="height: 100px; width: 100px; overflow: hidden" src="${pageContext.request.contextPath}/directory/${users.mainImagePath()}">
-                                                        </div>
-                                                        <div class="uk-width-expand">
-                                                            <h3 class="uk-card-title uk-margin-remove-bottom">${users.firstName} ${users.lastName}</h3>
-                                                            <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">${users.username}</time></p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </c:forEach>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </c:if>
                 </div>
             </div>
+
+            <!-- Hide If Donation Search -->
+            <c:if test="${donationSearch != true}">
+                <div id="soonestListings" style="display: none">
+                    <div class="uk-container uk-container-small">
+                        <div class="uk-grid-large uk-child-width-1-3 uk-text-center"
+                             uk-grid>
+                            <c:forEach var="listing" items="${endingSoonest}">
+                                <%@include file="listing/index-listing.jsp" %>
+                            </c:forEach>
+                        </div>
+                    </div>
+                </div>
+                <div id="latestListings" style="display: none">
+                    <div class="uk-container uk-container-small">
+                        <div class="uk-grid-large uk-child-width-1-3 uk-text-center"
+                             uk-grid>
+                            <c:forEach var="listing" items="${endingLatest}">
+                                <%@include file="listing/index-listing.jsp" %>
+                            </c:forEach>
+                        </div>
+                    </div>
+                </div>
+                <div id="mostExpensiveListings" style="display: none">
+                    <div class="uk-container uk-container-small">
+                        <div class="uk-grid-large uk-child-width-1-3 uk-text-center"
+                             uk-grid>
+                            <c:forEach var="listing" items="${mostExpensive}">
+                                <%@include file="listing/index-listing.jsp" %>
+                            </c:forEach>
+                        </div>
+                    </div>
+                </div>
+                <div id="leastExpensiveListings" style="display: none">
+                    <div class="uk-container uk-container-small">
+                        <div class="uk-grid-large uk-child-width-1-3 uk-text-center"
+                             uk-grid>
+                            <c:forEach var="listing" items="${leastExpensive}">
+                                <%@include file="listing/index-listing.jsp" %>
+                            </c:forEach>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
         </div>
+
+        <!-- Hide If Donation Search -->
+        <c:if test="${donationSearch != true}">
+            <div id="userSection" style="display: none;">
+                <div id="userSearch">
+                    <div class="uk-container uk-container-small">
+                        <div class="uk-grid-large uk-child-width-1-3 uk-text-center"
+                             uk-grid>
+                            <c:forEach var="users" items="${userSearch}">
+                                <div class="uk-tile uk-padding-small uk-tile-muted uk-width-1-2@m">
+                                    <div class="uk-tile uk-padding-remove-top">
+                                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                                            <div class="uk-width-auto">
+                                                <img class="uk-border-circle"
+                                                     style="height: 100px; width: 100px; overflow: hidden"
+                                                     src="${pageContext.request.contextPath}/directory/${users.mainImagePath()}">
+                                            </div>
+                                            <div class="uk-width-expand">
+                                                <h3 class="uk-card-title uk-margin-remove-bottom">${users.firstName} ${users.lastName}</h3>
+                                                <p class="uk-text-meta uk-margin-remove-top">
+                                                    <time datetime="2016-04-01T19:00">${users.username}</time>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </c:if>
+
+
     </div>
+</div>
 </div>
 
 

@@ -3,6 +3,7 @@ package edu.ben.model;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "task_manager")
 @Table(name = "task_manager")
@@ -25,9 +26,6 @@ public class Task {
 
     @Column(name="priority")
     private String priority;
-
-//    @OneToMany
-//    private ArrayList<User>
 
     public Task() {
 

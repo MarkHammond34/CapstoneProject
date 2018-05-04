@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.jdo.annotations.Join;
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "admin_task")
 @Table(name = "admin_task")
@@ -17,14 +18,15 @@ public class AdminTask {
     private int adminID;
 
     @OneToOne
-    @JoinColumn(name = "ID_User")
+    @JoinColumn(name = "userID")
     private User user;
 
     @OneToOne
-    @JoinColumn(name = "ID_Task")
+    @JoinColumn(name = "taskID")
     private Task task;
 
     public AdminTask() {
+
     }
 
     public int getAdminID() {
@@ -51,7 +53,15 @@ public class AdminTask {
         this.task = task;
     }
 
-    public int getTaskID(ArrayList<AdminTask> a, int index) {
-       return a.get(index).getTask().getTaskID();
+    public int getTaskID() {
+        return task.getTaskID();
     }
+
+    public void setTaskID(int taskID) {
+        this.task.setTaskID(taskID);
+    }
+
+//    public int getTaskID(ArrayList<AdminTask> a, int index) {
+//       return a.get(index).getTask().getTaskID();
+//    }
 }

@@ -43,6 +43,11 @@ public class EventsServiceImpl implements EventsService {
     }
 
     @Override
+    public List getActiveAndInactiveListings() {
+        return eventsDAO.getActiveAndInactiveListings();
+    }
+
+    @Override
     public CalendarEvent getEventsByID(int id) {
         return eventsDAO.getEventsByID(id);
     }

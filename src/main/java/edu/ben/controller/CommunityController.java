@@ -220,7 +220,7 @@ public class CommunityController extends BaseController {
         }
 
 
-        ArrayList<News> displayArticles = (ArrayList<News>)newsService.getAllDisplayedArticles();
+        ArrayList<News> displayArticles = (ArrayList<News>) newsService.getAllDisplayedArticles();
         System.out.println("Display Articles: " + displayArticles.size());
 
         ArrayList<Video> displayVideos = (ArrayList<Video>) videoService.getDisplayVideos();
@@ -371,7 +371,6 @@ public class CommunityController extends BaseController {
         System.out.println(startDate.getTime());
 
 
-
         if (startDate.getTime() < currentTime.getTime()) {
             addErrorMessage("Cannot select date that already happened.");
             setRequest(request);
@@ -401,6 +400,54 @@ public class CommunityController extends BaseController {
         q.CreateEvent(event);
 
         eventService.create(event);
+
+        return "admin/events-news";
+    }
+
+    @RequestMapping(value = "/editEvent")
+    public String editEvent(@RequestParam("eventId") String id, @RequestParam("title") String title, @RequestParam("location") String location,
+                              @RequestParam("description") String description, HttpServletRequest request) throws IOException {
+        System.out.println("Hit Servlet");
+
+        int eventID = Integer.parseInt(id);
+
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+        Timestamp startDate = Timestamp.valueOf(request.getParameter("startDate").replace('T', ' ') + ":00");
+
+        System.out.println(currentTime.getTime());
+        System.out.println(startDate.getTime());
+
+
+        if (startDate.getTime() < currentTime.getTime()) {
+            addErrorMessage("Cannot select date that already happened.");
+            setRequest(request);
+            return "admin/events-news";
+        }
+        Timestamp endDate = Timestamp.valueOf(request.getParameter("endDate").replace('T', ' ') + ":00");
+
+        System.out.println(endDate.getTime());
+        if (endDate.getTime() < currentTime.getTime()) {
+            addErrorMessage("Cannot select date that already happened.");
+            setRequest(request);
+            return "admin/events-news";
+        }
+
+        if (endDate.getTime() < startDate.getTime()) {
+            addErrorMessage("End date cannot happen before the start date");
+            setRequest(request);
+            return "admin/events-news";
+        }
+
+        CalendarEvent event = eventService.getEventsByID(eventID);
+        event.setTitle(title);
+        event.setStartTime(startDate);
+        event.setEndTime(endDate);
+        event.setLocation(location);
+        event.setActive(1);
+
+        System.out.println(startDate.toString());
+
+        eventService.saveOrUpdate(event);
 
         return "admin/events-news";
     }
@@ -499,7 +546,7 @@ public class CommunityController extends BaseController {
         }
         System.out.println("Count :" + count);
 
-        if (count >= 7 ) {
+        if (count >= 7) {
             System.out.println("Hit count");
             news.get(0).setDisplayType("main1");
             newsService.saveOrUpdate(news.get(0));
@@ -538,6 +585,25 @@ public class CommunityController extends BaseController {
         System.out.println("JSON videos: " + results.size());
 
         request.setAttribute("videosJson", results2);
+
+        ArrayList<String> startTime = new ArrayList<>();
+        ArrayList<String> endTime = new ArrayList<>();
+
+        ArrayList<CalendarEvent> events = (ArrayList<CalendarEvent>) eventService.getActiveAndInactiveListings();
+        System.out.println("Event Size: " + events.size());
+
+        for (int i =0; i < events.size(); i++) {
+            String start = events.get(i).getStartTime().toString().substring(0, 16).replace(' ','T');
+            String end = events.get(i).getEndTime().toString().substring(0, 16).replace(' ','T');
+
+            startTime.add(start);
+            endTime.add(end);
+            System.out.println(start);
+        }
+
+        request.setAttribute("startTime", startTime);
+        request.setAttribute("endTime", endTime);
+        request.setAttribute("events", events);
 
         return model;
 
