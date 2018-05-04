@@ -2,7 +2,7 @@
     <div class="uk-modal-dialog">
         <button class="uk-modal-close-default" type="button" uk-close></button>
 
-        <div class="uk-container uk-container-large uk-flex-middle">
+        <div class="uk-container uk-container-large uk-flex-middle uk-align-center">
             <div class="uk-grid" uk-grid>
 
                 <div class="uk-modal-header">
@@ -19,22 +19,24 @@
                         <p id="message"></p>
                     </div>
                     <div class="uk-modal-footer">
-                        <div class="uk-text-right">
-                            <button class="uk-button uk-button-secondary uk-border-rounded uk-modal-close"
-                                    type="button">Cancel
-                            </button>
+
+                        <div class="uk-grid-match" uk-grid>
+
+                            <div class="uk-text-right">
+                                <button id="acceptButton" class="uk-button uk-border-rounded"
+                                        style="background-color: #5cb85c"
+                                        value="${listing.id}"><strong>Accept offer</strong>
+                                </button>
+                            </div>
+                            <div class="uk-text-right">
+                                <button id="rejectButton" class="uk-button uk-border-rounded"
+                                        style="background-color: #f3565d"
+                                        value="${listing.id}"><strong>Reject offer</strong>
+                                </button>
+                            </div>
+
                         </div>
-                        <div class="uk-text-right">
-                            <button id="rejectButton" class="uk-button uk-border-rounded" style="background-color: red"
-                                    value="${listing.id}">Reject offer
-                            </button>
-                        </div>
-                        <div class="uk-text-right">
-                            <button id="acceptButton" class="uk-button uk-border-rounded"
-                                    style="background-color: green"
-                                    value="${listing.id}">Accept offer
-                            </button>
-                        </div>
+
                     </div>
                 </div>
             </div>
