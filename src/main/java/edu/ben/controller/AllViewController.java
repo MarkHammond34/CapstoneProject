@@ -44,7 +44,7 @@ public class AllViewController extends BaseController {
         if(allListings != null || !allListings.isEmpty()) {
             JsonArray result = new JsonArray();
             for (int i = 0; i < allListings.size(); i++) {
-                if(allListings.get(i).getActive() == 1) {
+                if(allListings.get(i).getActive() == 1 && allListings.get(i).getDraft() == 0) {
                     JsonObject addJson = new JsonObject();
                     List<Image> temp = allListings.get(i).getImages();
                     addJson.addProperty("listingId", allListings.get(i).getId());
