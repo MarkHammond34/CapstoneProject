@@ -113,7 +113,11 @@
                     </div>
 
                     <!-- Pick Up Details -->
-                    <h2>Pickup Details</h2>
+                    <h2>Pickup Details <a onclick="addToGoogleCalendar()" style="background-color: white;"
+                                          class="uk-icon-button uk-float-right uk-text-success uk-box-shadow-medium uk-box-shadow-hover-large"
+                                          uk-icon="google" uk-tooltip="Add To Google Calendar" id="google-icon"
+                                          hidden></a>
+                    </h2>
                     <div class="uk-card uk-card-default uk-box-shadow-hover-large uk-border-rounded">
                         <div class="uk-card-body uk-grid-small" uk-grid>
                             <div class="uk-width-1-1 uk-padding-remove">
@@ -329,7 +333,6 @@
             </div>
 
         </div>
-
     </div>
 </div>
 
@@ -355,6 +358,32 @@
             title: 'Meeting Location'
         });
     }
+
+    function addToGoogleCalendar() {
+        $.ajax({
+
+            type: 'GET',
+            url: '/addToGoogleCalendar',
+            data: {pickUpID: ${pickUp.pickUpID}},
+
+        }).done(function (response) {
+            if (response.result == 'USER NULL' || response.result == 'PICKUP NULL' || response.result == 'ERROR') {
+                UIkit.notification({message: "Error Adding To Google Calendar", status: 'danger'});
+                $('#dangerButton').click();
+                displayErrorMessage("Error Adding To Google Calendar");
+            } else {
+                UIkit.notification({message: "Add To Google Calendar", status: 'success'});
+                $('#successButton').click();
+            }
+        });
+    }
+
+    window.addEventListener("load", function () {
+        var userPersonalEmail = '${sessionScope.user.email}';
+        if (userPersonalEmail.includes('@gmail.com')) {
+            document.getElementById("google-icon").hidden = false;
+        }
+    });
 
 </script>
 
