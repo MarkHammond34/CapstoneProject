@@ -370,8 +370,8 @@
             if (response.result == 'USER NULL' || response.result == 'PICKUP NULL' || response.result == 'ERROR') {
                 UIkit.notification({message: "Error Adding To Google Calendar", status: 'danger'});
                 $('#dangerButton').click();
-                displayErrorMessage("Error Adding To Google Calendar");
             } else {
+                document.getElementById("google-icon").hidden = true;
                 UIkit.notification({message: "Add To Google Calendar", status: 'success'});
                 $('#successButton').click();
             }
