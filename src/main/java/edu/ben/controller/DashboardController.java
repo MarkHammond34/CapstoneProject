@@ -366,6 +366,7 @@ public class DashboardController extends BaseController {
                     addJson.addProperty("listingCreatedTime", allListings.get(i).getDateCreated().toString());
                     addJson.addProperty("listingBids", allListings.get(i).getBidCount());
                     addJson.addProperty("listingHighestBids", allListings.get(i).getHighestBid());
+                    addJson.addProperty("listingEnded", allListings.get(i).getEnded());
                     JsonArray images = new JsonArray();
                     for(int j = 0; j < temp.size(); j++) {
                         JsonObject image = new JsonObject();

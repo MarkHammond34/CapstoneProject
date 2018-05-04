@@ -15,98 +15,65 @@
 
 <div class="uk-grid uk-margin-large-bottom" uk-grid>
     <div class="uk-width-1-1 uk-align-center" uk-sticky>
-            <form class="uk-align-center uk-margin-small-top .uk-form-controls-text" style="width:50%;">
-                <div class="uk-search uk-search-default uk-width-1-1">
+        <form class="uk-align-center uk-margin-small-top .uk-form-controls-text" style="width:50%;">
+            <div class="uk-search uk-search-default uk-width-1-1">
                 <span class="uk-search-icon-flip" uk-search-icon></span>
                 <input id="search" class="uk-search-input uk-box-shadow-hover-xlarge" style="border-radius:15px;" type="search" placeholder="Search...">
+            </div>
+            <div class="uk-align-center uk-margin-small-top">
+
+                <div uk-form-custom="target: > * > span:first-child" class="uk-margin-small-left">
+                    <select id="sortCriteria">
+                        <option value="">Sort By </option>
+                        <option id="AlphabeticalAscending" value="AlphabeticalAscending">Alphabetical Ascending</option>
+                        <option id="AlphabeticalDescending" value="AlphabeticalDescending">Alphabetical Descending</option>
+                        <option id="PriceAscending" value="PriceAscending">Price Ascending</option>
+                        <option id="PriceDescending" value="PriceDescending">Price Descending</option>
+                    </select>
+                    <button class="uk-button uk-button-default" type="button" tabindex="-1">
+                        <span></span>
+                        <span uk-icon="icon: chevron-down"></span>
+                    </button>
                 </div>
 
-                <div class="uk-align-center uk-margin-small-top">
+                <div uk-form-custom="target: > * > span:first-child" class="uk-margin-small-left">
+                    <select id="categoryCriteria">
+                        <option value="">Category</option>
+                        <c:forEach var="category" items="${categories}">
+                            <option value="${category.category}">${category.category}</option>
+                        </c:forEach>
+                    </select>
 
-                    <div uk-form-custom="target: > * > span:first-child" class="uk-margin-small-left">
-                        <select id="sortCriteria">
-                            <option value="">Sort By </option>
-                            <option id="AlphabeticalAscending" value="AlphabeticalAscending">Alphabetical Ascending</option>
-                            <option id="AlphabeticalDescending" value="AlphabeticalDescending">Alphabetical Descending</option>
-                            <option id="PriceAscending" value="PriceAscending">Price Ascending</option>
-                            <option id="PriceDescending" value="PriceDescending">Price Descending</option>
-                        </select>
-                        <button class="uk-button uk-button-default" type="button" tabindex="-1">
-                            <span></span>
-                            <span uk-icon="icon: chevron-down"></span>
-                        </button>
-                    </div>
-
-                    <div uk-form-custom="target: > * > span:first-child" class="uk-margin-small-left">
-                        <select id="categoryCriteria">
-                            <option value="">Category</option>
-                            <c:forEach var="category" items="${categories}">
-                                <option value="${category.category}">${category.category}</option>
-                            </c:forEach>
-                        </select>
-                        <button class="uk-button uk-button-default" type="button" tabindex="-1">
-                            <span></span>
-                            <span uk-icon="icon: chevron-down"></span>
-                        </button>
-                    </div>
-
-                    <label class="uk-margin-small-left"><input class="uk-checkbox" type="checkbox" checked> Auctions</label>
-                    <label class="uk-margin-small-left"><input class="uk-checkbox" type="checkbox" checked> Fixed Price</label>
-                    <label class="uk-margin-small-left"><input class="uk-checkbox" type="checkbox" checked> Donations</label>
-
-                    <label><input class="uk-radio uk-margin-small-left" type="radio" name="radio1" checked> Listings</label>
-                    <label><input class="uk-radio uk-margin-small-left" type="radio" name="radio1"> Users</label>
-
-
+                    <button class="uk-button uk-button-default" type="button" tabindex="-1">
+                        <span></span>
+                        <span uk-icon="icon: chevron-down"></span>
+                    </button>
                 </div>
-            </form>
+
+                <label class="uk-margin-small-left"><input class="uk-checkbox" type="checkbox" checked> Auctions</label>
+                <label class="uk-margin-small-left"><input class="uk-checkbox" type="checkbox" checked> Fixed Price</label>
+                <label class="uk-margin-small-left"><input class="uk-checkbox" type="checkbox" checked> Donations</label>
+
+                <label><input class="uk-radio uk-margin-small-left" type="radio" name="radio1" checked> Listings</label>
+                <label><input class="uk-radio uk-margin-small-left" type="radio" name="radio1"> Users</label>
+
+
+            </div>
+        </form>
     </div>
 </div>
 <div class="uk-grid-large uk-child-width-expand@s uk-margin-top-large uk-margin-large-left uk-margin-large-right uk-text-center" uk-grid>
 
-        <div id="allListings"
-             class="uk-panel uk-panel-scrollable uk-resize-vertical uk-height-large uk-padding-remove uk-background-muted uk-border-rounded uk-margin-large-bottom">
-            <ul id="printCards" class="uk-nav uk-nav-default uk-child-width-1-4@m uk-grid-small uk-grid-match list" uk-grid>
-                <li class="uk-padding-small">
-                    <div class="uk-card uk-card-default">
-                        <div class="uk-card-media-top">
-                            <img src="../docs/images/dark.jpg" alt="">
-                        </div>
-                        <div class="uk-card-body">
-                            <h3 class="uk-card-title">Headline</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-                        </div>
-                    </div>
-                </li>
-                <li class="uk-padding-small">
-                    <div class="uk-card uk-card-default">
-                        <div class="uk-card-media-top">
-                            <img src="../docs/images/dark.jpg" alt="">
-                        </div>
-                        <div class="uk-card-body">
-                            <h3 class="uk-card-title">Headline</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-                        </div>
-                    </div>
-                </li>
-                <li class="uk-padding-small">
-                    <div class="uk-card uk-card-default">
-                        <div class="uk-card-media-top">
-                            <img src="../docs/images/dark.jpg" alt="">
-                        </div>
-                        <div class="uk-card-body">
-                            <h3 class="uk-card-title">Headline</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-                        </div>
-                    </div>
-                </li>
-
-            </ul>
-        </div>
+    <div id="allListings"
+         class="uk-panel uk-panel-scrollable uk-resize-vertical uk-height-large uk-padding-remove uk-background-muted uk-border-rounded uk-margin-large-bottom">
+        <ul id="printCards" class="uk-nav uk-nav-default uk-child-width-1-4@m uk-grid-small uk-grid-match list" uk-grid>
+        </ul>
+    </div>
 </div>
 </body>
 <script>
     var listings;
+    var tempListings;
     $(document).ready(function () {
         var text= "";
         $.ajax({
@@ -117,21 +84,68 @@
             success: function (result) {
                 console.log(result);
                 listings = result;
+                tempListings = result;
                 for(var key in result){
-                  text +=  '<li class="uk-padding-small">'+
-                    '<div class="uk-card uk-card-default">' +
-                    '<div class="uk-card-media-top">'+
-                    '<img class="uk-align-center" src="directory/'+ result[key].listingImages + '" alt="">'+
-                    '<div class="uk-card-body"> <a href="/listing?l='+result[key].listingId +'"> <h3 class="uk-card-title">'+ result[key].listingName +'</h3></a> '+
-                    '<p>Category: ' + result[key].listingCategory + '</p>' +
-                    '<p>Price: ' + result[key].listingPrice + '</p>'+
-                    '</div></div></li>';
+                    text +=  '<li class="uk-padding-small">'+
+                        '<div class="uk-card uk-card-default">' +
+                        '<div class="uk-card-media-top">'+
+                        '<img class="uk-align-center" src="directory/'+ result[key].listingImages + '" alt="">'+
+                        '<div class="uk-card-body"> <a href="/listing?l='+result[key].listingId +'"> <h3 class="uk-card-title">'+ result[key].listingName +'</h3></a> '+
+                        '<p>Category: ' + result[key].listingCategory + '</p>' +
+                        '<p>Price: ' + result[key].listingPrice + '</p>'+
+                        '</div></div></li>';
                 }
 
                 $('#printCards').empty();
                 $('#printCards').append(text);
+                <c:if test="${sessionScope.allViewCategory != '' || sessionScope.allViewCategory != null}">
+                    var criteria = "${sessionScope.allViewCategory}";
+
+                if(criteria == "Apparel" ){
+                    tempListings.sort(printCardsCategory(tempListings,criteria));
+                }
+                else if(criteria == "Art"){
+                    tempListings.sort(printCardsCategory(tempListings,criteria));
+                }
+                else if(criteria == "Auto"){
+                    tempListings.sort(printCardsCategory(tempListings,criteria));
+                }
+                else if(criteria == "Collectibles"){
+                    tempListings.sort(printCardsCategory(tempListings,criteria));
+                }
+                else if(criteria == "Electronics"){
+                    tempListings.sort(printCardsCategory(tempListings,criteria));
+                }
+                else if(criteria == "Exotic"){
+                    tempListings.sort(printCardsCategory(tempListings,criteria));
+                }
+                else if(criteria == "Furniture"){
+                    tempListings.sort(printCardsCategory(tempListings,criteria));
+                }
+                else if(criteria == "Home Goods"){
+                    tempListings.sort(printCardsCategory(tempListings,criteria));
+                }
+                else if(criteria == "Music"){
+                    tempListings.sort(printCardsCategory(tempListings,criteria));
+                }
+                else if(criteria == "Other"){
+                    tempListings.sort(printCardsCategory(tempListings,criteria));
+                }
+                else if(criteria == "School Supplies"){
+                    tempListings.sort(printCardsCategory(tempListings,criteria));
+                }
+                else if(criteria == "Sporting Goods"){
+                    tempListings.sort(printCardsCategory(tempListings,criteria));
+                }
+                </c:if>
             }
         });
+
+        <c:if test="${sessionScope.allViewCategory != '' || sessionScope.allViewCategory != null}">
+        setTimeout(function(){
+            $("#sortCriteria option[value=${sessionScope.allViewCategory}]").prop('selected', 'selected'); }, 2000);
+        </c:if>
+
 
 
         $("#sortCriteria").change(function () {

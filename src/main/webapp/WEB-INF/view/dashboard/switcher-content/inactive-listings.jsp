@@ -16,6 +16,7 @@
                         text += '<li class="uk-position-center"><h2>You have no inactive listings</h2></li>';
                     }else{
                     for (var key in result) {
+                        console.log(result);
                         text += '<li class="uk-padding-small uk-first-column">'+
                             '<div>' +
                             '    <div class="uk-float-left">' +
@@ -27,8 +28,8 @@
                             '            <li uk-tooltip="title: Cancel; pos: left"><a onclick="UIkit.modal("#cancel-auction").show();"' +
                             '                                                         uk-icon="icon: close"></a></li>' +
                             '            <li><a href="#" uk-icon="icon: trash"></a></li>';
-                        if(result[key].listingType == "Auction") {
-                            text += '<li><button uk-toggle="target: #modal" uk-icon="icon: refresh" type="button"></button></li>';
+                        if((result[key].listingType === "Auction" || result[key].listingType === "Donation") || result[key].listingEnded === 1) {
+                            text += '<li><a uk-toggle="target: #modal'+ result[key].listingId + '" data-id="'+ result[key].listingId + '" uk-icon="icon: refresh" type="button"></a></li>';
                         }
                         text += '</ul>' +
                             '    </div>' +
@@ -38,7 +39,7 @@
                             '                <ul class="uk-slideshow-items">' +
                             '                        <div uk-lightbox>';
                         var imgListing = JSON.parse(result[key].listingImages);
-                        console.log(imgListing);
+
                         for (var i = 0; i < imgListing.length; i++) {
                             text += '<li>' +
                                 '<div class="uk-position-center uk-dark">' +
@@ -124,6 +125,37 @@
                         text += '        </div>' +
                             '    </div>' +
                             '</div></li>';
+
+                        text += '<div id="modal'+ result[key].listingId +'" uk-modal>' +
+                            '    <div class="uk-modal-dialog">' +
+                            '        <button class="uk-modal-close-default" type="button" uk-close></button>' +
+                            '        <div class="uk-modal-header">' +
+                            '            <h2 class="uk-modal-title">Relist a Listing</h2>' +
+                            '        </div>' +
+                            '        <form method="post" action="/relistListing">' +
+                            '        <div class="uk-modal-body">' +
+                            '            <div class="uk-width-1-2@m uk-width-1-1@s" id="dateEnd">' +
+                            '                <strong>Change End Date</strong><input type="date"' +
+                            '                                                class="uk-input" id="endDate"' +
+                            '                                                name="endDate"' +
+                            '                                                placeholder="End Date" min="">' +
+                            '            </div>' +
+                            '            <div class="uk-width-1-2@m uk-width-1-1@s" id="timeEnd">' +
+                            '                <strong>Change End Time</strong><input type="time"' +
+                            '                                                class="uk-input" id="endTime"' +
+                            '                                                name="endTime"' +
+                            '                                                placeholder="End Time">' +
+                            '            </div>' +
+                            '            <input type="number" value="'+ result[key].listingId +'" name="listingId" hidden>' +
+                            '        </div>' +
+                            '        <div class="uk-modal-footer uk-text-right">' +
+                            '            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>' +
+                            '            <button class="uk-button uk-button-primary" type="submit">Save</button>' +
+                            '        </div>' +
+                            '        </form' +
+                            '    </div>'+
+                            '    </div>'+
+                            '    </div>';
                     }
                     }
                     $("#inactiveListings").empty();

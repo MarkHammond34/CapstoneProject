@@ -29,19 +29,20 @@
         </div>
 
         <!-- Category Section -->
-        <div class="uk-section uk-padding" data-intro="Click here to search listings by category."
+        <div class="uk-section uk-padding-large" data-intro="Click here to search listings by category."
              data-step="5">
-            <div class=" uk-child-width-1-6@m uk-grid-small uk-grid-match" uk-grid>
+
+            <ul class="uk-grid-small uk-child-width-1-2 uk-child-width-1-6@s uk-margin-small uk-text-center" uk-grid>
                 <c:forEach var="category" items="${categories}" varStatus="loop">
-                    <div class="item uk-animation">
-                        <a href="/categorySearch?search=${category.category}"><img
+                    <li class="item uk-animation uk-margin-small ">
+                        <a href="/allView?categoryView=${category.category}"><img
                                 class="category-pic uk-border-circle uk-box-shadow-hover-xlarge"
                                 src="${pageContext.request.contextPath}/resources/img/category/${category.image}"></a>
                         <span class="caption">${category.category}</span>
-                    </div>
-
+                    </li>
                 </c:forEach>
-            </div>
+            </ul>
+
 
         </div>
 

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,8 +27,10 @@ public class AllViewController extends BaseController {
     @Autowired
     ListingService listingService;
 
-    @RequestMapping("/allView")
-    public String displayListingByCategory(HttpServletRequest request) {
+    @RequestMapping(value="/allView", method = RequestMethod.GET)
+    public String displayListingByCategory(@RequestParam(name="categoryView", required=false) String cat, HttpServletRequest request) {
+        System.out.println(cat);
+        request.getSession().setAttribute("allViewCategory", cat);
         request.setAttribute("categories", categoryService.getAllCategories());
         request.setAttribute("subCategories", categoryService.getAllSubCategories());
         return "allViewPage";
@@ -51,6 +54,7 @@ public class AllViewController extends BaseController {
                     addJson.addProperty("listingEndTime", allListings.get(i).getEndTimestamp().toString());
                     addJson.addProperty("listingBids", allListings.get(i).getBidCount());
                     addJson.addProperty("listingHighestBids", allListings.get(i).getHighestBid());
+                    addJson.addProperty("resultType", "listing");
                     for(int j = 0; j < temp.size(); j++) {
                         if (temp.get(j).getMain() == 1)
                             addJson.addProperty("listingImages", temp.get(j).getImage_path() + "/" + temp.get(j).getImage_name());
