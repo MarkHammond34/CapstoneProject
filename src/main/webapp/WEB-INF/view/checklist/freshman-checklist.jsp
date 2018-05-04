@@ -37,11 +37,12 @@
                         <form action="/add-item" method="post" id="addItemForm"
                               class="uk-grid-small uk-width-1-1 uk-padding-small"
                               uk-grid>
-                            <input type="text" name="name" class="uk-input uk-width-5-6" placeholder="Create Your Own"
+                            <input type="text" name="name" class="uk-input uk-width-4-5@m uk-width-4-5@l uk-width-1-2@s"
+                                   placeholder="Create Your Own"
                                    required>
                             <input type="hidden" name="checklistID"
                                    value="${sessionScope.checklist.checklistID}">
-                            <div class="uk-width-1-6">
+                            <div class="uk-width-1-5@m uk-width-1-5@l uk-width-1-3@s">
                                 <button class="uk-button uk-border-rounded uk-button-primary"
                                         type="submit">Add Item
                                 </button>
@@ -186,7 +187,7 @@
         }).done(function (response) {
             if (response.showTutorial == 'YES') {
                 setTimeout(function () {
-                   startTutorial();
+                    startTutorial();
                 }, 1500);
             }
         });

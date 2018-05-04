@@ -286,7 +286,7 @@
                         <li class="uk-nav-divider"></li>
                     </c:if>
 
-                    <li><a href="${pageContext.request.contextPath}/logout"><span
+                    <li class="fixed listing "><a href="${pageContext.request.contextPath}/logout"><span
                             class="uk-margin-small-right" uk-icon="icon: sign-out"></span>Logout</a></li>
                     <li class="uk-nav-divider"></li>
 
@@ -304,7 +304,7 @@
     window.addEventListener("resize", checkDeviceWidth);
 
     function checkDeviceWidth() {
-        if (screen.width < 400) {
+        if (screen.width < 500) {
             document.getElementById("mobile-navbar").style.display = "inline";
             document.getElementById("desktop-navbar").style.display = "none";
         } else {
