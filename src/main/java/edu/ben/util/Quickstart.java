@@ -14,6 +14,8 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.*;
 import edu.ben.model.CalendarEvent;
+import edu.ben.model.PickUp;
+import edu.ben.model.User;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -181,6 +183,62 @@ public class Quickstart {
     	String calendarId = "primary";
     	event = service.events().insert(calendarId, event).execute();
     	System.out.printf("Event created: %s\n", event.getHtmlLink());
+    }
+
+    public void pickupEvent(CalendarEvent calendarEvent, User u, PickUp p) throws IOException {
+        // Refer to the Java quickstart on how to setup the environment:
+        // https://developers.google.com/google-apps/calendar/quickstart/java
+        // Change the scope to CalendarScopes.CALENDAR and delete any stored
+        // credentials.
+
+        String latatude = Float.toString(p.getLocation().getLatitude());
+        String longitide = Float.toString(p.getLocation().getLongitude());
+        String location = latatude + ", " + longitide;
+
+        service = getCalendarService();
+
+        String startTime = calendarEvent.getStartTime().toString().replace(' ', 'T');
+        String endTime = calendarEvent.getEndTime().toString().replace(' ', 'T');
+
+        System.out.println("Start: " + startTime);
+        Event event = new Event()
+                .setSummary(calendarEvent.getTitle())
+                .setLocation(location)
+                .setDescription(calendarEvent.getDescription());
+
+        DateTime startDateTime = new DateTime(startTime + "-06:00");
+        EventDateTime start = new EventDateTime()
+                .setDateTime(startDateTime)
+                .setTimeZone("America/Los_Angeles");
+        event.setStart(start);
+
+        DateTime endDateTime = new DateTime(endTime + "-06:00");
+        EventDateTime end = new EventDateTime()
+                .setDateTime(endDateTime)
+                .setTimeZone("America/Los_Angeles");
+        event.setEnd(end);
+
+//    	String[] recurrence = new String[] {"RRULE:FREQ=DAILY;COUNT=2"};
+//    	event.setRecurrence(Arrays.asList(recurrence));
+
+        EventAttendee[] attendees = new EventAttendee[] {
+                new EventAttendee().setEmail(u.getEmail()),
+
+        };
+        event.setAttendees(Arrays.asList(attendees));
+
+        EventReminder[] reminderOverrides = new EventReminder[] {
+                new EventReminder().setMethod("email").setMinutes(24 * 60),
+                new EventReminder().setMethod("popup").setMinutes(10),
+        };
+        Event.Reminders reminders = new Event.Reminders()
+                .setUseDefault(false)
+                .setOverrides(Arrays.asList(reminderOverrides));
+        event.setReminders(reminders);
+
+        String calendarId = "primary";
+        event = service.events().insert(calendarId, event).execute();
+        System.out.printf("Event created: %s\n", event.getHtmlLink());
     }
 
 }

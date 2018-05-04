@@ -52,6 +52,14 @@ public class EventsDAOImpl implements EventsDAO {
     }
 
     @Override
+    public List getActiveAndInactiveListings() {
+        Query q = getSession().createQuery("FROM events order by start_date asc");
+
+        return q.list();
+
+    }
+
+    @Override
     public CalendarEvent getEventsByID(int id) {
         Query q = getSession().createQuery("FROM events WHERE eventsId=:id");
 

@@ -13,5 +13,8 @@ public interface EventsService {
 
     public List getAllEvents();
 
+    public List getActiveAndInactiveListings();
+
+
     public CalendarEvent getEventsByID(int id);
 }

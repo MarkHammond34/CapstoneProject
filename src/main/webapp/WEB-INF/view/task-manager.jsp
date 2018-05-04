@@ -596,23 +596,12 @@
                                                          uk-grid>
                                                         <div class="uk-text-center">
                                                             <h5>Developers</h5>
-                                                            <c:forEach var="admin" items="${admins}">
-                                                                <c:forEach var="adminTask" items="${adminTasks}"
-                                                                           varStatus="loop">
-
-                                                                    <c:if test="${task.taskID == adminTask.getTask().getTaskID()}">
-
+                                                            <c:forEach var="admin" items="${admins}" varStatus="loop">
                                                                         <label><input class="uk-checkbox" checked
                                                                                       name="admin"
-                                                                                      value="${adminTask.getUser().getSchoolEmail()}"
-                                                                                      type="checkbox"> ${adminTask.getUser().getFirstName()} ${adminTask.getUser().getLastName()}
+                                                                                      value="${admin.getUser().getSchoolEmail()}"
+                                                                                      type="checkbox"> ${admin.getUser().getFirstName()} ${admin.getUser().getLastName()}
                                                                         </label>
-
-                                                                    </c:if>
-
-
-                                                                </c:forEach>
-
                                                             </c:forEach>
                                                         </div>
 

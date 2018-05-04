@@ -31,7 +31,6 @@ public class CalendarEvent {
     private Timestamp endTime;
 
     @Column(name = "active")
-
     private int active;
 
     public CalendarEvent() {

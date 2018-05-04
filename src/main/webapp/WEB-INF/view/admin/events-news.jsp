@@ -13,6 +13,7 @@
     <ul class="uk-subnav uk-subnav-pill" uk-switcher>
         <li><a href="#">Create</a></li>
         <li><a href="#">Manage</a></li>
+        <li><a href="#">Edit</a></li>
     </ul>
 
     <ul class="uk-switcher uk-margin">
@@ -35,6 +36,9 @@
                     </div>
                 </div>
             </div>
+        </li>
+        <li>
+            <%@include file="edit-events.jsp" %>
         </li>
     </ul>
 </div>

@@ -1149,17 +1149,7 @@ public class AdminController extends BaseController {
         ArrayList<User> admins = (ArrayList<User>) userService.getAllAdmins();
         ArrayList<Task> tasks = (ArrayList<Task>) taskService.getAllTasks();
 
-        ArrayList<AdminTask> adminTasks = (ArrayList<AdminTask>) adminTaskService.getAllAdminTasks();
-        ArrayList<Task> getAllYourTasks = new ArrayList<>();
 
-        for (int i = 0; i < adminTasks.size(); i++) {
-            if(adminTasks.get(i).getUser().getUserID() == u.getUserID()) {
-               Task t = taskService.getAllTasksByTaskID(adminTasks.get(i).getTask().getTaskID());
-                getAllYourTasks.add(t);
-                System.out.println("Priority: " + t.getPriority());
-            }
-        }
-        System.out.println("All your tasks: " + getAllYourTasks.size());
 
 
 
@@ -1168,8 +1158,6 @@ public class AdminController extends BaseController {
 
         request.setAttribute("admins", admins);
         request.setAttribute("tasks", tasks);
-        request.setAttribute("adminTasks", adminTasks);
-        request.setAttribute("yourTasks", getAllYourTasks);
         return "task-manager";
     }
 
@@ -1186,7 +1174,8 @@ public class AdminController extends BaseController {
 
             AdminTask task = new AdminTask();
 
-            task.setTask(t);
+
+
             task.setUser(user);
 
             adminTaskService.create(task);

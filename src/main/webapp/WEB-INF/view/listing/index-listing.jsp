@@ -47,7 +47,7 @@
         <c:choose>
             <c:when test="${listing.type == 'auction'}">
                 <c:choose>
-                    <c:when test="${listing.ended = 1}">
+                    <c:when test="${listing.ended == 1}">
                         <div class="price" style="font-size: 16px;">
                             <span class="uk-badge">Current Bid: $${listing.highestBid}</span>
                             <a
