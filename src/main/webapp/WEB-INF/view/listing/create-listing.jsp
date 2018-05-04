@@ -316,7 +316,7 @@
             document.getElementById('title_error').textContent = "";
         }
         // Image Checking
-        if (${listing.isDraft != true}) {
+        if (${isDraft != true}) {
             if (extension != "jpeg" && extension != "png" && extension != "jpg") {
                 document.getElementById('image_error').textContent = "* Must upload an image file.";
                 document.getElementById('image_error').style.color = "red";
