@@ -10,11 +10,13 @@
     <%@include file="../jspf/messages.jsp" %>
 
     <div class="uk-section uk-background-muted listing-tutorial">
-        <div class="uk-padding-small">
-            <button class="uk-button uk-button-primary uk-text-center" onclick="goBack()"><span
+
+        <div class="uk-margin-small-left">
+            <button class="uk-button uk-button-default uk-border-rounded uk-text-center" onclick="goBack()"><span
                     class="uk-padding-remove-left" uk-icon="arrow-left"></span>Go Back
             </button>
         </div>
+
         <div class="uk-section uk-padding-small" uk-grid>
 
             <!-- LEFT SIDE -->
@@ -160,7 +162,8 @@
                                                         <a href="/pick-up-review?l=${listing.id}"
                                                            class="uk-button uk-button-text uk-align-right"
                                                            data-intro="Click here view your pick up" data-step="1"
-                                                           style="color: cornflowerblue; margin-left: 5px;">View Pick Up Details</a>
+                                                           style="color: cornflowerblue; margin-left: 5px;">View Pick Up
+                                                            Details</a>
                                                     </c:when>
                                                     <c:when test="${viewVerification == true}">
                                                         <a uk-toggle="target: #verifyPickUpModal"
