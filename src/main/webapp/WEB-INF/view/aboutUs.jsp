@@ -21,12 +21,12 @@
     <%@include file="jspf/navbar.jspf" %>
 
     <div id="central">
-        <div class="uk-margin uk-card uk-card-default uk-card-body">
+        <div class="uk-margin uk-card uk-align-center uk-card-default uk-card-body">
             <h2 class="uk-heading-line uk-text-center"><span>About the Developers</span></h2>
         </div>
-        <div id="central">
+        <div class="container">
             <table
-                    class="uk-margin-left uk-table uk-table-hover uk-table-striped uk-table-condensed">
+                    class="uk-margin-right uk-align-center uk-table uk-table-hover uk-table-striped uk-table-condensed">
                 <thead>
                 <tr>
                     <th>Jacob Trumpis, Computer Information Systems BS</th>
