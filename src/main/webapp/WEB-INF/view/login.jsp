@@ -9,7 +9,7 @@
 
     <%@include file="jspf/messages.jsp" %>
 
-    <div class="uk-grid uk-margin-large-bottom uk-background-muted" uk-grid>
+    <div class="uk-grid uk-margin-large-bottom uk-background-muted uk-margin-small-left uk-margin-small-right" uk-grid>
         <script>
             $(document).ready(function () {
                 $('#emailInput').keyup(function () {
@@ -41,7 +41,7 @@
 
         </script>
         <div class="uk-width-2-5@m uk-width-2-5@l uk-width-1-1@s uk-align-center">
-            <div class="uk-card uk-card-default uk-card-body uk-margin-large uk-padding-large">
+            <div class="uk-card uk-card-default uk-card-body uk-margin-medium-right">
                 <h3 class="uk-heading-line uk-text-center"><span>Login</span></h3>
                 <form action="loginUser"
                       method="post">

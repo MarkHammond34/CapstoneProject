@@ -4,6 +4,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.sql.Timestamp;
 
 @Entity(name = "offer")
 @Table(name = "offer")
@@ -39,6 +40,9 @@ public class Offer {
     @Column(name = "active")
     private int active;
 
+    @Column(name = "date_created")
+    private Timestamp dateCreated;
+
     public Offer() {
 
     }
@@ -63,7 +67,7 @@ public class Offer {
         this.active = 1;
     }
 
-    public Offer(int offerID, int offerAmount, String offerMessage, User offerMaker, User offerReceiver, Listing listingID, @NotBlank String status) {
+    public Offer(int offerID, int offerAmount, String offerMessage, User offerMaker, User offerReceiver, Listing listingID, @NotBlank String status, Timestamp dateCreated) {
         this.offerID = offerID;
         this.offerAmount = offerAmount;
         this.offerMessage = offerMessage;
@@ -72,6 +76,7 @@ public class Offer {
         this.listingID = listingID;
         this.status = status;
         this.active = 1;
+        this.dateCreated = dateCreated;
     }
 
     // Getters and setters
@@ -138,6 +143,14 @@ public class Offer {
 
     public void setOfferReceiver(User offerReceiver) {
         this.offerReceiver = offerReceiver;
+    }
+
+    public Timestamp getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Timestamp dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     @Override

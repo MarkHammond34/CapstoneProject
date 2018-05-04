@@ -58,13 +58,6 @@ public class Transaction {
 
     }
 
-    public Transaction(int buyer, int seller, Listing listingID, Offer offerID) {
-/*		this.buyerID = buyer;
-		this.sellerID = seller;*/
-        this.listingID = listingID;
-        this.offerID = offerID;
-    }
-
     public Transaction(User buyer, User seller, Listing listingID, int completed, Offer offerID) {
         this.buyer = buyer;
         this.seller = seller;

@@ -194,7 +194,9 @@ public class DashboardController extends BaseController {
         json.addProperty("offerAmount", offer.getOfferAmount());
         json.addProperty("offerMessage", String.valueOf(offer.getOfferMessage()));
         json.addProperty("offerMaker", offer.getOfferMaker().getUserID());
+        json.addProperty("offerListing", offer.getListingID().getName());
         json.addProperty("offerReceiver", offer.getOfferReceiver().getUserID());
+        json.addProperty("offerDateCreated", offer.getDateCreated().toString());
         json.addProperty("offerStatus", offer.getStatus());
         json.addProperty("offerActive", offer.getActive());
 
@@ -215,7 +217,10 @@ public class DashboardController extends BaseController {
     }
 
     @RequestMapping(value = "/transactionDetails", method = RequestMethod.GET)
-    public String showTransactionDetails() {
+    public String showTransactionDetails(HttpServletRequest request, @RequestParam("transactionId") int transactionId) {
+
+        System.out.println("Transaction id: " + transactionId);
+        User user = (User) request.getSession().getAttribute("user");
 
         JsonObject json = new JsonObject();
 
@@ -366,7 +371,6 @@ public class DashboardController extends BaseController {
                     addJson.addProperty("listingCreatedTime", allListings.get(i).getDateCreated().toString());
                     addJson.addProperty("listingBids", allListings.get(i).getBidCount());
                     addJson.addProperty("listingHighestBids", allListings.get(i).getHighestBid());
-                    addJson.addProperty("listingEnded", allListings.get(i).getEnded());
                     JsonArray images = new JsonArray();
                     for(int j = 0; j < temp.size(); j++) {
                         JsonObject image = new JsonObject();

@@ -24,33 +24,44 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Quickstart {
-    /** Application name. */
+    /**
+     * Application name.
+     */
     private static final String APPLICATION_NAME =
-        "Google Calendar API Java Quickstart";
+            "Google Calendar API Java Quickstart";
 
-    /** Directory to store user credentials for this application. */
+    /**
+     * Directory to store user credentials for this application.
+     */
     private static final java.io.File DATA_STORE_DIR = new java.io.File(
-        System.getProperty("user.home"), ".credentials/calendar-java-quickstart");
+            System.getProperty("user.home"), ".credentials/calendar-java-quickstart");
 
-    /** Global instance of the {@link FileDataStoreFactory}. */
+    /**
+     * Global instance of the {@link FileDataStoreFactory}.
+     */
     private static FileDataStoreFactory DATA_STORE_FACTORY;
 
-    /** Global instance of the JSON factory. */
+    /**
+     * Global instance of the JSON factory.
+     */
     private static final JsonFactory JSON_FACTORY =
-        JacksonFactory.getDefaultInstance();
+            JacksonFactory.getDefaultInstance();
 
-    /** Global instance of the HTTP transport. */
+    /**
+     * Global instance of the HTTP transport.
+     */
     private static HttpTransport HTTP_TRANSPORT;
-    
+
     private static com.google.api.services.calendar.Calendar service;
 
-    /** Global instance of the scopes required by this quickstart.
-     *
+    /**
+     * Global instance of the scopes required by this quickstart.
+     * <p>
      * If modifying these scopes, delete your previously saved credentials
      * at ~/.credentials/calendar-java-quickstart
      */
     private static final List<String> SCOPES =
-        Arrays.asList(CalendarScopes.CALENDAR);
+            Arrays.asList(CalendarScopes.CALENDAR);
 
     static {
         try {
@@ -64,26 +75,27 @@ public class Quickstart {
 
     /**
      * Creates an authorized Credential object.
+     *
      * @return an authorized Credential object.
      * @throws IOException
      */
     public static Credential authorize() throws IOException {
         // Load client secrets.
         InputStream in =
-            Quickstart.class.getResourceAsStream("/client_secret.json");
-        
+                Quickstart.class.getResourceAsStream("/client_secret.json");
+
         GoogleClientSecrets clientSecrets =
-            GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+                GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow =
                 new GoogleAuthorizationCodeFlow.Builder(
                         HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-                .setDataStoreFactory(DATA_STORE_FACTORY)
-                .setAccessType("offline")
-                .build();
+                        .setDataStoreFactory(DATA_STORE_FACTORY)
+                        .setAccessType("offline")
+                        .build();
         Credential credential = new AuthorizationCodeInstalledApp(
-            flow, new LocalServerReceiver()).authorize("user");
+                flow, new LocalServerReceiver()).authorize("user");
         System.out.println(
                 "Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
         return credential;
@@ -91,11 +103,12 @@ public class Quickstart {
 
     /**
      * Build and return an authorized Calendar client service.
+     *
      * @return an authorized Calendar client service
      * @throws IOException
      */
     public static com.google.api.services.calendar.Calendar
-        getCalendarService() throws IOException {
+    getCalendarService() throws IOException {
         Credential credential = authorize();
         return new com.google.api.services.calendar.Calendar.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, credential)
@@ -107,16 +120,16 @@ public class Quickstart {
         // Build a new authorized API client service.
         // Note: Do not confuse this class with the
         //   com.google.api.services.calendar.model.Calendar class.
-        service =  getCalendarService();
+        service = getCalendarService();
 
         // List the next 10 events from the primary calendar.
         DateTime now = new DateTime(System.currentTimeMillis());
         Events events = service.events().list("primary")
-            .setMaxResults(10)
-            .setTimeMin(now)
-            .setOrderBy("startTime")
-            .setSingleEvents(true)
-            .execute();
+                .setMaxResults(10)
+                .setTimeMin(now)
+                .setOrderBy("startTime")
+                .setSingleEvents(true)
+                .execute();
         List<Event> items = events.getItems();
         if (items.size() == 0) {
             System.out.println("No upcoming events found.");
@@ -130,70 +143,14 @@ public class Quickstart {
                 System.out.printf("%s (%s)\n", event.getSummary(), start);
             }
         }
-               
+
     }
-    
+
     public void CreateEvent(CalendarEvent calendarEvent) throws IOException {
-    	// Refer to the Java quickstart on how to setup the environment:
-    	// https://developers.google.com/google-apps/calendar/quickstart/java
-    	// Change the scope to CalendarScopes.CALENDAR and delete any stored
-    	// credentials.
-
-        service = getCalendarService();
-    	
-    	String startTime = calendarEvent.getStartTime().toString().replace(' ', 'T');
-    	String endTime = calendarEvent.getEndTime().toString().replace(' ', 'T');
-    	
-    	System.out.println("Start: " + startTime);
-    	Event event = new Event()
-    	    .setSummary(calendarEvent.getTitle())
-    	    .setLocation("Krasa Student Center, Lisle, IL")
-    	    .setDescription(calendarEvent.getDescription());
-
-    	DateTime startDateTime = new DateTime(startTime + "-06:00");
-    	EventDateTime start = new EventDateTime()
-    	    .setDateTime(startDateTime)
-    	    .setTimeZone("America/Los_Angeles");
-    	event.setStart(start);
-
-    	DateTime endDateTime = new DateTime(endTime + "-06:00");
-    	EventDateTime end = new EventDateTime()
-    	    .setDateTime(endDateTime)
-    	    .setTimeZone("America/Los_Angeles");
-    	event.setEnd(end);
-
-//    	String[] recurrence = new String[] {"RRULE:FREQ=DAILY;COUNT=2"};
-//    	event.setRecurrence(Arrays.asList(recurrence));
-
-    	EventAttendee[] attendees = new EventAttendee[] {
-    	    new EventAttendee().setEmail("lpage@example.com"),
-    	    new EventAttendee().setEmail("sbrin@example.com"),
-    	};
-    	event.setAttendees(Arrays.asList(attendees));
-
-    	EventReminder[] reminderOverrides = new EventReminder[] {
-    	    new EventReminder().setMethod("email").setMinutes(24 * 60),
-    	    new EventReminder().setMethod("popup").setMinutes(10),
-    	};
-    	Event.Reminders reminders = new Event.Reminders()
-    	    .setUseDefault(false)
-    	    .setOverrides(Arrays.asList(reminderOverrides));
-    	event.setReminders(reminders);
-
-    	String calendarId = "primary";
-    	event = service.events().insert(calendarId, event).execute();
-    	System.out.printf("Event created: %s\n", event.getHtmlLink());
-    }
-
-    public void pickupEvent(CalendarEvent calendarEvent, User u, PickUp p) throws IOException {
         // Refer to the Java quickstart on how to setup the environment:
         // https://developers.google.com/google-apps/calendar/quickstart/java
         // Change the scope to CalendarScopes.CALENDAR and delete any stored
         // credentials.
-
-        String latatude = Float.toString(p.getLocation().getLatitude());
-        String longitide = Float.toString(p.getLocation().getLongitude());
-        String location = latatude + ", " + longitide;
 
         service = getCalendarService();
 
@@ -203,7 +160,7 @@ public class Quickstart {
         System.out.println("Start: " + startTime);
         Event event = new Event()
                 .setSummary(calendarEvent.getTitle())
-                .setLocation(location)
+                .setLocation("Krasa Student Center, Lisle, IL")
                 .setDescription(calendarEvent.getDescription());
 
         DateTime startDateTime = new DateTime(startTime + "-06:00");
@@ -221,13 +178,13 @@ public class Quickstart {
 //    	String[] recurrence = new String[] {"RRULE:FREQ=DAILY;COUNT=2"};
 //    	event.setRecurrence(Arrays.asList(recurrence));
 
-        EventAttendee[] attendees = new EventAttendee[] {
-                new EventAttendee().setEmail(u.getEmail()),
-
+        EventAttendee[] attendees = new EventAttendee[]{
+                new EventAttendee().setEmail("lpage@example.com"),
+                new EventAttendee().setEmail("sbrin@example.com"),
         };
         event.setAttendees(Arrays.asList(attendees));
 
-        EventReminder[] reminderOverrides = new EventReminder[] {
+        EventReminder[] reminderOverrides = new EventReminder[]{
                 new EventReminder().setMethod("email").setMinutes(24 * 60),
                 new EventReminder().setMethod("popup").setMinutes(10),
         };
@@ -241,4 +198,76 @@ public class Quickstart {
         System.out.printf("Event created: %s\n", event.getHtmlLink());
     }
 
+    public void pickupEvent(User u, PickUp p) throws IOException {
+        // Refer to the Java quickstart on how to setup the environment:
+        // https://developers.google.com/google-apps/calendar/quickstart/java
+        // Change the scope to CalendarScopes.CALENDAR and delete any stored
+        // credentials.
+
+        String latatude = Float.toString(p.getLocation().getLatitude());
+        String longitide = Float.toString(p.getLocation().getLongitude());
+        String location = latatude + ", " + longitide;
+
+        service = getCalendarService();
+
+        System.out.println("Start: " + p.getPickUpTime());
+        String startTime = p.getPickUpTimestamp().toString().replace(' ', 'T');
+        String endTime = p.getPickUpTimestamp().toString().replace(' ', 'T');
+
+        Event event = null;
+
+        // Buyer
+        if (u.getUserID() == p.getTransaction().getBuyer().getUserID()) {
+            event = new Event()
+                    .setSummary("Pickup " + p.getTransaction().getListingID().getName())
+                    .setLocation(location)
+                    .setDescription("Pickup '" + p.getTransaction().getListingID().getName() + "' with " +
+                            p.getTransaction().getSeller().getFirstName() + " " + p.getTransaction().getSeller().getLastName() +
+                            " (Phone Number: " + p.getTransaction().getSeller().getPhoneNumber() + ").");
+
+            // Seller
+        } else {
+            event = new Event()
+                    .setSummary("Pickup " + p.getTransaction().getListingID().getName())
+                    .setLocation(location)
+                    .setDescription("Pickup '" + p.getTransaction().getListingID().getName() + "' with " +
+                            p.getTransaction().getBuyer().getFirstName() + " " + p.getTransaction().getBuyer().getLastName() +
+                            " (Phone Number: " + p.getTransaction().getBuyer().getPhoneNumber() + ").");
+
+        }
+
+        if (event != null) {
+
+            DateTime startDateTime = new DateTime(startTime + "-06:00");
+            EventDateTime start = new EventDateTime()
+                    .setDateTime(startDateTime)
+                    .setTimeZone("America/Los_Angeles");
+            event.setStart(start);
+
+            DateTime endDateTime = new DateTime(endTime + "-06:00");
+            EventDateTime end = new EventDateTime()
+                    .setDateTime(endDateTime)
+                    .setTimeZone("America/Los_Angeles");
+            event.setEnd(end);
+
+            EventAttendee[] attendees = new EventAttendee[]{
+                    new EventAttendee().setEmail(u.getEmail()),
+            };
+            event.setAttendees(Arrays.asList(attendees));
+
+            EventReminder[] reminderOverrides = new EventReminder[]{
+                    new EventReminder().setMethod("email").setMinutes(24 * 60),
+                    new EventReminder().setMethod("popup").setMinutes(10),
+            };
+            Event.Reminders reminders = new Event.Reminders()
+                    .setUseDefault(false)
+                    .setOverrides(Arrays.asList(reminderOverrides));
+            event.setReminders(reminders);
+
+            String calendarId = "primary";
+            event = service.events().insert(calendarId, event).execute();
+            System.out.printf("Event created: %s\n", event.getHtmlLink());
+
+        }
+    }
 }

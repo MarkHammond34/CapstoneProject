@@ -5,12 +5,14 @@ import com.google.gson.JsonObject;
 import edu.ben.model.*;
 import edu.ben.service.*;
 import edu.ben.util.PickUpRunner;
+import edu.ben.util.Quickstart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -595,5 +597,38 @@ public class PickUpController extends BaseController {
             json.addProperty("result", "USER NULL");
         }
         return json.toString();
+    }
+
+    @RequestMapping(value = "/addToGoogleCalendar", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody
+    String addToGoogleCalendar(HttpServletRequest request, @RequestParam("pickUpID") int pickUpID) {
+
+        JsonObject json = new JsonObject();
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            json.addProperty("result", "USER NULL");
+            return json.toString();
+        }
+
+        PickUp pickUp = pickUpService.getPickUpByPickUpID(pickUpID);
+
+        if (pickUp == null) {
+            json.addProperty("result", "PICK UP NULL");
+            return json.toString();
+        }
+
+        Quickstart quickstart = new Quickstart();
+        try {
+            quickstart.pickupEvent(user, pickUp);
+        } catch (IOException e) {
+            json.addProperty("result", "ERROR NULL");
+            return json.toString();
+        }
+
+        json.addProperty("result", "SUCCESS");
+        return json.toString();
+
     }
 }

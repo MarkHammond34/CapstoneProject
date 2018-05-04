@@ -374,7 +374,7 @@ public class ListingController extends BaseController {
         if (listing == null) {
             addWarningMessage("Error Loading Listing");
             setRequest(request);
-            return "redirect:" + request.getHeader("Referer");
+            return "redirect:/index";
         }
 
         listing.setCategory(category);
@@ -391,7 +391,7 @@ public class ListingController extends BaseController {
 
         addSuccessMessage("Listing Successful!");
         setRequest(request);
-        return "redirect:/viewListingDrafts";
+        return "redirect:/index";
     }
 
 
