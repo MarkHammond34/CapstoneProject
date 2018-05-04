@@ -12,7 +12,7 @@
 
     <div class="uk-section uk-background-muted">
 
-        <div class="uk-width-3-4@l uk-width-3-4@m uk-width-1-1@s uk-align-center">
+        <div class="uk-width-3-4@l uk-width-3-4@m uk-width-1-1@s uk-align-center uk-padding-small">
 
             <h1 class="uk-heading-line uk-text-center"><span>Notifications</span></h1>
 
