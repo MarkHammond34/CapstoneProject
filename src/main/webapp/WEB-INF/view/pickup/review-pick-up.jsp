@@ -50,7 +50,7 @@
                                  data-step="3">
 
                                 <c:choose>
-                                    <c:when test="${sessionScope.user.userID == pickUp.transaction.seller.userID}">
+                                    <c:when test="${sessionScope.user.userID == pickUp.transaction.buyer.userID}">
                                         <!-- Seller Image -->
                                         <img class="uk-border-circle" id="user-icon-img"
                                              src="${pageContext.request.contextPath}/directory/${pickUp.transaction.seller.mainImage}"
@@ -430,7 +430,7 @@
 
             // Lat and/or Lng Changed
             if (pickup.locationLat != response.locationLat || pickup.locationLng != response.locationLng) {
-                //displayWarningMessage("Pick Up Location Was Edited");
+                displayWarningMessage("Pick Up Location Was Edited");
                 marker.setMap(null);
                 markerPosition = new google.maps.LatLng(response.locationLat, response.locationLng);
                 marker = new google.maps.Marker({
@@ -444,7 +444,7 @@
 
             // Location Name Changed
             if (pickup.locationName != response.locationName) {
-                //displayWarningMessage("Pick Up Location Name Was Edited");
+                displayWarningMessage("Pick Up Location Name Was Edited");
                 document.getElementById("locationName").innerText = response.locationName;
                 document.getElementById("modalLocationName").innerText = response.locationName;
                 changeCount++;
@@ -452,7 +452,7 @@
 
             // Date and/or Time Changed
             if (pickup.pickUpTimestampAsLong != response.pickUpTimestampAsLong) {
-                //displayWarningMessage("Pick Up Date And Time Were Edited");
+                displayWarningMessage("Pick Up Date And Time Were Edited");
                 document.getElementById("pickUpDate").innerText = response.pickUpDate;
                 document.getElementById("modalPickupDate").innerText = response.pickUpDate;
                 document.getElementById("pickUpTime").innerText = response.pickUpTime;
@@ -462,13 +462,13 @@
 
             // Buyer Accept Changed
             if (pickup.buyerAccept != response.buyerAccept) {
-                //displayWarningMessage("Buyer Has Accepted The Pick Up");
+                displayWarningMessage("Buyer Has Accepted The Pick Up");
                 changeCount++;
             }
 
             // Status Changed
             if (pickup.status != response.status) {
-                //displayWarningMessage("Pick Up Status Has Changed");
+                displayWarningMessage("Pick Up Status Has Changed");
                 changeCount++;
             }
 
@@ -524,6 +524,21 @@
 
             }
         });
+    }
+
+    function displayErrorMessage(message) {
+        UIkit.notification({message: message, status: 'danger'});
+        $('#dangerButton').click();
+    }
+
+    function displayWarningMessage(message) {
+        UIkit.notification({message: message, status: 'warning'});
+        $('#warningButton').click();
+    }
+
+    function displaySuccessMessage(message) {
+        UIkit.notification({message: message, status: 'success'});
+        $('#successButton').click();
     }
 
 </script>
