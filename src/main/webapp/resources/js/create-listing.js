@@ -55,7 +55,6 @@ function updateFile() {
 
 function typeChange(type) {
 
-
     if (type.value == "auction") {
         document.getElementById("endDate").disabled = false;
         var required = document.createAttribute("required");
@@ -76,13 +75,15 @@ function typeChange(type) {
 
     } else if (type.value == "fixed") {
 
-        document.getElementById("endDate").disabled = false;
-        var required = document.createAttribute("required");
-        document.getElementById("endDate").setAttributeNode(required);
+        document.getElementById("endDate").disabled = true;
+        if (document.getElementById("endDate").hasAttribute("required")) {
+            document.getElementById("endDate").removeAttribute("required");
+        }
 
-        document.getElementById("endTime").disabled = false;
-        required = document.createAttribute("required");
-        document.getElementById("endTime").setAttributeNode(required);
+        document.getElementById("endTime").disabled = true;
+        if (document.getElementById("endTime").hasAttribute("required")) {
+            document.getElementById("endTime").removeAttribute("required");
+        }
 
         document.getElementById("price").disabled = false;
         required = document.createAttribute("required");
@@ -91,6 +92,7 @@ function typeChange(type) {
         document.getElementById("paymentType").disabled = false;
         required = document.createAttribute("required");
         document.getElementById("paymentType").setAttributeNode(required);
+
 
     } else if (type.value == "donation") {
 
@@ -128,7 +130,7 @@ function changeCategory(option) {
         }
     }
 
-    if (option != 'Other') {
+    if (option.value != 'Other') {
         document.getElementById("OtherSubcat").style.display = "inline";
     }
 

@@ -348,7 +348,7 @@
 
     window.addEventListener("load", function () {
 
-        var isDonation = ${isDonation};
+        var isDonation = '${isDonation}';
         if (isDonation == true) {
 
             document.getElementById("endDate").disabled = true;

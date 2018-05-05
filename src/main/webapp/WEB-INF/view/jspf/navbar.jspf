@@ -199,12 +199,72 @@
     </div>
 </div>
 
+<!-- Tablet Nabvar -->
+<div class="uk-position-relative homepage-tutorial uk-margin-bottom"
+     style="background-color: white; margin-bottom: 10px;"
+     data-intro="Welcome to U-ListIt! Here is a quick tour of our home page."
+     data-step="1">
+    <div class="uk-position-relativetop" id="tablet-navbar" style="display: none;">
+
+        <nav class="uk-navbar-container" style="color: rgba(238, 238, 238, 0)"
+             uk-navbar>
+
+            <!-- Left Side Tablet -->
+            <div class="uk-navbar-left">
+                <a class="uk-navbar-toggle homepage-tutorial" uk-navbar-toggle-icon
+                   uk-toggle="target: #offcanvas-slide"></a>
+            </div>
+
+            <!-- Center Tablet -->
+            <div class="uk-navbar-center">
+                <div class="uk-padding-small" style="margin-top: 12px">
+                    <img class="uk-align-center" src="${pageContext.request.contextPath}/resources/img/logo.png"
+                         style="width: 35%; display: block; margin: auto;">
+                </div>
+            </div>
+
+            <!-- Right Side Tablet -->
+            <div class="uk-navbar-right">
+
+                <div>
+                    <!-- Search -->
+                    <a class="uk-navbar-toggle homepage-tutorial" uk-search-icon href="#"
+                       data-intro="Click here to search for listings or users."
+                       data-step="2"></a>
+                    <div class="uk-drop uk-width-1-5"
+                         uk-drop="mode: click; pos: left-center; offset: 0">
+                        <form class="uk-search uk-search-navbar uk-width-1-1"
+                              method="POST" action="searchResults">
+                            <input class="uk-search-input" type="search"
+                                   placeholder="Search..." autofocus name="search">
+                        </form>
+                    </div>
+                </div>
+
+                <c:choose>
+                    <c:when test="${sessionScope.user == null}">
+                        <a class="uk-navbar-toggle" uk-toggle="target: #right-side-nav" uk-icon="icon: user"></a>
+                    </c:when>
+                    <c:otherwise>
+                        <a class="uk-navbar-toggle" uk-toggle="target: #right-side-nav">
+                            <img class="uk-border-circle" style="width: 30px; height: 30px;"
+                                 src="${pageContext.request.contextPath}/directory/${user.mainImage}"/></a>
+                    </c:otherwise>
+                </c:choose>
+
+            </div>
+
+        </nav>
+
+    </div>
+</div>
+
 <!-- Search Popup -->
 <div id="search-overlay" class="uk-overlay uk-light uk-align-center uk-border-rounded uk-padding-small"
      style="width:85%;background: rgba(34,34,34,0.85);" hidden>
-    <form class="uk-search uk-search-navbar">
+    <form class="uk-search uk-search-navbar" method="POST" action="searchResults">
         <span uk-search-icon></span>
-        <input class="uk-search-input" type="search" name="mainSearch" placeholder="Search...">
+        <input class="uk-search-input" type="search" name="search" placeholder="Search...">
     </form>
 </div>
 
@@ -304,12 +364,21 @@
     window.addEventListener("resize", checkDeviceWidth);
 
     function checkDeviceWidth() {
-        if (screen.width < 500) {
-            document.getElementById("mobile-navbar").style.display = "inline";
-            document.getElementById("desktop-navbar").style.display = "none";
-        } else {
+        // Desktop navbar
+        if (screen.width > 1100) {
             document.getElementById("mobile-navbar").style.display = "none";
+            document.getElementById("tablet-navbar").style.display = "none";
             document.getElementById("desktop-navbar").style.display = "inline";
+            // Tablet navbar
+        } else if (screen.width <= 1100 && screen.width > 400) {
+            document.getElementById("mobile-navbar").style.display = "none";
+            document.getElementById("tablet-navbar").style.display = "inline";
+            document.getElementById("desktop-navbar").style.display = "none";
+
+        } else if (screen.width <= 400) {
+            document.getElementById("mobile-navbar").style.display = "inline";
+            document.getElementById("tablet-navbar").style.display = "none";
+            document.getElementById("desktop-navbar").style.display = "none";
         }
     }
 

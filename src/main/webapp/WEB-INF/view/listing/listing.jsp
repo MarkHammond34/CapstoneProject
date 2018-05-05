@@ -502,8 +502,6 @@
                             // If user logged in created the listing
                             if (userLoggedIn == listing.userID && listing.bidCount > 0) {
                                 displaySuccessMessage("Sold!");
-                            } else if (userLoggedIn == listing.userID && listing.bidCount == 0) {
-                                displayWarningMessage("Listing Ended Without Any Bidders");
                             } else if (userLoggedIn == listing.highestBidderID) {
                                 displaySuccessMessage("You Won!")
                             }
