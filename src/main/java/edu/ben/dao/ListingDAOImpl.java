@@ -281,15 +281,24 @@ public class ListingDAOImpl implements ListingDAO {
     }
 
     @Override
-    public List getRelevantListingsFromRecentPurchaseByUserID(int userID, String category) {
-        String sql = "select * from listing where category IN (select listing.category from listing, offer, listing_bid where " +
+    public Listing getRelevantListingsFromRecentPurchaseByUserID(int userID, String category) {
+        String sql1 = "select * from listing where category IN (select listing.category from listing, offer, listing_bid where " +
                 "offer.offer_maker_id=:userID or listing_bid.user_id=:userID GROUP BY listing.category " +
                 "order by MAX((offer.date_created or listing_bid.created_on))) and category =:category and ended = 0 and active = 1 limit 1;";
+
+        String sql = "select DISTINCT id, userID, name, description, category, sub_category, price, type, highest_bid_userID, highest_bid, " +
+                "bid_count, start_timestamp, end_timestamp, listing.date_created, listing.active, ended, premium, payment_type, draft " +
+                "from listing, offer " +
+                "join listing_bid on user_id !=:userID where userID !=:userID " +
+                "and offer_maker_id !=:userID " +
+                "and listing.category =:category and listing.active = 1 and listing.ended = 0 " +
+                "and listing.date_created = (select MAX(listing.date_created) from listing);";
+
         SQLQuery q = getSession().createSQLQuery(sql)
                 .addEntity(Listing.class);
         q.setParameter("userID", userID);
         q.setParameter("category", category);
-        return q.list();
+        return (Listing) q.list().get(0);
     }
 
     @Override

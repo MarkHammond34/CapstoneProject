@@ -51,7 +51,7 @@
 
                 <div class="uk-float-left uk-padding-remove">
                     <button id="rejectButton" class="uk-button uk-border-rounded"
-                            style="background-color: #f3565d"
+                            style="background-color: #f3565d" name="listing"
                             value="${offer.listingID.id}"><strong>Reject offer</strong>
                     </button>
                 </div>
@@ -101,7 +101,7 @@
                 status.textContent = offer.offerStatus;
                 listing.textContent = offer.offerListing;
 
-                console.log(offer)
+                console.log('Offer= ' + offer);
 
                 console.log(document.getElementById('amount').innerText);
 
@@ -142,19 +142,18 @@
             type: 'POST',
             data: {listing: $(this).val(), offer: ${offer.offerID}},
             success: function (result) {
-                console.log(result);
+                console.log('This is a result' + result);
                 if (result) {
                     UIkit.modal("#offer${offer.offerID}").hide();
                     UIkit.notification({message: 'Offer has been rejected.', status: 'success'})
                 }
                 else {
                     UIkit.notification({
-                        message: 'An error occurred while sending your offer. Please contact an admin.',
+                        message: 'An error occurred while rejecting this offer. Please contact an admin.',
                         status: 'danger'
                     })
                 }
             }
-
         });
     });
 </script>

@@ -1,4 +1,6 @@
 <%@include file="../jspf/header.jsp" %>
+<!-- Create Listing -->
+<spring:url value="resources/js/create-listing.js" var="cretJS"/>
 
 <body class="uk-height-viewport">
 <div style="border: 20px solid white;

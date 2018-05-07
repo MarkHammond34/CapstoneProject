@@ -160,9 +160,9 @@ public class DashboardController extends BaseController {
         User user = (User) request.getSession().getAttribute("user");
 
         Listing recentListing = listingService.getRecentListingWithOfferOrBidByUserID(user.getUserID());
-        //System.out.println("Recent: " + recentListing);
-        Listing relevantListing = (Listing) listingService.getRelevantListingsFromRecentPurchaseByUserID(user.getUserID(), recentListing.getCategory()).get(0);
-        //System.out.println("Relevant: " + relevantListing);
+        System.out.println("Recent: " + recentListing);
+        Listing relevantListing = listingService.getRelevantListingsFromRecentPurchaseByUserID(user.getUserID(), recentListing.getCategory());
+        System.out.println("Relevant: " + relevantListing);
 
         JsonObject json = new JsonObject();
 
@@ -172,11 +172,10 @@ public class DashboardController extends BaseController {
         json.addProperty("listingEndTimestamp", relevantListing.getEndTimestamp().toString());
         json.addProperty("listingType", relevantListing.getType());
         json.addProperty("listingId", relevantListing.getId());
-        json.addProperty("listingImage", relevantListing.getImages().get(0).getImage_path() + "/" + relevantListing.getImages().get(0).getImage_name());
-        //json.addProperty("listingImageName", relevantListing.getImages().get(0).getImage_name());
-        //json.addProperty("listingImagePath", relevantListing.getImages().get(0).getImage_path());
 
-        //System.out.println("Seems to be working");
+        System.out.println("Listing images: " + relevantListing.getImages().get(0).getImage_name());
+        json.addProperty("listingImage", relevantListing.getImages().get(0).getImage_path() + "/" + relevantListing.getImages().get(0).getImage_name());
+
 
         return json.toString();
     }
@@ -195,6 +194,7 @@ public class DashboardController extends BaseController {
         json.addProperty("offerMessage", String.valueOf(offer.getOfferMessage()));
         json.addProperty("offerMaker", offer.getOfferMaker().getUserID());
         json.addProperty("offerListing", offer.getListingID().getName());
+        System.out.println("Listing: " + offer.getListingID().getName());
         json.addProperty("offerReceiver", offer.getOfferReceiver().getUserID());
         json.addProperty("offerDateCreated", offer.getDateCreated().toString());
         json.addProperty("offerStatus", offer.getStatus());
