@@ -275,7 +275,7 @@
                                  uk-grid>
 
                                 <!-- Highest Bid Section -->
-                                <ul class="uk-grid-small uk-width-2-3@m uk-width-1-1@s uk-float-left" uk-grid>
+                                <ul class="uk-grid-small uk-width-2-3 uk-float-left" uk-grid>
                                     <li class="uk-width-1-1">
                                         <c:choose>
                                         <c:when test="${listing.ended == 0}">
@@ -292,13 +292,6 @@
                                     <span class="uk-float-left">
                                         <b>Highest Bidder:</b>
                                         <strong id="highestBidder">${listing.highestBidder.username}</strong>
-                                        <c:if test="${listing.highestBidder.userID == user.userID}">
-                                                <a title="Cancel Bid" uk-icon="icon: ban"
-                                                   uk-toggle="target: #cancelBid${listing.id}Modal"
-                                                   data-intro="Place a bid but change your mind? Click here to cancel your bid."
-                                                   data-step="3"
-                                                   style="color: red;"></a>
-                                        </c:if>
                                     </span>
                                     </li>
                                     <li class="uk-width-1-1">
@@ -310,7 +303,7 @@
                                 </ul>
 
                                 <!-- Place Bid Button -->
-                                <div class="uk-width-1-3@m uk-width-1-1@s uk-float-right uk-text-right">
+                                <div class="uk-width-1-3 uk-float-right uk-text-right">
                                     <c:choose>
                                         <c:when test="${listing.ended == 0}">
                                             <c:if test="${listing.user.userID != user.userID}">
@@ -563,7 +556,10 @@
             highestBidderElement.innerText = listing.highestBidderUsername;
             highestBidElement.innerText = '$' + listing.highestBid;
         }
-        document.getElementById("bidValue").value = listing.highestBid + 1;
+
+        if (document.getElementById("bidForm").style.display == "none") {
+            document.getElementById("bidValue").value = listing.highestBid + 1;
+        }
     }
 
     function placeBid(bidAmount) {
