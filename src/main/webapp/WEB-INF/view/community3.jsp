@@ -30,7 +30,8 @@
                                          src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(loop.index).getImagePath()}"
                                          uk-cover>
                                     <div class="uk-overlay uk-overlay-primary uk-position-top">
-                                        <p class="uk-text-center">${displayArticles.get(loop.index).description} ... <a href="${pageContext.request.contextPath}/viewNews?newsID=${i.newsID}">View
+                                        <p class="uk-text-center">${displayArticles.get(loop.index).description} ... <a
+                                                href="${pageContext.request.contextPath}/viewNews?newsID=${i.newsID}">View
                                             more</a></p>
                                     </div>
                                 </li>
@@ -76,61 +77,42 @@
     <div class="community-sub1">
         <div uk-grid>
             <div class="uk-width-2-3@s">
-                <h3 class="uk-heading-bullet">Featured Stories</h3>
+                <h3 class="uk-heading-bullet">Featured Stories  <span style="font-size: 14px;"><a href="${pageContext.request.contextPath}/allArticles"> View All</a></span></h3></h3>
                 <hr>
                 <div uk-grid>
+                    <c:forEach var="i" items="${displayArticles}" begin="3" end="4" step="1" varStatus="loop">
 
-                    <div class="uk-width-1-2@s">
-                        <div class="uk-container uk-inline">
-                            <div class="uk-border-rounded uk-display-inline"
-                                 style="height: 250px; width: 320px; overflow: hidden">
-                                <img alt=""
-                                     src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(3).getImagePath()}">
+                        <div class="uk-width-1-2@s">
+                            <div class="uk-container uk-inline">
+                                <div class="uk-border-rounded uk-display-inline"
+                                     style="height: 250px; width: 320px; overflow: hidden">
+                                    <img alt=""
+                                         src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(loop.index).getImagePath()}">
+                                </div>
+                                <p class="uk-text-center">${displayArticles.get(loop.index).description} ... <a href="${pageContext.request.contextPath}/viewNews?newsID=${i.newsID}">View
+                                    more</a></p>
                             </div>
-                            <p class="uk-text-center">${displayArticles.get(3).description} ... <a href="#">View
-                                more</a></p>
                         </div>
-                    </div>
-                    <div class="uk-width-1-2@s uk-border-rounded">
-                        <div class="uk-container uk-inline">
-                            <div class="uk-border-rounded uk-display-inline"
-                                 style="height: 250px; width: 320px; overflow: hidden">
-                                <img alt=""
-                                     src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(4).getImagePath()}">
+                    </c:forEach>
 
-                            </div>
-                            <p class="uk-text-center">${displayArticles.get(4).description} ... <a href="#">View
-                                more</a></p>
-                        </div>
-                    </div>
                 </div>
 
                 <br>
                 <div uk-grid>
-                    <div class="uk-width-1-2@s">
-                        <div class="uk-container uk-inline">
-                            <div class="uk-display-inline uk-border-rounded"
-                                 style="height: 250px; width: 320px; overflow: hidden">
-                                <img alt=""
-                                     src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(5).getImagePath()}">
-                            </div>
-                            <p class="uk-text-center">${displayArticles.get(5).description} ... <a href="">View more</a>
-                            </p>
-                        </div>
+                    <c:forEach var="i" items="${displayArticles}" begin="5" end="6" step="1" varStatus="loop">
+                        <div class="uk-width-1-2@s ">
+                            <div class="uk-container uk-inline">
+                                <div class="uk-border-rounded uk-display-inline"
+                                     style="height: 250px; width: 320px; overflow: hidden">
+                                    <img alt=""
+                                         src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(loop.index).getImagePath()}">
+                                </div>
+                                <p class="uk-text-center">${displayArticles.get(loop.index).description} ... <a href="${pageContext.request.contextPath}/viewNews?newsID=${i.newsID}">View
+                                    more</a></p>
 
-                    </div>
-                    <div class="uk-width-1-2@s ">
-                        <div class="uk-container uk-inline">
-                            <div class="uk-border-rounded uk-display-inline"
-                                 style="height: 250px; width: 320px; overflow: hidden">
-                                <img alt=""
-                                     src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(6).getImagePath()}">
                             </div>
-                            <p class="uk-text-center">${displayArticles.get(6).description} ... <a href="#">View
-                                more</a></p>
-
                         </div>
-                    </div>
+                    </c:forEach>
                 </div>
 
             </div>
@@ -169,14 +151,13 @@
             </div>
         </div>
         <div class="videos">
-            <h3 class="uk-heading-bullet">Videos</h3>
+            <h3 class="uk-heading-bullet">Videos <span style="font-size: 14px;"><a href="${pageContext.request.contextPath}/allVideos"> View All</a></span></h3>
             <hr>
-            <p><a href="${pageContext.request.contextPath}/allVideos">View All</a></p>
+
             <div class="uk-child-width-1-2@m uk-grid-small uk-grid-match" uk-grid>
                 <div>
                     <iframe width="560" height="315" src="${displayVideos.get(0).getVideoPath()}" frameborder="0"
                             allow="autoplay; encrypted-media" allowfullscreen></iframe>
-
                     <br>
                     <h2><a href="#">${newestVideo.title}</a></h2>
                     <p class="author"><span>${videoDate}</span></p>
@@ -190,8 +171,6 @@
                     <p class="author"><span>${videoDate}</span></p>
                 </div>
             </div>
-
-
         </div>
     </div>
 

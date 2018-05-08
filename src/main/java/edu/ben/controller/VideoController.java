@@ -41,7 +41,10 @@ public class VideoController extends BaseController {
             embeddedURL = embeddedURL + id;
             Video video = new Video(videoTitle, embeddedURL);
             videoService.create(video);
+            addSuccessMessage("You successfully uploaded a video");
+            setRequest(request);
             System.out.println(id);
+            return "admin/events-news";
         } else {
             addErrorMessage("This is not a valid youtube video URL");
             setRequest(request);
@@ -49,7 +52,7 @@ public class VideoController extends BaseController {
         }
 
 
-        return "admin/events-news";
+
     }
 
     @RequestMapping(value = "/allVideos")
