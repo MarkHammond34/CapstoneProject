@@ -51,8 +51,6 @@ public class VideoController extends BaseController {
             return "admin/events-news";
         }
 
-
-
     }
 
     @RequestMapping(value = "/allVideos")
@@ -68,7 +66,7 @@ public class VideoController extends BaseController {
         }
         request.setAttribute("allVideos", allVideos);
         request.setAttribute("allDates", allDates);
-        return "all-videos";
+        return request.getHeader("Referer");
     }
 
     @RequestMapping(value = "/updateVideo")
@@ -78,10 +76,13 @@ public class VideoController extends BaseController {
 
         ArrayList<Video> allVideos = (ArrayList<Video>)videoService.getAllVideos();
 
+        System.out.println("All Videos: " + allVideos.size());
+
         Video v = videoService.getVideoByID(id);
         System.out.println("Size: " + allVideos.size());
 
         for (int i = 0; i < allVideos.size(); i++) {
+            System.out.println(i);
             System.out.println("Type: " +  type);
             System.out.println("Type: " + allVideos.get(i).getType() );
             if (allVideos.get(i).getType().equals(type)) {
@@ -93,7 +94,7 @@ public class VideoController extends BaseController {
             }
         }
 
-        return "admin/events-news";
+        return request.getHeader("Referer");
     }
 
 
