@@ -49,6 +49,7 @@
                 <br>
                 <hr>
                 <h4 class="uk-heading-line uk-text-center"><span>Upload New Image</span></h4>
+                <i><h6 class="uk-text-center">Note: Preferred profile image size is 180 x 180 px</h6></i>
                 <form action="profileImageUpload"
                       method="post" enctype="multipart/form-data">
                     <div class="uk-width-1-1 uk-margin-small js-upload" uk-form-custom>

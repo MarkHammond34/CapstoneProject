@@ -45,7 +45,7 @@
                                     <td>${transaction.listingID.category}</td>
                                     <td>$${transaction.listingID.price}</td>
                                     <td>${transaction.listingID.endDate}</td>
-                                    <td>${transaction.seller.username}</td>
+                                    <td><a href="${pageContext.request.contextPath}/viewProfile?id=${transaction.seller.userID}">${transaction.seller.username}</a></td>
                                     <c:choose>
                                         <c:when test="${transaction.transRating < 1}">
                                             <td></td>
@@ -71,7 +71,7 @@
                                     <td>${transaction.listingID.category}</td>
                                     <td>${transaction.listingID.price}</td>
                                     <td>${transaction.listingID.endDate}</td>
-                                    <td>${transaction.seller.username}</td>
+                                    <td><a href="${pageContext.request.contextPath}/viewProfile?id=${transaction.seller.userID}">${transaction.seller.username}</a></td>
                                     <c:choose>
                                         <c:when test="${transaction.transRating == 1}">
                                             <td><i class="fas fa-star"></i><i class="far fa-star"></i><i
