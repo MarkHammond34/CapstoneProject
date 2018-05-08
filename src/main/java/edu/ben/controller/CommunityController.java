@@ -254,7 +254,7 @@ public class CommunityController extends BaseController {
                 }
 
                 if (!(extension.equals("docx"))) {
-                    addErrorMessage("Please uplaod a word document.");
+                    addErrorMessage("Please upload a word document.");
                     setRequest(request);
                 }
 
@@ -287,6 +287,7 @@ public class CommunityController extends BaseController {
 
                 System.out.println("File Uploaded");
                 News news = new News(title, doc.getOriginalFilename(), image.getOriginalFilename(), description);
+                System.out.println("News: " + news.getTitle());
                 newsService.create(news);
 
                 stream.close();
@@ -296,7 +297,6 @@ public class CommunityController extends BaseController {
                 return "You failed to upload " + doc.getOriginalFilename() + " => " + e.getMessage();
 
             }
-
         }
         return "admin/events-news";
     }

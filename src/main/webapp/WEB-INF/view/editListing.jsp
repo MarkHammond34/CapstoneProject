@@ -1,19 +1,22 @@
 <%@include file="jspf/header.jsp" %>
 
-<body>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<body class="uk-height-viewport uk-background-muted">
+<div style="border: 20px solid white;
+            margin: 0 auto;
+            background: white;">
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@include file="jspf/navbar.jspf" %>
+    <%@include file="jspf/navbar.jspf" %>
 
 
-<%@include file="jspf/messages.jsp" %>
+    <%@include file="jspf/messages.jsp" %>
 
-<div class="uk-section uk-background-muted">
+    <div class="uk-section uk-background-muted">
 
-    <div class="uk-margin-medium-top" uk-grid>
+        <div class="uk-margin-medium-top" uk-grid>
 
-        <div class="uk-width-3-4@m uk-width-1-1@s uk-align-center uk-margin">
-            <div class="uk-card uk-card-default uk-card-large uk-card-body uk-box-shadow-hover-large uk-border-rounded">
+            <div class="uk-width-3-4@m uk-width-1-1@s uk-align-center uk-margin">
+                <div class="uk-card uk-card-default uk-card-large uk-card-body uk-box-shadow-hover-large uk-border-rounded">
                 <span><h2 class="uk-heading-line uk-text-center"><span>Edit Listing</span></h2>
 
                 <div class="form-area">
@@ -247,6 +250,7 @@
                             </div>
                             <input type="hidden" name="filesToIgnore" value="" id="filesToIgnore">
                         </form>
+                </div>
                 </div>
             </div>
         </div>

@@ -17,6 +17,8 @@
 
             <form id="form" name="reportListing" action="reportListingEmail" class="uk-margin-top uk-form"
                   method="POST">
+                <input class="uk-input" type="hidden" name="id"
+                       value="${listing.id}">
                 <div class="uk-margin">
                     <h3 class="uk-heading-line uk-text-center"><span>Your Information</span></h3>
                 </div>

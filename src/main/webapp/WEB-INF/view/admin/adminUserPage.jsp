@@ -1,13 +1,13 @@
 <%@include file="admin-header.jsp" %>
 
-<body>
+<body class="uk-height-viewport uk-background-muted">
 
 <%@include file="admin-navbar.jsp" %>
 
 <%@include file="../jspf/messages.jsp" %>
 
-<div class="uk-cover-container uk-background-muted uk-height-viewport">
-    <div class="uk-flex uk-flex-column">
+<div class="uk-padding-small uk-cover-container uk-background-muted uk-padding-small uk-height-viewport">
+    <div class="uk-margin-bottom uk-padding-small uk-flex uk-flex-column">
         <ul uk-switcher hidden>
             <li>
                 <a href="#dashboardUserTable" hidden></a>Users
@@ -16,20 +16,17 @@
                 <a href="#dashboardListingsTable" hidden></a>Listings
             </li>
         </ul>
-        <div class="uk-card uk-card-default uk-box-shadow-hover-large uk-card-large uk-card-body uk-width-3-4 uk-position-large uk-position-top-center">
-
-
-        </div>
         <div id="dashboardUserTable"
-             class="uk-switcher uk-card uk-box-shadow-hover-large uk-box-shadow-large uk-card-default uk-card-large uk-card-body uk-width-3-4 uk-position-large uk-position-top-center">
+             class="uk-tile uk-width-3-4 uk-align-center uk-padding-remove-top uk-padding-remove-bottom uk-card uk-card-large uk-padding-remove-right uk-padding-remove-left uk-box-shadow-medium uk-box-shadow-hover-large uk-tile-default">
             <div class="uk-overflow-auto">
-                <div class="uk-child-width-3-4" uk-grid>
+                <div class="uk-align-center uk-padding-large uk-margin-bottom" uk-grid>
                     <div class="uk-overflow-container">
-                        <a class="uk-button uk-padding-small uk-button-default uk-position-top-right" href="#createUserModal" uk-toggle
+                        <a class="uk-button uk-padding-small uk-button-default uk-position-top-right"
+                           href="#createUserModal" uk-toggle
                            hidden>Create
                             User</a>
                         <h2 class="uk-heading-line uk-text-center"><span>Admin User Panel</span></h2>
-                        <table class="uk-table uk-padding-small uk-table-small uk-table-hover u-table-middle uk-table-divider">
+                        <table class="uk-table uk-table-small uk-table-hover uk-table-middle uk-table-divider uk-margin uk-margin-large uk-margin-bottom uk-padding-small">
                             <thead>
                             <tr>
                                 <th>ID</th>
@@ -258,6 +255,5 @@
         %>
     </div>
 </div>
-<%@include file="../jspf/footer.jspf" %>
 </body>
 </html>
