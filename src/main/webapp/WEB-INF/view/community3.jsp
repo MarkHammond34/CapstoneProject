@@ -23,30 +23,18 @@
                     <div class="uk-position-relative uk-visible-toggle uk-light"
                          uk-slideshow="animation: scale">
                         <ul class="uk-slideshow-items">
-                            <li class="uk-border-rounded">
-                                <img alt=""
-                                     src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(0).getImagePath()}"
-                                     uk-cover>
-                                <div class="uk-overlay uk-overlay-primary uk-position-top">
-                                    <p class="uk-text-center">${displayArticles.get(0).description} ... <a href="#">View more</a></p>
-                                </div>
-                            </li>
-                            <li class="uk-border-rounded">
-                                <img alt=""
-                                     src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(1).getImagePath()}"
-                                     uk-cover>
-                                <div class="uk-overlay uk-overlay-primary uk-position-top">
-                                    <p class="uk-text-center">${displayArticles.get(1).description} ... <a href="#">View more</a></p>
-                                </div>
-                            </li>
-                            <li class="uk-border-rounded">
-                                <img alt=""
-                                     src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(2).getImagePath()}"
-                                     uk-cover>
-                                <div class="uk-overlay uk-overlay-primary uk-position-top">
-                                    <p class="uk-text-center">${displayArticles.get(2).description} ... <a href="#">View more</a></p>
-                                </div>
-                            </li>
+                            <c:forEach var="i" items="${displayArticles}" begin="0" end="2" step="1" varStatus="loop">
+
+                                <li class="uk-border-rounded">
+                                    <img alt=""
+                                         src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(loop.index).getImagePath()}"
+                                         uk-cover>
+                                    <div class="uk-overlay uk-overlay-primary uk-position-top">
+                                        <p class="uk-text-center">${displayArticles.get(loop.index).description} ... <a href="${pageContext.request.contextPath}/viewNews?newsID=${i.newsID}">View
+                                            more</a></p>
+                                    </div>
+                                </li>
+                            </c:forEach>
                         </ul>
 
                         <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#"
@@ -91,6 +79,7 @@
                 <h3 class="uk-heading-bullet">Featured Stories</h3>
                 <hr>
                 <div uk-grid>
+
                     <div class="uk-width-1-2@s">
                         <div class="uk-container uk-inline">
                             <div class="uk-border-rounded uk-display-inline"
@@ -98,7 +87,8 @@
                                 <img alt=""
                                      src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(3).getImagePath()}">
                             </div>
-                            <p class="uk-text-center">${displayArticles.get(3).description} ... <a href="#">View more</a></p>
+                            <p class="uk-text-center">${displayArticles.get(3).description} ... <a href="#">View
+                                more</a></p>
                         </div>
                     </div>
                     <div class="uk-width-1-2@s uk-border-rounded">
@@ -109,10 +99,12 @@
                                      src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(4).getImagePath()}">
 
                             </div>
-                            <p class="uk-text-center">${displayArticles.get(4).description} ... <a href="#">View more</a></p>
+                            <p class="uk-text-center">${displayArticles.get(4).description} ... <a href="#">View
+                                more</a></p>
                         </div>
                     </div>
                 </div>
+
                 <br>
                 <div uk-grid>
                     <div class="uk-width-1-2@s">
@@ -122,7 +114,8 @@
                                 <img alt=""
                                      src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(5).getImagePath()}">
                             </div>
-                            <p class="uk-text-center">${displayArticles.get(5).description} ... <a href="#">View more</a></p>
+                            <p class="uk-text-center">${displayArticles.get(5).description} ... <a href="">View more</a>
+                            </p>
                         </div>
 
                     </div>
@@ -133,7 +126,8 @@
                                 <img alt=""
                                      src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(6).getImagePath()}">
                             </div>
-                            <p class="uk-text-center">${displayArticles.get(6).description} ... <a href="#">View more</a></p>
+                            <p class="uk-text-center">${displayArticles.get(6).description} ... <a href="#">View
+                                more</a></p>
 
                         </div>
                     </div>

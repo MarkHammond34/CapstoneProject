@@ -356,23 +356,21 @@
                                                          uk-grid>
                                                         <div class="uk-text-center">
                                                             <h5>Developers</h5>
-                                                            <c:forEach var="admin" items="${admins}">
-                                                                <c:forEach var="adminTask" items="${adminTasks}"
+                                                            <c:forEach var="adminTask" items="${adminTasks}"
+                                                                       varStatus="loop">
+                                                                <c:forEach var="admin" items="${admins}"
                                                                            varStatus="loop">
+                                                                    <c:if test="${adminTask.taskID == task.taskID}">
+                                                                        <h6>${adminTask.getUser().getUserID()}</h6>
+                                                                        <c:if test="${adminTask.getUser().getUserID() == admin.userID}">
+                                                                            <label><input class="uk-checkbox" checked
 
-                                                                    <c:if test="${task.taskID == adminTask.getTask().getTaskID()}">
-
-                                                                        <label><input class="uk-checkbox" checked
-                                                                                      name="admin"
-                                                                                      value="${adminTask.getUser().getSchoolEmail()}"
-                                                                                      type="checkbox"> ${adminTask.getUser().getFirstName()} ${adminTask.getUser().getLastName()}
-                                                                        </label>
-
+                                                                                          name="admin"        value="${admin.schoolEmail}"
+                                                                                          type="checkbox"> ${admin.firstName} ${admin.lastName}
+                                                                            </label>
+                                                                        </c:if>
                                                                     </c:if>
-
-
                                                                 </c:forEach>
-
                                                             </c:forEach>
                                                         </div>
 
@@ -556,7 +554,7 @@
                                             <div uk-grid>
 
                                                 <div class="uk-width-2-5"><h6 class="uk-text-center">
-                                                    <strong>Developers</strong>
+                                                    <strong>Developerssss!!</strong>
                                                 </h6>
                                                     <hr>
 
@@ -566,7 +564,6 @@
 
                                                             <c:forEach var="admin" items="${adminTasks}"
                                                                        varStatus="loop">
-
                                                                 <c:if test="${task.taskID == admin.getTask().getTaskID()}">
                                                                     <img class="profile-pic uk-border-circle uk-padding-small uk-margin-left"
                                                                          uk-tooltip="${admin.getUser().getFirstName()} ${admin.getUser().getLastName()}"
@@ -595,13 +592,15 @@
                                                     <div class="uk-child-width-1-1@s uk-grid-small uk-grid-match"
                                                          uk-grid>
                                                         <div class="uk-text-center">
-                                                            <h5>Developers</h5>
-                                                            <c:forEach var="admin" items="${admins}" varStatus="loop">
-                                                                        <label><input class="uk-checkbox" checked
-                                                                                      name="admin"
-                                                                                      value="${admin.getUser().getSchoolEmail()}"
-                                                                                      type="checkbox"> ${admin.getUser().getFirstName()} ${admin.getUser().getLastName()}
-                                                                        </label>
+                                                            <h5>Developersss</h5>
+                                                            <c:forEach var="admin" items="${admins}"
+                                                                       varStatus="loop">
+
+                                                                <label><input class="uk-checkbox"
+                                                                              name="admin"
+                                                                              value="${adminTask.schoolEmail()}"
+                                                                              type="checkbox"> ${adminTask.firstName()} ${adminTask.lastName()}
+                                                                </label>
                                                             </c:forEach>
                                                         </div>
 

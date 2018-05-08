@@ -18,11 +18,11 @@ public class AdminTask {
     private int adminID;
 
     @OneToOne
-    @JoinColumn(name = "userID")
+    @JoinColumn(name = "ID_User")
     private User user;
 
     @OneToOne
-    @JoinColumn(name = "taskID")
+    @JoinColumn(name = "ID_Task")
     private Task task;
 
     public AdminTask() {

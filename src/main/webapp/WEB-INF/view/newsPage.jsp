@@ -7,17 +7,17 @@
 	<div
 		class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom">
 
-
+<h1 class="uk-text-center">${n.title}</h1>
 		<div class="uk-grid" data-uk-grid-margin>
-			<div class="uk-width-3-4">
+			<div class="uk-width-1-1">
 				<c:if test="${header != null }">
 					<div class="uk-text-center uk-text-capitalize uk-text-bold uk-text-large">
 						<p style="font-size: 350%;">${requestScope.header.getText()}</p>
 					</div>
-					<hr>
+
 				</c:if>
 				<div class="uk-panel">
-				<img class="uk-align-left uk-margin-remove-adjacent" src="<%=request.getContextPath()%>/resources/img/profile-pic/default.jpeg" width="225" height="150" alt="Example image">
+				<img class="uk-align-left uk-margin-remove-adjacent" src=${pageContext.request.contextPath}/resources/img/news/${n.imagePath} width="225" height="150" alt="Example image">
 				<c:forEach var="paragraph" items="${paragraphList}">
 					<p>${paragraph.getText()}</p>
 				</c:forEach>
