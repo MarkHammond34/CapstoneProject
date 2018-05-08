@@ -213,7 +213,7 @@
             <!-- Center Tablet -->
             <div class="uk-navbar-center">
                 <div class="uk-padding-small" style="margin-top: 12px" id="tablet-navbar-icon">
-                    <img class="uk-align-center" src="${pageContext.request.contextPath}/resources/img/logo.png"
+                    <img class="uk-align-center" src="${pageContext.request.contextPath}/resources/img/logo2.png"
                          style="width: 35%; display: block; margin: auto;">
                 </div>
             </div>
