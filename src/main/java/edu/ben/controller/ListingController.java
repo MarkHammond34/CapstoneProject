@@ -1083,7 +1083,7 @@ public class ListingController extends BaseController {
                 " has bought you listing " + listing.getName() + " for $" + listing.getPrice()
                 + ". Checkout the listing page to set up a pickup date and time.", 1, "SOLD"));
 
-        // Notify users who made offers
+        // Notify users who made offers and cancels all offers on listing
         List<Offer> offersMade = offerService.getActiveOffersByListingId(listingID);
         if (offersMade != null && offersMade.size() > 0) {
             for (Offer o : offersMade) {
@@ -1091,8 +1091,14 @@ public class ListingController extends BaseController {
                     // Notify user who made offer
                     newNotifications.add(new Notification(o.getOfferMaker(), listingID, "Listing Sold",
                             "The listing " + listing.getName() + " has sold to another user. Better luck next time!", 1, "LOST"));
+                    o.setStatus("rejected");
 
+                } else {
+                    o.setStatus("cancelled");
                 }
+
+                // Update offer status
+                offerService.saveOrUpdate(o);
             }
         }
 

@@ -76,17 +76,19 @@ public class OfferController extends BaseController {
     public @ResponseBody
     boolean acceptOfferAjax(HttpServletRequest request, @RequestParam("offer") int offerID, @RequestParam("listing") int listingID) {
 
+        User user = (User) request.getSession().getAttribute("user");
+        Listing listing = listingService.getByListingID(listingID);
+        Offer offer = offerService.getOfferByUserAndListingId(user.getUserID(), listingID);
+
         try {
 
-            User lister = (User) request.getSession().getAttribute("user");
-            Listing listing = listingService.getByListingID(listingID);
-            Offer offer = offerService.getOfferByUserAndListingId(lister.getUserID(), listingID);
             System.out.println("Offer: " + offer);
             User receiver = offer.getOfferMaker();
 
+
             // notify offerer
             String notificationMessage = "Your offer of " + offer.getOfferAmount() + " on " + listing.getName()
-                    + " has been accepted by " + lister.getUsername() + "!";
+                    + " has been accepted by " + user.getUsername() + "!";
 
             Notification notification = new Notification(receiver, listing.getId(), notificationMessage);
             notificationService.save(notification);
@@ -96,14 +98,14 @@ public class OfferController extends BaseController {
             listingService.updateListingActiveStatusByID(0, listingID);
 
             // move offer/listing to current transaction page
-            Transaction transaction = new Transaction(lister, receiver, listing, 0, offer);
+            Transaction transaction = new Transaction(user, receiver, listing, 0, offer);
             System.out.println("Transaction: " + transaction);
             transactionService.createTransaction(transaction);
 
             for (Offer offerr : offers) {
                 // notify losers
                 notificationMessage = "Your offer of " + offer.getOfferAmount() + " on " + listing.getName()
-                        + " has been rejected by " + lister.getUsername() + "!";
+                        + " has been rejected by " + user.getUsername() + "!";
 
                 notification = new Notification(receiver, listing.getId(), notificationMessage);
                 notificationService.save(notification);
@@ -125,6 +127,8 @@ public class OfferController extends BaseController {
     @RequestMapping(value = "rejectOfferAjax", method = RequestMethod.POST, produces = "application/json")
     public @ResponseBody
     boolean rejectOfferAjax(HttpServletRequest request, @RequestParam("offer") int offerID, @RequestParam("listing") int listingID) {
+
+        System.out.println("Trying to reject");
 
         try {
 

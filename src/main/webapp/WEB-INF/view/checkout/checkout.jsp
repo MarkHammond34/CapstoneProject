@@ -39,8 +39,11 @@
                                         <c:when test="${listing.type == 'auction'}">
                                             <b class="uk-float-right">$${listing.highestBid}</b>
                                         </c:when>
-                                        <c:otherwise>
+                                        <c:when test="${listing.type == 'fixed'}">
                                             <b class="uk-float-right">$${listing.price}</b>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <b class="uk-float-right">Free</b>
                                         </c:otherwise>
                                     </c:choose>
                                 </span>
@@ -71,6 +74,7 @@
                                 </div>
                             </div>
 
+                            <!-- Seller Information -->
                             <div class="uk-width-1-2@m uk-text-center">
                                 <c:choose>
                                     <c:when test="${pickUp.transaction.buyer.userID == sessionScope.user.userID}">
@@ -89,16 +93,12 @@
                                         </span>
                                     </c:when>
                                     <c:otherwise>
-                                        <b style="font-size: 22px;">Buyer</b>
-                                        <img class="uk-border-circle uk-float-right"
-                                             style="width: 75px; height: 75px;"
+                                        <b style="font-size: 22px;">Buyer
+                                            - ${pickUp.transaction.buyer.firstName} ${pickUp.transaction.buyer.lastName}</b>
+                                        <img class="uk-border-circle uk-align-center"
+                                             style="width: 150px; height: 150px;"
                                              src="${pageContext.request.contextPath}/directory/${pickUp.transaction.buyer.mainImage}"
                                              uk-tooltip="${pickUp.transaction.buyer.username}"/>
-                                        <br>
-                                        <span style="font-size: 22px;"><strong style="color: #ff695c">
-                                            Name: </strong>${pickUp.transaction.buyer.firstName} ${pickUp.transaction.buyer.lastName}
-                                        </span>
-                                        <br>
                                         <span style="font-size: 22px;"><strong style="color: #ff695c">
                                             Email: </strong>${pickUp.transaction.buyer.schoolEmail}
                                         </span>
@@ -113,8 +113,8 @@
                     </div>
 
                     <!-- Pick Up Details -->
-                    <h2>Pickup Details <a onclick="addToGoogleCalendar()" style="background-color: white;"
-                                          class="uk-icon-button uk-float-right uk-text-success uk-box-shadow-medium uk-box-shadow-hover-large"
+                    <h2>Pickup Details <a onclick="addToGoogleCalendar()" style="background-color: #ff695c; color: white; width: 45px; height: 45px;"
+                                          class="uk-icon-button uk-float-right uk-box-shadow-medium uk-box-shadow-hover-large"
                                           uk-icon="google" uk-tooltip="Add To Google Calendar" id="google-icon"
                                           hidden></a>
                     </h2>
@@ -215,7 +215,18 @@
                                 </c:when>
                                 <c:otherwise>
                                     <div class="uk-card-header">
-                                        <h4 class="uk-margin-remove-bottom uk-text-center">Earnings</h4>
+                                        <h4 class="uk-margin-remove-bottom uk-text-center">Earnings
+                                            <c:if test="${listing.type != 'donation'}">
+                                                <c:choose>
+                                                    <c:when test="${pickUp.transaction.listingID.paymentType == 'CASH'}">
+                                                        (In Person)
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        (Via PayPal After Pickup)
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:if>
+                                        </h4>
                                     </div>
                                     <div class="uk-card-body">
                                         <table class="uk-table">
@@ -239,7 +250,7 @@
                                                             -$${listing.highestBid * 0.05}</td>
                                                     </tr>
                                                 </c:when>
-                                                <c:otherwise>
+                                                <c:when test="${listing.type == 'fixed'}">
                                                     <tr>
                                                         <td class="uk-float-left">Price</td>
                                                         <td class="uk-float-right">+$${listing.price}</td>
@@ -256,12 +267,18 @@
                                                         <td class="uk-float-right">
                                                             -$${listing.highestBid * 0.05}</td>
                                                     </tr>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <tr>
+                                                        <td class="uk-float-left">Price</td>
+                                                        <td class="uk-float-right">Free</td>
+                                                    </tr>
                                                 </c:otherwise>
                                             </c:choose>
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="uk-card-footer uk-background-muted">
+                                    <div class="uk-card-footer uk-background-default">
                                         <table class="uk-table">
                                             <tbody>
                                             <c:choose>
@@ -271,14 +288,33 @@
                                                         <c:choose>
                                                             <c:when test="${listing.premium == 1}">
                                                                 <td class="uk-float-right">
-                                                <span class="uk-badge"
+                                                <span class="uk-badge uk-padding-small uk-text-center"
                                                       style="background-color: green; color: white;">+$${listing.highestBid - (listing.highestBid * 0.05) - (listing.highestBid * 0.05)}</span>
                                                                 </td>
                                                             </c:when>
                                                             <c:otherwise>
                                                                 <td class="uk-float-right">
-                                                <span class="uk-badge"
+                                                <span class="uk-badge uk-padding-small uk-text-center"
                                                       style="background-color: green; color: white;">+$${listing.highestBid - (listing.highestBid * 0.05)}</span>
+                                                                </td>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </tr>
+                                                </c:when>
+                                                <c:when test="${listing.type == 'fixed'}">
+                                                    <tr>
+                                                        <td class="uk-float-left">Total</td>
+                                                        <c:choose>
+                                                            <c:when test="${listing.premium == 1}">
+                                                                <td class="uk-float-right">
+                                                <span class="uk-badge uk-padding-small uk-text-center"
+                                                      style="background-color: green; color: white;">+$${listing.price - (listing.price * 0.05) - (listing.price * 0.05)}</span>
+                                                                </td>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <td class="uk-float-right">
+                                                <span class="uk-badge uk-padding-small uk-text-center"
+                                                      style="background-color: green; color: white;">+$${listing.price - (listing.price * 0.05)}</span>
                                                                 </td>
                                                             </c:otherwise>
                                                         </c:choose>
@@ -287,20 +323,7 @@
                                                 <c:otherwise>
                                                     <tr>
                                                         <td class="uk-float-left">Total</td>
-                                                        <c:choose>
-                                                            <c:when test="${listing.premium == 1}">
-                                                                <td class="uk-float-right">
-                                                <span class="uk-badge"
-                                                      style="background-color: green; color: white;">+$${listing.price - (listing.price * 0.05) - (listing.price * 0.05)}</span>
-                                                                </td>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <td class="uk-float-right">
-                                                <span class="uk-badge"
-                                                      style="background-color: green; color: white;">+$${listing.price - (listing.price * 0.05)}</span>
-                                                                </td>
-                                                            </c:otherwise>
-                                                        </c:choose>
+                                                        <td class="uk-float-right">Free</td>
                                                     </tr>
                                                 </c:otherwise>
                                             </c:choose>
@@ -313,17 +336,22 @@
                         </div>
 
                         <c:choose>
-                            <c:when test="${listing.paymentType == 'CASH'}">
+                            <c:when test="${listing.paymentType == 'CASH' && sessionScope.user.userID == pickUp.transaction.buyer.userID}">
                                 <a class="uk-button-large uk-border-rounded uk-button-primary uk-float-right uk-margin-large-top uk-box-shadow-hover-large"
                                    href="/finish-checkout?l=${listing.id}">
                                     I Agree To Pay $${total}
                                 </a>
                                 <div id="paypal-button" hidden></div>
                             </c:when>
-                            <c:otherwise>
 
+                            <c:when test="${listing.paymentType == 'PAYPAL' && sessionScope.user.userID == pickUp.transaction.buyer.userID}">
                                 <div class="uk-margin-medium-top uk-float-right" id="paypal-button"></div>
+                            </c:when>
 
+                            <c:otherwise>
+                                <a class="uk-button-large uk-border-rounded uk-button-primary uk-float-right uk-margin-large-top uk-box-shadow-hover-large"
+                                   href="/finish-checkout?l=${listing.id}">Finish</a>
+                                <div id="paypal-button" hidden></div>
                             </c:otherwise>
                         </c:choose>
 
@@ -372,7 +400,7 @@
                 $('#dangerButton').click();
             } else {
                 document.getElementById("google-icon").hidden = true;
-                UIkit.notification({message: "Add To Google Calendar", status: 'success'});
+                UIkit.notification({message: "Added To Google Calendar", status: 'success'});
                 $('#successButton').click();
             }
         });

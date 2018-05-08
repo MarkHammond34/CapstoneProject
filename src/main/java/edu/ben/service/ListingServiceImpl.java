@@ -147,7 +147,7 @@ public class ListingServiceImpl implements ListingService {
     }
 
     @Override
-    public List getRelevantListingsFromRecentPurchaseByUserID(int userID, String category) {
+    public Listing getRelevantListingsFromRecentPurchaseByUserID(int userID, String category) {
         return ld.getRelevantListingsFromRecentPurchaseByUserID(userID, category);
     }
 

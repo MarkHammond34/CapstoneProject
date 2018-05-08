@@ -213,7 +213,7 @@ public class CommunityController extends BaseController {
 
         User user = (User) request.getSession().getAttribute("user");
 
-        if (user == null) {
+        if (user != null) {
             trafficService.create(new SalesTraffic("Community_Page"));
         } else {
             trafficService.create(new SalesTraffic("Community_Page", user.getUserID()));
@@ -229,9 +229,6 @@ public class CommunityController extends BaseController {
 
         ArrayList<Video> displayVideos = (ArrayList<Video>) videoService.getDisplayVideos();
         request.setAttribute("displayVideos", displayVideos);
-
-        System.out.println("Display Videos: " + displayVideos.get(1).getVideoPath());
-        System.out.println("Display Videos: " + displayVideos.size());
 
         request.setAttribute("displayArticles", displayArticles);
         displayArticles.get(0).getImagePath();

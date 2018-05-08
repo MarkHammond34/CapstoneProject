@@ -50,7 +50,7 @@
                                  data-step="3">
 
                                 <c:choose>
-                                    <c:when test="${sessionScope.user.userID == pickUp.transaction.seller.userID}">
+                                    <c:when test="${sessionScope.user.userID == pickUp.transaction.buyer.userID}">
                                         <!-- Seller Image -->
                                         <img class="uk-border-circle" id="user-icon-img"
                                              src="${pageContext.request.contextPath}/directory/${pickUp.transaction.seller.mainImage}"
@@ -178,17 +178,17 @@
 
                         <c:when test="${pickUp.buyerAccept == 0 && pickUp.transaction.seller.userID == sessionScope.user.userID}">
                             <!-- Display Disabled Checkout Button -->
-                            <button title="Checkout"
-                                    onclick="showErrorMessage('Buyer Must Accept Before You Can Checkout');"
-                                    class="uk-button-default uk-button-large uk-border-rounded uk-margin-large-top uk-float-right uk-box-shadow-hover-large">
+                            <a uk-tooltip="Buyer Must Accept Before You Can Checkout"
+                               onclick="displayWarningMessage('Buyer Must Accept Before You Can Checkout');"
+                               class="uk-button-default uk-button-large uk-border-rounded uk-margin-large-top uk-float-right" id="checkout-button">
                                 Checkout
-                            </button>
+                            </a>
                         </c:when>
 
                         <c:when test="${pickUp.buyerAccept == 0 && pickUp.transaction.buyer.userID == sessionScope.user.userID}">
                             <!-- Display Accept Button -->
                             <button title="Accept" uk-toggle="target: #acceptModal"
-                                    class="uk-button-primary uk-button-large uk-border-rounded uk-margin-large-top uk-float-right uk-box-shadow-hover-large"
+                                    class="uk-button-primary uk-button-large uk-border-rounded uk-margin-large-top uk-float-right"
                                     data-intro="Click here to accept the pick up and confirm the pick up time and location."
                                     data-step="5">
                                 Accept Pick Up
@@ -201,7 +201,7 @@
                                 <input name="l" type="hidden"
                                        value="${pickUp.transaction.listingID.id}">
                                 <button title="Checkout" type="submit"
-                                        class="uk-button-primary uk-button-large uk-border-rounded uk-margin-large-top uk-float-right uk-box-shadow-hover-large"
+                                        class="uk-button-primary uk-button-large uk-border-rounded uk-margin-large-top uk-float-right"
                                         data-intro="Click here to go to the checkout page."
                                         data-step="5">
                                     Checkout
@@ -430,7 +430,7 @@
 
             // Lat and/or Lng Changed
             if (pickup.locationLat != response.locationLat || pickup.locationLng != response.locationLng) {
-                //displayWarningMessage("Pick Up Location Was Edited");
+                displayWarningMessage("Pick Up Location Was Edited");
                 marker.setMap(null);
                 markerPosition = new google.maps.LatLng(response.locationLat, response.locationLng);
                 marker = new google.maps.Marker({
@@ -444,7 +444,7 @@
 
             // Location Name Changed
             if (pickup.locationName != response.locationName) {
-                //displayWarningMessage("Pick Up Location Name Was Edited");
+                displayWarningMessage("Pick Up Location Name Was Edited");
                 document.getElementById("locationName").innerText = response.locationName;
                 document.getElementById("modalLocationName").innerText = response.locationName;
                 changeCount++;
@@ -452,7 +452,7 @@
 
             // Date and/or Time Changed
             if (pickup.pickUpTimestampAsLong != response.pickUpTimestampAsLong) {
-                //displayWarningMessage("Pick Up Date And Time Were Edited");
+                displayWarningMessage("Pick Up Date And Time Were Edited");
                 document.getElementById("pickUpDate").innerText = response.pickUpDate;
                 document.getElementById("modalPickupDate").innerText = response.pickUpDate;
                 document.getElementById("pickUpTime").innerText = response.pickUpTime;
@@ -462,13 +462,20 @@
 
             // Buyer Accept Changed
             if (pickup.buyerAccept != response.buyerAccept) {
-                //displayWarningMessage("Buyer Has Accepted The Pick Up");
+                displayWarningMessage("Buyer Has Accepted The Pick Up");
+                var href = document.createAttribute("href");
+                href.value = 'checkout?l=${pickUp.transaction.listingID.id}';
+                document.getElementById("checkout-button").setAttributeNode(href);
+                document.getElementById("checkout-button").removeAttribute("uk-tooltip");
+                document.getElementById("checkout-button").removeAttribute("onclick");
+                document.getElementById("checkout-button").classList.remove("uk-button-default");
+                document.getElementById("checkout-button").classList.add("uk-button-primary");
                 changeCount++;
             }
 
             // Status Changed
             if (pickup.status != response.status) {
-                //displayWarningMessage("Pick Up Status Has Changed");
+                displayWarningMessage("Pick Up Status Has Changed");
                 changeCount++;
             }
 
@@ -524,6 +531,21 @@
 
             }
         });
+    }
+
+    function displayErrorMessage(message) {
+        UIkit.notification({message: message, status: 'danger'});
+        $('#dangerButton').click();
+    }
+
+    function displayWarningMessage(message) {
+        UIkit.notification({message: message, status: 'warning'});
+        $('#warningButton').click();
+    }
+
+    function displaySuccessMessage(message) {
+        UIkit.notification({message: message, status: 'success'});
+        $('#successButton').click();
     }
 
 </script>

@@ -64,7 +64,7 @@ public interface ListingService {
 
 	public List getRelevantListingsByUserID(int userID);
 
-	public List getRelevantListingsFromRecentPurchaseByUserID(int userID, String category);
+    public Listing getRelevantListingsFromRecentPurchaseByUserID(int userID, String category);
 
 	public Listing getRecentListingWithOfferOrBidByUserID(int userID);
 
