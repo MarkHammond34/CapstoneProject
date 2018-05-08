@@ -579,8 +579,8 @@
 
                 if (response.result == 'WINNING') {
                     highestBidElement.innerText = '$' + bidAmount;
-                    highestBidderElement.innerText = ${sessionScope.user.username};
-                    displaySuccessMessage("Congrats! You're the highest bidder!")
+                    highestBidderElement.innerText = '${sessionScope.user.username}';
+                    displaySuccessMessage("Congrats! You're the highest bidder!");
                 } else if (response.result == 'OUTBID') {
                     displayErrorMessage("You've Been Outbid");
                 } else if (response.result == 'OVER') {
