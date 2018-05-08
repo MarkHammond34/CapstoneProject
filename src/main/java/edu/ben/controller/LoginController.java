@@ -43,7 +43,7 @@ public class LoginController extends BaseController {
 
                         HttpSession session = request.getSession();
                         // Set the timeout for one hour
-                        session.setMaxInactiveInterval(3600);
+                        session.setMaxInactiveInterval(-1);
                         session.setAttribute("user", user);
 
                         user.setLoggedIn(1);

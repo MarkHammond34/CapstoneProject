@@ -1,8 +1,6 @@
 <!-- Desktop Navbar -->
 <div class="uk-position-relative homepage-tutorial uk-margin-bottom"
-     style="background-color: white; margin-bottom: 10px;"
-     data-intro="Welcome to U-ListIt! Here is a quick tour of our home page."
-     data-step="1">
+     style="background-color: white; margin-bottom: 10px;">
     <div class="uk-position-relativetop" id="desktop-navbar">
 
         <nav class="uk-navbar-container" style="color: rgba(238, 238, 238, 0)"
@@ -44,8 +42,7 @@
                 <div>
                     <!-- Search -->
                     <a class="uk-navbar-toggle homepage-tutorial" uk-search-icon href="#"
-                       data-intro="Click here to search for listings or users."
-                       data-step="2"></a>
+                       id="desktop-navbar-search"></a>
                     <div class="uk-drop"
                          uk-drop="mode: click; pos: left-center; offset: 0">
                         <form class="uk-search uk-search-navbar uk-width-1-1"
@@ -66,8 +63,7 @@
                     <!-- Notification Icon -->
                     <li>
                         <a uk-icon="icon: bell" class="homepage-tutorial"
-                           data-intro="Click here to see your recent notifications"
-                           data-step="3" id="notificationBell" onclick="hideNotifications()">
+                           id="notificationBell" onclick="hideNotifications()" id="desktop-nav-icon">
                             <span class="badge1"
                                   id="badge1"
                                   data-badge="0" style="display: none;"></span>
@@ -154,8 +150,7 @@
 <!-- Mobile Nabvar -->
 <div class="uk-position-relative homepage-tutorial uk-margin-bottom"
      style="background-color: white; margin-bottom: 10px;"
-     data-intro="Welcome to U-ListIt! Here is a quick tour of our home page."
-     data-step="1">
+     id="mobile-navbar-main">
     <div class="uk-position-relativetop" id="mobile-navbar" style="display: none;">
 
         <nav class="uk-navbar-container" style="color: rgba(238, 238, 238, 0)"
@@ -169,7 +164,7 @@
 
             <!-- Center Mobile -->
             <div class="uk-navbar-center">
-                <div class="uk-padding-small" style="margin-top: 12px">
+                <div class="uk-padding-small" style="margin-top: 12px" id="mobile-navbar-icon">
                     <img class="uk-align-center" src="${pageContext.request.contextPath}/resources/img/logo2.png"
                          style="width: 75%; display: block; margin: auto;">
                 </div>
@@ -179,7 +174,8 @@
             <div class="uk-navbar-right">
 
                 <!-- Search -->
-                <a class="uk-navbar-toggle" href="#search-overlay" uk-search-icon uk-toggle></a>
+                <a class="uk-navbar-toggle" href="#search-overlay" uk-search-icon uk-toggle
+                   id="mobile-navbar-search"></a>
 
                 <c:choose>
                     <c:when test="${sessionScope.user == null}">
@@ -202,8 +198,7 @@
 <!-- Tablet Nabvar -->
 <div class="uk-position-relative homepage-tutorial uk-margin-bottom"
      style="background-color: white; margin-bottom: 10px;"
-     data-intro="Welcome to U-ListIt! Here is a quick tour of our home page."
-     data-step="1">
+     id="tablet-navbar-main">
     <div class="uk-position-relativetop" id="tablet-navbar" style="display: none;">
 
         <nav class="uk-navbar-container" style="color: rgba(238, 238, 238, 0)"
@@ -217,7 +212,7 @@
 
             <!-- Center Tablet -->
             <div class="uk-navbar-center">
-                <div class="uk-padding-small" style="margin-top: 12px">
+                <div class="uk-padding-small" style="margin-top: 12px" id="tablet-navbar-icon">
                     <img class="uk-align-center" src="${pageContext.request.contextPath}/resources/img/logo.png"
                          style="width: 35%; display: block; margin: auto;">
                 </div>
@@ -229,8 +224,7 @@
                 <div>
                     <!-- Search -->
                     <a class="uk-navbar-toggle homepage-tutorial" uk-search-icon href="#"
-                       data-intro="Click here to search for listings or users."
-                       data-step="2"></a>
+                       id="tablet-navbar-search"></a>
                     <div class="uk-drop uk-width-1-5"
                          uk-drop="mode: click; pos: left-center; offset: 0">
                         <form class="uk-search uk-search-navbar uk-width-1-1"
@@ -364,17 +358,20 @@
     window.addEventListener("resize", checkDeviceWidth);
 
     function checkDeviceWidth() {
+
         // Desktop navbar
         if (screen.width > 1100) {
             document.getElementById("mobile-navbar").style.display = "none";
             document.getElementById("tablet-navbar").style.display = "none";
             document.getElementById("desktop-navbar").style.display = "inline";
+
             // Tablet navbar
         } else if (screen.width <= 1100 && screen.width > 400) {
             document.getElementById("mobile-navbar").style.display = "none";
             document.getElementById("tablet-navbar").style.display = "inline";
             document.getElementById("desktop-navbar").style.display = "none";
 
+            // Mobile
         } else if (screen.width <= 400) {
             document.getElementById("mobile-navbar").style.display = "inline";
             document.getElementById("tablet-navbar").style.display = "none";

@@ -13,7 +13,9 @@
     <div class="uk-section pickup-tutorial uk-background-muted uk-padding-remove-top">
 
         <!-- Help Link -->
-        <%@include file="../jspf/help-icon.jsp" %>
+        <div class="uk-margin-top">
+            <%@include file="../jspf/help-icon.jsp" %>
+        </div>
 
         <ul class="uk-breadcrumb uk-padding uk-padding-small-top uk-padding-remove-bottom">
             <li><a href="/">Home</a></li>
@@ -37,7 +39,9 @@
                             <h2 class="uk-heading">Pick Up Details
                                 <c:if test="${sessionScope.user.userID == pickUp.transaction.seller.userID}">
                                     <a data-intro="Click here to edit the pick up date and/or time."
-                                       data-step="2" onclick="toggleEditDetails();" uk-icon="icon: pencil"></a>
+                                       uk-tooltip="Edit Pickup Details"
+                                       data-step="2" onclick="toggleEditDetails();"
+                                       uk-icon="icon: pencil; ratio: 1.7"></a>
                                 </c:if>
                             </h2>
                         </div>
@@ -79,7 +83,7 @@
                                                     id="locationName">${pickUp.location.name}</b>
                                             <c:if test="${sessionScope.user.userID == pickUp.transaction.seller.userID}">
                                                 <input id="editLocationName" style="display: none;" type="text"
-                                                       class="uk-input"
+                                                       class="uk-input" max="20"
                                                        name="newName" value="${pickUp.location.name}">
                                             </c:if>
                                             </span>
@@ -139,7 +143,7 @@
                     <!-- Edit Button -->
                     <button id="editButton" style="display: none;" type="submit" onclick="setLatAndLong();"
                             class="uk-float-left uk-margin-medium-left uk-margin-small-top uk-button-large uk-border-rounded uk-button-primary uk-box-shadow-hover-large">
-                        Edit
+                        Save Changes
                     </button>
                 </form>
             </div>
@@ -162,9 +166,10 @@
                     <!-- Send Message -->
                     <div class="uk-card-footer uk-grid-small uk-background-default uk-margin-remove-left">
                         <div class="uk-grid-small" id="sendMessageDiv" uk-grid>
-                            <input class="uk-input uk-background-muted uk-border-rounded uk-width-4-5"
-                                   type="text"
-                                   name="message" placeholder="Send A Message" id="message">
+                            <textarea rows="1" class="uk-textarea uk-background-muted uk-border-rounded uk-width-4-5"
+                                      type="text"
+                                      name="message" placeholder="Send A Message" id="message"
+                                      onkeypress="typingMessage(this)"></textarea>
                             <a class="uk-width-1-5" uk-tooltip="Send Message"
                                uk-icon="icon: chevron-right; ratio: 2"
                                onclick="sendMessage();"></a>
@@ -180,7 +185,8 @@
                             <!-- Display Disabled Checkout Button -->
                             <a uk-tooltip="Buyer Must Accept Before You Can Checkout"
                                onclick="displayWarningMessage('Buyer Must Accept Before You Can Checkout');"
-                               class="uk-button-default uk-button-large uk-border-rounded uk-margin-large-top uk-float-right" id="checkout-button">
+                               class="uk-button-default uk-button-large uk-border-rounded uk-margin-large-top uk-float-right"
+                               id="checkout-button">
                                 Checkout
                             </a>
                         </c:when>
@@ -546,6 +552,14 @@
     function displaySuccessMessage(message) {
         UIkit.notification({message: message, status: 'success'});
         $('#successButton').click();
+    }
+
+    function typingMessage(textarea) {
+        if (textarea.value.length > 22) {
+            document.getElementById("message").rows = "2";
+        } else {
+            document.getElementById("message").rows = "1";
+        }
     }
 
 </script>

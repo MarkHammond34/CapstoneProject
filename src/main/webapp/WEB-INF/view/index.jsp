@@ -18,8 +18,8 @@
                          background-size: cover;">
                 <div class="uk-overlay uk-light uk-align-center uk-border-rounded"
                      style="width:75%;background: rgba(34,34,34,0.85);"
-                     data-intro="You can also search here."
-                     data-step="4">
+                     data-intro="Search for listings and users here"
+                     data-step="1">
                     <form class=" uk-search uk-search-large uk-width-">
                         <span uk-search-icon></span>
                         <input id="search" class="uk-search-input" type="search" name="mainSearch">
@@ -30,7 +30,7 @@
 
         <!-- Category Section -->
         <div class="uk-section uk-padding-large" data-intro="Click here to search listings by category."
-             data-step="5">
+             data-step="2">
 
             <ul class="uk-grid-small uk-child-width-1-2 uk-child-width-1-6@s uk-margin-small uk-text-center" uk-grid>
                 <c:forEach var="category" items="${categories}" varStatus="loop">
@@ -48,7 +48,7 @@
 
         <!-- Hottest Listings -->
         <div class="uk-section-default" data-intro="Check out some of our hot listings!"
-             data-step="6">
+             data-step="3">
 
             <h1 class="uk-heading-line uk-padding"><span>Hottest Listings</span></h1>
             <div class="uk-position-relative uk-visible-toggle uk-light"
@@ -80,7 +80,7 @@
         <!-- Community Section -->
         <div class="uk-section-default uk-padding"
              data-intro="Interested in events and news around your campus? Check out our community page."
-             data-step="7">
+             data-step="4">
             <div class="uk-tile uk-tile- uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
                 <div class="uk-card-media-left uk-cover-container">
                     <img src="${pageContext.request.contextPath}/resources/img/community.jpeg" alt="" uk-cover>

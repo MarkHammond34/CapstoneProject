@@ -96,7 +96,7 @@
                                 uk-grid>
                                 <li class="uk-width-1-1">
                                 <span class="uk-float-left"><strong>Asking Price</strong>
-                                    <span class="uk-badge">$${listing.price}</span>
+                                    <b style="color: royalblue">$${listing.price}</b>
                                 </span>
                                 </li>
 
@@ -285,7 +285,7 @@
                                                 <span class="uk-float-left"><strong>Winning Bid:</strong>
                                         </c:otherwise>
                                     </c:choose>
-                                    <span class="uk-badge" id="highestBid"> $${listing.highestBid}</span>
+                                    <b style="color: royalblue" id="highestBid"> $${listing.highestBid}</b>
                                     </span>
                                     </li>
                                     <li class="uk-width-1-1">

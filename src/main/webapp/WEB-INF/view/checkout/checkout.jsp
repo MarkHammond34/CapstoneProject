@@ -61,10 +61,10 @@
                                                 <li>
                                                     <a href="
                                         ${pageContext.request.contextPath}/directory/${listingImages.image_path}/${listingImages.image_name}"
-                                                       title="Image" class="thumbnail">
-                                                        <img class="uk-align-center"
+                                                       title="Image">
+                                                        <img class="uk-align-center uk-cover"
                                                              src="${pageContext.request.contextPath}/directory/${listingImages.image_path}/${listingImages.image_name}"
-                                                             alt="Listing" style="height: auto; width: auto">
+                                                             alt="Listing" style="height: auto; width: auto;">
                                                     </a>
                                                 </li>
                                             </div>
@@ -113,7 +113,8 @@
                     </div>
 
                     <!-- Pick Up Details -->
-                    <h2>Pickup Details <a onclick="addToGoogleCalendar()" style="background-color: #ff695c; color: white; width: 45px; height: 45px;"
+                    <h2>Pickup Details <a onclick="addToGoogleCalendar()"
+                                          style="background-color: #ff695c; color: white; width: 45px; height: 45px;"
                                           class="uk-icon-button uk-float-right uk-box-shadow-medium uk-box-shadow-hover-large"
                                           uk-icon="google" uk-tooltip="Add To Google Calendar" id="google-icon"
                                           hidden></a>

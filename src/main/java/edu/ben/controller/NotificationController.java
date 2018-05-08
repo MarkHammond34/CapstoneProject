@@ -153,14 +153,21 @@ public class NotificationController extends BaseController {
         return "redirect:" + request.getHeader("Referer");
     }
 
-    @GetMapping("/markAsViewed")
-    public void markAsViewed(HttpServletRequest request) {
+    @RequestMapping(value = "/markAsViewed", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody
+    String markAsViewed(HttpServletRequest request) {
 
         User user = (User) request.getSession().getAttribute("user");
 
+        JsonObject addJson = new JsonObject();
+
         if (user != null) {
             notificationService.markAsViewed(notificationService.getNotDismissedByUserID(user.getUserID()));
+            addJson.addProperty("results", "success");
+            return addJson.toString();
         }
 
+        addJson.addProperty("results", "error");
+        return addJson.toString();
     }
 }
