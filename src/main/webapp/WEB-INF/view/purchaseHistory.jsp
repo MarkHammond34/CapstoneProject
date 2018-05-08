@@ -69,7 +69,7 @@
                                     <td>${transaction.listingID.name}</td>
                                     <td>${transaction.listingID.description}</td>
                                     <td>${transaction.listingID.category}</td>
-                                    <td>${transaction.listingID.price}</td>
+                                    <td>$${transaction.listingID.price}</td>
                                     <td>${transaction.listingID.endDate}</td>
                                     <td><a href="${pageContext.request.contextPath}/viewProfile?id=${transaction.seller.userID}">${transaction.seller.username}</a></td>
                                     <c:choose>
