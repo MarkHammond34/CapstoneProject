@@ -1,6 +1,7 @@
 package edu.ben.controller;
 
 import com.google.appengine.repackaged.com.google.gson.JsonObject;
+import edu.ben.model.Listing;
 import edu.ben.model.User;
 import edu.ben.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,40 @@ public class BidController extends BaseController {
         }
 
         return json.toString();
+    }
+
+    @GetMapping("/placeBid")
+    public String placeBid(@RequestParam("b") int bidValue, @RequestParam("l") int l, HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (user == null) {
+            addErrorMessage("Login To Place A Bid");
+            setRequest(request);
+            return "redirect:/login";
+        }
+
+        Listing listing = listingService.getByListingID(l);
+
+        if (listing == null) {
+            addErrorMessage("Error Loading");
+            setRequest(request);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        int results = listingBidService.placeBid(user.getUserID(), bidValue, listing);
+
+        if (results == -2) {
+            addErrorMessage("Bid Value Too Small");
+        } else if (results == -1) {
+            addWarningMessage("Didn't Get You Bid In On Time");
+        } else {
+            addSuccessMessage("You're Winning");
+        }
+
+        setRequest(request);
+        return "redirect:/index";
+
     }
 
     @GetMapping("/cancelBid")

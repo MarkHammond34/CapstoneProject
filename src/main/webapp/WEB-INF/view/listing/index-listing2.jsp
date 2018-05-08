@@ -3,8 +3,8 @@
         <div uk-slideshow="autoplay-interval: 2000" uk-slideshow>
             <ul class="uk-slideshow-items">
                 <c:forEach items="${listing.images}" var="listingImages">
-                    <div class="uk-border-rounded" uk-lightbox >
-                        <li >
+                    <div class="uk-border-rounded" uk-lightbox>
+                        <li>
                             <a href="${pageContext.request.contextPath}/directory/${listingImages.image_path}/${listingImages.image_name}"
                                title="Image" class="thumbnail">
                                 <img class="uk-align-center"
@@ -74,11 +74,26 @@
                 </div>
 
                 <div class="uk-margin-small-top uk-magin-small-left">
-                    <a class="uk-button uk-button-text"
-                       style="color: cornflowerblue; "
-                       uk-toggle="target: #placeBidModal${listing.id}"
-                       id="bidButton${listing.id}">Place
-                        Bid</a>
+                    <a id="placeBidButton" class="uk-button uk-button-text"
+                       style="color: cornflowerblue;" uk-toggle="target: #bidForm${listing.id}Div">Place Bid</a>
+
+                    <div class="uk-margin uk-float-left" id="bidForm${listing.id}Div">
+                        <form action="/placeBid" method="get" id="bidForm${listing.id}">
+                            <div class="uk-inline">
+                                <span class="uk-form-icon" style="color: black">$</span>
+                                <a class="uk-form-icon uk-form-icon-flip"
+                                   uk-icon="icon: check; ratio: 1.5" uk-tooltip="title: Place Bid"
+                                   onclick="document.getElementById('bidForm${listing.id}').submit()"
+                                   style="color: royalblue"></a>
+                                <input class="uk-input"
+                                       style="padding-left: 30px; background-color: whitesmoke; color: black"
+                                       name="b"
+                                       type="number"
+                                       min="${listing.highestBid}" id="bidValue" required>
+                                <input type="hidden" name="l" value="${listing.id}">
+                            </div>
+                        </form>
+                    </div>
 
                 </div>
             </div>
