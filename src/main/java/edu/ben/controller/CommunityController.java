@@ -213,18 +213,14 @@ public class CommunityController extends BaseController {
 
         User user = (User) request.getSession().getAttribute("user");
 
-        if (user == null) {
-            trafficService.create(new SalesTraffic("Community_Page"));
-        } else {
+        if (user != null) {
             trafficService.create(new SalesTraffic("Community_Page", user.getUserID()));
+        } else {
+            trafficService.create(new SalesTraffic("Community_Page"));
         }
-
 
         ArrayList<News> displayArticles = (ArrayList<News>) newsService.getAllDisplayedArticles();
         System.out.println("Display Articles: " + displayArticles.size());
-        for (int i =0; i < displayArticles.size(); i++) {
-            System.out.println("Articles: " + displayArticles.get(i).getTitle());
-        }
 
         ArrayList<Video> displayVideos = (ArrayList<Video>) videoService.getDisplayVideos();
         request.setAttribute("displayVideos", displayVideos);
@@ -666,6 +662,15 @@ public class CommunityController extends BaseController {
         newsService.saveOrUpdate(n);
 
         return "admin/events-news";
+    }
+
+    @RequestMapping(value = "allArticles", method = RequestMethod.GET)
+    public String allArticles(HttpServletRequest request) {
+        ArrayList<News> allArticles = (ArrayList<News>) newsService.getAllArticles();
+
+
+        request.setAttribute("allArticles", allArticles);
+        return "all-articles";
     }
 
 }

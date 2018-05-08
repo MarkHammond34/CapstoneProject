@@ -350,7 +350,7 @@
 
 <div class="uk-container">
     <div uk-grid-margin>
-        <div class="uk-card uk-card-default uk-card-hover uk-card-body uk-width-1-1">
+        <div class="uk-card uk-card-default uk-card-hover uk-card-body uk-width-1-1" style="overflow:auto; height:400px;">
             <h3 class="uk-card-title">Users</h3>
             <table class="uk-table uk-table-hover uk-table-divider">
                 <thead>
