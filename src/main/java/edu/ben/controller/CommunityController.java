@@ -297,7 +297,6 @@ public class CommunityController extends BaseController {
                 return "You failed to upload " + doc.getOriginalFilename() + " => " + e.getMessage();
 
             }
-
         }
         return "admin/events-news";
     }
