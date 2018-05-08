@@ -99,9 +99,6 @@
                                                               id="username" name="username"
                                                               value="${sessionScope.user.username}" required>
                         </div>
-
-                    </div>
-                    <div uk-grid>
                         <div class="uk-width-1-2">
                             <strong>E-Mail:</strong> <input type="email" class="uk-input"
                                                             id="email" name="email"
