@@ -22,7 +22,7 @@
                 </div>
                 <div class="uk-margin">
                     <span class="uk-label uk-margin-bottom">Username</span><input class="uk-input" type="text"
-                                                                                  name="reportUsername"
+                                                                                  name="reportUsername" value="${sessionScope.user.username}"
                                                                                   placeholder="${sessionScope.user.username}"
                                                                                   disabled>
                 </div>
@@ -52,7 +52,7 @@
                 <div class="uk-margin">
                     <span class="uk-label uk-label-danger uk-margin-bottom">Listing Name</span><input class="uk-input"
                                                                                                       type="text"
-                                                                                                      name="listingName"
+                                                                                                      name="listingName" value="${listing.name}"
                                                                                                       placeholder="${listing.name}"
                                                                                                       disabled>
                 </div>

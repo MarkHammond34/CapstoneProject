@@ -42,10 +42,6 @@ background: white;">
                         </dt>
                         <dd>${user.truncatedDate}</dd>
                         <dt>
-                            <strong class="uk-text-danger">About Me</strong>
-                        </dt>
-                        <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</dd>
-                        <dt>
                             <strong class="uk-text-danger">Seller Rating</strong>
                         </dt>
                         <c:choose>
