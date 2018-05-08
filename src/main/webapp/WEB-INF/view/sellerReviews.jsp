@@ -12,8 +12,8 @@
             <h2 class="uk-heading-line uk-text-center"><span>Seller Reviews</span></h2>
         </div>
         <div class="uk-width-3-4 uk-align-center">
-            <h3><strong class="uk-text-danger uk-text-large"> ${user.username}</strong> has <strong
-                    class="uk-text-danger"> ${sellerTransactions.size()}</strong> seller review(s)</h3>
+            <h3><strong class="uk-text-danger uk-text-large"> ${user.username}</strong> has sold <strong
+                    class="uk-text-danger"> ${sellerTransactions.size()}</strong> item(s)</h3>
             <div class="uk-tile uk-padding-remove-top uk-padding-remove-bottom uk-padding-remove-right uk-padding-remove-left uk-box-shadow-medium uk-box-shadow-hover-large uk-tile-default">
                 <table
                         class="uk-table uk-margin-remove-top uk-table-hover uk-table-striped">
@@ -26,11 +26,15 @@
                     </tr>
                     </thead>
                     <tbody>
+
                     <c:forEach var="transaction" items="${sellerTransactions}">
                         <tr>
                             <td>${transaction.listingID.name}</td>
                             <td>${transaction.buyer.username}</td>
                             <c:choose>
+                                <c:when test="${transaction.transRating < 1}">
+                                    <td><i>The buyer has not yet rated this transaction!</i></td>
+                                </c:when>
                                 <c:when test="${transaction.transRating == 1}">
                                     <td><i class="fas fa-star"></i><i class="far fa-star"></i><i
                                             class="far fa-star"></i><i class="far fa-star"></i><i

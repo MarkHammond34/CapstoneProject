@@ -219,7 +219,6 @@ public class CommunityController extends BaseController {
             trafficService.create(new SalesTraffic("Community_Page"));
         }
 
-
         ArrayList<News> displayArticles = (ArrayList<News>) newsService.getAllDisplayedArticles();
         System.out.println("Display Articles: " + displayArticles.size());
 

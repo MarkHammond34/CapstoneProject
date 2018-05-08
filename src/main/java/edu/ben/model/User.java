@@ -92,7 +92,7 @@ public class User {
     @Column(name = "logged_in")
     private int loggedIn;
 
-    @Formula("(select avg(transaction.trans_rating) from transaction where transaction.seller_ID=user_ID)")
+    @Formula("(select avg(transaction.trans_rating) from transaction where transaction.trans_rating > 0 and transaction.seller_ID=user_ID)")
     @Column(name = "seller_rating")
     private Integer sellerRating;
 

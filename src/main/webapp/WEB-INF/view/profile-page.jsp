@@ -11,10 +11,9 @@ background: white;">
                 <c:forEach items="${user.profileImages}" var="images">
                     <c:if test="${images.main == 1}">
                         <a href="${pageContext.request.contextPath}/editUser?id=${user.userID}"><img
-                                align="left" style="border-radius: 50%"
+                                align="left" style="width: 180px; height: 180px; border-radius: 50%"
                                 class="fb-image-profile thumbnail"
                                 src="${pageContext.request.contextPath}/directory/${images.image_path}/${images.image_name}"
-                                width="190" height="190"
                                 alt="Profile Image" uk-tooltip="Edit Profile Data"/></a>
                     </c:if>
                 </c:forEach>
@@ -41,10 +40,6 @@ background: white;">
                             <strong class="uk-text-danger">Joined Date</strong>
                         </dt>
                         <dd>${user.truncatedDate}</dd>
-                        <dt>
-                            <strong class="uk-text-danger">About Me</strong>
-                        </dt>
-                        <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</dd>
                         <dt>
                             <strong class="uk-text-danger">Seller Rating</strong>
                         </dt>
