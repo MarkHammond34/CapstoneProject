@@ -33,6 +33,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.10" level="project" />
+    <orderEntry type="library" name="Maven: com.google.appengine:appengine-api-1.0-sdk:1.9.60" level="project" />
     <orderEntry type="library" name="Maven: javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:4.3.13.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: taglibs:standard:1.1.2" level="project" />
