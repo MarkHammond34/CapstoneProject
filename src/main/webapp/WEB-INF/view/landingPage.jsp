@@ -23,7 +23,7 @@
     </div>
 
     <br>
-    <div class="uk-section-small uk-align-center uk-section-overlap uk-section-secondary" style="opacity: 0.8;">
+    <div class="uk-section-small uk-align-center uk-section-overlap uk-section-secondary">
         <div class="uk-container">
 
             <div class="uk-panel uk-align-center uk-text-center uk-light uk-margin-large">

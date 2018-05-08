@@ -30,7 +30,7 @@
                     <c:forEach var="transaction" items="${sellerTransactions}">
                         <tr>
                             <td>${transaction.listingID.name}</td>
-                            <td>${transaction.buyer.username}</td>
+                            <td><a href="${pageContext.request.contextPath}/viewProfile?id=${transaction.buyer.userID}">${transaction.buyer.username}</a></td>
                             <c:choose>
                                 <c:when test="${transaction.transRating < 1}">
                                     <td><i>The buyer has not yet rated this transaction!</i></td>
