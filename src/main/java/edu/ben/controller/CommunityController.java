@@ -213,11 +213,10 @@ public class CommunityController extends BaseController {
 
         User user = (User) request.getSession().getAttribute("user");
 
-        if (user != null) {
+        if (user == null) {
             trafficService.create(new SalesTraffic("Community_Page"));
         } else {
             trafficService.create(new SalesTraffic("Community_Page", user.getUserID()));
-
         }
 
 
