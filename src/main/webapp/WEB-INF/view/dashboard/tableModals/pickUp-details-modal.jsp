@@ -47,7 +47,6 @@
     </div>
 </div>
 <script>
-    document.getElementById("offer${pickup.pickUpID}").addEventListener("load", offerClick(${pickup.pickUpID}));
 
     // Fills the modal with data
     function pickupClick(pickupdata) {

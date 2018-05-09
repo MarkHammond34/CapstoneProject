@@ -6,7 +6,6 @@
                         class="uk-table uk-table-hover uk-table-middle uk-table-divider">
                     <thead>
                     <tr>
-                        <!--<th>User</th>-->
                         <th>Listing</th>
                         <th>Amount</th>
                         <th>Status</th>
@@ -21,7 +20,7 @@
                             <td class="uk-text-nowrap">
                                 <div class="uk-text-right uk-float-right uk-flex-right"
                                      uk-tooltip="title: More info">
-                                    <a onclick="UIkit.modal('#offer${offer.offerID}').show()"><i
+                                    <a onclick="UIkit.modal('#offer${offer.offerID}').show(), offerClick(${offer.offerID})"><i
                                             class="fas fa-ellipsis-v"></i></a>
                                 </div>
                             </td>

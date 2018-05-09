@@ -80,6 +80,12 @@ public class FollowDAOImpl implements FollowDAO {
 		return f;
 	}
 
+	@Override
+	public void unfollow(int followee, int follower) {
+		Query q = getSession().createQuery("delete follow where userId ="+ followee +" AND followerId=" + follower);
+		q.executeUpdate();
+	}
+
 
 	@Override
 	public List<Follow> findAllPeopleFollowingYou(int userId) {

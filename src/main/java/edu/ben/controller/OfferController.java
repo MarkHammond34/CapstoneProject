@@ -35,9 +35,7 @@ public class OfferController extends BaseController {
     public @ResponseBody
     boolean makeOfferAjax(HttpServletRequest request, @RequestParam("listing") int id, @RequestParam("offerAmount") int offerAmount,
                           @RequestParam("offerMessage") String message) {
-        System.out.println(id);
-        System.out.println(offerAmount);
-        System.out.println(message);
+
         User user = (User) request.getSession().getAttribute("user");
 
         Listing listing = listingService.getByListingID(id);
@@ -74,7 +72,7 @@ public class OfferController extends BaseController {
 
     @RequestMapping(value = "acceptOfferAjax", method = RequestMethod.POST, produces = "application/json")
     public @ResponseBody
-    boolean acceptOfferAjax(HttpServletRequest request, @RequestParam("offer") int offerID, @RequestParam("listing") int listingID) {
+    boolean acceptOfferAjax(HttpServletRequest request, @RequestParam("listing") int listingID) {
 
         User user = (User) request.getSession().getAttribute("user");
         Listing listing = listingService.getByListingID(listingID);
@@ -104,17 +102,28 @@ public class OfferController extends BaseController {
 
             for (Offer offerr : offers) {
                 // notify losers
-                notificationMessage = "Your offer of " + offer.getOfferAmount() + " on " + listing.getName()
+                notificationMessage = "Your offer of " + offerr.getOfferAmount() + " on " + listing.getName()
                         + " has been rejected by " + user.getUsername() + "!";
 
-                notification = new Notification(receiver, listing.getId(), notificationMessage);
-                notificationService.save(notification);
+                if (offerr.getOfferMaker() != receiver) {
+
+                    notification = new Notification(offerr.getOfferMaker(), listing.getId(), notificationMessage);
+                    notificationService.save(notification);
+
+                }
 
                 // remove listing from selling view
                 offerr.setActive(0);
-                offerr.setStatus("accepted");
+                offerr.setStatus("rejected");
                 offerService.saveOrUpdate(offerr);
             }
+
+            notificationMessage = "Your offer of " + offer.getOfferAmount() + " on " + listing.getName() + " has been accepted!";
+            notification = new Notification(receiver, listing.getId(), notificationMessage);
+            notificationService.save(notification);
+
+            offer.setStatus("accepted");
+            offerService.saveOrUpdate(offer);
 
             return true;
 
@@ -126,14 +135,14 @@ public class OfferController extends BaseController {
 
     @RequestMapping(value = "rejectOfferAjax", method = RequestMethod.POST, produces = "application/json")
     public @ResponseBody
-    boolean rejectOfferAjax(HttpServletRequest request, @RequestParam("offer") int offerID, @RequestParam("listing") int listingID) {
+    boolean rejectOfferAjax(HttpServletRequest request, @RequestParam("listing") int listingID) {
 
         System.out.println("Trying to reject");
 
         try {
 
-            User lister = (User) request.getSession().getAttribute("user");
-            Offer offer = offerService.getOfferByUserAndListingId(offerID, listingID);
+            User user = (User) request.getSession().getAttribute("user");
+            Offer offer = offerService.getOfferByUserAndListingId(user.getUserID(), listingID);
 
             // send notification to offerer that their offer was rejected
 
@@ -142,7 +151,7 @@ public class OfferController extends BaseController {
 
             // Notify seller
             notificationMessage = "Your offer of " + offer.getOfferAmount() + " on " + offer.getListingID().getName()
-                    + " has been rejected by " + lister.getUsername() + ".";
+                    + " has been rejected by " + user.getUsername() + ".";
 
             notification = new Notification(offer.getOfferMaker(), offer.getListingID().getId(), notificationMessage);
             notificationService.save(notification);
