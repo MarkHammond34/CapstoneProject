@@ -385,11 +385,11 @@ public class CommunityController extends BaseController {
 
         CalendarEvent event = new CalendarEvent(title, location, startDate, endDate, description, 0);
 
-        Quickstart q = new Quickstart();
-
-        System.out.println(startDate.toString());
-
-        q.CreateEvent(event);
+//        Quickstart q = new Quickstart();
+//
+//        System.out.println(startDate.toString());
+//
+//        q.CreateEvent(event);
 
         eventService.create(event);
 
