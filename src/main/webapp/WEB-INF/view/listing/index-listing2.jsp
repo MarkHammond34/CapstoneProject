@@ -77,7 +77,7 @@
                     <a id="placeBidButton" class="uk-button uk-button-text"
                        style="color: cornflowerblue;" uk-toggle="target: #bidForm${listing.id}Div">Place Bid</a>
 
-                    <div class="uk-margin uk-float-left" id="bidForm${listing.id}Div">
+                    <div class="uk-margin uk-float-left" id="bidForm${listing.id}Div" hidden>
                         <form action="/placeBid" method="get" id="bidForm${listing.id}">
                             <div class="uk-inline">
                                 <span class="uk-form-icon" style="color: black">$</span>

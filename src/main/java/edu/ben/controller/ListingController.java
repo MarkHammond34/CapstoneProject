@@ -18,8 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import edu.ben.service.CategoryService;
@@ -82,7 +85,7 @@ public class ListingController extends BaseController {
                                     @RequestParam("subCategory") String subCategory,
                                     @RequestParam(value = "price", required = false) Integer price,
                                     @RequestParam("description") String description, @RequestParam("file") List<MultipartFile> file,
-                                    @RequestParam("type") String type, @RequestParam(value = "paymentType") String paymentType,
+                                    @RequestParam("type") String type, @RequestParam(value = "paymentType", required = false) String paymentType,
                                     @RequestParam(value = "draft", required = false) String draft, @RequestParam(value = "endTime", required = false) String endTime,
                                     @RequestParam(value = "endDate", required = false) String endDate, HttpServletRequest request) {
 
@@ -107,66 +110,77 @@ public class ListingController extends BaseController {
         temp.setPaymentType(paymentType);
         temp.setDescription(description);
 
-        Timestamp endTimestamp;
-
-        // Empty Date and Time
-        if (endDate == null && endTime == null) {
-            addErrorMessage("Invalid End Date & Time");
+        if (type.equals("")) {
+            addErrorMessage("Invalid Type");
             setRequest(request);
             request.setAttribute("listing", temp);
             return "listing/create-listing";
+        }
 
-            // Empty Time
-        } else if (endTime == null) {
-            addErrorMessage("Invalid End Time");
-            setRequest(request);
-            request.setAttribute("listing", temp);
-            return "listing/create-listing";
+        Timestamp endTimestamp = null;
 
-            // Empty Date
-        } else if (endDate == null) {
-            addErrorMessage("Invalid End Time");
-            setRequest(request);
-            request.setAttribute("listing", temp);
-            return "listing/create-listing";
+        // If auction
+        if (type.equals("auction")) {
 
-            // Date and Time Not Empty
-        } else {
-
-            try {
-
-                // Get year, month, day, hour, and minutes from endDate and endTime
-                int year = Integer.parseInt(endDate.substring(0, 4));
-                // Timestamp adds an extra month
-                int mon = Integer.parseInt(endDate.substring(5, 7)) - 1;
-                int day = Integer.parseInt(endDate.substring(8, 10));
-                int hours = Integer.parseInt(endTime.substring(0, 2));
-                int min = Integer.parseInt(endTime.substring(3, 5));
-
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(year, mon, day, hours, min, 0);
-                endTimestamp = new Timestamp((calendar.getTimeInMillis()));
-
-            } catch (Exception e) {
-                addErrorMessage("Date & Time Error");
+            // Empty Date and Time
+            if (endDate == null && endTime == null) {
+                addErrorMessage("Invalid End Date & Time");
                 setRequest(request);
                 request.setAttribute("listing", temp);
-                request.setAttribute("endDate", endDate);
-                request.setAttribute("endTime", endTime);
                 return "listing/create-listing";
+
+                // Empty Time
+            } else if (endTime == null) {
+                addErrorMessage("Invalid End Time");
+                setRequest(request);
+                request.setAttribute("listing", temp);
+                return "listing/create-listing";
+
+                // Empty Date
+            } else if (endDate == null) {
+                addErrorMessage("Invalid End Time");
+                setRequest(request);
+                request.setAttribute("listing", temp);
+                return "listing/create-listing";
+
+                // Date and Time Not Empty
+            } else {
+
+                try {
+
+                    // Get year, month, day, hour, and minutes from endDate and endTime
+                    int year = Integer.parseInt(endDate.substring(0, 4));
+                    // Timestamp adds an extra month
+                    int day = Integer.parseInt(endDate.substring(8, 10));
+                    int hours = Integer.parseInt(endTime.substring(0, 2));
+                    int min = Integer.parseInt(endTime.substring(3, 5));
+                    int mon = Integer.parseInt(endDate.substring(5, 7)) - 1;
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(year, mon, day, hours, min, 0);
+                    endTimestamp = new Timestamp((calendar.getTimeInMillis()));
+
+                } catch (Exception e) {
+                    addErrorMessage("Date & Time Error");
+                    setRequest(request);
+                    request.setAttribute("listing", temp);
+                    request.setAttribute("endDate", endDate);
+                    request.setAttribute("endTime", endTime);
+                    return "listing/create-listing";
+                }
+
             }
 
+            // If fixed or donation
+        } else {
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MONTH, 1);
+            endTimestamp = new Timestamp(calendar.getTime().getTime());
+
         }
 
-        // Make sure listing is longer than an hour
-        if (endTimestamp.before(new Timestamp(System.currentTimeMillis() + 3600)) && type != null && type.equals("auction")) {
-            addErrorMessage("Listing must last at least an hour.");
-            setRequest(request);
-            request.setAttribute("listing", temp);
-            request.setAttribute("endDate", endDate);
-            request.setAttribute("endTime", endTime);
-            return "listing/create-listing";
-        }
+        System.out.println("TIMESTAMP: " + endTimestamp.toString());
 
         if (name == null || name.isEmpty()) {
             addErrorMessage("Please use a valid Title");
@@ -176,6 +190,7 @@ public class ListingController extends BaseController {
             request.setAttribute("endTime", endTime);
             return "listing/create-listing";
         }
+
         if (price < 0) {
             addErrorMessage("Cannot have a negative price.");
             setRequest(request);
@@ -197,6 +212,7 @@ public class ListingController extends BaseController {
         } else {
             listing.setType("donation");
             listing.setPrice(0);
+            listing.setPaymentType("NONE");
         }
 
         if (category != null) {
@@ -235,12 +251,16 @@ public class ListingController extends BaseController {
         if (paymentType != null) {
             listing.setPaymentType(paymentType);
         } else {
-            addErrorMessage("Need to select a valid payment type");
-            setRequest(request);
-            request.setAttribute("listing", temp);
-            request.setAttribute("endDate", endDate);
-            request.setAttribute("endTime", endTime);
-            return "listing/create-listing";
+            if (!type.equals("donation")) {
+                addErrorMessage("Need to select a valid payment type");
+                setRequest(request);
+                request.setAttribute("listing", temp);
+                request.setAttribute("endDate", endDate);
+                request.setAttribute("endTime", endTime);
+                return "listing/create-listing";
+            } else {
+                listing.setPaymentType("NONE");
+            }
         }
 
 
@@ -254,7 +274,9 @@ public class ListingController extends BaseController {
 
         // Ignore Removed Files
         String filesToIgnore = request.getParameter("filesToIgnore");
-        if (!filesToIgnore.equals("")) {
+        if (!filesToIgnore.equals(""))
+
+        {
             String[] filesToSkip = filesToIgnore.split(" ");
             for (String skip : filesToSkip) {
                 ignoring.add(skip);
@@ -262,7 +284,9 @@ public class ListingController extends BaseController {
         }
 
         // Uploading File
-        if (!file.isEmpty()) {
+        if (!file.isEmpty())
+
+        {
             try {
                 listing.setUser(u);
                 int listingId = listingService.save(listing);
@@ -343,7 +367,9 @@ public class ListingController extends BaseController {
             setRequest(request);
             return "redirect:/";
 
-        } else {
+        } else
+
+        {
             addErrorMessage("File Upload Failed. Try Again.");
             setRequest(request);
             request.setAttribute("listing", temp);
@@ -351,6 +377,7 @@ public class ListingController extends BaseController {
             request.setAttribute("endTime", endTime);
             return "listing/create-listing";
         }
+
     }
 
     @RequestMapping(value = "/uploadListingDraft", method = RequestMethod.POST)
@@ -421,11 +448,11 @@ public class ListingController extends BaseController {
 
     @RequestMapping(value = "/editAdminListing", method = RequestMethod.POST)
     public String uploadFileHandlerListing(@RequestParam("title") String name, @RequestParam("category") String category,
-                                         @RequestParam("subCategory") String subCategory,
-                                         @RequestParam(value = "price", required = false) int price,
-                                         @RequestParam("description") String description,
-                                         @RequestParam("type") String type, @RequestParam(value = "paymentType") String paymentType, @RequestParam("id") int id, Model model,
-                                         HttpServletRequest request) {
+                                           @RequestParam("subCategory") String subCategory,
+                                           @RequestParam(value = "price", required = false) int price,
+                                           @RequestParam("description") String description,
+                                           @RequestParam("type") String type, @RequestParam(value = "paymentType") String paymentType, @RequestParam("id") int id, Model model,
+                                           HttpServletRequest request) {
 
         User user = (User) request.getSession().getAttribute("user");
 
