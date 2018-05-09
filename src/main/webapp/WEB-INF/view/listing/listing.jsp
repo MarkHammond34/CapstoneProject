@@ -100,24 +100,6 @@
                                 </span>
                                 </li>
 
-                                <c:if test="${sessionScope.user.userID == listing.user.userID}">
-                                    <!-- Listing Views -->
-                                    <li class="uk-width-1-1">
-                                        <span uk-tooltip="View Count">
-                                            <strong>5</strong>
-                                            <i class="fas fa-eye" style="font-size: 1.5em;"></i>
-                                        </span>
-                                    </li>
-
-                                    <!-- Users Favoriting -->
-                                    <li class="uk-width-1-1">
-                                        <span uk-tooltip="Favorite Count">
-                                            <strong>2</strong>
-                                            <i class="fas fa-heart" style="font-size: 1.5em; color: red"></i>
-                                        </span>
-                                    </li>
-                                </c:if>
-
                             </ul>
 
                             <div class="uk-float-right uk-width-2-3 uk-grid-small" uk-grid>

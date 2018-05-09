@@ -284,52 +284,72 @@ public class ListingController extends BaseController {
         }
 
         // Uploading File
-        if (!file.isEmpty())
-
-        {
+        if (!file.isEmpty()) {
             try {
                 listing.setUser(u);
-                int listingId = listingService.save(listing);
-                Listing lst = listingService.getByListingID(listingId);
+                listingService.save(listing);
+                List<Listing> list = listingService.getAllListingsByUserID(u.getUserID());
 
-                String directory = System.getProperty("user.home");
-                for (int i = 0; i < file.size(); i++) {
-                    String fileType = FilenameUtils.getExtension(file.get(i).getOriginalFilename());
-                    String fileName = FilenameUtils.getBaseName(file.get(i).getOriginalFilename());
+                Listing lst = null;
 
-                    if (!ignoring.contains(fileName + "." + fileType)) {
-                        if (fileType.equals("jpg") || fileType.equals("png") || fileType.equals("jpeg")) {
-                            Image imgImport = new Image();
-                            try {
-                                byte[] bytes = file.get(i).getBytes();
-                                System.out.println("File Directory:   " + System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId);
-                                File dir = new File(System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId);
-                                if (!dir.exists())
-                                    dir.mkdirs();
-                                System.out.println("Image Path:     " + "ulistitUsers" + "/" + u.getUserID() + "@" + u.getSchoolEmail() + "/" + "listings" + "/" + listingId);
-                                imgImport.setImage_path("ulistitUsers" + "/" + u.getUserID() + "@" + u.getSchoolEmail() + "/" + "listings" + "/" + listingId);
-                                imgImport.setListing(lst);
-                                imgImport.setImage_name(fileName + "." + fileType);
-                                if (i == 0)
-                                    imgImport.setMain(1);
-                                imageService.save(imgImport);
-                                System.out.println("Full File path:     " + System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId + File.separator + file.get(i).getOriginalFilename());
-                                File serverFile = new File(System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId + File.separator + file.get(i).getOriginalFilename());
-                                try {
-                                    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-                                    stream.write(bytes);
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                }
-
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    } else {
-                        System.out.println("Skipped A Image " + fileName + "." + fileType);
+                for (Listing l : list) {
+                    if (l.getName().equals(listing.getName()) && l.getCategory().equals(listing.getCategory())) {
+                        lst = l;
                     }
                 }
+
+                if (lst != null) {
+
+                    int listingId = lst.getId();
+
+                    String directory = System.getProperty("user.home");
+                    for (int i = 0; i < file.size(); i++) {
+                        String fileType = FilenameUtils.getExtension(file.get(i).getOriginalFilename());
+                        String fileName = FilenameUtils.getBaseName(file.get(i).getOriginalFilename());
+
+                        if (!ignoring.contains(fileName + "." + fileType)) {
+                            if (fileType.equals("jpg") || fileType.equals("png") || fileType.equals("jpeg")) {
+                                Image imgImport = new Image();
+                                try {
+                                    byte[] bytes = file.get(i).getBytes();
+                                    System.out.println("File Directory:   " + System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId);
+                                    File dir = new File(System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId);
+                                    if (!dir.exists())
+                                        dir.mkdirs();
+                                    System.out.println("Image Path:     " + "ulistitUsers" + "/" + u.getUserID() + "@" + u.getSchoolEmail() + "/" + "listings" + "/" + listingId);
+                                    imgImport.setImage_path("ulistitUsers" + "/" + u.getUserID() + "@" + u.getSchoolEmail() + "/" + "listings" + "/" + listingId);
+                                    imgImport.setListing(lst);
+                                    imgImport.setImage_name(fileName + "." + fileType);
+                                    if (i == 0)
+                                        imgImport.setMain(1);
+                                    imageService.save(imgImport);
+                                    System.out.println("Full File path:     " + System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId + File.separator + file.get(i).getOriginalFilename());
+                                    File serverFile = new File(System.getProperty("user.home") + File.separator + "ulistitUsers" + File.separator + u.getUserID() + "@" + u.getSchoolEmail() + File.separator + "listings" + File.separator + listingId + File.separator + file.get(i).getOriginalFilename());
+                                    try {
+                                        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+                                        stream.write(bytes);
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } else {
+                            System.out.println("Skipped A Image " + fileName + "." + fileType);
+                        }
+                    }
+
+                } else {
+                    addErrorMessage("Error Loading Listing Details");
+                    request.setAttribute("listing", temp);
+                    request.setAttribute("endDate", endDate);
+                    request.setAttribute("endTime", endTime);
+                    setRequest(request);
+                    return "listing/create-listing";
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
                 request.setAttribute("listing", temp);
