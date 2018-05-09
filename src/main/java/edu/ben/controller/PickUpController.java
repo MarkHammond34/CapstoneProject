@@ -546,7 +546,13 @@ public class PickUpController extends BaseController {
         json.addProperty("locationName", pickUp.getLocation().getName());
         json.addProperty("pickUpTime", pickUp.getPickUpTime());
         json.addProperty("pickUpDate", pickUp.getPickUpDate());
-        json.addProperty("pickUpTimestampAsLong", pickUp.getPickUpTimestamp().getTime());
+
+        if (pickUp.getPickUpTimestamp() != null) {
+            json.addProperty("pickUpTimestampAsLong", pickUp.getPickUpTimestamp().getTime());
+        } else {
+            json.addProperty("pickUpTimestampAsLong", 0);
+        }
+
         json.addProperty("buyerAccept", pickUp.getBuyerAccept());
         json.addProperty("status", pickUp.getStatus());
 
