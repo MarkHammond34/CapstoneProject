@@ -38,7 +38,11 @@ public class NewsDAOImpl implements NewsDAO {
 	@Override
 	public void create(News news) {
 		getSession().save(news);
-		
+	}
+
+	@Override
+	public int save(News news) {
+		return (Integer) getSession().save(news);
 	}
 
 	@Override
@@ -93,5 +97,7 @@ public class NewsDAOImpl implements NewsDAO {
 			return null;
 		}
 	}
+
+
 
 }
