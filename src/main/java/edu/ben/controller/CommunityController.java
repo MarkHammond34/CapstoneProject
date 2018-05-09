@@ -454,7 +454,7 @@ public class CommunityController extends BaseController {
         for (int i = 0; i < news.size(); i++) {
             boolean searchFound = false;
             Resource resource = new ClassPathResource(news.get(i).getFilePath());
-            // File file = new File(classLoader.getResource("El Norte.docx").getFile());
+
             System.out.println("Please dont fail " + resource.getFilename());
             //
             // System.out.println(file.getAbsolutePath());
