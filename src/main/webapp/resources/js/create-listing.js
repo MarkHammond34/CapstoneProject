@@ -166,7 +166,6 @@ window.addEventListener("load", function () {
     }
 
     var curDate = yyyy + '-' + mm + '-' + dd;
-    document.getElementById("endDate").min = curDate;
     document.getElementById("endDate").value = curDate;
 
     // Set min time to one hour from right now
@@ -184,7 +183,6 @@ window.addEventListener("load", function () {
 
     var time = hh + ':' + mm;
 
-    document.getElementById("endTime").min = time;
     document.getElementById("endTime").value = time;
 
 });
