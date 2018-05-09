@@ -14,10 +14,9 @@
 					<div class="uk-text-center uk-text-capitalize uk-text-bold uk-text-large">
 						<p style="font-size: 350%;">${requestScope.header.getText()}</p>
 					</div>
-
 				</c:if>
 				<div class="uk-panel">
-				<img class="uk-align-left uk-margin-remove-adjacent" src=${pageContext.request.contextPath}/resources/img/news/${n.imagePath} width="225" height="150" alt="Example image">
+				<img class="uk-align-left uk-margin-remove-adjacent" src="${pageContext.request.contextPath}/directory/${n.imagePath}" width="225" height="150" alt="Example image">
 				<c:forEach var="paragraph" items="${paragraphList}">
 					<p>${paragraph.getText()}</p>
 				</c:forEach>

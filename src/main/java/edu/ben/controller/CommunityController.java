@@ -309,19 +309,8 @@ public class CommunityController extends BaseController {
     public String viewNews(HttpServletRequest request, @RequestParam("newsID") String id) {
         int newsID = Integer.parseInt(id);
         News n = newsService.getArticleByID(newsID);
-
-        Resource resource = new ClassPathResource(n.getFilePath());
-        // File file = new File(classLoader.getResource("El Norte.docx").getFile());
-        System.out.println("Please dont fail " + resource.getFilename());
-        //
-        // System.out.println(file.getAbsolutePath());
-        // String name = doc.getOriginalFilename();
-        // File resource = new File("C:" + request.getContextPath() +
-        // "/src/main/webapp/resources/docs/" + name);
-        // System.out.println("Resource " + resource.getPath());
-
         try {
-            FileInputStream fis = new FileInputStream(resource.getFile());
+            FileInputStream fis = new FileInputStream(System.getProperty("user.home") + File.separator + n.getFilePath());
             XWPFDocument xdoc = new XWPFDocument(OPCPackage.open(fis));
 
             List<XWPFParagraph> paragraphList = xdoc.getParagraphs();
