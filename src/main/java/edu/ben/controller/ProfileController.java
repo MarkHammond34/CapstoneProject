@@ -231,4 +231,13 @@ public class ProfileController extends BaseController {
 
         return null;
     }
+
+
+    @RequestMapping(value ="unfollowUser", method = RequestMethod.POST, produces="application/json")
+    public @ResponseBody Boolean unfollowUser(HttpServletRequest request, @RequestParam("unfollowId") int id){
+        User u = (User) request.getSession().getAttribute("user");
+
+        followService.unfollow(u.getUserID(), id);
+        return true;
+    }
 }

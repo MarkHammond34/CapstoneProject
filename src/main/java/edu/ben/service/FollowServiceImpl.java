@@ -53,6 +53,12 @@ FollowDAO fd;
 	public Follow findCurrent(int userID, int followerID) {
 		return fd.findCurrent(userID, followerID);
 	}
+
+	@Override
+	public void unfollow(int followee, int follower) {
+		fd.unfollow(followee, follower);
+	}
+
 	@Override
 	public List<Follow> findAllPeopleFollowingYou(int userId) {
 		return fd.findAllPeopleFollowingYou(userId);
