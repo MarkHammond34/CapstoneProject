@@ -27,7 +27,7 @@
 
                                 <li class="uk-border-rounded">
                                     <img alt=""
-                                         src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(loop.index).getImagePath()}"
+                                         src="${pageContext.request.contextPath}/directory/${i.imagePath}"
                                          uk-cover>
                                     <div class="uk-overlay uk-overlay-primary uk-position-top">
                                         <p class="uk-text-center">${displayArticles.get(loop.index).description} ... <a
@@ -87,7 +87,7 @@
                                 <div class="uk-border-rounded uk-display-inline"
                                      style="height: 250px; width: 320px; overflow: hidden">
                                     <img alt=""
-                                         src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(loop.index).getImagePath()}">
+                                         src="${pageContext.request.contextPath}/directory/${i.imagePath}">
                                 </div>
                                 <p class="uk-text-center">${displayArticles.get(loop.index).description} ... <a href="${pageContext.request.contextPath}/viewNews?newsID=${i.newsID}">View
                                     more</a></p>
@@ -105,7 +105,7 @@
                                 <div class="uk-border-rounded uk-display-inline"
                                      style="height: 250px; width: 320px; overflow: hidden">
                                     <img alt=""
-                                         src="${pageContext.request.contextPath}/resources/img/news/${displayArticles.get(loop.index).getImagePath()}">
+                                         src="${pageContext.request.contextPath}/directory/${n.imagePath}">
                                 </div>
                                 <p class="uk-text-center">${displayArticles.get(loop.index).description} ... <a href="${pageContext.request.contextPath}/viewNews?newsID=${i.newsID}">View
                                     more</a></p>

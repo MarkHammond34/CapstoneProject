@@ -37,7 +37,11 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public void create(News news) {
         nd.create(news);
+    }
 
+    @Override
+    public int save(News news) {
+        return nd.save(news);
     }
 
     @Override

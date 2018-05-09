@@ -49,18 +49,20 @@
 
             <div class="uk-modal-footer">
 
-                <div class="uk-float-left uk-padding-remove">
-                    <button id="rejectButton" class="uk-button uk-border-rounded"
-                            style="background-color: #f3565d" name="listing"
-                            value="${offer.listingID.id}"><strong>Reject offer</strong>
-                    </button>
-                </div>
-                <div class="uk-float-right uk-padding-remove">
-                    <button id="acceptButton" class="uk-button uk-border-rounded"
-                            style="background-color: #5cb85c" name="listing"
-                            value="${offer.listingID.id}"><strong>Accept offer</strong>
-                    </button>
-                </div>
+                <c:if test="${offer.status.equals('pending') && requestScope.user.userID == offer.offerReceiver}">
+                    <div class="uk-float-left uk-padding-remove">
+                        <button id="rejectButton" class="uk-button uk-border-rounded"
+                                style="background-color: #f3565d" name="listing"
+                                value="${offer.listingID.id}"><strong>Reject offer</strong>
+                        </button>
+                    </div>
+                    <div class="uk-float-right uk-padding-remove">
+                        <button id="acceptButton" class="uk-button uk-border-rounded"
+                                style="background-color: #5cb85c" name="listing"
+                                value="${offer.listingID.id}"><strong>Accept offer</strong>
+                        </button>
+                    </div>
+                </c:if>
 
             </div>
 
@@ -70,11 +72,10 @@
 
 <script>
 
-    document.getElementById("offer${offer.offerID}").addEventListener("load", offerClick(${offer.offerID}));
-
     // Fills the modal with data
     function offerClick(offerdata) {
-
+        console.log(offerdata);
+        var text = "";
         $.ajax({
             url: '/offerDetails',
             type: 'GET',
@@ -82,29 +83,102 @@
             dataType: 'json',
             contentType: 'application/json',
             success: function (result) {
+                if (result != null) {
+                    if (result.status == 'pending') {
+                        text += '<div class="uk-modal-dialog uk-margin-auto-vertical">' +
+                            '<button class="uk-modal-close-default" type="button" uk-close></button>' +
+                            '<div class="uk-container uk-container-large uk-flex-middle uk-align-center">' +
+                            '<div class="uk-modal-header uk-text-center">' +
+                            '<h2 class="uk-modal-title"><strong>Offer details</strong></h2>' +
+                            '</div>' +
+                            '<div class="uk-modal-body">' +
+                            '<div class="uk-grid uk-text-center" uk-grid>' +
+                            '<div class="uk-width-1-2">' +
+                            '<strong>Offer maker:</strong>' +
+                            '<p>' + result.offerMaker + '</p>' +
+                            '</div>' +
+                            '<div class="uk-width-1-2">' +
+                            '<strong> Status:</strong>' +
+                            '<p>' + result.offerStatus + '</p>' +
+                            '</div>' +
+                            '<div class="uk-width-1-2">' +
+                            '<strong>Listing:</strong>' +
+                            '<p>' + result.listingName + '</p>' +
+                            '</div>' +
+                            '<div class="uk-width-1-2">' +
+                            '<strong>Date offer was made:</strong>' +
+                            '<p>' + result.offerDateCreated + '</p>' +
+                            '</div>' +
+                            '<div class="uk-width-1-2">' +
+                            '<strong>Amount offered:</strong>' +
+                            '<p>' + result.offerMessage + '</p>' +
+                            '</div>' +
+                            '<div class="uk-width-1-2">' +
+                            '<strong> Offer Message:</strong>' +
+                            '<p>' + result.offerMessage + '</p>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="uk-modal-footer">' +
+                            '<div class="uk-float-left uk-padding-remove">' +
+                            '<button id="rejectButton" class="uk-button uk-border-rounded"' +
+                            'style="background-color: #f3565d" name="listing"' +
+                            'value="' + result.offerListingID + '"><strong>Reject offer</strong>' +
+                            '</button>' +
+                            '</div>' +
+                            '<div class="uk-float-right uk-padding-remove">' +
+                            '<button id="acceptButton" class="uk-button uk-border-rounded"' +
+                            'style="background-color: #5cb85c" name="listing"' +
+                            'value="result.offerListingID"><strong>Accept offer</strong>' +
+                            '</button>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+                    } else {
+                        text += '<div class="uk-modal-dialog uk-margin-auto-vertical">' +
+                            '<button class="uk-modal-close-default" type="button" uk-close></button>' +
+                            '<div class="uk-container uk-container-large uk-flex-middle uk-align-center">' +
+                            '<div class="uk-modal-header uk-text-center">' +
+                            '<h2 class="uk-modal-title"><strong>Offer details</strong></h2>' +
+                            '</div>' +
+                            '<div class="uk-modal-body">' +
+                            '<div class="uk-grid uk-text-center" uk-grid>' +
+                            '<div class="uk-width-1-2">' +
+                            '<strong>Offer maker:</strong>' +
+                            '<p>' + result.offerMaker + '</p>' +
+                            '</div>' +
+                            '<div class="uk-width-1-2">' +
+                            '<strong> Status:</strong>' +
+                            '<p>' + result.offerStatus + '</p>' +
+                            '</div>' +
+                            '<div class="uk-width-1-2">' +
+                            '<strong>Listing:</strong>' +
+                            '<p>' + result.listingName + '</p>' +
+                            '</div>' +
+                            '<div class="uk-width-1-2">' +
+                            '<strong>Date offer was made:</strong>' +
+                            '<p>' + result.offerDateCreated + '</p>' +
+                            '</div>' +
+                            '<div class="uk-width-1-2">' +
+                            '<strong>Amount offered:</strong>' +
+                            '<p>' + result.offerMessage + '</p>' +
+                            '</div>' +
+                            '<div class="uk-width-1-2">' +
+                            '<strong> Offer Message:</strong>' +
+                            '<p>' + result.offerMessage + '</p>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="uk-modal-footer">' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+                    }
+                }
 
-                var offer = result;
-
-                var offerMaker = window.document.getElementById('offerMaker')
-                var amount = window.document.getElementById('amount');
-                var message = window.document.getElementById('message');
-                var dateCreated = window.document.getElementById('date');
-                var status = window.document.getElementById('status');
-                var listing = window.document.getElementById('listing');
-
-                console.log(document.getElementById('amount').innerText);
-
-                offerMaker.textContent = offer.offerMaker;
-                amount.innerHTML = offer['offerAmount'];
-                message.textContent = offer.offerMessage;
-                dateCreated.textContent = offer.offerDateCreated;
-                status.textContent = offer.offerStatus;
-                listing.textContent = offer.offerListing;
-
-                console.log('Offer= ' + offer);
-
-                console.log(document.getElementById('amount').innerText);
-
+                $("offer${offer.offerID}").empty();
+                $("offer${offer.offerID}").append(text);
             }
 
         });
@@ -116,7 +190,7 @@
         $.ajax({
             url: 'acceptOfferAjax',
             type: 'POST',
-            data: {listing: $(this).val(), offer: ${offer.offerID}},
+            data: {listing: $(this).val()},
             success: function (result) {
                 console.log(result);
                 if (result) {
@@ -140,7 +214,7 @@
         $.ajax({
             url: 'rejectOfferAjax',
             type: 'POST',
-            data: {listing: $(this).val(), offer: ${offer.offerID}},
+            data: {listing: $(this).val()},
             success: function (result) {
                 console.log('This is a result' + result);
                 if (result) {

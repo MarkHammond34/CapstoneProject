@@ -36,7 +36,6 @@
     </div>
 </div>
 <script>
-    document.getElementById("offer${transaction.id}").addEventListener("load", offerClick(${transaction.id}));
 
     // Fills the modal with data
     function transactionClick(transactiondata) {

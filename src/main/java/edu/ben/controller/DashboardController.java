@@ -184,6 +184,8 @@ public class DashboardController extends BaseController {
     public @ResponseBody
     String showOfferDetails(HttpServletRequest request, @RequestParam("offerId") int offerid) {
 
+        System.out.println("Offer id from details: " + offerid);
+
         User user = (User) request.getSession().getAttribute("user");
         Offer offer = offerService.getOfferById(offerid);
 
@@ -192,8 +194,9 @@ public class DashboardController extends BaseController {
         json.addProperty("offerId", offer.getOfferID());
         json.addProperty("offerAmount", offer.getOfferAmount());
         json.addProperty("offerMessage", String.valueOf(offer.getOfferMessage()));
-        json.addProperty("offerMaker", offer.getOfferMaker().getUserID());
+        json.addProperty("offerMaker", offer.getOfferMaker().getUsername());
         json.addProperty("offerListing", offer.getListingID().getName());
+        json.addProperty("offerListingID", offer.getListingID().getId());
         System.out.println("Listing: " + offer.getListingID().getName());
         json.addProperty("offerReceiver", offer.getOfferReceiver().getUserID());
         json.addProperty("offerDateCreated", offer.getDateCreated().toString());

@@ -11,6 +11,8 @@ public interface NewsDAO {
 
 	public void create(News news);
 
+	public int save(News news);
+
 	public List sortNewsByDateASC();
 
 	public List sortNewsByDateDESC();

@@ -1,10 +1,6 @@
 package edu.ben.controller;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -258,40 +254,48 @@ public class CommunityController extends BaseController {
                     setRequest(request);
                 }
 
-//				System.out.println(extension);
+                if ((extension.equals("docx"))) {
+                    if ((imageExtension.equals("jpg") || imageExtension.equals("png") || imageExtension.equals("jpeg"))) {
+                        News news = new News(title, doc.getOriginalFilename(), image.getOriginalFilename(), description);
+                        System.out.println("News: " + news.getTitle());
+                        int id = newsService.save(news);
 
-                byte[] bytes = doc.getBytes();
-                byte[] bytes2 = image.getBytes();
+                        byte[] bytes = doc.getBytes();
+                        byte[] bytes2 = image.getBytes();
 
-                // Creating the directory to store file
-                File dir = new File(Path.docPath);
-                File dir2 = new File(Path.url + File.separator + "news");
+                        File dir = new File(System.getProperty("user.home") + File.separator + "ulistitNews" + File.separator + id );
+                        File dir2 = new File(System.getProperty("user.home") + File.separator + "ulistitNews" + File.separator + id);
 
-                if (!dir.exists())
-                    dir.mkdirs();
 
-                if (!dir2.exists())
-                    dir2.mkdirs();
+                        if (!dir.exists())
+                            dir.mkdirs();
 
-                // Create the file on server
+                        if (!dir2.exists())
+                            dir.mkdirs();
 
-                System.out.println("Hit Controller 2");
-                File serverFile = new File(dir.getAbsolutePath() + File.separator + doc.getOriginalFilename());
-                File serverFile2 = new File(dir2.getAbsolutePath() + File.separator + image.getOriginalFilename());
+                        news.setFilePath("ulistitNews" + File.separator + id + File.separator + doc.getOriginalFilename());
+                        news.setImagePath("ulistitNews" + File.separator + id + File.separator + image.getOriginalFilename());
+                        newsService.saveOrUpdate(news);
 
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-                BufferedOutputStream stream2 = new BufferedOutputStream(new FileOutputStream(serverFile2));
+                        File serverFile = new File(System.getProperty("user.home") + File.separator + "ulistitNews" + File.separator + id + File.separator + doc.getOriginalFilename());
+                        File serverFile2 = new File(System.getProperty("user.home") + File.separator + "ulistitNews" + File.separator + id + File.separator + image.getOriginalFilename());
 
-                stream.write(bytes);
-                stream2.write(bytes2);
+                        try {
+                            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+                            stream.write(bytes);
+                            BufferedOutputStream stream2 = new BufferedOutputStream(new FileOutputStream(serverFile2));
+                            stream2.write(bytes2);
+                            stream.close();
+                            stream2.close();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
 
                 System.out.println("File Uploaded");
-                News news = new News(title, doc.getOriginalFilename(), image.getOriginalFilename(), description);
-                System.out.println("News: " + news.getTitle());
-                newsService.create(news);
 
-                stream.close();
-                stream2.close();
+
             } catch (Exception e) {
                 e.printStackTrace();
                 return "You failed to upload " + doc.getOriginalFilename() + " => " + e.getMessage();
@@ -305,19 +309,8 @@ public class CommunityController extends BaseController {
     public String viewNews(HttpServletRequest request, @RequestParam("newsID") String id) {
         int newsID = Integer.parseInt(id);
         News n = newsService.getArticleByID(newsID);
-
-        Resource resource = new ClassPathResource(n.getFilePath());
-        // File file = new File(classLoader.getResource("El Norte.docx").getFile());
-        System.out.println("Please dont fail " + resource.getFilename());
-        //
-        // System.out.println(file.getAbsolutePath());
-        // String name = doc.getOriginalFilename();
-        // File resource = new File("C:" + request.getContextPath() +
-        // "/src/main/webapp/resources/docs/" + name);
-        // System.out.println("Resource " + resource.getPath());
-
         try {
-            FileInputStream fis = new FileInputStream(resource.getFile());
+            FileInputStream fis = new FileInputStream(System.getProperty("user.home") + File.separator + n.getFilePath());
             XWPFDocument xdoc = new XWPFDocument(OPCPackage.open(fis));
 
             List<XWPFParagraph> paragraphList = xdoc.getParagraphs();

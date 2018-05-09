@@ -16,7 +16,9 @@ public interface FollowService {
 	public void saveOrUpdate(Follow follow);
 
 	public void create(Follow follow);
-	
+
 	public Follow findCurrent(int userID, int followerID);
+
+	public void unfollow(int followee, int follower);
 
 }
