@@ -72,6 +72,9 @@
     <spring:url value="resources/css/notification.css" var="notCSS"/>
     <spring:url value="resources/js/notification.js" var="notJS"/>
 
+    <!-- Create Listing -->
+    <spring:url value="resources/js/create-listing.js" var="cretJS"/>
+
     <!-- Pickup -->
     <spring:url value="resources/css/pick-up.css" var="pickCSS"/>
 
@@ -764,6 +767,7 @@
         .date-as-calendar.size3x {
             font-size: 48px;
         }
+
         img {
             max-width: 100%;
             max-height: 100%;
