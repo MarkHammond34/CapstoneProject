@@ -14,7 +14,7 @@
 <%@include file="jspf/messages.jsp" %>
 
 <div class="uk-grid uk-margin-large-bottom" uk-grid>
-    <div class="uk-width-1-1 uk-align-center" uk-sticky>
+    <div class="uk-width-1-1 uk-align-center">
         <form class="uk-align-center uk-margin-small-top .uk-form-controls-text" style="width:50%;">
             <div class="uk-search uk-search-default uk-width-1-1">
                 <span class="uk-search-icon-flip" uk-search-icon></span>
@@ -65,7 +65,7 @@
 <div class="uk-grid-large uk-child-width-expand@s uk-margin-top-large uk-margin-large-left uk-margin-large-right uk-text-center" uk-grid>
 
     <div id="allListings"
-         class="uk-panel uk-panel-scrollable uk-resize-vertical uk-height-large uk-padding-remove uk-background-muted uk-border-rounded uk-margin-large-bottom">
+         class="uk-panel uk-panel-scrollable uk-resize-vertical uk-height-1-1 uk-padding-remove uk-background-muted uk-border-rounded uk-margin-large-bottom">
         <ul id="printCards" class="uk-nav uk-nav-default uk-child-width-1-4@m uk-grid-small uk-grid-match list" uk-grid>
         </ul>
     </div>
@@ -85,17 +85,20 @@
                 console.log(result);
                 listings = result;
                 tempListings = result;
-                for(var key in result){
-                    text +=  '<li class="uk-padding-small">'+
+                if (jQuery.isEmptyObject(result)) {
+                    text += '<li class="uk-position-center"><h2>There are currenlty no listings</h2></li>';
+                }else{
+                for (var key in result) {
+                    text += '<li class="uk-padding-small">' +
                         '<div class="uk-card uk-card-default">' +
-                        '<div class="uk-card-media-top">'+
-                        '<img class="uk-align-center" src="directory/'+ result[key].listingImages + '" alt="">'+
-                        '<div class="uk-card-body"> <a href="/listing?l='+result[key].listingId +'"> <h3 class="uk-card-title">'+ result[key].listingName +'</h3></a> '+
+                        '<div class="uk-card-media-top">' +
+                        '<img class="uk-align-center" src="directory/' + result[key].listingImages + '" alt="">' +
+                        '<div class="uk-card-body"> <a href="/listing?l=' + result[key].listingId + '"> <h3 class="uk-card-title">' + result[key].listingName + '</h3></a> ' +
                         '<p>Category: ' + result[key].listingCategory + '</p>' +
-                        '<p>Price: ' + result[key].listingPrice + '</p>'+
+                        '<p>Price: ' + result[key].listingPrice + '</p>' +
                         '</div></div></li>';
                 }
-
+                }
                 $('#printCards').empty();
                 $('#printCards').append(text);
                 <c:if test="${sessionScope.allViewCategory != '' || sessionScope.allViewCategory != null}">
@@ -140,13 +143,6 @@
                 </c:if>
             }
         });
-
-        <c:if test="${sessionScope.allViewCategory != '' || sessionScope.allViewCategory != null}">
-        setTimeout(function(){
-            $("#sortCriteria option[value=${sessionScope.allViewCategory}]").prop('selected', 'selected'); }, 2000);
-        </c:if>
-
-
 
         $("#sortCriteria").change(function () {
             var criteria = this.value;
@@ -262,41 +258,45 @@
 
     function printCards(result){
         var text = "";
-        for(var key in result){
-            text +=  '<li class="uk-padding-small">'+
-                '<div class="uk-card uk-card-default">' +
-                '<div class="uk-card-media-top">'+
-                '<img class="uk-align-center" src="directory/'+ result[key].listingImages + '" alt="">'+
-                '<div class="uk-card-body"> <a href="/listing?l='+result[key].listingId +'"> <h3 class="uk-card-title">'+ result[key].listingName +'</h3></a> '+
-                '<p>Category: ' + result[key].listingCategory + '</p>' +
-                '<p>Price: ' + result[key].listingPrice + '</p>'+
-                '</div></div></li>';
+        if(jQuery.isEmptyObject(result)){
+            text += '<li class="uk-position-center"><h2>There are currenlty no listings</h2></li>';
+        }else {
+            for (var key in result) {
+                text += '<li class="uk-padding-small">' +
+                    '<div class="uk-card uk-card-default">' +
+                    '<div class="uk-card-media-top">' +
+                    '<img class="uk-align-center" src="directory/' + result[key].listingImages + '" alt="">' +
+                    '<div class="uk-card-body"> <a href="/listing?l=' + result[key].listingId + '"> <h3 class="uk-card-title">' + result[key].listingName + '</h3></a> ' +
+                    '<p>Category: ' + result[key].listingCategory + '</p>' +
+                    '<p>Price: ' + result[key].listingPrice + '</p>' +
+                    '</div></div></li>';
+            }
         }
-
         $('#printCards').empty();
         $('#printCards').append(text);
     }
 
     function printCardsCategory(result, name){
         var text = "";
-        for(var key in result){
-            if(result[key].listingCategory == name) {
-                text += '<li class="uk-padding-small">' +
-                    '<div class="uk-card uk-card-default">' +
-                    '<div class="uk-card-media-top">' +
-                    '<img class="uk-align-center" src="directory/' + result[key].listingImages + '" alt="">' +
-                    '<div class="uk-card-body"> <a href="/listing?l='+result[key].listingId +'"> <h3 class="uk-card-title">'+ result[key].listingName +'</h3></a> '+
-                    '<p>Category: ' + result[key].listingCategory + '</p>' +
-                    '<p>Price: ' + result[key].listingPrice + '</p>' +
-                    '</div></div></li>';
+        if(jQuery.isEmptyObject(result)){
+            text += '<li class="uk-position-center"><h2>There are currenlty no listings for that category</h2></li>';
+        }else {
+            for (var key in result) {
+                if (result[key].listingCategory == name) {
+                    text += '<li class="uk-padding-small">' +
+                        '<div class="uk-card uk-card-default">' +
+                        '<div class="uk-card-media-top">' +
+                        '<img class="uk-align-center" src="directory/' + result[key].listingImages + '" alt="">' +
+                        '<div class="uk-card-body"> <a href="/listing?l=' + result[key].listingId + '"> <h3 class="uk-card-title">' + result[key].listingName + '</h3></a> ' +
+                        '<p>Category: ' + result[key].listingCategory + '</p>' +
+                        '<p>Price: ' + result[key].listingPrice + '</p>' +
+                        '</div></div></li>';
+                }
             }
         }
-
         $('#printCards').empty();
         $('#printCards').append(text);
     }
-
-
 </script>
 <%@include file="jspf/footer.jspf" %>
 </html>

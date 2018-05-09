@@ -213,7 +213,7 @@ background: white;">
                                             text2 += '<div class="uk-card uk-card-default uk-card-body uk-card-small uk-margin-small-top">' +
                                                 '<img class="uk-border-circle uk-align-center uk-margin-auto-vertical" src="/directory/' + result[key].followerImage + '" height="25%" width="25%" alt="Border circle">' +
                                                 '<a href="/viewProfile?id=' + result[key].followerId + '"><span class="uk-flex-top uk-align-left uk-text-danger" style="font-size:large">' + result[key].followerUsername + '</span></a>' +
-                                                '<button class="uk-flex-top uk-flex-right uk-align-right" uk-icon="minus-circle" value="' + result[key].followerId + '" onclick="displayUnfollow(this.value)"></button>' +
+                                                '<button class="uk-flex-top uk-flex-right uk-align-right" uk-icon="minus-circle" name="unfollowId" value="' + result[key].followerId + '" onclick="displayUnfollow(this.value)"></button>' +
                                                 '<span class="uk-flex-left">' + result[key].followerFirstName + ', ' + result[key].followerLastName + '</span>' +
                                                 '</div>'
                                         }
@@ -229,9 +229,7 @@ background: white;">
                             $.ajax({
                                 url: 'unfollowUser',
                                 type: 'POST',
-                                dataType: 'json',
-                                data: {listing: value},
-                                contentType: 'application/json',
+                                data: {unfollowId: value},
                                 success: function (result) {
                                     displayFollowing();
                                 }
