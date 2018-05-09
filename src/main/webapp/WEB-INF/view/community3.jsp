@@ -105,7 +105,7 @@
                                 <div class="uk-border-rounded uk-display-inline"
                                      style="height: 250px; width: 320px; overflow: hidden">
                                     <img alt=""
-                                         src="${pageContext.request.contextPath}/directory/${n.imagePath}">
+                                         src="${pageContext.request.contextPath}/directory/${i.imagePath}">
                                 </div>
                                 <p class="uk-text-center">${displayArticles.get(loop.index).description} ... <a href="${pageContext.request.contextPath}/viewNews?newsID=${i.newsID}">View
                                     more</a></p>
