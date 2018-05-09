@@ -15,6 +15,7 @@
                             <li><a href="/communityPage">Community</a></li>
                             <li><a href="/donate">Donations</a></li>
                             <li><a href="/createListing">Create Listing</a></li>
+                            <li><a href="/allView" uk-icon="icon: thumbnails" uk-tooltip="All Listings" ></a></li>
                         </ul>
                     </div>
                 </c:when>
@@ -24,6 +25,7 @@
                             <li><a class="uk-active" href="/index">Home</a></li>
                             <li><a href="/communityPage">Community</a></li>
                             <li><a href="/donate">Donations</a></li>
+                            <li><a href="/allView" uk-icon="icon: thumbnails" uk-tooltip="All Listings" ></a></li>
                         </ul>
                     </div>
                 </c:otherwise>
@@ -285,6 +287,9 @@
             <li class="uk-nav-divider"></li>
             <li><a href="${pageContext.request.contextPath}/donate"><span
                     class="uk-margin-small-right" uk-icon="icon: happy"></span>Donations</a></li>
+
+            <li><a href="/allView"><span
+                    class="uk-margin-small-right" uk-icon="icon: thumbnails"></span>All Listings</a></li>
 
             <li class="uk-nav-divider"></li>
             <li><a href="${pageContext.request.contextPath}/aboutUs"><span

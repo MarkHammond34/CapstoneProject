@@ -139,7 +139,7 @@
                                 </div>
                             </div>
                             <br>
-                            <button class="submit-button uk-button uk-button-default">Default</button>
+                            <button class="submit-button uk-button uk-button-default">Create</button>
                         </fieldset>
                     </form>
 
@@ -302,12 +302,6 @@
       </span>
 
 
-                                                <span class=" description uk-margin-small-right"
-                                                      uk-icon="icon:  file-edit; ratio: 1"
-                                                      href="#modal-sections${task.taskID}" uk-toggle>
-                                                  </span>
-
-
                                             </div>
 
                                         </div>
@@ -330,7 +324,7 @@
                                                                 <c:if test="${task.taskID == admin.getTask().getTaskID()}">
                                                                     <img class="profile-pic uk-border-circle uk-padding-small uk-margin-left"
                                                                          uk-tooltip="${admin.getUser().getFirstName()} ${admin.getUser().getLastName()}"
-                                                                         src="">
+                                                                         src="${pageContext.request.contextPath}/directory/${admin.getUser().getMainImage()}">
                                                                 </c:if>
                                                             </c:forEach>
                                                         </div>
@@ -554,7 +548,7 @@
                                             <div uk-grid>
 
                                                 <div class="uk-width-2-5"><h6 class="uk-text-center">
-                                                    <strong>Developerssss!!</strong>
+                                                    <strong>Developersfffff</strong>
                                                 </h6>
                                                     <hr>
 

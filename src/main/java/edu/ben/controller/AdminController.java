@@ -1177,6 +1177,13 @@ public class AdminController extends BaseController {
 
     @RequestMapping(value = "createTask", method = RequestMethod.POST)
     public String createTask(HttpServletRequest request, @RequestParam("name") String name, @RequestParam("description") String description, @RequestParam("admin") String[] admin, @RequestParam("priority") String priority) {
+       if (admin.length == 0) {
+           addErrorMessage("Must Select an Admin");
+           setRequest(request);
+
+           return "task-manager";
+       }
+
         Task t = new Task(name, description, 0, priority);
 
         taskService.create(t);

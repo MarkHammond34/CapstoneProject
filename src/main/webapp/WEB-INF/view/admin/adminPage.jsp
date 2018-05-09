@@ -182,6 +182,9 @@
                 </table>
             </div>
         </div>
+        <div class="uk-width-1-5">
+
+        </div>
         <div class="uk-width-2-5">
             <div class="uk-card-small uk-card-default uk-card-hover uk-border-rounded uk-card-body"
                  style="overflow: auto;">
@@ -333,117 +336,119 @@
                 </table>
             </div>
         </div>
-        <div class="uk-width-1-5">
-            <div class="uk-card-small uk-card-default uk-card-hover uk-border-rounded uk-card-body">
-                <h3 class="uk-card-title">Small</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                    labore
-                    et dolore magna aliqua.</p>
-            </div>
-        </div>
+
 
 
     </div>
 </div>
 
 <br>
-
-<div class="uk-container">
-    <div uk-grid-margin>
-        <div class="uk-card uk-card-default uk-card-hover uk-card-body uk-width-1-1" style="overflow:auto; height:400px;">
-            <h3 class="uk-card-title">Users</h3>
-            <table class="uk-table uk-table-hover uk-table-divider">
-                <thead>
-                <tr>
-                    <th>Member</th>
-                    <th>Email</th>
-                    <th>Seller Rating</th>
-                    <th>Active</th>
-                    <th>Date Joined</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="member" items="${members}" varStatus="loop">
+<div id="dashboardUserTable"
+     class="uk-tile uk-width-3-4 uk-align-center uk-padding-remove-top uk-padding-remove-bottom uk-card uk-card-large uk-padding-remove-right uk-padding-remove-left uk-box-shadow-medium uk-box-shadow-hover-large uk-tile-default">
+    <div class="uk-overflow-auto" >
+        <div class="uk-align-center uk-padding-small uk-margin-bottom" uk-grid>
+            <div class="uk-overflow-container" style="overflow:auto; height:800px;">
+                <a class="uk-button uk-padding-small uk-button-default uk-position-top-right"
+                   href="#createUserModal" uk-toggle
+                   hidden>Create
+                    User</a>
+                <h2 class="uk-heading-line uk-text-center"><span>User Overview</span></h2>
+                <table class="uk-table uk-table-small uk-table-hover uk-table-middle uk-table-divider uk-margin uk-margin-large uk-margin-bottom uk-padding-small">
+                    <thead>
                     <tr>
-                        <td>
-                            <div class="uk-grid-margin-medium uk-flex-middle" uk-grid>
-                                <div class="uk-width-auto">
-                                    <img class="profile-pic uk-border-circle"
-                                         style="height: 60px; width: 60px; overflow: hidden"
-                                         src="${pageContext.request.contextPath}/directory/${member.getMainImage()}">
-                                </div>
-                                <div>
-                                    <h5 class="uk-margin-remove-bottom">${member.firstName} ${member.lastName}</h5>
-                                    <p class="uk-text-meta  uk-margin-remove-top">
-                                        <time datetime="2016-04-01T19:00">${member.username}</time>
-                                    </p>
-                                </div>
-                            </div>
-                        </td>
-                        <td><div style="color: blue;">
-                                ${member.schoolEmail}
-                        </div>
-                        </td>
-                        <c:choose>
-                            <c:when
-                                    test="${user.sellerRating == null || user.sellerRating == 0}">
-                                <th><h5>none</h5></th>
-                            </c:when>
-                            <c:otherwise>
-                                <c:choose>
-                                    <c:when test="${user.sellerRating == 1}">
-                                        <th class="uk-text-center"><span uk-icon="star"></span></th>
-                                    </c:when>
-                                    <c:when test="${user.sellerRating == 2}">
-                                        <th class="uk-text-center"><span uk-icon="star"></span><span
-                                                uk-icon="star"></span></th>
-                                    </c:when>
-                                    <c:when test="${user.sellerRating == 3}">
-                                        <th class="uk-text-center"><span uk-icon="star"></span><span
-                                                uk-icon="star"></span><span
-                                                uk-icon="star"></span></th>
-                                    </c:when>
-                                    <c:when test="${user.sellerRating == 4}">
-                                        <th class="uk-text-center"><span uk-icon="star"></span><span
-                                                uk-icon="star"></span><span
-                                                uk-icon="star"></span><span uk-icon="star"></span></th>
-                                    </c:when>
-                                    <c:when test="${user.sellerRating == 5}">
-                                        <th class="uk-text-center"><span uk-icon="star"></span><span
-                                                uk-icon="star"></span><span
-                                                uk-icon="star"></span><span uk-icon="star"></span><span
-                                                uk-icon="star"></span></th>
-                                    </c:when>
-                                </c:choose>
-                                <dd></dd>
-                                <dd class="uk-margin-top">
-                                    <a
-                                            href="${pageContext.request.contextPath}/sellerReviews?id=${user.userID}"
-                                            class="uk-button uk-button-small uk-button-primary">View
-                                        Seller Reviews</a>
-                                </dd>
-                            </c:otherwise>
-                        </c:choose>
-                        <th class="uk-text-center">
-                            <c:choose>
-                                <c:when test="${user.active == 1}">
-                                    <i class="fas fa-check" style="color: green; font-size: 24px;"></i>
-                                </c:when>
-                                <c:otherwise>
-                                    <i class="far fa-times" style="color: red; font-size: 24px;"></i>
-                                </c:otherwise>
-                            </c:choose></th>
-                        <td>${userDate.get(loop.index)}</td>
+                        <th>Member</th>
+                        <th>Email</th>
+                        <th>Seller Rating</th>
+                        <th>Active</th>
+                        <th>Date Joined</th>
 
                     </tr>
-                </c:forEach>
+                    </thead>
 
-                </tbody>
-            </table>
+                    <tbody >
+                    <c:forEach var="member" items="${members}" varStatus="loop">
+                        <tr>
+                            <td><div class="uk-grid-margin-medium uk-flex-middle" uk-grid >
+                                    <div class="uk-width-auto">
+                                        <img class="profile-pic uk-border-circle"
+                                             style="height: 60px; width: 60px; overflow: hidden"
+                                             src="${pageContext.request.contextPath}/directory/${member.getMainImage()}">
+                                    </div>
+                                    <div>
+                                        <h5 class="uk-margin-remove-bottom">${member.firstName} ${member.lastName}</h5>
+                                        <p class="uk-text-meta  uk-margin-remove-top">
+                                            <time datetime="2016-04-01T19:00">${member.username}</time>
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><div style="color: blue;">
+                                    ${member.schoolEmail}
+                            </div>
+                            </td>
+                            <c:choose>
+                                <c:when
+                                        test="${user.sellerRating == null || user.sellerRating == 0}">
+                                    <th><h5>none</h5></th>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:choose>
+                                        <c:when test="${user.sellerRating == 1}">
+                                            <th class="uk-text-center"><span uk-icon="star"></span></th>
+                                        </c:when>
+                                        <c:when test="${user.sellerRating == 2}">
+                                            <th class="uk-text-center"><span uk-icon="star"></span><span
+                                                    uk-icon="star"></span></th>
+                                        </c:when>
+                                        <c:when test="${user.sellerRating == 3}">
+                                            <th class="uk-text-center"><span uk-icon="star"></span><span
+                                                    uk-icon="star"></span><span
+                                                    uk-icon="star"></span></th>
+                                        </c:when>
+                                        <c:when test="${user.sellerRating == 4}">
+                                            <th class="uk-text-center"><span uk-icon="star"></span><span
+                                                    uk-icon="star"></span><span
+                                                    uk-icon="star"></span><span uk-icon="star"></span></th>
+                                        </c:when>
+                                        <c:when test="${user.sellerRating == 5}">
+                                            <th class="uk-text-center"><span uk-icon="star"></span><span
+                                                    uk-icon="star"></span><span
+                                                    uk-icon="star"></span><span uk-icon="star"></span><span
+                                                    uk-icon="star"></span></th>
+                                        </c:when>
+                                    </c:choose>
+                                    <dd></dd>
+                                    <dd class="uk-margin-top">
+                                        <a
+                                                href="${pageContext.request.contextPath}/sellerReviews?id=${user.userID}"
+                                                class="uk-button uk-button-small uk-button-primary">View
+                                            Seller Reviews</a>
+                                    </dd>
+                                </c:otherwise>
+                            </c:choose>
+                            <th class="uk-align-center">
+                                <c:choose>
+                                    <c:when test="${user.active == 1}">
+                                        <i class="fas fa-check" style="color: green; font-size: 24px;"></i>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <i class="far fa-times" style="color: red; font-size: 24px;"></i>
+                                    </c:otherwise>
+                                </c:choose></th>
+                            <td>${userDate.get(loop.index)}</td>
+
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+
+
+                </table>
+            </div>
         </div>
-
     </div>
 </div>
+
+
 <script>
 
     function loadGraphs(salesPerWeek, salesPerHour, salesPerMonth, salesPerWeekLastWeek, lastWeekSalesPerHour, lastMontlySales, yearlySale, dailyCount, weeklyCount, monthlyCount, yearlyCount) {
